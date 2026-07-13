@@ -42,8 +42,9 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           claude \
-            --dangerously-skip-permissions \
-            -p "cc-trends 주간 파이프라인 실행. 5명 에이전트 팀으로 GitHub과 개발자 커뮤니티에서 이번 주 데이터를 수집·분석·큐레이션하고 site/public/data/latest.json을 업데이트한 뒤 완료 보고만 해."
+            -p "cc-trends 주간 파이프라인 실행. 5명 에이전트 팀으로 GitHub과 개발자 커뮤니티에서 이번 주 데이터를 수집·분석·큐레이션하고 site/public/data/latest.json을 업데이트한 뒤 완료 보고만 해." \
+            --permission-mode acceptEdits \
+            --allowedTools "Task" "Read" "Write" "Edit" "Glob" "Grep" "WebSearch" "WebFetch" "TodoWrite" "Bash(gh api:*)" "Bash(gh search:*)" "Bash(node:*)" "Bash(jq:*)" "Bash(mkdir:*)" "Bash(cp:*)" "Bash(ls:*)" "Bash(cat:*)" "Bash(date:*)"
 
       - name: Post-process (RSS · archive · OG)
         run: |
