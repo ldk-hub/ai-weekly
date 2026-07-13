@@ -1,6 +1,13 @@
 {
   "archives": [
     {
+      "file": "2026-07-13.json",
+      "version": "v2026.07.13",
+      "generated_at": "2026-07-13",
+      "rising_count": 14,
+      "classic_count": 12
+    },
+    {
       "file": "2026-06-29.json",
       "version": "v2026.06.29",
       "generated_at": "2026-06-29",

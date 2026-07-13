@@ -16,7 +16,7 @@
   <!-- Version pill (right side) -->
   <g transform="translate(940, 64)">
     <rect x="0" y="0" width="200" height="36" rx="18" fill="#f2efe5"/>
-    <text x="100" y="23" font-size="13" font-weight="600" fill="#0e0e0e" text-anchor="middle">📅 2026.06.29 · v2026.06.29</text>
+    <text x="100" y="23" font-size="13" font-weight="600" fill="#0e0e0e" text-anchor="middle">📅 2026.07.13 · v2026.07.13</text>
   </g>
 
   <!-- Main title -->
@@ -28,37 +28,37 @@
     <g transform="translate(60, 290)">
       <rect x="0" y="0" width="347" height="280" rx="20" fill="#ffeca0" stroke="#0e0e0e" stroke-width="1.5"/>
       <text x="24" y="40" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="2">#01 · SKILL</text>
-      <text x="24" y="92" font-size="28" font-weight="700" fill="#0e0e0e" letter-spacing="-0.5">Ponytail - 코드를 …</text>
-      <text x="24" y="138" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">가장 좋은 코드는 안 쓴 코드 - 코드량 54%, 비용 20% 감소</text>
-      <text x="24" y="172" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">비용 20% 감소</text>
+      <text x="24" y="92" font-size="28" font-weight="700" fill="#0e0e0e" letter-spacing="-0.5">last30days - 사람…</text>
+      <text x="24" y="138" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">에디터가 아닌 업보트·좋아요·실제 베팅 돈으로 랭킹하는 검색</text>
+      <text x="24" y="172" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85"></text>
 
       <g transform="translate(24, 220)">
-        <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">DietrichGebert/ponytail</text>
-        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 64k</text>
+        <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">mvanhorn/last30days-sk…</text>
+        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 52k</text>
       </g>
     </g>
     <g transform="translate(427, 290)">
       <rect x="0" y="0" width="347" height="280" rx="20" fill="#d8edd0" stroke="#0e0e0e" stroke-width="1.5"/>
-      <text x="24" y="40" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="2">#02 · SKILL</text>
-      <text x="24" y="92" font-size="28" font-weight="700" fill="#0e0e0e" letter-spacing="-0.5">Caveman - 원시인처럼…</text>
-      <text x="24" y="138" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">왜 많은 토큰 쓰나, 적은 토큰으로 통하는데 - 출력 토큰 65% …</text>
-      <text x="24" y="172" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">적은 토큰으로 통하는데 - 출력 토큰 65% 절감</text>
+      <text x="24" y="40" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="2">#02 · AGENT</text>
+      <text x="24" y="92" font-size="28" font-weight="700" fill="#0e0e0e" letter-spacing="-0.5">nanobot - 내가 소유…</text>
+      <text x="24" y="138" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">에이전트 코어는 작고 읽기 쉽게, 실전 부품은 전부 갖춘 개인 AI</text>
+      <text x="24" y="172" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">실전 부품은 전부 갖춘 개인 AI</text>
 
       <g transform="translate(24, 220)">
-        <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">JuliusBrussee/caveman</text>
-        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 78k</text>
+        <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">HKUDS/nanobot</text>
+        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 45k</text>
       </g>
     </g>
     <g transform="translate(794, 290)">
       <rect x="0" y="0" width="347" height="280" rx="20" fill="#ffd8bd" stroke="#0e0e0e" stroke-width="1.5"/>
-      <text x="24" y="40" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="2">#03 · HARNESS</text>
-      <text x="24" y="92" font-size="28" font-weight="700" fill="#0e0e0e" letter-spacing="-0.5">gstack - Garry …</text>
-      <text x="24" y="138" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">Y Combinator CEO의 Claude Code 세팅 그대로 …</text>
+      <text x="24" y="40" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="2">#03 · SKILL</text>
+      <text x="24" y="92" font-size="28" font-weight="700" fill="#0e0e0e" letter-spacing="-0.5">Graphify - 어떤 폴…</text>
+      <text x="24" y="138" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">앱 코드 + DB 스키마 + 인프라를 그래프 하나로 묶어 질의</text>
       <text x="24" y="172" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85"></text>
 
       <g transform="translate(24, 220)">
-        <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">garrytan/gstack</text>
-        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 118k</text>
+        <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">Graphify-Labs/graphify</text>
+        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 85k</text>
       </g>
     </g>
 

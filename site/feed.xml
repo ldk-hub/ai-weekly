@@ -6,8 +6,15 @@
     <atom:link href="https://ldk-hub.github.io/weeklaude/feed.xml" rel="self" type="application/rss+xml" />
     <description>매주 월요일 갱신되는 Claude Code 에이전트 · 스킬 · 하네스 · MCP 큐레이션.</description>
     <language>ko</language>
-    <lastBuildDate>Mon, 29 Jun 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 13 Jul 2026 00:00:00 GMT</lastBuildDate>
     <ttl>10080</ttl>
+    <item>
+      <title>cc-trends · 2026-07-13 주간 업데이트</title>
+      <link>https://ldk-hub.github.io/weeklaude/?w=2026-07-13</link>
+      <guid isPermaLink="false">cc-trends-2026-07-13</guid>
+      <pubDate>Mon, 13 Jul 2026 00:00:00 GMT</pubDate>
+      <description>&lt;p&gt;&lt;strong&gt;2026-07-13 업데이트&lt;/strong&gt; · 총 26개 프로젝트.&lt;/p&gt;&lt;h3&gt;이번 주 뜨는 Top 5&lt;/h3&gt;&lt;ol&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/mvanhorn/last30days-skill&quot;&gt;&lt;strong&gt;last30days - 사람들이 투표한 최신 정보 검색&lt;/strong&gt;&lt;/a&gt; — 에디터가 아닌 업보트·좋아요·실제 베팅 돈으로 랭킹하는 검색 &lt;em&gt;(mvanhorn/last30days-skill · ★51953)&lt;/em&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/HKUDS/nanobot&quot;&gt;&lt;strong&gt;nanobot - 내가 소유하는 초경량 개인 에이전트&lt;/strong&gt;&lt;/a&gt; — 에이전트 코어는 작고 읽기 쉽게, 실전 부품은 전부 갖춘 개인 AI &lt;em&gt;(HKUDS/nanobot · ★45416)&lt;/em&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/Graphify-Labs/graphify&quot;&gt;&lt;strong&gt;Graphify - 어떤 폴더든 지식그래프로&lt;/strong&gt;&lt;/a&gt; — 앱 코드 + DB 스키마 + 인프라를 그래프 하나로 묶어 질의 &lt;em&gt;(Graphify-Labs/graphify · ★84658)&lt;/em&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/DietrichGebert/ponytail&quot;&gt;&lt;strong&gt;Ponytail - 게으른 시니어 개발자를 심는 스킬&lt;/strong&gt;&lt;/a&gt; — 코드 평균 54% 감소(과잉 구현 시 최대 94%), 안전 가드는 100% 유지 &lt;em&gt;(DietrichGebert/ponytail · ★82291)&lt;/em&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/rtk-ai/rtk&quot;&gt;&lt;strong&gt;RTK - 토큰 60-90% 줄이는 CLI 프록시&lt;/strong&gt;&lt;/a&gt; — 명령 출력을 LLM에 닿기 전에 압축 - 30분 세션 예시 기준 -80% &lt;em&gt;(rtk-ai/rtk · ★70810)&lt;/em&gt;&lt;/li&gt;&lt;/ol&gt;&lt;h3&gt;이미 유명한 (Top 3)&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/anthropics/claude-code&quot;&gt;Claude Code - 터미널의 에이전틱 코딩 도구&lt;/a&gt; — 이 생태계 전체의 시작점 - Anthropic 공식 CLI &lt;em&gt;(★137726)&lt;/em&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/farion1231/cc-switch&quot;&gt;CC Switch - 에이전트 설정 올인원 데스크톱 매니저&lt;/a&gt; — Claude Code·Codex·Gemini CLI 설정을 GUI 한 곳에서 전환 &lt;em&gt;(★116794)&lt;/em&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/nextlevelbuilder/ui-ux-pro-max-skill&quot;&gt;UI UX Pro Max - 디자인 인텔리전스 스킬&lt;/a&gt; — 161개 추론 규칙 + 67개 UI 스타일로 디자인 시스템을 즉석 생성 &lt;em&gt;(★105160)&lt;/em&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;a href=&quot;https://ldk-hub.github.io/weeklaude/&quot;&gt;전체 인덱스 보기&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
     <item>
       <title>cc-trends · 2026-06-29 주간 업데이트</title>
       <link>https://ldk-hub.github.io/weeklaude/?w=2026-06-29</link>
