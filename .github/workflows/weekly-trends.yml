@@ -16,12 +16,12 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Check ANTHROPIC_API_KEY
+      - name: Check GEMINI_API_KEY
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          if [ -z "$ANTHROPIC_API_KEY" ]; then
-            echo "::error::ANTHROPIC_API_KEY secret이 없습니다. Settings > Secrets and variables > Actions 에 등록하세요."
+          if [ -z "$GEMINI_API_KEY" ]; then
+            echo "::error::GEMINI_API_KEY secret이 없습니다. https://aistudio.google.com/apikey 에서 발급 후 Settings > Secrets and variables > Actions 에 등록하세요."
             exit 1
           fi
 
@@ -32,19 +32,17 @@ jobs:
           node-version: 22
 
       - name: Install dependencies
-        run: |
-          npm install
-          npm install -g @anthropic-ai/claude-code
+        run: npm install
 
-      - name: Run cc-trends pipeline
+      - name: Collect (GitHub + HN, deterministic)
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GH_TOKEN: ${{ github.token }}
-        run: |
-          claude \
-            -p "cc-trends 주간 파이프라인 실행. 5명 에이전트 팀으로 GitHub과 개발자 커뮤니티에서 이번 주 데이터를 수집·분석·큐레이션하고 site/public/data/latest.json을 업데이트한 뒤 완료 보고만 해." \
-            --permission-mode acceptEdits \
-            --allowedTools "Task" "Read" "Write" "Edit" "Glob" "Grep" "WebSearch" "WebFetch" "TodoWrite" "Bash(gh api:*)" "Bash(gh search:*)" "Bash(node:*)" "Bash(jq:*)" "Bash(mkdir:*)" "Bash(cp:*)" "Bash(ls:*)" "Bash(cat:*)" "Bash(date:*)"
+        run: node scripts/collect.js
+
+      - name: Curate (Gemini free tier)
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node scripts/curate.js
 
       - name: Post-process (RSS · archive · OG)
         run: |

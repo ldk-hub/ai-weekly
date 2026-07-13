@@ -111,6 +111,8 @@ python3 -m http.server 8000 --directory site
 
 # 자동 주간 갱신: GitHub Actions (매주 월 09:00 KST)
 # .github/workflows/weekly-trends.yml — 수동 실행은 Actions 탭에서 workflow_dispatch
+# CI 파이프라인: scripts/collect.js (GitHub+HN 수집) → scripts/curate.js (Gemini 무료 티어 큐레이션)
+# 로컬에서는 기존 /cc-trends (Claude Code 5-에이전트) 도 그대로 사용 가능
 ```
 
 ## 폴더 구조

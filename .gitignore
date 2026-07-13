@@ -5,3 +5,4 @@ node_modules/
 *.log
 package-lock.json
 node_modules/
+data/candidates.json
