@@ -21,7 +21,7 @@
 
   <!-- Main title -->
   <text x="60" y="200" font-size="48" font-weight="700" fill="#0e0e0e" letter-spacing="-1.5">이번 주 뜨는 도구 TOP 3</text>
-  <text x="60" y="245" font-size="18" font-weight="500" fill="#6b6860">매주 월요일 자동 갱신 · inno-hi.github.io/weeklaude</text>
+  <text x="60" y="245" font-size="18" font-weight="500" fill="#6b6860">매주 월요일 자동 갱신 · ldk-hub.github.io/weeklaude</text>
 
   <!-- Top 3 cards -->
   
@@ -64,5 +64,5 @@
 
   <!-- Footer -->
   <text x="60" y="600" font-size="12" font-weight="600" fill="#6b6860">Made with Claude Code · 5명의 서브에이전트가 자동 큐레이션</text>
-  <text x="1140" y="600" font-size="12" font-weight="600" fill="#d97757" text-anchor="end">★ Star on GitHub: INNO-HI/weeklaude</text>
+  <text x="1140" y="600" font-size="12" font-weight="600" fill="#d97757" text-anchor="end">★ Star on GitHub: ldk-hub/weeklaude</text>
 </svg>

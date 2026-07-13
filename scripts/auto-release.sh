@@ -3,7 +3,7 @@
 # Creates a release with this week's version tag + Top 3 summary
 set -euo pipefail
 
-PROJECT_DIR="${PROJECT_DIR:-/Users/flareon078/cc-trends}"
+PROJECT_DIR="${PROJECT_DIR:-$(cd "$(dirname "$0")/.." && pwd)}"
 LATEST="$PROJECT_DIR/site/public/data/latest.json"
 
 if [[ ! -f "$LATEST" ]]; then
@@ -20,7 +20,7 @@ fi
 TAG="$VERSION"
 
 # Skip if release already exists
-if gh release view "$TAG" --repo INNO-HI/weeklaude >/dev/null 2>&1; then
+if gh release view "$TAG" --repo ldk-hub/weeklaude >/dev/null 2>&1; then
   echo "release $TAG already exists, skipping"
   exit 0
 fi
@@ -41,7 +41,7 @@ classic.forEach((r, i) => {
   out += \`   \\\`\${r.id}\\\` · ★\${r.stars||0}\n\n\`;
 });
 out += '---\n\n';
-out += '📊 [전체 보기](https://inno-hi.github.io/weeklaude/) · 📡 [RSS](https://inno-hi.github.io/weeklaude/feed.xml)\n';
+out += '📊 [전체 보기](https://ldk-hub.github.io/weeklaude/) · 📡 [RSS](https://ldk-hub.github.io/weeklaude/feed.xml)\n';
 out += '\n매주 월요일 09:00 KST 자동 갱신.';
 process.stdout.write(out);
 ")
@@ -49,7 +49,7 @@ process.stdout.write(out);
 echo "$NOTES" > /tmp/release-notes.md
 
 gh release create "$TAG" \
-  --repo INNO-HI/weeklaude \
+  --repo ldk-hub/weeklaude \
   --title "$TAG · $(date +%Y-%m-%d) 주간 트렌드" \
   --notes-file /tmp/release-notes.md \
   || echo "⚠ release create failed"

@@ -540,7 +540,7 @@ const CRITERIA_HTML = `
 
   <p class="cr-foot">각 섹션 상위 12개 선별 · 동점은 최근 업데이트순 · 채점 미달은 다음 주 재검토</p>
 
-  <a class="m-cta" href="https://github.com/INNO-HI-Inc/claude-trend" target="_blank" rel="noopener">
+  <a class="m-cta" href="https://github.com/ldk-hub-Inc/claude-trend" target="_blank" rel="noopener">
     소스 코드 보기 →
   </a>
 `;

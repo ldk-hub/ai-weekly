@@ -6,9 +6,9 @@
 
 GitHub과 개발자 커뮤니티에서 매주 수집하는 Claude Code · 에이전트 · 스킬 · 하네스 · MCP 인덱스.
 
-[🌐 사이트](https://inno-hi.github.io/weeklaude/) ·
-[📡 RSS](https://inno-hi.github.io/weeklaude/feed.xml) ·
-[⭐ Star](https://github.com/INNO-HI/weeklaude)
+[🌐 사이트](https://ldk-hub.github.io/weeklaude/) ·
+[📡 RSS](https://ldk-hub.github.io/weeklaude/feed.xml) ·
+[⭐ Star](https://github.com/ldk-hub/weeklaude)
 
 ![Built with Claude Code](https://img.shields.io/badge/Built%20with-Claude%20Code-D97757?style=flat-square)
 ![Auto Updated](https://img.shields.io/badge/Updated-Weekly%20·%20Mon%2009%3A00%20KST-22c55e?style=flat-square)
@@ -109,8 +109,8 @@ python3 -m http.server 8000 --directory site
 # 파이프라인 직접 실행 (Claude Code)
 /cc-trends
 
-# 자동 주간 갱신은 launchd로 등록되어 있음
-launchctl load ~/Library/LaunchAgents/com.flareon.cc-trends.weekly.plist
+# 자동 주간 갱신: GitHub Actions (매주 월 09:00 KST)
+# .github/workflows/weekly-trends.yml — 수동 실행은 Actions 탭에서 workflow_dispatch
 ```
 
 ## 폴더 구조
@@ -124,7 +124,7 @@ weeklaude/
 │   └── public/data/
 │       ├── latest.json
 │       └── archive/  # 주차별 스냅샷
-├── scripts/         # weekly.sh, build-archive-index.js, generate-rss.js
+├── scripts/         # build-archive-index.js, generate-rss.js, generate-og.js
 └── data/archive/    # 원본 백업 (Pages 미노출)
 ```
 
@@ -154,7 +154,7 @@ weeklaude/
 
 ## 기여
 
-- 누락된 좋은 리포는 [Issue](https://github.com/INNO-HI/weeklaude/issues)
+- 누락된 좋은 리포는 [Issue](https://github.com/ldk-hub/weeklaude/issues)
 - 점수 공식 개선 · 새 수집 소스 제안 환영
 - 한글 카피 어색하면 지적 대환영
 
@@ -162,7 +162,7 @@ weeklaude/
 
 <div align="center">
 
-Made by [INNO-HI](https://github.com/INNO-HI) · 이노하이
+Fork of [INNO-HI/weeklaude](https://github.com/INNO-HI/weeklaude) · Maintained by [ldk-hub](https://github.com/ldk-hub)
 Built with [Claude Code](https://claude.com/claude-code)
 
 MIT
