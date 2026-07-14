@@ -101,7 +101,7 @@ function buildSvg(data) {
   <rect width="1200" height="630" fill="${BG}"/>
 
   <!-- Header brand -->
-  <text x="60" y="80" font-size="32" font-weight="700" fill="${INK}" letter-spacing="-0.8">위클렌드 · Weeklaude</text>
+  <text x="60" y="80" font-size="32" font-weight="700" fill="${INK}" letter-spacing="-0.8">AI위클리 · AI Weekly</text>
   <text x="60" y="108" font-size="14" font-weight="500" fill="${MUTED}">Claude Code 주간 인덱스</text>
 
   <!-- Version pill (right side) -->
@@ -112,14 +112,14 @@ function buildSvg(data) {
 
   <!-- Main title -->
   <text x="60" y="200" font-size="48" font-weight="700" fill="${INK}" letter-spacing="-1.5">이번 주 뜨는 도구 TOP 3</text>
-  <text x="60" y="245" font-size="18" font-weight="500" fill="${MUTED}">매주 월요일 자동 갱신 · ldk-hub.github.io/weeklaude</text>
+  <text x="60" y="245" font-size="18" font-weight="500" fill="${MUTED}">매주 월요일 자동 갱신 · ldk-hub.github.io/aiweekly</text>
 
   <!-- Top 3 cards -->
   ${cardSVG}
 
   <!-- Footer -->
   <text x="60" y="${630 - 30}" font-size="12" font-weight="600" fill="${MUTED}">Made with Claude Code · 5명의 서브에이전트가 자동 큐레이션</text>
-  <text x="${1200 - 60}" y="${630 - 30}" font-size="12" font-weight="600" fill="${ACCENT}" text-anchor="end">★ Star on GitHub: ldk-hub/weeklaude</text>
+  <text x="${1200 - 60}" y="${630 - 30}" font-size="12" font-weight="600" fill="${ACCENT}" text-anchor="end">★ Star on GitHub: ldk-hub/aiweekly</text>
 </svg>`;
 }
 

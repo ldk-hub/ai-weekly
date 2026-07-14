@@ -1,14 +1,14 @@
 <div align="center">
 
-# 위클렌드 <sub>· Weeklaude</sub>
+# AI위클리 <sub>· AI Weekly</sub>
 
 **이번 주 Claude Code에서 뭐가 뜨고, 뭐가 이미 자리잡았나.**
 
 GitHub과 개발자 커뮤니티에서 매주 수집하는 Claude Code · 에이전트 · 스킬 · 하네스 · MCP 인덱스.
 
-[🌐 사이트](https://ldk-hub.github.io/weeklaude/) ·
-[📡 RSS](https://ldk-hub.github.io/weeklaude/feed.xml) ·
-[⭐ Star](https://github.com/ldk-hub/weeklaude)
+[🌐 사이트](https://ldk-hub.github.io/aiweekly/) ·
+[📡 RSS](https://ldk-hub.github.io/aiweekly/feed.xml) ·
+[⭐ Star](https://github.com/ldk-hub/aiweekly)
 
 ![Built with Claude Code](https://img.shields.io/badge/Built%20with-Claude%20Code-D97757?style=flat-square)
 ![Auto Updated](https://img.shields.io/badge/Updated-Weekly%20·%20Mon%2009%3A00%20KST-22c55e?style=flat-square)
@@ -24,7 +24,7 @@ Claude Code 도구는 매일 수십 개씩 쏟아진다. 인스타·트위터에
 
 > **정보가 부족한 시대가 아니다. 아카이브가 안 되는 시대다.**
 
-위클렌드는 **매주 월요일 한 번**, 그 주에 뜬 것과 이미 자리잡은 것을 한 페이지로 정리한다.
+AI위클리는 **매주 월요일 한 번**, 그 주에 뜬 것과 이미 자리잡은 것을 한 페이지로 정리한다.
 
 - 🔥 **Rising** — 이번 주 급상승 + 커뮤니티에서 회자된 것
 - ⭐ **Classic** — 이미 검증된 필수 레퍼런스
@@ -32,7 +32,7 @@ Claude Code 도구는 매일 수십 개씩 쏟아진다. 인스타·트위터에
 
 ## 일반 awesome-list랑 뭐가 다른가
 
-| | 일반 awesome-list | **위클렌드** |
+| | 일반 awesome-list | **AI위클리** |
 |---|---|---|
 | 갱신 | PR 받을 때 (비정기) | **매주 월요일 자동** |
 | 범위 | GitHub 링크만 | GitHub + HN + Reddit + dev.to + GeekNews + velog |
@@ -78,7 +78,7 @@ community-scout ┘    분류·점수·dedup    한글화·gh api 검증     pub
 
 ### community-scout 2단계 모드 (다중 출처 확보)
 
-위클렌드의 핵심 차별점은 다중 출처 교차 검증. 이걸 살리려고 community-scout이 2단계로 돈다.
+AI위클리의 핵심 차별점은 다중 출처 교차 검증. 이걸 살리려고 community-scout이 2단계로 돈다.
 
 - **Phase A — 광역 스캔**: 7개 소스 × 5개 이상 쿼리 = 주간 **최소 90건** 게시글
 - **Phase B — 역방향 검증** ⭐: github-scout이 발견한 각 후보 리포를 모든 커뮤니티에서 직접 검색 (후보당 7쿼리)
@@ -118,7 +118,7 @@ python3 -m http.server 8000 --directory site
 ## 폴더 구조
 
 ```
-weeklaude/
+aiweekly/
 ├── .claude/
 │   ├── agents/      # 5명의 서브에이전트
 │   └── skills/      # 6개 스킬
@@ -156,7 +156,7 @@ weeklaude/
 
 ## 기여
 
-- 누락된 좋은 리포는 [Issue](https://github.com/ldk-hub/weeklaude/issues)
+- 누락된 좋은 리포는 [Issue](https://github.com/ldk-hub/aiweekly/issues)
 - 점수 공식 개선 · 새 수집 소스 제안 환영
 - 한글 카피 어색하면 지적 대환영
 
@@ -164,7 +164,8 @@ weeklaude/
 
 <div align="center">
 
-Fork of [INNO-HI/weeklaude](https://github.com/INNO-HI/weeklaude) · Maintained by [ldk-hub](https://github.com/ldk-hub)
+Maintained by [ldk-hub](https://github.com/ldk-hub)
+Based on [weeklaude](https://github.com/INNO-HI/weeklaude) by INNO-HI (MIT)
 Built with [Claude Code](https://claude.com/claude-code)
 
 MIT

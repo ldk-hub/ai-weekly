@@ -556,7 +556,7 @@ function openCriteria() {
 document.getElementById("open-criteria-top")?.addEventListener("click", openCriteria);
 
 /* ─── i18n toggle ─────────────────────────────────────────── */
-const I18N_KEY = "weeklaude:lang";
+const I18N_KEY = "aiweekly:lang";
 function getLang() {
   return localStorage.getItem(I18N_KEY) || "ko";
 }
