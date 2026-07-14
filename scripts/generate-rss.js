@@ -6,7 +6,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const SITE_URL = "https://ldk-hub.github.io/aiweekly/";
+const SITE_URL = "https://ldk-hub.github.io/ai-weekly/";
 const ROOT = path.resolve(__dirname, "..");
 const LATEST = path.join(ROOT, "site/public/data/latest.json");
 const ARCHIVE_DIR = path.join(ROOT, "data/archive");

@@ -6,9 +6,9 @@
 
 GitHub과 개발자 커뮤니티에서 매주 수집하는 Claude Code · 에이전트 · 스킬 · 하네스 · MCP 인덱스.
 
-[🌐 사이트](https://ldk-hub.github.io/aiweekly/) ·
-[📡 RSS](https://ldk-hub.github.io/aiweekly/feed.xml) ·
-[⭐ Star](https://github.com/ldk-hub/aiweekly)
+[🌐 사이트](https://ldk-hub.github.io/ai-weekly/) ·
+[📡 RSS](https://ldk-hub.github.io/ai-weekly/feed.xml) ·
+[⭐ Star](https://github.com/ldk-hub/ai-weekly)
 
 ![Built with Claude Code](https://img.shields.io/badge/Built%20with-Claude%20Code-D97757?style=flat-square)
 ![Auto Updated](https://img.shields.io/badge/Updated-Weekly%20·%20Mon%2009%3A00%20KST-22c55e?style=flat-square)
@@ -156,7 +156,7 @@ aiweekly/
 
 ## 기여
 
-- 누락된 좋은 리포는 [Issue](https://github.com/ldk-hub/aiweekly/issues)
+- 누락된 좋은 리포는 [Issue](https://github.com/ldk-hub/ai-weekly/issues)
 - 점수 공식 개선 · 새 수집 소스 제안 환영
 - 한글 카피 어색하면 지적 대환영
 

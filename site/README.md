@@ -6,9 +6,9 @@
 
 매주 월요일 자동 갱신되는 Claude Code 에이전트 · 스킬 · 하네스 · MCP 큐레이션 인덱스.
 
-[🌐 **AI위클리 둘러보기**](https://ldk-hub.github.io/aiweekly/) ·
-[📡 RSS 구독](https://ldk-hub.github.io/aiweekly/feed.xml) ·
-[⭐ Star](https://github.com/ldk-hub/aiweekly)
+[🌐 **AI위클리 둘러보기**](https://ldk-hub.github.io/ai-weekly/) ·
+[📡 RSS 구독](https://ldk-hub.github.io/ai-weekly/feed.xml) ·
+[⭐ Star](https://github.com/ldk-hub/ai-weekly)
 
 </div>
 
@@ -111,13 +111,13 @@ launchctl load ~/Library/LaunchAgents/com.flareon.cc-trends.weekly.plist
 
 ## 구독
 
-- **🌐 웹**: https://ldk-hub.github.io/aiweekly/ — 매주 월요일 갱신
-- **📡 RSS**: https://ldk-hub.github.io/aiweekly/feed.xml — Feedly · Inoreader · NetNewsWire 등에서 구독
+- **🌐 웹**: https://ldk-hub.github.io/ai-weekly/ — 매주 월요일 갱신
+- **📡 RSS**: https://ldk-hub.github.io/ai-weekly/feed.xml — Feedly · Inoreader · NetNewsWire 등에서 구독
 - **⭐ Star**: 이 repo 별 누르면 업데이트 notification 받음
 
 ## 기여
 
-- 좋은 리포가 누락됐다면 [Issue](https://github.com/ldk-hub/aiweekly/issues) 열어주세요
+- 좋은 리포가 누락됐다면 [Issue](https://github.com/ldk-hub/ai-weekly/issues) 열어주세요
 - 점수 공식 개선 아이디어, 새 수집 소스 제안 환영
 - 한글 카피가 어색하다 싶으면 지적 대환영
 

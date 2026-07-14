@@ -112,14 +112,14 @@ function buildSvg(data) {
 
   <!-- Main title -->
   <text x="60" y="200" font-size="48" font-weight="700" fill="${INK}" letter-spacing="-1.5">이번 주 뜨는 도구 TOP 3</text>
-  <text x="60" y="245" font-size="18" font-weight="500" fill="${MUTED}">매주 월요일 자동 갱신 · ldk-hub.github.io/aiweekly</text>
+  <text x="60" y="245" font-size="18" font-weight="500" fill="${MUTED}">매주 월요일 자동 갱신 · ldk-hub.github.io/ai-weekly</text>
 
   <!-- Top 3 cards -->
   ${cardSVG}
 
   <!-- Footer -->
   <text x="60" y="${630 - 30}" font-size="12" font-weight="600" fill="${MUTED}">Made with Claude Code · 5명의 서브에이전트가 자동 큐레이션</text>
-  <text x="${1200 - 60}" y="${630 - 30}" font-size="12" font-weight="600" fill="${ACCENT}" text-anchor="end">★ Star on GitHub: ldk-hub/aiweekly</text>
+  <text x="${1200 - 60}" y="${630 - 30}" font-size="12" font-weight="600" fill="${ACCENT}" text-anchor="end">★ Star on GitHub: ldk-hub/ai-weekly</text>
 </svg>`;
 }
 
