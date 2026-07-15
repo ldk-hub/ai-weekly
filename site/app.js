@@ -588,5 +588,33 @@ document.getElementById("lang-toggle")?.addEventListener("click", () => {
 });
 applyLang(getLang());
 
+/* ─── theme toggle ─────────────────────────────────────────── */
+function getEffectiveTheme() {
+  const t = document.documentElement.dataset.theme;
+  if (t === 'dark' || t === 'light') return t;
+  return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+function renderThemeToggle() {
+  const btn = document.getElementById("theme-toggle");
+  if (!btn) return;
+  const eff = getEffectiveTheme();
+  const icon = btn.querySelector(".theme-icon");
+  if (icon) {
+    icon.textContent = eff === 'dark' ? '☀️ 라이트' : '🌙 다크';
+  }
+}
+document.getElementById("theme-toggle")?.addEventListener("click", () => {
+  const next = getEffectiveTheme() === 'dark' ? 'light' : 'dark';
+  document.documentElement.dataset.theme = next;
+  try { localStorage.setItem('aiw-theme', next); } catch (e) {}
+  renderThemeToggle();
+});
+if (window.matchMedia) {
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+    if (!localStorage.getItem('aiw-theme')) renderThemeToggle();
+  });
+}
+renderThemeToggle();
+
 loadArchives();
 load();
