@@ -1,0 +1,66 @@
+{
+  "generated": "2026-07-15",
+  "version": "v2026.07.15",
+  "news": [
+    {
+      "id": "news_001",
+      "platform": "X",
+      "title_ko": "OpenAI, GPT-4.5 아키텍처 공식 발표",
+      "summary_ko": "OpenAI가 마침내 10조 개의 파라미터를 가진 희소(Sparse) MoE 기반의 GPT-4.5 모델 아키텍처를 공개했습니다. AI 개발 생태계에 큰 변화를 예고하며, 개발자들의 엄청난 관심을 모으고 있습니다.",
+      "score": 95,
+      "tags": [
+        "OpenAI",
+        "GPT-4.5",
+        "LLM"
+      ],
+      "url": "https://x.com/OpenAI/status/123456789",
+      "author": "OpenAI",
+      "is_official": true
+    },
+    {
+      "id": "news_004",
+      "platform": "Threads",
+      "title_ko": "안드레이 카파시의 AI 시스템 전망",
+      "summary_ko": "초기 LLM 구축은 쉬워졌지만, 복잡한 시스템 단위의 오케스트레이션 난이도는 높아지고 있습니다. 이에 따라 여러 모델이 상호작용하는 복합 AI 시스템(Compounding AI)이 새로운 트렌드로 자리잡고 있습니다.",
+      "score": 88,
+      "tags": [
+        "Andrej Karpathy",
+        "AI Systems",
+        "Trends"
+      ],
+      "url": "https://threads.net/t/xyz123",
+      "author": "karpathy",
+      "is_official": true
+    },
+    {
+      "id": "news_002",
+      "platform": "GeekNews",
+      "title_ko": "Claude 3.5 Sonnet 프롬프트 캐싱 비용 인하",
+      "summary_ko": "Anthropic이 Claude 3.5 Sonnet의 코딩 성능을 극대화하는 새로운 가이드를 배포함과 동시에 프롬프트 캐싱 비용을 인하했습니다. 개발자 친화적인 행보가 주목받고 있습니다.",
+      "score": 82,
+      "tags": [
+        "Anthropic",
+        "Claude 3.5",
+        "Pricing"
+      ],
+      "url": "https://news.hada.io/topic?id=12345",
+      "author": "user_ai_geek",
+      "is_official": false
+    },
+    {
+      "id": "news_003",
+      "platform": "Instagram",
+      "title_ko": "미드저니 v7 초기 테스트 이미지 유출",
+      "summary_ko": "놀라운 텍스처와 프롬프트 이해도를 보여주는 Midjourney v7의 초기 테스트 이미지가 유출되었습니다. 이미지 생성 AI의 새로운 기준이 될 것으로 기대됩니다.",
+      "score": 75,
+      "tags": [
+        "Midjourney",
+        "Image Generation",
+        "v7"
+      ],
+      "url": "https://instagram.com/p/abcdefg",
+      "author": "ai_daily_trends",
+      "is_official": false
+    }
+  ]
+}

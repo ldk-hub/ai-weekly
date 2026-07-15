@@ -1,3 +1,5 @@
+const isNewsPage = !!document.getElementById("news-feed-container");
+
 const STATE = {
   data: null,
   tab: "rising",
@@ -17,14 +19,17 @@ const CATEGORIES = [
 
 async function load(source) {
   STATE.source = source || "latest";
-  const url = STATE.source === "latest"
-    ? "public/data/latest.json"
-    : `public/data/archive/${STATE.source}`;
+  let url;
+  if (isNewsPage) {
+    url = STATE.source === "latest" ? "public/data/news_latest.json" : `public/data/archive/news_${STATE.source}`;
+  } else {
+    url = STATE.source === "latest" ? "public/data/latest.json" : `public/data/archive/${STATE.source}`;
+  }
   try {
     const res = await fetch(url, { cache: "no-store" });
     STATE.data = await res.json();
   } catch (e) {
-    STATE.data = { generated_at: null, rising: [], classic: [] };
+    STATE.data = isNewsPage ? { generated_at: null, news: [] } : { generated_at: null, rising: [], classic: [] };
   }
   renderUpdateBar();
   renderCategoryFilter();
@@ -354,25 +359,87 @@ function closeModal() {
 
 function render() {
   const d = STATE.data || {};
-  const base = d[STATE.tab] || [];
-  const list = base
-    .filter(it => STATE.category === "all" || it.category === STATE.category)
-    .filter(matches);
-  const el = document.getElementById("grid");
-  updateTabCounts();
-  renderCategoryFilter();
-  if (list.length === 0) {
-    const lang = getLang();
-    const msg = lang === "en"
-      ? "No matches. Try a different category or clear the search."
-      : "조건에 맞는 항목이 없어요. 카테고리·검색어를 바꿔보세요.";
-    el.innerHTML = `<div class="empty">${msg}</div>`;
+  if (isNewsPage) {
+    const el = document.getElementById("news-feed-container");
+    if (!el) return;
+    const list = (d.news || []).filter(matchesNews);
+    if (list.length === 0) {
+      el.innerHTML = `<div style="text-align:center;padding:60px 0;color:var(--muted);font-size:15px;">뉴스 데이터가 없습니다. 검색어를 변경해보세요.</div>`;
+    } else {
+      el.innerHTML = `<div class="grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;">` + list.map(it => newsCardHTML(it)).join("") + `</div>`;
+    }
   } else {
-    el.innerHTML = list.map((it, i) => cardHTML(it, i)).join("");
+    const base = d[STATE.tab] || [];
+    const list = base
+      .filter(it => STATE.category === "all" || it.category === STATE.category)
+      .filter(matches);
+    const el = document.getElementById("grid");
+    if (!el) return;
+    updateTabCounts();
+    renderCategoryFilter();
+    if (list.length === 0) {
+      const lang = getLang();
+      const msg = lang === "en"
+        ? "No matches. Try a different category or clear the search."
+        : "조건에 맞는 항목이 없어요. 카테고리·검색어를 바꿔보세요.";
+      el.innerHTML = `<div class="empty">${msg}</div>`;
+    } else {
+      el.innerHTML = list.map((it, i) => cardHTML(it, i)).join("");
+    }
   }
 }
 
-document.getElementById("search").addEventListener("input", e => {
+function matchesNews(item) {
+  if (!STATE.query) return true;
+  const q = STATE.query.toLowerCase();
+  const hay = [
+    item.title_ko, item.summary_ko, item.author, item.platform, (item.tags || []).join(" ")
+  ].join(" ").toLowerCase();
+  return hay.includes(q);
+}
+
+function newsCardHTML(item) {
+  const safeId = escapeHTML(item.id || "");
+  const platformUpper = (item.platform || "").toUpperCase();
+  let color = "s-sky";
+  if (platformUpper.includes("X") || platformUpper.includes("TWITTER")) color = "s-mint";
+  if (platformUpper.includes("INSTA")) color = "s-pink";
+  if (platformUpper.includes("GEEK")) color = "s-coral";
+  
+  const st = { color, top: platformUpper, bottom: "NEWS" };
+  const badges = item.is_official ? `<span class="src-chip" style="background:var(--lemon);color:#000;">✓ Official</span>` : '';
+
+  return `
+    <article class="card" data-id="${safeId}" tabindex="0" role="button">
+      <div class="sticker ${st.color}">
+        <strong>${escapeHTML(st.top)}</strong>
+        ${escapeHTML(st.bottom)}
+      </div>
+      <div class="card-head">
+        <div class="head-meta" style="margin-left:0;">
+          <div class="category-label">${escapeHTML(item.platform || "")}</div>
+          <div class="repo-id">${escapeHTML(item.author || "")}</div>
+        </div>
+      </div>
+      <h3>${escapeHTML(item.title_ko || "")}</h3>
+      <p style="margin-top:10px; font-size:14.5px; line-height:1.55; color:var(--text); opacity:0.9;">${escapeHTML(item.summary_ko || "")}</p>
+      
+      <div class="src-line" style="margin-top:15px; flex-wrap:wrap; gap:6px;">
+        ${badges}
+        ${(item.tags||[]).map(t => `<span class="src-chip">#${escapeHTML(t)}</span>`).join("")}
+        <span class="src-score" title="검증 점수" style="margin-left:auto;">검증 ${item.score}</span>
+      </div>
+      <div class="card-foot" style="margin-top:18px; border-top:1px solid rgba(255,255,255,0.06); padding-top:16px;">
+        <span class="meta-left"></span>
+        <a class="repo-link" href="${escapeHTML(item.url || "#")}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+          원문 보기 <span class="arrow">→</span>
+        </a>
+      </div>
+    </article>
+  `;
+}
+
+document.getElementById("search")?.addEventListener("input", e => {
   STATE.query = e.target.value;
   render();
 });
@@ -419,11 +486,11 @@ document.addEventListener("click", e => {
   }
 });
 
-document.getElementById("grid").addEventListener("click", e => {
+document.getElementById("grid")?.addEventListener("click", e => {
   const card = e.target.closest(".card");
   if (card) openModal(card.dataset.id);
 });
-document.getElementById("grid").addEventListener("keydown", e => {
+document.getElementById("grid")?.addEventListener("keydown", e => {
   if ((e.key === "Enter" || e.key === " ") && e.target.classList.contains("card")) {
     e.preventDefault();
     openModal(e.target.dataset.id);

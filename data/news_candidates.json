@@ -1,0 +1,63 @@
+{
+  "candidates": [
+    {
+      "id": "news_001",
+      "platform": "X",
+      "url": "https://x.com/OpenAI/status/123456789",
+      "author": "OpenAI",
+      "content": "GPT-4.5 Architecture finally revealed. We are moving towards a sparse MoE model with 10T parameters. Exciting times for AI developers! #GPT45 #OpenAI",
+      "likes": 45000,
+      "shares": 12000,
+      "timestamp": "2026-07-15T09:19:53.802Z",
+      "is_official": true,
+      "references": [
+        "X"
+      ]
+    },
+    {
+      "id": "news_002",
+      "platform": "GeekNews",
+      "url": "https://news.hada.io/topic?id=12345",
+      "author": "user_ai_geek",
+      "content": "Anthropic, Claude 3.5 Sonnet의 코딩 성능 극대화 업데이트. 프롬프트 캐싱 비용 인하 및 시스템 프롬프트 가이드 개정.",
+      "likes": 120,
+      "shares": 15,
+      "timestamp": "2026-07-15T01:19:53.802Z",
+      "is_official": false,
+      "references": [
+        "GeekNews",
+        "Threads"
+      ]
+    },
+    {
+      "id": "news_003",
+      "platform": "Instagram",
+      "url": "https://instagram.com/p/abcdefg",
+      "author": "ai_daily_trends",
+      "content": "Midjourney v7 Sneak Peek! 미드저니 7버전 테스트 이미지 유출. 놀라운 텍스처와 프롬프트 이해도. (Swipe to see images)",
+      "likes": 8500,
+      "shares": 200,
+      "timestamp": "2026-07-13T13:19:53.802Z",
+      "is_official": false,
+      "references": [
+        "Instagram"
+      ]
+    },
+    {
+      "id": "news_004",
+      "platform": "Threads",
+      "url": "https://threads.net/t/xyz123",
+      "author": "karpathy",
+      "content": "Building LLMs from scratch is getting easier but also more complex at the orchestration level. The new trend is compounding AI systems.",
+      "likes": 15400,
+      "shares": 3400,
+      "timestamp": "2026-07-15T11:19:53.802Z",
+      "is_official": true,
+      "references": [
+        "Threads",
+        "X",
+        "GeekNews"
+      ]
+    }
+  ]
+}
