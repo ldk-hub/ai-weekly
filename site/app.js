@@ -199,7 +199,7 @@ function stickerFor(item, idx) {
 
 function cardHTML(item, idx) {
   const safeId = escapeHTML(item.id || "");
-  const avatar = item.thumbnail_url || `https://github.com/${(item.id || "").split("/")[0]}.png`;
+  const avatar = item.thumbnail_url || `https://github.com/${(item.id || "").split("/")[0]}.png?size=80`;
   const rank = idx + 1;
   const rankStr = String(rank).padStart(2, "0");
   const isFeatured = idx === 0;
@@ -250,7 +250,7 @@ function sourcesLine(item) {
 }
 
 function modalHTML(item, tab, rank) {
-  const avatar = item.thumbnail_url || `https://github.com/${(item.id || "").split("/")[0]}.png`;
+  const avatar = item.thumbnail_url || `https://github.com/${(item.id || "").split("/")[0]}.png?size=80`;
   const tags = (item.tags || []).map(t =>
     `<span class="m-tag">${escapeHTML(t)}</span>`
   ).join("");
@@ -594,10 +594,20 @@ function getEffectiveTheme() {
   if (t === 'dark' || t === 'light') return t;
   return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
+function updateThemeColorMeta(eff) {
+  let meta = document.querySelector('meta[name="theme-color"]');
+  if (!meta) {
+    meta = document.createElement('meta');
+    meta.name = "theme-color";
+    document.head.appendChild(meta);
+  }
+  meta.content = eff === 'dark' ? '#161410' : '#fbfaf6';
+}
 function renderThemeToggle() {
+  const eff = getEffectiveTheme();
+  updateThemeColorMeta(eff);
   const btn = document.getElementById("theme-toggle");
   if (!btn) return;
-  const eff = getEffectiveTheme();
   const icon = btn.querySelector(".theme-icon");
   if (icon) {
     icon.textContent = eff === 'dark' ? '☀️ 라이트' : '🌙 다크';
@@ -610,8 +620,11 @@ document.getElementById("theme-toggle")?.addEventListener("click", () => {
   renderThemeToggle();
 });
 if (window.matchMedia) {
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-    if (!localStorage.getItem('aiw-theme')) renderThemeToggle();
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+    if (!localStorage.getItem('aiw-theme')) {
+      document.documentElement.dataset.theme = e.matches ? 'dark' : 'light';
+      renderThemeToggle();
+    }
   });
 }
 renderThemeToggle();
