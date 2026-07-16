@@ -1,63 +1,498 @@
 {
   "candidates": [
     {
-      "id": "news_001",
+      "id": "geeknews_178417816856198",
+      "platform": "GeekNews",
+      "url": "https://github.com/teddylee777/machine-learning",
+      "author": "baeba",
+      "publish_date": "2026-07-16T00:47:55.000Z",
+      "content": "「Machine Learning Study 혼자 해보기」\n1. 문서의 목적과 구성 이 글은 머신러닝·딥러닝을 독학하려는 사람들을 위해 강의, 블로그, GitHub, 논문, 데이터셋 등을 체계적으로 모은 학습 ...",
+      "likes": 54,
+      "shares": 6,
+      "timestamp": "2026-07-16T05:02:48.561Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_1784178168561625",
+      "platform": "GeekNews",
+      "url": "https://x.com/jakecastilloooo/status/2069417525947912540",
+      "author": "GN⁺",
+      "publish_date": "2026-07-16T00:48:01.000Z",
+      "content": "소비자 앱을 구축하고 확장하는 법\nCal AI가 18개월 만에 Health & Fitness 부문 1위 앱으로 성장하는 과정에서, 소비자 앱 확장의 가장 큰 병목은 제품 개발보다 유통(distribution)...",
+      "likes": 40,
+      "shares": 5,
+      "timestamp": "2026-07-16T05:02:48.561Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_178417816856121",
+      "platform": "GeekNews",
+      "url": "https://thinkingmachines.ai/news/introducing-inkling/",
+      "author": "GN⁺",
+      "publish_date": "2026-07-16T00:43:28.000Z",
+      "content": "Inkling: Thinking Machines Lab의 오픈 웨이트 모델\n처음부터 학습해 전체 가중치를 공개한 Inkling은 총 975B·활성 41B 파라미터의 MoE Transformer로, 최대 1M 토큰 문맥과 텍스트·이미지·오디오 기...",
+      "likes": 38,
+      "shares": 9,
+      "timestamp": "2026-07-16T05:02:48.561Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_1784178168561293",
+      "platform": "GeekNews",
+      "url": "https://suganthan.com/blog/how-chatgpt-picks-sources/",
+      "author": "GN⁺",
+      "publish_date": "2026-07-16T00:38:59.000Z",
+      "content": "ChatGPT는 실제로 어떻게 출처를 고르는가 (네트워크 트래픽 분석)\n로그인된 Pro 계정 하나에서 며칠간 수집한 약 1,240개 출처 레코드를 분석해, 최종 답변만으로는 볼 수 없는 출처 파이프라인·질의 분류·검색어·...",
+      "likes": 23,
+      "shares": 3,
+      "timestamp": "2026-07-16T05:02:48.561Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_1784178168561380",
+      "platform": "GeekNews",
+      "url": "https://github.com/lesovsky/noisia",
+      "author": "xguru",
+      "publish_date": "2026-07-16T00:31:02.000Z",
+      "content": "noisia - PostgreSQL용 유해한 워크로드 생성기\n연결 고갈/잠금 대기/교착 상태/OOM/디스크 부족 같은 장애 상황을 의도적으로 만들어 테스트하는 실패 주입 도구 유휴 트랜잭션/롤백/교착 상태/...",
+      "likes": 37,
+      "shares": 0,
+      "timestamp": "2026-07-16T05:02:48.561Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_1784178168561634",
+      "platform": "GeekNews",
+      "url": "https://mort.coffee/home/sqlite-editions/",
+      "author": "GN⁺",
+      "publish_date": "2026-07-16T00:06:58.000Z",
+      "content": "SQLite에도 Rust 스타일의 에디션이 필요함\nSQLite는 로컬 저장소와 임베디드 프로젝트에 널리 쓰이는 자체 완결형 RDBMS지만, 하위 호환성 때문에 안전성과 성능에 불리한 기본값을 유지하고...",
+      "likes": 12,
+      "shares": 5,
+      "timestamp": "2026-07-16T05:02:48.561Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_1784178168561800",
+      "platform": "GeekNews",
+      "url": "https://hackney.app/",
+      "author": "sungchi",
+      "publish_date": "2026-07-16T04:07:45.000Z",
+      "content": "Hackney 라이딩 서비스 비교 앱\n다양한 라이딩앱을 연결해서 하나의 앱으로 비용, 경로 등을 비교해볼 수 있는 앱입니다. 어떻게 앱스토어 심사를 통과했는지가 제일 궁금하네요.",
+      "likes": 31,
+      "shares": 7,
+      "timestamp": "2026-07-16T05:02:48.561Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_178417816856130",
+      "platform": "GeekNews",
+      "url": "https://techcrunch.com/2026/07/15/anthropic-blackstone-bet-the-next-trillion-dollar-ai-business-is-implementation-not-models/",
+      "author": "humblebee",
+      "publish_date": "2026-07-16T04:07:41.000Z",
+      "content": "앤트로픽·블랙스톤, 15억 달러 규모 &#039;AI 구현&#039; 합작사 Ode 출범\nAnthropic, Blackstone, Hellman & Friedman 3사가 엔터프라이즈 AI 구현 전문 회사 &quot;Ode with Anthropic&quot;을 7월 15일 정식 공개함. 5월에 결성된 ...",
+      "likes": 26,
+      "shares": 3,
+      "timestamp": "2026-07-16T05:02:48.561Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_1784178168561707",
+      "platform": "GeekNews",
+      "url": "https://www.databricks.com/blog/benchmarking-coding-agents-databricks-multi-million-line-codebase",
+      "author": "sungchi",
+      "publish_date": "2026-07-16T03:51:39.000Z",
+      "content": "Databricks가 자체 코딩 AI 벤치마크를 만든 방법과 결과\n공개된 코딩 벤치마크는 회사별 상황에 딱 맞지 않고 치팅이 가능한 것이 문제 Databricks에서 실제 수행한 과제, 언어로 벤치마크를 만들어 평가 ...",
+      "likes": 51,
+      "shares": 5,
+      "timestamp": "2026-07-16T05:02:48.561Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_1784178168562395",
+      "platform": "GeekNews",
+      "url": "https://news.hada.io/topic?id=31487",
+      "author": "pjhun0412",
+      "publish_date": "2026-07-16T03:16:25.000Z",
+      "content": "Show GN: KafkaPilot - Apache Kafka 데스크톱 클라이언트를 만들어봤습니다.\n안녕하세요. 최근 몇 달 동안 제가 사용할 KafkaPilot이라는 Apache Kafka 데스크톱 클라이언트를 개발했습니다. Kafka를 사용하다 보면 토픽을 조...",
+      "likes": 54,
+      "shares": 0,
+      "timestamp": "2026-07-16T05:02:48.562Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_1784178168562155",
+      "platform": "GeekNews",
+      "url": "https://news.hada.io/topic?id=31486",
+      "author": "finepdf",
+      "publish_date": "2026-07-16T02:30:03.000Z",
+      "content": "Show GN: 논문/문서자료 인쇄비가 아까워서 여백제거 모아찍기 변환기를 직접 만들었습니다\n안녕하세요, 문서와 논문을 매일 인쇄하다가 종이값이 아까워서 직접 만든 Windows용 PDF 여백제거 N-up 변환기입니다. 왜 만들었나 프린터 드라이...",
+      "likes": 38,
+      "shares": 4,
+      "timestamp": "2026-07-16T05:02:48.562Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_1784178168562349",
+      "platform": "GeekNews",
+      "url": "https://news.hada.io/topic?id=31468",
+      "author": "dnfbd",
+      "publish_date": "2026-07-15T20:51:25.000Z",
+      "content": "Show GN: 뉴스레터 구독만 해두고 안 읽고 있지 않나요?\n코그니가 대신 최신 해외 AI·개발 뉴스레터를 요약해드릴게요. 해외 뉴스레터에서 중요한 소식만 가져와, 핵심만 한눈에 볼 수 있게 정리합니다.",
+      "likes": 41,
+      "shares": 1,
+      "timestamp": "2026-07-16T05:02:48.562Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_1784178168562529",
+      "platform": "GeekNews",
+      "url": "https://news.hada.io/topic?id=31485",
+      "author": "p2c2kbf",
+      "publish_date": "2026-07-16T01:47:47.000Z",
+      "content": "Show GN: Claude 공식 업타임 99.55%인데 6월 인시던트 45건 — 6월 AI 서비스 신뢰도 리포트\nAIWatch는 Claude·OpenAI·Gemini 등 41개 AI 서비스(LLM API·코딩 에이전트·음성·인프라·AI 앱)의 업타임·인시던트·지연을 실시간으로 모니터링합...",
+      "likes": 23,
+      "shares": 0,
+      "timestamp": "2026-07-16T05:02:48.562Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_1784178168562783",
+      "platform": "GeekNews",
+      "url": "https://dpa-international.com/economics/urn:newsml:dpa.com:20090101:260715-930-389143/",
+      "author": "GN⁺",
+      "publish_date": "2026-07-16T01:31:33.000Z",
+      "content": "OpenAI, EU 법원 상표권 분쟁에서 패소\nEU 일반법원은 일부 소프트웨어·IT 상품 및 서비스에서 OPENAI가 제품 특성을 나타내는 서술적 용어이므로 상표 보호에 필요한 식별력이 없다고 판...",
+      "likes": 31,
+      "shares": 6,
+      "timestamp": "2026-07-16T05:02:48.562Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_1784178168562331",
+      "platform": "GeekNews",
+      "url": "https://www.reuters.com/business/finance/stripe-advent-offer-buy-paypal-more-than-53-billion-sources-say-2026-07-15/",
+      "author": "GN⁺",
+      "publish_date": "2026-07-16T01:30:13.000Z",
+      "content": "Stripe와 Advent, PayPal을 530억 달러 이상에 공동 인수 제안\nStripe와 사모펀드 Advent International이 PayPal을 주당 60.50달러, 기업가치 530억 달러 이상에 공동 인수하겠다는 제안을 제출함 두 회사는 Pa...",
+      "likes": 21,
+      "shares": 8,
+      "timestamp": "2026-07-16T05:02:48.562Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "news_x_001",
       "platform": "X",
-      "url": "https://x.com/OpenAI/status/123456789",
+      "url": "https://x.com/OpenAI/status/1780000000000000001",
       "author": "OpenAI",
+      "publish_date": "2026-07-15T07:02:48.562Z",
       "content": "GPT-4.5 Architecture finally revealed. We are moving towards a sparse MoE model with 10T parameters. Exciting times for AI developers! #GPT45 #OpenAI",
-      "likes": 45000,
-      "shares": 12000,
-      "timestamp": "2026-07-15T09:19:53.802Z",
-      "is_official": true,
       "references": [
         "X"
+      ],
+      "tags": [
+        "AI",
+        "LLM",
+        "OpenAI"
+      ],
+      "multimedia": [
+        "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800"
+      ],
+      "related_articles": [
+        {
+          "title": "Inside OpenAI's new model",
+          "url": "https://x.com/OpenAI/status/1780000000000000002"
+        }
       ]
     },
     {
-      "id": "news_002",
-      "platform": "GeekNews",
-      "url": "https://news.hada.io/topic?id=12345",
-      "author": "user_ai_geek",
-      "content": "Anthropic, Claude 3.5 Sonnet의 코딩 성능 극대화 업데이트. 프롬프트 캐싱 비용 인하 및 시스템 프롬프트 가이드 개정.",
-      "likes": 120,
-      "shares": 15,
-      "timestamp": "2026-07-15T01:19:53.802Z",
-      "is_official": false,
+      "id": "news_x_002",
+      "platform": "X",
+      "url": "https://x.com/elonmusk/status/1780000000000000002",
+      "author": "elonmusk",
+      "publish_date": "2026-07-16T00:02:48.562Z",
+      "content": "Grok 2.0 is now rolling out. It has completely uncensored real-time access to the X firehose and out-performs GPT-4 on multiple benchmarks.",
       "references": [
-        "GeekNews",
-        "Threads"
-      ]
+        "X"
+      ],
+      "tags": [
+        "Grok",
+        "xAI"
+      ],
+      "multimedia": [],
+      "related_articles": []
     },
     {
-      "id": "news_003",
+      "id": "news_x_003",
+      "platform": "X",
+      "url": "https://x.com/ylecun/status/1780000000000000003",
+      "author": "ylecun",
+      "publish_date": "2026-07-15T19:02:48.562Z",
+      "content": "LLMs are not AGI. We need objective-driven AI architecture to reach human-level intelligence. Auto-regressive models will plateau very soon.",
+      "references": [
+        "X"
+      ],
+      "tags": [
+        "AGI",
+        "Meta"
+      ],
+      "multimedia": [
+        "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=800"
+      ],
+      "related_articles": []
+    },
+    {
+      "id": "news_insta_001",
       "platform": "Instagram",
-      "url": "https://instagram.com/p/abcdefg",
+      "url": "https://instagram.com/p/CxaBcdEfGhi1",
       "author": "ai_daily_trends",
+      "publish_date": "2026-07-15T09:02:48.562Z",
       "content": "Midjourney v7 Sneak Peek! 미드저니 7버전 테스트 이미지 유출. 놀라운 텍스처와 프롬프트 이해도. (Swipe to see images)",
-      "likes": 8500,
-      "shares": 200,
-      "timestamp": "2026-07-13T13:19:53.802Z",
-      "is_official": false,
       "references": [
         "Instagram"
+      ],
+      "tags": [
+        "GenerativeArt",
+        "Midjourney"
+      ],
+      "multimedia": [
+        "https://images.unsplash.com/photo-1682687982501-1e58f81014e3?auto=format&fit=crop&q=80&w=800"
+      ],
+      "related_articles": []
+    },
+    {
+      "id": "news_insta_002",
+      "platform": "Instagram",
+      "url": "https://instagram.com/p/CxaBcdEfGhi2",
+      "author": "design_ai_hub",
+      "publish_date": "2026-07-16T00:02:48.562Z",
+      "content": "How I use Figma AI to generate entire UI systems in 5 seconds. The latest update just changed UI/UX design forever. Watch the reel!",
+      "references": [
+        "Instagram"
+      ],
+      "tags": [
+        "Figma",
+        "UIUX",
+        "Design"
+      ],
+      "multimedia": [
+        "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=800"
+      ],
+      "related_articles": []
+    },
+    {
+      "id": "news_insta_003",
+      "platform": "Instagram",
+      "url": "https://instagram.com/p/CxaBcdEfGhi3",
+      "author": "ai_art_gallery",
+      "publish_date": "2026-07-15T12:02:48.562Z",
+      "content": "Runway Gen-3 Alpha is mind blowing! Text-to-video has finally reached cinematic photorealism. Prompt: A cyberpunk city in the rain, ultra detailed.",
+      "references": [
+        "Instagram"
+      ],
+      "tags": [
+        "Runway",
+        "VideoAI"
+      ],
+      "multimedia": [
+        "https://images.unsplash.com/photo-1515630278258-407f66498911?auto=format&fit=crop&q=80&w=800"
+      ],
+      "related_articles": []
+    },
+    {
+      "id": "news_threads_001",
+      "platform": "Threads",
+      "url": "https://threads.net/t/CyaCdeFgHiJ1",
+      "author": "karpathy",
+      "publish_date": "2026-07-15T16:02:48.562Z",
+      "content": "Building LLMs from scratch is getting easier but also more complex at the orchestration level. The new trend is compounding AI systems.",
+      "references": [
+        "Threads",
+        "X"
+      ],
+      "tags": [
+        "LLM",
+        "Engineering"
+      ],
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "news_threads_002",
+      "platform": "Threads",
+      "url": "https://threads.net/t/CyaCdeFgHiJ2",
+      "author": "swyx",
+      "publish_date": "2026-07-15T15:02:48.562Z",
+      "content": "AI Engineer Summit 2026 was incredible. The biggest takeaway: Prompt engineering is dead, Flow engineering is the new standard for agents.",
+      "references": [
+        "Threads"
+      ],
+      "tags": [
+        "Agents",
+        "AI_Summit"
+      ],
+      "multimedia": [],
+      "related_articles": [
+        {
+          "title": "Flow Engineering Deep Dive",
+          "url": "https://threads.net/t/CyaCdeFgHiJ2_2"
+        }
       ]
     },
     {
-      "id": "news_004",
+      "id": "news_threads_003",
       "platform": "Threads",
-      "url": "https://threads.net/t/xyz123",
-      "author": "karpathy",
-      "content": "Building LLMs from scratch is getting easier but also more complex at the orchestration level. The new trend is compounding AI systems.",
-      "likes": 15400,
-      "shares": 3400,
-      "timestamp": "2026-07-15T11:19:53.802Z",
-      "is_official": true,
+      "url": "https://threads.net/t/CyaCdeFgHiJ3",
+      "author": "langchain_ai",
+      "publish_date": "2026-07-15T11:02:48.562Z",
+      "content": "LangChain 1.0 is officially out. We've rewritten the core to be 10x faster and strictly typed. Migration guide is in the bio link.",
       "references": [
         "Threads",
-        "X",
         "GeekNews"
-      ]
+      ],
+      "tags": [
+        "LangChain",
+        "Framework"
+      ],
+      "multimedia": [
+        "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800"
+      ],
+      "related_articles": []
     }
   ]
 }

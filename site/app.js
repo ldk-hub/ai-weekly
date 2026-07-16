@@ -17,6 +17,14 @@ const CATEGORIES = [
   { id: "mcp",     emoji: "🔌", label_ko: "MCP",      label_en: "MCP" },
 ];
 
+const NEWS_CATEGORIES = [
+  { id: "all",       emoji: "✨", label_ko: "전체",         label_en: "All" },
+  { id: "geeknews",  emoji: "🤓", label_ko: "GeekNews",     label_en: "GeekNews" },
+  { id: "instagram", emoji: "📸", label_ko: "Instagram",    label_en: "Instagram" },
+  { id: "x",         emoji: "🐦", label_ko: "X (Twitter)",  label_en: "X" },
+  { id: "threads",   emoji: "🧵", label_ko: "Threads",      label_en: "Threads" },
+];
+
 async function load(source) {
   STATE.source = source || "latest";
   let url;
@@ -47,11 +55,15 @@ async function loadArchives() {
   renderArchiveMenu();
 }
 
-function nextMonday(from) {
+function nextUpdateDate(from) {
   const d = new Date(from);
-  const day = d.getDay(); // 0=Sun..6=Sat
-  const add = day === 1 ? 7 : ((8 - day) % 7 || 7);
-  d.setDate(d.getDate() + add);
+  if (isNewsPage) {
+    d.setDate(d.getDate() + 1);
+  } else {
+    const day = d.getDay();
+    const add = day === 1 ? 7 : ((8 - day) % 7 || 7);
+    d.setDate(d.getDate() + add);
+  }
   d.setHours(0, 0, 0, 0);
   return d;
 }
@@ -83,7 +95,7 @@ function renderUpdateBar() {
   if (ts) {
     updEl.textContent = `${fmtKFull(ts)} (${dayLabel(ts, lang)})`;
     if (STATE.source === "latest") {
-      const nm = nextMonday(ts);
+      const nm = nextUpdateDate(ts);
       nxtEl.textContent = `${fmtKDate(nm)} (${dayLabel(nm, lang)})`;
       nxtEl.style.display = "";
       nxtEl.previousElementSibling.style.display = "";
@@ -133,18 +145,34 @@ function renderCategoryFilter() {
   const wrap = document.getElementById("cat-filter");
   if (!wrap) return;
   const lang = getLang();
-  const list = (STATE.data?.[STATE.tab] || []);
-  wrap.innerHTML = CATEGORIES.map(c => {
-    const count = c.id === "all" ? list.length : list.filter(x => x.category === c.id).length;
-    if (c.id !== "all" && count === 0) return "";
-    const label = lang === "en" ? c.label_en : c.label_ko;
-    const active = STATE.category === c.id ? "is-active" : "";
-    return `<button class="cat-chip ${active}" data-cat="${c.id}" type="button">
-      <span class="cat-emoji">${c.emoji}</span>
-      <span>${label}</span>
-      <span class="cat-count">${count}</span>
-    </button>`;
-  }).join("");
+  
+  if (isNewsPage) {
+    const list = (STATE.data?.news || []);
+    wrap.innerHTML = NEWS_CATEGORIES.map(c => {
+      const count = c.id === "all" ? list.length : list.filter(x => x.category_id === c.id).length;
+      if (c.id !== "all" && count === 0) return "";
+      const label = lang === "en" ? c.label_en : c.label_ko;
+      const active = STATE.category === c.id ? "is-active" : "";
+      return `<button class="cat-chip ${active}" data-cat="${c.id}" type="button">
+        <span class="cat-emoji">${c.emoji}</span>
+        <span>${label}</span>
+        <span class="cat-count">${count}</span>
+      </button>`;
+    }).join("");
+  } else {
+    const list = (STATE.data?.[STATE.tab] || []);
+    wrap.innerHTML = CATEGORIES.map(c => {
+      const count = c.id === "all" ? list.length : list.filter(x => x.category === c.id).length;
+      if (c.id !== "all" && count === 0) return "";
+      const label = lang === "en" ? c.label_en : c.label_ko;
+      const active = STATE.category === c.id ? "is-active" : "";
+      return `<button class="cat-chip ${active}" data-cat="${c.id}" type="button">
+        <span class="cat-emoji">${c.emoji}</span>
+        <span>${label}</span>
+        <span class="cat-count">${count}</span>
+      </button>`;
+    }).join("");
+  }
 }
 
 function updateTabCounts() {
@@ -362,11 +390,61 @@ function render() {
   if (isNewsPage) {
     const el = document.getElementById("news-feed-container");
     if (!el) return;
-    const list = (d.news || []).filter(matchesNews);
+    renderCategoryFilter();
+    let list = (d.news || []);
+    if (STATE.category !== "all") {
+      list = list.filter(x => x.category_id === STATE.category);
+    }
+    list = list.filter(matchesNews);
+
     if (list.length === 0) {
       el.innerHTML = `<div style="text-align:center;padding:60px 0;color:var(--muted);font-size:15px;">뉴스 데이터가 없습니다. 검색어를 변경해보세요.</div>`;
     } else {
-      el.innerHTML = `<div class="grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;">` + list.map(it => newsCardHTML(it)).join("") + `</div>`;
+      let html = "";
+      
+      const genTime = d.generated_at ? new Date(d.generated_at) : new Date();
+      const kstDate = new Date(genTime.getTime() + (9 * 60 + genTime.getTimezoneOffset()) * 60000);
+      const kstStr = kstDate.toISOString().replace('T', ' ').substring(0, 16) + ' KST';
+      
+      html += `
+        <div style="font-size: 13px; color: var(--muted); margin-bottom: 24px; line-height: 1.5; background: var(--bg); padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border);">
+          <strong>기준:</strong> ${kstStr} &middot; <strong>수집 구간:</strong> 최근 24시간 &middot; <strong>출처:</strong> Threads &middot; X(트위터) &middot; GeekNews &middot; <strong>정렬:</strong> 언급 빈도/신호 강도<br/>
+          주식&middot;증시&middot;투자 신호는 제외하고 신기술&middot;신기능&middot;개발자 도구 중심으로 정리했습니다. ⚠️ 게시물에 나온 모델명&middot;수치 등 표현은 그대로 옮겼으며 원문 출처는 미검증입니다.
+        </div>
+      `;
+
+      if (STATE.category === "all" && !STATE.query && d.summary) {
+        html += `
+          <div class="news-summary-box" style="margin-bottom:32px;">
+            <div class="ns-label">한 줄 흐름</div>
+            <p class="ns-text">${escapeHTML(d.summary)}</p>
+          </div>
+        `;
+        
+        // TOP 5 섹션 분리 (카테고리 all, 검색어 없을 때만)
+        if (list.length > 5) {
+          const top5 = list.slice(0, 5);
+          const rest = list.slice(5);
+          
+          html += `<h2 style="font-size:24px; font-weight:800; margin-bottom:20px; color:var(--accent);">🔥 가장 많이 언급된 TOP 5</h2>`;
+          html += `<div class="grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;margin-bottom:40px;">`;
+          html += top5.map(it => newsCardHTML(it)).join("");
+          html += `</div>`;
+          
+          html += `<h2 style="font-size:24px; font-weight:800; margin-bottom:20px; color:var(--ink);">📰 최신 핫이슈</h2>`;
+          html += `<div class="grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;">`;
+          html += rest.map(it => newsCardHTML(it)).join("");
+          html += `</div>`;
+          
+          el.innerHTML = html;
+          return;
+        }
+      }
+      
+      html += `<div class="grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;">`;
+      html += list.map(it => newsCardHTML(it)).join("");
+      html += `</div>`;
+      el.innerHTML = html;
     }
   } else {
     const base = d[STATE.tab] || [];
@@ -393,48 +471,77 @@ function matchesNews(item) {
   if (!STATE.query) return true;
   const q = STATE.query.toLowerCase();
   const hay = [
-    item.title_ko, item.summary_ko, item.author, item.platform, (item.tags || []).join(" ")
+    item.headline, item.title_ko, item.summary_ko, item.body_ko, item.author,
+    (item.tags || []).join(" "), (item.sources || []).join(" "), item.category_name
   ].join(" ").toLowerCase();
   return hay.includes(q);
 }
 
 function newsCardHTML(item) {
   const safeId = escapeHTML(item.id || "");
-  const platformUpper = (item.platform || "").toUpperCase();
-  let color = "s-sky";
-  if (platformUpper.includes("X") || platformUpper.includes("TWITTER")) color = "s-mint";
-  if (platformUpper.includes("INSTA")) color = "s-pink";
-  if (platformUpper.includes("GEEK")) color = "s-coral";
   
-  const st = { color, top: platformUpper, bottom: "NEWS" };
-  const badges = item.is_official ? `<span class="src-chip" style="background:var(--lemon);color:#000;">✓ Official</span>` : '';
+  // 멀티미디어 커버 이미지
+  const cover = (item.multimedia && item.multimedia.length > 0) 
+    ? `<div style="margin:-20px -20px 16px -20px; border-radius:12px 12px 0 0; overflow:hidden;"><img src="${escapeHTML(item.multimedia[0])}" loading="lazy" style="width:100%; height:320px; object-fit:cover;" alt=""/></div>` 
+    : "";
+
+  const catTag = item.category_name ? `<span style="display:inline-block; margin-bottom:12px; padding:4px 12px; border-radius:8px; background:var(--glass-bg); font-size:12.5px; font-weight:700; color:var(--ink-2); border:1px solid var(--border);">${escapeHTML(item.category_name)}</span>` : "";
+  
+  // 작성자 및 발행일
+  const author = item.author ? escapeHTML(item.author) : "";
+  const pubDate = item.publish_date ? new Date(item.publish_date) : null;
+  const dateStr = pubDate ? `${pubDate.getMonth()+1}/${pubDate.getDate()} ${String(pubDate.getHours()).padStart(2,'0')}:${String(pubDate.getMinutes()).padStart(2,'0')}` : "";
+  const metaLine = (author || dateStr) ? `<div style="font-size:13px; color:var(--muted); margin-bottom:8px; font-weight:500;">${author}${author && dateStr ? " · " : ""}${dateStr}</div>` : "";
+
+  const title = escapeHTML(item.headline || item.title_ko || "");
+  const summary = item.summary_ko ? `<p style="margin-top:12px; font-size:15px; line-height:1.6; color:var(--text); opacity:0.9;">${escapeHTML(item.summary_ko)}</p>` : "";
+  
+  const bodyKo = item.body_ko ? `
+    <div class="news-body-wrapper" style="position:relative; margin-top:16px; font-size:14.5px; line-height:1.7; color:var(--text); opacity:0.85;">
+      <div class="news-body-content" style="max-height:120px; overflow:hidden; transition: max-height 0.4s ease; white-space:pre-wrap;">${escapeHTML(item.body_ko)}</div>
+      <div class="news-body-fade" style="position:absolute; bottom:0; left:0; right:0; height:60px; background:linear-gradient(to bottom, transparent, var(--card)); transition:opacity 0.4s ease; pointer-events:none;"></div>
+    </div>
+    <button type="button" style="display:block; width:100%; text-align:center; padding:12px 0; margin-top:4px; font-size:13.5px; font-weight:600; color:var(--accent); background:none; border:none; cursor:pointer; outline:none;" onclick="
+      const wrap = this.previousElementSibling.querySelector('.news-body-content');
+      const fade = this.previousElementSibling.querySelector('.news-body-fade');
+      if(wrap.style.maxHeight !== 'none') {
+        wrap.style.maxHeight = 'none';
+        fade.style.opacity = '0';
+        this.innerHTML = '접기 ↑';
+      } else {
+        wrap.style.maxHeight = '120px';
+        fade.style.opacity = '1';
+        this.innerHTML = '본문 펼쳐 읽기 ↓';
+      }
+    ">본문 펼쳐 읽기 ↓</button>
+  ` : "";
+  
+  const tags = (item.tags && item.tags.length > 0) ? `<div style="margin-top:16px; display:flex; flex-wrap:wrap; gap:8px;">${item.tags.map(t => `<span style="font-size:12.5px; padding:4px 10px; border-radius:12px; background:rgba(0,0,0,0.04); color:var(--ink-2); font-weight:500;">#${escapeHTML(t)}</span>`).join("")}</div>` : "";
+
+  const related = (item.related_articles && item.related_articles.length > 0) ? `<div style="margin-top:20px; font-size:14px; background:var(--pill); padding:16px; border-radius:12px;"><strong style="color:var(--ink-2); display:flex; align-items:center; gap:6px;">🔗 관련 기사</strong><ul style="margin-top:8px; padding-left:20px; color:var(--muted); list-style-type:circle;">${item.related_articles.map(r => `<li style="margin-bottom:6px;"><a href="${escapeHTML(r.url)}" target="_blank" rel="noopener" style="color:var(--muted); text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--muted)'">${escapeHTML(r.title)}</a></li>`).join("")}</ul></div>` : "";
+
+  const sources = (item.sources || []).map(s => `<span class="src-chip">${escapeHTML(s)}</span>`).join("");
+  const linkBtn = item.url ? `
+    <div class="card-foot" style="margin-top:24px; border-top:1px solid rgba(255,255,255,0.06); padding-top:16px;">
+      <span class="meta-left"></span>
+      <a class="repo-link" href="${escapeHTML(item.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+        원문 보기 <span class="arrow">→</span>
+      </a>
+    </div>
+  ` : "";
 
   return `
-    <article class="card" data-id="${safeId}" tabindex="0" role="button">
-      <div class="sticker ${st.color}">
-        <strong>${escapeHTML(st.top)}</strong>
-        ${escapeHTML(st.bottom)}
-      </div>
-      <div class="card-head">
-        <div class="head-meta" style="margin-left:0;">
-          <div class="category-label">${escapeHTML(item.platform || "")}</div>
-          <div class="repo-id">${escapeHTML(item.author || "")}</div>
-        </div>
-      </div>
-      <h3>${escapeHTML(item.title_ko || "")}</h3>
-      <p style="margin-top:10px; font-size:14.5px; line-height:1.55; color:var(--text); opacity:0.9;">${escapeHTML(item.summary_ko || "")}</p>
-      
-      <div class="src-line" style="margin-top:15px; flex-wrap:wrap; gap:6px;">
-        ${badges}
-        ${(item.tags||[]).map(t => `<span class="src-chip">#${escapeHTML(t)}</span>`).join("")}
-        <span class="src-score" title="검증 점수" style="margin-left:auto;">검증 ${item.score}</span>
-      </div>
-      <div class="card-foot" style="margin-top:18px; border-top:1px solid rgba(255,255,255,0.06); padding-top:16px;">
-        <span class="meta-left"></span>
-        <a class="repo-link" href="${escapeHTML(item.url || "#")}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
-          원문 보기 <span class="arrow">→</span>
-        </a>
-      </div>
+    <article class="card news-card" data-id="${safeId}" style="padding:24px; box-shadow:0 4px 12px rgba(0,0,0,0.05); border-radius:16px;">
+      ${cover}
+      ${catTag}
+      ${metaLine}
+      <h3 style="margin-top:0; margin-bottom:12px; line-height:1.45; font-size:20px;">${title}</h3>
+      ${summary}
+      ${bodyKo}
+      ${tags}
+      ${related}
+      <div class="src-line" style="margin-top:20px; flex-wrap:wrap; gap:8px;">${sources}</div>
+      ${linkBtn}
     </article>
   `;
 }

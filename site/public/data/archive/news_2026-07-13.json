@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-07-13T00:00:00Z",
+  "version": "v2026.07.13",
+  "summary": "지난주 월요일, 주요 매체에서는 LLM의 경량화 추세와 Llama 3 8B 모델의 활용법에 대한 논의가 주를 이루었습니다.",
+  "news": [
+    {
+      "id": "geeknews_archived_1",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "title_ko": "Llama 3 8B 로컬 구동 가이드 화제",
+      "summary_ko": "적은 메모리로도 뛰어난 성능을 내는 라마 3의 최적화 가이드가 공유되어 큰 인기를 끌었습니다.",
+      "url": "https://news.hada.io/topic?id=30000",
+      "sources": ["GeekNews"]
+    },
+    {
+      "id": "x_archived_1",
+      "category_id": "x",
+      "category_name": "X (Twitter)",
+      "title_ko": "AI 생성 이미지 워터마크 의무화 법안 발의",
+      "summary_ko": "미국 내 딥페이크 방지를 위한 워터마크 강제화 법안이 제출되어 X 생태계에서 갑론을박이 일어났습니다.",
+      "url": "https://x.com/techpolicy/status/1700000000000000001",
+      "sources": ["X @techpolicy"]
+    }
+  ]
+}

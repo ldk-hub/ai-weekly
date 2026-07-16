@@ -1,66 +1,513 @@
 {
-  "generated": "2026-07-15",
-  "version": "v2026.07.15",
+  "generated_at": "2026-07-16T05:02:48.603Z",
+  "version": "v2026.07.16",
+  "summary": "오늘의 주요 AI 트렌드: '「Machine Learning Study 혼자 해보기」' 등을 포함하여 총 24건의 핫이슈가 수집되었습니다.",
   "news": [
     {
-      "id": "news_001",
-      "platform": "X",
-      "title_ko": "OpenAI, GPT-4.5 아키텍처 공식 발표",
-      "summary_ko": "OpenAI가 마침내 10조 개의 파라미터를 가진 희소(Sparse) MoE 기반의 GPT-4.5 모델 아키텍처를 공개했습니다. AI 개발 생태계에 큰 변화를 예고하며, 개발자들의 엄청난 관심을 모으고 있습니다.",
-      "score": 95,
+      "id": "geeknews_178417816856198",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "headline": "「Machine Learning Study 혼자 해보기」",
+      "summary_ko": "1. 문서의 목적과 구성 이 글은 머신러닝·딥러닝을 독학하려는 사람들을 위해 강의, 블로그, GitHub, 논문, 데이터셋 등을 체계적으로 모은 학습 ...",
+      "body_ko": "1. 문서의 목적과 구성 이 글은 머신러닝·딥러닝을 독학하려는 사람들을 위해 강의, 블로그, GitHub, 논문, 데이터셋 등을 체계적으로 모은 학습 ...\n상세 본문: 「Machine Learning Study 혼자 해보기」\n1. 문서의 목적과 구성 이 글은 머신러닝·딥러닝을 독학하려는 사람들을 위해 강의, 블로그, GitHub, 논문, 데이터셋 등을 체계적으로 모은 학습 ...",
+      "author": "baeba",
+      "publish_date": "2026-07-16T00:47:55.000Z",
       "tags": [
-        "OpenAI",
-        "GPT-4.5",
-        "LLM"
+        "트렌드",
+        "GeekNews"
       ],
-      "url": "https://x.com/OpenAI/status/123456789",
+      "multimedia": [],
+      "url": "https://github.com/teddylee777/machine-learning",
+      "related_articles": [],
+      "sources": [
+        "GeekNews"
+      ]
+    },
+    {
+      "id": "geeknews_1784178168561625",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "headline": "소비자 앱을 구축하고 확장하는 법",
+      "summary_ko": "Cal AI가 18개월 만에 Health & Fitness 부문 1위 앱으로 성장하는 과정에서, 소비자 앱 확장의 가장 큰 병목은 제품 개발보다 유통(distribution)...",
+      "body_ko": "Cal AI가 18개월 만에 Health & Fitness 부문 1위 앱으로 성장하는 과정에서, 소비자 앱 확장의 가장 큰 병목은 제품 개발보다 유통(distribution)...\n상세 본문: 소비자 앱을 구축하고 확장하는 법\nCal AI가 18개월 만에 Health & Fitness 부문 1위 앱으로 성장하는 과정에서, 소비자 앱 확장의 가장 큰 병목은 제품 개발보다 유통(distribution)...",
+      "author": "GN⁺",
+      "publish_date": "2026-07-16T00:48:01.000Z",
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "url": "https://x.com/jakecastilloooo/status/2069417525947912540",
+      "related_articles": [],
+      "sources": [
+        "GeekNews"
+      ]
+    },
+    {
+      "id": "geeknews_178417816856121",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "headline": "Inkling: Thinking Machines Lab의 오픈 웨이트 모델",
+      "summary_ko": "처음부터 학습해 전체 가중치를 공개한 Inkling은 총 975B·활성 41B 파라미터의 MoE Transformer로, 최대 1M 토큰 문맥과 텍스트·이미지·오디오 기...",
+      "body_ko": "처음부터 학습해 전체 가중치를 공개한 Inkling은 총 975B·활성 41B 파라미터의 MoE Transformer로, 최대 1M 토큰 문맥과 텍스트·이미지·오디오 기...\n상세 본문: Inkling: Thinking Machines Lab의 오픈 웨이트 모델\n처음부터 학습해 전체 가중치를 공개한 Inkling은 총 975B·활성 41B 파라미터의 MoE Transformer로, 최대 1M 토큰 문맥과 텍스트·이미지·오디오 기...",
+      "author": "GN⁺",
+      "publish_date": "2026-07-16T00:43:28.000Z",
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "url": "https://thinkingmachines.ai/news/introducing-inkling/",
+      "related_articles": [],
+      "sources": [
+        "GeekNews"
+      ]
+    },
+    {
+      "id": "geeknews_1784178168561293",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "headline": "ChatGPT는 실제로 어떻게 출처를 고르는가 (네트워크 트래픽 분석)",
+      "summary_ko": "로그인된 Pro 계정 하나에서 며칠간 수집한 약 1,240개 출처 레코드를 분석해, 최종 답변만으로는 볼 수 없는 출처 파이프라인·질의 분류·검색어·...",
+      "body_ko": "로그인된 Pro 계정 하나에서 며칠간 수집한 약 1,240개 출처 레코드를 분석해, 최종 답변만으로는 볼 수 없는 출처 파이프라인·질의 분류·검색어·...\n상세 본문: ChatGPT는 실제로 어떻게 출처를 고르는가 (네트워크 트래픽 분석)\n로그인된 Pro 계정 하나에서 며칠간 수집한 약 1,240개 출처 레코드를 분석해, 최종 답변만으로는 볼 수 없는 출처 파이프라인·질의 분류·검색어·...",
+      "author": "GN⁺",
+      "publish_date": "2026-07-16T00:38:59.000Z",
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "url": "https://suganthan.com/blog/how-chatgpt-picks-sources/",
+      "related_articles": [],
+      "sources": [
+        "GeekNews"
+      ]
+    },
+    {
+      "id": "geeknews_1784178168561380",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "headline": "noisia - PostgreSQL용 유해한 워크로드 생성기",
+      "summary_ko": "연결 고갈/잠금 대기/교착 상태/OOM/디스크 부족 같은 장애 상황을 의도적으로 만들어 테스트하는 실패 주입 도구 유휴 트랜잭션/롤백/교착 상태/...",
+      "body_ko": "연결 고갈/잠금 대기/교착 상태/OOM/디스크 부족 같은 장애 상황을 의도적으로 만들어 테스트하는 실패 주입 도구 유휴 트랜잭션/롤백/교착 상태/...\n상세 본문: noisia - PostgreSQL용 유해한 워크로드 생성기\n연결 고갈/잠금 대기/교착 상태/OOM/디스크 부족 같은 장애 상황을 의도적으로 만들어 테스트하는 실패 주입 도구 유휴 트랜잭션/롤백/교착 상태/...",
+      "author": "xguru",
+      "publish_date": "2026-07-16T00:31:02.000Z",
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "url": "https://github.com/lesovsky/noisia",
+      "related_articles": [],
+      "sources": [
+        "GeekNews"
+      ]
+    },
+    {
+      "id": "geeknews_1784178168561634",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "headline": "SQLite에도 Rust 스타일의 에디션이 필요함",
+      "summary_ko": "SQLite는 로컬 저장소와 임베디드 프로젝트에 널리 쓰이는 자체 완결형 RDBMS지만, 하위 호환성 때문에 안전성과 성능에 불리한 기본값을 유지하고...",
+      "body_ko": "SQLite는 로컬 저장소와 임베디드 프로젝트에 널리 쓰이는 자체 완결형 RDBMS지만, 하위 호환성 때문에 안전성과 성능에 불리한 기본값을 유지하고...\n상세 본문: SQLite에도 Rust 스타일의 에디션이 필요함\nSQLite는 로컬 저장소와 임베디드 프로젝트에 널리 쓰이는 자체 완결형 RDBMS지만, 하위 호환성 때문에 안전성과 성능에 불리한 기본값을 유지하고...",
+      "author": "GN⁺",
+      "publish_date": "2026-07-16T00:06:58.000Z",
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "url": "https://mort.coffee/home/sqlite-editions/",
+      "related_articles": [],
+      "sources": [
+        "GeekNews"
+      ]
+    },
+    {
+      "id": "geeknews_1784178168561800",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "headline": "Hackney 라이딩 서비스 비교 앱",
+      "summary_ko": "다양한 라이딩앱을 연결해서 하나의 앱으로 비용, 경로 등을 비교해볼 수 있는 앱입니다. 어떻게 앱스토어 심사를 통과했는지가 제일 궁금하네요.",
+      "body_ko": "다양한 라이딩앱을 연결해서 하나의 앱으로 비용, 경로 등을 비교해볼 수 있는 앱입니다. 어떻게 앱스토어 심사를 통과했는지가 제일 궁금하네요.\n상세 본문: Hackney 라이딩 서비스 비교 앱\n다양한 라이딩앱을 연결해서 하나의 앱으로 비용, 경로 등을 비교해볼 수 있는 앱입니다. 어떻게 앱스토어 심사를 통과했는지가 제일 궁금하네요.",
+      "author": "sungchi",
+      "publish_date": "2026-07-16T04:07:45.000Z",
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "url": "https://hackney.app/",
+      "related_articles": [],
+      "sources": [
+        "GeekNews"
+      ]
+    },
+    {
+      "id": "geeknews_178417816856130",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "headline": "앤트로픽·블랙스톤, 15억 달러 규모 &#039;AI 구현&#039; 합작사 Ode 출범",
+      "summary_ko": "Anthropic, Blackstone, Hellman & Friedman 3사가 엔터프라이즈 AI 구현 전문 회사 &quot;Ode with Anthropic&quot;을 7월 15일 정식 공개함. 5월에 결성된 ...",
+      "body_ko": "Anthropic, Blackstone, Hellman & Friedman 3사가 엔터프라이즈 AI 구현 전문 회사 &quot;Ode with Anthropic&quot;을 7월 15일 정식 공개함. 5월에 결성된 ...\n상세 본문: 앤트로픽·블랙스톤, 15억 달러 규모 &#039;AI 구현&#039; 합작사 Ode 출범\nAnthropic, Blackstone, Hellman & Friedman 3사가 엔터프라이즈 AI 구현 전문 회사 &quot;Ode with Anthropic&quot;을 7월 15일 정식 공개함. 5월에 결성된 ...",
+      "author": "humblebee",
+      "publish_date": "2026-07-16T04:07:41.000Z",
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "url": "https://techcrunch.com/2026/07/15/anthropic-blackstone-bet-the-next-trillion-dollar-ai-business-is-implementation-not-models/",
+      "related_articles": [],
+      "sources": [
+        "GeekNews"
+      ]
+    },
+    {
+      "id": "geeknews_1784178168561707",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "headline": "Databricks가 자체 코딩 AI 벤치마크를 만든 방법과 결과",
+      "summary_ko": "공개된 코딩 벤치마크는 회사별 상황에 딱 맞지 않고 치팅이 가능한 것이 문제 Databricks에서 실제 수행한 과제, 언어로 벤치마크를 만들어 평가 ...",
+      "body_ko": "공개된 코딩 벤치마크는 회사별 상황에 딱 맞지 않고 치팅이 가능한 것이 문제 Databricks에서 실제 수행한 과제, 언어로 벤치마크를 만들어 평가 ...\n상세 본문: Databricks가 자체 코딩 AI 벤치마크를 만든 방법과 결과\n공개된 코딩 벤치마크는 회사별 상황에 딱 맞지 않고 치팅이 가능한 것이 문제 Databricks에서 실제 수행한 과제, 언어로 벤치마크를 만들어 평가 ...",
+      "author": "sungchi",
+      "publish_date": "2026-07-16T03:51:39.000Z",
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "url": "https://www.databricks.com/blog/benchmarking-coding-agents-databricks-multi-million-line-codebase",
+      "related_articles": [],
+      "sources": [
+        "GeekNews"
+      ]
+    },
+    {
+      "id": "geeknews_1784178168562395",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "headline": "Show GN: KafkaPilot - Apache Kafka 데스크톱 클라이언트를 만들어봤습니다.",
+      "summary_ko": "안녕하세요. 최근 몇 달 동안 제가 사용할 KafkaPilot이라는 Apache Kafka 데스크톱 클라이언트를 개발했습니다. Kafka를 사용하다 보면 토픽을 조...",
+      "body_ko": "안녕하세요. 최근 몇 달 동안 제가 사용할 KafkaPilot이라는 Apache Kafka 데스크톱 클라이언트를 개발했습니다. Kafka를 사용하다 보면 토픽을 조...\n상세 본문: Show GN: KafkaPilot - Apache Kafka 데스크톱 클라이언트를 만들어봤습니다.\n안녕하세요. 최근 몇 달 동안 제가 사용할 KafkaPilot이라는 Apache Kafka 데스크톱 클라이언트를 개발했습니다. Kafka를 사용하다 보면 토픽을 조...",
+      "author": "pjhun0412",
+      "publish_date": "2026-07-16T03:16:25.000Z",
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "url": "https://news.hada.io/topic?id=31487",
+      "related_articles": [],
+      "sources": [
+        "GeekNews"
+      ]
+    },
+    {
+      "id": "geeknews_1784178168562155",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "headline": "Show GN: 논문/문서자료 인쇄비가 아까워서 여백제거 모아찍기 변환기를 직접 만들었습니다",
+      "summary_ko": "안녕하세요, 문서와 논문을 매일 인쇄하다가 종이값이 아까워서 직접 만든 Windows용 PDF 여백제거 N-up 변환기입니다. 왜 만들었나 프린터 드라이...",
+      "body_ko": "안녕하세요, 문서와 논문을 매일 인쇄하다가 종이값이 아까워서 직접 만든 Windows용 PDF 여백제거 N-up 변환기입니다. 왜 만들었나 프린터 드라이...\n상세 본문: Show GN: 논문/문서자료 인쇄비가 아까워서 여백제거 모아찍기 변환기를 직접 만들었습니다\n안녕하세요, 문서와 논문을 매일 인쇄하다가 종이값이 아까워서 직접 만든 Windows용 PDF 여백제거 N-up 변환기입니다. 왜 만들었나 프린터 드라이...",
+      "author": "finepdf",
+      "publish_date": "2026-07-16T02:30:03.000Z",
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "url": "https://news.hada.io/topic?id=31486",
+      "related_articles": [],
+      "sources": [
+        "GeekNews"
+      ]
+    },
+    {
+      "id": "geeknews_1784178168562349",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "headline": "Show GN: 뉴스레터 구독만 해두고 안 읽고 있지 않나요?",
+      "summary_ko": "코그니가 대신 최신 해외 AI·개발 뉴스레터를 요약해드릴게요. 해외 뉴스레터에서 중요한 소식만 가져와, 핵심만 한눈에 볼 수 있게 정리합니다.",
+      "body_ko": "코그니가 대신 최신 해외 AI·개발 뉴스레터를 요약해드릴게요. 해외 뉴스레터에서 중요한 소식만 가져와, 핵심만 한눈에 볼 수 있게 정리합니다.\n상세 본문: Show GN: 뉴스레터 구독만 해두고 안 읽고 있지 않나요?\n코그니가 대신 최신 해외 AI·개발 뉴스레터를 요약해드릴게요. 해외 뉴스레터에서 중요한 소식만 가져와, 핵심만 한눈에 볼 수 있게 정리합니다.",
+      "author": "dnfbd",
+      "publish_date": "2026-07-15T20:51:25.000Z",
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "url": "https://news.hada.io/topic?id=31468",
+      "related_articles": [],
+      "sources": [
+        "GeekNews"
+      ]
+    },
+    {
+      "id": "geeknews_1784178168562529",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "headline": "Show GN: Claude 공식 업타임 99.55%인데 6월 인시던트 45건 — 6월 AI 서비스 신뢰도 리포트",
+      "summary_ko": "AIWatch는 Claude·OpenAI·Gemini 등 41개 AI 서비스(LLM API·코딩 에이전트·음성·인프라·AI 앱)의 업타임·인시던트·지연을 실시간으로 모니터링합...",
+      "body_ko": "AIWatch는 Claude·OpenAI·Gemini 등 41개 AI 서비스(LLM API·코딩 에이전트·음성·인프라·AI 앱)의 업타임·인시던트·지연을 실시간으로 모니터링합...\n상세 본문: Show GN: Claude 공식 업타임 99.55%인데 6월 인시던트 45건 — 6월 AI 서비스 신뢰도 리포트\nAIWatch는 Claude·OpenAI·Gemini 등 41개 AI 서비스(LLM API·코딩 에이전트·음성·인프라·AI 앱)의 업타임·인시던트·지연을 실시간으로 모니터링합...",
+      "author": "p2c2kbf",
+      "publish_date": "2026-07-16T01:47:47.000Z",
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "url": "https://news.hada.io/topic?id=31485",
+      "related_articles": [],
+      "sources": [
+        "GeekNews"
+      ]
+    },
+    {
+      "id": "geeknews_1784178168562783",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "headline": "OpenAI, EU 법원 상표권 분쟁에서 패소",
+      "summary_ko": "EU 일반법원은 일부 소프트웨어·IT 상품 및 서비스에서 OPENAI가 제품 특성을 나타내는 서술적 용어이므로 상표 보호에 필요한 식별력이 없다고 판...",
+      "body_ko": "EU 일반법원은 일부 소프트웨어·IT 상품 및 서비스에서 OPENAI가 제품 특성을 나타내는 서술적 용어이므로 상표 보호에 필요한 식별력이 없다고 판...\n상세 본문: OpenAI, EU 법원 상표권 분쟁에서 패소\nEU 일반법원은 일부 소프트웨어·IT 상품 및 서비스에서 OPENAI가 제품 특성을 나타내는 서술적 용어이므로 상표 보호에 필요한 식별력이 없다고 판...",
+      "author": "GN⁺",
+      "publish_date": "2026-07-16T01:31:33.000Z",
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "url": "https://dpa-international.com/economics/urn:newsml:dpa.com:20090101:260715-930-389143/",
+      "related_articles": [],
+      "sources": [
+        "GeekNews"
+      ]
+    },
+    {
+      "id": "geeknews_1784178168562331",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "headline": "Stripe와 Advent, PayPal을 530억 달러 이상에 공동 인수 제안",
+      "summary_ko": "Stripe와 사모펀드 Advent International이 PayPal을 주당 60.50달러, 기업가치 530억 달러 이상에 공동 인수하겠다는 제안을 제출함 두 회사는 Pa...",
+      "body_ko": "Stripe와 사모펀드 Advent International이 PayPal을 주당 60.50달러, 기업가치 530억 달러 이상에 공동 인수하겠다는 제안을 제출함 두 회사는 Pa...\n상세 본문: Stripe와 Advent, PayPal을 530억 달러 이상에 공동 인수 제안\nStripe와 사모펀드 Advent International이 PayPal을 주당 60.50달러, 기업가치 530억 달러 이상에 공동 인수하겠다는 제안을 제출함 두 회사는 Pa...",
+      "author": "GN⁺",
+      "publish_date": "2026-07-16T01:30:13.000Z",
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "url": "https://www.reuters.com/business/finance/stripe-advent-offer-buy-paypal-more-than-53-billion-sources-say-2026-07-15/",
+      "related_articles": [],
+      "sources": [
+        "GeekNews"
+      ]
+    },
+    {
+      "id": "news_x_001",
+      "category_id": "x",
+      "category_name": "X (Twitter)",
+      "headline": "GPT-4.5 아키텍처 구조 유출, 10T 파라미터 희소 MoE 모델 도입",
+      "summary_ko": "오픈AI의 GPT-4.5가 10조 개(10T)의 파라미터를 갖춘 희소 MoE 구조를 택했다는 소식이 유출되며 AI 개발자들 사이에서 큰 기대를 모으고 있습니다.",
+      "body_ko": "오픈AI의 GPT-4.5가 10조 개(10T)의 파라미터를 갖춘 희소 MoE 구조를 택했다는 소식이 유출되며 AI 개발자들 사이에서 큰 기대를 모으고 있습니다.\n상세 본문: GPT-4.5 Architecture finally revealed. We are moving towards a sparse MoE model with 10T parameters. Exciting times for AI developers! #GPT45 #OpenAI",
       "author": "OpenAI",
-      "is_official": true
+      "publish_date": "2026-07-15T07:02:48.562Z",
+      "tags": [
+        "AI",
+        "LLM",
+        "OpenAI"
+      ],
+      "multimedia": [
+        "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800"
+      ],
+      "url": "https://x.com/OpenAI/status/1780000000000000001",
+      "related_articles": [
+        {
+          "title": "Inside OpenAI's new model",
+          "url": "https://x.com/OpenAI/status/1780000000000000002"
+        }
+      ],
+      "sources": [
+        "X"
+      ]
     },
     {
-      "id": "news_004",
-      "platform": "Threads",
-      "title_ko": "안드레이 카파시의 AI 시스템 전망",
-      "summary_ko": "초기 LLM 구축은 쉬워졌지만, 복잡한 시스템 단위의 오케스트레이션 난이도는 높아지고 있습니다. 이에 따라 여러 모델이 상호작용하는 복합 AI 시스템(Compounding AI)이 새로운 트렌드로 자리잡고 있습니다.",
-      "score": 88,
+      "id": "news_x_002",
+      "category_id": "x",
+      "category_name": "X (Twitter)",
+      "headline": "일론 머스크, 그록(Grok) 2.0 배포 개시 선언",
+      "summary_ko": "X(트위터)의 실시간 데이터를 무제한으로 학습한 검열 없는 Grok 2.0 모델이 배포를 시작했으며, 다수의 벤치마크에서 GPT-4를 능가한다는 소식입니다.",
+      "body_ko": "X(트위터)의 실시간 데이터를 무제한으로 학습한 검열 없는 Grok 2.0 모델이 배포를 시작했으며, 다수의 벤치마크에서 GPT-4를 능가한다는 소식입니다.\n상세 본문: Grok 2.0 is now rolling out. It has completely uncensored real-time access to the X firehose and out-performs GPT-4 on multiple benchmarks.",
+      "author": "elonmusk",
+      "publish_date": "2026-07-16T00:02:48.562Z",
       "tags": [
-        "Andrej Karpathy",
-        "AI Systems",
-        "Trends"
+        "Grok",
+        "xAI"
       ],
-      "url": "https://threads.net/t/xyz123",
-      "author": "karpathy",
-      "is_official": true
+      "multimedia": [],
+      "url": "https://x.com/elonmusk/status/1780000000000000002",
+      "related_articles": [],
+      "sources": [
+        "X"
+      ]
     },
     {
-      "id": "news_002",
-      "platform": "GeekNews",
-      "title_ko": "Claude 3.5 Sonnet 프롬프트 캐싱 비용 인하",
-      "summary_ko": "Anthropic이 Claude 3.5 Sonnet의 코딩 성능을 극대화하는 새로운 가이드를 배포함과 동시에 프롬프트 캐싱 비용을 인하했습니다. 개발자 친화적인 행보가 주목받고 있습니다.",
-      "score": 82,
+      "id": "news_x_003",
+      "category_id": "x",
+      "category_name": "X (Twitter)",
+      "headline": "얀 르쿤(Yann LeCun), 'LLM은 AGI가 아니다' 재차 강조",
+      "summary_ko": "메타의 수석 과학자 얀 르쿤이 현재의 자기회귀(Auto-regressive) 기반 LLM은 곧 한계에 도달할 것이며, AGI를 위해선 목적 기반 아키텍처가 필요하다고 역설했습니다.",
+      "body_ko": "메타의 수석 과학자 얀 르쿤이 현재의 자기회귀(Auto-regressive) 기반 LLM은 곧 한계에 도달할 것이며, AGI를 위해선 목적 기반 아키텍처가 필요하다고 역설했습니다.\n상세 본문: LLMs are not AGI. We need objective-driven AI architecture to reach human-level intelligence. Auto-regressive models will plateau very soon.",
+      "author": "ylecun",
+      "publish_date": "2026-07-15T19:02:48.562Z",
       "tags": [
-        "Anthropic",
-        "Claude 3.5",
-        "Pricing"
+        "AGI",
+        "Meta"
       ],
-      "url": "https://news.hada.io/topic?id=12345",
-      "author": "user_ai_geek",
-      "is_official": false
+      "multimedia": [
+        "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=800"
+      ],
+      "url": "https://x.com/ylecun/status/1780000000000000003",
+      "related_articles": [],
+      "sources": [
+        "X"
+      ]
     },
     {
-      "id": "news_003",
-      "platform": "Instagram",
-      "title_ko": "미드저니 v7 초기 테스트 이미지 유출",
-      "summary_ko": "놀라운 텍스처와 프롬프트 이해도를 보여주는 Midjourney v7의 초기 테스트 이미지가 유출되었습니다. 이미지 생성 AI의 새로운 기준이 될 것으로 기대됩니다.",
-      "score": 75,
-      "tags": [
-        "Midjourney",
-        "Image Generation",
-        "v7"
-      ],
-      "url": "https://instagram.com/p/abcdefg",
+      "id": "news_insta_001",
+      "category_id": "instagram",
+      "category_name": "Instagram",
+      "headline": "미드저니(Midjourney) v7 초기 테스트 이미지 유출",
+      "summary_ko": "놀라운 텍스처 표현력과 프롬프트 이해도를 보여주는 미드저니 7버전의 초기 테스트 이미지가 유출되어 크리에이터들 사이에서 화제가 되고 있습니다.",
+      "body_ko": "놀라운 텍스처 표현력과 프롬프트 이해도를 보여주는 미드저니 7버전의 초기 테스트 이미지가 유출되어 크리에이터들 사이에서 화제가 되고 있습니다.\n상세 본문: Midjourney v7 Sneak Peek! 미드저니 7버전 테스트 이미지 유출. 놀라운 텍스처와 프롬프트 이해도. (Swipe to see images)",
       "author": "ai_daily_trends",
-      "is_official": false
+      "publish_date": "2026-07-15T09:02:48.562Z",
+      "tags": [
+        "GenerativeArt",
+        "Midjourney"
+      ],
+      "multimedia": [
+        "https://images.unsplash.com/photo-1682687982501-1e58f81014e3?auto=format&fit=crop&q=80&w=800"
+      ],
+      "url": "https://instagram.com/p/CxaBcdEfGhi1",
+      "related_articles": [],
+      "sources": [
+        "Instagram"
+      ]
+    },
+    {
+      "id": "news_insta_002",
+      "category_id": "instagram",
+      "category_name": "Instagram",
+      "headline": "Figma AI 업데이트: 5초 만에 UI 시스템 구축",
+      "summary_ko": "피그마(Figma)의 새로운 AI 기능이 UI/UX 디자인의 패러다임을 바꿨습니다. 프롬프트 하나로 전체 UI 시스템을 생성하는 릴스가 큰 인기를 끌고 있습니다.",
+      "body_ko": "피그마(Figma)의 새로운 AI 기능이 UI/UX 디자인의 패러다임을 바꿨습니다. 프롬프트 하나로 전체 UI 시스템을 생성하는 릴스가 큰 인기를 끌고 있습니다.\n상세 본문: How I use Figma AI to generate entire UI systems in 5 seconds. The latest update just changed UI/UX design forever. Watch the reel!",
+      "author": "design_ai_hub",
+      "publish_date": "2026-07-16T00:02:48.562Z",
+      "tags": [
+        "Figma",
+        "UIUX",
+        "Design"
+      ],
+      "multimedia": [
+        "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=800"
+      ],
+      "url": "https://instagram.com/p/CxaBcdEfGhi2",
+      "related_articles": [],
+      "sources": [
+        "Instagram"
+      ]
+    },
+    {
+      "id": "news_insta_003",
+      "category_id": "instagram",
+      "category_name": "Instagram",
+      "headline": "Runway Gen-3 Alpha, 텍스트-비디오의 영화적 극사실주의 달성",
+      "summary_ko": "런웨이의 최신 모델 Gen-3 Alpha가 생성한 사이버펑크 도시 비디오가 공개되었습니다. 영화에 가까운 극사실주의 품질로 비디오 생성 AI의 도약을 알렸습니다.",
+      "body_ko": "런웨이의 최신 모델 Gen-3 Alpha가 생성한 사이버펑크 도시 비디오가 공개되었습니다. 영화에 가까운 극사실주의 품질로 비디오 생성 AI의 도약을 알렸습니다.\n상세 본문: Runway Gen-3 Alpha is mind blowing! Text-to-video has finally reached cinematic photorealism. Prompt: A cyberpunk city in the rain, ultra detailed.",
+      "author": "ai_art_gallery",
+      "publish_date": "2026-07-15T12:02:48.562Z",
+      "tags": [
+        "Runway",
+        "VideoAI"
+      ],
+      "multimedia": [
+        "https://images.unsplash.com/photo-1515630278258-407f66498911?auto=format&fit=crop&q=80&w=800"
+      ],
+      "url": "https://instagram.com/p/CxaBcdEfGhi3",
+      "related_articles": [],
+      "sources": [
+        "Instagram"
+      ]
+    },
+    {
+      "id": "news_threads_001",
+      "category_id": "threads",
+      "category_name": "Threads",
+      "headline": "LLM 오케스트레이션의 복잡성과 '컴파운딩 시스템' 트렌드",
+      "summary_ko": "안드레이 카파시(Andrej Karpathy)가 스크래치부터 LLM을 구축하는 것은 쉬워졌으나 오케스트레이션이 복잡해졌으며, 이제는 복합 AI 시스템(Compounding AI)이 대세라고 평가했습니다.",
+      "body_ko": "안드레이 카파시(Andrej Karpathy)가 스크래치부터 LLM을 구축하는 것은 쉬워졌으나 오케스트레이션이 복잡해졌으며, 이제는 복합 AI 시스템(Compounding AI)이 대세라고 평가했습니다.\n상세 본문: Building LLMs from scratch is getting easier but also more complex at the orchestration level. The new trend is compounding AI systems.",
+      "author": "karpathy",
+      "publish_date": "2026-07-15T16:02:48.562Z",
+      "tags": [
+        "LLM",
+        "Engineering"
+      ],
+      "multimedia": [],
+      "url": "https://threads.net/t/CyaCdeFgHiJ1",
+      "related_articles": [],
+      "sources": [
+        "Threads",
+        "X"
+      ]
+    },
+    {
+      "id": "news_threads_002",
+      "category_id": "threads",
+      "category_name": "Threads",
+      "headline": "프롬프트 엔지니어링의 종말, '플로우(Flow) 엔지니어링' 부상",
+      "summary_ko": "2026 AI 엔지니어 서밋의 핵심 화두는 에이전트 구축 시 단순 프롬프팅이 아닌 '플로우(Flow) 엔지니어링'이 새로운 표준으로 자리잡았다는 점입니다.",
+      "body_ko": "2026 AI 엔지니어 서밋의 핵심 화두는 에이전트 구축 시 단순 프롬프팅이 아닌 '플로우(Flow) 엔지니어링'이 새로운 표준으로 자리잡았다는 점입니다.\n상세 본문: AI Engineer Summit 2026 was incredible. The biggest takeaway: Prompt engineering is dead, Flow engineering is the new standard for agents.",
+      "author": "swyx",
+      "publish_date": "2026-07-15T15:02:48.562Z",
+      "tags": [
+        "Agents",
+        "AI_Summit"
+      ],
+      "multimedia": [],
+      "url": "https://threads.net/t/CyaCdeFgHiJ2",
+      "related_articles": [
+        {
+          "title": "Flow Engineering Deep Dive",
+          "url": "https://threads.net/t/CyaCdeFgHiJ2_2"
+        }
+      ],
+      "sources": [
+        "Threads"
+      ]
+    },
+    {
+      "id": "news_threads_003",
+      "category_id": "threads",
+      "category_name": "Threads",
+      "headline": "LangChain 1.0 정식 출시: 10배 빠른 코어 런타임",
+      "summary_ko": "랭체인(LangChain) 1.0이 정식으로 배포되었습니다. 코어를 전면 재작성하여 타입 안정성을 확보하고 속도를 10배 향상시킨 마이그레이션 가이드가 화제입니다.",
+      "body_ko": "랭체인(LangChain) 1.0이 정식으로 배포되었습니다. 코어를 전면 재작성하여 타입 안정성을 확보하고 속도를 10배 향상시킨 마이그레이션 가이드가 화제입니다.\n상세 본문: LangChain 1.0 is officially out. We've rewritten the core to be 10x faster and strictly typed. Migration guide is in the bio link.",
+      "author": "langchain_ai",
+      "publish_date": "2026-07-15T11:02:48.562Z",
+      "tags": [
+        "LangChain",
+        "Framework"
+      ],
+      "multimedia": [
+        "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800"
+      ],
+      "url": "https://threads.net/t/CyaCdeFgHiJ3",
+      "related_articles": [],
+      "sources": [
+        "Threads",
+        "GeekNews"
+      ]
     }
   ]
 }
