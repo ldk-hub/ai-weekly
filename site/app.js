@@ -652,7 +652,7 @@ const CRITERIA_HTML = `
           <span class="cr-axis-name">Community Buzz</span>
           <span class="cr-axis-pct">30%</span>
         </div>
-        <p class="cr-axis-desc">HN · Reddit · dev.to · GeekNews · velog 언급의 가중 합. 다중 플랫폼 동시 언급 +15, 프론트 도달 +10.</p>
+        <p class="cr-axis-desc">HN · dev.to · GeekNews · velog · X 언급의 가중 합. 2개+ 플랫폼 +10, 3개+ +15, HN 프론트 도달 +10. (Reddit은 현재 수집 불가로 제외)</p>
       </div>
       <div class="cr-axis">
         <div class="cr-axis-head">
@@ -681,8 +681,9 @@ const CRITERIA_HTML = `
         <div class="cr-vs-rule">하나라도 충족하면 OK</div>
         <ul>
           <li>생성 30일 이내</li>
-          <li>velocity ≥ 60 + 최근 14일 커뮤니티 언급 3건+</li>
-          <li>HN/Reddit 프론트페이지 최근 7일 내 도달</li>
+          <li>velocity ≥ 60 + 최근 14일 커뮤니티 언급 2건+</li>
+          <li>velocity ≥ 80 (폭발 성장) — 출처 무관 <span style="opacity:.7">⚠️ 단일출처 표기</span></li>
+          <li>HN 프론트페이지 최근 7일 내 도달</li>
         </ul>
       </div>
       <div class="cr-vs-card cr-classic">
@@ -714,7 +715,7 @@ const CRITERIA_HTML = `
 
   <p class="cr-foot">각 섹션 상위 12개 선별 · 동점은 최근 업데이트순 · 채점 미달은 다음 주 재검토</p>
 
-  <a class="m-cta" href="https://github.com/ldk-hub-Inc/claude-trend" target="_blank" rel="noopener">
+  <a class="m-cta" href="https://github.com/ldk-hub/ai-weekly" target="_blank" rel="noopener">
     소스 코드 보기 →
   </a>
 `;
