@@ -27,26 +27,38 @@
   
     <g transform="translate(60, 290)">
       <rect x="0" y="0" width="347" height="280" rx="20" fill="#ffeca0" stroke="#0e0e0e" stroke-width="1.5"/>
-      <text x="24" y="40" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="2">#01 · HARNESS</text>
-      <text x="24" y="92" font-size="28" font-weight="700" fill="#0e0e0e" letter-spacing="-0.5">Claude Code - 터…</text>
-      <text x="24" y="138" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">이 생태계 전체의 시작점 - Anthropic 공식 CLI</text>
+      <text x="24" y="40" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="2">#01 · SKILL</text>
+      <text x="24" y="92" font-size="28" font-weight="700" fill="#0e0e0e" letter-spacing="-0.5">Hermes Agency O…</text>
+      <text x="24" y="138" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">Claude Code 멀티에이전트를 오케스트라에 비유한 워크플로우 …</text>
       <text x="24" y="172" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85"></text>
 
       <g transform="translate(24, 220)">
-        <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">anthropics/claude-code</text>
-        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 138k</text>
+        <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">Sakshxm1/hermes-agency…</text>
+        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 155</text>
       </g>
     </g>
     <g transform="translate(427, 290)">
       <rect x="0" y="0" width="347" height="280" rx="20" fill="#d8edd0" stroke="#0e0e0e" stroke-width="1.5"/>
-      <text x="24" y="40" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="2">#02 · HARNESS</text>
-      <text x="24" y="92" font-size="28" font-weight="700" fill="#0e0e0e" letter-spacing="-0.5">ECC - 에이전트 하네스 …</text>
-      <text x="24" y="138" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">67개 에이전트 + 278개 스킬을 묶은 하네스 운영체제</text>
+      <text x="24" y="40" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="2">#02 · AGENT</text>
+      <text x="24" y="92" font-size="28" font-weight="700" fill="#0e0e0e" letter-spacing="-0.5">Claude Ops Insp…</text>
+      <text x="24" y="138" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">검증자를 검증하는 MetaGuardian - 서브에이전트 6종 감사…</text>
       <text x="24" y="172" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85"></text>
 
       <g transform="translate(24, 220)">
-        <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">affaan-m/ECC</text>
-        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 231k</text>
+        <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">minetechnic20…/claude-ops-in…</text>
+        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 151</text>
+      </g>
+    </g>
+    <g transform="translate(794, 290)">
+      <rect x="0" y="0" width="347" height="280" rx="20" fill="#ffd8bd" stroke="#0e0e0e" stroke-width="1.5"/>
+      <text x="24" y="40" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="2">#03 · HARNESS</text>
+      <text x="24" y="92" font-size="28" font-weight="700" fill="#0e0e0e" letter-spacing="-0.5">ClaudeCode Work…</text>
+      <text x="24" y="138" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">테스트를 &apos;공격자와의 대화&apos;로 - 예산 제한 적대적 검증 루프</text>
+      <text x="24" y="172" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85"></text>
+
+      <g transform="translate(24, 220)">
+        <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">Frisher1/ClaudeCode-Wo…</text>
+        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 152</text>
       </g>
     </g>
 

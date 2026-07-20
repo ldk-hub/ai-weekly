@@ -4,6 +4,331 @@
   "version": "v2026.07.20",
   "rising": [
     {
+      "id": "Sakshxm1/hermes-agency-orchestrator",
+      "name": "hermes-agency-orchestrator",
+      "owner": "Sakshxm1",
+      "title_ko": "Hermes Agency Orchestrator - 멀티에이전트 오케스트레이션 가이드",
+      "official_url": "https://github.com/Sakshxm1/hermes-agency-orchestrator",
+      "repo_url": "https://github.com/Sakshxm1/hermes-agency-orchestrator",
+      "category": "skill",
+      "score": 62.0,
+      "trend_score": 62.0,
+      "stars": 155,
+      "velocity_7d": null,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/Sakshxm1/hermes-agency-orchestrator",
+          "label": "생성 22일 신상 · stars 155 · velocity_score 100"
+        }
+      ],
+      "status": "rising",
+      "low_confidence": true,
+      "catchphrase": "Claude Code 멀티에이전트를 오케스트라에 비유한 워크플로우 가이드",
+      "summary_ko": "Claude Code의 멀티에이전트 워크플로우를 '오케스트라 편성'에 비유해 설명하는 가이드형 저장소. 작업 난이도에 따라 에이전트를 Tutti·Soloist·Conductor 등급으로 라우팅해 비용을 최적화하는 'Cost Ladder'와, 목표를 실행 중 적응하는 blueprint로 바꾸는 개념을 문서로 정리한다. 실행 패키지가 아니라 HTML·문서 위주 구성이라 개념 학습·비용 설계 참고 자료에 가깝다. 이번 주 GitHub 단일 출처 신상 리포로, 급성장 예외로 편입돼 검증은 제한적이다.",
+      "key_features": [
+        "작업 난이도별 에이전트 등급 라우팅(Cost Ladder) 개념 정리",
+        "목표를 실행 중 적응하는 동적 blueprint 설명",
+        "실행 코드가 아닌 문서·가이드 중심 구성"
+      ],
+      "use_case": "멀티에이전트 비용 구조와 오케스트레이션 개념을 문서로 훑고 싶을 때. (단일 출처 신상 리포라 도입 전 실체 확인 권장)",
+      "install_hint": "설치 명령 없음 — 문서/가이드 저장소",
+      "badges": [
+        "🔥 Rising",
+        "⚠️ 단일출처"
+      ],
+      "tags": [
+        "skill",
+        "멀티에이전트",
+        "오케스트레이션",
+        "비용최적화"
+      ],
+      "thumbnail_url": "https://github.com/Sakshxm1.png"
+    },
+    {
+      "id": "minetechnic2012-lang/claude-ops-inspector",
+      "name": "claude-ops-inspector",
+      "owner": "minetechnic2012-lang",
+      "title_ko": "Claude Ops Inspector - 서브에이전트 검증 6종 세트",
+      "official_url": "https://github.com/minetechnic2012-lang/claude-ops-inspector",
+      "repo_url": "https://github.com/minetechnic2012-lang/claude-ops-inspector",
+      "category": "agent",
+      "score": 62.0,
+      "trend_score": 62.0,
+      "stars": 151,
+      "velocity_7d": null,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/minetechnic2012-lang/claude-ops-inspector",
+          "label": "생성 22일 신상 · stars 151 · velocity_score 100"
+        }
+      ],
+      "status": "rising",
+      "low_confidence": true,
+      "catchphrase": "검증자를 검증하는 MetaGuardian - 서브에이전트 6종 감사 세트",
+      "summary_ko": "코드베이스·인프라·엔드포인트 변경을 검증하는 Claude Code 서브에이전트 6종 모음. CodeGuardian(PR), NetGuardian(인프라), EndpointGuardian(Intune 정책), DependencyGuardian(공급망), LogGuardian(이벤트 상관), 그리고 다른 에이전트 설정의 정합성을 감시하는 MetaGuardian으로 구성된다. Anthropic 서브에이전트 가이드라인(결정적 컨텍스트·출력 스키마·자기점검 훅)을 따른다고 소개한다. GitHub 단일 출처 신상 리포로 검증은 제한적이다.",
+      "key_features": [
+        "PR·인프라·엔드포인트·공급망·로그 검증 서브에이전트 6종",
+        "설정 드리프트를 막는 '검증자의 검증자' MetaGuardian",
+        "컨테이너·클라우드 IDE에 마운트하는 자체완결 디렉토리 배포"
+      ],
+      "use_case": "변경 검증을 역할별 서브에이전트로 나눠 감사 파이프라인을 구성하고 싶을 때. (단일 출처 신상 리포)",
+      "install_hint": "자체완결 에이전트 디렉토리 마운트 — 별도 설치 명령 없음",
+      "badges": [
+        "🔥 Rising",
+        "⚠️ 단일출처"
+      ],
+      "tags": [
+        "agent",
+        "서브에이전트",
+        "검증",
+        "감사"
+      ],
+      "thumbnail_url": "https://github.com/minetechnic2012-lang.png"
+    },
+    {
+      "id": "Frisher1/ClaudeCode-Workflow-Lab",
+      "name": "ClaudeCode-Workflow-Lab",
+      "owner": "Frisher1",
+      "title_ko": "ClaudeCode Workflow Lab - 적대적 검증 워크플로우 커리큘럼",
+      "official_url": "https://github.com/Frisher1/ClaudeCode-Workflow-Lab",
+      "repo_url": "https://github.com/Frisher1/ClaudeCode-Workflow-Lab",
+      "category": "harness",
+      "score": 62.0,
+      "trend_score": 62.0,
+      "stars": 152,
+      "velocity_7d": null,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/Frisher1/ClaudeCode-Workflow-Lab",
+          "label": "생성 22일 신상 · stars 152 · velocity_score 100"
+        }
+      ],
+      "status": "rising",
+      "low_confidence": true,
+      "catchphrase": "테스트를 '공격자와의 대화'로 - 예산 제한 적대적 검증 루프",
+      "summary_ko": "AI 시스템을 레드팀식으로 검증하는 '적대적 검증 파이프라인' 프레임워크 겸 커리큘럼. 기대 동작을 확인하는 대신 시뮬레이션된 공격자가 약점을 탐침하는 방식으로 테스트를 재구성한다. 시간·연산·쿼리 수를 제한하는 예산 인식 루프와, 프롬프트 인젝션 방어부터 프로덕션 준비까지 다루는 15장 커리큘럼을 제공한다. 한국어를 포함한 12개 이상 언어의 로케일별 공격 전략을 지원한다고 명시한다. GitHub 단일 출처 신상 리포다.",
+      "key_features": [
+        "자원 한도 내에서 도는 예산 인식 적대적 검증 루프",
+        "프롬프트 인젝션 방어~프로덕션 준비 15장 커리큘럼",
+        "한국어 포함 12개+ 언어 로케일별 공격 전략"
+      ],
+      "use_case": "에이전트 결과를 '통과 확인'이 아니라 공격적으로 깨보며 검증하고 싶을 때. (단일 출처 신상 리포)",
+      "install_hint": "config/adversarial_profile.yaml 설정 후 샘플 검증 루프 실행 (Python 3.10+)",
+      "badges": [
+        "🔥 Rising",
+        "🇰🇷 한국어",
+        "⚠️ 단일출처"
+      ],
+      "tags": [
+        "harness",
+        "korean-ready",
+        "적대적검증",
+        "레드팀"
+      ],
+      "thumbnail_url": "https://github.com/Frisher1.png"
+    },
+    {
+      "id": "davila7/claude_subagents",
+      "name": "claude_subagents",
+      "owner": "davila7",
+      "title_ko": "Claude SubAgents - 컨텍스트 격리 서브에이전트 예제",
+      "official_url": "https://github.com/davila7/claude_subagents",
+      "repo_url": "https://github.com/davila7/claude_subagents",
+      "category": "agent",
+      "score": 61.3,
+      "trend_score": 61.3,
+      "stars": 106,
+      "velocity_7d": null,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/davila7/claude_subagents",
+          "label": "생성 29일 신상 · stars 106 · velocity_score 100"
+        }
+      ],
+      "status": "rising",
+      "low_confidence": true,
+      "catchphrase": "메인 컨텍스트를 깨끗하게 - 격리된 서브에이전트에 위임",
+      "summary_ko": "서브에이전트에 작업을 위임해 메인 에이전트의 컨텍스트 오염을 막는 방법을 보여주는 예제 저장소. 서브에이전트가 자기 격리 윈도우에서 도구를 호출하고 최종 결과만 반환하게 해 메인 대화를 깨끗하게 유지한다. 최대 5단계 중첩 서브에이전트 체인과 6단계에서의 깊이 제한 관찰자를 시연하고, dependency-tracer·ui-auditor·style-sync 같은 독립 에이전트와 프로젝트 감사용 오케스트레이션 체인을 담았다. GitHub 단일 출처 신상 리포다.",
+      "key_features": [
+        "서브에이전트 격리 윈도우로 메인 컨텍스트 오염 방지",
+        "최대 5단계 중첩 체인 + 6단계 깊이 제한 관찰자 시연",
+        "dependency-tracer·ui-auditor·style-sync 등 예제 에이전트 동봉"
+      ],
+      "use_case": "서브에이전트로 컨텍스트를 격리하는 패턴을 예제로 배우고 싶을 때. (단일 출처 신상 리포)",
+      "install_hint": ".claude/agents/ 설정 파일 참고 — 별도 설치 명령 없음",
+      "badges": [
+        "🔥 Rising",
+        "⚠️ 단일출처"
+      ],
+      "tags": [
+        "agent",
+        "서브에이전트",
+        "컨텍스트격리",
+        "예제"
+      ],
+      "thumbnail_url": "https://github.com/davila7.png"
+    },
+    {
+      "id": "cheshireyang/mindmap-mcts-skill",
+      "name": "mindmap-mcts-skill",
+      "owner": "cheshireyang",
+      "title_ko": "MindMap-MCTS - 에이전트에 '보이는 사고 트리' 심기",
+      "official_url": "https://github.com/cheshireyang/mindmap-mcts-skill",
+      "repo_url": "https://github.com/cheshireyang/mindmap-mcts-skill",
+      "category": "skill",
+      "score": 61.2,
+      "trend_score": 61.2,
+      "stars": 105,
+      "velocity_7d": null,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/cheshireyang/mindmap-mcts-skill",
+          "label": "생성 27일 신상 · stars 105 · velocity_score 100"
+        }
+      ],
+      "status": "rising",
+      "low_confidence": true,
+      "catchphrase": "선형 시행착오 대신 근거 기반 MCTS 탐색 트리로",
+      "summary_ko": "Codex·Claude Code 같은 에이전트가 복잡한 문제를 선형으로 헤매는 대신 '보이는 사고 트리 + 경량 MCTS'로 탐색하게 만드는 설치형 스킬. 분기·근거 점수·방문 횟수·노드 상태를 담은 JSON 추론 트리를 만들고, UCB(Upper Confidence Bound) 기반 몬테카를로 트리 탐색으로 다음 탐색 분기를 고른다. 트리를 Markdown·정적 HTML·인터랙티브 Markmap HTML로 시각화한다. 영문 README(중국어 병기), GitHub 단일 출처 신상 리포다.",
+      "key_features": [
+        "분기·근거점수·방문횟수 담은 JSON 추론 트리 생성",
+        "UCB 기반 경량 MCTS로 다음 탐색 분기 선택",
+        "Markdown·정적 HTML·인터랙티브 Markmap 시각화"
+      ],
+      "use_case": "에이전트가 복잡한 문제를 마구잡이로 시도하지 않고 근거 기반으로 탐색·감사하게 만들고 싶을 때. (단일 출처 신상 리포)",
+      "install_hint": "git clone git@github.com:cheshireyang/mindmap-mcts-skill.git && cd mindmap-mcts-skill && ./install-claude.sh",
+      "badges": [
+        "🔥 Rising",
+        "⚠️ 단일출처"
+      ],
+      "tags": [
+        "skill",
+        "추론트리",
+        "MCTS",
+        "시각화"
+      ],
+      "thumbnail_url": "https://github.com/cheshireyang.png"
+    },
+    {
+      "id": "YuanpingSong/ultracodex",
+      "name": "ultracodex",
+      "owner": "YuanpingSong",
+      "title_ko": "ultracodex - Claude Code 워크플로우를 Codex CLI에서 그대로",
+      "official_url": "https://github.com/YuanpingSong/ultracodex",
+      "repo_url": "https://github.com/YuanpingSong/ultracodex",
+      "category": "harness",
+      "score": 61.2,
+      "trend_score": 61.2,
+      "stars": 61,
+      "velocity_7d": null,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/YuanpingSong/ultracodex",
+          "label": "생성 17일 신상 · stars 61 · velocity_score 100"
+        }
+      ],
+      "status": "rising",
+      "low_confidence": true,
+      "catchphrase": "'에이전트를 프로그래밍 단위로' - 한 스크립트를 여러 백엔드에서 동일 실행",
+      "summary_ko": "Claude Code 워크플로우 스크립트를 수정 없이 OpenAI Codex CLI 등 다른 백엔드에서 실행하게 해주는 하네스. 백엔드를 추상화해 하나의 스크립트가 여러 프로바이더에서 동일하게 돈다. 병렬 에이전트 fleet에 작업을 분산하고 리뷰어·검증 루프로 결과 하나를 반환하는 Workflows, 기준 충족까지 반복하는 builder-verifier Loops, cron 스케줄·예산 상한·실행 이력을 갖춘 Scheduler를 제공한다. GitHub 단일 출처 신상 리포다.",
+      "key_features": [
+        "Workflows - 병렬 에이전트 fleet + 리뷰어·검증 루프",
+        "Loops - 기준 충족까지 도는 builder-verifier 루프(토큰 예산·수렴 추적)",
+        "Scheduler - cron 실행·예산 상한·자동 은퇴 조건"
+      ],
+      "use_case": "Claude Code용으로 짠 워크플로우를 Codex 등 다른 CLI에서도 그대로 굴리고 싶을 때. (단일 출처 신상 리포)",
+      "install_hint": "npm install -g ultracodex",
+      "badges": [
+        "🔥 Rising",
+        "⚠️ 단일출처"
+      ],
+      "tags": [
+        "harness",
+        "멀티백엔드",
+        "워크플로우",
+        "codex"
+      ],
+      "thumbnail_url": "https://github.com/YuanpingSong.png"
+    },
+    {
+      "id": "liigoQi/defficiency-skills",
+      "name": "defficiency-skills",
+      "owner": "liigoQi",
+      "title_ko": "Defficiency Skills - 에이전트 효율을 '낮추는' 행위예술 스킬",
+      "official_url": "https://github.com/liigoQi/defficiency-skills",
+      "repo_url": "https://github.com/liigoQi/defficiency-skills",
+      "category": "skill",
+      "score": 59.8,
+      "trend_score": 59.8,
+      "stars": 125,
+      "velocity_7d": null,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/liigoQi/defficiency-skills",
+          "label": "생성 25일 신상 · stars 125 · velocity_score 100 (velocity 예외 레스큐)"
+        }
+      ],
+      "status": "rising",
+      "low_confidence": true,
+      "catchphrase": "생산성을 '떨어뜨리는' 안티-스킬 - 풍자적 행위예술 프로젝트",
+      "summary_ko": "Claude Code 에이전트의 작업 효율을 일부러 낮추는 '안티-생산성' 풍자/행위예술 스킬 모음. ADHD 모드(작업 착수 곤란·산만·시간 감각 저하)와 ASD 모드(문자 그대로 해석·격식 화법·변화 저항)를 시뮬레이션한다. README는 ADHD·ASD가 실제 신경학적 상태임을 명시하며 조롱이 아니라 인지 스타일 차이가 작업 효율에 미치는 영향을 보여주는 엔터테인먼트라고 밝힌다. 중국어 README 기본(영문 병기), GitHub 단일 출처 신상 리포다.",
+      "key_features": [
+        "ADHD 모드 - 작업 착수 곤란·산만·시간 감각 저하 시뮬레이션",
+        "ASD 모드 - 문자적 해석·격식 화법·변화 저항 시뮬레이션",
+        "실제 질환 조롱이 아닌 풍자적 실험임을 명시"
+      ],
+      "use_case": "에이전트 페르소나 실험이나 프롬프트가 행동에 미치는 영향을 재미로 관찰할 때. (실무용 아님, 단일 출처 신상 리포)",
+      "install_hint": "git clone https://github.com/liigoQi/defficiency-skills.git ~/defficiency-skills && ln -s ~/defficiency-skills/adhd ~/.claude/skills/adhd",
+      "badges": [
+        "🔥 Rising",
+        "⚠️ 단일출처"
+      ],
+      "tags": [
+        "skill",
+        "풍자",
+        "페르소나",
+        "실험"
+      ],
+      "thumbnail_url": "https://github.com/liigoQi.png"
+    }
+  ],
+  "classic": [
+    {
       "id": "anthropics/claude-code",
       "name": "claude-code",
       "owner": "anthropics",
@@ -11,51 +336,43 @@
       "official_url": "https://github.com/anthropics/claude-code",
       "repo_url": "https://github.com/anthropics/claude-code",
       "category": "harness",
-      "score": 88.8,
-      "trend_score": 88.8,
-      "stars": 138336,
-      "velocity_7d": 609,
-      "source_count": 8,
+      "score": 72.5,
+      "trend_score": 72.5,
+      "stars": 138364,
+      "velocity_7d": 638,
+      "source_count": 6,
       "sources": [
-        "anthropic",
-        "devto",
-        "geeknews",
         "github",
+        "anthropic",
+        "blog",
+        "geeknews",
         "hn",
-        "velog",
-        "web",
         "x"
       ],
       "evidence": [
         {
           "source": "github",
           "url": "https://github.com/anthropics/claude-code",
-          "label": "최근 7일 +609 stars"
+          "label": "최근 7일 +638 stars"
         },
         {
           "source": "hn",
           "url": null,
-          "label": "HN 상위 (engagement 918), influencer 5회 언급"
-        },
-        {
-          "source": "web",
-          "url": null,
-          "label": "7개 플랫폼 교차 언급"
+          "label": "출처 6개 교차검증 · 인플루언서 언급 5회"
         }
       ],
-      "status": "rising",
+      "status": "classic",
       "catchphrase": "이 생태계 전체의 시작점 - Anthropic 공식 CLI",
-      "summary_ko": "터미널에 상주하며 코드베이스를 이해하고, 반복 작업 실행, 복잡한 코드 설명, git 워크플로우 처리를 자연어 명령으로 해내는 Anthropic의 공식 에이전틱 코딩 도구. 터미널, IDE, GitHub의 @claude 태그로 쓸 수 있다. 이 저장소에는 커스텀 명령·에이전트로 기능을 확장하는 공식 플러그인들도 포함되어 있다. 이번 주 7개 플랫폼에서 교차 언급되며 리스트의 다른 도구들이 올라타는 기반으로 다시 상승세에 올랐다.",
+      "summary_ko": "터미널에 상주하며 코드베이스를 이해하고, 반복 작업 실행·복잡한 코드 설명·git 워크플로우 처리를 자연어 명령으로 해내는 Anthropic 공식 에이전틱 코딩 도구. 터미널·IDE·GitHub의 @claude 태그로 쓸 수 있고, 저장소에는 커스텀 명령·에이전트로 기능을 확장하는 공식 플러그인도 포함된다. 이번 주 6개 플랫폼에서 교차 언급되며 리스트의 다른 도구들이 올라타는 기반으로 다시 상승세에 올랐다.",
       "key_features": [
         "코드베이스 이해 + 자연어로 반복 작업·git 워크플로우 실행",
         "터미널·IDE·GitHub @claude 태그 세 가지 사용 방식",
-        "공식 플러그인 디렉토리 동봉 (커스텀 명령·에이전트)"
+        "공식 플러그인 디렉토리 동봉(커스텀 명령·에이전트)"
       ],
       "use_case": "이 리스트의 다른 모든 도구가 올라타는 기반. 에이전틱 코딩을 시작하는 첫 설치.",
       "install_hint": "curl -fsSL https://claude.ai/install.sh | bash",
-      "badge": "🔥 Rising",
       "badges": [
-        "🔥 Rising"
+        "⭐ Classic"
       ],
       "tags": [
         "harness",
@@ -63,81 +380,118 @@
         "anthropic",
         "cli"
       ],
-      "thumbnail_url": "https://github.com/anthropics.png",
+      "thumbnail_url": "https://github.com/anthropics.png"
+    },
+    {
+      "id": "multica-ai/andrej-karpathy-skills",
+      "name": "andrej-karpathy-skills",
+      "owner": "multica-ai",
+      "title_ko": "Karpathy 가이드라인 - CLAUDE.md 파일 하나로",
+      "official_url": "https://github.com/multica-ai/andrej-karpathy-skills",
+      "repo_url": "https://github.com/multica-ai/andrej-karpathy-skills",
+      "category": "skill",
+      "score": 69.5,
+      "trend_score": 69.5,
+      "stars": 194441,
+      "velocity_7d": 2813,
+      "source_count": 3,
+      "sources": [
+        "github",
+        "blog",
+        "directory"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/multica-ai/andrej-karpathy-skills",
+          "label": "최근 7일 +2,813 stars"
+        },
+        {
+          "source": "blog",
+          "url": null,
+          "label": "3개 출처 교차검증"
+        }
+      ],
+      "status": "classic",
+      "catchphrase": "LLM 코딩의 4대 악습을 겨냥한 4원칙, 파일 하나에",
+      "summary_ko": "Andrej Karpathy가 지적한 LLM 코딩의 함정 - 멋대로 가정하고 확인 안 함, 과잉 추상화, 이해 못한 코드를 부수효과로 건드림 - 을 겨냥한 단일 CLAUDE.md 파일. Think Before Coding(가정 명시), Simplicity First(추측성 코드 금지), Surgical Changes(요청 무관 수정 금지), Goal-Driven Execution(검증 가능한 성공 기준) 네 원칙으로 구성된다. 파일 하나만 프로젝트에 넣으면 되는 최소 설치가 특징이다.",
+      "key_features": [
+        "Karpathy가 지적한 LLM 코딩 함정을 원칙 4개로 매핑",
+        "CLAUDE.md 파일 하나 - 플러그인·의존성 없는 최소 설치",
+        "각 원칙에 나쁜 예 → 좋은 예 코드 사례 문서 포함"
+      ],
+      "use_case": "에이전트가 과잉 구현하거나 멋대로 가정하고 달릴 때. 팀 CLAUDE.md의 행동 규칙 베이스라인이 필요할 때.",
+      "install_hint": "CLAUDE.md 파일을 프로젝트 루트에 복사 (또는 /plugin marketplace add)",
+      "badges": [
+        "⭐ Classic"
+      ],
+      "tags": [
+        "skill",
+        "CLAUDE.md",
+        "코딩원칙",
+        "행동가이드"
+      ],
+      "thumbnail_url": "https://github.com/multica-ai.png",
       "audit_log": [
         {
           "field": "stars",
-          "claimed": 138335,
-          "actual": 138336,
+          "claimed": 194439,
+          "actual": 194441,
           "action": "corrected"
         }
       ]
     },
     {
-      "id": "affaan-m/ECC",
-      "name": "ECC",
-      "owner": "affaan-m",
-      "title_ko": "ECC - 에이전트 하네스 운영체제",
-      "official_url": "https://github.com/affaan-m/ECC",
-      "repo_url": "https://github.com/affaan-m/ECC",
+      "id": "ruvnet/ruflo",
+      "name": "ruflo",
+      "owner": "ruvnet",
+      "title_ko": "Ruflo - 자가학습 멀티에이전트 메타 하네스",
+      "official_url": "https://github.com/ruvnet/ruflo",
+      "repo_url": "https://github.com/ruvnet/ruflo",
       "category": "harness",
-      "score": 66.3,
-      "trend_score": 66.3,
-      "stars": 231225,
-      "velocity_7d": 1966,
-      "source_count": 4,
+      "score": 69.5,
+      "trend_score": 69.5,
+      "stars": 65218,
+      "velocity_7d": 895,
+      "source_count": 3,
       "sources": [
         "github",
-        "velog",
-        "web",
-        "x"
+        "blog",
+        "devto"
       ],
       "evidence": [
         {
           "source": "github",
-          "url": "https://github.com/affaan-m/ECC",
-          "label": "최근 7일 +1,966 stars"
+          "url": "https://github.com/ruvnet/ruflo",
+          "label": "최근 7일 +895 stars"
         },
         {
-          "source": "velog",
+          "source": "blog",
           "url": null,
-          "label": "4개 출처(velog·web·x·github) 교차검증"
+          "label": "3개 출처 교차검증"
         }
       ],
-      "status": "rising",
-      "catchphrase": "67개 에이전트 + 278개 스킬을 묶은 하네스 운영체제",
-      "summary_ko": "Claude Code, Codex, OpenCode, Cursor, Gemini, Zed, Copilot 등 여러 하네스에서 에이전트 성능을 최적화하는 통합 시스템. 스킬(278개), 에이전트(67개), 메모리, 보안, 리서치 우선 개발을 하나의 운영 체계로 묶는다. AgentShield 정적 분석 규칙 102개로 보안을 스캔하고 세션 자동 저장으로 컨텍스트를 이어간다. TypeScript·Python·Go·Java·Kotlin 등 12개 이상 언어 생태계와 한국어 README(docs/ko-KR)를 제공한다.",
+      "status": "classic",
+      "catchphrase": "100+ 에이전트 스웜 + 자가학습 벡터 메모리 메타 하네스",
+      "summary_ko": "Claude Code 위에서 지능형 멀티에이전트 스웜을 배포·조율하는 에이전트 메타 하네스. 코딩·테스트·보안 감사·문서·아키텍처 결정용 사전 제작 에이전트 100개 이상을 제공한다. HNSW 인덱싱 벡터 DB(AgentDB)로 세션 간 결정을 개선하는 자가학습 메모리와, 계층·메시 토폴로지에 합의 메커니즘을 얹은 스웜 조율을 갖췄다. RAG 통합과 엔터프라이즈용 보안 가드레일도 포함한다.",
       "key_features": [
-        "67개 에이전트 + 278개 스킬 + 메모리 + 보안(AgentShield 102 규칙) 통합",
-        "Claude Code·Codex·OpenCode·Cursor·Gemini·Zed·Copilot 멀티 하네스 지원",
-        "플러그인(ecc@ecc) 배포 + 세션 자동 저장으로 컨텍스트 유지"
+        "코딩·테스트·보안·문서·아키텍처용 사전 제작 에이전트 100+",
+        "HNSW 벡터 DB(AgentDB) 기반 세션 간 자가학습 메모리",
+        "계층·메시 토폴로지 + 합의 메커니즘 스웜 조율"
       ],
-      "use_case": "에이전트 설정을 개인 취향 모음이 아닌 운영 체계로 관리하고 싶을 때. 여러 CLI 에이전트에 일관된 스킬·보안 규칙을 배포할 때.",
-      "install_hint": "/plugin marketplace add https://github.com/affaan-m/ECC && /plugin install ecc@ecc",
-      "badge": "🔥 Rising",
+      "use_case": "단일 에이전트를 넘어 협업하는 에이전트 스웜을 구성하고 세션 간 학습을 유지하고 싶을 때.",
+      "install_hint": "npx ruflo@latest init wizard",
       "badges": [
-        "🔥 Rising",
-        "🇰🇷 한국어"
+        "⭐ Classic"
       ],
       "tags": [
         "harness",
-        "korean-ready",
-        "스킬시스템",
-        "메모리",
-        "보안"
+        "스웜",
+        "멀티에이전트",
+        "메모리"
       ],
-      "thumbnail_url": "https://github.com/affaan-m.png",
-      "audit_log": [
-        {
-          "field": "stars",
-          "claimed": 231224,
-          "actual": 231225,
-          "action": "corrected"
-        }
-      ]
-    }
-  ],
-  "classic": [
+      "thumbnail_url": "https://github.com/ruvnet.png"
+    },
     {
       "id": "JuliusBrussee/caveman",
       "name": "caveman",
@@ -146,25 +500,25 @@
       "official_url": "https://github.com/JuliusBrussee/caveman",
       "repo_url": "https://github.com/JuliusBrussee/caveman",
       "category": "skill",
-      "score": 89.8,
-      "trend_score": 89.8,
-      "stars": 90834,
-      "velocity_7d": 1792,
+      "score": 65.0,
+      "trend_score": 65.0,
+      "stars": 90904,
+      "velocity_7d": 1861,
       "source_count": 2,
       "sources": [
         "github",
-        "hn"
+        "directory"
       ],
       "evidence": [
         {
           "source": "github",
           "url": "https://github.com/JuliusBrussee/caveman",
-          "label": "최근 7일 +1,792 stars"
+          "label": "최근 7일 +1,861 stars"
         },
         {
-          "source": "hn",
+          "source": "directory",
           "url": null,
-          "label": "HN engagement 1,426 (프론트페이지급)"
+          "label": "2개 출처 교차검증"
         }
       ],
       "status": "classic",
@@ -177,7 +531,6 @@
       ],
       "use_case": "에이전트의 장황한 설명이 읽기 피곤하고 토큰 비용도 아까울 때. 답변은 짧게, 코드는 정확하게 받고 싶을 때.",
       "install_hint": "curl -fsSL https://raw.githubusercontent.com/JuliusBrussee/caveman/main/install.sh | bash",
-      "badge": "⭐ Classic",
       "badges": [
         "⭐ Classic"
       ],
@@ -191,229 +544,112 @@
       "audit_log": [
         {
           "field": "stars",
-          "claimed": 90833,
-          "actual": 90834,
+          "claimed": 90902,
+          "actual": 90904,
           "action": "corrected"
         }
       ]
     },
     {
-      "id": "shareAI-lab/learn-claude-code",
-      "name": "learn-claude-code",
-      "owner": "shareAI-lab",
-      "title_ko": "Learn Claude Code - 밑바닥부터 만드는 나노 하네스",
-      "official_url": "https://github.com/shareAI-lab/learn-claude-code",
-      "repo_url": "https://github.com/shareAI-lab/learn-claude-code",
-      "category": "harness",
-      "score": 87.8,
-      "trend_score": 87.8,
-      "stars": 71514,
-      "velocity_7d": null,
-      "source_count": 3,
-      "sources": [
-        "github",
-        "hn",
-        "web"
-      ],
-      "evidence": [
-        {
-          "source": "github",
-          "url": "https://github.com/shareAI-lab/learn-claude-code",
-          "label": "누적 71,514 stars"
-        },
-        {
-          "source": "hn",
-          "url": null,
-          "label": "HN engagement 390"
-        }
-      ],
-      "status": "classic",
-      "catchphrase": "'Bash is all you need' - 하네스를 0부터 20강으로 배운다",
-      "summary_ko": "Claude Code 같은 나노 에이전트 하네스를 밑바닥부터 만들어보는 교육용 저장소. '에이전시는 모델 훈련에서 나오고 코드 오케스트레이션이 아니다'라는 관점으로, 훈련된 모델(운전자)이 아닌 하네스(차량) 만들기에만 집중한다. s01~s20 20개 강의로 도구 실행·권한·에러 복구, 컨텍스트 메모리·압축, 멀티 에이전트 조율, MCP 플러그인, 훅까지 다룬다. 영어·중국어·일본어 번역을 제공한다(한국어 없음).",
-      "key_features": [
-        "s01~s20 20개 점진 강의로 에이전트 기초→멀티 에이전트 조율까지",
-        "권한·에러 복구 포함 도구 실행 프레임워크 + 컨텍스트 압축 전략",
-        "MCP 플러그인·훅·런타임 조립 시스템 프롬프트까지 실습"
-      ],
-      "use_case": "에이전트 하네스가 내부적으로 어떻게 도는지 직접 만들어 이해하고 싶을 때. Claude Code류 도구의 원리를 학습할 때.",
-      "install_hint": "git clone https://github.com/shareAI-lab/learn-claude-code && cd learn-claude-code && pip install -r requirements.txt",
-      "badge": "⭐ Classic",
-      "badges": [
-        "⭐ Classic"
-      ],
-      "tags": [
-        "harness",
-        "교육",
-        "튜토리얼",
-        "python"
-      ],
-      "thumbnail_url": "https://github.com/shareAI-lab.png"
-    },
-    {
-      "id": "garrytan/gstack",
-      "name": "gstack",
-      "owner": "garrytan",
-      "title_ko": "GStack - Garry Tan의 Claude Code 셋업 23종",
-      "official_url": "https://github.com/garrytan/gstack",
-      "repo_url": "https://github.com/garrytan/gstack",
-      "category": "harness",
-      "score": 82.9,
-      "trend_score": 82.9,
-      "stars": 122993,
-      "velocity_7d": null,
-      "source_count": 4,
-      "sources": [
-        "github",
-        "hn",
-        "web",
-        "x"
-      ],
-      "evidence": [
-        {
-          "source": "github",
-          "url": "https://github.com/garrytan/gstack",
-          "label": "누적 122,993 stars"
-        },
-        {
-          "source": "hn",
-          "url": null,
-          "label": "HN·X·web 3개 커뮤니티 출처 교차"
-        }
-      ],
-      "status": "classic",
-      "catchphrase": "Claude Code를 CEO·디자이너·QA로 나눈 가상 엔지니어링 팀",
-      "summary_ko": "Y Combinator의 Garry Tan이 실제로 쓰는 Claude Code 셋업을 공개한 오픈소스 툴킷. Claude Code를 가상 엔지니어링 팀으로 바꾸는 23개 역할 기반 스킬(CEO·디자이너·엔지니어링 매니저·릴리스 엔지니어·QA 리드·보안 담당)을 슬래시 명령으로 제공한다. Think → Plan → Build → Review → Test → Ship → Reflect 스프린트 워크플로우를 따르고, 실제 Chromium 브라우저 테스트(/browse·/qa), Codex CLI 교차 코드리뷰, 세션 간 지식 저장(GBrain)을 갖췄다.",
-      "key_features": [
-        "23개 역할 기반 스킬 - CEO·디자이너·엔지니어링 매니저·QA·보안 담당",
-        "Think→Plan→Build→Review→Test→Ship→Reflect 스프린트 워크플로우",
-        "실제 Chromium 브라우저 QA + Codex CLI 교차 리뷰 + GBrain 영속 메모리"
-      ],
-      "use_case": "1인 개발자가 팀 단위 개발 프로세스를 에이전트로 흉내내고 싶을 때. 검증된 셋업을 그대로 가져다 쓰고 싶을 때.",
-      "install_hint": "git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup",
-      "badge": "⭐ Classic",
-      "badges": [
-        "⭐ Classic"
-      ],
-      "tags": [
-        "harness",
-        "워크플로우",
-        "스프린트",
-        "브라우저QA"
-      ],
-      "thumbnail_url": "https://github.com/garrytan.png",
-      "audit_log": [
-        {
-          "field": "stars",
-          "claimed": 122994,
-          "actual": 122993,
-          "action": "corrected"
-        }
-      ]
-    },
-    {
-      "id": "BloopAI/vibe-kanban",
-      "name": "vibe-kanban",
-      "owner": "BloopAI",
-      "title_ko": "Vibe Kanban - 코딩 에이전트용 칸반 보드",
-      "official_url": "https://github.com/BloopAI/vibe-kanban",
-      "repo_url": "https://github.com/BloopAI/vibe-kanban",
-      "category": "agent",
-      "score": 79.2,
-      "trend_score": 79.2,
-      "stars": 27450,
-      "velocity_7d": null,
-      "source_count": 2,
-      "sources": [
-        "github",
-        "hn"
-      ],
-      "evidence": [
-        {
-          "source": "github",
-          "url": "https://github.com/BloopAI/vibe-kanban",
-          "label": "누적 27,450 stars"
-        },
-        {
-          "source": "hn",
-          "url": null,
-          "label": "HN engagement 327 (프론트페이지급)"
-        }
-      ],
-      "status": "classic",
-      "catchphrase": "여러 코딩 에이전트를 칸반 보드에서 병렬로 굴린다",
-      "summary_ko": "Claude Code, Gemini CLI, GitHub Copilot 등 코딩 에이전트의 생산성을 끌어올리는 개발 도구. 칸반 스타일 이슈 관리·우선순위, 에이전트별 워크스페이스(브랜치·터미널·개발서버), 인라인 코멘트 코드리뷰, 내장 프리뷰 브라우저(devtools·기기 에뮬레이션), GitHub PR 생성·머지 연동을 제공하며 10개 이상 에이전트를 지원한다. 참고: 저장소 공지에 따르면 프로젝트는 서비스 종료(sunsetting) 절차에 들어갔다.",
-      "key_features": [
-        "칸반 이슈 관리 + 에이전트별 워크스페이스(브랜치·터미널·개발서버)",
-        "인라인 코멘트 코드리뷰 + 내장 프리뷰 브라우저(devtools·기기 에뮬)",
-        "10+ 코딩 에이전트 지원 + GitHub PR 생성·머지 연동"
-      ],
-      "use_case": "여러 코딩 에이전트에게 태스크를 병렬로 분배하고 진행 상황을 한 보드에서 보고 싶을 때. (서비스 종료 예정이니 도입 전 확인 권장)",
-      "install_hint": "npx vibe-kanban",
-      "badge": "⭐ Classic",
-      "badges": [
-        "⭐ Classic"
-      ],
-      "tags": [
-        "agent",
-        "칸반",
-        "멀티에이전트",
-        "워크플로우"
-      ],
-      "thumbnail_url": "https://github.com/BloopAI.png",
-      "needs_review": false
-    },
-    {
-      "id": "Imbad0202/academic-research-skills",
-      "name": "academic-research-skills",
-      "owner": "Imbad0202",
-      "title_ko": "Academic Research Skills - 논문 리서치 파이프라인",
-      "official_url": "https://github.com/Imbad0202/academic-research-skills",
-      "repo_url": "https://github.com/Imbad0202/academic-research-skills",
+      "id": "mvanhorn/last30days-skill",
+      "name": "last30days-skill",
+      "owner": "mvanhorn",
+      "title_ko": "last30days - 최근 30일 여론을 실측 참여지표로 리서치",
+      "official_url": "https://github.com/mvanhorn/last30days-skill",
+      "repo_url": "https://github.com/mvanhorn/last30days-skill",
       "category": "skill",
-      "score": 75.9,
-      "trend_score": 75.9,
-      "stars": 38488,
-      "velocity_7d": 813,
+      "score": 65.0,
+      "trend_score": 65.0,
+      "stars": 52819,
+      "velocity_7d": 866,
       "source_count": 2,
       "sources": [
         "github",
-        "hn"
+        "directory"
       ],
       "evidence": [
         {
           "source": "github",
-          "url": "https://github.com/Imbad0202/academic-research-skills",
-          "label": "최근 7일 +813 stars"
+          "url": "https://github.com/mvanhorn/last30days-skill",
+          "label": "최근 7일 +866 stars"
         },
         {
-          "source": "hn",
+          "source": "directory",
           "url": null,
-          "label": "HN engagement 107"
+          "label": "2개 출처 교차검증"
         }
       ],
       "status": "classic",
-      "catchphrase": "리서치→집필→리뷰→수정→마무리, 논문 잡일을 에이전트 팀이",
-      "summary_ko": "학술 연구 전 과정을 지원하는 Claude Code 스킬 모음. 연구를 완전 자동화하는 대신 참고문헌 찾기, 인용 형식 맞추기, 데이터 검증, 논리 일관성 확인 같은 '잡일'을 대신해 연구자를 보조하는 human-in-the-loop 설계다. Deep Research(13개 에이전트), Academic Paper(12개 집필 에이전트), Reviewer(7개 피어리뷰 + 0~100 점수), 10단계 오케스트레이터를 갖췄고 인용 환각·오류 추론 방어 장치를 강조한다. 한국어 README(README.ko-KR)와 한국어 트리거 감지를 지원한다.",
+      "catchphrase": "SEO 순위 말고 진짜 참여지표로 - 12개 플랫폼 최근 30일 종합",
+      "summary_ko": "Reddit·X·YouTube·TikTok·Hacker News·Polymarket 등 여러 플랫폼을 뒤져 최근 30일 어떤 주제든 리서치하는 에이전트 스킬. 편집자 순위가 아니라 업보트·좋아요·조회수·베팅 배당 같은 실제 참여 신호로 결과를 점수화하고, 여러 출처의 중복 스토리를 병합해 근거가 붙은 요약으로 합성한다. Reddit·HN·Polymarket·GitHub는 별도 키 없이 즉시 동작하고, 처음 실행하면 arXiv·Techmeme용 무료 도구를 자동 설치하는 마법사가 뜬다.",
       "key_features": [
-        "리서치·집필·리뷰·수정·마무리 5단계 파이프라인",
-        "Deep Research 13 에이전트 + Academic Paper 12 에이전트 + Reviewer 7 에이전트",
-        "인용 환각·오류 추론 방어 장치 + 한국어 README 및 트리거 지원"
+        "소셜·예측시장·학술까지 12개 플랫폼 병렬 검색(키 불필요)",
+        "업보트·베팅 배당 등 실측 신호로 점수화 + 중복 스토리 병합",
+        "무설정 즉시 사용 + 첫 실행 시 무료 도구 자동 설치 마법사"
       ],
-      "use_case": "논문·리포트의 문헌 조사부터 인용 검증·피어리뷰까지 반복 잡업을 줄이고 싶을 때.",
-      "install_hint": "/plugin marketplace add Imbad0202/academic-research-skills && /plugin install academic-research-skills",
-      "badge": "⭐ Classic",
+      "use_case": "어떤 주제의 '지금 커뮤니티가 실제로 뭘 말하는지'를 SEO에 오염되지 않은 신호로 파악하고 싶을 때.",
+      "install_hint": "/plugin marketplace add mvanhorn/last30days-skill",
       "badges": [
-        "⭐ Classic",
-        "🇰🇷 한국어"
+        "⭐ Classic"
       ],
       "tags": [
         "skill",
-        "korean-ready",
-        "학술",
         "리서치",
-        "논문"
+        "여론",
+        "종합"
       ],
-      "thumbnail_url": "https://github.com/Imbad0202.png"
+      "thumbnail_url": "https://github.com/mvanhorn.png"
+    },
+    {
+      "id": "colbymchenry/codegraph",
+      "name": "codegraph",
+      "owner": "colbymchenry",
+      "title_ko": "CodeGraph - 로컬 코드 지식그래프",
+      "official_url": "https://github.com/colbymchenry/codegraph",
+      "repo_url": "https://github.com/colbymchenry/codegraph",
+      "category": "agent",
+      "score": 65.0,
+      "trend_score": 65.0,
+      "stars": 60981,
+      "velocity_7d": 1298,
+      "source_count": 2,
+      "sources": [
+        "github",
+        "blog"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/colbymchenry/codegraph",
+          "label": "최근 7일 +1,298 stars"
+        },
+        {
+          "source": "blog",
+          "url": null,
+          "label": "2개 출처 교차검증"
+        }
+      ],
+      "status": "classic",
+      "catchphrase": "파일 검색 여러 번 대신 한 번의 쿼리로 - 툴콜·토큰 절감, 100% 로컬",
+      "summary_ko": "코드베이스의 심볼·의존성 인덱스를 미리 만들어 최신 상태로 유지하는 로컬 코드 지식그래프. AI 코딩 에이전트와 연동해 여러 번의 파일 검색 대신 한 번의 쿼리로 관련 코드·호출 경로·영향 분석을 돌려준다. 파일 워처가 OS 네이티브 이벤트로 그래프를 자동 갱신하고, TypeScript·Python·Go·Rust·Java·Swift·Kotlin 등 20개 이상 언어와 17개 웹 프레임워크 라우트를 인식한다. 외부 서비스·API 키 없이 100% 로컬로 동작한다.",
+      "key_features": [
+        "한 번의 쿼리로 진입점·관련 심볼·호출 경로·영향 분석 반환",
+        "OS 네이티브 파일 워처로 그래프 자동 동기화",
+        "20+ 언어 + 17개 웹 프레임워크 라우트 인식, 100% 로컬(키·외부전송 없음)"
+      ],
+      "use_case": "에이전트가 파일을 여러 번 열어보며 토큰을 낭비할 때. 큰 코드베이스의 변경 영향 범위를 빠르게 파악하고 싶을 때.",
+      "install_hint": "curl -fsSL https://raw.githubusercontent.com/colbymchenry/codegraph/main/install.sh | sh",
+      "badges": [
+        "⭐ Classic",
+        "🔌 MCP"
+      ],
+      "tags": [
+        "agent",
+        "코드분석",
+        "지식그래프",
+        "로컬"
+      ],
+      "thumbnail_url": "https://github.com/colbymchenry.png"
     },
     {
       "id": "farion1231/cc-switch",
@@ -422,27 +658,26 @@
       "title_ko": "CC Switch - 에이전트 설정 올인원 데스크톱 매니저",
       "official_url": "https://github.com/farion1231/cc-switch",
       "repo_url": "https://github.com/farion1231/cc-switch",
-      "category": "skill",
-      "score": 69.8,
-      "trend_score": 69.8,
-      "stars": 118945,
-      "velocity_7d": 2151,
-      "source_count": 3,
+      "category": "agent",
+      "score": 65.0,
+      "trend_score": 65.0,
+      "stars": 119026,
+      "velocity_7d": 2232,
+      "source_count": 2,
       "sources": [
         "github",
-        "hn",
-        "web"
+        "directory"
       ],
       "evidence": [
         {
           "source": "github",
           "url": "https://github.com/farion1231/cc-switch",
-          "label": "최근 7일 +2,151 stars"
+          "label": "최근 7일 +2,232 stars"
         },
         {
-          "source": "hn",
+          "source": "directory",
           "url": null,
-          "label": "3개 출처(hn·web·github) 교차검증"
+          "label": "2개 출처 교차검증"
         }
       ],
       "status": "classic",
@@ -455,12 +690,11 @@
       ],
       "use_case": "여러 AI CLI와 복수 API 프로바이더를 오가며 설정 파일을 손으로 고치는 게 지겨울 때.",
       "install_hint": "https://github.com/farion1231/cc-switch/releases 에서 다운로드",
-      "badge": "⭐ Classic",
       "badges": [
         "⭐ Classic"
       ],
       "tags": [
-        "skill",
+        "agent",
         "설정관리",
         "데스크톱앱",
         "멀티에이전트"
@@ -474,27 +708,26 @@
       "title_ko": "claude-mem - 세션 간 영속 메모리",
       "official_url": "https://github.com/thedotmack/claude-mem",
       "repo_url": "https://github.com/thedotmack/claude-mem",
-      "category": "skill",
-      "score": 66.5,
-      "trend_score": 66.5,
-      "stars": 87872,
-      "velocity_7d": 762,
-      "source_count": 3,
+      "category": "agent",
+      "score": 65.0,
+      "trend_score": 65.0,
+      "stars": 87897,
+      "velocity_7d": 785,
+      "source_count": 2,
       "sources": [
         "github",
-        "hn",
-        "web"
+        "blog"
       ],
       "evidence": [
         {
           "source": "github",
           "url": "https://github.com/thedotmack/claude-mem",
-          "label": "최근 7일 +762 stars"
+          "label": "최근 7일 +785 stars"
         },
         {
-          "source": "hn",
+          "source": "blog",
           "url": null,
-          "label": "3개 출처(hn·web·github) 교차검증"
+          "label": "2개 출처 교차검증"
         }
       ],
       "status": "classic",
@@ -507,172 +740,84 @@
       ],
       "use_case": "매 세션마다 프로젝트 맥락을 다시 설명하는 게 지겨울 때. 에이전트가 이전 결정을 기억하게 하고 싶을 때.",
       "install_hint": "npx claude-mem install",
-      "badge": "⭐ Classic",
-      "badges": [
-        "⭐ Classic"
-      ],
-      "tags": [
-        "skill",
-        "메모리",
-        "컨텍스트",
-        "멀티에이전트"
-      ],
-      "thumbnail_url": "https://github.com/thedotmack.png"
-    },
-    {
-      "id": "multica-ai/andrej-karpathy-skills",
-      "name": "andrej-karpathy-skills",
-      "owner": "multica-ai",
-      "title_ko": "Karpathy 가이드라인 - CLAUDE.md 파일 하나로",
-      "official_url": "https://github.com/multica-ai/andrej-karpathy-skills",
-      "repo_url": "https://github.com/multica-ai/andrej-karpathy-skills",
-      "category": "skill",
-      "score": 65.5,
-      "trend_score": 65.5,
-      "stars": 194363,
-      "velocity_7d": 2737,
-      "source_count": 3,
-      "sources": [
-        "github",
-        "hn",
-        "web"
-      ],
-      "evidence": [
-        {
-          "source": "github",
-          "url": "https://github.com/multica-ai/andrej-karpathy-skills",
-          "label": "최근 7일 +2,737 stars"
-        },
-        {
-          "source": "hn",
-          "url": null,
-          "label": "3개 출처(hn·web·github) 교차검증"
-        }
-      ],
-      "status": "classic",
-      "catchphrase": "LLM 코딩의 4대 악습을 겨냥한 4원칙, 파일 하나에",
-      "summary_ko": "Andrej Karpathy가 지적한 LLM 코딩의 함정 - 멋대로 가정하고 확인하지 않는 것, 과잉 추상화, 이해 못한 코드를 부수효과로 건드리는 것 - 을 겨냥해 만든 단일 CLAUDE.md 파일. Think Before Coding(가정 명시), Simplicity First(추측성 코드 금지), Surgical Changes(요청과 무관한 수정 금지), Goal-Driven Execution(검증 가능한 성공 기준) 네 원칙으로 구성된다. 파일 하나만 프로젝트에 넣으면 되는 최소 설치가 특징이다.",
-      "key_features": [
-        "Karpathy가 지적한 LLM 코딩 함정을 원칙 4개로 매핑",
-        "CLAUDE.md 파일 하나 - 플러그인·의존성 없는 최소 설치",
-        "각 원칙에 나쁜 예 → 좋은 예 코드 사례 문서 포함"
-      ],
-      "use_case": "에이전트가 과잉 구현하거나 멋대로 가정하고 달릴 때. 팀 CLAUDE.md의 행동 규칙 베이스라인이 필요할 때.",
-      "install_hint": "CLAUDE.md 파일을 프로젝트 루트에 복사 (또는 /plugin marketplace add)",
-      "badge": "⭐ Classic",
-      "badges": [
-        "⭐ Classic"
-      ],
-      "tags": [
-        "skill",
-        "CLAUDE.md",
-        "코딩원칙",
-        "행동가이드"
-      ],
-      "thumbnail_url": "https://github.com/multica-ai.png"
-    },
-    {
-      "id": "jarrodwatts/claude-hud",
-      "name": "claude-hud",
-      "owner": "jarrodwatts",
-      "title_ko": "Claude HUD - 세션 상태 실시간 HUD 플러그인",
-      "official_url": "https://github.com/jarrodwatts/claude-hud",
-      "repo_url": "https://github.com/jarrodwatts/claude-hud",
-      "category": "agent",
-      "score": 65.1,
-      "trend_score": 65.1,
-      "stars": 26587,
-      "velocity_7d": null,
-      "source_count": 2,
-      "sources": [
-        "github",
-        "hn"
-      ],
-      "evidence": [
-        {
-          "source": "github",
-          "url": "https://github.com/jarrodwatts/claude-hud",
-          "label": "누적 26,587 stars"
-        },
-        {
-          "source": "hn",
-          "url": null,
-          "label": "HN 언급, 03 분석 quality 60 최상위"
-        }
-      ],
-      "status": "classic",
-      "catchphrase": "컨텍스트·툴·에이전트·할일 진행을 터미널 상태줄에 실시간으로",
-      "summary_ko": "Claude Code 세션의 실시간 정보를 터미널 상태줄(status line)에 표시하는 플러그인. 컨텍스트 윈도우 사용률을 시각 바로 보여주고, 지금 도는 도구·에이전트·스킬, 할 일(todo) 완료 진행률, git 브랜치·미커밋 변경, 구독 요청 한도 소진량을 표시한다. Full·Essential·Minimal 세 가지 레이아웃 프리셋을 지원한다.",
-      "key_features": [
-        "컨텍스트 사용률 시각 바 + 활성 도구·에이전트·스킬 표시",
-        "todo 완료 진행률 + git 브랜치·미커밋 변경 + 요청 한도 소진량",
-        "Full·Essential·Minimal 레이아웃 프리셋"
-      ],
-      "use_case": "긴 세션에서 컨텍스트가 얼마나 찼는지, 지금 뭐가 도는지 눈으로 확인하며 작업하고 싶을 때.",
-      "install_hint": "/plugin marketplace add jarrodwatts/claude-hud && /plugin install claude-hud",
-      "badge": "⭐ Classic",
       "badges": [
         "⭐ Classic"
       ],
       "tags": [
         "agent",
-        "상태줄",
-        "모니터링",
-        "플러그인"
+        "메모리",
+        "컨텍스트",
+        "멀티에이전트"
       ],
-      "thumbnail_url": "https://github.com/jarrodwatts.png"
+      "thumbnail_url": "https://github.com/thedotmack.png",
+      "audit_log": [
+        {
+          "field": "stars",
+          "claimed": 87895,
+          "actual": 87897,
+          "action": "corrected"
+        }
+      ]
     },
     {
-      "id": "colbymchenry/codegraph",
-      "name": "codegraph",
-      "owner": "colbymchenry",
-      "title_ko": "CodeGraph - 로컬 코드 지식그래프 MCP",
-      "official_url": "https://github.com/colbymchenry/codegraph",
-      "repo_url": "https://github.com/colbymchenry/codegraph",
-      "category": "mcp",
-      "score": 64.0,
-      "trend_score": 64.0,
-      "stars": 60933,
-      "velocity_7d": 1250,
+      "id": "affaan-m/ECC",
+      "name": "ECC",
+      "owner": "affaan-m",
+      "title_ko": "ECC - 에이전트 하네스 성능 최적화 시스템",
+      "official_url": "https://github.com/affaan-m/ECC",
+      "repo_url": "https://github.com/affaan-m/ECC",
+      "category": "skill",
+      "score": 63.0,
+      "trend_score": 63.0,
+      "stars": 231302,
+      "velocity_7d": 2042,
       "source_count": 2,
       "sources": [
         "github",
-        "hn"
+        "directory"
       ],
       "evidence": [
         {
           "source": "github",
-          "url": "https://github.com/colbymchenry/codegraph",
-          "label": "최근 7일 +1,250 stars"
+          "url": "https://github.com/affaan-m/ECC",
+          "label": "최근 7일 +2,042 stars"
         },
         {
-          "source": "hn",
+          "source": "directory",
           "url": null,
-          "label": "HN 언급"
+          "label": "2개 출처 교차검증"
         }
       ],
       "status": "classic",
-      "catchphrase": "파일 검색 여러 번 대신 한 번의 쿼리로 - 툴콜·토큰 절감, 100% 로컬",
-      "summary_ko": "코드베이스의 심볼·의존성 인덱스를 미리 만들어 최신 상태로 유지하는 로컬 코드 지식그래프. AI 코딩 에이전트와 연동해 여러 번의 파일 검색 대신 한 번의 쿼리로 관련 코드·호출 경로·영향 분석을 돌려준다(surgical context). 파일 워처가 OS 네이티브 이벤트로 그래프를 자동 갱신하고, TypeScript·Python·Go·Rust·Java·Swift·Kotlin 등 20개 이상 언어와 17개 웹 프레임워크 라우트를 인식한다. 외부 서비스·API 키 없이 100% 로컬로 동작한다.",
+      "catchphrase": "스킬·에이전트·메모리·보안을 묶은 하네스 성능 최적화 시스템",
+      "summary_ko": "Claude Code, Codex, OpenCode, Cursor 등 여러 하네스에서 에이전트 성능을 최적화하는 통합 시스템. 스킬, 에이전트, 인스팅트, 메모리, 보안, 리서치 우선 개발을 하나의 운영 체계로 묶는다. 여러 CLI 에이전트에 일관된 스킬·보안 규칙을 배포하고 세션을 이어가는 데 초점을 둔다. 한국어 README(docs/ko-KR)를 제공한다.",
       "key_features": [
-        "한 번의 쿼리로 진입점·관련 심볼·호출 경로·영향 분석(블라스트 반경) 반환",
-        "OS 네이티브 파일 워처로 그래프 자동 동기화",
-        "20+ 언어 + 17개 웹 프레임워크 라우트 인식, 100% 로컬(키·외부전송 없음)"
+        "스킬·에이전트·인스팅트·메모리·보안 통합 운영 체계",
+        "Claude Code·Codex·OpenCode·Cursor 등 멀티 하네스 지원",
+        "플러그인 배포 + 리서치 우선 개발 워크플로우"
       ],
-      "use_case": "에이전트가 파일을 여러 번 열어보며 토큰을 낭비할 때. 큰 코드베이스의 변경 영향 범위를 빠르게 파악하고 싶을 때.",
-      "install_hint": "curl -fsSL https://raw.githubusercontent.com/colbymchenry/codegraph/main/install.sh | sh",
-      "badge": "⭐ Classic",
+      "use_case": "에이전트 설정을 개인 취향 모음이 아닌 운영 체계로 관리하고 싶을 때. 여러 CLI 에이전트에 일관된 규칙을 배포할 때.",
+      "install_hint": "/plugin marketplace add https://github.com/affaan-m/ECC && /plugin install ecc@ecc",
       "badges": [
         "⭐ Classic",
-        "🔌 MCP"
+        "🇰🇷 한국어"
       ],
       "tags": [
-        "mcp",
-        "코드분석",
-        "지식그래프",
-        "로컬"
+        "skill",
+        "korean-ready",
+        "하네스",
+        "메모리",
+        "보안"
       ],
-      "thumbnail_url": "https://github.com/colbymchenry.png"
+      "thumbnail_url": "https://github.com/affaan-m.png",
+      "audit_log": [
+        {
+          "field": "stars",
+          "claimed": 231300,
+          "actual": 231302,
+          "action": "corrected"
+        }
+      ]
     },
     {
       "id": "Graphify-Labs/graphify",
@@ -682,30 +827,25 @@
       "official_url": "https://github.com/Graphify-Labs/graphify",
       "repo_url": "https://github.com/Graphify-Labs/graphify",
       "category": "skill",
-      "score": 63.0,
-      "trend_score": 63.0,
-      "stars": 91559,
-      "velocity_7d": 6899,
-      "source_count": 2,
+      "score": 62.0,
+      "trend_score": 62.0,
+      "stars": 91715,
+      "velocity_7d": 7054,
+      "source_count": 1,
       "sources": [
-        "github",
-        "hn"
+        "github"
       ],
       "evidence": [
         {
           "source": "github",
           "url": "https://github.com/Graphify-Labs/graphify",
-          "label": "최근 7일 +6,899 stars (featured 최고 velocity)"
-        },
-        {
-          "source": "hn",
-          "url": null,
-          "label": "HN 언급"
+          "label": "최근 7일 +7,054 stars (이번 주 최고 velocity)"
         }
       ],
       "status": "classic",
+      "low_confidence": true,
       "catchphrase": "앱 코드 + DB 스키마 + 인프라를 그래프 하나로 묶어 질의",
-      "summary_ko": "코드, SQL 스키마, R 스크립트, 셸 스크립트, 문서, 논문, 이미지, 비디오까지 어떤 폴더든 쿼리 가능한 지식그래프로 바꿔주는 AI 코딩 어시스턴트 스킬. 애플리케이션 코드와 데이터베이스 스키마, 인프라 구성을 하나의 그래프로 연결해서 에이전트가 시스템 전체 구조를 놓고 답하게 만든다. Claude Code, Codex, OpenCode, Cursor, Gemini CLI 등 주요 에이전트를 폭넓게 지원한다.",
+      "summary_ko": "코드, SQL 스키마, R·셸 스크립트, 문서, 논문, 이미지, 비디오까지 어떤 폴더든 쿼리 가능한 지식그래프로 바꿔주는 AI 코딩 어시스턴트 스킬. 애플리케이션 코드와 데이터베이스 스키마, 인프라 구성을 하나의 그래프로 연결해 에이전트가 시스템 전체 구조를 놓고 답하게 만든다. Claude Code, Codex, OpenCode, Cursor, Gemini CLI 등 주요 에이전트를 폭넓게 지원한다. 이번 주 +7,054 stars로 최고 velocity를 기록했으나 GitHub 단일 출처다.",
       "key_features": [
         "코드·SQL 스키마·문서·이미지·비디오를 하나의 쿼리 가능한 그래프로 통합",
         "앱 코드 + DB 스키마 + 인프라를 한 그래프에서 교차 탐색",
@@ -713,9 +853,9 @@
       ],
       "use_case": "코드와 DB 스키마가 따로 노는 레거시 시스템을 파악할 때. 문서·논문·미디어가 섞인 저장소를 에이전트가 통째로 이해하게 만들고 싶을 때.",
       "install_hint": "uv tool install graphifyy (또는 pipx install graphifyy)",
-      "badge": "⭐ Classic",
       "badges": [
-        "⭐ Classic"
+        "⭐ Classic",
+        "⚠️ 단일출처"
       ],
       "tags": [
         "skill",
@@ -727,11 +867,295 @@
       "audit_log": [
         {
           "field": "stars",
-          "claimed": 91557,
-          "actual": 91559,
+          "claimed": 91712,
+          "actual": 91715,
           "action": "corrected"
         }
       ]
+    },
+    {
+      "id": "Imbad0202/academic-research-skills",
+      "name": "academic-research-skills",
+      "owner": "Imbad0202",
+      "title_ko": "Academic Research Skills - 논문 리서치 파이프라인",
+      "official_url": "https://github.com/Imbad0202/academic-research-skills",
+      "repo_url": "https://github.com/Imbad0202/academic-research-skills",
+      "category": "skill",
+      "score": 62.0,
+      "trend_score": 62.0,
+      "stars": 38513,
+      "velocity_7d": 838,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/Imbad0202/academic-research-skills",
+          "label": "최근 7일 +838 stars"
+        }
+      ],
+      "status": "classic",
+      "low_confidence": true,
+      "catchphrase": "리서치→집필→리뷰→수정→마무리, 논문 잡일을 에이전트 팀이",
+      "summary_ko": "학술 연구 전 과정을 지원하는 Claude Code 스킬 모음. 연구를 완전 자동화하는 대신 참고문헌 찾기, 인용 형식 맞추기, 데이터 검증, 논리 일관성 확인 같은 '잡일'을 대신해 연구자를 보조하는 human-in-the-loop 설계다. Deep Research(13개 에이전트), Academic Paper(12개 집필 에이전트), Reviewer(7개 피어리뷰 + 0~100 점수), 10단계 오케스트레이터를 갖췄고 인용 환각·오류 추론 방어 장치를 강조한다. 한국어 README(README.ko-KR)와 한국어 트리거 감지를 지원한다. GitHub 단일 출처다.",
+      "key_features": [
+        "리서치·집필·리뷰·수정·마무리 5단계 파이프라인",
+        "Deep Research 13 + Academic Paper 12 + Reviewer 7 에이전트",
+        "인용 환각·오류 추론 방어 장치 + 한국어 README·트리거 지원"
+      ],
+      "use_case": "논문·리포트의 문헌 조사부터 인용 검증·피어리뷰까지 반복 잡업을 줄이고 싶을 때.",
+      "install_hint": "/plugin marketplace add Imbad0202/academic-research-skills && /plugin install academic-research-skills",
+      "badges": [
+        "⭐ Classic",
+        "🇰🇷 한국어",
+        "⚠️ 단일출처"
+      ],
+      "tags": [
+        "skill",
+        "korean-ready",
+        "학술",
+        "리서치",
+        "논문"
+      ],
+      "thumbnail_url": "https://github.com/Imbad0202.png"
+    },
+    {
+      "id": "DeusData/codebase-memory-mcp",
+      "name": "codebase-memory-mcp",
+      "owner": "DeusData",
+      "title_ko": "Codebase Memory MCP - 밀리초 인덱싱 코드 지식그래프",
+      "official_url": "https://github.com/DeusData/codebase-memory-mcp",
+      "repo_url": "https://github.com/DeusData/codebase-memory-mcp",
+      "category": "mcp",
+      "score": 62.0,
+      "trend_score": 62.0,
+      "stars": 33014,
+      "velocity_7d": null,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/DeusData/codebase-memory-mcp",
+          "label": "stars 33,014 · velocity_score 100"
+        }
+      ],
+      "status": "classic",
+      "low_confidence": true,
+      "catchphrase": "리눅스 커널 28M LOC를 3분에 - 158개 언어, 서브밀리초 쿼리",
+      "summary_ko": "코드베이스를 영속 지식그래프로 인덱싱하는 고성능 코드 인텔리전스 MCP 서버. tree-sitter AST 파싱으로 158개 언어의 구조를 분석해 에이전트가 파일 하나씩 열지 않고 밀리초 단위로 큰 저장소를 이해하게 한다. RAM 우선 파이프라인(LZ4 압축·인메모리 SQLite)으로 리눅스 커널(28M LOC, 75K 파일)을 3분에 인덱싱하고, 외부 언어 서버 없이 12개 언어의 임포트·제네릭·상속·타입 추론을 처리하는 경량 하이브리드 LSP를 갖췄다. 단일 정적 바이너리·무의존성. GitHub 단일 출처다.",
+      "key_features": [
+        "RAM 우선 파이프라인으로 리눅스 커널 28M LOC를 3분에 인덱싱",
+        "외부 LSP 없이 임포트·제네릭·상속 처리하는 경량 하이브리드 타입 해석",
+        "158개 언어 + 43개 에이전트 플랫폼 자동 설정, 단일 바이너리"
+      ],
+      "use_case": "초대형 코드베이스를 에이전트가 토큰 낭비 없이 즉시 파악하게 하고 싶을 때. 무의존성 단일 바이너리를 선호할 때.",
+      "install_hint": "curl -fsSL https://raw.githubusercontent.com/DeusData/codebase-memory-mcp/main/install.sh | bash",
+      "badges": [
+        "⭐ Classic",
+        "🔌 MCP",
+        "⚠️ 단일출처"
+      ],
+      "tags": [
+        "mcp",
+        "코드분석",
+        "지식그래프",
+        "로컬"
+      ],
+      "thumbnail_url": "https://github.com/DeusData.png"
+    },
+    {
+      "id": "PDFMathTranslate/PDFMathTranslate",
+      "name": "PDFMathTranslate",
+      "owner": "PDFMathTranslate",
+      "title_ko": "PDFMathTranslate - 수식·레이아웃 보존 논문 번역",
+      "official_url": "https://github.com/PDFMathTranslate/PDFMathTranslate",
+      "repo_url": "https://github.com/PDFMathTranslate/PDFMathTranslate",
+      "category": "mcp",
+      "score": 62.0,
+      "trend_score": 62.0,
+      "stars": 35670,
+      "velocity_7d": null,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/PDFMathTranslate/PDFMathTranslate",
+          "label": "stars 35,670 · velocity_score 100"
+        }
+      ],
+      "status": "classic",
+      "low_confidence": true,
+      "catchphrase": "수식·표·목차 그대로 - 과학 PDF 이중언어 번역(한국어 지원)",
+      "summary_ko": "원본 서식·레이아웃·수식을 유지하면서 과학 PDF 문서를 번역하는 오픈소스 도구(EMNLP 2025 Demo). 수식·차트·목차·주석을 보존한 채 번역하며 Google·DeepL·Ollama·OpenAI 등 여러 번역 서비스를 지원한다. CLI·웹 GUI·Windows 실행파일·Docker·MCP·Zotero 등 다양한 인터페이스로 쓸 수 있다. README에 한국어 지원과 전용 한국어 문서 링크를 명시한다. GitHub 단일 출처다.",
+      "key_features": [
+        "수식·차트·목차·주석 보존 레이아웃 유지 번역",
+        "Google·DeepL·Ollama·OpenAI 등 다중 번역 서비스",
+        "CLI·GUI·Windows exe·Docker·MCP·Zotero 인터페이스"
+      ],
+      "use_case": "영어 논문을 수식·표 깨짐 없이 한국어로 대조 번역해 읽고 싶을 때.",
+      "install_hint": "pip install pdf2zh && pdf2zh document.pdf",
+      "badges": [
+        "⭐ Classic",
+        "🔌 MCP",
+        "🇰🇷 한국어",
+        "⚠️ 단일출처"
+      ],
+      "tags": [
+        "mcp",
+        "korean-ready",
+        "PDF번역",
+        "논문"
+      ],
+      "thumbnail_url": "https://github.com/PDFMathTranslate.png"
+    },
+    {
+      "id": "microsoft/playwright-mcp",
+      "name": "playwright-mcp",
+      "owner": "microsoft",
+      "title_ko": "Playwright MCP - 접근성 트리 기반 브라우저 자동화",
+      "official_url": "https://github.com/microsoft/playwright-mcp",
+      "repo_url": "https://github.com/microsoft/playwright-mcp",
+      "category": "mcp",
+      "score": 62.0,
+      "trend_score": 62.0,
+      "stars": 35274,
+      "velocity_7d": null,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/microsoft/playwright-mcp",
+          "label": "stars 35,274 · velocity_score 100"
+        }
+      ],
+      "status": "classic",
+      "low_confidence": true,
+      "catchphrase": "스크린샷 없이 접근성 스냅샷으로 - 비전 모델 불필요, 토큰 절약",
+      "summary_ko": "LLM이 스크린샷 대신 구조화된 접근성 스냅샷으로 웹 브라우저를 자동화하게 해주는 Microsoft의 MCP 서버. 픽셀 분석의 모호함을 피하고 Playwright 접근성 트리로 결정적으로 상호작용한다. 비전 모델 없이 구조화 데이터만 다뤄 토큰 부담이 적고, VS Code·Cursor·Claude Desktop·Goose 등 15개 이상 클라이언트와 연동된다. GitHub 단일 출처다.",
+      "key_features": [
+        "픽셀 대신 Playwright 접근성 트리로 결정적 상호작용",
+        "비전 모델 불필요 - 구조화 데이터로 토큰 절약",
+        "VS Code·Cursor·Claude Desktop 등 15개+ 클라이언트 지원"
+      ],
+      "use_case": "에이전트에게 스크린샷 기반 대신 안정적인 브라우저 자동화·E2E 조작을 시키고 싶을 때.",
+      "install_hint": "npx @playwright/mcp@latest (MCP 설정에 등록)",
+      "badges": [
+        "⭐ Classic",
+        "🔌 MCP",
+        "⚠️ 단일출처"
+      ],
+      "tags": [
+        "mcp",
+        "브라우저자동화",
+        "접근성",
+        "microsoft"
+      ],
+      "thumbnail_url": "https://github.com/microsoft.png"
+    },
+    {
+      "id": "ChromeDevTools/chrome-devtools-mcp",
+      "name": "chrome-devtools-mcp",
+      "owner": "ChromeDevTools",
+      "title_ko": "Chrome DevTools MCP - 에이전트용 크롬 디버깅·성능 분석",
+      "official_url": "https://github.com/ChromeDevTools/chrome-devtools-mcp",
+      "repo_url": "https://github.com/ChromeDevTools/chrome-devtools-mcp",
+      "category": "agent",
+      "score": 62.0,
+      "trend_score": 62.0,
+      "stars": 47207,
+      "velocity_7d": null,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/ChromeDevTools/chrome-devtools-mcp",
+          "label": "stars 47,207 · velocity_score 100"
+        }
+      ],
+      "status": "classic",
+      "low_confidence": true,
+      "catchphrase": "에이전트에게 크롬 개발자도구를 - 성능 트레이스·네트워크·콘솔",
+      "summary_ko": "Claude·Cursor·Copilot 같은 코딩 에이전트가 실제 크롬 브라우저를 제어·검사하게 해주는 MCP 서버. Chrome DevTools 기능을 에이전트에 노출해 브라우저 자동화·디버깅·성능 분석을 수행한다. 트레이스를 기록해 실행 가능한 성능 지표를 뽑고, 네트워크 요청 분석·스크린샷·소스맵 스택트레이스 콘솔 점검을 지원하며, Puppeteer로 자동 대기가 포함된 안정적 자동화를 제공한다. --slim 플래그로 핵심 3개 도구만 노출할 수도 있다. GitHub 단일 출처다.",
+      "key_features": [
+        "트레이스 기록으로 실행 가능한 성능 지표 추출",
+        "네트워크·스크린샷·소스맵 스택트레이스 콘솔 디버깅",
+        "Puppeteer 기반 자동 대기 포함 안정적 자동화(--slim 경량 모드)"
+      ],
+      "use_case": "에이전트가 프론트엔드 성능 병목이나 네트워크·콘솔 오류를 실제 크롬에서 진단하게 하고 싶을 때.",
+      "install_hint": "npx -y chrome-devtools-mcp@latest (MCP 설정에 등록)",
+      "badges": [
+        "⭐ Classic",
+        "🔌 MCP",
+        "⚠️ 단일출처"
+      ],
+      "tags": [
+        "agent",
+        "브라우저디버깅",
+        "성능분석",
+        "MCP"
+      ],
+      "thumbnail_url": "https://github.com/ChromeDevTools.png"
+    },
+    {
+      "id": "sansan0/TrendRadar",
+      "name": "TrendRadar",
+      "owner": "sansan0",
+      "title_ko": "TrendRadar - 멀티플랫폼 여론·트렌드 모니터링",
+      "official_url": "https://github.com/sansan0/TrendRadar",
+      "repo_url": "https://github.com/sansan0/TrendRadar",
+      "category": "mcp",
+      "score": 60.0,
+      "trend_score": 60.0,
+      "stars": 60699,
+      "velocity_7d": null,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/sansan0/TrendRadar",
+          "label": "stars 60,699 · velocity_score 100"
+        }
+      ],
+      "status": "classic",
+      "low_confidence": true,
+      "catchphrase": "11개+ 플랫폼 트렌드를 키워드·AI로 걸러 9개 채널로 푸시",
+      "summary_ko": "여러 플랫폼의 트렌드 토픽을 모아 키워드·AI로 걸러 알림을 보내는 AI 여론·트렌드 모니터링 도구. 즈후·더우인·빌리빌리·웨이보 등 11개 이상 플랫폼을 모니터링하며 RSS 구독과 키워드 정밀 필터링을 지원한다. WeChat Work·Feishu·DingTalk·Telegram·이메일·Bark·Slack 등 9개 이상 채널로 대용량 메시지 배치 전송을 하고, DeepSeek·OpenAI·Gemini 등으로 자연어 스마트 필터링·다국어 번역·자동 트렌드 분석 브리핑을 제공한다. 주로 중국어권 대상, GitHub 단일 출처다(한국어 명시 없음).",
+      "key_features": [
+        "11개+ (주로 중국) 플랫폼 트렌드 집계 + 키워드 필터링",
+        "WeChat·Feishu·Telegram·Slack 등 9개+ 채널 푸시",
+        "DeepSeek·OpenAI·Gemini 기반 스마트 필터·번역·분석 브리핑"
+      ],
+      "use_case": "여러 플랫폼의 트렌드를 자동 수집·필터링해 메신저로 받아보고 싶을 때. (주로 중국 플랫폼 대상)",
+      "install_hint": "docker run -d wantcat/trendradar (config.yaml 마운트)",
+      "badges": [
+        "⭐ Classic",
+        "🔌 MCP",
+        "⚠️ 단일출처"
+      ],
+      "tags": [
+        "mcp",
+        "트렌드모니터링",
+        "여론",
+        "알림"
+      ],
+      "thumbnail_url": "https://github.com/sansan0.png"
     }
   ]
 }
