@@ -18,16 +18,17 @@ github-scout 결과(`_workspace/01_github_raw.json`)를 받아, **각 후보 리
 
 ## Phase A 쿼리 팩
 
-### Reddit
-JSON 접미사(`/.json`)로 구조화 데이터 획득.
+### Reddit — Google 우회 (직접 접근 불가)
+⚠️ **직접 접근 전면 차단.** `www.reddit.com/*.json`, `old.reddit.com`, redlib 미러 모두 datacenter IP 차단으로 403 (User-Agent 넣어도 무효, 2026-07 실측). curl·WebFetch로 reddit.com 직접 시도 금지 — 시간 낭비.
+**유일한 경로 = Google `site:reddit.com` (WebSearch).** SERP 스니펫으로 제목·서브레딧·언급 리포 확보(본문/댓글은 못 읽음 → engagement는 스니펫에 upvote/comment 숫자 보이면만 기록, 없으면 `engagement:null`).
 ```
-https://www.reddit.com/r/ClaudeAI/search.json?q=skill OR agent OR mcp OR harness&sort=top&t=week&restrict_sr=on
-https://www.reddit.com/r/ClaudeCode/top.json?t=week
-https://www.reddit.com/r/LocalLLaMA/search.json?q=%22claude+code%22&sort=new&t=week
-https://www.reddit.com/r/programming/search.json?q=claude+code&sort=top&t=week
-https://www.reddit.com/r/MachineLearning/search.json?q=claude+skill&t=month
+Google: site:reddit.com/r/ClaudeAI (skill OR agent OR mcp OR harness) after:{LAST_WEEK}
+Google: site:reddit.com/r/ClaudeCode after:{LAST_WEEK}
+Google: site:reddit.com "claude code" (skill OR mcp OR agent) after:{LAST_WEEK}
+Google: site:reddit.com/r/LocalLLaMA "claude code" after:{LAST_WEEK}
+Google: site:reddit.com/r/programming claude code after:{LAST_WEEK}
 ```
-**최소 20건**
+**최소 10건** (SERP 경유라 20건 강제는 완화. 0건이면 `02c.failures`에 "reddit SERP 0건" 명시)
 
 ### HackerNews (Algolia)
 ```
@@ -178,7 +179,7 @@ for repo_id in github_candidates:
 
 | 상황 | 대응 |
 |---|---|
-| Reddit JSON 차단 | Google `site:reddit.com` 우회 |
+| Reddit 직접 접근(json/old/mirror) | 전면 403, 시도 금지 → Google `site:reddit.com` WebSearch가 유일 경로 |
 | X 직접 접근 불가 | Google `site:x.com` 사용 |
 | HN Algolia 응답 없음 | `news.ycombinator.com/from?site=...` 시도 |
 | 어떤 소스도 0건 | `02c_coverage_report.json`에 명시 → analyzer가 단일출처 강등 강하게 적용 |

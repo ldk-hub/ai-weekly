@@ -23,7 +23,7 @@ github-scout이 제출한 후보 리포 리스트(`_workspace/01_github_raw.json
 
 | 소스 | Phase A 최소 | Phase B 후보당 검색 횟수 |
 |---|---|---|
-| Reddit (4 sub) | 20건 | 후보당 1회 |
+| Reddit (Google `site:` 전용) | 10건 (SERP 경유) | 후보당 1회 |
 | HackerNews | 15건 | 후보당 1회 |
 | dev.to | 15건 | 후보당 1회 |
 | X (Twitter) | 10건 | 후보당 1회 |
@@ -38,12 +38,13 @@ github-scout이 제출한 후보 리포 리스트(`_workspace/01_github_raw.json
 
 각 소스에서 아래 쿼리를 **모두** 돌린다 (1~2개만 돌리는 것 금지):
 
-### Reddit
-- `r/ClaudeAI/search?q=skill OR agent OR mcp OR harness&sort=top&t=week`
-- `r/ClaudeCode/top/?t=week`
-- `r/LocalLLaMA/search?q="claude code"&sort=new&t=week`
-- `r/programming/search?q=claude+code&sort=top&t=week`
-- `r/MachineLearning/search?q=claude+skill&t=month`
+### Reddit — Google `site:reddit.com` (WebSearch) 전용 ⚠️
+직접 접근(`*.json`/`old.reddit`/redlib 미러) 전면 403 — datacenter IP 차단, UA 무효(2026-07 실측). **reddit.com 직접 fetch/curl 금지.** Google 우회만:
+- `site:reddit.com/r/ClaudeAI (skill OR agent OR mcp OR harness) after:{LAST_WEEK}`
+- `site:reddit.com/r/ClaudeCode after:{LAST_WEEK}`
+- `site:reddit.com "claude code" (skill OR mcp OR agent) after:{LAST_WEEK}`
+- `site:reddit.com/r/LocalLLaMA "claude code" after:{LAST_WEEK}`
+- `site:reddit.com/r/programming claude code after:{LAST_WEEK}`
 
 ### HackerNews
 - `hn.algolia.com/?q=claude+code&dateRange=pastWeek&sort=byPopularity`
@@ -198,7 +199,7 @@ trend-analyzer가 즉시 사용 가능한 형태:
 
 | 상황 | 대응 |
 |---|---|
-| Reddit 차단 | Google `site:reddit.com` 우회 |
+| Reddit 직접 접근 | 전면 403(json/old/mirror), 시도 금지 → Google `site:reddit.com` WebSearch가 유일 경로 |
 | X 직접 접근 불가 | Google `site:x.com` + 캐시 페이지 사용 |
 | HN Algolia 응답 없음 | hn.algolia.com 직접 URL 시도 |
 | Phase B 후보 50개 초과 | 점수 상위 30개만 우선 처리, 나머지는 보고서에 기록 |
