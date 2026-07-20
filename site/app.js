@@ -713,7 +713,7 @@ const CRITERIA_HTML = `
     </div>
   </div>
 
-  <p class="cr-foot">각 섹션 상위 12개 선별 · 동점은 최근 업데이트순 · 채점 미달은 다음 주 재검토</p>
+  <p class="cr-foot">카테고리별 정원 내 점수순 선별 (Rising: skill 8·mcp 6·agent 4·harness 2 / Classic: skill 6·mcp 4·agent 4·harness 2) · 동점은 최근 업데이트순 · 정원 미달은 억지로 채우지 않음 · 채점 미달은 다음 주 재검토</p>
 
   <a class="m-cta" href="https://github.com/ldk-hub/ai-weekly" target="_blank" rel="noopener">
     소스 코드 보기 →
