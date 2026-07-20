@@ -75,9 +75,10 @@ description: "GitHub + 커뮤니티 원시 데이터를 분석해 '최신 화제
 
 `sources` 필드(github-scout + community-scout 합집합) 검사 후:
 
-- **sources 개수 == 1 AND score < 70** → `pending` 큐로 이동, 사이트 노출 금지
-  - 사유: 다중 출처 교차검증이 위클렌드의 핵심 차별점. 한 곳에서만 발견된 신호는 노이즈일 가능성 크다
-- **sources 개수 == 1 AND score >= 70** → Rising/Classic 허용하되 `low_confidence: true` 표기 (배지에 ⚠️ 단일출처)
+- **velocity 예외 (Reddit 부재 보정)**: `velocity_score >= 80` (폭발 성장) 이면 sources 개수 무관하게 강등 면제 → Rising 허용, `low_confidence:true` (배지 ⚠️ 단일출처). GitHub star velocity 자체가 커뮤니티와 독립된 하드 증거. Reddit이 구조적으로 수집 불가한 환경에서 급부상 리포가 커뮤니티 교차검증 부재로 pending에 갇히는 것을 방지.
+- **sources 개수 == 1 AND score < 60** → `pending` 큐로 이동, 사이트 노출 금지 (컷 70→60: Reddit 부재로 buzz(총점 30%)가 구조적으로 눌려 절대 점수가 낮아진 것 보정)
+  - 사유: 다중 출처 교차검증이 위클렌드의 핵심 차별점. 한 곳에서만 발견된 신호는 노이즈일 가능성 크다. 단 위 velocity 예외는 우선한다
+- **sources 개수 == 1 AND score >= 60** → Rising/Classic 허용하되 `low_confidence: true` 표기 (배지에 ⚠️ 단일출처)
 - **sources 개수 >= 2** → 정상 처리
 - **sources 개수 >= 3** → buzz 가산점 +10 유지
 

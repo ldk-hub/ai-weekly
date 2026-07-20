@@ -23,8 +23,8 @@ GitHub 기준:
 ```
 buzz = min(100, sum(log(upvotes + comments + 1)) * 10)
 ```
-- **다중 플랫폼 가산**: 3개 이상 플랫폼에서 언급되면 +15
-- HN/Reddit 프론트페이지(점수 100+)는 +10
+- **다중 플랫폼 가산**: 2개 이상 +10, 3개 이상 +15 (Reddit 구조적 제외 보정 — reddit.com은 현 환경서 수집 불가하므로 소스 기대치에서 제외하고 나머지 플랫폼 기준으로 계산)
+- HN 프론트페이지(점수 100+)는 +10
 
 ## 3) Quality (0~100)
 
@@ -59,8 +59,9 @@ buzz = min(100, sum(log(upvotes + comments + 1)) * 10)
 
 **Rising 조건 (OR):**
 - `created_at` ≤ 30일 이전
-- `velocity_score` ≥ 60 AND 최근 14일 커뮤니티 언급 3건 이상
-- HN/Reddit 프론트페이지 최근 7일 내 도달
+- `velocity_score` ≥ 60 AND 최근 14일 커뮤니티 언급 2건 이상 (Reddit 부재 보정: 3→2)
+- `velocity_score` ≥ 80 (폭발 성장) — 커뮤니티 언급·출처 수 무관. GitHub star velocity 자체가 하드 증거. 단, `low_confidence:true` 표기
+- HN 프론트페이지 최근 7일 내 도달
 
 **Classic 조건 (AND):**
 - stars ≥ 500
