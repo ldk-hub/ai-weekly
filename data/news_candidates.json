@@ -1,183 +1,15 @@
 {
   "candidates": [
     {
-      "id": "geeknews_178417816856198",
+      "id": "geeknews_1784686902195583",
       "platform": "GeekNews",
-      "url": "https://github.com/teddylee777/machine-learning",
-      "author": "baeba",
-      "publish_date": "2026-07-16T00:47:55.000Z",
-      "content": "「Machine Learning Study 혼자 해보기」\n1. 문서의 목적과 구성 이 글은 머신러닝·딥러닝을 독학하려는 사람들을 위해 강의, 블로그, GitHub, 논문, 데이터셋 등을 체계적으로 모은 학습 ...",
-      "likes": 54,
-      "shares": 6,
-      "timestamp": "2026-07-16T05:02:48.561Z",
-      "is_official": false,
-      "references": [
-        "GeekNews"
-      ],
-      "tags": [
-        "트렌드",
-        "GeekNews"
-      ],
-      "multimedia": [],
-      "related_articles": []
-    },
-    {
-      "id": "geeknews_1784178168561625",
-      "platform": "GeekNews",
-      "url": "https://x.com/jakecastilloooo/status/2069417525947912540",
-      "author": "GN⁺",
-      "publish_date": "2026-07-16T00:48:01.000Z",
-      "content": "소비자 앱을 구축하고 확장하는 법\nCal AI가 18개월 만에 Health & Fitness 부문 1위 앱으로 성장하는 과정에서, 소비자 앱 확장의 가장 큰 병목은 제품 개발보다 유통(distribution)...",
-      "likes": 40,
-      "shares": 5,
-      "timestamp": "2026-07-16T05:02:48.561Z",
-      "is_official": false,
-      "references": [
-        "GeekNews"
-      ],
-      "tags": [
-        "트렌드",
-        "GeekNews"
-      ],
-      "multimedia": [],
-      "related_articles": []
-    },
-    {
-      "id": "geeknews_178417816856121",
-      "platform": "GeekNews",
-      "url": "https://thinkingmachines.ai/news/introducing-inkling/",
-      "author": "GN⁺",
-      "publish_date": "2026-07-16T00:43:28.000Z",
-      "content": "Inkling: Thinking Machines Lab의 오픈 웨이트 모델\n처음부터 학습해 전체 가중치를 공개한 Inkling은 총 975B·활성 41B 파라미터의 MoE Transformer로, 최대 1M 토큰 문맥과 텍스트·이미지·오디오 기...",
-      "likes": 38,
-      "shares": 9,
-      "timestamp": "2026-07-16T05:02:48.561Z",
-      "is_official": false,
-      "references": [
-        "GeekNews"
-      ],
-      "tags": [
-        "트렌드",
-        "GeekNews"
-      ],
-      "multimedia": [],
-      "related_articles": []
-    },
-    {
-      "id": "geeknews_1784178168561293",
-      "platform": "GeekNews",
-      "url": "https://suganthan.com/blog/how-chatgpt-picks-sources/",
-      "author": "GN⁺",
-      "publish_date": "2026-07-16T00:38:59.000Z",
-      "content": "ChatGPT는 실제로 어떻게 출처를 고르는가 (네트워크 트래픽 분석)\n로그인된 Pro 계정 하나에서 며칠간 수집한 약 1,240개 출처 레코드를 분석해, 최종 답변만으로는 볼 수 없는 출처 파이프라인·질의 분류·검색어·...",
-      "likes": 23,
-      "shares": 3,
-      "timestamp": "2026-07-16T05:02:48.561Z",
-      "is_official": false,
-      "references": [
-        "GeekNews"
-      ],
-      "tags": [
-        "트렌드",
-        "GeekNews"
-      ],
-      "multimedia": [],
-      "related_articles": []
-    },
-    {
-      "id": "geeknews_1784178168561380",
-      "platform": "GeekNews",
-      "url": "https://github.com/lesovsky/noisia",
-      "author": "xguru",
-      "publish_date": "2026-07-16T00:31:02.000Z",
-      "content": "noisia - PostgreSQL용 유해한 워크로드 생성기\n연결 고갈/잠금 대기/교착 상태/OOM/디스크 부족 같은 장애 상황을 의도적으로 만들어 테스트하는 실패 주입 도구 유휴 트랜잭션/롤백/교착 상태/...",
-      "likes": 37,
-      "shares": 0,
-      "timestamp": "2026-07-16T05:02:48.561Z",
-      "is_official": false,
-      "references": [
-        "GeekNews"
-      ],
-      "tags": [
-        "트렌드",
-        "GeekNews"
-      ],
-      "multimedia": [],
-      "related_articles": []
-    },
-    {
-      "id": "geeknews_1784178168561634",
-      "platform": "GeekNews",
-      "url": "https://mort.coffee/home/sqlite-editions/",
-      "author": "GN⁺",
-      "publish_date": "2026-07-16T00:06:58.000Z",
-      "content": "SQLite에도 Rust 스타일의 에디션이 필요함\nSQLite는 로컬 저장소와 임베디드 프로젝트에 널리 쓰이는 자체 완결형 RDBMS지만, 하위 호환성 때문에 안전성과 성능에 불리한 기본값을 유지하고...",
-      "likes": 12,
-      "shares": 5,
-      "timestamp": "2026-07-16T05:02:48.561Z",
-      "is_official": false,
-      "references": [
-        "GeekNews"
-      ],
-      "tags": [
-        "트렌드",
-        "GeekNews"
-      ],
-      "multimedia": [],
-      "related_articles": []
-    },
-    {
-      "id": "geeknews_1784178168561800",
-      "platform": "GeekNews",
-      "url": "https://hackney.app/",
-      "author": "sungchi",
-      "publish_date": "2026-07-16T04:07:45.000Z",
-      "content": "Hackney 라이딩 서비스 비교 앱\n다양한 라이딩앱을 연결해서 하나의 앱으로 비용, 경로 등을 비교해볼 수 있는 앱입니다. 어떻게 앱스토어 심사를 통과했는지가 제일 궁금하네요.",
-      "likes": 31,
-      "shares": 7,
-      "timestamp": "2026-07-16T05:02:48.561Z",
-      "is_official": false,
-      "references": [
-        "GeekNews"
-      ],
-      "tags": [
-        "트렌드",
-        "GeekNews"
-      ],
-      "multimedia": [],
-      "related_articles": []
-    },
-    {
-      "id": "geeknews_178417816856130",
-      "platform": "GeekNews",
-      "url": "https://techcrunch.com/2026/07/15/anthropic-blackstone-bet-the-next-trillion-dollar-ai-business-is-implementation-not-models/",
-      "author": "humblebee",
-      "publish_date": "2026-07-16T04:07:41.000Z",
-      "content": "앤트로픽·블랙스톤, 15억 달러 규모 &#039;AI 구현&#039; 합작사 Ode 출범\nAnthropic, Blackstone, Hellman & Friedman 3사가 엔터프라이즈 AI 구현 전문 회사 &quot;Ode with Anthropic&quot;을 7월 15일 정식 공개함. 5월에 결성된 ...",
-      "likes": 26,
-      "shares": 3,
-      "timestamp": "2026-07-16T05:02:48.561Z",
-      "is_official": false,
-      "references": [
-        "GeekNews"
-      ],
-      "tags": [
-        "트렌드",
-        "GeekNews"
-      ],
-      "multimedia": [],
-      "related_articles": []
-    },
-    {
-      "id": "geeknews_1784178168561707",
-      "platform": "GeekNews",
-      "url": "https://www.databricks.com/blog/benchmarking-coding-agents-databricks-multi-million-line-codebase",
-      "author": "sungchi",
-      "publish_date": "2026-07-16T03:51:39.000Z",
-      "content": "Databricks가 자체 코딩 AI 벤치마크를 만든 방법과 결과\n공개된 코딩 벤치마크는 회사별 상황에 딱 맞지 않고 치팅이 가능한 것이 문제 Databricks에서 실제 수행한 과제, 언어로 벤치마크를 만들어 평가 ...",
+      "url": "https://news.hada.io/topic?id=31660",
+      "author": "GeekNews",
+      "publish_date": "2026-07-21T13:33:31.000Z",
+      "content": "Moonshine - PC 게임을 Moonlight가 실행되는 모든 기기로 스트리밍\nMoonshine은 PC 게임 화면을 Moonlight 클라이언트로 전송하고 키보드·마우스·컨트롤러 입력을 호스트로 돌려보내 원격 플레이를 지원하는 Linux 호스트임\n스트림마다 별도의 Wayland 컴포지터를 사용해 데스크톱과 격리하며, 스트리밍 중에도 호스트 PC를 계속 사...",
       "likes": 51,
       "shares": 5,
-      "timestamp": "2026-07-16T05:02:48.561Z",
+      "timestamp": "2026-07-22T02:21:42.195Z",
       "is_official": false,
       "references": [
         "GeekNews"
@@ -186,19 +18,389 @@
         "트렌드",
         "GeekNews"
       ],
+      "category_name": "GeekNews",
+      "category_id": "geeknews",
       "multimedia": [],
       "related_articles": []
     },
     {
-      "id": "geeknews_1784178168562395",
+      "id": "geeknews_1784686902195344",
       "platform": "GeekNews",
-      "url": "https://news.hada.io/topic?id=31487",
-      "author": "pjhun0412",
-      "publish_date": "2026-07-16T03:16:25.000Z",
-      "content": "Show GN: KafkaPilot - Apache Kafka 데스크톱 클라이언트를 만들어봤습니다.\n안녕하세요. 최근 몇 달 동안 제가 사용할 KafkaPilot이라는 Apache Kafka 데스크톱 클라이언트를 개발했습니다. Kafka를 사용하다 보면 토픽을 조...",
+      "url": "https://news.hada.io/topic?id=31659",
+      "author": "GeekNews",
+      "publish_date": "2026-07-21T13:01:09.000Z",
+      "content": "Gitolite\nGitolite는 중앙 서버에서 Git 저장소를 호스팅하며, 저장소별로 세밀한 접근 제어를 적용할 수 있게 함\n패키지 관리자로 설치할 때는 흔히 gitolite3 라는 이름을 사용하며, 소스 코드는 Codeberg와 GitHub에서 제공됨\nUn...",
+      "likes": 16,
+      "shares": 1,
+      "timestamp": "2026-07-22T02:21:42.195Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "category_name": "GeekNews",
+      "category_id": "geeknews",
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_1784686902195696",
+      "platform": "GeekNews",
+      "url": "https://news.hada.io/topic?id=31657",
+      "author": "GeekNews",
+      "publish_date": "2026-07-21T12:20:23.000Z",
+      "content": "Show GN: 뽑로그 - FDM·레진을 한 곳에서 다루는 3D프린팅 지식 사이트\nFDM 과 레진을 한 사이트에서 다루는 한국어 3D프린팅 지식 사이트를 만들었습니다.\n[왜 만들었나]\n\"엔더3 첫 레이어\", \"PETG 스트링\" 같은 걸 검색하면 개봉기와 제휴 리뷰가 먼저 나오고, 정작 필요한 \"내 기종 x 내 소재 셋팅값\"은 카페·갤러리·개인 블로그로 흩어져",
+      "likes": 52,
+      "shares": 9,
+      "timestamp": "2026-07-22T02:21:42.195Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "category_name": "GeekNews",
+      "category_id": "geeknews",
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_178468690219571",
+      "platform": "GeekNews",
+      "url": "https://news.hada.io/topic?id=31656",
+      "author": "GeekNews",
+      "publish_date": "2026-07-21T11:34:37.000Z",
+      "content": "인간 수학자, 반례 찾기에서 AI에 추월당하다\nChatGPT와 Claude 계열 모델이 불과 몇 주 사이 Erdős의 단위 거리 추측, Grothendieck의 군 스킴 질문, Jacobian Conjecture에 반례를 만들었으며 일부는 Lean으로 검증됨\nOpenAI의 Sol은 Erdős 반례와 필요한 전역 유체론 결과를 3주 만에 120만 줄의 Lean 코드로...",
+      "likes": 42,
+      "shares": 7,
+      "timestamp": "2026-07-22T02:21:42.195Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "category_name": "GeekNews",
+      "category_id": "geeknews",
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_1784686902195380",
+      "platform": "GeekNews",
+      "url": "https://news.hada.io/topic?id=31653",
+      "author": "GeekNews",
+      "publish_date": "2026-07-21T08:01:21.000Z",
+      "content": "Git 훅과 nq로 만드는 최소형 CI\n개인 서버의 bare Git 저장소에 post-receive 훅을 추가해 테스트, 빌드, 파일 이동을 자동화하는 간단한 CI 구성임\n기존 CI는 복잡한 YAML 설정과 느린 실행, 어려운 자체 호스팅에 비해 완전한 빌드 격리나 비밀정보 관리까지 필요하지 않았음\n훅에서 작업을...",
+      "likes": 19,
+      "shares": 4,
+      "timestamp": "2026-07-22T02:21:42.195Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "category_name": "GeekNews",
+      "category_id": "geeknews",
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_1784686902195279",
+      "platform": "GeekNews",
+      "url": "https://news.hada.io/topic?id=31651",
+      "author": "GeekNews",
+      "publish_date": "2026-07-21T04:02:17.000Z",
+      "content": "美 연방법원, 앤트로픽 15억 달러 저작권 합의 최종 승인\n미 샌프란시스코 연방법원이 7월 20일 앤트로픽의 15억 달러 저작권 집단소송 합의를 최종 승인했다. 공개된 미국 저작권 소송 사상 최대 배상 규모다.\n• 2026-07-20 캘리포니아 북부지법 Martinez-Olguin 판사, 15억 달러(+이자) 합의 최종 승인 — \"역대 최대 저작권 배상",
+      "likes": 14,
+      "shares": 8,
+      "timestamp": "2026-07-22T02:21:42.195Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "category_name": "GeekNews",
+      "category_id": "geeknews",
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_1784686902195897",
+      "platform": "GeekNews",
+      "url": "https://news.hada.io/topic?id=31649",
+      "author": "GeekNews",
+      "publish_date": "2026-07-21T03:01:30.000Z",
+      "content": "Apple Maps 군시설 노출과 정보보안\n해당 포스트는 법과학 글임. 애플맵에서 블러 처리된 정보가 오히려 숨겨진 정보를 찾아내는 표지가 됨. 해당 포스트에서는 로카르 교환법칙을 소개하며 모든 접촉은 흔적을 남긴다는 명제를 바탕으로 포렌식 사례와 정보보안 예시를 듬.\n검열은 신호를 남긴다\n지도 서비스(카카오맵, 네이버, 애",
+      "likes": 35,
+      "shares": 8,
+      "timestamp": "2026-07-22T02:21:42.195Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "category_name": "GeekNews",
+      "category_id": "geeknews",
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_1784686902195865",
+      "platform": "GeekNews",
+      "url": "https://news.hada.io/topic?id=31648",
+      "author": "GeekNews",
+      "publish_date": "2026-07-21T02:34:20.000Z",
+      "content": "Jelly UI - 네이티브 HTML 폼 컨트롤에 소프트 바디 물리 효과 적용\nJelly UI v1.1은 실제 폼 컨트롤과 말랑한 소프트 바디 물리 효과를 결합한 의존성 없는 웹 컴포넌트 라이브러리로, 40개 커스텀 엘리먼트를 제공함\n하나의 모듈 스크립트로 설치하며 다크 모드, 운영체제 테마 자동 추적, 강조색 변경, 오른쪽에서 왼쪽으로 쓰는 ...",
+      "likes": 20,
+      "shares": 8,
+      "timestamp": "2026-07-22T02:21:42.195Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "category_name": "GeekNews",
+      "category_id": "geeknews",
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_1784686902195513",
+      "platform": "GeekNews",
+      "url": "https://news.hada.io/topic?id=31646",
+      "author": "GeekNews",
+      "publish_date": "2026-07-21T01:42:46.000Z",
+      "content": "Kimi K3·Qwen 3.8과 Anthropic의 잠재적 균열\nMoonshot Labs의 Kimi K3와 Alibaba의 Qwen 3.8이 Anthropic Fable 5에 근접한 성능을 내는 것으로 알려졌고, 수주 안에 가중치까지 공개될 예정이어서 최첨단 모델 경쟁이 개방형 모델로 확장됨\n모델 개발에는 연구 인력·컴퓨팅·전력이 필요하지만, 배포 후 추론의...",
+      "likes": 58,
+      "shares": 3,
+      "timestamp": "2026-07-22T02:21:42.195Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "category_name": "GeekNews",
+      "category_id": "geeknews",
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_1784686902195761",
+      "platform": "GeekNews",
+      "url": "https://news.hada.io/topic?id=31645",
+      "author": "GeekNews",
+      "publish_date": "2026-07-21T01:40:00.000Z",
+      "content": "arXiv 논문 12,750편에서 AI 문체를 측정한 방법과 한계\narXiv 논문 12,750편의 본문 전체를 분석한 결과, 최신 논문의 약 3분의 1이 기계 작성처럼 읽혔으며 최근 완결 분기 판정률은 약 32%였음\n2021~2022년 논문을 인간 작성 대조군으로 삼아 오탐률 0.4% 에 맞춰 임계값을 설정하고, 버전 1 PDF와 부트스트랩 95% 신뢰...",
+      "likes": 47,
+      "shares": 7,
+      "timestamp": "2026-07-22T02:21:42.195Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "category_name": "GeekNews",
+      "category_id": "geeknews",
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_1784686902195651",
+      "platform": "GeekNews",
+      "url": "https://news.hada.io/topic?id=31644",
+      "author": "GeekNews",
+      "publish_date": "2026-07-21T01:25:01.000Z",
+      "content": "Kimi Work: 지식 노동자를 위한 차세대 데스크톱 AI 에이전트\nKimi Work는 로컬 파일 연결, 브라우저 자동화, 백그라운드 코드 실행, 예약 작업을 결합해 깊이 있는 업무를 수행하는 데스크톱 AI 에이전트임\n내장 Cron 엔진으로 LLM 에이전트 호출과 Python·Shell 실행을 매일, 매시간 또는 조건에 따라 자동화하며, Kee...",
+      "likes": 26,
+      "shares": 9,
+      "timestamp": "2026-07-22T02:21:42.195Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "category_name": "GeekNews",
+      "category_id": "geeknews",
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_1784686902195820",
+      "platform": "GeekNews",
+      "url": "https://news.hada.io/topic?id=31643",
+      "author": "GeekNews",
+      "publish_date": "2026-07-21T01:24:40.000Z",
+      "content": "Show GN: 어디서든 창을 잡아 옮기는 초경량 맥 유틸 Snatch\n맥에서 창을 옮기거나 크기 조절할 때 꼭 타이틀바나 가장자리를 정확히 잡아야 하는 게 불편해서 만들었습니다.\nSnatch는 수정자 키를 누른 채 창 위 아무 데서나 마우스를 움직이면 창이 따라오는 메뉴바 유틸입니다. 리눅스의 \"Alt+드래그로 창 이동\"을 맥으로 옮긴 것이고, Rectangle Pro의 여러",
+      "likes": 29,
+      "shares": 6,
+      "timestamp": "2026-07-22T02:21:42.195Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "category_name": "GeekNews",
+      "category_id": "geeknews",
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_1784686902195469",
+      "platform": "GeekNews",
+      "url": "https://news.hada.io/topic?id=31642",
+      "author": "GeekNews",
+      "publish_date": "2026-07-21T01:23:36.000Z",
+      "content": "누가 중국 모델을 두려워하는가?\n중국 오픈 웨이트 모델 Kimi K3가 최첨단 모델에 근접했지만, AI 사업의 경쟁력은 모델 개발비보다 정답 수준의 지능을 제공하는 매출원가(COGS) 에서 갈림\n모델마다 정답에 도달하는 데 필요한 토큰 양이 달라 토큰 자체는 대체 가능한 상품이 아니며, 실제로 상품...",
+      "likes": 55,
+      "shares": 1,
+      "timestamp": "2026-07-22T02:21:42.195Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "category_name": "GeekNews",
+      "category_id": "geeknews",
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_1784686902195617",
+      "platform": "GeekNews",
+      "url": "https://news.hada.io/topic?id=31641",
+      "author": "GeekNews",
+      "publish_date": "2026-07-21T01:15:37.000Z",
+      "content": "OpenCode의 성가시고 불안한 문제들\nGitHub 스타 16.1만 개를 받은 오픈소스 AI 코딩 에이전트 OpenCode를 로컬 Qwen3.6-27B로 시험한 결과, 도구 품질과 보안 설계 모두 사용을 중단해야 할 수준이었음\nAGENTS.md 재로딩, 고정 거리 컨텍스트 가지치기, 현재 날짜 삽입, 모드 전환이 프롬프트 캐시를...",
+      "likes": 48,
+      "shares": 9,
+      "timestamp": "2026-07-22T02:21:42.195Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "category_name": "GeekNews",
+      "category_id": "geeknews",
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_1784686902195235",
+      "platform": "GeekNews",
+      "url": "https://news.hada.io/topic?id=31640",
+      "author": "GeekNews",
+      "publish_date": "2026-07-21T01:12:37.000Z",
+      "content": "WordPress RCE를 GPT5.6과 25달러로 발견\nGPT5.6 Sol Ultra가 최신 안정판 WordPress를 분석해 인증 전 SQL 주입부터 관리자 계정 생성과 원격 코드 실행(RCE)까지 이어지는 공격 체인을 10여 시간 만에 완성함\n출발점은 WordPress 5.6부터 제공된 Batch API의 배열 인덱스 불일치로, 재귀 Batch 요청을 결...",
+      "likes": 50,
+      "shares": 3,
+      "timestamp": "2026-07-22T02:21:42.195Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "category_name": "GeekNews",
+      "category_id": "geeknews",
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_1784686902195454",
+      "platform": "GeekNews",
+      "url": "https://news.hada.io/topic?id=31639",
+      "author": "GeekNews",
+      "publish_date": "2026-07-21T01:09:37.000Z",
+      "content": "Xiaomi-Robotics-1 - 10만 시간의 실제 데이터로 학습한 로봇 파운데이션 모델\n10만 시간 규모의 로봇 비종속 UMI 궤적으로 사전 학습한 뒤 실제 로봇 데이터로 후속 학습해, 로봇 정책 모델의 데이터 부족을 완화하는 기반 모델\n1,700개 이상의 시나리오를 자동 주석 처리해 일반적인 행동 생성 능력을 익히고, 후속 학습에서 로봇 형태와 자연어 명령에...",
+      "likes": 53,
+      "shares": 2,
+      "timestamp": "2026-07-22T02:21:42.195Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "category_name": "GeekNews",
+      "category_id": "geeknews",
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_1784686902195518",
+      "platform": "GeekNews",
+      "url": "https://news.hada.io/topic?id=31638",
+      "author": "GeekNews",
+      "publish_date": "2026-07-21T01:06:37.000Z",
+      "content": "EU가 무비자 여행을 대가로 민감한 개인정보를 미국에 넘기려 함\n미국은 무비자 프로그램 유지를 조건으로 각국의 생체정보 데이터베이스 접근권을 요구했고, EU 집행위원회는 이를 반영한 EBSP 기본협정 협상을 마무리하고 있음\nEBSP는 여행자 심사와 신원 확인을 위해 개인정보를 자동 교환하며, EU 회원국이 미국과 개별 양자 협정",
+      "likes": 24,
+      "shares": 7,
+      "timestamp": "2026-07-22T02:21:42.195Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "category_name": "GeekNews",
+      "category_id": "geeknews",
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_1784686902195926",
+      "platform": "GeekNews",
+      "url": "https://news.hada.io/topic?id=31637",
+      "author": "GeekNews",
+      "publish_date": "2026-07-21T01:03:37.000Z",
+      "content": "해커가 루마니아 토지 등기 데이터베이스를 삭제\n해커가 ANCPI에 침입해 금품 요구가 실패하자 토지 등기 데이터베이스와 백업을 삭제하면서 루마니아 부동산 시장이 일주일간 사실상 멈춤\n공격자는 유효한 자격 증명으로 진입해 내부 시스템을 파악한 뒤 데이터를 삭제했으며, ANCPI 이메일 서버와 공식 앱·웹사...",
       "likes": 54,
       "shares": 0,
-      "timestamp": "2026-07-16T05:02:48.562Z",
+      "timestamp": "2026-07-22T02:21:42.195Z",
       "is_official": false,
       "references": [
         "GeekNews"
@@ -207,40 +409,21 @@
         "트렌드",
         "GeekNews"
       ],
+      "category_name": "GeekNews",
+      "category_id": "geeknews",
       "multimedia": [],
       "related_articles": []
     },
     {
-      "id": "geeknews_1784178168562155",
+      "id": "geeknews_1784686902195264",
       "platform": "GeekNews",
-      "url": "https://news.hada.io/topic?id=31486",
-      "author": "finepdf",
-      "publish_date": "2026-07-16T02:30:03.000Z",
-      "content": "Show GN: 논문/문서자료 인쇄비가 아까워서 여백제거 모아찍기 변환기를 직접 만들었습니다\n안녕하세요, 문서와 논문을 매일 인쇄하다가 종이값이 아까워서 직접 만든 Windows용 PDF 여백제거 N-up 변환기입니다. 왜 만들었나 프린터 드라이...",
-      "likes": 38,
-      "shares": 4,
-      "timestamp": "2026-07-16T05:02:48.562Z",
-      "is_official": false,
-      "references": [
-        "GeekNews"
-      ],
-      "tags": [
-        "트렌드",
-        "GeekNews"
-      ],
-      "multimedia": [],
-      "related_articles": []
-    },
-    {
-      "id": "geeknews_1784178168562349",
-      "platform": "GeekNews",
-      "url": "https://news.hada.io/topic?id=31468",
-      "author": "dnfbd",
-      "publish_date": "2026-07-15T20:51:25.000Z",
-      "content": "Show GN: 뉴스레터 구독만 해두고 안 읽고 있지 않나요?\n코그니가 대신 최신 해외 AI·개발 뉴스레터를 요약해드릴게요. 해외 뉴스레터에서 중요한 소식만 가져와, 핵심만 한눈에 볼 수 있게 정리합니다.",
+      "url": "https://news.hada.io/topic?id=31636",
+      "author": "GeekNews",
+      "publish_date": "2026-07-21T01:00:37.000Z",
+      "content": "Claude Fable이 Jacobian 추측의 반례를 만들다\nClaude Fable이 만든 것으로 소개된 다항식 사상은 Jacobian 행렬식이 상수 -2이면서 서로 다른 세 점을 같은 점으로 보내 Jacobian 추측의 반례가 됨\n이 사상은 ℂ³ → ℂ³에서 정의되며, 세 성분 모두 x, y...",
       "likes": 41,
-      "shares": 1,
-      "timestamp": "2026-07-16T05:02:48.562Z",
+      "shares": 7,
+      "timestamp": "2026-07-22T02:21:42.195Z",
       "is_official": false,
       "references": [
         "GeekNews"
@@ -249,19 +432,44 @@
         "트렌드",
         "GeekNews"
       ],
+      "category_name": "GeekNews",
+      "category_id": "geeknews",
       "multimedia": [],
       "related_articles": []
     },
     {
-      "id": "geeknews_1784178168562529",
+      "id": "geeknews_1784686902195949",
       "platform": "GeekNews",
-      "url": "https://news.hada.io/topic?id=31485",
-      "author": "p2c2kbf",
-      "publish_date": "2026-07-16T01:47:47.000Z",
-      "content": "Show GN: Claude 공식 업타임 99.55%인데 6월 인시던트 45건 — 6월 AI 서비스 신뢰도 리포트\nAIWatch는 Claude·OpenAI·Gemini 등 41개 AI 서비스(LLM API·코딩 에이전트·음성·인프라·AI 앱)의 업타임·인시던트·지연을 실시간으로 모니터링합...",
-      "likes": 23,
+      "url": "https://news.hada.io/topic?id=31635",
+      "author": "GeekNews",
+      "publish_date": "2026-07-21T00:57:37.000Z",
+      "content": "공항 시뮬레이터\n착륙과 출발 현황을 한 화면에서 집계해 공항 운영 흐름을 보여주는 시뮬레이터임\n착륙 횟수는 Landings 항목에서 집계함\n출발 횟수는 Departures 항목에서 집계함\n진행 속도는 Pace 항목에서 분당 항공편 수...",
+      "likes": 53,
+      "shares": 3,
+      "timestamp": "2026-07-22T02:21:42.195Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "category_name": "GeekNews",
+      "category_id": "geeknews",
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_1784686902195781",
+      "platform": "GeekNews",
+      "url": "https://news.hada.io/topic?id=31634",
+      "author": "GeekNews",
+      "publish_date": "2026-07-21T00:54:36.000Z",
+      "content": "중국의 오픈 가중치 AI 전략이 앞서고 있음\nAI 모델은 브랜드 충성도와 피상적인 전환 비용 외에는 방어력이 크지 않아, 중국의 오픈 가중치 전략이 미국의 폐쇄형 모델보다 넓은 배포 생태계를 형성하고 있음\n기업 AI의 실질적인 방어력은 모델보다 계약, 사내 시스템 연동, 편의 기능 같은 주변 서비스에서...",
+      "likes": 25,
       "shares": 0,
-      "timestamp": "2026-07-16T05:02:48.562Z",
+      "timestamp": "2026-07-22T02:21:42.195Z",
       "is_official": false,
       "references": [
         "GeekNews"
@@ -270,19 +478,205 @@
         "트렌드",
         "GeekNews"
       ],
+      "category_name": "GeekNews",
+      "category_id": "geeknews",
       "multimedia": [],
       "related_articles": []
     },
     {
-      "id": "geeknews_1784178168562783",
+      "id": "geeknews_1784686902195409",
       "platform": "GeekNews",
-      "url": "https://dpa-international.com/economics/urn:newsml:dpa.com:20090101:260715-930-389143/",
-      "author": "GN⁺",
-      "publish_date": "2026-07-16T01:31:33.000Z",
-      "content": "OpenAI, EU 법원 상표권 분쟁에서 패소\nEU 일반법원은 일부 소프트웨어·IT 상품 및 서비스에서 OPENAI가 제품 특성을 나타내는 서술적 용어이므로 상표 보호에 필요한 식별력이 없다고 판...",
-      "likes": 31,
+      "url": "https://news.hada.io/topic?id=31632",
+      "author": "GeekNews",
+      "publish_date": "2026-07-21T00:31:02.000Z",
+      "content": "monitor-input-rs - DDC/CI로 모니터 입력 소스를 바꾸는 커맨드라인 도구\nDDC/CI 프로토콜로 모니터의 입력 소스(DisplayPort, HDMI, USB-C 등)를 커맨드라인에서 전환하는 도구로, 윈/맥/리눅스 모두 지원\n이름/인덱스 뒤에 =입력소스 를 붙여 입력 소스를 직접 지정가능\n\nmonitor-input Dell=dp1 → ...",
+      "likes": 52,
+      "shares": 7,
+      "timestamp": "2026-07-22T02:21:42.195Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "category_name": "GeekNews",
+      "category_id": "geeknews",
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_1784686902195376",
+      "platform": "GeekNews",
+      "url": "https://news.hada.io/topic?id=31631",
+      "author": "GeekNews",
+      "publish_date": "2026-07-21T00:02:54.000Z",
+      "content": "수랭식 침대를 제어하는 API 클라이언트 bedctl\n더운 침실과 체온 민감성 때문에 Sleep.me Chilipad 2.0을 1,700달러에 구입하고, 제조사의 클라우드 API를 제어하는 bedctl을 개발함\nChilipad는 물이 순환하는 얇은 토퍼와 펌프·저수조·온도조절기를 결합하며, 요일별 온도 예약과 침대 한쪽부터 설치하는 모...",
+      "likes": 18,
+      "shares": 5,
+      "timestamp": "2026-07-22T02:21:42.195Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "category_name": "GeekNews",
+      "category_id": "geeknews",
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_1784686902195449",
+      "platform": "GeekNews",
+      "url": "https://news.hada.io/topic?id=31630",
+      "author": "GeekNews",
+      "publish_date": "2026-07-20T23:40:26.000Z",
+      "content": "마지막 MPEG-4 Visual 특허가 만료됨\nMPEG-4 Part 2에 적용되던 마지막 특허가 2026년 7월 19일 만료됨\n미국과 EU에서는 관련 특허가 최근 몇 년 사이 이미 만료됐지만, 브라질에는 특허 1건이 남아 있었음\n마지막 특허는 연속 이미지의 시간 흐름에 따른 저장과 처리를 다루는 BRPI0...",
+      "likes": 13,
+      "shares": 9,
+      "timestamp": "2026-07-22T02:21:42.195Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "category_name": "GeekNews",
+      "category_id": "geeknews",
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_1784686902195771",
+      "platform": "GeekNews",
+      "url": "https://news.hada.io/topic?id=31629",
+      "author": "GeekNews",
+      "publish_date": "2026-07-20T23:37:26.000Z",
+      "content": "IndieWeb에 참여해 배운 것\nIndieWeb는 개인 도메인에 콘텐츠·정체성·대화를 보존하면서 필요에 따라 소셜 네트워크와 연결하는, 기업 중심 웹의 사람 중심 대안이자 커뮤니티임\n자체 도메인을 기반으로 microformats2, rel=\"me\", Webmention, IndieAuth, Micropub 같...",
+      "likes": 25,
+      "shares": 9,
+      "timestamp": "2026-07-22T02:21:42.195Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "category_name": "GeekNews",
+      "category_id": "geeknews",
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_1784686902195626",
+      "platform": "GeekNews",
+      "url": "https://news.hada.io/topic?id=31628",
+      "author": "GeekNews",
+      "publish_date": "2026-07-20T21:01:42.000Z",
+      "content": "왜 LangGraph 도입 후 코드가 더 복잡해졌나 — 실패에서 배운 기록\n\"상태 관리와 흐름 제어가 깔끔해지겠지\"라는 기대로 LangGraph를 도입했는데, 오히려 코드가 복잡해졌습니다.\n 진단해보니 상태는 이러했는데\n그래프에 노드가 하나뿐.",
+      "likes": 51,
+      "shares": 9,
+      "timestamp": "2026-07-22T02:21:42.195Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "category_name": "GeekNews",
+      "category_id": "geeknews",
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_1784686902195730",
+      "platform": "GeekNews",
+      "url": "https://news.hada.io/topic?id=31625",
+      "author": "GeekNews",
+      "publish_date": "2026-07-20T19:34:48.000Z",
+      "content": "하루 15원으로 완전히 독립적인 웹사이트 운영하기\nHardcore IndieWeb는 콘텐츠 원본과 게시 가능한 HTML·웹 자산을 자신의 장치에 보관해, 서비스 사업자에게 정체성과 콘텐츠 통제권을 맡기지 않는 방식임\nHTML을 브라우저에서 미리 본 뒤 호스트에 올리는 1990년대식 출판 과정을 따르면 CMS·SSG·프레임워크·CLI·...",
+      "likes": 34,
+      "shares": 7,
+      "timestamp": "2026-07-22T02:21:42.195Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "category_name": "GeekNews",
+      "category_id": "geeknews",
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_1784686902195698",
+      "platform": "GeekNews",
+      "url": "https://news.hada.io/topic?id=31624",
+      "author": "GeekNews",
+      "publish_date": "2026-07-20T18:33:18.000Z",
+      "content": "Moonshot AI, Kimi K3 수요 급증으로 신규 구독 일시 중단\nKimi K3 수요가 예상보다 크게 늘어 최근 48시간 동안 GPU 사용량이 현재 용량 한계에 근접함\n기존 구독자의 이용 경험을 보호하기 위해 신규 구독을 일시 중단하고 현재 회원에게 컴퓨팅 자원을 우선 배정함\n기존 유료 구독자는 영향을 받지 않으며, Moo...",
+      "likes": 29,
+      "shares": 9,
+      "timestamp": "2026-07-22T02:21:42.195Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "category_name": "GeekNews",
+      "category_id": "geeknews",
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_1784686902195766",
+      "platform": "GeekNews",
+      "url": "https://news.hada.io/topic?id=31623",
+      "author": "GeekNews",
+      "publish_date": "2026-07-20T17:33:33.000Z",
+      "content": "Kagi의 Orion Browser\nOrion은 WebKit 기반의 네이티브 속도와 폭넓은 확장 기능 호환성, 개인정보 보호를 함께 제공하도록 처음부터 설계된 브라우저임\n브라우저 전반을 사용자 방식에 맞게 설정할 수 있으며, 선별된 확장 기능과 Kagi 서비스를 기본 지원함",
+      "likes": 33,
+      "shares": 3,
+      "timestamp": "2026-07-22T02:21:42.195Z",
+      "is_official": false,
+      "references": [
+        "GeekNews"
+      ],
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "category_name": "GeekNews",
+      "category_id": "geeknews",
+      "multimedia": [],
+      "related_articles": []
+    },
+    {
+      "id": "geeknews_1784686902195436",
+      "platform": "GeekNews",
+      "url": "https://news.hada.io/topic?id=31622",
+      "author": "GeekNews",
+      "publish_date": "2026-07-20T15:24:29.000Z",
+      "content": "Show GN: newsline – Claude Code 기다리는 동안 상태줄에서 읽는 한 줄 뉴스\nClaude Code에 긴 작업을 시키면 esc to interrupt를 멍하니 보는 시간이 쌓입니다.\n무엇을 하나\n기존 상태줄(HUD) 아래 줄...",
+      "likes": 15,
       "shares": 6,
-      "timestamp": "2026-07-16T05:02:48.562Z",
+      "timestamp": "2026-07-22T02:21:42.195Z",
       "is_official": false,
       "references": [
         "GeekNews"
@@ -291,207 +685,9 @@
         "트렌드",
         "GeekNews"
       ],
+      "category_name": "GeekNews",
+      "category_id": "geeknews",
       "multimedia": [],
-      "related_articles": []
-    },
-    {
-      "id": "geeknews_1784178168562331",
-      "platform": "GeekNews",
-      "url": "https://www.reuters.com/business/finance/stripe-advent-offer-buy-paypal-more-than-53-billion-sources-say-2026-07-15/",
-      "author": "GN⁺",
-      "publish_date": "2026-07-16T01:30:13.000Z",
-      "content": "Stripe와 Advent, PayPal을 530억 달러 이상에 공동 인수 제안\nStripe와 사모펀드 Advent International이 PayPal을 주당 60.50달러, 기업가치 530억 달러 이상에 공동 인수하겠다는 제안을 제출함 두 회사는 Pa...",
-      "likes": 21,
-      "shares": 8,
-      "timestamp": "2026-07-16T05:02:48.562Z",
-      "is_official": false,
-      "references": [
-        "GeekNews"
-      ],
-      "tags": [
-        "트렌드",
-        "GeekNews"
-      ],
-      "multimedia": [],
-      "related_articles": []
-    },
-    {
-      "id": "news_x_001",
-      "platform": "X",
-      "url": "https://x.com/OpenAI/status/1780000000000000001",
-      "author": "OpenAI",
-      "publish_date": "2026-07-15T07:02:48.562Z",
-      "content": "GPT-4.5 Architecture finally revealed. We are moving towards a sparse MoE model with 10T parameters. Exciting times for AI developers! #GPT45 #OpenAI",
-      "references": [
-        "X"
-      ],
-      "tags": [
-        "AI",
-        "LLM",
-        "OpenAI"
-      ],
-      "multimedia": [
-        "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800"
-      ],
-      "related_articles": [
-        {
-          "title": "Inside OpenAI's new model",
-          "url": "https://x.com/OpenAI/status/1780000000000000002"
-        }
-      ]
-    },
-    {
-      "id": "news_x_002",
-      "platform": "X",
-      "url": "https://x.com/elonmusk/status/1780000000000000002",
-      "author": "elonmusk",
-      "publish_date": "2026-07-16T00:02:48.562Z",
-      "content": "Grok 2.0 is now rolling out. It has completely uncensored real-time access to the X firehose and out-performs GPT-4 on multiple benchmarks.",
-      "references": [
-        "X"
-      ],
-      "tags": [
-        "Grok",
-        "xAI"
-      ],
-      "multimedia": [],
-      "related_articles": []
-    },
-    {
-      "id": "news_x_003",
-      "platform": "X",
-      "url": "https://x.com/ylecun/status/1780000000000000003",
-      "author": "ylecun",
-      "publish_date": "2026-07-15T19:02:48.562Z",
-      "content": "LLMs are not AGI. We need objective-driven AI architecture to reach human-level intelligence. Auto-regressive models will plateau very soon.",
-      "references": [
-        "X"
-      ],
-      "tags": [
-        "AGI",
-        "Meta"
-      ],
-      "multimedia": [
-        "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=800"
-      ],
-      "related_articles": []
-    },
-    {
-      "id": "news_insta_001",
-      "platform": "Instagram",
-      "url": "https://instagram.com/p/CxaBcdEfGhi1",
-      "author": "ai_daily_trends",
-      "publish_date": "2026-07-15T09:02:48.562Z",
-      "content": "Midjourney v7 Sneak Peek! 미드저니 7버전 테스트 이미지 유출. 놀라운 텍스처와 프롬프트 이해도. (Swipe to see images)",
-      "references": [
-        "Instagram"
-      ],
-      "tags": [
-        "GenerativeArt",
-        "Midjourney"
-      ],
-      "multimedia": [
-        "https://images.unsplash.com/photo-1682687982501-1e58f81014e3?auto=format&fit=crop&q=80&w=800"
-      ],
-      "related_articles": []
-    },
-    {
-      "id": "news_insta_002",
-      "platform": "Instagram",
-      "url": "https://instagram.com/p/CxaBcdEfGhi2",
-      "author": "design_ai_hub",
-      "publish_date": "2026-07-16T00:02:48.562Z",
-      "content": "How I use Figma AI to generate entire UI systems in 5 seconds. The latest update just changed UI/UX design forever. Watch the reel!",
-      "references": [
-        "Instagram"
-      ],
-      "tags": [
-        "Figma",
-        "UIUX",
-        "Design"
-      ],
-      "multimedia": [
-        "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=800"
-      ],
-      "related_articles": []
-    },
-    {
-      "id": "news_insta_003",
-      "platform": "Instagram",
-      "url": "https://instagram.com/p/CxaBcdEfGhi3",
-      "author": "ai_art_gallery",
-      "publish_date": "2026-07-15T12:02:48.562Z",
-      "content": "Runway Gen-3 Alpha is mind blowing! Text-to-video has finally reached cinematic photorealism. Prompt: A cyberpunk city in the rain, ultra detailed.",
-      "references": [
-        "Instagram"
-      ],
-      "tags": [
-        "Runway",
-        "VideoAI"
-      ],
-      "multimedia": [
-        "https://images.unsplash.com/photo-1515630278258-407f66498911?auto=format&fit=crop&q=80&w=800"
-      ],
-      "related_articles": []
-    },
-    {
-      "id": "news_threads_001",
-      "platform": "Threads",
-      "url": "https://threads.net/t/CyaCdeFgHiJ1",
-      "author": "karpathy",
-      "publish_date": "2026-07-15T16:02:48.562Z",
-      "content": "Building LLMs from scratch is getting easier but also more complex at the orchestration level. The new trend is compounding AI systems.",
-      "references": [
-        "Threads",
-        "X"
-      ],
-      "tags": [
-        "LLM",
-        "Engineering"
-      ],
-      "multimedia": [],
-      "related_articles": []
-    },
-    {
-      "id": "news_threads_002",
-      "platform": "Threads",
-      "url": "https://threads.net/t/CyaCdeFgHiJ2",
-      "author": "swyx",
-      "publish_date": "2026-07-15T15:02:48.562Z",
-      "content": "AI Engineer Summit 2026 was incredible. The biggest takeaway: Prompt engineering is dead, Flow engineering is the new standard for agents.",
-      "references": [
-        "Threads"
-      ],
-      "tags": [
-        "Agents",
-        "AI_Summit"
-      ],
-      "multimedia": [],
-      "related_articles": [
-        {
-          "title": "Flow Engineering Deep Dive",
-          "url": "https://threads.net/t/CyaCdeFgHiJ2_2"
-        }
-      ]
-    },
-    {
-      "id": "news_threads_003",
-      "platform": "Threads",
-      "url": "https://threads.net/t/CyaCdeFgHiJ3",
-      "author": "langchain_ai",
-      "publish_date": "2026-07-15T11:02:48.562Z",
-      "content": "LangChain 1.0 is officially out. We've rewritten the core to be 10x faster and strictly typed. Migration guide is in the bio link.",
-      "references": [
-        "Threads",
-        "GeekNews"
-      ],
-      "tags": [
-        "LangChain",
-        "Framework"
-      ],
-      "multimedia": [
-        "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800"
-      ],
       "related_articles": []
     }
   ]

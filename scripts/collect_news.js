@@ -1,156 +1,296 @@
 #!/usr/bin/env node
 const fs = require('fs');
 const path = require('path');
-const https = require('https');
+const { chromium } = require('playwright');
+const Parser = require('rss-parser');
+const cheerio = require('cheerio');
+const moment = require('moment-timezone');
 
 const ROOT = path.join(__dirname, "..");
 const DATA_DIR = path.join(ROOT, "data");
 const CANDIDATES_FILE = path.join(DATA_DIR, "news_candidates.json");
+const CHROME_PROFILE_DIR = path.join(DATA_DIR, "chrome_profile");
 
-function fetchGeekNews() {
-  return new Promise((resolve, reject) => {
-    https.get('https://news.hada.io/', {
-      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' }
-    }, (res) => {
-      let data = '';
-      res.on('data', chunk => data += chunk);
-      res.on('end', () => {
-        // topic_row 매칭하여 title, desc, author, datetime 추출
-        const regex = /<div class='topic_row'.*?<div class=topictitle>.*?<a[^>]*href=['"]([^'"]+)['"][^>]*>.*?<h2[^>]*>(.*?)<\/h2>.*?<\/a>.*?<div class='topicdesc'>.*?<a[^>]*>(.*?)<\/a>.*?<div class='topicinfo'>.*?by <a[^>]*>(.*?)<\/a>\s*<time[^>]*datetime=['"]([^'"]+)['"]/gs;
-        const matches = [...data.matchAll(regex)];
-        const topics = [];
-        const now = Date.now();
-        const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
+// KST 타임존 기반 전일(어제) 하루 필터링
+const KST_TZ = 'Asia/Seoul';
+const NOW_KST = moment().tz(KST_TZ);
+const YESTERDAY_START = NOW_KST.clone().subtract(1, 'days').startOf('day');
+const YESTERDAY_END = NOW_KST.clone().subtract(1, 'days').endOf('day');
+const LEGACY_KEYWORDS = ["throwback", "icymi", "지난번", "과거", "회고", "추억", "years ago", "months ago", "in case you missed it", "지난 기사", "last year", "지난해"];
 
-        for (const m of matches) {
-          const pubDate = new Date(m[5].trim());
-          const content = m[2].trim() + "\n" + m[3].trim().replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+function isValidYesterday(dateString) {
+  if (!dateString) return false;
+  const pubDate = moment.tz(new Date(dateString), KST_TZ);
+  if (!pubDate.isValid()) return false;
+  return pubDate.isBetween(YESTERDAY_START, YESTERDAY_END, undefined, '[]');
+}
 
-          // 본문 유효성 검증 (비어있거나 10자 미만이면 제외)
-          if (!content || content.replace(/\s/g, '').length < 10) {
-            continue;
-          }
+function isLegacyContent(text) {
+  if (!text) return false;
+  const lowerText = text.toLowerCase();
+  return LEGACY_KEYWORDS.some(keyword => lowerText.includes(keyword));
+}
 
-          // 24시간 필터링 검증
-          if (now - pubDate.getTime() > TWENTY_FOUR_HOURS) {
-            continue; // 하루 지난 이슈는 무시
-          }
+// 1. GeekNews RSS 크롤링
+async function fetchGeekNews() {
+  console.log("Fetching GeekNews via RSS...");
+  const topics = [];
+  try {
+    const parser = new Parser();
+    const feed = await parser.parseURL('https://news.hada.io/rss/news');
+    
+    for (const item of feed.items) {
+      if (isValidYesterday(item.pubDate) && !isLegacyContent(item.title) && !isLegacyContent(item.contentSnippet)) {
+        topics.push({
+          id: "geeknews_" + Date.now() + Math.floor(Math.random()*1000),
+          platform: "GeekNews",
+          url: item.link,
+          author: item.creator || "GeekNews",
+          publish_date: new Date(item.pubDate).toISOString(),
+          content: `${item.title}\n${item.contentSnippet || item.content || ''}`,
+          likes: Math.floor(Math.random() * 50) + 10,
+          shares: Math.floor(Math.random() * 10),
+          timestamp: new Date().toISOString(),
+          is_official: false,
+          references: ["GeekNews"],
+          tags: ["트렌드", "GeekNews"],
+          category_name: "GeekNews",
+          category_id: "geeknews",
+          multimedia: [],
+          related_articles: []
+        });
+      }
+    }
+  } catch (error) {
+    console.warn("GeekNews RSS failed:", error.message);
+  }
+  return topics;
+}
 
+// 2. Playwright + Persistent Context 스크래핑
+async function fetchXData(context) {
+  console.log("Fetching X (Twitter) data via Playwright Persistent Context...");
+  const topics = [];
+  const accounts = ['OpenAI', 'ylecun']; 
+  const page = await context.newPage();
+  
+  for (const account of accounts) {
+    try {
+      await page.goto(`https://x.com/${account}`, { waitUntil: 'domcontentloaded', timeout: 30000 });
+      await page.waitForTimeout(4000); 
+      await page.waitForSelector('article', { timeout: 10000 }).catch(() => {});
+      
+      const tweets = await page.$$eval('article', articles => {
+        return articles.map(article => {
+          const timeEl = article.querySelector('time');
+          const datetime = timeEl ? timeEl.getAttribute('datetime') : null;
+          const textEl = article.querySelector('[data-testid="tweetText"]');
+          const text = textEl ? textEl.innerText : '';
+          const linkEl = article.querySelector('a[href*="/status/"]');
+          const link = linkEl ? linkEl.getAttribute('href') : null;
+          return { datetime, text, link };
+        });
+      });
+
+      for (const t of tweets) {
+        if (t.datetime && t.text && isValidYesterday(t.datetime) && !isLegacyContent(t.text)) {
           topics.push({
-            id: "geeknews_" + Date.now() + Math.floor(Math.random()*1000),
-            platform: "GeekNews",
-            url: m[1].startsWith('http') ? m[1] : 'https://news.hada.io/' + m[1],
-            author: m[4].trim(),
-            publish_date: pubDate.toISOString(),
-            content: m[2].trim() + "\n" + m[3].trim().replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>'),
-            likes: Math.floor(Math.random() * 50) + 10,
-            shares: Math.floor(Math.random() * 10),
+            id: "news_x_" + Date.now() + Math.floor(Math.random()*1000),
+            platform: "X",
+            url: t.link ? (t.link.startsWith('http') ? t.link : `https://x.com${t.link}`) : `https://x.com/${account}`,
+            author: account,
+            publish_date: new Date(t.datetime).toISOString(),
+            content: t.text,
+            likes: Math.floor(Math.random() * 1000) + 100,
+            shares: Math.floor(Math.random() * 100) + 10,
             timestamp: new Date().toISOString(),
-            is_official: false,
-            references: ["GeekNews"],
-            tags: ["트렌드", "GeekNews"],
+            is_official: account === 'OpenAI',
+            references: ["X"],
+            tags: ["AI", "Tech", account],
+            category_name: "X (Twitter)",
+            category_id: "x",
             multimedia: [],
             related_articles: []
           });
         }
-        resolve(topics);
-      });
-    }).on('error', reject);
-  });
+      }
+    } catch (e) {
+      console.warn(`Failed to scrape X account ${account}: ${e.message}`);
+    }
+  }
+  await page.close();
+  return topics;
 }
 
-function generateMockCandidates() {
-  const now = Date.now();
-  // 1시간 ~ 23시간 사이의 랜덤 과거 시간 생성
-  const randomRecentTime = () => new Date(now - (Math.floor(Math.random() * 22) + 1) * 60 * 60 * 1000).toISOString();
-
-  return [
-    {
-      id: "news_x_001", platform: "X",
-      url: "https://x.com/OpenAI/status/1780000000000000001", author: "OpenAI",
-      publish_date: randomRecentTime(),
-      content: "GPT-4.5 Architecture finally revealed. We are moving towards a sparse MoE model with 10T parameters. Exciting times for AI developers! #GPT45 #OpenAI",
-      references: ["X"], tags: ["AI", "LLM", "OpenAI"], multimedia: ["https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800"], related_articles: [{ title: "Inside OpenAI's new model", url: "https://x.com/OpenAI/status/1780000000000000002" }]
-    },
-    {
-      id: "news_x_002", platform: "X",
-      url: "https://x.com/elonmusk/status/1780000000000000002", author: "elonmusk",
-      publish_date: randomRecentTime(),
-      content: "Grok 2.0 is now rolling out. It has completely uncensored real-time access to the X firehose and out-performs GPT-4 on multiple benchmarks.",
-      references: ["X"], tags: ["Grok", "xAI"], multimedia: [], related_articles: []
-    },
-    {
-      id: "news_x_003", platform: "X",
-      url: "https://x.com/ylecun/status/1780000000000000003", author: "ylecun",
-      publish_date: randomRecentTime(),
-      content: "LLMs are not AGI. We need objective-driven AI architecture to reach human-level intelligence. Auto-regressive models will plateau very soon.",
-      references: ["X"], tags: ["AGI", "Meta"], multimedia: ["https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=800"], related_articles: []
-    },
-    {
-      id: "news_insta_001", platform: "Instagram",
-      url: "https://instagram.com/p/CxaBcdEfGhi1", author: "ai_daily_trends",
-      publish_date: randomRecentTime(),
-      content: "Midjourney v7 Sneak Peek! 미드저니 7버전 테스트 이미지 유출. 놀라운 텍스처와 프롬프트 이해도. (Swipe to see images)",
-      references: ["Instagram"], tags: ["GenerativeArt", "Midjourney"], multimedia: ["https://images.unsplash.com/photo-1682687982501-1e58f81014e3?auto=format&fit=crop&q=80&w=800"], related_articles: []
-    },
-    {
-      id: "news_insta_002", platform: "Instagram",
-      url: "https://instagram.com/p/CxaBcdEfGhi2", author: "design_ai_hub",
-      publish_date: randomRecentTime(),
-      content: "How I use Figma AI to generate entire UI systems in 5 seconds. The latest update just changed UI/UX design forever. Watch the reel!",
-      references: ["Instagram"], tags: ["Figma", "UIUX", "Design"], multimedia: ["https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=800"], related_articles: []
-    },
-    {
-      id: "news_insta_003", platform: "Instagram",
-      url: "https://instagram.com/p/CxaBcdEfGhi3", author: "ai_art_gallery",
-      publish_date: randomRecentTime(),
-      content: "Runway Gen-3 Alpha is mind blowing! Text-to-video has finally reached cinematic photorealism. Prompt: A cyberpunk city in the rain, ultra detailed.",
-      references: ["Instagram"], tags: ["Runway", "VideoAI"], multimedia: ["https://images.unsplash.com/photo-1515630278258-407f66498911?auto=format&fit=crop&q=80&w=800"], related_articles: []
-    },
-    {
-      id: "news_threads_001", platform: "Threads",
-      url: "https://threads.net/t/CyaCdeFgHiJ1", author: "karpathy",
-      publish_date: randomRecentTime(),
-      content: "Building LLMs from scratch is getting easier but also more complex at the orchestration level. The new trend is compounding AI systems.",
-      references: ["Threads", "X"], tags: ["LLM", "Engineering"], multimedia: [], related_articles: []
-    },
-    {
-      id: "news_threads_002", platform: "Threads",
-      url: "https://threads.net/t/CyaCdeFgHiJ2", author: "swyx",
-      publish_date: randomRecentTime(),
-      content: "AI Engineer Summit 2026 was incredible. The biggest takeaway: Prompt engineering is dead, Flow engineering is the new standard for agents.",
-      references: ["Threads"], tags: ["Agents", "AI_Summit"], multimedia: [], related_articles: [{ title: "Flow Engineering Deep Dive", url: "https://threads.net/t/CyaCdeFgHiJ2_2" }]
-    },
-    {
-      id: "news_threads_003", platform: "Threads",
-      url: "https://threads.net/t/CyaCdeFgHiJ3", author: "langchain_ai",
-      publish_date: randomRecentTime(),
-      content: "LangChain 1.0 is officially out. We've rewritten the core to be 10x faster and strictly typed. Migration guide is in the bio link.",
-      references: ["Threads", "GeekNews"], tags: ["LangChain", "Framework"], multimedia: ["https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800"], related_articles: []
+async function fetchInstagramData(context) {
+  console.log("Fetching Instagram data via Playwright Persistent Context...");
+  const topics = [];
+  const accounts = ['zuck', 'instagram'];
+  const page = await context.newPage();
+  
+  for (const account of accounts) {
+    try {
+      await page.goto(`https://www.instagram.com/${account}/`, { waitUntil: 'domcontentloaded', timeout: 30000 });
+      await page.waitForTimeout(4000);
+      await page.waitForSelector('time', { timeout: 10000 }).catch(() => {});
+      
+      const posts = await page.$$eval('a[href*="/p/"]', links => {
+        return links.map(link => {
+          const timeEl = link.querySelector('time');
+          const datetime = timeEl ? timeEl.getAttribute('datetime') : null;
+          return { link: link.getAttribute('href'), datetime };
+        });
+      });
+      
+      for (const p of posts) {
+        if (p.datetime && isValidYesterday(p.datetime)) {
+          topics.push({
+            id: "news_insta_" + Date.now() + Math.floor(Math.random()*1000),
+            platform: "Instagram",
+            url: p.link.startsWith('http') ? p.link : `https://www.instagram.com${p.link}`,
+            author: account,
+            publish_date: new Date(p.datetime).toISOString(),
+            content: `Instagram post from ${account}`,
+            likes: Math.floor(Math.random() * 500) + 50, 
+            shares: Math.floor(Math.random() * 50) + 5,
+            timestamp: new Date().toISOString(),
+            is_official: false,
+            references: ["Instagram"],
+            tags: ["Instagram", account],
+            category_name: "Instagram",
+            category_id: "instagram",
+            multimedia: [],
+            related_articles: []
+          });
+        }
+      }
+    } catch (e) {
+      console.warn(`Failed to scrape Instagram account ${account}: ${e.message}`);
     }
-  ];
+  }
+  await page.close();
+  return topics;
+}
+
+async function fetchThreadsData(context) {
+  console.log("Fetching Threads data via Playwright Persistent Context...");
+  const topics = [];
+  const accounts = ['zuck', 'mosseri'];
+  const page = await context.newPage();
+  
+  for (const account of accounts) {
+    try {
+      await page.goto(`https://www.threads.net/@${account}`, { waitUntil: 'domcontentloaded', timeout: 30000 });
+      await page.waitForTimeout(4000);
+      await page.waitForSelector('time', { timeout: 10000 }).catch(() => {});
+      
+      const posts = await page.$$eval('time', times => {
+        return times.map(timeEl => {
+          const datetime = timeEl.getAttribute('datetime');
+          let parent = timeEl.parentElement;
+          let link = null;
+          while (parent && !link) {
+            if (parent.tagName === 'A') link = parent.getAttribute('href');
+            parent = parent.parentElement;
+          }
+          return { datetime, link };
+        });
+      });
+      
+      for (const p of posts) {
+        if (p.datetime && p.link && isValidYesterday(p.datetime)) {
+          topics.push({
+            id: "news_threads_" + Date.now() + Math.floor(Math.random()*1000),
+            platform: "Threads",
+            url: p.link.startsWith('http') ? p.link : `https://www.threads.net${p.link}`,
+            author: account,
+            publish_date: new Date(p.datetime).toISOString(),
+            content: `Threads post from ${account}`,
+            likes: Math.floor(Math.random() * 300) + 30, 
+            shares: Math.floor(Math.random() * 30) + 3,
+            timestamp: new Date().toISOString(),
+            is_official: false,
+            references: ["Threads"],
+            tags: ["Threads", account],
+            category_name: "Threads",
+            category_id: "threads",
+            multimedia: [],
+            related_articles: []
+          });
+        }
+      }
+    } catch (e) {
+      console.warn(`Failed to scrape Threads account ${account}: ${e.message}`);
+    }
+  }
+  await page.close();
+  return topics;
 }
 
 async function main() {
-  console.log("뉴스 수집 시작 (GeekNews 크롤링 + 기타 매체 Mock)...");
+  const isSetup = process.argv.includes('--setup');
   
-  let geeknews = [];
-  try {
-    geeknews = await fetchGeekNews();
-    console.log(`GeekNews 수집 완료: ${geeknews.length}건`);
-  } catch (e) {
-    console.error("GeekNews 수집 실패:", e.message);
-  }
-
-  const mocks = generateMockCandidates();
-  const candidates = [...geeknews, ...mocks];
+  console.log("==========================================");
+  console.log(isSetup ? "🛠 [SETUP MODE] 초기 1회 로그인 모드를 실행합니다." : "뉴스 수집 시작 (Persistent Context 크롤링)");
+  console.log(`현재 시각 (KST): ${NOW_KST.format()}`);
+  if (!isSetup) console.log(`수집 기준 (KST): ${YESTERDAY_START.format()} ~ ${YESTERDAY_END.format()} (어제 하루)`);
+  console.log("==========================================\n");
   
   if (!fs.existsSync(DATA_DIR)) {
     fs.mkdirSync(DATA_DIR, { recursive: true });
   }
 
-  fs.writeFileSync(CANDIDATES_FILE, JSON.stringify({ candidates }, null, 2));
-  console.log(`수집 완료: 총 ${candidates.length}건의 기사 후보 저장됨 -> ${CANDIDATES_FILE}`);
+  let candidates = [];
+  
+  if (!isSetup) {
+    const geeknews = await fetchGeekNews();
+    console.log(`[GeekNews] 수집 완료: ${geeknews.length}건`);
+    candidates = candidates.concat(geeknews);
+  }
+
+  console.log(`\n[SNS] Launching browser with persistent context at ${CHROME_PROFILE_DIR}...`);
+  let context;
+  try {
+    context = await chromium.launchPersistentContext(CHROME_PROFILE_DIR, {
+      headless: !isSetup, 
+      viewport: { width: 1280, height: 720 },
+      // args: ['--disable-blink-features=AutomationControlled'] // 추가 안티봇 우회 설정
+    });
+
+    if (isSetup) {
+      console.log(`\n👉 [안내] 크롬 창이 열렸습니다.`);
+      console.log(`👉 X(트위터), 인스타그램, 스레드에 각각 직접 로그인해 주세요.`);
+      console.log(`👉 로그인이 끝났다면 이 터미널에서 Ctrl+C를 눌러 종료하시면 됩니다.`);
+      const page = await context.newPage();
+      await page.goto('https://x.com');
+      // 대기
+      await new Promise(() => {}); 
+    } else {
+      const xData = await fetchXData(context);
+      console.log(`[X/Twitter] 수집 완료: ${xData.length}건`);
+      candidates = candidates.concat(xData);
+
+      const instaData = await fetchInstagramData(context);
+      console.log(`[Instagram] 수집 완료: ${instaData.length}건`);
+      candidates = candidates.concat(instaData);
+
+      const threadsData = await fetchThreadsData(context);
+      console.log(`[Threads] 수집 완료: ${threadsData.length}건`);
+      candidates = candidates.concat(threadsData);
+    }
+  } catch (e) {
+    console.error("[SNS] Browser scraping failed:", e.message);
+  } finally {
+    if (context && !isSetup) {
+      await context.close();
+      console.log("[SNS] Browser context closed.");
+    }
+  }
+  
+  if (!isSetup) {
+    fs.writeFileSync(CANDIDATES_FILE, JSON.stringify({ candidates }, null, 2));
+    console.log(`\n✅ 수집 완료: 총 ${candidates.length}건의 기사 후보 저장됨 -> ${CANDIDATES_FILE}`);
+  }
 }
 
 main().catch(console.error);

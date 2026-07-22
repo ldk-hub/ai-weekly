@@ -18,9 +18,11 @@ const PROMPT_RULES = `너는 AI 산업 트렌드 전문 큐레이터다. 아래 
 [핵심 규칙 (Single Pass Pipeline)]
 1. 주식, 증시, 투자, 단순 재무 실적과 관련된 기사는 배열에서 완전히 배제(Drop)할 것.
 2. 오직 "신기술, 신기능, 개발자 도구" 중심의 기사만 남길 것.
-3. 남은 기사들은 글로벌 언급 빈도와 기술적 중요도(Signal Strength)를 종합 평가하여 가장 중요한(핫한) 순서대로 정렬할 것.
-4. 각 뉴스는 3문장 이내로 핵심만 요약(summary_ko)하고, 원문 또는 상세 내용은 본문(body_ko)에 최대한 풍부하게 담을 것.
-5. 출력은 아래 JSON 스키마를 엄격히 따를 것 (8가지 필수 필드 보장):
+3. [중요] 수집된 기사의 작성일은 최근이더라도, 내용이 과거 기술의 회고(Retrospective), 예전 기사의 단순 재공유, 혹은 이미 며칠 전에 끝난 이슈의 뒷북 요약인 경우(Legacy Content) 목록에서 완전히 제거(Drop)할 것. 오직 '어제' 새롭게 공개된 릴리즈, 기능 발표, 핫이슈만을 선정할 것.
+4. 남은 기사들은 글로벌 언급 빈도와 기술적 중요도(Signal Strength)를 종합 평가하여 가장 주목받는(핫한) 순서대로 정렬할 것.
+5. [제한] 위 조건을 모두 충족하는 '진짜 핫이슈'들 중에서 **최대 5개까지만** 엄선하여 결과 배열에 담을 것. 5개를 억지로 채울 필요 없으며, 기준 미달 시 1~4개만 반환해도 좋고 심지어 0개여도 무방함.
+6. 각 뉴스는 3문장 이내로 핵심만 요약(summary_ko)하고, 원문 또는 상세 내용은 본문(body_ko)에 최대한 풍부하게 담을 것.
+7. 출력은 아래 JSON 스키마를 엄격히 따를 것 (8가지 필수 필드 보장):
 
 {
   "summary": "전체 뉴스 흐름 한 줄 요약 (예: 새로운 AI 개발 도구와 오픈소스 모델의 약진)...",
@@ -123,7 +125,7 @@ function getMockGeminiResponse(candidates) {
       related_articles: c.related_articles || [],
       sources: c.references || [c.platform]
     };
-  });
+  }).slice(0, 5); // Mock 데이터도 최대 5개로 제한
   
   const dynamicSummary = candidates.length > 0
     ? `오늘의 주요 AI 트렌드: '${news[0].headline}' 등을 포함하여 총 ${candidates.length}건의 핫이슈가 수집되었습니다.`

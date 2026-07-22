@@ -1,1 +1,1 @@
-{"name":"aiweekly","private":true,"devDependencies":{"sharp":"^0.35.1"}}
+{"name":"aiweekly","private":true,"devDependencies":{"sharp":"^0.35.1"},"dependencies":{"cheerio":"^1.2.0","moment-timezone":"^0.6.3","playwright":"^1.61.1","rss-parser":"^3.13.0"}}

@@ -46,7 +46,8 @@ async function load(source) {
 
 async function loadArchives() {
   try {
-    const res = await fetch("public/data/archive/index.json", { cache: "no-store" });
+    const url = isNewsPage ? "public/data/archive/news_index.json" : "public/data/archive/index.json";
+    const res = await fetch(url, { cache: "no-store" });
     const j = await res.json();
     STATE.archives = j.archives || [];
   } catch (e) {
@@ -420,29 +421,10 @@ function render() {
             <p class="ns-text">${escapeHTML(d.summary)}</p>
           </div>
         `;
-        
-        // TOP 5 섹션 분리 (카테고리 all, 검색어 없을 때만)
-        if (list.length > 5) {
-          const top5 = list.slice(0, 5);
-          const rest = list.slice(5);
-          
-          html += `<h2 style="font-size:24px; font-weight:800; margin-bottom:20px; color:var(--accent);">🔥 가장 많이 언급된 TOP 5</h2>`;
-          html += `<div class="grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;margin-bottom:40px;">`;
-          html += top5.map(it => newsCardHTML(it)).join("");
-          html += `</div>`;
-          
-          html += `<h2 style="font-size:24px; font-weight:800; margin-bottom:20px; color:var(--ink);">📰 최신 핫이슈</h2>`;
-          html += `<div class="grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;">`;
-          html += rest.map(it => newsCardHTML(it)).join("");
-          html += `</div>`;
-          
-          el.innerHTML = html;
-          return;
-        }
       }
       
       html += `<div class="grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;">`;
-      html += list.map(it => newsCardHTML(it)).join("");
+      html += list.map((it, idx) => newsCardHTML(it, idx)).join("");
       html += `</div>`;
       el.innerHTML = html;
     }
@@ -477,21 +459,51 @@ function matchesNews(item) {
   return hay.includes(q);
 }
 
-function newsCardHTML(item) {
+function newsCardHTML(item, idx = 0) {
   const safeId = escapeHTML(item.id || "");
+  
+  const rank = idx + 1;
+  const isTop3 = rank <= 3 && STATE.category === "all" && !STATE.query;
+  
+  let sticker = "";
+  if (isTop3) {
+    const stColors = ["s-coral", "s-lemon", "s-lemon"];
+    const stBottoms = ["TOP", "급상승", "급상승"];
+    sticker = `
+      <div class="sticker ${stColors[idx]}">
+        <strong>#0${rank}</strong>
+        ${stBottoms[idx]}
+      </div>
+    `;
+  }
   
   // 멀티미디어 커버 이미지
   const cover = (item.multimedia && item.multimedia.length > 0) 
-    ? `<div style="margin:-20px -20px 16px -20px; border-radius:12px 12px 0 0; overflow:hidden;"><img src="${escapeHTML(item.multimedia[0])}" loading="lazy" style="width:100%; height:320px; object-fit:cover;" alt=""/></div>` 
+    ? `<div style="margin:-24px -24px 16px -24px; border-radius:16px 16px 0 0; overflow:hidden;"><img src="${escapeHTML(item.multimedia[0])}" loading="lazy" style="width:100%; height:320px; object-fit:cover;" alt=""/></div>` 
     : "";
 
-  const catTag = item.category_name ? `<span style="display:inline-block; margin-bottom:12px; padding:4px 12px; border-radius:8px; background:var(--glass-bg); font-size:12.5px; font-weight:700; color:var(--ink-2); border:1px solid var(--border);">${escapeHTML(item.category_name)}</span>` : "";
-  
-  // 작성자 및 발행일
-  const author = item.author ? escapeHTML(item.author) : "";
+  // 작성자 및 발행일 프로필 레이아웃
   const pubDate = item.publish_date ? new Date(item.publish_date) : null;
   const dateStr = pubDate ? `${pubDate.getMonth()+1}/${pubDate.getDate()} ${String(pubDate.getHours()).padStart(2,'0')}:${String(pubDate.getMinutes()).padStart(2,'0')}` : "";
-  const metaLine = (author || dateStr) ? `<div style="font-size:13px; color:var(--muted); margin-bottom:8px; font-weight:500;">${author}${author && dateStr ? " · " : ""}${dateStr}</div>` : "";
+  const authorStr = item.author ? escapeHTML(item.author) : "Unknown";
+  
+  let avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(authorStr)}&background=random&color=fff&bold=true`;
+  if (item.category_id === 'x' || item.platform === 'X') avatarUrl = `https://unavatar.io/x/${encodeURIComponent(authorStr)}`;
+  else if (item.category_id === 'instagram' || item.platform === 'Instagram') avatarUrl = `https://unavatar.io/instagram/${encodeURIComponent(authorStr)}`;
+  else if (item.category_id === 'geeknews' || item.platform === 'GeekNews') avatarUrl = `https://news.hada.io/apple-touch-icon.png`;
+
+  const headHtml = `
+    <div class="card-head" style="margin-bottom: 12px; padding-right: 60px;">
+      <img class="avatar" src="${avatarUrl}" alt="" loading="lazy" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(authorStr)}&background=F4F4F5&color=3F3F46&bold=true'"/>
+      <div class="head-meta">
+        <div class="category-label" style="text-transform: uppercase;">${escapeHTML(item.category_name || "NEWS")}</div>
+        <div class="repo-id" style="font-size: 13px; margin-top: 2px;">
+          <span class="owner" style="color: var(--ink); font-weight: 600;">${authorStr}</span>
+          ${dateStr ? `<span style="color: var(--muted);"> · ${dateStr}</span>` : ""}
+        </div>
+      </div>
+    </div>
+  `;
 
   const title = escapeHTML(item.headline || item.title_ko || "");
   const summary = item.summary_ko ? `<p style="margin-top:12px; font-size:15px; line-height:1.6; color:var(--text); opacity:0.9;">${escapeHTML(item.summary_ko)}</p>` : "";
@@ -531,10 +543,10 @@ function newsCardHTML(item) {
   ` : "";
 
   return `
-    <article class="card news-card" data-id="${safeId}" style="padding:24px; box-shadow:0 4px 12px rgba(0,0,0,0.05); border-radius:16px;">
+    <article class="card news-card" data-id="${safeId}" style="position:relative; padding:24px; box-shadow:0 4px 12px rgba(0,0,0,0.05); border-radius:16px;">
+      ${sticker}
       ${cover}
-      ${catTag}
-      ${metaLine}
+      ${headHtml}
       <h3 style="margin-top:0; margin-bottom:12px; line-height:1.45; font-size:20px;">${title}</h3>
       ${summary}
       ${bodyKo}
