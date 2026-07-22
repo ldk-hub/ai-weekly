@@ -2,33 +2,37 @@
 
 # AI위클리 <sub>· AI Weekly</sub>
 
-**이번 주 Claude Code에서 뭐가 뜨고, 뭐가 이미 자리잡았나.**
+**어제의 AI 트렌드와 이번 주 Claude Code 도구 생태계를 한 눈에.**
 
-GitHub과 개발자 커뮤니티에서 매주 수집하는 Claude Code · 에이전트 · 스킬 · 하네스 · MCP 인덱스.
+매일 업데이트되는 **데일리뉴스(3줄 요약)**와 매주 수집되는 **Claude Code 인기 플러그인 인덱스**를 제공합니다.
 
 [🌐 사이트](https://ldk-hub.github.io/ai-weekly/) ·
 [📡 RSS](https://ldk-hub.github.io/ai-weekly/feed.xml) ·
 [⭐ Star](https://github.com/ldk-hub/ai-weekly)
 
 ![Built with Claude Code](https://img.shields.io/badge/Built%20with-Claude%20Code-D97757?style=flat-square)
-![Auto Updated](https://img.shields.io/badge/Updated-Weekly%20·%20Mon%2009%3A00%20KST-22c55e?style=flat-square)
+![Auto Updated](https://img.shields.io/badge/Updated-Daily%20&%20Weekly-22c55e?style=flat-square)
 ![License](https://img.shields.io/badge/License-MIT-0e0e0e?style=flat-square)
 
 </div>
 
 ---
 
-## 왜 만들었나
+## 📰 데일리뉴스 (Daily News)
 
-Claude Code 도구는 매일 수십 개씩 쏟아진다. 인스타·트위터에서 "이거 좋다" 보고 일주일 지나면 어디 갔는지 모른다.
+매일 쏟아지는 방대한 AI 모델 릴리스, 연구, 제품, 산업 소식. 어디서부터 봐야 할지 모르는 분들을 위해 **어제 하루 동안 발생한 가장 핫한 트렌드**만 모아 **3줄 요약**으로 전달합니다.
 
-> **정보가 부족한 시대가 아니다. 아카이브가 안 되는 시대다.**
+- **광범위한 데이터 수집**: GeekNews, Hacker News, Reddit, X(Twitter), Instagram, Threads 등 주요 커뮤니티 및 소셜 미디어를 모두 훑어봅니다.
+- **안티봇 완벽 우회**: 로컬 크롬 세션 연동(Persistent Context) 기술을 사용하여 막히기 쉬운 소셜 미디어 플랫폼의 피드까지 100% 수집합니다.
+- **AI 큐레이션**: 단순히 긁어오는 것이 아니라, Gemini AI를 통해 가장 주목해야 할 5개의 핫이슈를 엄선하고 직관적인 3줄 요약으로 정제합니다.
 
-AI위클리는 **매주 월요일 한 번**, 그 주에 뜬 것과 이미 자리잡은 것을 한 페이지로 정리한다.
+## 🧩 인기 플러그인 (Popular Plugins)
+
+Claude Code 도구는 매일 수십 개씩 쏟아집니다. 인스타·트위터에서 "이거 좋다" 보고 일주일 지나면 어디 갔는지 모르는 정보들을 아카이브합니다. **매주 월요일 한 번**, 그 주에 뜬 것과 이미 자리잡은 것을 한 페이지로 정리합니다.
 
 - 🔥 **Rising** — 이번 주 급상승 + 커뮤니티에서 회자된 것
 - ⭐ **Classic** — 이미 검증된 필수 레퍼런스
-- 📦 **Archive** — 지난 주차 그대로 보존, 사이트 우상단에서 탐색
+- 📦 **Archive** — 지난 주차 리스트 보존 및 탐색
 
 ## 일반 awesome-list랑 뭐가 다른가
 
