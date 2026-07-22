@@ -1,0 +1,41 @@
+{
+  "generated_at": "2026-07-22T14:00:00Z",
+  "items": [
+    {
+      "id": "item-1",
+      "type": "paper",
+      "title": "Attention Is All You Need",
+      "summary": "The foundational paper for Transformer architecture.",
+      "tags": ["LLM", "Foundation"],
+      "estimated_time": "120m",
+      "url": "https://arxiv.org/abs/1706.03762"
+    },
+    {
+      "id": "item-2",
+      "type": "article",
+      "title": "Understanding LLM Agents",
+      "summary": "A comprehensive guide to building autonomous AI agents using LLMs.",
+      "tags": ["Agents", "Architecture"],
+      "estimated_time": "30m",
+      "url": "https://lilianweng.github.io/posts/2023-06-23-agent/"
+    },
+    {
+      "id": "item-3",
+      "type": "video",
+      "title": "Let's build GPT: from scratch, in code, spelled out.",
+      "summary": "Andrej Karpathy builds a GPT from scratch, focusing on the Transformer.",
+      "tags": ["Implementation", "PyTorch"],
+      "estimated_time": "116m",
+      "url": "https://www.youtube.com/watch?v=kCc8FmEb1nY"
+    },
+    {
+      "id": "item-4",
+      "type": "docs",
+      "title": "Model Context Protocol (MCP)",
+      "summary": "Official documentation for the Model Context Protocol, enabling standard context exchange.",
+      "tags": ["MCP", "Standard"],
+      "estimated_time": "45m",
+      "url": "https://modelcontextprotocol.io/"
+    }
+  ]
+}

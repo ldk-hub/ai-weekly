@@ -1,4 +1,5 @@
 const isNewsPage = !!document.getElementById("news-feed-container");
+const isStudyPage = !!document.getElementById("study-container");
 
 const STATE = {
   data: null,
@@ -25,11 +26,21 @@ const NEWS_CATEGORIES = [
   { id: "threads",   emoji: "🧵", label_ko: "Threads",      label_en: "Threads" },
 ];
 
+const STUDY_CATEGORIES = [
+  { id: "all",     emoji: "✨", label_ko: "전체",         label_en: "All" },
+  { id: "paper",   emoji: "📄", label_ko: "논문",         label_en: "Papers" },
+  { id: "article", emoji: "📝", label_ko: "아티클/블로그", label_en: "Articles" },
+  { id: "video",   emoji: "🎥", label_ko: "강의/영상",     label_en: "Videos" },
+  { id: "docs",    emoji: "📚", label_ko: "공식 문서",     label_en: "Docs" },
+];
+
 async function load(source) {
   STATE.source = source || "latest";
   let url;
   if (isNewsPage) {
     url = STATE.source === "latest" ? "public/data/news_latest.json" : `public/data/archive/news_${STATE.source}`;
+  } else if (isStudyPage) {
+    url = STATE.source === "latest" ? "public/data/study_latest.json" : `public/data/archive/study_${STATE.source}`;
   } else {
     url = STATE.source === "latest" ? "public/data/latest.json" : `public/data/archive/${STATE.source}`;
   }
@@ -37,7 +48,9 @@ async function load(source) {
     const res = await fetch(url, { cache: "no-store" });
     STATE.data = await res.json();
   } catch (e) {
-    STATE.data = isNewsPage ? { generated_at: null, news: [] } : { generated_at: null, rising: [], classic: [] };
+    if (isNewsPage) STATE.data = { generated_at: null, news: [] };
+    else if (isStudyPage) STATE.data = { generated_at: null, items: [] };
+    else STATE.data = { generated_at: null, rising: [], classic: [] };
   }
   renderUpdateBar();
   renderCategoryFilter();
@@ -46,7 +59,9 @@ async function load(source) {
 
 async function loadArchives() {
   try {
-    const url = isNewsPage ? "public/data/archive/news_index.json" : "public/data/archive/index.json";
+    let url = "public/data/archive/index.json";
+    if (isNewsPage) url = "public/data/archive/news_index.json";
+    if (isStudyPage) url = "public/data/archive/study_index.json";
     const res = await fetch(url, { cache: "no-store" });
     const j = await res.json();
     STATE.archives = j.archives || [];
@@ -151,6 +166,19 @@ function renderCategoryFilter() {
     const list = (STATE.data?.news || []);
     wrap.innerHTML = NEWS_CATEGORIES.map(c => {
       const count = c.id === "all" ? list.length : list.filter(x => x.category_id === c.id).length;
+      if (c.id !== "all" && count === 0) return "";
+      const label = lang === "en" ? c.label_en : c.label_ko;
+      const active = STATE.category === c.id ? "is-active" : "";
+      return `<button class="cat-chip ${active}" data-cat="${c.id}" type="button">
+        <span class="cat-emoji">${c.emoji}</span>
+        <span>${label}</span>
+        <span class="cat-count">${count}</span>
+      </button>`;
+    }).join("");
+  } else if (isStudyPage) {
+    const list = (STATE.data?.items || []);
+    wrap.innerHTML = STUDY_CATEGORIES.map(c => {
+      const count = c.id === "all" ? list.length : list.filter(x => x.type === c.id).length;
       if (c.id !== "all" && count === 0) return "";
       const label = lang === "en" ? c.label_en : c.label_ko;
       const active = STATE.category === c.id ? "is-active" : "";
@@ -407,24 +435,54 @@ function render() {
       const kstDate = new Date(genTime.getTime() + (9 * 60 + genTime.getTimezoneOffset()) * 60000);
       const kstStr = kstDate.toISOString().replace('T', ' ').substring(0, 16) + ' KST';
       
-      html += `
-        <div style="font-size: 13px; color: var(--muted); margin-bottom: 24px; line-height: 1.5; background: var(--bg); padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border);">
-          <strong>기준:</strong> ${kstStr} &middot; <strong>수집 구간:</strong> 최근 24시간 &middot; <strong>출처:</strong> Threads &middot; X(트위터) &middot; GeekNews &middot; <strong>정렬:</strong> 언급 빈도/신호 강도<br/>
-          주식&middot;증시&middot;투자 신호는 제외하고 신기술&middot;신기능&middot;개발자 도구 중심으로 정리했습니다. ⚠️ 게시물에 나온 모델명&middot;수치 등 표현은 그대로 옮겼으며 원문 출처는 미검증입니다.
-        </div>
-      `;
-
       if (STATE.category === "all" && !STATE.query && d.summary) {
         html += `
-          <div class="news-summary-box" style="margin-bottom:32px;">
-            <div class="ns-label">한 줄 흐름</div>
-            <p class="ns-text">${escapeHTML(d.summary)}</p>
+          <div class="daily-briefing-panel">
+            <div class="db-header">
+              <span class="db-title">💡 오늘의 AI 트렌드</span>
+            </div>
+            <p class="db-summary">${escapeHTML(d.summary)}</p>
+            <div class="db-chips">
+              <span class="db-chip">🕒 ${kstStr} 기준</span>
+              <span class="db-chip">📡 X, Insta, Threads, HN, Reddit, GeekNews</span>
+              <span class="db-chip">🔥 최근 24시간 핫이슈</span>
+            </div>
+            <div class="db-footer">
+              ⚠️ 주식·투자 관련 신호는 제외합니다. 게시물 내 모델명 및 수치 등은 원문 그대로 옮겼으며 교차 검증되지 않았습니다.
+            </div>
+          </div>
+        `;
+      } else {
+        html += `
+          <div class="daily-briefing-panel is-compact">
+            <div class="db-chips">
+              <span class="db-chip">🕒 ${kstStr} 기준</span>
+              <span class="db-chip">📡 최근 24시간 핫이슈 정렬</span>
+            </div>
           </div>
         `;
       }
       
       html += `<div class="grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;">`;
       html += list.map((it, idx) => newsCardHTML(it, idx)).join("");
+      html += `</div>`;
+      el.innerHTML = html;
+    }
+  } else if (isStudyPage) {
+    const el = document.getElementById("study-container");
+    if (!el) return;
+    renderCategoryFilter();
+    let list = (d.items || []);
+    if (STATE.category !== "all") {
+      list = list.filter(x => x.type === STATE.category);
+    }
+    list = list.filter(matchesStudy);
+
+    if (list.length === 0) {
+      el.innerHTML = `<div style="text-align:center;padding:60px 0;color:var(--muted);font-size:15px;">스터디 자료가 없습니다. 검색어를 변경해보세요.</div>`;
+    } else {
+      let html = `<div class="grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;padding-top:20px;">`;
+      html += list.map((it, idx) => studyCardHTML(it, idx)).join("");
       html += `</div>`;
       el.innerHTML = html;
     }
@@ -553,6 +611,52 @@ function newsCardHTML(item, idx = 0) {
       ${tags}
       ${related}
       <div class="src-line" style="margin-top:20px; flex-wrap:wrap; gap:8px;">${sources}</div>
+      ${linkBtn}
+    </article>
+  `;
+}
+
+function matchesStudy(item) {
+  if (!STATE.query) return true;
+  const q = STATE.query.toLowerCase();
+  const hay = [
+    item.title, item.summary, item.type,
+    (item.tags || []).join(" ")
+  ].join(" ").toLowerCase();
+  return hay.includes(q);
+}
+
+function studyCardHTML(item, idx) {
+  const safeId = escapeHTML(item.id || "");
+  const title = escapeHTML(item.title || "");
+  const summary = escapeHTML(item.summary || "");
+  const time = escapeHTML(item.estimated_time || "");
+  const tags = (item.tags || []).map(t => `<span class="src-chip" style="background:var(--pill); border:none; padding:4px 8px; font-size:12px;">#${escapeHTML(t)}</span>`).join("");
+  const linkBtn = item.url ? `
+    <div class="card-foot" style="margin-top:24px; border-top:1px solid rgba(255,255,255,0.06); padding-top:16px;">
+      <span class="meta-left" style="color:var(--muted); font-size:13px; font-weight:500;">⏱️ ${time}</span>
+      <a class="repo-link" href="${escapeHTML(item.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+        자료 보기 <span class="arrow">→</span>
+      </a>
+    </div>
+  ` : "";
+
+  let categoryLabel = item.type;
+  const catObj = STUDY_CATEGORIES.find(c => c.id === item.type);
+  if (catObj) {
+    categoryLabel = getLang() === "en" ? catObj.label_en : catObj.label_ko;
+  }
+
+  return `
+    <article class="card study-card" data-id="${safeId}" style="position:relative; padding:24px; box-shadow:0 4px 12px rgba(0,0,0,0.05); border-radius:16px; cursor:pointer;" onclick="window.open('${escapeHTML(item.url)}', '_blank')">
+      <div class="card-head" style="margin-bottom: 12px;">
+        <div class="head-meta" style="margin-left: 0;">
+          <div class="category-label" style="text-transform: uppercase;">${escapeHTML(categoryLabel || "")}</div>
+        </div>
+      </div>
+      <h3 style="margin-top:0; margin-bottom:12px; line-height:1.45; font-size:20px;">${title}</h3>
+      ${summary ? `<p style="margin-top:12px; font-size:15px; line-height:1.6; color:var(--text); opacity:0.9;">${summary}</p>` : ""}
+      ${tags ? `<div style="margin-top:16px; display:flex; flex-wrap:wrap; gap:8px;">${tags}</div>` : ""}
       ${linkBtn}
     </article>
   `;
