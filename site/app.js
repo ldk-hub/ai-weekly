@@ -440,24 +440,20 @@ function render() {
           <div class="daily-briefing-panel">
             <div class="db-header">
               <span class="db-title">💡 오늘의 AI 트렌드</span>
+              <span class="db-meta">🕒 ${kstStr} · 📡 X · Threads · HN · Reddit · GeekNews · 최근 24시간</span>
             </div>
             <p class="db-summary">${escapeHTML(d.summary)}</p>
-            <div class="db-chips">
-              <span class="db-chip">🕒 ${kstStr} 기준</span>
-              <span class="db-chip">📡 X, Insta, Threads, HN, Reddit, GeekNews</span>
-              <span class="db-chip">🔥 최근 24시간 핫이슈</span>
-            </div>
             <div class="db-footer">
-              ⚠️ 주식·투자 관련 신호는 제외합니다. 게시물 내 모델명 및 수치 등은 원문 그대로 옮겼으며 교차 검증되지 않았습니다.
+              ⚠️ 주식·투자 신호는 제외, 게시물 내 모델명·수치는 원문 그대로이며 교차 검증되지 않았습니다.
             </div>
           </div>
         `;
       } else {
         html += `
           <div class="daily-briefing-panel is-compact">
-            <div class="db-chips">
-              <span class="db-chip">🕒 ${kstStr} 기준</span>
-              <span class="db-chip">📡 최근 24시간 핫이슈 정렬</span>
+            <div class="db-header" style="margin-bottom:0;">
+              <span class="db-title">💡 검색 결과</span>
+              <span class="db-meta">🕒 ${kstStr} · 최근 24시간 핫이슈 정렬</span>
             </div>
           </div>
         `;

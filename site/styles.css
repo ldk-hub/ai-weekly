@@ -1814,7 +1814,16 @@ main {
   margin-bottom: 24px;
 }
 .db-header {
-  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.db-meta {
+  font-size: 13px;
+  color: var(--muted);
 }
 .db-title {
   display: inline-block;
@@ -1830,22 +1839,6 @@ main {
   color: var(--ink);
   margin: 0 0 20px 0;
   word-break: keep-all;
-}
-.db-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-.db-chip {
-  display: inline-flex;
-  align-items: center;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  color: var(--sub);
-  font-size: 12px;
-  font-weight: 500;
-  padding: 4px 10px;
-  border-radius: 20px;
 }
 .db-footer {
   margin-top: 20px;
