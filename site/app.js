@@ -547,13 +547,27 @@ function newsCardHTML(item, idx = 0) {
   const authorStr = item.author ? escapeHTML(item.author) : "Unknown";
   
   let avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(authorStr)}&background=random&color=fff&bold=true`;
-  if (item.category_id === 'x' || item.platform === 'X') avatarUrl = `https://unavatar.io/x/${encodeURIComponent(authorStr)}`;
-  else if (item.category_id === 'instagram' || item.platform === 'Instagram') avatarUrl = `https://unavatar.io/instagram/${encodeURIComponent(authorStr)}`;
-  else if (item.category_id === 'geeknews' || item.platform === 'GeekNews') avatarUrl = `https://news.hada.io/apple-touch-icon.png`;
+  let platformIconHtml = "";
+  
+  if (item.category_id === 'x' || item.platform === 'X') {
+    avatarUrl = `https://unavatar.io/x/${encodeURIComponent(authorStr)}`;
+    platformIconHtml = `<span class="platform-dot" style="position:absolute; bottom:-4px; right:-4px; width:14px; height:14px; background:#000; border-radius:50%; border:2px solid var(--card); display:flex; align-items:center; justify-content:center; color:#fff; font-size:8px; font-weight:bold;">𝕏</span>`;
+  } else if (item.category_id === 'instagram' || item.platform === 'Instagram') {
+    avatarUrl = `https://unavatar.io/instagram/${encodeURIComponent(authorStr)}`;
+    platformIconHtml = `<span class="platform-dot" style="position:absolute; bottom:-4px; right:-4px; width:14px; height:14px; background:linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); border-radius:50%; border:2px solid var(--card); display:flex; align-items:center; justify-content:center; color:#fff; font-size:8px;"><svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M7.75 2h8.5c3.17 0 5.75 2.58 5.75 5.75v8.5c0 3.17-2.58 5.75-5.75 5.75h-8.5C4.58 22 2 19.42 2 16.25v-8.5C2 4.58 4.58 2 7.75 2zm8.5 18c2.07 0 3.75-1.68 3.75-3.75v-8.5C20 5.68 18.32 4 16.25 4h-8.5C5.68 4 4 5.68 4 7.75v8.5C4 18.32 5.68 20 7.75 20h8.5zM12 7.25c2.62 0 4.75 2.13 4.75 4.75S14.62 16.75 12 16.75 7.25 14.62 7.25 12 9.38 7.25 12 7.25zm0 7.5c1.52 0 2.75-1.23 2.75-2.75S13.52 9.25 12 9.25 9.25 10.48 9.25 12 10.48 14.75 12 14.75zm5.25-8.25c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1z"/></svg></span>`;
+  } else if (item.category_id === 'geeknews' || item.platform === 'GeekNews') {
+    avatarUrl = `https://news.hada.io/apple-touch-icon.png`;
+    platformIconHtml = `<span class="platform-dot" style="position:absolute; bottom:-4px; right:-4px; width:14px; height:14px; background:#F58411; border-radius:50%; border:2px solid var(--card); display:flex; align-items:center; justify-content:center; color:#fff; font-size:9px; font-weight:bold; padding-bottom:1px;">G</span>`;
+  } else if (item.category_id === 'threads' || item.platform === 'Threads') {
+    platformIconHtml = `<span class="platform-dot" style="position:absolute; bottom:-4px; right:-4px; width:14px; height:14px; background:#000; border-radius:50%; border:2px solid var(--card); display:flex; align-items:center; justify-content:center; color:#fff;"><svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm3.846 14.996c-1.127.84-2.584 1.258-4.103 1.258-3.344 0-5.836-2.47-5.836-6.176 0-3.693 2.502-6.183 5.908-6.183 3.328 0 5.768 2.404 5.768 5.707 0 1.272-.258 2.378-.737 3.195-.494.84-1.185 1.252-1.927 1.252-.802 0-1.398-.445-1.572-1.13l-.042-.2c-.413.565-1.047.88-1.748.88-1.395 0-2.39-1.026-2.39-2.532 0-1.63 1.157-2.735 2.87-2.735.674 0 1.252.193 1.636.46v-1.17c0-1.62-1.002-2.518-2.616-2.518-1.282 0-2.316.488-2.656.76l-.736-1.168c.516-.445 1.83-1.066 3.497-1.066 2.53 0 4.195 1.503 4.195 4.025v3.136c0 1.05.748 1.488 1.408 1.488.752 0 1.283-.435 1.763-1.096l1.098 1.008c-.718 1.052-1.802 1.62-3.042 1.62-1.34 0-2.327-.853-2.327-2.072v-.234zm-5.61-3.61c0 1.023.702 1.604 1.583 1.604.836 0 1.472-.454 1.643-1.127l.067-.32c0-.79-.533-1.284-1.39-1.284-.658 0-1.17.203-1.528.53v-.002c-.256.242-.375.58-.375.6z"/></svg></span>`;
+  }
 
   const headHtml = `
     <div class="card-head" style="margin-bottom: 12px; padding-right: 60px;">
-      <img class="avatar" src="${avatarUrl}" alt="" loading="lazy" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(authorStr)}&background=F4F4F5&color=3F3F46&bold=true'"/>
+      <div class="avatar-wrapper" style="position:relative; display:inline-block; line-height:0;">
+        <img class="avatar" src="${avatarUrl}" alt="" loading="lazy" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(authorStr)}&background=F4F4F5&color=3F3F46&bold=true'"/>
+        ${platformIconHtml}
+      </div>
       <div class="head-meta">
         <div class="category-label" style="text-transform: uppercase;">${escapeHTML(item.category_name || "NEWS")}</div>
         <div class="repo-id" style="font-size: 13px; margin-top: 2px;">
@@ -565,7 +579,7 @@ function newsCardHTML(item, idx = 0) {
   `;
 
   const title = escapeHTML(item.headline || item.title_ko || "");
-  const summary = item.summary_ko ? `<p style="margin-top:12px; font-size:15px; line-height:1.6; color:var(--text); opacity:0.9;">${escapeHTML(item.summary_ko)}</p>` : "";
+  const summary = item.summary_ko ? `<p class="nc-summary" style="margin-top:12px; font-size:15px; line-height:1.6; color:var(--text); opacity:0.9;">${escapeHTML(item.summary_ko)}</p>` : "";
   
   const bodyKo = item.body_ko ? `
     <div class="news-body-wrapper" style="position:relative; margin-top:16px; font-size:14.5px; line-height:1.7; color:var(--text); opacity:0.85;">

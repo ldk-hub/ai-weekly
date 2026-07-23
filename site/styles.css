@@ -1893,7 +1893,7 @@ main {
   box-shadow: 0 1px 3px rgba(0,0,0,0.03) !important;
   min-height: auto;
 }
-.list-view .news-card > *:not(.card-head):not(a):not(div[style*="margin-top:16px; display:flex"]) {
+.list-view .news-card > *:not(.card-head):not(a):not(div[style*="margin-top:16px; display:flex"]):not(.nc-summary) {
   display: none !important;
 }
 .list-view .news-card .card-head {
@@ -1904,10 +1904,26 @@ main {
   flex-shrink: 0;
   width: auto;
 }
+.list-view .news-card .avatar-wrapper {
+  margin-bottom: 0;
+  line-height: 0;
+}
 .list-view .news-card .avatar {
   width: 24px;
   height: 24px;
   margin-bottom: 0;
+}
+.list-view .news-card .platform-dot {
+  width: 10px !important;
+  height: 10px !important;
+  bottom: -2px !important;
+  right: -2px !important;
+  font-size: 6px !important;
+  border-width: 1.5px !important;
+}
+.list-view .news-card .platform-dot svg {
+  width: 5px;
+  height: 5px;
 }
 .list-view .news-card .head-meta .category-label,
 .list-view .news-card .repo-id .owner {
@@ -1918,7 +1934,7 @@ main {
   font-size: 13px !important;
 }
 .list-view .news-card a {
-  flex: 1;
+  flex: 0 1 auto;
   min-width: 0; /* for truncation */
 }
 .list-view .news-card a h3 {
@@ -1927,6 +1943,18 @@ main {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.list-view .news-card .nc-summary {
+  display: block !important;
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0 !important;
+  font-size: 13.5px !important;
+  color: var(--muted) !important;
+  opacity: 1 !important;
 }
 .list-view .news-card > div[style*="margin-top:16px; display:flex"] {
   margin-top: 0 !important;
