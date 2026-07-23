@@ -669,6 +669,21 @@ document.getElementById("search")?.addEventListener("input", e => {
   STATE.query = e.target.value;
   render();
 });
+
+const viewToggleBtn = document.getElementById("view-toggle");
+if (viewToggleBtn) {
+  const updateIcon = () => {
+    const icon = document.getElementById("vt-icon");
+    if (icon) icon.innerText = STATE.viewMode === 'list' ? '≡' : '☷';
+  };
+  updateIcon();
+  viewToggleBtn.addEventListener("click", () => {
+    STATE.viewMode = STATE.viewMode === 'list' ? 'card' : 'list';
+    localStorage.setItem('aiw-view', STATE.viewMode);
+    updateIcon();
+    render();
+  });
+}
 document.querySelectorAll(".tab").forEach(btn => {
   btn.addEventListener("click", () => {
     document.querySelectorAll(".tab").forEach(b => {
