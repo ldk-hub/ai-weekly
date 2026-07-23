@@ -8,6 +8,7 @@ const STATE = {
   category: "all",
   source: "latest", // "latest" or filename like "2026-04-20.json"
   archives: [],
+  viewMode: localStorage.getItem('aiw-view') || 'card'
 };
 
 const CATEGORIES = [
@@ -459,7 +460,11 @@ function render() {
         `;
       }
       
-      html += `<div class="grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;">`;
+      const gridClass = STATE.viewMode === 'list' ? 'grid list-view' : 'grid';
+      const gridStyle = STATE.viewMode === 'list' 
+        ? 'display:flex;flex-direction:column;gap:12px;' 
+        : 'display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;';
+      html += `<div class="${gridClass}" style="${gridStyle}">`;
       html += list.map((it, idx) => newsCardHTML(it, idx)).join("");
       html += `</div>`;
       el.innerHTML = html;
@@ -601,7 +606,9 @@ function newsCardHTML(item, idx = 0) {
       ${sticker}
       ${cover}
       ${headHtml}
-      <h3 style="margin-top:0; margin-bottom:12px; line-height:1.45; font-size:20px;">${title}</h3>
+      <a href="${item.url ? escapeHTML(item.url) : '#'}" target="_blank" rel="noopener" style="text-decoration:none; color:inherit; display:block;">
+        <h3 style="margin-top:0; margin-bottom:12px; line-height:1.45; font-size:20px;">${title}</h3>
+      </a>
       ${summary}
       ${bodyKo}
       ${tags}

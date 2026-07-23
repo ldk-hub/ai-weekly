@@ -1,0 +1,107 @@
+{
+  "generated_at": "2026-07-23T06:47:31.657Z",
+  "version": "v2026.07.23",
+  "summary": "오늘의 주요 AI 트렌드: 'Qwen-Image-3.0 - 풍부한 콘텐츠, 사실적 디테일, 깊이 있는 지식' 등을 포함하여 총 24건의 핫이슈가 수집되었습니다.",
+  "news": [
+    {
+      "id": "geeknews_1784786448309107",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "headline": "Qwen-Image-3.0 - 풍부한 콘텐츠, 사실적 디테일, 깊이 있는 지식",
+      "summary_ko": "Qwen-Image 시리즈의 3세대 기반 이미지 생성 모델로, 보기 좋은 이미지를 넘어 생산성 작업에 활용할 수 있는 ‘Real(实)’을 핵심 목표로 삼음\n최대 4.5k 토큰 입력을 처리해 신문·스토리보드·시험지처럼 정보량이 많은 레이아웃과 여러 개념이 병렬·중첩된 이미...",
+      "body_ko": "Qwen-Image 시리즈의 3세대 기반 이미지 생성 모델로, 보기 좋은 이미지를 넘어 생산성 작업에 활용할 수 있는 ‘Real(实)’을 핵심 목표로 삼음\n최대 4.5k 토큰 입력을 처리해 신문·스토리보드·시험지처럼 정보량이 많은 레이아웃과 여러 개념이 병렬·중첩된 이미...\n상세 본문: Qwen-Image-3.0 - 풍부한 콘텐츠, 사실적 디테일, 깊이 있는 지식\nQwen-Image 시리즈의 3세대 기반 이미지 생성 모델로, 보기 좋은 이미지를 넘어 생산성 작업에 활용할 수 있는 ‘Real(实)’을 핵심 목표로 삼음\n최대 4.5k 토큰 입력을 처리해 신문·스토리보드·시험지처럼 정보량이 많은 레이아웃과 여러 개념이 병렬·중첩된 이미...",
+      "author": "GeekNews",
+      "publish_date": "2026-07-21T22:14:11.000Z",
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "url": "https://news.hada.io/topic?id=31666",
+      "related_articles": [],
+      "sources": [
+        "GeekNews"
+      ]
+    },
+    {
+      "id": "geeknews_1784786448309121",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "headline": "OpenMMO - AI Agent와 인간 플레이어가 동등하게 대우받는 MMORPG",
+      "summary_ko": "엑스엘게임즈 창업자 송재경님이 공개한 1인 프로젝트입니다.\n특징:\nAgent-인간 동등성 : Agent와 인간 플레이어는 완전히 동일한 WebSocket 프로토콜을 사용합니다. 별도의 API나 엔드포인트가 필요하지 않습니다. 서버는 Agent와 인간을 구분할 수 없으므로 인간이 할 수 있는 모든 동작을 Age",
+      "body_ko": "엑스엘게임즈 창업자 송재경님이 공개한 1인 프로젝트입니다.\n특징:\nAgent-인간 동등성 : Agent와 인간 플레이어는 완전히 동일한 WebSocket 프로토콜을 사용합니다. 별도의 API나 엔드포인트가 필요하지 않습니다. 서버는 Agent와 인간을 구분할 수 없으므로 인간이 할 수 있는 모든 동작을 Age\n상세 본문: OpenMMO - AI Agent와 인간 플레이어가 동등하게 대우받는 MMORPG\n엑스엘게임즈 창업자 송재경님이 공개한 1인 프로젝트입니다.\n특징:\nAgent-인간 동등성 : Agent와 인간 플레이어는 완전히 동일한 WebSocket 프로토콜을 사용합니다. 별도의 API나 엔드포인트가 필요하지 않습니다. 서버는 Agent와 인간을 구분할 수 없으므로 인간이 할 수 있는 모든 동작을 Age",
+      "author": "GeekNews",
+      "publish_date": "2026-07-22T05:40:34.000Z",
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "url": "https://news.hada.io/topic?id=31687",
+      "related_articles": [],
+      "sources": [
+        "GeekNews"
+      ]
+    },
+    {
+      "id": "geeknews_178478644830967",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "headline": "AI 코딩 세션의 휘발성 맥락을 프로젝트 기억으로 남기기 — rhwp 적용 사례",
+      "summary_ko": "제가 rhwp collaborator로 3개월간 기여하며 직접 경험한 AI 협업 방법론을 정리한 글입니다.\n바이브 코딩에서는 잘 동작하던 AI가 기존 프로젝트나 회사 코드베이스에 적용되면 어려움을 겪는 이유를, 단순한 모델 성능보다 ‘축적된 프로젝트 맥락의 부재’라는 관점에서 살펴봅니다.\nrhwp는 Hyper-W",
+      "body_ko": "제가 rhwp collaborator로 3개월간 기여하며 직접 경험한 AI 협업 방법론을 정리한 글입니다.\n바이브 코딩에서는 잘 동작하던 AI가 기존 프로젝트나 회사 코드베이스에 적용되면 어려움을 겪는 이유를, 단순한 모델 성능보다 ‘축적된 프로젝트 맥락의 부재’라는 관점에서 살펴봅니다.\nrhwp는 Hyper-W\n상세 본문: AI 코딩 세션의 휘발성 맥락을 프로젝트 기억으로 남기기 — rhwp 적용 사례\n제가 rhwp collaborator로 3개월간 기여하며 직접 경험한 AI 협업 방법론을 정리한 글입니다.\n바이브 코딩에서는 잘 동작하던 AI가 기존 프로젝트나 회사 코드베이스에 적용되면 어려움을 겪는 이유를, 단순한 모델 성능보다 ‘축적된 프로젝트 맥락의 부재’라는 관점에서 살펴봅니다.\nrhwp는 Hyper-W",
+      "author": "GeekNews",
+      "publish_date": "2026-07-22T01:35:30.000Z",
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "url": "https://news.hada.io/topic?id=31684",
+      "related_articles": [],
+      "sources": [
+        "GeekNews"
+      ]
+    },
+    {
+      "id": "geeknews_1784786448309146",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "headline": "Laguna S 2.1 공개",
+      "summary_ko": "Poolside가 장기 작업과 추론 능력을 강화한 Laguna S 2.1을 공개함. 총 118B MoE 중 토큰당 8B 매개변수를 활성화하며, thinking·no-thinking 모드 모두 최대 1M 토큰 컨텍스트를 지원함\n학습 시작부터 출시까지 9주 미만이 걸렸으며 Terminal-B...",
+      "body_ko": "Poolside가 장기 작업과 추론 능력을 강화한 Laguna S 2.1을 공개함. 총 118B MoE 중 토큰당 8B 매개변수를 활성화하며, thinking·no-thinking 모드 모두 최대 1M 토큰 컨텍스트를 지원함\n학습 시작부터 출시까지 9주 미만이 걸렸으며 Terminal-B...\n상세 본문: Laguna S 2.1 공개\nPoolside가 장기 작업과 추론 능력을 강화한 Laguna S 2.1을 공개함. 총 118B MoE 중 토큰당 8B 매개변수를 활성화하며, thinking·no-thinking 모드 모두 최대 1M 토큰 컨텍스트를 지원함\n학습 시작부터 출시까지 9주 미만이 걸렸으며 Terminal-B...",
+      "author": "GeekNews",
+      "publish_date": "2026-07-22T14:35:31.000Z",
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "url": "https://news.hada.io/topic?id=31697",
+      "related_articles": [],
+      "sources": [
+        "GeekNews"
+      ]
+    },
+    {
+      "id": "geeknews_1784786448309482",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "headline": "FreeInk - 전자책 리더를 위한 개방형 생태계",
+      "summary_ko": "전자종이 리더의 소프트웨어·펌웨어·하드웨어 전 계층을 공개해 누구나 기기를 확장하거나 직접 만들 수 있는 오픈소스 생태계임\nCrossPoint Reader는 EPUB 2·3 렌더링과 글꼴 설정, WiFi 전송, KOReader 동기화, 북마크, Focus Reading, 다국어 및 오른쪽에서 왼쪽...",
+      "body_ko": "전자종이 리더의 소프트웨어·펌웨어·하드웨어 전 계층을 공개해 누구나 기기를 확장하거나 직접 만들 수 있는 오픈소스 생태계임\nCrossPoint Reader는 EPUB 2·3 렌더링과 글꼴 설정, WiFi 전송, KOReader 동기화, 북마크, Focus Reading, 다국어 및 오른쪽에서 왼쪽...\n상세 본문: FreeInk - 전자책 리더를 위한 개방형 생태계\n전자종이 리더의 소프트웨어·펌웨어·하드웨어 전 계층을 공개해 누구나 기기를 확장하거나 직접 만들 수 있는 오픈소스 생태계임\nCrossPoint Reader는 EPUB 2·3 렌더링과 글꼴 설정, WiFi 전송, KOReader 동기화, 북마크, Focus Reading, 다국어 및 오른쪽에서 왼쪽...",
+      "author": "GeekNews",
+      "publish_date": "2026-07-21T22:19:49.000Z",
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "url": "https://news.hada.io/topic?id=31668",
+      "related_articles": [],
+      "sources": [
+        "GeekNews"
+      ]
+    }
+  ]
+}

@@ -199,6 +199,38 @@ async function main() {
 
   fs.writeFileSync(LATEST, JSON.stringify(latest, null, 2));
   console.log(`큐레이션 완료: 총 ${latest.news.length}개 뉴스 기사 -> ${LATEST}`);
+
+  // Archiving logic
+  const archiveDir = path.join(outputDir, "archive");
+  if (!fs.existsSync(archiveDir)) {
+    fs.mkdirSync(archiveDir, { recursive: true });
+  }
+  
+  const archiveFile = path.join(archiveDir, `news_${today}.json`);
+  fs.writeFileSync(archiveFile, JSON.stringify(latest, null, 2));
+  
+  const newsIndexFile = path.join(archiveDir, "news_index.json");
+  let newsIndex = { archives: [] };
+  if (fs.existsSync(newsIndexFile)) {
+    try {
+      newsIndex = JSON.parse(fs.readFileSync(newsIndexFile, "utf8"));
+      if (!newsIndex.archives) newsIndex.archives = [];
+    } catch (e) {
+      console.warn("news_index.json 파싱 오류:", e);
+    }
+  }
+  
+  const existingArchive = newsIndex.archives.find(a => a.file === `news_${today}.json` || a.file === `${today}.json`);
+  if (!existingArchive) {
+    newsIndex.archives.unshift({
+      file: `news_${today}.json`,
+      version: `v${today.replaceAll("-", ".")}`,
+      generated_at: new Date().toISOString()
+    });
+    fs.writeFileSync(newsIndexFile, JSON.stringify(newsIndex, null, 2));
+  }
+  
+  console.log(`아카이빙 완료: ${archiveFile} 및 news_index.json 업데이트됨.`);
 }
 
 main().catch((e) => {
