@@ -1,17 +1,16 @@
 #!/usr/bin/env node
 const fs = require('fs');
 const path = require('path');
-const { chromium } = require('playwright');
 const Parser = require('rss-parser');
 const cheerio = require('cheerio');
 const moment = require('moment-timezone');
+const { runAsideRepl } = require('./aside_helper');
 
 const ROOT = path.join(__dirname, "..");
 const DATA_DIR = path.join(ROOT, "data");
 const CANDIDATES_FILE = path.join(DATA_DIR, "news_candidates.json");
-const CHROME_PROFILE_DIR = path.join(DATA_DIR, "chrome_profile");
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
-// KST 타임존 기반 전일(어제) 하루 필터링
 const KST_TZ = 'Asia/Seoul';
 const NOW_KST = moment().tz(KST_TZ);
 const YESTERDAY_START = NOW_KST.clone().subtract(1, 'days').startOf('day');
@@ -31,7 +30,6 @@ function isLegacyContent(text) {
   return LEGACY_KEYWORDS.some(keyword => lowerText.includes(keyword));
 }
 
-// 1. GeekNews RSS 크롤링
 async function fetchGeekNews() {
   console.log("Fetching GeekNews via RSS...");
   const topics = [];
@@ -67,173 +65,154 @@ async function fetchGeekNews() {
   return topics;
 }
 
-// 2. Playwright + Persistent Context 스크래핑
-async function fetchXData(context) {
-  console.log("Fetching X (Twitter) data via Playwright Persistent Context...");
-  const topics = [];
-  const accounts = ['OpenAI', 'ylecun']; 
-  const page = await context.newPage();
-  
-  for (const account of accounts) {
-    try {
-      await page.goto(`https://x.com/${account}`, { waitUntil: 'domcontentloaded', timeout: 30000 });
-      await page.waitForTimeout(4000); 
-      await page.waitForSelector('article', { timeout: 10000 }).catch(() => {});
-      
-      const tweets = await page.$$eval('article', articles => {
-        return articles.map(article => {
-          const timeEl = article.querySelector('time');
-          const datetime = timeEl ? timeEl.getAttribute('datetime') : null;
-          const textEl = article.querySelector('[data-testid="tweetText"]');
-          const text = textEl ? textEl.innerText : '';
-          const linkEl = article.querySelector('a[href*="/status/"]');
-          const link = linkEl ? linkEl.getAttribute('href') : null;
-          return { datetime, text, link };
-        });
-      });
-
-      for (const t of tweets) {
-        if (t.datetime && t.text && isValidYesterday(t.datetime) && !isLegacyContent(t.text)) {
-          topics.push({
-            id: "news_x_" + Date.now() + Math.floor(Math.random()*1000),
-            platform: "X",
-            url: t.link ? (t.link.startsWith('http') ? t.link : `https://x.com${t.link}`) : `https://x.com/${account}`,
-            author: account,
-            publish_date: new Date(t.datetime).toISOString(),
-            content: t.text,
-            likes: Math.floor(Math.random() * 1000) + 100,
-            shares: Math.floor(Math.random() * 100) + 10,
-            timestamp: new Date().toISOString(),
-            is_official: account === 'OpenAI',
-            references: ["X"],
-            tags: ["AI", "Tech", account],
-            category_name: "X (Twitter)",
-            category_id: "x",
-            multimedia: [],
-            related_articles: []
-          });
-        }
-      }
-    } catch (e) {
-      console.warn(`Failed to scrape X account ${account}: ${e.message}`);
-    }
+async function filterWithGemini(platform, rawPosts) {
+  if (!GEMINI_API_KEY) {
+    console.warn("No GEMINI_API_KEY found, skipping LLM filter and returning empty.");
+    return [];
   }
-  await page.close();
-  return topics;
+  console.log(`[${platform}] Filtering ${rawPosts.length} raw posts with LLM...`);
+  const rawPostsText = JSON.stringify(rawPosts).substring(0, 30000);
+  
+  const prompt = `너는 전문 AI 뉴스 큐레이터야. 다음은 ${platform}에서 수집한 원시 포스트 텍스트들이다.
+이 중에서 "빅테크 위주의 뻔한 뉴스(Google, Meta, OpenAI 등 단순 릴리스)"를 제외하고, "24시간 내 발생한 핫트렌드 및 AI 스타트업/인디메이커 중심의 주요 이슈" 10개를 정확히 선별하라.
+원문에 24시간 내 핫트렌드가 없다면 가장 흥미로운 스타트업 동향을 고르되, 10개를 가급적 채워라.
+결과는 무조건 JSON 배열로 반환하라.
+
+JSON 스키마:
+[
+  {
+    "text": "한글로 번역/요약된 내용 (3문장 이내)",
+    "link": "원본 링크(가능한 경우)"
+  }
+]
+
+원시 데이터:
+${rawPostsText}
+`;
+
+  try {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: { responseMimeType: "application/json" }
+      })
+    });
+    const data = await response.json();
+    if (data.error) throw new Error(data.error.message);
+    const text = data.candidates[0].content.parts[0].text;
+    const items = JSON.parse(text);
+    
+    // Map to standard candidates format
+    return items.map((item, idx) => ({
+      id: `news_${platform.toLowerCase()}_${Date.now()}_${idx}`,
+      platform: platform,
+      url: item.link || `https://${platform.toLowerCase()}.com`,
+      author: "Curated AI",
+      publish_date: new Date().toISOString(),
+      content: item.text,
+      likes: Math.floor(Math.random() * 1000) + 100,
+      shares: Math.floor(Math.random() * 100) + 10,
+      timestamp: new Date().toISOString(),
+      is_official: false,
+      references: [platform],
+      tags: ["AI", "Startup", "Trend"],
+      category_name: platform,
+      category_id: platform.toLowerCase(),
+      multimedia: [],
+      related_articles: []
+    }));
+  } catch(e) {
+    console.warn(`[${platform}] Gemini API call failed:`, e.message);
+    return [];
+  }
 }
 
-async function fetchInstagramData(context) {
-  console.log("Fetching Instagram data via Playwright Persistent Context...");
-  const topics = [];
-  const accounts = ['zuck', 'instagram'];
-  const page = await context.newPage();
-  
-  for (const account of accounts) {
+async function fetchXDataWithAside() {
+  console.log("Fetching X data via Aside MCP...");
+  const code = `
     try {
-      await page.goto(`https://www.instagram.com/${account}/`, { waitUntil: 'domcontentloaded', timeout: 30000 });
-      await page.waitForTimeout(4000);
-      await page.waitForSelector('time', { timeout: 10000 }).catch(() => {});
-      
-      const posts = await page.$$eval('a[href*="/p/"]', links => {
-        return links.map(link => {
-          const timeEl = link.querySelector('time');
-          const datetime = timeEl ? timeEl.getAttribute('datetime') : null;
-          return { link: link.getAttribute('href'), datetime };
+      const posts = [];
+      const urls = [
+        'https://x.com/search?q=(%22AI%20startup%22%20OR%20%22AI%20trend%22)%20-OpenAI%20-Google%20-Meta%20-Anthropic&f=live',
+        'https://x.com/search?q=%22AI%20tools%22%20indie&f=live'
+      ];
+      for (const url of urls) {
+        const tab = await openTab(url);
+        await sleep(6000);
+        const p = await tab.evaluate(() => {
+          return Array.from(document.querySelectorAll('article')).map(a => {
+            const textDiv = a.querySelector('[data-testid="tweetText"]');
+            const timeA = a.querySelector('time')?.closest('a');
+            return { text: textDiv ? textDiv.innerText : a.innerText, link: timeA ? timeA.href : '' };
+          }).filter(t => t.text && t.text.trim().length > 10);
         });
-      });
-      
-      for (const p of posts) {
-        if (p.datetime && isValidYesterday(p.datetime)) {
-          topics.push({
-            id: "news_insta_" + Date.now() + Math.floor(Math.random()*1000),
-            platform: "Instagram",
-            url: p.link.startsWith('http') ? p.link : `https://www.instagram.com${p.link}`,
-            author: account,
-            publish_date: new Date(p.datetime).toISOString(),
-            content: `Instagram post from ${account}`,
-            likes: Math.floor(Math.random() * 500) + 50, 
-            shares: Math.floor(Math.random() * 50) + 5,
-            timestamp: new Date().toISOString(),
-            is_official: false,
-            references: ["Instagram"],
-            tags: ["Instagram", account],
-            category_name: "Instagram",
-            category_id: "instagram",
-            multimedia: [],
-            related_articles: []
-          });
-        }
+        posts.push(...p);
+        await closeTab(tab);
       }
+      console.log("===ASIDE_START===" + JSON.stringify(posts) + "===ASIDE_END===");
     } catch (e) {
-      console.warn(`Failed to scrape Instagram account ${account}: ${e.message}`);
+      console.log("===ASIDE_START===" + JSON.stringify({ error: e.message }) + "===ASIDE_END===");
     }
+  `;
+  try {
+    const output = await runAsideRepl(code);
+    const match = output.match(/===ASIDE_START===(.*)===ASIDE_END===/s);
+    if (!match) throw new Error("No JSON array found in REPL output: " + output);
+    const rawPosts = JSON.parse(match[1]);
+    if (rawPosts.error) throw new Error(rawPosts.error);
+    return await filterWithGemini("X", rawPosts);
+  } catch (e) {
+    console.warn("Failed to scrape X via Aside:", e.message);
+    return [];
   }
-  await page.close();
-  return topics;
 }
 
-async function fetchThreadsData(context) {
-  console.log("Fetching Threads data via Playwright Persistent Context...");
-  const topics = [];
-  const accounts = ['zuck', 'mosseri'];
-  const page = await context.newPage();
-  
-  for (const account of accounts) {
+async function fetchThreadsDataWithAside() {
+  console.log("Fetching Threads data via Aside MCP...");
+  const code = `
     try {
-      await page.goto(`https://www.threads.net/@${account}`, { waitUntil: 'domcontentloaded', timeout: 30000 });
-      await page.waitForTimeout(4000);
-      await page.waitForSelector('time', { timeout: 10000 }).catch(() => {});
-      
-      const posts = await page.$$eval('time', times => {
-        return times.map(timeEl => {
-          const datetime = timeEl.getAttribute('datetime');
-          let parent = timeEl.parentElement;
-          let link = null;
-          while (parent && !link) {
-            if (parent.tagName === 'A') link = parent.getAttribute('href');
-            parent = parent.parentElement;
-          }
-          return { datetime, link };
-        });
-      });
-      
-      for (const p of posts) {
-        if (p.datetime && p.link && isValidYesterday(p.datetime)) {
-          topics.push({
-            id: "news_threads_" + Date.now() + Math.floor(Math.random()*1000),
-            platform: "Threads",
-            url: p.link.startsWith('http') ? p.link : `https://www.threads.net${p.link}`,
-            author: account,
-            publish_date: new Date(p.datetime).toISOString(),
-            content: `Threads post from ${account}`,
-            likes: Math.floor(Math.random() * 300) + 30, 
-            shares: Math.floor(Math.random() * 30) + 3,
-            timestamp: new Date().toISOString(),
-            is_official: false,
-            references: ["Threads"],
-            tags: ["Threads", account],
-            category_name: "Threads",
-            category_id: "threads",
-            multimedia: [],
-            related_articles: []
+      const posts = [];
+      const urls = [
+        'https://www.threads.net/search?q=AI%20startup',
+        'https://www.threads.net/@annsheronova'
+      ];
+      for (const url of urls) {
+        const tab = await openTab(url);
+        await sleep(6000);
+        const p = await tab.evaluate(() => {
+          const els = document.querySelectorAll('div[data-pressable-container="true"]');
+          return Array.from(els).map(el => {
+            const links = Array.from(el.querySelectorAll('a')).map(a => a.href);
+            return { text: el.innerText, link: links[0] || '' };
           });
-        }
+        });
+        posts.push(...p);
+        await closeTab(tab);
       }
+      console.log("===ASIDE_START===" + JSON.stringify(posts) + "===ASIDE_END===");
     } catch (e) {
-      console.warn(`Failed to scrape Threads account ${account}: ${e.message}`);
+      console.log("===ASIDE_START===" + JSON.stringify({ error: e.message }) + "===ASIDE_END===");
     }
+  `;
+  try {
+    const output = await runAsideRepl(code);
+    const match = output.match(/===ASIDE_START===(.*)===ASIDE_END===/s);
+    if (!match) throw new Error("No JSON array found in REPL output: " + output);
+    const rawPosts = JSON.parse(match[1]);
+    if (rawPosts.error) throw new Error(rawPosts.error);
+    return await filterWithGemini("Threads", rawPosts);
+  } catch (e) {
+    console.warn("Failed to scrape Threads via Aside:", e.message);
+    return [];
   }
-  await page.close();
-  return topics;
 }
 
 async function main() {
-  const isSetup = process.argv.includes('--setup');
-  
   console.log("==========================================");
-  console.log(isSetup ? "🛠 [SETUP MODE] 초기 1회 로그인 모드를 실행합니다." : "뉴스 수집 시작 (Persistent Context 크롤링)");
+  console.log("뉴스 수집 시작 (Aside MCP + LLM 필터링)");
   console.log(`현재 시각 (KST): ${NOW_KST.format()}`);
-  if (!isSetup) console.log(`수집 기준 (KST): ${YESTERDAY_START.format()} ~ ${YESTERDAY_END.format()} (어제 하루)`);
   console.log("==========================================\n");
   
   if (!fs.existsSync(DATA_DIR)) {
@@ -242,55 +221,20 @@ async function main() {
 
   let candidates = [];
   
-  if (!isSetup) {
-    const geeknews = await fetchGeekNews();
-    console.log(`[GeekNews] 수집 완료: ${geeknews.length}건`);
-    candidates = candidates.concat(geeknews);
-  }
+  const geeknews = await fetchGeekNews();
+  console.log(`[GeekNews] 수집 완료: ${geeknews.length}건`);
+  candidates = candidates.concat(geeknews);
 
-  console.log(`\n[SNS] Launching browser with persistent context at ${CHROME_PROFILE_DIR}...`);
-  let context;
-  try {
-    context = await chromium.launchPersistentContext(CHROME_PROFILE_DIR, {
-      headless: !isSetup, 
-      viewport: { width: 1280, height: 720 },
-      // args: ['--disable-blink-features=AutomationControlled'] // 추가 안티봇 우회 설정
-    });
+  const xData = await fetchXDataWithAside();
+  console.log(`[X/Twitter] LLM 필터링 완료: ${xData.length}건`);
+  candidates = candidates.concat(xData);
 
-    if (isSetup) {
-      console.log(`\n👉 [안내] 크롬 창이 열렸습니다.`);
-      console.log(`👉 X(트위터), 인스타그램, 스레드에 각각 직접 로그인해 주세요.`);
-      console.log(`👉 로그인이 끝났다면 이 터미널에서 Ctrl+C를 눌러 종료하시면 됩니다.`);
-      const page = await context.newPage();
-      await page.goto('https://x.com');
-      // 대기
-      await new Promise(() => {}); 
-    } else {
-      const xData = await fetchXData(context);
-      console.log(`[X/Twitter] 수집 완료: ${xData.length}건`);
-      candidates = candidates.concat(xData);
+  const threadsData = await fetchThreadsDataWithAside();
+  console.log(`[Threads] LLM 필터링 완료: ${threadsData.length}건`);
+  candidates = candidates.concat(threadsData);
 
-      const instaData = await fetchInstagramData(context);
-      console.log(`[Instagram] 수집 완료: ${instaData.length}건`);
-      candidates = candidates.concat(instaData);
-
-      const threadsData = await fetchThreadsData(context);
-      console.log(`[Threads] 수집 완료: ${threadsData.length}건`);
-      candidates = candidates.concat(threadsData);
-    }
-  } catch (e) {
-    console.error("[SNS] Browser scraping failed:", e.message);
-  } finally {
-    if (context && !isSetup) {
-      await context.close();
-      console.log("[SNS] Browser context closed.");
-    }
-  }
-  
-  if (!isSetup) {
-    fs.writeFileSync(CANDIDATES_FILE, JSON.stringify({ candidates }, null, 2));
-    console.log(`\n✅ 수집 완료: 총 ${candidates.length}건의 기사 후보 저장됨 -> ${CANDIDATES_FILE}`);
-  }
+  fs.writeFileSync(CANDIDATES_FILE, JSON.stringify({ candidates }, null, 2));
+  console.log(`\n✅ 수집 완료: 총 ${candidates.length}건의 기사 후보 저장됨 -> ${CANDIDATES_FILE}`);
 }
 
 main().catch(console.error);

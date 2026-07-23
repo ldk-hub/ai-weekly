@@ -1,103 +1,429 @@
 {
-  "generated_at": "2026-07-22T02:17:39.538Z",
-  "version": "v2026.07.22",
-  "summary": "오늘의 주요 AI 트렌드: 'Git 훅과 nq로 만드는 최소형 CI' 등을 포함하여 총 30건의 핫이슈가 수집되었습니다.",
+  "generated_at": "2026-07-23T06:05:12.344Z",
+  "version": "v2026.07.23",
+  "summary": "오늘의 주요 AI 트렌드: 'AI 스타트업 Reflection, 10억 달러 규모 컴퓨팅 계약 체결' 및 'docshunt.ai 사업계획서 자동작성기' 등 핫트렌드 총 21건이 수집되었습니다.",
   "news": [
     {
-      "id": "geeknews_1784686601013954",
+      "id": "news_x_1784786712190_1",
+      "category_id": "x",
+      "category_name": "X (Twitter)",
+      "headline": "AI 스타트업 Reflection, 10억 달러 규모 컴퓨팅 계약 체결",
+      "summary_ko": "AI 스타트업 Reflection이 중국의 오픈소스 주도권에 도전하기 위해 10억 달러(약 1조 3천억 원) 규모의 초대형 컴퓨팅 파트너십을 체결했다는 소식입니다.",
+      "body_ko": "AI Startup Reflection Inks $1 Billion Compute Deal To Challenge China’s Open Source Dominance. 거대한 컴퓨팅 파워를 바탕으로 자체 경쟁력을 확보하고, 오픈소스 AI 생태계의 판도를 바꾸려는 움직임으로 풀이됩니다.",
+      "author": "Forbes",
+      "publish_date": "2026-07-23T06:05:12.190Z",
+      "tags": [
+        "AI",
+        "Startup",
+        "투자"
+      ],
+      "multimedia": [],
+      "url": "https://x.com/Forbes/status/2080171179709759921",
+      "related_articles": [],
+      "sources": [
+        "X (Twitter)"
+      ]
+    },
+    {
+      "id": "news_x_1784786712196_2",
+      "category_id": "x",
+      "category_name": "X (Twitter)",
+      "headline": "인도 방갈로르 AI 스타트업 'Emergent AI', 창업 14개월 만에 유니콘 등극",
+      "summary_ko": "인도의 방갈로르 기반 AI 스타트업 Emergent AI가 1억 3천만 달러 규모의 Series C 투자를 유치하며 15억 달러 기업가치로 유니콘 반열에 올랐습니다.",
+      "body_ko": "창업 단 14개월 만에 이룬 쾌거로, 글로벌 무대에서 인도 AI 스타트업들의 성장 속도와 저력이 상상을 초월하고 있음을 시사합니다.",
+      "author": "vivekst1",
+      "publish_date": "2026-07-23T06:05:12.196Z",
+      "tags": [
+        "Unicorn",
+        "Global",
+        "투자"
+      ],
+      "multimedia": [],
+      "url": "https://x.com/vivekst1/status/2080162499870212157",
+      "related_articles": [],
+      "sources": [
+        "X (Twitter)"
+      ]
+    },
+    {
+      "id": "news_x_1784786712196_3",
+      "category_id": "x",
+      "category_name": "X (Twitter)",
+      "headline": "인디 메이커와 SaaS 창업자를 위한 최고의 AI 도구 모음",
+      "summary_ko": "이메일 자동화(Mara, Loops), AI 에이전트(Cursor, Windsurf, Devin), 배포 및 분석까지 인디 메이커들이 1인 창업에 필수적으로 활용하고 있는 최신 도구 스택이 큰 호응을 얻고 있습니다.",
+      "body_ko": "Best AI tools for indie makers building SaaS: 1. Email automation (Mara, Loops, Resend) 2. Agents (Cursor, Windsurf, Devin) 3. Deployment (Vercel, Railway, Render) 4. Analytics (Plausible, Mixpanel, PostHog)",
+      "author": "moonfarm_dev",
+      "publish_date": "2026-07-23T06:05:12.196Z",
+      "tags": [
+        "IndieMaker",
+        "SaaS",
+        "Tools"
+      ],
+      "multimedia": [],
+      "url": "https://x.com/moonfarm_dev/status/2079923197042942047",
+      "related_articles": [],
+      "sources": [
+        "X (Twitter)"
+      ]
+    },
+    {
+      "id": "news_x_1784786712196_4",
+      "category_id": "x",
+      "category_name": "X (Twitter)",
+      "headline": "빅테크의 투자가 인디 AI 도구를 죽일 수 없는 이유",
+      "summary_ko": "Anthropic 등의 대규모 투자가 '버티컬 엣지'를 가진 인디 AI 도구까지 위협하진 못한다는 분석입니다. 실질적인 B2B 문제를 해결하는 솔루션은 여전히 굳건할 것이라는 전망입니다.",
+      "body_ko": "단순한 파운데이션 모델 스케일이 해자(Moat)가 되는 시대는 지나고 있으며, '우리가 기업이 당장 직면한 5천 달러짜리 문제를 해결한다'는 접근 방식은 빅테크의 범용 AI와는 완전히 다른 게임이라는 통찰을 제공합니다.",
+      "author": "StackCurious",
+      "publish_date": "2026-07-23T06:05:12.196Z",
+      "tags": [
+        "인사이트",
+        "B2B",
+        "경쟁력"
+      ],
+      "multimedia": [],
+      "url": "https://x.com/StackCurious/status/2080050699178496092",
+      "related_articles": [],
+      "sources": [
+        "X (Twitter)"
+      ]
+    },
+    {
+      "id": "news_threads_1784786712196_1",
+      "category_id": "threads",
+      "category_name": "Threads",
+      "headline": "사업계획서 100% 자동 작성 AI 'docshunt.ai' 화제",
+      "summary_ko": "K-Startup 및 기업마당의 지원사업 hwp 양식을 자동으로 채워주는 docshunt.ai가 등장했습니다. 초기 창업자들의 다작을 통한 자금 확보 전략에 큰 도움이 되고 있습니다.",
+      "body_ko": "모두의 창업 AI 솔루션 '독스헌트'. 하루에 5개의 사업계획서를 작성해 내며 압도적으로 유리한 고지를 선점할 수 있다는 후기들이 공유되고 있습니다.",
+      "author": "docshunt.ai",
+      "publish_date": "2026-07-23T06:05:12.196Z",
+      "tags": [
+        "창업지원",
+        "자동화",
+        "K-Startup"
+      ],
+      "multimedia": [],
+      "url": "https://www.threads.com/@docshunt.ai",
+      "related_articles": [],
+      "sources": [
+        "Threads"
+      ]
+    },
+    {
+      "id": "news_threads_1784786712196_2",
+      "category_id": "threads",
+      "category_name": "Threads",
+      "headline": "무입력(Zero-input) 백그라운드 CRM 아이디어 눈길",
+      "summary_ko": "수동으로 리드를 입력하는 기존 CRM의 한계를 극복하고자, 사용자가 LinkedIn을 브라우징하기만 해도 모든 정보를 백그라운드에서 자동 캡처하는 CRM이 호응을 얻고 있습니다.",
+      "body_ko": "'최고의 CRM은 실행 중인지조차 잊게 만드는 CRM이다.' 무입력(Zero-input) 자동화 트렌드가 B2B 툴 시장에서 핵심 차별화 포인트로 떠오르고 있습니다.",
+      "author": "annsheronova",
+      "publish_date": "2026-07-23T06:05:12.196Z",
+      "tags": [
+        "CRM",
+        "B2B",
+        "자동화"
+      ],
+      "multimedia": [],
+      "url": "https://www.threads.com/@annsheronova",
+      "related_articles": [],
+      "sources": [
+        "Threads"
+      ]
+    },
+    {
+      "id": "geeknews_1784786712344624",
       "category_id": "geeknews",
       "category_name": "GeekNews",
-      "headline": "Git 훅과 nq로 만드는 최소형 CI",
-      "summary_ko": "개인 서버의 bare Git 저장소에 post-receive 훅을 추가해 테스트, 빌드, 파일 이동을 자동화하는 간단한 CI 구성임\n기존 CI는 복잡한 YAML 설정과 느린 실행, 어려운 자체 호스팅에 비해 완전한 빌드 격리나 비밀정보 관리까지 필요하지 않았음\n훅에서 작업을...",
-      "body_ko": "개인 서버의 bare Git 저장소에 post-receive 훅을 추가해 테스트, 빌드, 파일 이동을 자동화하는 간단한 CI 구성임\n기존 CI는 복잡한 YAML 설정과 느린 실행, 어려운 자체 호스팅에 비해 완전한 빌드 격리나 비밀정보 관리까지 필요하지 않았음\n훅에서 작업을...\n상세 본문: Git 훅과 nq로 만드는 최소형 CI\n개인 서버의 bare Git 저장소에 post-receive 훅을 추가해 테스트, 빌드, 파일 이동을 자동화하는 간단한 CI 구성임\n기존 CI는 복잡한 YAML 설정과 느린 실행, 어려운 자체 호스팅에 비해 완전한 빌드 격리나 비밀정보 관리까지 필요하지 않았음\n훅에서 작업을...",
+      "headline": "Laguna S 2.1 공개",
+      "summary_ko": "Poolside가 장기 작업과 추론 능력을 강화한 Laguna S 2.1을 공개함. 총 118B MoE 중 토큰당 8B 매개변수를 활성화하며, thinking·no-thinking 모드 모두 최대 1M 토큰 컨텍스트를 지원함\n학습 시작부터 출시까지 9주 미만이 걸렸으며...",
+      "body_ko": "Poolside가 장기 작업과 추론 능력을 강화한 Laguna S 2.1을 공개함. 총 118B MoE 중 토큰당 8B 매개변수를 활성화하며, thinking·no-thinking 모드 모두 최대 1M 토큰 컨텍스트를 지원함\n학습 시작부터 출시까지 9주 미만이 걸렸으며 Terminal-B...",
       "author": "GeekNews",
-      "publish_date": "2026-07-21T08:01:21.000Z",
+      "publish_date": "2026-07-22T14:35:31.000Z",
       "tags": [
         "트렌드",
         "GeekNews"
       ],
       "multimedia": [],
-      "url": "https://news.hada.io/topic?id=31653",
+      "url": "https://news.hada.io/topic?id=31697",
       "related_articles": [],
       "sources": [
         "GeekNews"
       ]
     },
     {
-      "id": "geeknews_1784686601013576",
+      "id": "geeknews_1784786712344230",
       "category_id": "geeknews",
       "category_name": "GeekNews",
-      "headline": "WordPress RCE를 GPT5.6과 25달러로 발견",
-      "summary_ko": "GPT5.6 Sol Ultra가 최신 안정판 WordPress를 분석해 인증 전 SQL 주입부터 관리자 계정 생성과 원격 코드 실행(RCE)까지 이어지는 공격 체인을 10여 시간 만에 완성함\n출발점은 WordPress 5.6부터 제공된 Batch API의 배열 인덱스 불일치로, 재귀 Batch 요청을 결...",
-      "body_ko": "GPT5.6 Sol Ultra가 최신 안정판 WordPress를 분석해 인증 전 SQL 주입부터 관리자 계정 생성과 원격 코드 실행(RCE)까지 이어지는 공격 체인을 10여 시간 만에 완성함\n출발점은 WordPress 5.6부터 제공된 Batch API의 배열 인덱스 불일치로, 재귀 Batch 요청을 결...\n상세 본문: WordPress RCE를 GPT5.6과 25달러로 발견\nGPT5.6 Sol Ultra가 최신 안정판 WordPress를 분석해 인증 전 SQL 주입부터 관리자 계정 생성과 원격 코드 실행(RCE)까지 이어지는 공격 체인을 10여 시간 만에 완성함\n출발점은 WordPress 5.6부터 제공된 Batch API의 배열 인덱스 불일치로, 재귀 Batch 요청을 결...",
+      "headline": "판사, Claude 훈련용 불법 복제 도서 관련 Anthropic의 2.3조원 합의 승인",
+      "summary_ko": "미국 연방법원이 Anthropic의 Claude 훈련용 불법 복제 도서와 관련된 저작권 집단소송에서 약 15억 달러($1.5b) 규모의 합의를 승인함\nAnthropic은 수천 명의 작가와 출판사에 도서당 약 3,000달러를 지급하며, 대상 도서 48만2,000여 권 중...",
+      "body_ko": "미국 연방법원이 Anthropic의 Claude 훈련용 불법 복제 도서와 관련된 저작권 집단소송에서 약 15억 달러($1.5b) 규모의 합의를 승인함\nAnthropic은 수천 명의 작가와 출판사에 도서당 약 3,000달러를 지급하며, 대상 도서 48만2,000여 권 중 91% 이상에 권리 청구...",
       "author": "GeekNews",
-      "publish_date": "2026-07-21T01:12:37.000Z",
+      "publish_date": "2026-07-22T13:33:53.000Z",
       "tags": [
         "트렌드",
         "GeekNews"
       ],
       "multimedia": [],
-      "url": "https://news.hada.io/topic?id=31640",
+      "url": "https://news.hada.io/topic?id=31695",
       "related_articles": [],
       "sources": [
         "GeekNews"
       ]
     },
     {
-      "id": "geeknews_1784686601013956",
+      "id": "geeknews_1784786712344190",
       "category_id": "geeknews",
       "category_name": "GeekNews",
-      "headline": "IndieWeb에 참여해 배운 것",
-      "summary_ko": "IndieWeb는 개인 도메인에 콘텐츠·정체성·대화를 보존하면서 필요에 따라 소셜 네트워크와 연결하는, 기업 중심 웹의 사람 중심 대안이자 커뮤니티임\n자체 도메인을 기반으로 microformats2, rel=\"me\", Webmention, IndieAuth, Micropub 같...",
-      "body_ko": "IndieWeb는 개인 도메인에 콘텐츠·정체성·대화를 보존하면서 필요에 따라 소셜 네트워크와 연결하는, 기업 중심 웹의 사람 중심 대안이자 커뮤니티임\n자체 도메인을 기반으로 microformats2, rel=\"me\", Webmention, IndieAuth, Micropub 같...\n상세 본문: IndieWeb에 참여해 배운 것\nIndieWeb는 개인 도메인에 콘텐츠·정체성·대화를 보존하면서 필요에 따라 소셜 네트워크와 연결하는, 기업 중심 웹의 사람 중심 대안이자 커뮤니티임\n자체 도메인을 기반으로 microformats2, rel=\"me\", Webmention, IndieAuth, Micropub 같...",
+      "headline": "EU 법원, 주요 저작권 판결에서 “VPN은 합법적인 기술 도구”라고 판단",
+      "summary_ko": "유럽연합 사법재판소(CJEU)는 Anne Frank 원고의 온라인 공개를 둘러싼 판결에서 VPN을 합법적인 기술 도구로 인정하고, 이용자의 우회 접속만으로 출판사와 VPN 제공업체에 저작권 침해 책임을 물을 수 없다고 판단함\n웹사이트가 최신 수준의 지역 차단 기술로 특...",
+      "body_ko": "유럽연합 사법재판소(CJEU)는 Anne Frank 원고의 온라인 공개를 둘러싼 판결에서 VPN을 합법적인 기술 도구로 인정하고, 이용자의 우회 접속만으로 출판사와 VPN 제공업체에 저작권 침해 책임을 물을 수 없다고 판단함\n웹사이트가 최신 수준의 지역 차단 기술로 특...",
       "author": "GeekNews",
-      "publish_date": "2026-07-20T23:37:26.000Z",
+      "publish_date": "2026-07-22T06:38:49.000Z",
       "tags": [
         "트렌드",
         "GeekNews"
       ],
       "multimedia": [],
-      "url": "https://news.hada.io/topic?id=31629",
+      "url": "https://news.hada.io/topic?id=31690",
       "related_articles": [],
       "sources": [
         "GeekNews"
       ]
     },
     {
-      "id": "geeknews_1784686601013405",
+      "id": "geeknews_1784786712344923",
       "category_id": "geeknews",
       "category_name": "GeekNews",
-      "headline": "arXiv 논문 12,750편에서 AI 문체를 측정한 방법과 한계",
-      "summary_ko": "arXiv 논문 12,750편의 본문 전체를 분석한 결과, 최신 논문의 약 3분의 1이 기계 작성처럼 읽혔으며 최근 완결 분기 판정률은 약 32%였음\n2021~2022년 논문을 인간 작성 대조군으로 삼아 오탐률 0.4% 에 맞춰 임계값을 설정하고, 버전 1 PDF와 부트스트랩 95% 신뢰...",
-      "body_ko": "arXiv 논문 12,750편의 본문 전체를 분석한 결과, 최신 논문의 약 3분의 1이 기계 작성처럼 읽혔으며 최근 완결 분기 판정률은 약 32%였음\n2021~2022년 논문을 인간 작성 대조군으로 삼아 오탐률 0.4% 에 맞춰 임계값을 설정하고, 버전 1 PDF와 부트스트랩 95% 신뢰...\n상세 본문: arXiv 논문 12,750편에서 AI 문체를 측정한 방법과 한계\narXiv 논문 12,750편의 본문 전체를 분석한 결과, 최신 논문의 약 3분의 1이 기계 작성처럼 읽혔으며 최근 완결 분기 판정률은 약 32%였음\n2021~2022년 논문을 인간 작성 대조군으로 삼아 오탐률 0.4% 에 맞춰 임계값을 설정하고, 버전 1 PDF와 부트스트랩 95% 신뢰...",
+      "headline": "Kimi K3는 Fable과 경쟁하며, 두 모델의 조합은 최고 수준의 성능을 달성함",
+      "summary_ko": "약 1,030개 에이전트 작업에서 Kimi K3와 Fable 5를 비교한 결과, 작업별 라우팅은 93% 정확도로 개별 모델보다 높은 품질을 달성함\nSWE·터미널·알고리듬·다중 언어·법률 작업에서 전체 성능은 비슷했지만, 두 모델이 강점을 보이는 작업 영역은......",
+      "body_ko": "약 1,030개 에이전트 작업에서 Kimi K3와 Fable 5를 비교한 결과, 작업별 라우팅은 93% 정확도로 개별 모델보다 높은 품질을 달성함\nSWE·터미널·알고리듬·다중 언어·법률 작업에서 전체 성능은 비슷했지만, 두 모델이 강점을 보이는 작업 영역은...",
       "author": "GeekNews",
-      "publish_date": "2026-07-21T01:40:00.000Z",
+      "publish_date": "2026-07-22T06:35:49.000Z",
       "tags": [
         "트렌드",
         "GeekNews"
       ],
       "multimedia": [],
-      "url": "https://news.hada.io/topic?id=31645",
+      "url": "https://news.hada.io/topic?id=31689",
       "related_articles": [],
       "sources": [
         "GeekNews"
       ]
     },
     {
-      "id": "geeknews_178468660101373",
+      "id": "geeknews_17847867123446",
       "category_id": "geeknews",
       "category_name": "GeekNews",
-      "headline": "Claude Fable이 Jacobian 추측의 반례를 만들다",
-      "summary_ko": "Claude Fable이 만든 것으로 소개된 다항식 사상은 Jacobian 행렬식이 상수 -2이면서 서로 다른 세 점을 같은 점으로 보내 Jacobian 추측의 반례가 됨\n이 사상은 ℂ³ → ℂ³에서 정의되며, 세 성분 모두 x, y...",
-      "body_ko": "Claude Fable이 만든 것으로 소개된 다항식 사상은 Jacobian 행렬식이 상수 -2이면서 서로 다른 세 점을 같은 점으로 보내 Jacobian 추측의 반례가 됨\n이 사상은 ℂ³ → ℂ³에서 정의되며, 세 성분 모두 x, y...\n상세 본문: Claude Fable이 Jacobian 추측의 반례를 만들다\nClaude Fable이 만든 것으로 소개된 다항식 사상은 Jacobian 행렬식이 상수 -2이면서 서로 다른 세 점을 같은 점으로 보내 Jacobian 추측의 반례가 됨\n이 사상은 ℂ³ → ℂ³에서 정의되며, 세 성분 모두 x, y...",
+      "headline": "OpenMMO - AI Agent와 인간 플레이어가 동등하게 대우받는 MMORPG",
+      "summary_ko": "엑스엘게임즈 창업자 송재경님이 공개한 1인 프로젝트입니다.\n특징:\nAgent-인간 동등성 : Agent와 인간 플레이어는 완전히 동일한 WebSocket 프로토콜을 사용합니다. 별도의 API나 엔드포인트가 필요하지 않습니다. 서버는 Agent와 인간을 구분할 수 없으므...",
+      "body_ko": "엑스엘게임즈 창업자 송재경님이 공개한 1인 프로젝트입니다.\n특징:\nAgent-인간 동등성 : Agent와 인간 플레이어는 완전히 동일한 WebSocket 프로토콜을 사용합니다. 별도의 API나 엔드포인트가 필요하지 않습니다. 서버는 Agent와 인간을 구분할 수 없으므로 인간이 할 수 있는 모든 동작을 Age",
       "author": "GeekNews",
-      "publish_date": "2026-07-21T01:00:37.000Z",
+      "publish_date": "2026-07-22T05:40:34.000Z",
       "tags": [
         "트렌드",
         "GeekNews"
       ],
       "multimedia": [],
-      "url": "https://news.hada.io/topic?id=31636",
+      "url": "https://news.hada.io/topic?id=31687",
+      "related_articles": [],
+      "sources": [
+        "GeekNews"
+      ]
+    },
+    {
+      "id": "geeknews_1784786712344681",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "headline": "Show GN: RealHome – 부동산 홈페이지·매물·문의·계약을 한 흐름으로 연결한 운영 도구",
+      "summary_ko": "안녕하세요. 오래 운영해 온 부동산 홈페이지 서비스 ‘아임리얼’의 한계와 실제 사용자 요청을 바탕으로 RealHome을 새로 만들었습니다. 제가 직접 개발·운영하고 있습니다.\n부동산 중개업소에서는 홈페이지에 매물을 올린 뒤 들어온 문의가 전화·메신저·엑셀로 흩어지고, ...",
+      "body_ko": "안녕하세요. 오래 운영해 온 부동산 홈페이지 서비스 ‘아임리얼’의 한계와 실제 사용자 요청을 바탕으로 RealHome을 새로 만들었습니다. 제가 직접 개발·운영하고 있습니다.\n부동산 중개업소에서는 홈페이지에 매물을 올린 뒤 들어온 문의가 전화·메신저·엑셀로 흩어지고, 담당자 배정과 후속 연락이 끊기는",
+      "author": "GeekNews",
+      "publish_date": "2026-07-22T04:44:52.000Z",
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "url": "https://news.hada.io/topic?id=31686",
+      "related_articles": [],
+      "sources": [
+        "GeekNews"
+      ]
+    },
+    {
+      "id": "geeknews_1784786712344316",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "headline": "AI 코딩 세션의 휘발성 맥락을 프로젝트 기억으로 남기기 — rhwp 적용 사례",
+      "summary_ko": "제가 rhwp collaborator로 3개월간 기여하며 직접 경험한 AI 협업 방법론을 정리한 글입니다.\n바이브 코딩에서는 잘 동작하던 AI가 기존 프로젝트나 회사 코드베이스에 적용되면 어려움을 겪는 이유를, 단순한 모델 성능보다 ‘축적된 프로젝트 맥락의 부재’라는 ...",
+      "body_ko": "제가 rhwp collaborator로 3개월간 기여하며 직접 경험한 AI 협업 방법론을 정리한 글입니다.\n바이브 코딩에서는 잘 동작하던 AI가 기존 프로젝트나 회사 코드베이스에 적용되면 어려움을 겪는 이유를, 단순한 모델 성능보다 ‘축적된 프로젝트 맥락의 부재’라는 관점에서 살펴봅니다.\nrhwp는 Hyper-W",
+      "author": "GeekNews",
+      "publish_date": "2026-07-22T01:35:30.000Z",
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "url": "https://news.hada.io/topic?id=31684",
+      "related_articles": [],
+      "sources": [
+        "GeekNews"
+      ]
+    },
+    {
+      "id": "geeknews_1784786712344927",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "headline": "AI 시대에 번영할 사람들",
+      "summary_ko": "AI 시대에 사람을 가르는 기준은 지능보다 정신적 노력과 맺는 관계이며, 지능이 흔해질수록 스스로 사고하고 성장하려는 의지(volition) 가 더 귀해짐\n인지욕구가 낮은 사람은 AI로 생산성을 높이는 대신 사고 능력을 잃기 쉽고, 중간 집단은 효율화의 유혹에 굴복.....",
+      "body_ko": "AI 시대에 사람을 가르는 기준은 지능보다 정신적 노력과 맺는 관계이며, 지능이 흔해질수록 스스로 사고하고 성장하려는 의지(volition) 가 더 귀해짐\n인지욕구가 낮은 사람은 AI로 생산성을 높이는 대신 사고 능력을 잃기 쉽고, 중간 집단은 효율화의 유혹에 굴복...",
+      "author": "GeekNews",
+      "publish_date": "2026-07-22T01:01:02.000Z",
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "url": "https://news.hada.io/topic?id=31683",
+      "related_articles": [],
+      "sources": [
+        "GeekNews"
+      ]
+    },
+    {
+      "id": "geeknews_1784786712344953",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "headline": "AI 시대의 데이터 관리",
+      "summary_ko": "생성형 AI가 신뢰할 수 있는 데이터로 작동하지 않으면 분석 결과도 신뢰하기 어려워지면서, 데이터 관리는 기술 지원 업무에서 전략적 핵심 기능으로 격상됨\n초기 애플리케이션 개발자가 데이터 구조까지 맡던 단계에서 데이터베이스 설계자/관리자, CIO, CDO로 역할이 분화...",
+      "body_ko": "생성형 AI가 신뢰할 수 있는 데이터로 작동하지 않으면 분석 결과도 신뢰하기 어려워지면서, 데이터 관리는 기술 지원 업무에서 전략적 핵심 기능으로 격상됨\n초기 애플리케이션 개발자가 데이터 구조까지 맡던 단계에서 데이터베이스 설계자/관리자, CIO, CDO로 역할이 분화됐으며,...",
+      "author": "GeekNews",
+      "publish_date": "2026-07-22T00:37:01.000Z",
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "url": "https://news.hada.io/topic?id=31681",
+      "related_articles": [],
+      "sources": [
+        "GeekNews"
+      ]
+    },
+    {
+      "id": "geeknews_1784786712344562",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "headline": "Flock Safety, 시의회·경찰·대중에게 반복적으로 거짓말해 신뢰를 잃다",
+      "summary_ko": "ACLU는 자동 번호판 인식(ALPR) 업체 Flock Safety가 제품 기능과 데이터 접근, 개인정보 보호 조치를 정부 고객에게 반복적으로 부정확하게 알렸다며 거래 중단을 촉구함\n위스콘신주 Oshkosh 시의회는 차량 이동 히트맵을 만들지 않는다는 임원의 답변을 믿...",
+      "body_ko": "ACLU는 자동 번호판 인식(ALPR) 업체 Flock Safety가 제품 기능과 데이터 접근, 개인정보 보호 조치를 정부 고객에게 반복적으로 부정확하게 알렸다며 거래 중단을 촉구함\n위스콘신주 Oshkosh 시의회는 차량 이동 히트맵을 만들지 않는다는 임원의 답변을 믿고 계약...",
+      "author": "GeekNews",
+      "publish_date": "2026-07-22T00:34:06.000Z",
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "url": "https://news.hada.io/topic?id=31680",
+      "related_articles": [],
+      "sources": [
+        "GeekNews"
+      ]
+    },
+    {
+      "id": "geeknews_1784786712344727",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "headline": "Malloy - 데이터 관계/변환/모델링을 위한 모던 오픈소스 언어",
+      "summary_ko": "시맨틱 모델링 언어이자 쿼리 언어로, 기존 SQL 엔진을 사용해 쿼리를 실행하는 이중 성격의 언어\n작성한 Malloy 쿼리는 사용 중인 DB에 최적화된 SQL로 컴파일되어 실행됨\n2022년에 소개 할 때는...",
+      "body_ko": "시맨틱 모델링 언어이자 쿼리 언어로, 기존 SQL 엔진을 사용해 쿼리를 실행하는 이중 성격의 언어\n작성한 Malloy 쿼리는 사용 중인 DB에 최적화된 SQL로 컴파일되어 실행됨\n2022년에 소개 할 때는",
+      "author": "GeekNews",
+      "publish_date": "2026-07-22T00:31:02.000Z",
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "url": "https://news.hada.io/topic?id=31679",
+      "related_articles": [],
+      "sources": [
+        "GeekNews"
+      ]
+    },
+    {
+      "id": "geeknews_1784786712344315",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "headline": "안목은 위임할 수 없다 - AI 시대, 위원회식 디자인의 종말",
+      "summary_ko": "AI가 인터페이스/이미지/제품을 누구나 생성할 수 있게 만들면서 디자이너의 가치는 결과물의 양보다 무엇이 존재할 가치가 있는지 선택하는 판단력으로 이동함\nAI와 조직의 위원회식 의사결정은 모두 선호를 수집하고 예측하는 데 능하지만, 맥락과 의도를 이해해 방향을 정하는...",
+      "body_ko": "AI가 인터페이스/이미지/제품을 누구나 생성할 수 있게 만들면서 디자이너의 가치는 결과물의 양보다 무엇이 존재할 가치가 있는지 선택하는 판단력으로 이동함\nAI와 조직의 위원회식 의사결정은 모두 선호를 수집하고 예측하는 데 능하지만, 맥락과 의도를 이해해 방향을 정하는",
+      "author": "GeekNews",
+      "publish_date": "2026-07-22T00:20:02.000Z",
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "url": "https://news.hada.io/topic?id=31678",
+      "related_articles": [],
+      "sources": [
+        "GeekNews"
+      ]
+    },
+    {
+      "id": "geeknews_178478671234432",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "headline": "지난 24시간 동안 공개된 Linux 커널 CVE 432건",
+      "summary_ko": "Hacker News 제목에 따르면 지난 24시간 동안 Linux 커널 CVE 432건이 공개됐지만, 현재 공지 페이지에서는 개별 내용을 확인할 수 없음\n공지 페이지는 대규모 웹 수집으로 인한 서버 중단과 자원 접근 제한을 막기 위해 Anubis 봇 방지 절차를 적용함...",
+      "body_ko": "Hacker News 제목에 따르면 지난 24시간 동안 Linux 커널 CVE 432건이 공개됐지만, 현재 공지 페이지에서는 개별 내용을 확인할 수 없음\n공지 페이지는 대규모 웹 수집으로 인한 서버 중단과 자원 접근 제한을 막기 위해 Anubis 봇 방지 절차를 적용함",
+      "author": "GeekNews",
+      "publish_date": "2026-07-22T00:09:53.000Z",
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "url": "https://news.hada.io/topic?id=31677",
+      "related_articles": [],
+      "sources": [
+        "GeekNews"
+      ]
+    },
+    {
+      "id": "geeknews_1784786712344603",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "headline": "GitHub이 갑자기 SSH 키를 거부한 이유: 사라진 .pub 파일",
+      "summary_ko": "변경하지 않은 노트북에서 GitHub의 git pull이 갑자기 실패했지만, 개인 키에 대응하는 .pub 파일을 생성하자 다시 인증됨\n.pub 파일이 있으면 OpenSSH는 공개 키를 먼저 제시해 승인을 받은 뒤 서명하고, 없으면 서명된 인증 요청......",
+      "body_ko": "변경하지 않은 노트북에서 GitHub의 git pull이 갑자기 실패했지만, 개인 키에 대응하는 .pub 파일을 생성하자 다시 인증됨\n.pub 파일이 있으면 OpenSSH는 공개 키를 먼저 제시해 승인을 받은 뒤 서명하고, 없으면 서명된 인증 요청...",
+      "author": "GeekNews",
+      "publish_date": "2026-07-22T00:06:53.000Z",
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "url": "https://news.hada.io/topic?id=31676",
+      "related_articles": [],
+      "sources": [
+        "GeekNews"
+      ]
+    },
+    {
+      "id": "geeknews_1784786712344158",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "headline": "나만의 웹사이트를 가져야 할 95가지 이유",
+      "summary_ko": "개인 웹사이트는 글·사진·기억을 자신의 방식으로 보관하고 게시하는 열린 웹의 집이 될 수 있음\nHTML과 웹의 작동 원리를 배우는 실습장이자 이미지·오디오·영상·텍스트·시간·하이퍼링크를 함께 다루는 창작 매체임\n좋아요 수와 무한 스크롤, 사회적 압......",
+      "body_ko": "개인 웹사이트는 글·사진·기억을 자신의 방식으로 보관하고 게시하는 열린 웹의 집이 될 수 있음\nHTML과 웹의 작동 원리를 배우는 실습장이자 이미지·오디오·영상·텍스트·시간·하이퍼링크를 함께 다루는 창작 매체임\n좋아요 수와 무한 스크롤, 사회적 압...",
+      "author": "GeekNews",
+      "publish_date": "2026-07-22T00:03:52.000Z",
+      "tags": [
+        "트렌드",
+        "GeekNews"
+      ],
+      "multimedia": [],
+      "url": "https://news.hada.io/topic?id=31675",
       "related_articles": [],
       "sources": [
         "GeekNews"
