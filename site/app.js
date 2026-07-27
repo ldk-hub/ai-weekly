@@ -22,9 +22,12 @@ const CATEGORIES = [
 const NEWS_CATEGORIES = [
   { id: "all",       emoji: "✨", label_ko: "전체",         label_en: "All" },
   { id: "geeknews",  emoji: "🤓", label_ko: "GeekNews",     label_en: "GeekNews" },
-  { id: "instagram", emoji: "📸", label_ko: "Instagram",    label_en: "Instagram" },
+  { id: "hackernews",emoji: "🔥", label_ko: "Hacker News",  label_en: "Hacker News" },
+  { id: "youtube",   emoji: "🎥", label_ko: "YouTube",      label_en: "YouTube" },
   { id: "x",         emoji: "🐦", label_ko: "X (Twitter)",  label_en: "X" },
+  { id: "reddit",    emoji: "👽", label_ko: "Reddit",       label_en: "Reddit" },
   { id: "threads",   emoji: "🧵", label_ko: "Threads",      label_en: "Threads" },
+  { id: "github",    emoji: "🐙", label_ko: "GitHub",       label_en: "GitHub" },
 ];
 
 const STUDY_CATEGORIES = [
@@ -522,16 +525,19 @@ function newsCardHTML(item, idx = 0) {
   const safeId = escapeHTML(item.id || "");
   
   const rank = idx + 1;
-  const isTop3 = rank <= 3 && STATE.category === "all" && !STATE.query;
+  const isAllCategory = STATE.category === "all" && !STATE.query;
   
   let sticker = "";
-  if (isTop3) {
-    const stColors = ["s-coral", "s-lemon", "s-lemon"];
-    const stBottoms = ["TOP", "급상승", "급상승"];
+  if (isAllCategory) {
+    let stColor = "s-gray";
+    let stBottom = "트렌드";
+    if (rank === 1) { stColor = "s-coral"; stBottom = "TOP"; }
+    else if (rank === 2 || rank === 3) { stColor = "s-lemon"; stBottom = "급상승"; }
+    
     sticker = `
-      <div class="sticker ${stColors[idx]}">
-        <strong>#0${rank}</strong>
-        ${stBottoms[idx]}
+      <div class="sticker ${stColor}">
+        <strong>#${String(rank).padStart(2, '0')}</strong>
+        ${stBottom}
       </div>
     `;
   }
@@ -544,7 +550,7 @@ function newsCardHTML(item, idx = 0) {
   // 작성자 및 발행일 프로필 레이아웃
   const pubDate = item.publish_date ? new Date(item.publish_date) : null;
   const dateStr = pubDate ? `${pubDate.getMonth()+1}/${pubDate.getDate()} ${String(pubDate.getHours()).padStart(2,'0')}:${String(pubDate.getMinutes()).padStart(2,'0')}` : "";
-  const authorStr = item.author ? escapeHTML(item.author) : "Unknown";
+  const authorStr = (item.author_profile || item.author) ? escapeHTML(item.author_profile || item.author) : "Unknown";
   
   let avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(authorStr)}&background=random&color=fff&bold=true`;
   let platformIconHtml = "";
@@ -560,6 +566,18 @@ function newsCardHTML(item, idx = 0) {
     platformIconHtml = `<span class="platform-dot" style="position:absolute; bottom:-4px; right:-4px; width:14px; height:14px; background:#F58411; border-radius:50%; border:2px solid var(--card); display:flex; align-items:center; justify-content:center; color:#fff; font-size:9px; font-weight:bold; padding-bottom:1px;">G</span>`;
   } else if (item.category_id === 'threads' || item.platform === 'Threads') {
     platformIconHtml = `<span class="platform-dot" style="position:absolute; bottom:-4px; right:-4px; width:14px; height:14px; background:#000; border-radius:50%; border:2px solid var(--card); display:flex; align-items:center; justify-content:center; color:#fff;"><svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm3.846 14.996c-1.127.84-2.584 1.258-4.103 1.258-3.344 0-5.836-2.47-5.836-6.176 0-3.693 2.502-6.183 5.908-6.183 3.328 0 5.768 2.404 5.768 5.707 0 1.272-.258 2.378-.737 3.195-.494.84-1.185 1.252-1.927 1.252-.802 0-1.398-.445-1.572-1.13l-.042-.2c-.413.565-1.047.88-1.748.88-1.395 0-2.39-1.026-2.39-2.532 0-1.63 1.157-2.735 2.87-2.735.674 0 1.252.193 1.636.46v-1.17c0-1.62-1.002-2.518-2.616-2.518-1.282 0-2.316.488-2.656.76l-.736-1.168c.516-.445 1.83-1.066 3.497-1.066 2.53 0 4.195 1.503 4.195 4.025v3.136c0 1.05.748 1.488 1.408 1.488.752 0 1.283-.435 1.763-1.096l1.098 1.008c-.718 1.052-1.802 1.62-3.042 1.62-1.34 0-2.327-.853-2.327-2.072v-.234zm-5.61-3.61c0 1.023.702 1.604 1.583 1.604.836 0 1.472-.454 1.643-1.127l.067-.32c0-.79-.533-1.284-1.39-1.284-.658 0-1.17.203-1.528.53v-.002c-.256.242-.375.58-.375.6z"/></svg></span>`;
+  } else if (item.category_id === 'reddit' || item.platform === 'Reddit') {
+    avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(authorStr)}&background=FF4500&color=fff&bold=true`;
+    platformIconHtml = `<span class="platform-dot" style="position:absolute; bottom:-4px; right:-4px; width:14px; height:14px; background:#FF4500; border-radius:50%; border:2px solid var(--card); display:flex; align-items:center; justify-content:center; color:#fff;"><svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.562-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.688-.561-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .466c.804.803 2.285.894 2.947.894.662 0 2.143-.09 2.947-.894a.33.33 0 0 0 0-.466.327.327 0 0 0-.466 0c-.6.6-1.815.65-2.481.65-.667 0-1.881-.05-2.481-.65a.332.332 0 0 0-.235-.095z"/></svg></span>`;
+  } else if (item.category_id === 'github' || item.platform === 'GitHub') {
+    avatarUrl = `https://github.com/${encodeURIComponent(authorStr)}.png?size=80`;
+    platformIconHtml = `<span class="platform-dot" style="position:absolute; bottom:-4px; right:-4px; width:14px; height:14px; background:#24292e; border-radius:50%; border:2px solid var(--card); display:flex; align-items:center; justify-content:center; color:#fff;"><svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.67 5.56.67 11.83c0 5.01 3.24 9.26 7.75 10.76.57.1.78-.24.78-.55v-1.93c-3.15.69-3.81-1.52-3.81-1.52-.52-1.31-1.26-1.66-1.26-1.66-1.03-.7.08-.69.08-.69 1.14.08 1.74 1.17 1.74 1.17 1.01 1.74 2.66 1.24 3.31.95.1-.74.4-1.24.72-1.53-2.51-.29-5.15-1.25-5.15-5.57 0-1.23.44-2.23 1.16-3.02-.12-.29-.5-1.44.11-3 0 0 .95-.3 3.1 1.16.9-.25 1.86-.38 2.82-.38.96 0 1.92.13 2.82.38 2.15-1.46 3.1-1.16 3.1-1.16.61 1.56.23 2.71.11 3 .72.79 1.16 1.79 1.16 3.02 0 4.33-2.65 5.28-5.17 5.56.41.35.77 1.05.77 2.11v3.13c0 .31.21.66.79.55 4.5-1.5 7.74-5.75 7.74-10.76C23.33 5.56 18.27.5 12 .5z"/></svg></span>`;
+  } else if (item.category_id === 'youtube' || item.platform === 'YouTube') {
+    avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(authorStr)}&background=FF0000&color=fff&bold=true`;
+    platformIconHtml = `<span class="platform-dot" style="position:absolute; bottom:-4px; right:-4px; width:14px; height:14px; background:#FF0000; border-radius:50%; border:2px solid var(--card); display:flex; align-items:center; justify-content:center; color:#fff;"><svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.5 12 3.5 12 3.5s-7.505 0-9.377.55a3.016 3.016 0 0 0-2.122 2.136C0 8.086 0 12 0 12s0 3.914.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.55 9.376.55 9.376.55s7.505 0 9.377-.55a3.016 3.016 0 0 0 2.122-2.136C24 15.914 24 12 24 12s0-3.914-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></span>`;
+  } else if (item.category_id === 'hackernews' || item.platform === 'Hacker News') {
+    avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(authorStr)}&background=FF6600&color=fff&bold=true`;
+    platformIconHtml = `<span class="platform-dot" style="position:absolute; bottom:-4px; right:-4px; width:14px; height:14px; background:#FF6600; border-radius:50%; border:2px solid var(--card); display:flex; align-items:center; justify-content:center; color:#fff; font-size:9px; font-weight:bold;">Y</span>`;
   }
 
   const headHtml = `
@@ -616,7 +634,7 @@ function newsCardHTML(item, idx = 0) {
   ` : "";
 
   return `
-    <article class="card news-card" data-id="${safeId}" style="position:relative; padding:24px; box-shadow:0 4px 12px rgba(0,0,0,0.05); border-radius:16px;">
+    <article class="card news-card" data-id="${safeId}" data-platform="${item.category_id || 'news'}" style="position:relative; padding:24px; box-shadow:0 4px 12px rgba(0,0,0,0.05); border-radius:16px;">
       ${sticker}
       ${cover}
       ${headHtml}

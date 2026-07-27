@@ -15,34 +15,33 @@ const MODEL = process.env.GEMINI_MODEL || "gemini-2.0-flash";
 
 const PROMPT_RULES = `너는 AI 산업 트렌드 전문 큐레이터다. 아래 뉴스 후보 목록(JSON)을 분석해서 오늘 자 데일리 스냅샷 인덱스를 만들어라.
 
-[핵심 규칙 (Single Pass Pipeline)]
-1. 주식, 증시, 투자, 단순 재무 실적과 관련된 기사는 배열에서 완전히 배제(Drop)할 것.
-2. 중복되는 주제의 기사는 가장 내용이 풍부한 1개만 남기고 나머지는 배제할 것.
-3. [중요] 오직 '어제~오늘' 새롭게 공개된 릴리즈, 기능 발표, 핫이슈만을 선정할 것. 과거 회고나 뒷북 요약은 제거(Drop)할 것.
-4. 위 조건을 충족하는 핵심 이슈들만 선별하여 가장 주목받는(핫한) 순서대로 정렬할 것. (최대 10개 내외로 압축하여 피로도를 줄일 것)
-5. 각 뉴스는 3문장 이내로 핵심만 요약(summary_ko)하고, 원문 또는 상세 내용은 본문(body_ko)에 최대한 풍부하게 담을 것.
-6. 출력은 아래 JSON 스키마를 엄격히 따를 것 (8가지 필수 필드 보장):
+[핵심 규칙 (Multi-Platform Quota)]
+1. 수집된 후보들을 각 플랫폼별(X, Reddit, Threads, GitHub, YouTube, GeekNews 등)로 그룹화하라.
+2. 각 플랫폼별로 가장 가치 있는 이슈를 엄선하여 **플랫폼당 2~3개씩** 선정하라. (특정 플랫폼에 치우치지 않게 균형 유지)
+3. 주식, 증시, 투자, 단순 재무 실적과 관련된 기사는 완전히 배제(Drop)할 것.
+4. 오직 '최근 24시간' 내 새롭게 공개된 릴리즈, 기능 발표, 핫이슈만을 선정할 것. 과거 회고는 제거할 것.
+5. 각 뉴스는 3문장 이내로 핵심만 요약(summary_ko)하고, 원문 상세 내용은 본문(body_ko)에 풍부하게 담을 것.
+6. 원본 데이터의 작성자(author) 정보와 플랫폼 아이콘 렌더링을 위한 출처 정보를 정확히 유지할 것.
+7. 출력은 아래 JSON 스키마를 엄격히 따를 것:
 
 {
-  "summary": "전체 뉴스 흐름 한 줄 요약 (예: 새로운 AI 개발 도구와 오픈소스 모델의 약진)...",
+  "summary": "오늘의 플랫폼별 뉴스 전체 흐름 한 줄 요약...",
   "news": [
     {
       "id": "고유ID",
-      "category_id": "geeknews | instagram | x | threads 중 하나",
-      "category_name": "GeekNews | Instagram | X (Twitter) | Threads",
-      "headline": "기사의 주요 제목 및 부제목",
+      "category_id": "geeknews | youtube | x | reddit | threads | github 중 하나",
+      "category_name": "GeekNews | YouTube | X (Twitter) | Reddit | Threads | GitHub",
+      "headline": "기사의 주요 제목",
       "title_ko": "한글 제목",
       "title_en": "English Title",
       "summary_ko": "한글 요약 (3줄)",
       "summary_en": "English Summary (3 sentences)",
       "body_ko": "기사의 본문 텍스트 전체",
       "body_en": "English Translation of the body text",
-      "author": "콘텐츠를 작성한 작가 또는 기자 이름",
+      "author_profile": "작성자 프로필 핸들 또는 이름 (예: @jeffsu, r/webdev)",
       "publish_date": "발행일 (ISO)",
-      "tags": ["기술", "오픈소스", "개발자도구"],
-      "multimedia": ["이미지 URL 등 시각적 요소 (영상 제외)"],
-      "url": "원문 링크",
-      "related_articles": [ {"title": "관련 기사 제목", "url": "링크"} ]
+      "tags": ["태그1", "태그2"],
+      "url": "원문 링크"
     }
   ]
 }`;
@@ -106,19 +105,53 @@ const MOCK_TRANSLATIONS = {
 
 function getMockGeminiResponse(candidates) {
   const sortedCandidates = [...(candidates || [])].sort((a, b) => (b.likes || 0) - (a.likes || 0));
-  const news = sortedCandidates.map(c => {
-    let catId = "x";
-    let catName = "X (Twitter)";
-    if (c.platform === "GeekNews") { catId = "geeknews"; catName = "GeekNews"; }
-    else if (c.platform === "Instagram") { catId = "instagram"; catName = "Instagram"; }
-    else if (c.platform === "Threads") { catId = "threads"; catName = "Threads"; }
+  
+  // X와 Threads 아이템이 없으면 Mock 데이터를 위해 강제로 추가합니다.
+  const hasX = sortedCandidates.some(c => (c.platform || "").toLowerCase() === "x" || (c.category_id || "") === "x");
+  const hasThreads = sortedCandidates.some(c => (c.platform || "").toLowerCase().includes("thread") || (c.category_id || "") === "threads");
+  
+  if (!hasX) {
+    sortedCandidates.push({ id: "news_x_001", platform: "X", category_id: "x", author: "AndrewNg", url: "https://x.com/AndrewYNg", content: "..." });
+    sortedCandidates.push({ id: "news_x_002", platform: "X", category_id: "x", author: "elonmusk", url: "https://x.com/elonmusk", content: "..." });
+  }
+  if (!hasThreads) {
+    sortedCandidates.push({ id: "news_threads_001", platform: "Threads", category_id: "threads", author: "karpathy", url: "https://threads.net/karpathy", content: "..." });
+    sortedCandidates.push({ id: "news_threads_002", platform: "Threads", category_id: "threads", author: "ylecun", url: "https://threads.net/ylecun", content: "..." });
+  }
+
+  // 플랫폼별 2~3개 할당제 적용을 위한 그룹화
+  const grouped = {};
+  sortedCandidates.forEach(c => {
+    const plat = c.platform || "Web";
+    if (!grouped[plat]) grouped[plat] = [];
+    grouped[plat].push(c);
+  });
+
+  const selectedCandidates = [];
+  for (const plat of Object.keys(grouped)) {
+    // 플랫폼당 최대 3개까지만 선정
+    selectedCandidates.push(...grouped[plat].slice(0, 3));
+  }
+
+  const news = selectedCandidates.map((c, index) => {
+    let catId = "web";
+    let catName = c.platform || "Web";
+    let rawPlat = catName.toLowerCase();
+
+    if (rawPlat.includes("geeknews")) { catId = "geeknews"; catName = "GeekNews"; }
+    else if (rawPlat.includes("hackernews") || rawPlat.includes("hacker news")) { catId = "hackernews"; catName = "Hacker News"; }
+    else if (rawPlat.includes("x") || rawPlat.includes("twitter")) { catId = "x"; catName = "X (Twitter)"; }
+    else if (rawPlat.includes("reddit")) { catId = "reddit"; catName = "Reddit"; }
+    else if (rawPlat.includes("thread")) { catId = "threads"; catName = "Threads"; }
+    else if (rawPlat.includes("github")) { catId = "github"; catName = "GitHub"; }
+    else if (rawPlat.includes("youtube")) { catId = "youtube"; catName = "YouTube"; }
 
     let titleKo = "";
     let summaryKo = "";
     let titleEn = "";
     let summaryEn = "";
 
-    if (c.platform === "GeekNews") {
+    if (catId === "geeknews") {
       const parts = c.content.split('\n');
       titleKo = parts[0] || c.content;
       summaryKo = parts.slice(1).join('\n') || titleKo;
@@ -132,10 +165,14 @@ function getMockGeminiResponse(candidates) {
         titleEn = tr.title_en;
         summaryEn = tr.summary_en;
       } else {
-        titleKo = c.content.slice(0, 60);
-        summaryKo = c.content;
-        titleEn = titleKo;
-        summaryEn = summaryKo;
+        // Fallback translation for mock
+        const lines = c.content.split('\n');
+        titleKo = `[임시 번역] ${lines[0].substring(0, 80)}`;
+        titleEn = lines[0].substring(0, 80);
+        
+        let desc = lines.length > 1 ? lines.slice(1).join(' ').substring(0, 100) : c.content.substring(0, 100);
+        summaryKo = `• ${desc}...\n• 해외 커뮤니티에서 실시간으로 화제가 되고 있는 기술 뉴스입니다.\n• 보다 자세한 세부 내용과 토론은 원문을 통해 확인할 수 있습니다.`;
+        summaryEn = desc + "...";
       }
     }
 
@@ -148,17 +185,14 @@ function getMockGeminiResponse(candidates) {
       title_en: titleEn,
       summary_ko: summaryKo,
       summary_en: summaryEn,
-      body_ko: summaryKo + "\n" + (c.content.length > 20 ? "상세 본문: " + c.content : ""),
-      body_en: summaryEn + "\n" + (c.content.length > 20 ? "Details: " + c.content : ""),
-      author: c.author || "Unknown",
+      body_ko: summaryKo + "\n\n" + (c.content.length > 20 ? "상세 본문: " + c.content : ""),
+      body_en: summaryEn + "\n\n" + (c.content.length > 20 ? "Details: " + c.content : ""),
+      author_profile: c.author || "Unknown",
       publish_date: c.publish_date || new Date().toISOString(),
       tags: c.tags || [catName, "트렌드"],
-      multimedia: c.multimedia || [],
-      url: c.url,
-      related_articles: c.related_articles || [],
-      sources: c.references || [c.platform]
+      url: c.url || `https://${catId}.com`
     };
-  }); // 이전처럼 제한 없이 수집된 모든 기사(21개 등)를 반환하도록 복구
+  });
 
   const dynamicSummary = candidates.length > 0
     ? `오늘의 주요 AI 트렌드: '${news[0].headline}' 등을 포함하여 총 ${news.length}건의 핫이슈가 수집되었습니다.`
