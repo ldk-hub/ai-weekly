@@ -1,16 +1,16 @@
 ---
 name: cc-news
-description: "AI 최신 동향 데일리 뉴스 수집 및 큐레이션 파이프라인. GeekNews, Instagram, X, Threads 매체를 대상으로 뉴스를 수집하고, Gemini를 통해 카드뉴스 스키마로 요약, 정적 사이트에 배포. 트리거: cc-news, 데일리뉴스 업데이트"
+description: "AI 최신 동향 데일리 뉴스 수집 및 큐레이션 파이프라인. GeekNews, HackerNews, GitHub, YouTube, Reddit, X, Threads, Instagram 매체를 대상으로 뉴스를 수집하고, Gemini를 통해 카드뉴스 스키마로 요약, 정적 사이트에 배포. 트리거: cc-news, 데일리뉴스 업데이트"
 ---
 
 # CC News — 데일리 뉴스 오케스트레이터
 
-매일 AI 최신 뉴스를 4개 매체(GeekNews, Instagram, X, Threads)에서 수집하여 `news_latest.json`으로 요약 배포합니다.
+매일 AI 최신 뉴스를 8개 매체(GeekNews, HackerNews, GitHub, YouTube, Reddit, X, Threads, Instagram)에서 수집하여 `news_latest.json`으로 요약 배포합니다.
 
 ## 팀 구성
 | 에이전트 | 역할 |
 |---------|------|
-| `news-scout` | 4개 소셜 및 커뮤니티 매체에서 뉴스 탐색 및 수집 |
+| `news-scout` | 8개 소셜 및 커뮤니티 매체에서 뉴스 탐색 및 수집 |
 | `news-curator` | 수집된 후보군 요약 큐레이션 및 프론트엔드 JSON 데이터 갱신 |
 | `site-builder` | 갱신된 JSON을 기반으로 배포 (기존 `cc-trends` 공유 에이전트) |
 
@@ -21,7 +21,7 @@ cc-news는 총 4명의 에이전트/스크립트로 이루어진 파이프라인
 
 1. **[Phase 1] Scout (뉴스 수집)**
    - 실행: `node scripts/collect_news.js`
-   - 역할: X, Threads, Instagram, GeekNews 등 여러 매체에서 최신 뉴스를 원시 형태(`data/news_candidates.json`)로 스크래핑합니다.
+   - 역할: X, Threads, Instagram, GeekNews, HackerNews, GitHub, YouTube, Reddit 등 8개 매체에서 최신 뉴스를 원시 형태(`data/news_candidates.json`)로 스크래핑합니다.
 2. **[Phase 2] Analyzer (뉴스 분석 및 필터링)**
    - 가이드: `.claude/agents/news-analyzer.md` (필요시 읽고 수행)
    - 역할: 수집된 원시 뉴스 중 발행일 기준 **최근 24시간 이내**, 그리고 **본문 내용이 존재하는 유효한 기사만 필터링**하여 수집합니다 (개수 제한 없음).
