@@ -2,17 +2,17 @@
   "archives": [
     {
       "file": "2026-07-27.json",
+      "version": "v2026.07.27",
+      "generated_at": "2026-07-27",
+      "rising_count": 14,
+      "classic_count": 11
+    },
+    {
+      "file": "2026-07-20.json",
       "version": "v2026.07.20",
       "generated_at": "2026-07-20T00:13:16Z",
       "rising_count": 7,
       "classic_count": 16
-    },
-    {
-      "file": "2026-07-20.json",
-      "version": "v2026.07.13",
-      "generated_at": "2026-07-13",
-      "rising_count": 14,
-      "classic_count": 12
     },
     {
       "file": "2026-07-13.json",

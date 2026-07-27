@@ -23,7 +23,7 @@ github-scout이 제출한 후보 리포 리스트(`_workspace/01_github_raw.json
 
 | 소스 | Phase A 최소 | Phase B 후보당 검색 횟수 |
 |---|---|---|
-| Reddit (Google `site:` 전용) | 10건 (SERP 경유) | 후보당 1회 |
+| Reddit (arctic-shift API) | 15건 | 후보당 서브레딧 순회 |
 | HackerNews | 15건 | 후보당 1회 |
 | dev.to | 15건 | 후보당 1회 |
 | X (Twitter) | 10건 | 후보당 1회 |
@@ -38,13 +38,34 @@ github-scout이 제출한 후보 리포 리스트(`_workspace/01_github_raw.json
 
 각 소스에서 아래 쿼리를 **모두** 돌린다 (1~2개만 돌리는 것 금지):
 
-### Reddit — Google `site:reddit.com` (WebSearch) 전용 ⚠️
-직접 접근(`*.json`/`old.reddit`/redlib 미러) 전면 403 — datacenter IP 차단, UA 무효(2026-07 실측). **reddit.com 직접 fetch/curl 금지.** Google 우회만:
-- `site:reddit.com/r/ClaudeAI (skill OR agent OR mcp OR harness) after:{LAST_WEEK}`
-- `site:reddit.com/r/ClaudeCode after:{LAST_WEEK}`
-- `site:reddit.com "claude code" (skill OR mcp OR agent) after:{LAST_WEEK}`
-- `site:reddit.com/r/LocalLLaMA "claude code" after:{LAST_WEEK}`
-- `site:reddit.com/r/programming claude code after:{LAST_WEEK}`
+### Reddit — arctic-shift API 사용 ✅ (2026-07-27 실측 복구)
+`www.reddit.com/r/*/new.json` 은 403 이고 `site:reddit.com` WebSearch 는 aggregator
+만 반환한다. 하지만 **arctic-shift(Pushshift 후계, 무료·무인증)는 200 이고 당일
+데이터까지 최신이다.** engagement(`score`/`num_comments`)도 실측값을 준다.
+
+```bash
+BASE=https://arctic-shift.photon-reddit.com/api/posts/search
+AFTER=$(date -j -f %Y-%m-%d 2026-07-13 +%s)   # epoch 정수 필수
+curl -sS "$BASE?subreddit=ClaudeAI&query=skill&after=$AFTER&limit=25\
+&fields=title,selftext,score,num_comments,created_utc,id,author,subreddit"
+```
+
+**확정된 제약 (실측):**
+| 제약 | 내용 |
+|---|---|
+| `query` 단독 사용 불가 | `subreddit` 또는 `author` 와 반드시 동반 → 전역 키워드 검색 없음. 서브레딧 순회 필요 |
+| `after` 형식 | **epoch 정수만**. `2026-07-13` 같은 ISO 는 400 |
+| 미지원 파라미터 | `sort_type=score` → 400, `permalink` 필드 → 400 |
+| URL 조립 | `https://reddit.com/comments/{id}` 로 만든다 |
+| 레이트리밋 | 연속 호출 시 `422 Timeout. Maybe slow down a bit` → 호출 간 200~300ms 슬립 |
+| comments 엔드포인트 | `/api/comments/search` 는 `query` 미지원. 리포 언급 탐지는 posts 의 `title`+`selftext` 정규식으로 처리 |
+
+**순회 대상 서브레딧:** `ClaudeAI`, `ClaudeCode`, `LocalLLaMA`, `ChatGPTCoding`, `mcp`, `programming`
+
+**Phase A 쿼리:** 각 서브레딧 × `query` 없이 최신 25건 + `query=skill|mcp|agent|harness` 4종
+
+**폴백 순서:** arctic-shift → `https://www.reddit.com/r/{sub}/new/.rss` (200 이지만
+최신 25건만, 검색·engagement 없음) → `site:reddit.com` WebSearch (현행, 사실상 0건)
 
 ### HackerNews
 - `hn.algolia.com/?q=claude+code&dateRange=pastWeek&sort=byPopularity`
@@ -93,19 +114,21 @@ github-scout이 출력한 `_workspace/01_github_raw.json`을 읽고,
 
 ```
 for each candidate_repo in github_candidates:
-    queries = [
-        f'site:reddit.com "{candidate_repo}"',
-        f'site:news.ycombinator.com "{candidate_repo}"',
-        f'site:dev.to "{candidate_repo}"',
-        f'site:x.com "{candidate_repo}"',
-        f'site:news.hada.io "{candidate_repo}"',
-        f'site:velog.io "{candidate_repo}"',
-        # 또한 repo 이름만 (owner 제외)으로도 한 번 더
-        f'"{repo_name_only}" claude'
-    ]
-    for q in queries:
-        결과 발견 시 → mentioned_repos에 추가, 출처 기록
+    # 1) Reddit — WebSearch 아님. arctic-shift 로 서브레딧 순회 후 본문 정규식 매칭
+    for sub in [ClaudeAI, ClaudeCode, LocalLLaMA, ChatGPTCoding, mcp]:
+        GET {BASE}?subreddit={sub}&query={repo_name_only}&after={epoch}&fields=...
+        (200~300ms 슬립)
+    # 2) velog — 단독 쿼리로 분리 (압축 쿼리에 넣으면 밀려서 0건 됨)
+    WebSearch(f'site:velog.io "{repo_name_only}"')
+    # 3) 나머지 — 압축 1쿼리 유지 (비용 대비 손실 적음)
+    WebSearch(f'"{repo_name_only}" (site:news.ycombinator.com OR site:dev.to '
+              f'OR site:x.com OR site:news.hada.io)')
+    결과 발견 시 → mentioned_repos에 추가, 출처 기록
 ```
+
+**압축 쿼리 주의 (2026-07-27 교훈):** 7개 `site:` 쿼리를 `A OR B OR ...` 단일 쿼리로
+합쳤더니 상위 결과를 지배 도메인이 독점해 **reddit 0건 / velog 0건**이 나왔다.
+"압축해서 못 찾음"과 "실제로 없음"은 다르다. Reddit·velog 는 반드시 전용 경로로 분리.
 
 이 단계의 산출물이 trend-analyzer의 `sources` 필드를 채운다.
 **Phase B를 건너뛰면 위클렌드의 핵심 가치가 사라진다.**
@@ -116,13 +139,18 @@ for each candidate_repo in github_candidates:
 
 | 플랫폼 | 계정 |
 |---|---|
-| X | @AnthropicAI, @alexalbert__, @sjwhitmore, @mickeyxfriedman, @kevinweil |
+| X | @AnthropicAI, @alexalbert__, @sjwhitmore, @mickeyxfriedman, @kevinweil, @addyosmani, @garrytan |
 | Reddit | u/dhamaniasad, u/anthropic-official 모더레이터들 |
 | HN | dang, todsacerdoti, dhouston |
 | velog | velopert, jojoldu |
 | GeekNews | xguru |
 
 해당 계정의 언급은 `influencer: true` 플래그로 표시.
+
+**명단 밖 보정 (2026-07-27 교훈):** 그 주 화이트리스트 매치가 **0건**이었는데 실제로
+언급한 건 addyosmani·garrytan 등 명단 밖 계정이었다. 고정 명단은 노화한다 →
+명단에 없어도 `score ≥ 100 OR num_comments ≥ 50` 이면 `influencer_by_engagement: true`
+로 표시하고 buzz 가산을 동일 적용. arctic-shift 가 Reddit score 를 주므로 계산 가능.
 
 ## 수집 필드 (게시글별)
 
@@ -199,7 +227,9 @@ trend-analyzer가 즉시 사용 가능한 형태:
 
 | 상황 | 대응 |
 |---|---|
-| Reddit 직접 접근 | 전면 403(json/old/mirror), 시도 금지 → Google `site:reddit.com` WebSearch가 유일 경로 |
+| Reddit `.json` 403 | 정상. arctic-shift API 로 대체 (위 쿼리 팩 참조). `.json`/`old.reddit`/redlib 재시도 금지 |
+| arctic-shift 422 Timeout | 레이트리밋. 슬립 늘려 1회 재시도 → 계속 실패 시 `.rss` 폴백 |
+| arctic-shift 400 | 파라미터 오류다(대개 `after` 를 ISO 로 넘김, 또는 `query` 를 `subreddit` 없이 씀). 차단 아님 — 쿼리 고쳐 재시도 |
 | X 직접 접근 불가 | Google `site:x.com` + 캐시 페이지 사용 |
 | HN Algolia 응답 없음 | hn.algolia.com 직접 URL 시도 |
 | Phase B 후보 50개 초과 | 점수 상위 30개만 우선 처리, 나머지는 보고서에 기록 |

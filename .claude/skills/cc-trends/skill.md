@@ -21,6 +21,9 @@ Claude Code 에이전트·하네스·스킬 트렌드 홈페이지를 자동 갱
 ### Phase 1A: 광역 수집 (병렬)
 `TeamCreate`로 팀 구성 후 `TaskCreate`로 github-scout, community-scout(Phase A)에 동시 할당.
 - github-scout → `_workspace/01_github_raw.json`
+  - 수집 직후 `node scripts/build-stars-ledger.js --add _workspace/01_github_raw.json <오늘>`
+    로 **46건 전부**(pending 포함) 원장 기록. velocity 기준선은 아카이브가 아니라
+    이 원장에서 나온다 — 아카이브 파일명 규약 혼재로 기준선이 2주 밀린 사고가 있었다
 - community-scout (Phase A 광역) → `_workspace/02_community_raw.json` (최소 90건)
 
 ### Phase 1B: 후보 역방향 검증 ⭐⭐⭐
