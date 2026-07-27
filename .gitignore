@@ -7,3 +7,4 @@ package-lock.json
 node_modules/
 data/candidates.json
 .playwright-mcp/
+data/chrome_profile/
