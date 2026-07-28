@@ -44,110 +44,97 @@
 
 <div class="layout-wrapper">
 
-  <!-- Hero -->
-  <header class="hero">
-    <div class="hero-main">
-      <h1 style="font-size:clamp(30px,5.5vw,52px);line-height:1.35;letter-spacing:-1.2px;font-weight:800;margin:0 0 20px;">매일 아침, 어제의 <em style="font-style:normal;background:var(--mint);padding:0 8px;border-radius:5px;">AI 소식</em>을<br>3줄 <em style="font-style:normal;background:var(--lemon);padding:0 8px;border-radius:5px;">요약</em>으로 읽습니다.</h1>
-      <p class="subtitle">모델 릴리스 · 연구 · 제품 · 산업 소식을 매일 수집해 <strong class="strong-ink">요약과 원문 링크</strong>로 정리하는 데일리 피드.</p>
-    </div>
-    <div class="hero-right">
-      <div class="brand-actions">
-        <button class="theme-toggle" id="theme-toggle" aria-label="테마 전환" type="button">
-          <span class="theme-icon"></span>
-        </button>
-        <button class="lang-toggle" id="lang-toggle" aria-label="언어 전환" type="button">
-          <span class="lang-opt" data-lang="en">EN</span>
-          <span class="lang-sep">/</span>
-          <span class="lang-opt" data-lang="ko">KO</span>
-        </button>
-        <a class="gh-btn" href="https://github.com/ldk-hub/ai-weekly" target="_blank" rel="noopener" aria-label="GitHub 저장소 열기">
-          <svg class="gh-btn-icon" width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.73.5.67 5.56.67 11.83c0 5.01 3.24 9.26 7.75 10.76.57.1.78-.24.78-.55v-1.93c-3.15.69-3.81-1.52-3.81-1.52-.52-1.31-1.26-1.66-1.26-1.66-1.03-.7.08-.69.08-.69 1.14.08 1.74 1.17 1.74 1.17 1.01 1.74 2.66 1.24 3.31.95.1-.74.4-1.24.72-1.53-2.51-.29-5.15-1.25-5.15-5.57 0-1.23.44-2.23 1.16-3.02-.12-.29-.5-1.44.11-3 0 0 .95-.3 3.1 1.16.9-.25 1.86-.38 2.82-.38.96 0 1.92.13 2.82.38 2.15-1.46 3.1-1.16 3.1-1.16.61 1.56.23 2.71.11 3 .72.79 1.16 1.79 1.16 3.02 0 4.33-2.65 5.28-5.17 5.56.41.35.77 1.05.77 2.11v3.13c0 .31.21.66.79.55 4.5-1.5 7.74-5.75 7.74-10.76C23.33 5.56 18.27.5 12 .5z"/></svg>
-          <span class="gh-btn-text">GitHub</span>
-        </a>
+  <div class="header-container">
+    <div class="hero-header">
+      <div class="hero-titles">
+        <h1 class="hero-h1" data-i18n-en-html="Every morning, read yesterday's <span class='hl-mint'>AI news</span><br>in a 3-line <span class='hl-lemon'>summary</span>." data-i18n-ko-html="매일 아침, 어제의 <span class='hl-mint'>AI 소식</span>을<br>3줄 <span class='hl-lemon'>요약</span>으로 읽습니다.">매일 아침, 어제의 <span class="hl-mint">AI 소식</span>을<br>3줄 <span class="hl-lemon">요약</span>으로 읽습니다.</h1>
+        <p class="hero-p" data-i18n-en-html="Daily feed curating model releases, research, products, and industry news into <strong class='hero-strong'>summaries and source links</strong>." data-i18n-ko-html="모델 릴리스 · 연구 · 제품 · 산업 소식을 매일 수집해 <strong class='hero-strong'>요약과 원문 링크</strong>로 정리하는 데일리 피드.">모델 릴리스 · 연구 · 제품 · 산업 소식을 매일 수집해 <strong class="hero-strong">요약과 원문 링크</strong>로 정리하는 데일리 피드.</p>
       </div>
-      <div class="hero-art" aria-hidden="true">
-        <svg viewBox="0 0 24 24" width="100%" height="100%">
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M20.998 10.949H24v3.102h-3v3.028h-1.487V20H18v-2.921h-1.487V20H15v-2.921H9V20H7.488v-2.921H6V20H4.487v-2.921H3V14.05H0V10.95h3V5h17.998v5.949zM6 10.949h1.488V8.102H6v2.847zm10.51 0H18V8.102h-1.49v2.847z" fill="var(--accent)"/>
-        </svg>
+
+      <div class="hero-actions">
+        <div class="brand-actions">
+          <button class="theme-toggle" id="theme-toggle" aria-label="테마 전환" type="button">🌙 다크</button>
+          <button class="lang-toggle" id="lang-toggle" aria-label="언어 전환" type="button">
+            <span class="lang-opt" data-lang="en">EN</span>
+            <span class="lang-sep">/</span>
+            <span class="lang-opt" data-lang="ko">KO</span>
+          </button>
+          <a class="gh-btn" href="https://github.com/ldk-hub/ai-weekly" target="_blank" rel="noopener">GitHub</a>
+        </div>
+        <div class="hero-art-dots">
+          <div class="dot-grid">
+            <div class="d1"></div><div class="d2"></div><div class="d3"></div><div class="d4"></div><div class="d5"></div><div class="d6"></div>
+          </div>
+        </div>
       </div>
     </div>
-  </header>
 
-  <!-- Update bar -->
-  <div class="update-bar" id="update-bar" role="status" aria-live="polite">
-    <span class="update-meta">
-      <span class="update-dot"></span>
-      <span data-i18n-en="Updated" data-i18n-ko="갱신">갱신</span>
-      <strong id="updated-at">—</strong>
-      <span class="update-sep">·</span>
-      <span data-i18n-en="Next" data-i18n-ko="다음">다음</span>
-      <strong id="next-at">—</strong>
-      <span class="version-pill" id="version-pill"></span>
-      <span class="visit-counter" title="누적 방문자">
-        <img src="https://visitor-badge.laobi.icu/badge?page_id=ldk-hub.aiweekly.news&left_text=visitors&left_color=%230E0E0E&right_color=%23D97757" alt="visitor counter" loading="lazy" />
-      </span>
-    </span>
-    <div class="update-actions">
-      <form class="subscribe-form"
-            action="https://rlaalstn.substack.com/api/v1/free?nojs=true"
-            method="post"
-            target="_blank">
-        <input type="hidden" name="first_url" value="https://ldk-hub.github.io/ai-weekly/" />
-        <input type="hidden" name="first_referrer" value="" />
-        <input type="hidden" name="current_url" value="https://ldk-hub.github.io/ai-weekly/" />
-        <input type="hidden" name="current_referrer" value="" />
-        <input type="hidden" name="referral_code" value="" />
-        <input type="hidden" name="source" value="subscribe_widget" />
-        <span class="subscribe-icon" aria-hidden="true">📧</span>
-        <input type="email" name="email" required
-          data-i18n-en-placeholder="your@email.com"
-          data-i18n-ko-placeholder="이메일 주소"
-          placeholder="이메일 주소"
-          aria-label="이메일 구독" />
-        <button type="submit"
-          data-i18n-en="Subscribe"
-          data-i18n-ko="구독">구독</button>
-      </form>
-      <div class="archive-wrap">
-        <button class="archive-btn" id="archive-btn" type="button" aria-haspopup="listbox" aria-expanded="false">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 7h18v3H3zM5 10v10h14V10M9 14h6" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
-          <span data-i18n-en="Past weeks" data-i18n-ko="지난 주차">지난 주차</span>
-          <span class="archive-caret">▾</span>
-        </button>
-        <ul class="archive-menu" id="archive-menu" role="listbox" hidden></ul>
+    <div class="update-bar" id="update-bar" role="status" aria-live="polite">
+      <div class="update-meta">
+        <span class="update-dot"></span>
+        <span class="update-text"><strong id="updated-at">—</strong> <span data-i18n-en="Updated" data-i18n-ko="갱신">갱신</span></span>
+        <span class="update-sep"></span>
+        <span class="update-text" id="next-at-container"><span data-i18n-en="Next" data-i18n-ko="다음">다음</span> <strong id="next-at" style="font-weight:inherit">—</strong></span>
+        <span class="update-sep" id="next-at-sep"></span>
+        <span class="version-pill" id="version-pill"></span>
+        <span class="update-sep"></span>
+        <span class="visit-counter" title="누적 방문자">
+          <span data-i18n-en="Visit" data-i18n-ko="방문">방문</span> <img src="https://visitor-badge.laobi.icu/badge?page_id=ldk-hub.aiweekly.news&left_text=visitors&left_color=%230E0E0E&right_color=%23D97757" alt="visitor counter" loading="lazy" />
+        </span>
+      </div>
+
+      <div class="update-actions-right">
+        <div class="archive-wrap">
+          <button class="archive-btn" id="archive-btn" type="button" aria-haspopup="listbox" aria-expanded="false">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="3" width="12" height="11" rx="2"></rect><path d="M2 6.5h12M5.5 2v2M10.5 2v2"></path></svg>
+            <span data-i18n-en="Past weeks" data-i18n-ko="지난 주차">지난 주차</span>
+            <svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg>
+          </button>
+          <ul class="archive-menu" id="archive-menu" role="listbox" hidden></ul>
+        </div>
+
+        <div class="subscribe-wrapper" id="subscribe-wrapper">
+          <button class="subscribe-btn-open" id="subscribe-open" type="button">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1.5" y="3.5" width="13" height="9" rx="2"></rect><path d="m2 4.5 6 4 6-4"></path></svg>
+            <span data-i18n-en="Subscribe" data-i18n-ko="구독">구독</span>
+          </button>
+          <form class="subscribe-form" id="subscribe-form" style="display:none" action="https://rlaalstn.substack.com/api/v1/free?nojs=true" method="post" target="_blank">
+            <input type="hidden" name="first_url" value="https://ldk-hub.github.io/ai-weekly/" />
+            <input type="hidden" name="source" value="subscribe_widget" />
+            <input type="email" name="email" required placeholder="이메일 주소" data-i18n-en-placeholder="your@email.com" data-i18n-ko-placeholder="이메일 주소" aria-label="이메일 구독" />
+            <button type="submit" class="subscribe-submit" data-i18n-en="Subscribe" data-i18n-ko="구독하기">구독하기</button>
+            <button type="button" class="subscribe-close" id="subscribe-close">×</button>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Page nav + search -->
-  <nav class="page-nav">
-    <div class="page-nav-links">
-      <a href="index.html" class="pn-link">
-        <span class="pn-title">🧩 인기 플러그인</span>
-        <span class="pn-sub">GitHub 주간 인덱스</span>
-      </a>
-      <span class="pn-link is-active">
-        <span class="pn-title">📰 데일리뉴스</span>
-        <span class="pn-sub">매일 아침 3줄 요약</span>
-      </span>
-      <a href="study.html" class="pn-link">
-        <span class="pn-title">📚 스터디</span>
-        <span class="pn-sub">논문·자료 함께 읽기</span>
-      </a>
-    </div>
-  </nav>
-
-  <!-- Category filter + search -->
-  <div class="filter-bar">
-    <nav class="cat-filter" id="cat-filter" role="tablist" aria-label="Category filter"></nav>
-    <div class="filter-right">
-      <label class="search-input">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="var(--sub)" stroke-width="2"></circle><path d="m20 20-3-3" stroke="var(--sub)" stroke-width="2" stroke-linecap="round"></path></svg>
-        <input type="search" id="search" data-i18n-en-placeholder="Search projects, repos, tags" data-i18n-ko-placeholder="뉴스 검색" placeholder="뉴스 검색" aria-label="뉴스 검색" />
-      </label>
-      <button class="view-toggle" id="view-toggle" aria-label="뷰 모드 전환" type="button" title="리스트 보기">
-        <span class="vt-icon" id="vt-icon">☷</span>
-      </button>
+    <div class="unified-nav-box" style="margin-bottom: 26px;">
+      <div class="unb-top">
+        <nav class="page-nav">
+          <a href="index.html" class="pn-link">
+            <span class="pn-icon">🧩</span><span data-i18n-en="Popular Plugins" data-i18n-ko="인기 플러그인">인기 플러그인</span>
+          </a>
+          <a href="news.html" class="pn-link is-active">
+            <span class="pn-icon">📰</span><span data-i18n-en="Daily News" data-i18n-ko="데일리뉴스">데일리뉴스</span>
+          </a>
+          <a href="study.html" class="pn-link">
+            <span class="pn-icon">📚</span><span data-i18n-en="Study" data-i18n-ko="스터디">스터디</span>
+          </a>
+        </nav>
+        <div class="unb-summary" id="page-summary">—</div>
+      </div>
+      
+      <div class="unb-bottom">
+        <nav class="cat-filter" id="cat-filter" role="tablist" aria-label="Category filter"></nav>
+        <div class="unb-search-wrap">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="#A7A199" stroke-width="1.7"><circle cx="7" cy="7" r="4.5"></circle><path d="m10.5 10.5 3 3"></path></svg>
+          <input type="search" id="search" placeholder="뉴스 검색" data-i18n-en-placeholder="Search projects, repos, tags" data-i18n-ko-placeholder="뉴스 검색" aria-label="검색" />
+          <button class="view-toggle" id="view-toggle" aria-label="뷰 모드 전환" type="button" title="리스트 보기">
+            <span class="vt-icon" id="vt-icon">☷</span>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 

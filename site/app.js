@@ -110,25 +110,28 @@ function renderUpdateBar() {
   const lang = getLang();
   const updEl = document.getElementById("updated-at");
   const nxtEl = document.getElementById("next-at");
+  
+  const nxtContainer = document.getElementById("next-at-container");
+  const nxtSep = document.getElementById("next-at-sep");
   const verEl = document.getElementById("version-pill");
+  
   if (!updEl) return;
   if (ts) {
     updEl.textContent = `${fmtKFull(ts)} (${dayLabel(ts, lang)})`;
     if (STATE.source === "latest") {
       const nm = nextUpdateDate(ts);
-      nxtEl.textContent = `${fmtKDate(nm)} (${dayLabel(nm, lang)})`;
-      nxtEl.style.display = "";
-      nxtEl.previousElementSibling.style.display = "";
-      nxtEl.previousElementSibling.previousElementSibling.style.display = "";
+      if (nxtEl) nxtEl.textContent = `${fmtKDate(nm)} (${dayLabel(nm, lang)})`;
+      if (nxtContainer) nxtContainer.style.display = "";
+      if (nxtSep) nxtSep.style.display = "";
     } else {
-      nxtEl.style.display = "none";
-      nxtEl.previousElementSibling.style.display = "none";
-      nxtEl.previousElementSibling.previousElementSibling.style.display = "none";
+      if (nxtContainer) nxtContainer.style.display = "none";
+      if (nxtSep) nxtSep.style.display = "none";
     }
   } else {
     updEl.textContent = "—";
-    nxtEl.textContent = "—";
+    if (nxtEl) nxtEl.textContent = "—";
   }
+  
   if (verEl) {
     verEl.textContent = d.version || "";
     if (STATE.source !== "latest") {
@@ -972,3 +975,49 @@ renderThemeToggle();
 
 loadArchives();
 load();
+
+// Subscribe Form Toggle
+document.addEventListener("DOMContentLoaded", () => {
+  const subOpen = document.getElementById("subscribe-open");
+  const subForm = document.getElementById("subscribe-form");
+  const subClose = document.getElementById("subscribe-close");
+
+  if (subOpen && subForm && subClose) {
+    subOpen.addEventListener("click", () => {
+      subOpen.style.display = "none";
+      subForm.style.display = "flex";
+      const input = subForm.querySelector("input");
+      if (input) input.focus();
+    });
+    subClose.addEventListener("click", () => {
+      subForm.style.display = "none";
+      subOpen.style.display = "flex";
+    });
+  }
+
+  // Daily Visitor Badge
+  const visitCounter = document.querySelector(".visit-counter");
+  if (visitCounter) {
+    const img = visitCounter.querySelector("img");
+    const label = visitCounter.querySelector("span");
+    if (img && img.src.includes("visitor-badge.laobi.icu")) {
+      const d = new Date();
+      const tzOffset = d.getTimezoneOffset() * 60000;
+      const localISOTime = (new Date(d - tzOffset)).toISOString().split('T')[0];
+      const url = new URL(img.src);
+      let pageId = url.searchParams.get("page_id");
+      if (pageId && !pageId.includes(localISOTime)) {
+        url.searchParams.set("page_id", `${pageId}.${localISOTime}`);
+        url.searchParams.set("left_text", "today");
+        img.src = url.toString();
+      }
+    }
+    if (label) {
+      label.setAttribute("data-i18n-en", "Today");
+      label.setAttribute("data-i18n-ko", "오늘");
+      const lang = typeof getLang === 'function' ? getLang() : 'ko';
+      label.textContent = lang === "en" ? "Today" : "오늘";
+    }
+    visitCounter.title = "오늘 방문자";
+  }
+});
