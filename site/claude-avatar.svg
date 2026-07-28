@@ -1,30 +1,68 @@
 <svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-  <!-- Terminal Window -->
-  <rect x="15" y="10" width="70" height="42" rx="4" fill="#202124"/>
-  <path d="M15 14 a4 4 0 0 1 4 -4 h62 a4 4 0 0 1 4 4 v8 h-70 v-8 z" fill="#323639"/>
-  <!-- Window Controls -->
-  <circle cx="21" cy="16" r="2.5" fill="#ff5f56"/>
-  <circle cx="28" cy="16" r="2.5" fill="#ffbd2e"/>
-  <circle cx="35" cy="16" r="2.5" fill="#27c93f"/>
-  
-  <!-- Code lines -->
-  <rect x="22" y="27" width="20" height="3.5" rx="1.5" fill="#5ac8fa"/>
-  <rect x="22" y="34" width="40" height="3.5" rx="1.5" fill="#4cd964"/>
-  <rect x="22" y="41" width="25" height="3.5" rx="1.5" fill="#5ac8fa"/>
-  <rect x="50" y="41" width="10" height="3.5" rx="1.5" fill="#ffcc00"/>
-  
-  <!-- Character Head -->
-  <rect x="30" y="58" width="40" height="26" rx="3" fill="#D97757"/>
-  <!-- Eyes -->
-  <rect x="38" y="68" width="5" height="5" fill="#0e0e0e"/>
-  <rect x="57" y="68" width="5" height="5" fill="#0e0e0e"/>
-  
-  <!-- Hands -->
-  <polygon points="22,81 30,73 30,81" fill="#D97757"/>
-  <polygon points="78,81 70,73 70,81" fill="#D97757"/>
+  <style>
+    @keyframes blink {
+      0%, 96%, 98% { transform: scaleY(1); }
+      97% { transform: scaleY(0.1); }
+    }
+    @keyframes type-left {
+      0%, 100% { transform: rotate(0deg) translateY(0); }
+      25% { transform: rotate(-10deg) translateY(2px); }
+      75% { transform: rotate(10deg) translateY(-2px); }
+    }
+    @keyframes type-right {
+      0%, 100% { transform: rotate(0deg) translateY(0); }
+      30% { transform: rotate(10deg) translateY(2px); }
+      80% { transform: rotate(-10deg) translateY(-2px); }
+    }
+    @keyframes bob {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(2px); }
+    }
+    .eye {
+      transform-origin: center 70px;
+      animation: blink 4s infinite;
+    }
+    .head {
+      animation: bob 2s infinite ease-in-out;
+    }
+    .hand-left {
+      transform-origin: 26px 81px;
+      animation: type-left 0.15s infinite alternate;
+    }
+    .hand-right {
+      transform-origin: 74px 81px;
+      animation: type-right 0.18s infinite alternate;
+    }
+  </style>
+
+  <g class="head">
+    <!-- Terminal Window -->
+    <rect x="15" y="10" width="70" height="42" rx="4" fill="#202124"/>
+    <path d="M15 14 a4 4 0 0 1 4 -4 h62 a4 4 0 0 1 4 4 v8 h-70 v-8 z" fill="#323639"/>
+    <!-- Window Controls -->
+    <circle cx="21" cy="16" r="2.5" fill="#ff5f56"/>
+    <circle cx="28" cy="16" r="2.5" fill="#ffbd2e"/>
+    <circle cx="35" cy="16" r="2.5" fill="#27c93f"/>
+    
+    <!-- Code lines -->
+    <rect x="22" y="27" width="20" height="3.5" rx="1.5" fill="#5ac8fa"/>
+    <rect x="22" y="34" width="40" height="3.5" rx="1.5" fill="#4cd964"/>
+    <rect x="22" y="41" width="25" height="3.5" rx="1.5" fill="#5ac8fa"/>
+    <rect x="50" y="41" width="10" height="3.5" rx="1.5" fill="#ffcc00"/>
+    
+    <!-- Character Head -->
+    <rect x="30" y="58" width="40" height="26" rx="3" fill="#D97757"/>
+    <!-- Eyes -->
+    <rect x="38" y="68" width="5" height="5" fill="#0e0e0e" class="eye"/>
+    <rect x="57" y="68" width="5" height="5" fill="#0e0e0e" class="eye"/>
+  </g>
   
   <!-- Keyboard -->
   <rect x="18" y="81" width="64" height="12" rx="2" fill="#5f6368"/>
   <!-- Keyboard keys pattern -->
   <path d="M22 84.5 h56 M22 88.5 h56" stroke="#9aa0a6" stroke-width="1.5" stroke-dasharray="3 2"/>
+
+  <!-- Hands -->
+  <polygon points="22,81 30,73 30,81" fill="#D97757" class="hand-left"/>
+  <polygon points="78,81 70,73 70,81" fill="#D97757" class="hand-right"/>
 </svg>
