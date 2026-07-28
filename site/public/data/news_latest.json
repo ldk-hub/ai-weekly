@@ -1,7 +1,7 @@
 {
   "generated_at": "2026-07-28T14:36:00.000Z",
   "version": "v2026.07.28",
-  "summary": "오늘의 주요 AI 트렌드: 'react-native-pure-chart 2.0.0', 'claude-real-video' 오픈소스 등 6건의 주요 뉴스가 큐레이션 되었습니다.",
+  "summary": "오늘의 주요 AI 트렌드: 총 12건의 주요 뉴스가 다채롭게 큐레이션 되었습니다.",
   "news": [
     {
       "id": "gn_1",
@@ -16,9 +16,15 @@
       "body_en": "Resurrected a 9-year-old React Native chart library using AI agents...",
       "author_profile": "GeekNews",
       "publish_date": "2026-07-28T04:00:00.000Z",
-      "tags": ["AI 에이전트", "React Native", "오픈소스"],
+      "tags": [
+        "AI 에이전트",
+        "React Native",
+        "오픈소스"
+      ],
       "url": "https://news.hada.io/topic?id=31902",
-      "badges": ["신상"]
+      "badges": [
+        "신상"
+      ]
     },
     {
       "id": "hn_1",
@@ -33,9 +39,14 @@
       "body_en": "Hello, Reader. If someone sent you this post, you have probably tried to extrude a confidence score out of an LLM...",
       "author_profile": "@pamplemeese",
       "publish_date": "2026-07-28T03:30:00.000Z",
-      "tags": ["LLM", "Prompt Engineering"],
+      "tags": [
+        "LLM",
+        "Prompt Engineering"
+      ],
       "url": "https://justinflick.com/2026/07/27/llm-confidence-scores.html",
-      "badges": ["신상"]
+      "badges": [
+        "신상"
+      ]
     },
     {
       "id": "gh_1",
@@ -50,9 +61,15 @@
       "body_en": "The open-source AI workbench for scientific research...",
       "author_profile": "synthetic-sciences",
       "publish_date": "2026-07-28T05:10:00.000Z",
-      "tags": ["Research", "AI Workbench", "오픈소스"],
+      "tags": [
+        "Research",
+        "AI Workbench",
+        "오픈소스"
+      ],
       "url": "https://github.com/synthetic-sciences/openscience",
-      "badges": ["신상"]
+      "badges": [
+        "신상"
+      ]
     },
     {
       "id": "gh_2",
@@ -67,9 +84,15 @@
       "body_en": "Let Claude (or any LLM) actually watch a video...",
       "author_profile": "HUANGCHIHHUNGLeo",
       "publish_date": "2026-07-28T06:20:00.000Z",
-      "tags": ["Video AI", "Claude", "Open Source"],
+      "tags": [
+        "Video AI",
+        "Claude",
+        "Open Source"
+      ],
       "url": "https://github.com/HUANGCHIHHUNGLeo/claude-real-video",
-      "badges": ["신상"]
+      "badges": [
+        "신상"
+      ]
     },
     {
       "id": "yt_1",
@@ -84,9 +107,14 @@
       "body_en": "Every developer in 2026 has the same problem...",
       "author_profile": "YouTube",
       "publish_date": "2026-07-28T02:15:00.000Z",
-      "tags": ["DevTools", "Open Source"],
+      "tags": [
+        "DevTools",
+        "Open Source"
+      ],
       "url": "https://www.youtube.com/watch?v=Xn-gtHDsaPY",
-      "badges": ["신상"]
+      "badges": [
+        "신상"
+      ]
     },
     {
       "id": "yt_2",
@@ -101,9 +129,131 @@
       "body_en": "A lot has been going on with AI over the past few years...",
       "author_profile": "YouTube",
       "publish_date": "2026-07-28T01:00:00.000Z",
-      "tags": ["AI Agents", "Tutorial"],
+      "tags": [
+        "AI Agents",
+        "Tutorial"
+      ],
       "url": "https://www.youtube.com/watch?v=ZaPbP9DwBOE",
-      "badges": ["신상"]
+      "badges": [
+        "신상"
+      ]
+    },
+    {
+      "id": "gn_2",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "headline": "오픈 웨이트 모델에 대한 Anthropic의 입장",
+      "title_ko": "오픈 웨이트 모델에 대한 Anthropic의 입장",
+      "title_en": "Anthropic's stance on open weight models",
+      "summary_ko": "• Anthropic은 위험한 능력이 없는 오픈 웨이트 모델을 공공재로 평가하며 긍정적인 입장을 밝혔습니다.\n• 기업, 개발자, 연구자 모두에게 실질적인 가치를 제공한다고 보았습니다.\n• AI 생태계 전반의 범주적인 발전을 지지하는 메시지를 던졌습니다.",
+      "summary_en": "Anthropic views non-dangerous open weight models as public goods that offer value to enterprises, developers, and researchers.",
+      "body_ko": "오픈 웨이트 모델에 대한 Anthropic의 입장 (anthropic.com). 위험한 능력이 없는 오픈 웨이트 모델은 기업·개발자·연구자에게 가치를 제공하는 공공재이며, Anthropic은 이를 범주 전체에 걸쳐 지지합니다.",
+      "body_en": "Anthropic's stance on open weight models...",
+      "author_profile": "GeekNews",
+      "publish_date": "2026-07-28T04:10:00.000Z",
+      "tags": [
+        "Anthropic",
+        "Open Source",
+        "LLM"
+      ],
+      "url": "https://news.hada.io/topic?id=31900"
+    },
+    {
+      "id": "gn_3",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "headline": "데이터 도구 지형 가이드",
+      "title_ko": "개발자를 위한 데이터 도구 지형 가이드",
+      "title_en": "Data tools landscape guide for developers",
+      "summary_ko": "• 데이터 분야에 처음 입문하는 소프트웨어 개발자들을 위한 종합적인 가이드입니다.\n• 단순히 도구의 이름을 나열하는 것을 넘어, 데이터의 수집/저장/처리 단계별 역할을 상세히 설명합니다.\n• 복잡한 최신 데이터 인프라 트렌드를 한눈에 파악할 수 있게 도와줍니다.",
+      "summary_en": "A comprehensive guide for software developers navigating the complex data tools landscape.",
+      "body_ko": "개발자를 위한 데이터 도구 지형 가이드. 데이터 분야에 처음 참여한 소프트웨어 개발자가 도구의 이름만 외우지 않고, 데이터의 수집/저장/처리/활용 단계에서 각 도구가 맡는 역할과 연결을 이해하도록 돕습니다.",
+      "body_en": "Data tools landscape guide for developers...",
+      "author_profile": "GeekNews",
+      "publish_date": "2026-07-28T04:05:00.000Z",
+      "tags": [
+        "Data Engineering",
+        "Guide"
+      ],
+      "url": "https://news.hada.io/topic?id=31899"
+    },
+    {
+      "id": "hn_2",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "headline": "Dozenal – 공간 기반 숫자 퍼즐 게임",
+      "title_ko": "Dozenal – 공간 기반 숫자 퍼즐 게임 (Show HN)",
+      "title_en": "Show HN: Dozenal – A Game of Spatial Arithmetic",
+      "summary_ko": "• 그리드 기반의 새로운 숫자 퍼즐 게임 'Dozenal'이 HackerNews에서 화제가 되었습니다.\n• 공간감각과 산술 능력을 동시에 활용하여 퍼즐을 풀어나가는 독특한 룰을 제공합니다.\n• 단순하면서도 두뇌를 자극하는 인디 게임 프로젝트입니다.",
+      "summary_en": "Dozenal is a new grid-based number puzzle game blending spatial arithmetic and logic.",
+      "body_ko": "Hello HN! We're Rory and Chris, and we've made a game called Dozenal, a grid-based number puzzle game where the objective is to use all tiles...",
+      "body_en": "Hello HN! We're Rory and Chris, and we've made a game called Dozenal...",
+      "author_profile": "@sarreph",
+      "publish_date": "2026-07-28T03:40:00.000Z",
+      "tags": [
+        "Indie Game",
+        "Puzzle"
+      ],
+      "url": "https://dozenal.game"
+    },
+    {
+      "id": "gh_3",
+      "category_id": "github",
+      "category_name": "GitHub",
+      "headline": "에이전트 프로토타이핑을 위한 데스크톱 앱 'llm-space'",
+      "title_ko": "deer-flow/llm-space — 에이전트 아이디어 검증 및 디버깅을 위한 데스크톱 앱",
+      "title_en": "deer-flow/llm-space",
+      "summary_ko": "• AI 에이전트 아이디어를 빠르게 프로토타이핑하고, 각 실행 단계를 분석할 수 있는 데스크톱 앱입니다.\n• 로컬 우선 설계로 실패를 리플레이하고 성능을 직관적으로 평가할 수 있습니다.\n• 에이전트 개발 주기를 대폭 단축시켜 줄 유용한 개발자 도구입니다.",
+      "summary_en": "A desktop app to prototype agent ideas, inspect every harness step, replay failures, and evaluate performance.",
+      "body_ko": "A desktop app to prototype agent ideas, inspect every harness step, replay failures, and evaluate performance, all in one place. Local-first, cloud-ready.",
+      "body_en": "A desktop app to prototype agent ideas...",
+      "author_profile": "deer-flow",
+      "publish_date": "2026-07-28T05:20:00.000Z",
+      "tags": [
+        "Desktop App",
+        "AI Agents",
+        "DevTools"
+      ],
+      "url": "https://github.com/deer-flow/llm-space"
+    },
+    {
+      "id": "gh_4",
+      "category_id": "github",
+      "category_name": "GitHub",
+      "headline": "Hermes 에이전트를 위한 네이티브 iOS 앱",
+      "title_ko": "uzairansaruzi/hermex — Hermes 에이전트를 위한 iPhone 네이티브 앱",
+      "title_en": "uzairansaruzi/hermex",
+      "summary_ko": "• 셀프 호스팅하는 Hermes AI 에이전트를 모바일에서 편리하게 사용할 수 있는 네이티브 iOS 클라이언트입니다.\n• SwiftUI로 깔끔하게 구현되어 있으며, 개인 서버의 에이전트와 매끄럽게 연동됩니다.\n• 오픈소스로 배포되어 누구나 로컬 에이전트 전용 앱으로 커스터마이징 가능합니다.",
+      "summary_en": "Native iPhone app built with SwiftUI for interacting with your self-hosted Hermes agent.",
+      "body_ko": "Native iPhone app for your Hermes agent. topics: hermes, hermes-agent, hermex, ios, llm, self-hosted, swift, swiftui",
+      "body_en": "Native iPhone app for your Hermes agent...",
+      "author_profile": "uzairansaruzi",
+      "publish_date": "2026-07-28T05:25:00.000Z",
+      "tags": [
+        "iOS",
+        "Hermes",
+        "SwiftUI"
+      ],
+      "url": "https://github.com/uzairansaruzi/hermex"
+    },
+    {
+      "id": "yt_3",
+      "category_id": "youtube",
+      "category_name": "YouTube",
+      "headline": "초보자를 위한 AI 에이전트 완전 정복",
+      "title_ko": "AI 에이전트 완벽 가이드: 초보자를 위한 포괄적 설명",
+      "title_en": "AI Agents Explained: A Comprehensive Guide for Beginners",
+      "summary_ko": "• AI 에이전트의 작동 원리와 잠재력을 가장 알기 쉽게 풀어낸 초보자 맞춤형 해설 영상입니다.\n• 단순히 정해진 대답을 하는 것을 넘어 목표를 향해 자율적으로 움직이는 에이전트의 차별점을 분석합니다.\n• 복잡한 전문 용어 없이도 트렌드의 핵심을 짚어내어 많은 조회수를 기록 중입니다.",
+      "summary_en": "A comprehensive, beginner-friendly guide diving into the fascinating world of AI agents and how they work.",
+      "body_ko": "Hello everyone. In today's video we'll dive into the fascinating world of AI agents. AI agents are fundamentally changing the way we think about software automation.",
+      "body_en": "A comprehensive guide for beginners on AI Agents...",
+      "author_profile": "YouTube",
+      "publish_date": "2026-07-28T01:10:00.000Z",
+      "tags": [
+        "AI Agents",
+        "Beginner Guide"
+      ],
+      "url": "https://www.youtube.com/watch?v=hLJTcVHW8_I"
     }
   ]
 }
