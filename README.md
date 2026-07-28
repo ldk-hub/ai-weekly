@@ -23,38 +23,48 @@
 매일 쏟아지는 방대한 AI 모델 릴리스, 연구, 제품, 산업 소식. 어디서부터 봐야 할지 모르는 분들을 위해 **어제 하루 동안 발생한 가장 핫한 트렌드**만 모아 **3줄 요약**으로 전달합니다.
 
 ### 📌 주요 특징
-- **광범위한 데이터 수집**: GeekNews, Hacker News, Reddit, X(Twitter), Instagram, Threads 등 주요 커뮤니티 및 소셜 미디어를 모두 훑어봅니다.
-- **안티봇 완벽 우회**: 로컬 크롬 세션 연동(Persistent Context) 기술을 사용하여 막히기 쉬운 소셜 미디어 플랫폼의 피드까지 100% 수집합니다.
-- **AI 큐레이션**: 단순히 긁어오는 것이 아니라, Gemini AI를 통해 가장 주목해야 할 5개의 핫이슈를 엄선하고 직관적인 3줄 요약으로 정제합니다.
+- **기술 신호 6축 수집**: 모델 출시·제품 신기능·개발자 도구/에이전트·**개인 오픈소스**·연구/논문·활용 워크플로우. 정책/규제는 기술 영향이 큰 것만 간략히.
+- **광범위한 데이터 수집**: GeekNews, Hacker News, GitHub, arXiv, Reddit, 그리고 last30days 스킬 경유 X/Threads/YouTube.
+- **본문까지 확보**: 제목만 긁지 않고 원문 HTML·GitHub README·arXiv abstract 를 가져와 요약 근거로 삼습니다.
+- **AI 큐레이션**: 스크랩이 아니라 **재작성**. Gemini 가 한국어로 번역하고 3불릿 요약 + 5~10문장 해설을 새로 씁니다. 원문 복붙·미번역은 품질 게이트가 걸러냅니다.
 
 ### ⚙️ 어떻게 굴러가나 (파이프라인)
 ```
-수집 스크립트    ┐                                                              
-                 ├─→ 큐레이션 스크립트 ─→ site-builder ─→ 🌐
-안티봇 브라우저 ┘    (Gemini API)         (최신화)
+collect_news.js ─→ curate_news.js ─→ news_latest.json ─→ 🌐
+(결정적 수집·본문·중복제거)  (Gemini 분류·번역·요약 + 품질 게이트)
 ```
-- **수집 (`scripts/collect_news.js`)**: 각 매체에서 크롤링 및 로컬 세션을 통해 최신 포스트/글 수집
-- **큐레이션 (`scripts/curate_news.js`)**: 수집된 후보군을 Gemini API(프롬프트 룰 기반)로 전달하여 "신기술/신기능" 위주의 핫이슈 최대 5개를 추출 및 3줄 요약
-- **발행**: 정제된 데이터를 `site/public/data/news_latest.json`에 저장하여 프론트엔드 업데이트
+- **수집 (`scripts/collect_news.js`)**: 최근 24시간 6개 소스 병렬 수집 → 본문 보강 → URL·제목 중복 제거 → `data/news_candidates.json`. LLM 미사용
+- **큐레이션 (`scripts/curate_news.js`)**: 배치 단위 Gemini 호출로 `signal_id` 분류 + 한국어 번역·요약. 품질 게이트 통과분만 발행. **API 키가 없으면 mock 없이 중단** (기존 데이터 보존)
+- **발행**: `site/public/data/news_latest.json` + `archive/news_{날짜}.json`
 
 ### 🗂 데이터 스키마
 `site/public/data/news_latest.json` 구조:
 ```json
 {
-  "summary": "오늘의 전체 뉴스 흐름 요약",
+  "summary": "오늘의 신호 분포 한 줄 요약",
+  "signal_counts": { "model": 3, "oss": 5, "research": 4 },
   "news": [
     {
       "id": "고유ID",
-      "category_name": "출처(GeekNews 등)",
-      "headline": "기사 주요 제목",
-      "summary_ko": "한글 요약 (3줄)",
-      "body_ko": "기사 본문 상세",
+      "signal_id": "model | product | devtool | oss | research | practice | policy",
+      "signal_name": "새 모델·버전 출시·프리뷰·벤치마크",
+      "importance": 78,
+      "category_id": "geeknews | hackernews | github | arxiv | reddit | x | threads | youtube",
+      "category_name": "출처 표기",
+      "headline": "한국어 제목",
+      "title_ko": "한국어 제목",
+      "title_en": "English title",
+      "summary_ko": "• 무엇이 일어났나\n• 기술적으로 뭐가 새로운가\n• 개발자에게 왜 중요한가",
+      "body_ko": "5~10문장 한국어 해설 (배경·동작·한계·비교)",
       "url": "원문 링크",
+      "sources": ["Hacker News", "GeekNews"],
       "tags": ["기술", "오픈소스"]
     }
   ]
 }
 ```
+
+> 필요 환경변수: `GEMINI_API_KEY`(필수) · `GH_TOKEN`/`gh auth`(오픈소스 신호) · `REDDIT_CLIENT_ID`/`REDDIT_CLIENT_SECRET`(Reddit, 비인증은 403)
 
 ---
 
@@ -159,7 +169,10 @@ python3 -m http.server 8000 --directory site
 ```bash
 # 뉴스 파이프라인 (스크립트 직접 실행)
 node scripts/collect_news.js
-node scripts/curate_news.js
+GEMINI_API_KEY=... node scripts/curate_news.js
+
+# 품질 게이트 자기검증 (Gemini 호출 없음)
+node scripts/curate_news.js --selfcheck
 
 # 플러그인 파이프라인 (Claude Code 스킬 실행)
 /cc-trends

@@ -28,6 +28,8 @@ const NEWS_CATEGORIES = [
   { id: "reddit",    emoji: "👽", label_ko: "Reddit",       label_en: "Reddit" },
   { id: "threads",   emoji: "🧵", label_ko: "Threads",      label_en: "Threads" },
   { id: "github",    emoji: "🐙", label_ko: "GitHub",       label_en: "GitHub" },
+  { id: "arxiv",     emoji: "📄", label_ko: "arXiv",        label_en: "arXiv" },
+  { id: "instagram", emoji: "📸", label_ko: "Instagram",    label_en: "Instagram" },
 ];
 
 const STUDY_CATEGORIES = [
@@ -996,10 +998,7 @@ function renderThemeToggle() {
   updateThemeColorMeta(eff);
   const btn = document.getElementById("theme-toggle");
   if (!btn) return;
-  const icon = btn.querySelector(".theme-icon");
-  if (icon) {
-    icon.textContent = eff === 'dark' ? '☀️ 라이트' : '🌙 다크';
-  }
+  btn.textContent = eff === 'dark' ? '☀️ 라이트' : '🌙 다크';
 }
 document.getElementById("theme-toggle")?.addEventListener("click", () => {
   const next = getEffectiveTheme() === 'dark' ? 'light' : 'dark';

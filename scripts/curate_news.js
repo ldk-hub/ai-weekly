@@ -1,238 +1,245 @@
 #!/usr/bin/env node
 /**
  * curate_news.js
- * 뉴스 후보 데이터를 읽어 Gemini를 통해 3줄 요약, 한글화, 4축 검증 스코어링을 진행합니다.
- * 출력: site/public/data/news_latest.json
+ * data/news_candidates.json → Gemini 로 기술신호 분류 + 한국어 번역 + 재작성 요약
+ * → site/public/data/news_latest.json (+ archive)
+ *
+ * 사실 필드(url·author·publish_date·source·metrics)는 수집 데이터로 강제 덮어씀 (환각 차단).
+ * Mock 데이터 없음 — 키가 없거나 결과가 0건이면 실패로 종료해 기존 데이터를 보존한다.
  */
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 const ROOT = path.join(__dirname, "..");
 const CANDIDATES = path.join(ROOT, "data", "news_candidates.json");
 const LATEST = path.join(ROOT, "site", "public", "data", "news_latest.json");
 const API_KEY = process.env.GEMINI_API_KEY;
-const MODEL = process.env.GEMINI_MODEL || "gemini-2.0-flash";
+const MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+const MIN_IMPORTANCE = Number(process.env.NEWS_MIN_IMPORTANCE || 40);
+const BATCH_ITEMS = 10;
+const BATCH_CHARS = 60000;
+const BODY_SLICE = 5000;
 
-const PROMPT_RULES = `너는 AI 산업 트렌드 전문 큐레이터다. 아래 뉴스 후보 목록(JSON)을 분석해서 오늘 자 데일리 스냅샷 인덱스를 만들어라.
+const SELFCHECK = process.argv.includes("--selfcheck");
 
-[핵심 규칙 (Multi-Platform Quota)]
-1. 수집된 후보들을 각 플랫폼별(X, Reddit, Threads, GitHub, YouTube, GeekNews, HackerNews, Instagram 등)로 그룹화하라.
-2. 각 플랫폼별로 가장 가치 있는 이슈를 엄선하여 **플랫폼당 2~3개씩** 선정하라. (특정 플랫폼에 치우치지 않게 균형 유지)
-3. 주식, 증시, 투자, 단순 재무 실적과 관련된 기사는 완전히 배제(Drop)할 것.
-4. 오직 '최근 24시간' 내 새롭게 공개된 릴리즈, 기능 발표, 핫이슈만을 선정할 것. 과거 회고는 제거할 것.
-5. 각 뉴스는 3문장 이내로 핵심만 요약(summary_ko)하고, 원문 상세 내용은 본문(body_ko)에 풍부하게 담을 것.
-6. 원본 데이터의 작성자(author) 정보와 플랫폼 아이콘 렌더링을 위한 출처 정보를 정확히 유지할 것.
-7. 출력은 아래 JSON 스키마를 엄격히 따를 것:
-
-{
-  "summary": "오늘의 플랫폼별 뉴스 전체 흐름 한 줄 요약...",
-  "news": [
-    {
-      "id": "고유ID",
-      "category_id": "geeknews | hackernews | youtube | x | reddit | threads | github | instagram 중 하나",
-      "category_name": "GeekNews | Hacker News | YouTube | X (Twitter) | Reddit | Threads | GitHub | Instagram",
-      "headline": "기사의 주요 제목",
-      "title_ko": "한글 제목",
-      "title_en": "English Title",
-      "summary_ko": "한글 요약 (3줄)",
-      "summary_en": "English Summary (3 sentences)",
-      "body_ko": "기사의 본문 텍스트 전체",
-      "body_en": "English Translation of the body text",
-      "author_profile": "작성자 프로필 핸들 또는 이름 (예: @jeffsu, r/webdev)",
-      "publish_date": "발행일 (ISO)",
-      "tags": ["태그1", "태그2"],
-      "url": "원문 링크"
-    }
-  ]
-}`;
-
-const MOCK_TRANSLATIONS = {
-  "news_x_001": {
-    title: "Nvidia, OpenAI에 2,500억 달러 10GW 데이터센터 지원 논의",
-    title_en: "Nvidia in Talks for $250B Financial Backstop for OpenAI 10GW Data Center",
-    summary: "• 엔비디아가 OpenAI의 오하이오주 10-기가와트 규모 데이터센터 구축을 위해 2,500억 달러 지원을 논의 중입니다.\n• 이는 개별 기업의 재무 상태를 뛰어넘는 AI 인프라 투자의 새로운 시대를 예고합니다.\n• 자세한 소식은 테크 커뮤니티에서 실시간으로 다뤄지고 있습니다.",
-    summary_en: "Nvidia is reportedly in talks to provide a $250 billion financial backstop to help OpenAI lease a colossal 10-gigawatt data center."
-  },
-  "news_x_002": {
-    title: "미 정부, 차세대 AI 모델(GPT-5.6, Claude Fable 5) 공개 전 사전 검열 의무화",
-    title_en: "U.S. Govt Mandates Review for Next-Gen AI Models (GPT-5.6, Claude Fable 5)",
-    summary: "• 미국 정부가 가장 강력한 최상위 AI 모델의 출시에 대해 사실상의 검열 및 사전 검토 절차를 도입했습니다.\n• OpenAI의 GPT-5.6과 Anthropic의 Claude Fable 5가 모두 의무 검토를 거친 것으로 확인되었습니다.\n• AI 안전성을 둘러싼 정책 변화의 핵심 신호탄입니다.",
-    summary_en: "A significant shift in policy: U.S. government now effectively gatekeeping the release of the most powerful AI models."
-  },
-  "news_x_003": {
-    title: "얀 르쿤(Yann LeCun), 'LLM은 AGI가 아니다' 재차 강조",
-    title_en: "Yann LeCun Reiterates 'LLM is Not AGI'",
-    summary: "메타의 수석 과학자 얀 르쿤이 현재의 자기회귀(Auto-regressive) 기반 LLM은 곧 한계에 도달할 것이며, AGI를 위해선 목적 기반 아키텍처가 필요하다고 역설했습니다.",
-    summary_en: "Meta's Chief Scientist Yann LeCun emphasized that current auto-regressive LLMs will soon reach their limits and that objective-driven architectures are needed for AGI."
-  },
-  "news_insta_001": {
-    title: "미드저니(Midjourney) v7 초기 테스트 이미지 유출",
-    title_en: "Midjourney v7 Early Test Images Leaked",
-    summary: "놀라운 텍스처 표현력과 프롬프트 이해도를 보여주는 미드저니 7버전의 초기 테스트 이미지가 유출되어 크리에이터들 사이에서 화제가 되고 있습니다.",
-    summary_en: "Early test images of Midjourney v7 showing incredible texture expression and prompt understanding have leaked, causing a stir among creators."
-  },
-  "news_insta_002": {
-    title: "Figma AI 업데이트: 5초 만에 UI 시스템 구축",
-    title_en: "Figma AI Update: Build UI Systems in 5 Seconds",
-    summary: "피그마(Figma)의 새로운 AI 기능이 UI/UX 디자인의 패러다임을 바꿨습니다. 프롬프트 하나로 전체 UI 시스템을 생성하는 릴스가 큰 인기를 끌고 있습니다.",
-    summary_en: "Figma's new AI feature has changed the paradigm of UI/UX design. Reels generating an entire UI system with a single prompt are gaining huge popularity."
-  },
-  "news_insta_003": {
-    title: "Runway Gen-3 Alpha, 텍스트-비디오의 영화적 극사실주의 달성",
-    title_en: "Runway Gen-3 Alpha Achieves Cinematic Photorealism in Text-to-Video",
-    summary: "런웨이의 최신 모델 Gen-3 Alpha가 생성한 사이버펑크 도시 비디오가 공개되었습니다. 영화에 가까운 극사실주의 품질로 비디오 생성 AI의 도약을 알렸습니다.",
-    summary_en: "A cyberpunk city video generated by Runway's latest Gen-3 Alpha model has been revealed. It signaled a leap in video generation AI with near-cinematic photorealistic quality."
-  },
-  "news_threads_001": {
-    title: "대화형 챗봇의 종말, '에이전틱 AI(Agentic AI)' 시대로의 본격 전환",
-    title_en: "End of Chatbots, Full Transition to the 'Agentic AI' Era",
-    summary: "• 업계 트렌드가 단순 질의응답을 넘어 복잡한 작업을 자율적으로 수행하는 '에이전틱 AI'로 빠르게 넘어가고 있습니다.\n• 이메일 작성, 일정 관리, 데이터 분석을 한 번에 처리하는 시스템들이 화제입니다.\n• AI 패러다임 변화에 대한 심도 깊은 논의가 이어지고 있습니다.",
-    summary_en: "The industry is moving beyond conversational chatbots toward 'agentic' AI—systems capable of completing complex, multi-step work tasks."
-  },
-  "news_threads_002": {
-    title: "추론 비용의 붕괴: 최상위 AI 모델 API 토큰 단가 $4~$6 수준으로 하락",
-    title_en: "Collapse of Inference Costs: Flagship Model Token Prices Drop to $4-$6",
-    summary: "• 거대 모델의 출력 토큰 비용이 기존 $25~$50에서 $4~$6 수준으로 급락하는 'AI 가격 전쟁'이 벌어졌습니다.\n• 덕분에 기업들은 비용 부담 없이 AI 기반 상용 비즈니스를 배포할 수 있게 되었습니다.\n• 중국산 AI 모델(Kimi K3 등)의 글로벌 약진이 가격 인하를 주도했다는 분석입니다.",
-    summary_en: "Recent launches of major models have pushed output token costs down to the $4–$6 range, compared to $25–$50 for previous flagships."
-  },
-  "news_threads_003": {
-    title: "LangChain 1.0 정식 출시: 10배 빠른 코어 런타임",
-    title_en: "LangChain 1.0 Officially Released: 10x Faster Core Runtime",
-    summary: "랭체인(LangChain) 1.0이 정식으로 배포되었습니다. 코어를 전면 재작성하여 타입 안정성을 확보하고 속도를 10배 향상시킨 마이그레이션 가이드가 화제입니다.",
-    summary_en: "LangChain 1.0 has been officially deployed. A migration guide highlighting a rewritten core that ensures type safety and 10x faster speed is making headlines."
-  }
-};
-
-function getMockGeminiResponse(candidates) {
-  const sortedCandidates = [...(candidates || [])].sort((a, b) => (b.likes || 0) - (a.likes || 0));
-  
-  // X와 Threads 아이템이 없으면 Mock 데이터를 위해 강제로 추가합니다.
-  const hasX = sortedCandidates.some(c => (c.platform || "").toLowerCase() === "x" || (c.category_id || "") === "x");
-  const hasThreads = sortedCandidates.some(c => (c.platform || "").toLowerCase().includes("thread") || (c.category_id || "") === "threads");
-  
-  if (!hasX) {
-    sortedCandidates.push({ id: "news_x_001", platform: "X", category_id: "x", author: "AndrewNg", url: "https://x.com/AndrewYNg", content: "..." });
-    sortedCandidates.push({ id: "news_x_002", platform: "X", category_id: "x", author: "elonmusk", url: "https://x.com/elonmusk", content: "..." });
-  }
-  if (!hasThreads) {
-    sortedCandidates.push({ id: "news_threads_001", platform: "Threads", category_id: "threads", author: "karpathy", url: "https://threads.net/karpathy", content: "..." });
-    sortedCandidates.push({ id: "news_threads_002", platform: "Threads", category_id: "threads", author: "ylecun", url: "https://threads.net/ylecun", content: "..." });
-  }
-
-  // 플랫폼별 2~3개 할당제 적용을 위한 그룹화
-  const grouped = {};
-  sortedCandidates.forEach(c => {
-    const plat = c.platform || "Web";
-    if (!grouped[plat]) grouped[plat] = [];
-    grouped[plat].push(c);
-  });
-
-  const selectedCandidates = [];
-  for (const plat of Object.keys(grouped)) {
-    // 플랫폼당 최대 3개까지만 선정
-    selectedCandidates.push(...grouped[plat].slice(0, 3));
-  }
-
-  const news = selectedCandidates.map((c, index) => {
-    let catId = "web";
-    let catName = c.platform || "Web";
-    let rawPlat = catName.toLowerCase();
-
-    if (rawPlat.includes("geeknews")) { catId = "geeknews"; catName = "GeekNews"; }
-    else if (rawPlat.includes("hackernews") || rawPlat.includes("hacker news")) { catId = "hackernews"; catName = "Hacker News"; }
-    else if (rawPlat.includes("x") || rawPlat.includes("twitter")) { catId = "x"; catName = "X (Twitter)"; }
-    else if (rawPlat.includes("reddit")) { catId = "reddit"; catName = "Reddit"; }
-    else if (rawPlat.includes("thread")) { catId = "threads"; catName = "Threads"; }
-    else if (rawPlat.includes("github")) { catId = "github"; catName = "GitHub"; }
-    else if (rawPlat.includes("youtube")) { catId = "youtube"; catName = "YouTube"; }
-
-    let titleKo = "";
-    let summaryKo = "";
-    let titleEn = "";
-    let summaryEn = "";
-
-    if (catId === "geeknews") {
-      const parts = c.content.split('\n');
-      titleKo = parts[0] || c.content;
-      summaryKo = parts.slice(1).join('\n') || titleKo;
-      titleEn = titleKo; // API translation would happen here
-      summaryEn = summaryKo;
-    } else {
-      const tr = MOCK_TRANSLATIONS[c.id];
-      if (tr) {
-        titleKo = tr.title;
-        summaryKo = tr.summary;
-        titleEn = tr.title_en;
-        summaryEn = tr.summary_en;
-      } else {
-        // Fallback translation for mock
-        const lines = c.content.split('\n').map(l => l.trim()).filter(l => l);
-        const rawTitle = lines[0] || c.url || "News";
-        titleKo = `[임시 번역] ${rawTitle.substring(0, 80)}`;
-        titleEn = rawTitle.substring(0, 80);
-        
-        let desc = lines.length > 1 ? lines.slice(1).join(' ').replace(/\s+/g, ' ') : c.content.replace(/\s+/g, ' ');
-        if (!desc) desc = "본문 내용이 없습니다.";
-        const d1 = desc.substring(0, 60);
-        const d2 = desc.length > 60 ? desc.substring(60, 120) : "다양한 글로벌 사용자들 사이에서 실시간 반응을 얻고 있습니다";
-        const d3 = desc.length > 120 ? desc.substring(120, 180) : "이와 관련한 추가적인 논의나 구체적인 정보는 원문을 통해 확인할 수 있습니다";
-
-        summaryKo = `• ${d1}...\n• ${d2}...\n• ${d3}...`;
-        summaryEn = desc.substring(0, 150) + "...";
-      }
-    }
-
-    return {
-      id: c.id,
-      category_id: catId,
-      category_name: catName,
-      headline: titleKo,
-      title_ko: titleKo,
-      title_en: titleEn,
-      summary_ko: summaryKo,
-      summary_en: summaryEn,
-      body_ko: summaryKo + "\n\n" + (c.content.length > 20 ? "상세 본문: " + c.content : ""),
-      body_en: summaryEn + "\n\n" + (c.content.length > 20 ? "Details: " + c.content : ""),
-      author_profile: c.author || "Unknown",
-      publish_date: c.publish_date || new Date().toISOString(),
-      tags: c.tags || [catName, "트렌드"],
-      url: c.url || `https://${catId}.com`
-    };
-  });
-
-  const dynamicSummary = candidates.length > 0
-    ? `오늘의 주요 AI 트렌드: '${news[0].headline}' 등을 포함하여 총 ${news.length}건의 핫이슈가 수집되었습니다.`
-    : "오늘 수집된 새로운 AI 트렌드가 없습니다.";
-
-  return {
-    summary: dynamicSummary,
-    news: news
-  };
+if (!API_KEY && !SELFCHECK) {
+  console.error("GEMINI_API_KEY is required (mock 대체 없음 — 기존 데이터 보존을 위해 중단)");
+  process.exit(1);
 }
 
-async function callGemini(candidates) {
+// 수집 대상 기술 신호 6축 (+ 정책은 기술 영향 큰 것만 간략히)
+const SIGNALS = {
+  model: "새 모델·버전 출시·프리뷰·벤치마크",
+  product: "제품 신기능",
+  devtool: "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
+  oss: "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
+  research: "연구·논문·새 기법",
+  practice: "AI 활용 사례·워크플로우 팁",
+  policy: "정책·규제·인프라 (기술 영향 큰 것만)",
+};
+const SIGNAL_IDS = Object.keys(SIGNALS);
+
+const SOURCE_NAMES = {
+  geeknews: "GeekNews",
+  hackernews: "Hacker News",
+  github: "GitHub",
+  arxiv: "arXiv",
+  reddit: "Reddit",
+  x: "X (Twitter)",
+  threads: "Threads",
+  instagram: "Instagram",
+  youtube: "YouTube",
+  web: "Web",
+};
+
+const PROMPT_RULES = `너는 AI 기술 신호 전문 큐레이터다. 아래 후보 목록(JSON)의 **각 항목을 개별적으로** 판정·번역·요약하라.
+
+[1] 신호 분류 — 각 항목에 signal_id 를 정확히 하나 배정한다:
+${SIGNAL_IDS.map((k) => `  - ${k}: ${SIGNALS[k]}`).join("\n")}
+
+[2] 제외(drop=true) 대상 — 다음이면 drop_reason 과 함께 버린다:
+  - 주식·증시·투자·기업 재무 실적·펀딩 라운드 금액 중심 기사
+  - AI 기술과 무관한 일반 뉴스, 광고, 어뷰징, 낚시성 제목만 있고 실체 없는 글
+  - 24시간 이내 신규 사건이 아닌 과거 회고·재탕
+  - 본문이 사실상 제목 반복뿐이라 요약할 내용이 없는 항목
+  ※ 빅테크(OpenAI·Google·Meta·Anthropic 등)의 신규 모델/기능 발표는 **제외 대상이 아니다.** model/product 에 해당하는 1급 신호다.
+  ※ policy 는 기술에 직접 영향이 큰 경우만 남기고, 남기더라도 요약을 짧게 한다.
+
+[3] 번역·요약 — **스크랩 금지, 반드시 재작성한다:**
+  - title_ko: 한국어 제목. 원문이 영어면 번역, 한국어면 다듬기. "[임시 번역]" 같은 접두사 절대 금지.
+  - title_en: 영어 제목.
+  - summary_ko: 정확히 3개의 불릿("• "로 시작, 줄바꿈 구분). 각 불릿은 완결된 한국어 문장.
+      1번째=무엇이 일어났나, 2번째=기술적으로 무엇이 새로운가(수치·모델명·벤치마크 등 구체값), 3번째=개발자에게 왜 중요한가.
+      원문 문장을 잘라 붙이지 말고 이해한 내용을 새 문장으로 쓸 것.
+  - summary_en: 위 요약의 영어판 3문장.
+  - body_ko: 한국어 해설 5~10문장. 배경·동작 방식·한계·비교 대상을 담는다. 원문 본문 통째 복사 금지.
+  - body_en: body_ko 의 영어판.
+  - oss 항목은 body_ko 에 "무엇을 하는 도구인지 / 어떻게 쓰는지 / 누가 만들었는지"를 반드시 포함.
+  - research 항목은 body_ko 에 "제안 기법 / 실험 결과 수치 / 기존 방법 대비 차이"를 반드시 포함.
+  - 본문에 없는 수치·기능·인용은 만들어내지 말 것. 근거가 없으면 그 문장을 쓰지 않는다.
+
+[4] importance: 0~100 정수. 기준 = 신규성(24h 내 최초 공개) · 기술적 실체 · 개발자 실사용 영향 · 교차 출처 언급.
+
+[5] tags: 한국어 태그 3~5개 (예: "코딩 에이전트", "오픈소스", "벤치마크").
+
+[6] 출력은 JSON 오브젝트 하나:
+{"items":[{"id":"후보의 id 그대로","drop":false,"drop_reason":"","signal_id":"model","importance":72,"title_ko":"...","title_en":"...","summary_ko":"• ...\\n• ...\\n• ...","summary_en":"...","body_ko":"...","body_en":"...","tags":["..."]}]}
+id 는 반드시 후보 목록에 있는 값만 사용한다. 후보 전부에 대해 항목을 하나씩 반환하라(버릴 것은 drop=true 로).`;
+
+async function callGemini(payload) {
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
-  const body = {
-    contents: [
-      {
-        role: "user",
-        parts: [{ text: `${PROMPT_RULES}\n\n후보 목록:\n${JSON.stringify(candidates)}` }],
-      },
-    ],
-    generationConfig: { responseMimeType: "application/json", temperature: 0.4 },
-  };
   const res = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json", "x-goog-api-key": API_KEY },
-    body: JSON.stringify(body),
+    body: JSON.stringify({
+      contents: [{ role: "user", parts: [{ text: `${PROMPT_RULES}\n\n후보 목록:\n${JSON.stringify(payload)}` }] }],
+      generationConfig: { responseMimeType: "application/json", temperature: 0.3 },
+    }),
   });
-  if (!res.ok) {
-    throw new Error(`Gemini API error: HTTP ${res.status}`);
-  }
+  if (!res.ok) throw new Error(`Gemini API error: HTTP ${res.status}`); // 본문에 키가 섞이지 않도록 상태코드만
   const data = await res.json();
   const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
   if (!text) throw new Error("Gemini returned empty response");
   return JSON.parse(text);
+}
+
+function toBatches(candidates) {
+  const batches = [];
+  let cur = [];
+  let chars = 0;
+  for (const c of candidates) {
+    const slim = {
+      id: c.id,
+      source: c.source_name,
+      cross_sources: c.cross_sources || null,
+      url: c.url,
+      title: c.title,
+      author: c.author,
+      publish_date: c.publish_date,
+      metrics: c.metrics,
+      signal_hint: c.signal_hint,
+      body: (c.body || "").slice(0, BODY_SLICE),
+    };
+    const size = JSON.stringify(slim).length;
+    if (cur.length >= BATCH_ITEMS || (chars + size > BATCH_CHARS && cur.length > 0)) {
+      batches.push(cur);
+      cur = [];
+      chars = 0;
+    }
+    cur.push(slim);
+    chars += size;
+  }
+  if (cur.length) batches.push(cur);
+  return batches;
+}
+
+const koreanRatio = (s) => {
+  const t = (s || "").replace(/\s/g, "");
+  if (!t) return 0;
+  return (t.match(/[가-힣]/g) || []).length / t.length;
+};
+
+// 번역·요약이 실제로 수행됐는지 검증. 실패하면 그 항목은 버린다 (가짜 요약 노출 방지).
+function qualityIssues(item, fact) {
+  const issues = [];
+  const titleKo = String(item.title_ko || "");
+  const summaryKo = String(item.summary_ko || "");
+  const bodyKo = String(item.body_ko || "");
+
+  if (!titleKo.trim()) issues.push("title_ko 없음");
+  if (/\[?임시\s*번역\]?|TODO|LOREM/i.test(titleKo + summaryKo + bodyKo)) issues.push("플레이스홀더 잔존");
+  if (koreanRatio(titleKo) < 0.2) issues.push("title_ko 미번역");
+  if (koreanRatio(summaryKo) < 0.25) issues.push("summary_ko 미번역");
+
+  const bullets = summaryKo.split("\n").map((s) => s.trim()).filter(Boolean);
+  if (bullets.length < 3) issues.push(`summary_ko 불릿 ${bullets.length}개`);
+  if (bullets.some((b) => b.replace(/^[•\-\d.\s]+/, "").length < 15)) issues.push("summary_ko 불릿 과단축");
+
+  // 원문 스크랩 탐지: 요약 문장이 원문 본문에 그대로 들어있으면 재작성이 아니다
+  const flatBody = (fact.body || "").replace(/\s+/g, " ");
+  const isCopy = bullets.some((b) => {
+    const core = b.replace(/^[•\-\d.\s]+/, "").replace(/\s+/g, " ").slice(0, 40);
+    return core.length >= 20 && flatBody.includes(core);
+  });
+  if (isCopy) issues.push("summary_ko 원문 복붙");
+
+  if (bodyKo.replace(/\s/g, "").length < 120) issues.push("body_ko 과단축");
+  if (koreanRatio(bodyKo) < 0.25) issues.push("body_ko 미번역");
+  if (!SIGNAL_IDS.includes(item.signal_id)) issues.push(`signal_id 불명(${item.signal_id})`);
+
+  return issues;
+}
+
+function merge(item, fact) {
+  const source = fact.source in SOURCE_NAMES ? fact.source : "web";
+  return {
+    id: fact.id,
+    // 프론트 플랫폼 필터가 쓰는 기존 필드 유지
+    category_id: source,
+    category_name: SOURCE_NAMES[source] || fact.source_name,
+    // 기술 신호 축 (신규)
+    signal_id: item.signal_id,
+    signal_name: SIGNALS[item.signal_id],
+    importance: Math.max(0, Math.min(100, Number(item.importance) || 0)),
+    headline: String(item.title_ko).slice(0, 160),
+    title_ko: String(item.title_ko).slice(0, 160),
+    title_en: String(item.title_en || "").slice(0, 200),
+    summary_ko: String(item.summary_ko),
+    summary_en: String(item.summary_en || ""),
+    body_ko: String(item.body_ko),
+    body_en: String(item.body_en || ""),
+    author_profile: fact.author,
+    publish_date: fact.publish_date,
+    tags: (item.tags || []).slice(0, 5).map(String),
+    url: fact.url,
+    sources: fact.cross_sources || [fact.source_name],
+    metrics: fact.metrics || {},
+  };
+}
+
+async function curateBatch(batch, factMap, idx, total) {
+  let res;
+  try {
+    res = await callGemini(batch);
+  } catch (e) {
+    console.warn(`[batch ${idx + 1}/${total}] 실패 (${e.message}) — 1회 재시도`);
+    res = await callGemini(batch);
+  }
+
+  const kept = [];
+  for (const item of res.items || []) {
+    const fact = factMap.get(item.id);
+    if (!fact) {
+      console.warn(`  drop(환각 id): ${item.id}`);
+      continue;
+    }
+    if (item.drop) {
+      console.log(`  drop(${item.drop_reason || "사유 없음"}): ${fact.title.slice(0, 50)}`);
+      continue;
+    }
+    const issues = qualityIssues(item, fact);
+    if (issues.length) {
+      console.warn(`  drop(품질: ${issues.join(", ")}): ${fact.title.slice(0, 50)}`);
+      continue;
+    }
+    const merged = merge(item, fact);
+    if (merged.importance < MIN_IMPORTANCE) {
+      console.log(`  drop(importance ${merged.importance} < ${MIN_IMPORTANCE}): ${merged.headline.slice(0, 40)}`);
+      continue;
+    }
+    kept.push(merged);
+  }
+  console.log(`[batch ${idx + 1}/${total}] ${batch.length}건 중 ${kept.length}건 통과`);
+  return kept;
+}
+
+function buildSummary(news) {
+  const counts = {};
+  for (const n of news) counts[n.signal_id] = (counts[n.signal_id] || 0) + 1;
+  const breakdown = SIGNAL_IDS.filter((k) => counts[k])
+    .map((k) => `${SIGNALS[k].split("·")[0]} ${counts[k]}건`)
+    .join(" · ");
+  return `오늘의 AI 기술 신호 ${news.length}건 — ${breakdown}. 최상위 이슈: ${news[0].headline}`;
 }
 
 async function main() {
@@ -240,73 +247,118 @@ async function main() {
     console.error("뉴스 후보 파일이 없습니다. collect_news.js를 먼저 실행하세요.");
     process.exit(1);
   }
-
   const { candidates } = JSON.parse(fs.readFileSync(CANDIDATES, "utf8"));
-  let curated;
-
-  if (!API_KEY) {
-    console.warn("⚠️ GEMINI_API_KEY가 없습니다. 프론트엔드 UI/UX 테스트를 위해 실시간 Mock 데이터를 생성합니다.");
-    curated = getMockGeminiResponse(candidates);
-  } else {
-    console.log("Gemini를 통한 뉴스 요약 및 스코어링 진행 중...");
-    try {
-      curated = await callGemini(candidates);
-    } catch (e) {
-      console.warn(`첫 시도 실패 (${e.message}), 재시도...`);
-      curated = await callGemini(candidates);
-    }
+  if (!candidates?.length) {
+    console.error("후보 0건 — 중단 (기존 데이터 보존)");
+    process.exit(1);
   }
+
+  const factMap = new Map(candidates.map((c) => [c.id, c]));
+  const batches = toBatches(candidates);
+  console.log(`후보 ${candidates.length}건 → ${batches.length}개 배치로 큐레이션 (${MODEL})`);
+
+  const results = [];
+  for (const [idx, batch] of batches.entries()) {
+    results.push(...(await curateBatch(batch, factMap, idx, batches.length)));
+  }
+
+  const news = results.sort((a, b) => b.importance - a.importance);
+  if (news.length === 0) {
+    console.error("큐레이션 결과 0건 — 기존 news_latest.json 유지");
+    process.exit(1);
+  }
+
+  const signalCounts = {};
+  for (const n of news) signalCounts[n.signal_id] = (signalCounts[n.signal_id] || 0) + 1;
 
   const today = new Date().toISOString().slice(0, 10);
   const latest = {
     generated_at: new Date().toISOString(),
     version: `v${today.replaceAll("-", ".")}`,
-    summary: curated.summary || "",
-    news: curated.news
+    summary: buildSummary(news),
+    signal_counts: signalCounts,
+    news,
   };
 
-  const outputDir = path.dirname(LATEST);
-  if (!fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir, { recursive: true });
-  }
-
+  fs.mkdirSync(path.dirname(LATEST), { recursive: true });
   fs.writeFileSync(LATEST, JSON.stringify(latest, null, 2));
-  console.log(`큐레이션 완료: 총 ${latest.news.length}개 뉴스 기사 -> ${LATEST}`);
+  console.log(`\n✅ 큐레이션 완료: ${news.length}건 → ${LATEST}`);
+  console.log(`   신호 분포: ${JSON.stringify(signalCounts)}`);
 
-  // Archiving logic
-  const archiveDir = path.join(outputDir, "archive");
-  if (!fs.existsSync(archiveDir)) {
-    fs.mkdirSync(archiveDir, { recursive: true });
-  }
-  
-  const archiveFile = path.join(archiveDir, `news_${today}.json`);
-  fs.writeFileSync(archiveFile, JSON.stringify(latest, null, 2));
-  
-  const newsIndexFile = path.join(archiveDir, "news_index.json");
-  let newsIndex = { archives: [] };
-  if (fs.existsSync(newsIndexFile)) {
+  const archiveDir = path.join(path.dirname(LATEST), "archive");
+  fs.mkdirSync(archiveDir, { recursive: true });
+  fs.writeFileSync(path.join(archiveDir, `news_${today}.json`), JSON.stringify(latest, null, 2));
+
+  const indexFile = path.join(archiveDir, "news_index.json");
+  let index = { archives: [] };
+  if (fs.existsSync(indexFile)) {
     try {
-      newsIndex = JSON.parse(fs.readFileSync(newsIndexFile, "utf8"));
-      if (!newsIndex.archives) newsIndex.archives = [];
+      index = JSON.parse(fs.readFileSync(indexFile, "utf8"));
+      if (!index.archives) index.archives = [];
     } catch (e) {
-      console.warn("news_index.json 파싱 오류:", e);
+      console.warn("news_index.json 파싱 오류:", e.message);
     }
   }
-  
-  const existingArchive = newsIndex.archives.find(a => a.file === `news_${today}.json` || a.file === `${today}.json`);
-  if (!existingArchive) {
-    newsIndex.archives.unshift({
+  if (!index.archives.some((a) => a.file === `news_${today}.json`)) {
+    index.archives.unshift({
       file: `news_${today}.json`,
-      version: `v${today.replaceAll("-", ".")}`,
-      generated_at: new Date().toISOString()
+      version: latest.version,
+      generated_at: latest.generated_at,
     });
-    fs.writeFileSync(newsIndexFile, JSON.stringify(newsIndex, null, 2));
+    fs.writeFileSync(indexFile, JSON.stringify(index, null, 2));
   }
-  
-  console.log(`아카이빙 완료: ${archiveFile} 및 news_index.json 업데이트됨.`);
+  console.log(`   아카이브: archive/news_${today}.json`);
 }
 
-main().catch((e) => {
-  console.error(e.message);
-  process.exit(1);
-});
+// 품질 게이트 자기검증: node scripts/curate_news.js --selfcheck (Gemini 호출 없음)
+function selfcheck() {
+  const assert = require("assert");
+  const fact = {
+    id: "hn_x", source: "hackernews", source_name: "Hacker News", url: "https://e.com/a",
+    author: "@a", publish_date: new Date().toISOString(),
+    body: "Anthropic released Claude Opus 5 with a 1M token context window and improved agentic coding benchmarks.",
+  };
+  const good = {
+    id: "hn_x", signal_id: "model", importance: 80,
+    title_ko: "앤트로픽, 컨텍스트 100만 토큰의 Claude Opus 5 공개",
+    title_en: "Anthropic ships Claude Opus 5",
+    summary_ko: "• 앤트로픽이 새 플래그십 모델 Claude Opus 5를 정식 공개했다.\n• 컨텍스트 창이 100만 토큰으로 늘고 에이전트형 코딩 벤치마크 점수가 올랐다.\n• 장문 리포지터리 전체를 한 번에 다루는 코딩 에이전트 구성이 쉬워진다.",
+    summary_en: "Anthropic shipped Claude Opus 5 with a 1M context window.",
+    body_ko: "앤트로픽이 플래그십 모델 계열을 갱신했다. 이번 버전은 컨텍스트 한도를 100만 토큰으로 넓혔고, 에이전트형 코딩 과제에서 이전 세대보다 높은 점수를 기록했다. 기존에는 파일 단위로 잘라 넣어야 했던 대형 저장소를 한 번에 올릴 수 있게 되어 코드베이스 전체 탐색이 필요한 작업의 구성이 단순해진다. 다만 가격과 지연 시간은 별도 확인이 필요하다.",
+    body_en: "Anthropic refreshed its flagship line...",
+    tags: ["모델 출시", "컨텍스트", "코딩 에이전트"],
+  };
+  assert.deepStrictEqual(qualityIssues(good, fact), [], "정상 항목이 게이트에 걸리면 안 됨");
+
+  const cases = [
+    ["미번역", { ...good, title_ko: "Anthropic ships Claude Opus 5" }, "title_ko 미번역"],
+    ["플레이스홀더", { ...good, title_ko: "[임시 번역] 어쩌고 저쩌고 한국어 제목" }, "플레이스홀더 잔존"],
+    ["불릿 부족", { ...good, summary_ko: "• 앤트로픽이 새 모델을 공개했다." }, "summary_ko 불릿 1개"],
+    ["원문 복붙", { ...good, summary_ko: `• Anthropic released Claude Opus 5 with a 1M token context window\n• 두 번째 불릿 문장은 충분히 길게 작성한다.\n• 세 번째 불릿 문장도 충분히 길게 작성한다.` }, null],
+    ["signal 불명", { ...good, signal_id: "unknown" }, "signal_id 불명(unknown)"],
+    ["body 과단축", { ...good, body_ko: "짧다." }, "body_ko 과단축"],
+  ];
+  for (const [label, item, expected] of cases) {
+    const issues = qualityIssues(item, fact);
+    assert.ok(issues.length > 0, `${label}: 게이트가 통과시키면 안 됨`);
+    if (expected) assert.ok(issues.includes(expected), `${label}: "${expected}" 기대, 실제 ${JSON.stringify(issues)}`);
+  }
+
+  const batches = toBatches(Array.from({ length: 25 }, (_, i) => ({
+    id: `c${i}`, source_name: "Web", url: `https://e.com/${i}`, title: `t${i}`,
+    author: "a", publish_date: "2026-01-01T00:00:00Z", metrics: {}, body: "x".repeat(500),
+  })));
+  assert.strictEqual(batches.length, 3, `배치 3개 기대, 실제 ${batches.length}`);
+  assert.ok(batches.every((b) => b.length <= BATCH_ITEMS));
+
+  console.log("✅ selfcheck 통과 (품질 게이트 + 배치 분할)");
+}
+
+if (SELFCHECK) {
+  selfcheck();
+} else {
+  main().catch((e) => {
+    console.error(e.message);
+    process.exit(1);
+  });
+}
