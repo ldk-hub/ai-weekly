@@ -57,6 +57,7 @@ async function load(source) {
     else STATE.data = { generated_at: null, rising: [], classic: [] };
   }
   renderUpdateBar();
+  renderPageSummary();
   renderCategoryFilter();
   render();
 }
@@ -91,7 +92,50 @@ function fmtDate(d) {
   return `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,"0")}.${String(d.getDate()).padStart(2,"0")}`;
 }
 
-function updateMeta() { /* hero stats removed */ }
+function renderPageSummary() {
+  const el = document.getElementById("page-summary");
+  if (!el) return;
+  const lang = getLang();
+  
+  if (!STATE.data) {
+    el.textContent = "—";
+    return;
+  }
+  
+  let total = 0;
+  let newCount = 0;
+  const checkNew = (item) => (item.badges || []).some(b => b.includes("신상") || b.includes("7일") || b.includes("NEW"));
+  
+  if (isNewsPage) {
+    const list = STATE.data.news || [];
+    total = list.length;
+    list.forEach(item => { if (checkNew(item)) newCount++; });
+    if (lang === "en") {
+      el.textContent = newCount > 0 ? `Collected ${total} news · ${newCount} new` : `Collected ${total} news`;
+    } else {
+      el.textContent = newCount > 0 ? `오늘 ${total}건 수집 · 신규 ${newCount}` : `오늘 ${total}건 수집`;
+    }
+  } else if (isStudyPage) {
+    const list = STATE.data.items || [];
+    total = list.length;
+    list.forEach(item => { if (checkNew(item)) newCount++; });
+    if (lang === "en") {
+      el.textContent = newCount > 0 ? `Collected ${total} items · ${newCount} new` : `Collected ${total} items`;
+    } else {
+      el.textContent = newCount > 0 ? `전체 ${total}개 자료 · 신규 ${newCount}` : `전체 ${total}개 자료`;
+    }
+  } else {
+    const rising = STATE.data.rising || [];
+    const classic = STATE.data.classic || [];
+    total = rising.length + classic.length;
+    [...rising, ...classic].forEach(item => { if (checkNew(item)) newCount++; });
+    if (lang === "en") {
+      el.textContent = newCount > 0 ? `Collected ${total} this week · ${newCount} new` : `Collected ${total} this week`;
+    } else {
+      el.textContent = newCount > 0 ? `이번 주 ${total}개 수집 · 신규 ${newCount}` : `이번 주 ${total}개 수집`;
+    }
+  }
+}
 
 function fmtKDate(d) {
   return `${d.getMonth()+1}/${d.getDate()}`;
