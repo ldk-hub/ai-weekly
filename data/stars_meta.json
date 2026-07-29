@@ -1,0 +1,895 @@
+{
+  "generated_at": "2026-07-29T01:46:39.839Z",
+  "repos": {
+    "santifer/career-ops": {
+      "pushed_at": "2026-07-28T17:31:04Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "garrytan/gstack": {
+      "pushed_at": "2026-07-15T01:33:47Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "JuliusBrussee/caveman": {
+      "pushed_at": "2026-07-26T16:53:51Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "slavingia/skills": {
+      "pushed_at": "2026-04-14T00:53:57Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "patoles/agent-flow": {
+      "pushed_at": "2026-07-11T15:57:04Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "dominikmartn/nothing-design-skill": {
+      "pushed_at": "2026-04-01T05:40:04Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "yizhiyanhua-ai/fireworks-tech-graph": {
+      "pushed_at": "2026-07-17T04:25:22Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "Graphify-Labs/graphify": {
+      "aliases": [
+        "safishamsi/graphify"
+      ],
+      "pushed_at": "2026-07-28T09:52:46Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "efij/secure-claude-code": {
+      "pushed_at": "2026-05-19T10:36:04Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": "stars_dropped:88→13",
+      "dormant": true
+    },
+    "zarazhangrui/codebase-to-course": {
+      "pushed_at": "2026-03-30T18:26:09Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "gavraz/recon": {
+      "pushed_at": "2026-07-17T19:10:27Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "joyehuang/Learn-Open-Harness": {
+      "pushed_at": "2026-04-07T16:20:35Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": "stars_dropped:231→25",
+      "dormant": true
+    },
+    "openclaw/openclaw": {
+      "pushed_at": "2026-07-29T01:44:33Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "modelcontextprotocol/servers": {
+      "pushed_at": "2026-07-26T03:16:32Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "anthropics/claude-code": {
+      "pushed_at": "2026-07-25T01:35:55Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "affaan-m/ECC": {
+      "aliases": [
+        "affaan-m/everything-claude-code"
+      ],
+      "pushed_at": "2026-07-29T01:37:41Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "musistudio/claude-code-router": {
+      "pushed_at": "2026-07-29T01:30:09Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "hesreallyhim/awesome-claude-code": {
+      "pushed_at": "2026-07-29T00:31:21Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "shareAI-lab/learn-claude-code": {
+      "pushed_at": "2026-07-28T17:27:46Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "nextlevelbuilder/ui-ux-pro-max-skill": {
+      "pushed_at": "2026-07-28T05:00:36Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "ComposioHQ/awesome-claude-skills": {
+      "pushed_at": "2026-07-24T07:48:01Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "rtk-ai/rtk": {
+      "pushed_at": "2026-07-28T17:36:50Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "thedotmack/claude-mem": {
+      "pushed_at": "2026-07-23T22:47:38Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "modelcontextprotocol/python-sdk": {
+      "pushed_at": "2026-07-28T18:17:18Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "Manavarya09/design-extract": {
+      "gone": true
+    },
+    "phuryn/claude-usage": {
+      "pushed_at": "2026-07-10T10:08:48Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "alchaincyf/darwin-skill": {
+      "pushed_at": "2026-07-27T04:35:52Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "drona23/claude-token-efficient": {
+      "pushed_at": "2026-06-16T03:10:06Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "codeany-ai/open-agent-sdk-typescript": {
+      "pushed_at": "2026-07-26T03:22:14Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "ghostwright/phantom": {
+      "pushed_at": "2026-06-16T21:26:09Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "getagentseal/codeburn": {
+      "pushed_at": "2026-07-28T01:52:06Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "nanocoai/nanoclaw": {
+      "aliases": [
+        "qwibitai/nanoclaw"
+      ],
+      "pushed_at": "2026-07-28T08:00:29Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "alchaincyf/huashu-design": {
+      "pushed_at": "2026-07-27T02:53:02Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "op7418/guizang-ppt-skill": {
+      "pushed_at": "2026-07-22T14:10:33Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "gsd-build/get-shit-done": {
+      "pushed_at": "2026-05-31T17:46:54Z",
+      "archived": true,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "OpenCoworkAI/open-codesign": {
+      "pushed_at": "2026-06-28T22:04:03Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "kyegomez/OpenMythos": {
+      "pushed_at": "2026-05-23T11:58:48Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "browser-use/browser-harness": {
+      "pushed_at": "2026-07-26T03:16:13Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "openai/codex-plugin-cc": {
+      "pushed_at": "2026-07-08T00:17:31Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "multica-ai/andrej-karpathy-skills": {
+      "aliases": [
+        "forrestchang/andrej-karpathy-skills"
+      ],
+      "pushed_at": "2026-04-20T10:05:04Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "mvanhorn/last30days-skill": {
+      "pushed_at": "2026-07-28T21:16:55Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "farion1231/cc-switch": {
+      "pushed_at": "2026-07-28T15:37:56Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "shanraisshan/claude-code-best-practice": {
+      "pushed_at": "2026-07-28T06:39:12Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "VoltAgent/awesome-agent-skills": {
+      "pushed_at": "2026-07-10T13:55:37Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "HKUDS/nanobot": {
+      "pushed_at": "2026-07-28T17:41:36Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "ultraworkers/claw-code": {
+      "pushed_at": "2026-06-26T16:17:10Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "NousResearch/hermes-agent": {
+      "pushed_at": "2026-07-29T01:42:50Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "VoltAgent/awesome-claude-code-subagents": {
+      "pushed_at": "2026-07-10T09:17:51Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "wshobson/agents": {
+      "pushed_at": "2026-07-22T15:32:23Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "czlonkowski/n8n-mcp": {
+      "pushed_at": "2026-07-28T09:38:23Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "different-ai/openwork": {
+      "pushed_at": "2026-07-29T00:25:16Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "anomalyco/opencode": {
+      "pushed_at": "2026-07-29T01:43:41Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "ChromeDevTools/chrome-devtools-mcp": {
+      "pushed_at": "2026-07-28T16:40:37Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "nexu-io/open-design": {
+      "pushed_at": "2026-07-29T01:37:30Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "zilliztech/claude-context": {
+      "pushed_at": "2026-07-14T12:00:38Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "github/github-mcp-server": {
+      "pushed_at": "2026-07-28T22:44:05Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": false
+    },
+    "code-yeongyu/oh-my-openagent": {
+      "pushed_at": "2026-07-28T17:18:51Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "ChrisWiles/claude-code-showcase": {
+      "pushed_at": "2026-01-06T19:05:18Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "coleam00/claude-memory-compiler": {
+      "pushed_at": "2026-04-06T19:46:57Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "levnikolaevich/claude-code-skills": {
+      "pushed_at": "2026-07-24T07:10:00Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "supermemoryai/claude-supermemory": {
+      "pushed_at": "2026-07-25T22:07:29Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "HKUDS/OpenHarness": {
+      "pushed_at": "2026-06-04T02:42:40Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "anthropics/claude-plugins-official": {
+      "pushed_at": "2026-07-29T00:19:43Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "anthropics/skills": {
+      "pushed_at": "2026-07-24T20:12:36Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "alirezarezvani/claude-skills": {
+      "pushed_at": "2026-07-17T13:02:50Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "revfactory/harness": {
+      "pushed_at": "2026-07-24T23:35:08Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "mattpocock/skills": {
+      "pushed_at": "2026-07-28T11:18:20Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "ai-boost/awesome-harness-engineering": {
+      "pushed_at": "2026-07-28T20:02:15Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "Piebald-AI/claude-code-system-prompts": {
+      "pushed_at": "2026-07-25T00:22:59Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "anthropics/financial-services": {
+      "pushed_at": "2026-07-22T18:24:37Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "Egonex-AI/Understand-Anything": {
+      "aliases": [
+        "Lum1104/Understand-Anything"
+      ],
+      "pushed_at": "2026-07-28T12:29:34Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "addyosmani/agent-skills": {
+      "pushed_at": "2026-07-26T12:51:12Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "colbymchenry/codegraph": {
+      "pushed_at": "2026-07-24T02:29:48Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "ruvnet/ruflo": {
+      "pushed_at": "2026-07-28T23:24:48Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "zhayujie/CowAgent": {
+      "pushed_at": "2026-07-28T12:47:00Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "upstash/context7": {
+      "pushed_at": "2026-07-28T11:42:21Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "anthropics/knowledge-work-plugins": {
+      "pushed_at": "2026-07-29T00:25:56Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "microsoft/playwright-mcp": {
+      "pushed_at": "2026-07-25T08:58:14Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "DietrichGebert/ponytail": {
+      "pushed_at": "2026-07-15T21:32:15Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "Imbad0202/academic-research-skills": {
+      "pushed_at": "2026-07-29T01:40:31Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "blader/humanizer": {
+      "pushed_at": "2026-07-22T06:26:25Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "can1357/oh-my-pi": {
+      "pushed_at": "2026-07-29T01:01:09Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "cobusgreyling/loop-engineering": {
+      "pushed_at": "2026-07-28T19:53:58Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "Chachamaru127/claude-code-harness": {
+      "pushed_at": "2026-07-28T07:02:22Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "Leonxlnx/taste-skill": {
+      "pushed_at": "2026-07-23T16:01:24Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "multica-ai/multica": {
+      "pushed_at": "2026-07-29T01:39:45Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "Frisher1/ClaudeCode-Workflow-Lab": {
+      "pushed_at": "2026-07-28T23:56:04Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "kepano/obsidian-skills": {
+      "pushed_at": "2026-06-08T16:12:01Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "Panniantong/Agent-Reach": {
+      "pushed_at": "2026-07-25T10:20:07Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "Sakshxm1/hermes-agency-orchestrator": {
+      "pushed_at": "2026-07-28T23:55:09Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "minetechnic2012-lang/claude-ops-inspector": {
+      "pushed_at": "2026-07-29T01:29:59Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "headroomlabs-ai/headroom": {
+      "pushed_at": "2026-07-28T23:59:54Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "liigoQi/defficiency-skills": {
+      "pushed_at": "2026-06-28T07:57:09Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "davila7/claude_subagents": {
+      "pushed_at": "2026-06-21T23:08:38Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "sansan0/TrendRadar": {
+      "pushed_at": "2026-07-17T13:54:28Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "DeusData/codebase-memory-mcp": {
+      "pushed_at": "2026-07-29T01:31:19Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "x1xhlol/system-prompts-and-models-of-ai-tools": {
+      "pushed_at": "2026-07-12T15:42:00Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "YuanpingSong/ultracodex": {
+      "pushed_at": "2026-07-11T05:55:56Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "PDFMathTranslate/PDFMathTranslate": {
+      "pushed_at": "2026-05-25T19:00:26Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "cheshireyang/mindmap-mcts-skill": {
+      "pushed_at": "2026-06-24T09:35:04Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "Wei-Shaw/sub2api": {
+      "pushed_at": "2026-07-29T01:42:56Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "Yeachan-Heo/oh-my-claudecode": {
+      "pushed_at": "2026-07-29T00:50:21Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "Alishahryar1/free-claude-code": {
+      "pushed_at": "2026-07-28T05:19:36Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "asgeirtj/system_prompts_leaks": {
+      "pushed_at": "2026-07-27T12:21:35Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "coreyhaines31/marketingskills": {
+      "pushed_at": "2026-07-27T19:00:31Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "luongnv89/claude-howto": {
+      "pushed_at": "2026-07-22T15:18:16Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "router-for-me/CLIProxyAPI": {
+      "pushed_at": "2026-07-29T01:44:56Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "sickn33/agentic-awesome-skills": {
+      "pushed_at": "2026-07-28T20:27:34Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "diegosouzapw/OmniRoute": {
+      "pushed_at": "2026-07-28T22:21:02Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    },
+    "K-Dense-AI/scientific-agent-skills": {
+      "pushed_at": "2026-07-29T00:34:57Z",
+      "archived": false,
+      "checked_at": "2026-07-29",
+      "gone": false,
+      "suspect": null,
+      "dormant": null
+    }
+  }
+}
