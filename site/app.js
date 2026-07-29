@@ -94,9 +94,11 @@ async function loadArchives() {
   renderArchiveMenu();
 }
 
+// 스타보드는 매일 자동 수집(stars.yml), 플러그인은 매주 월요일(weekly-trends.yml) — 둘은 예고가 사실이다.
+// 뉴스는 고정 주기가 없어 예고하지 않는다 (renderUpdateBar 가 해당 블록을 숨김).
 function nextUpdateDate(from) {
   const d = new Date(from);
-  if (isNewsPage || isStarboardPage) {
+  if (isStarboardPage) {
     d.setDate(d.getDate() + 1);
   } else {
     const day = d.getDay();
@@ -131,7 +133,7 @@ function renderPageSummary() {
     if (lang === "en") {
       el.textContent = newCount > 0 ? `Collected ${total} news · ${newCount} new` : `Collected ${total} news`;
     } else {
-      el.textContent = newCount > 0 ? `오늘 ${total}건 수집 · 신규 ${newCount}` : `오늘 ${total}건 수집`;
+      el.textContent = newCount > 0 ? `${total}건 수집 · 신규 ${newCount}` : `${total}건 수집`;
     }
   } else if (isStarboardPage) {
     const d = STATE.data || {};
@@ -179,7 +181,7 @@ function renderUpdateBar() {
   if (!updEl) return;
   if (ts) {
     updEl.textContent = `${fmtKFull(ts)} (${dayLabel(ts, lang)})`;
-    if (STATE.source === "latest") {
+    if (STATE.source === "latest" && !isNewsPage) {
       const nm = nextUpdateDate(ts);
       if (nxtEl) nxtEl.textContent = `${fmtKDate(nm)} (${dayLabel(nm, lang)})`;
       if (nxtContainer) nxtContainer.style.display = "";
@@ -317,12 +319,13 @@ function stickerFor(item, idx) {
   const isRising = (item.badges || []).some(b => b.includes("Rising"));
   const isNew = (item.badges || []).some(b => b.includes("신상") || b.includes("7일"));
   const isKor = (item.badges || []).some(b => b.includes("한국어"));
+  const lang = getLang();
 
-  if (isNew) return { color: "s-mint", top: "NEW", bottom: "신상" };
+  if (isNew) return { color: "s-mint", top: "NEW", bottom: lang === "en" ? "NEW" : "신상" };
   if (isRising && rank === 1) return { color: "s-coral", top: "#01", bottom: "TOP" };
-  if (isRising && rank <= 3) return { color: "s-lemon", top: "#0" + rank, bottom: "급상승" };
-  if (rank === 1) return { color: "s-lemon", top: "#01", bottom: "대세" };
-  if (isKor) return { color: "s-sky", top: "KR", bottom: "한국어" };
+  if (isRising && rank <= 3) return { color: "s-lemon", top: "#0" + rank, bottom: lang === "en" ? "HOT" : "급상승" };
+  if (rank === 1) return { color: "s-lemon", top: "#01", bottom: lang === "en" ? "TREND" : "대세" };
+  if (isKor) return { color: "s-sky", top: "KR", bottom: lang === "en" ? "KOR" : "한국어" };
   if (isRising) return { color: "s-pink", top: "HOT", bottom: "화제" };
   return { color: STICKER_FALLBACKS[idx % STICKER_FALLBACKS.length], top: "#" + String(rank).padStart(2,"0"), bottom: "PICK" };
 }
@@ -373,9 +376,11 @@ const SOURCE_LABEL = {
 function sourcesLine(item) {
   const srcs = (item.sources || []).slice(0, 5);
   const score = item.trend_score;
+  const lang = getLang();
   if (!srcs.length && score == null) return "";
   const chips = srcs.map(s => `<span class="src-chip">${escapeHTML(SOURCE_LABEL[s] || s)}</span>`).join("");
-  const scoreEl = (score != null) ? `<span class="src-score" title="검증 점수">검증 ${score}</span>` : "";
+  const scoreLabel = lang === "en" ? "Score" : "검증";
+  const scoreEl = (score != null) ? `<span class="src-score" title="${scoreLabel}"> ${scoreLabel} ${score}</span>` : "";
   return `<div class="src-line">${chips}${scoreEl}</div>`;
 }
 
@@ -393,7 +398,10 @@ function modalHTML(item, tab, rank) {
     else if (b.includes("Classic")) cls = "b-classic";
     return `<span class="m-badge ${cls}">${escapeHTML(b)}</span>`;
   }).join("");
-  const tabLabel = tab === "rising" ? "이번 주 뜨는" : "이미 유명한";
+  const lang = getLang();
+  const tabLabel = tab === "rising" 
+    ? (lang === "en" ? "Trending" : "이번 주 뜨는") 
+    : (lang === "en" ? "Classic" : "이미 유명한");
   const rankStr = String(rank).padStart(2, "0");
 
   return `
@@ -415,13 +423,13 @@ function modalHTML(item, tab, rank) {
     ${modalSourcesSection(item)}
     ${badges ? `<div class="m-badges">${badges}</div>` : ""}
     ${item.summary_ko ? `<div class="m-section"><div class="m-label">어떤 프로젝트인가</div><p class="m-summary">${escapeHTML(item.summary_ko)}</p></div>` : ""}
-    ${feats ? `<div class="m-section"><div class="m-label">핵심 기능</div><ul class="m-features">${feats}</ul></div>` : ""}
-    ${item.use_case ? `<div class="m-section"><div class="m-label">이럴 때 쓰면 좋아요</div><div class="m-usecase">${escapeHTML(item.use_case)}</div></div>` : ""}
-    ${item.install_hint ? `<div class="m-section"><div class="m-label">설치 · 시작하기</div><div class="m-install">${escapeHTML(item.install_hint)}</div></div>` : ""}
-    ${tags ? `<div class="m-section"><div class="m-label">태그</div><div class="m-tags">${tags}</div></div>` : ""}
+    ${feats ? `<div class="m-section"><div class="m-label">${lang === "en" ? "Key Features" : "핵심 기능"}</div><ul class="m-features">${feats}</ul></div>` : ""}
+    ${item.use_case ? `<div class="m-section"><div class="m-label">${lang === "en" ? "Use Cases" : "이럴 때 쓰면 좋아요"}</div><div class="m-usecase">${escapeHTML(item.use_case)}</div></div>` : ""}
+    ${item.install_hint ? `<div class="m-section"><div class="m-label">${lang === "en" ? "Getting Started" : "설치 · 시작하기"}</div><div class="m-install">${escapeHTML(item.install_hint)}</div></div>` : ""}
+    ${tags ? `<div class="m-section"><div class="m-label">${lang === "en" ? "Tags" : "태그"}</div><div class="m-tags">${tags}</div></div>` : ""}
     <div class="m-cta-row">
       <a class="m-cta" href="${escapeHTML(item.official_url || "#")}" target="_blank" rel="noopener">
-        GitHub에서 열기 →
+        ${lang === "en" ? "Open in GitHub →" : "GitHub에서 열기 →"}
       </a>
     </div>
   `;
@@ -433,9 +441,11 @@ function modalSourcesSection(item) {
   const score = item.trend_score;
   if (!srcs.length && !evi.length && score == null) return "";
 
-  let html = `<div class="m-section"><div class="m-label">출처 · 검증</div>`;
+  let html = `<div class="m-section"><div class="m-label">${getLang() === "en" ? "Sources & Score" : "출처 · 검증"}</div>`;
   if (score != null) {
-    html += `<div class="m-score-box">검증 점수 <strong>${score}</strong> / 100<span class="m-score-formula">velocity · buzz · quality · recency 종합</span></div>`;
+    const scoreText = getLang() === "en" ? "Validation Score" : "검증 점수";
+    const scoreFormula = getLang() === "en" ? "velocity · buzz · quality · recency" : "velocity · buzz · quality · recency 종합";
+    html += `<div class="m-score-box">${scoreText} <strong>${score}</strong> / 100<span class="m-score-formula">${scoreFormula}</span></div>`;
   }
   if (srcs.length) {
     const chips = srcs.map(s => `<span class="src-chip">${escapeHTML(SOURCE_LABEL[s] || s)}</span>`).join("");
@@ -503,16 +513,21 @@ function render() {
       const kstDate = new Date(genTime.getTime() + (9 * 60 + genTime.getTimezoneOffset()) * 60000);
       const kstStr = kstDate.toISOString().replace('T', ' ').substring(0, 16) + ' KST';
       
+      // 출처는 하드코딩하지 않는다 — 실제 수집된 항목의 매체만 표기 (없는 매체를 광고하지 않기 위함)
+      const srcNames = [...new Set((d.news || []).map(n => n.category_name).filter(Boolean))];
+      const srcMeta = srcNames.length ? ` · 📡 ${srcNames.join(" · ")}` : "";
+
+      const lang = getLang();
       if (STATE.category === "all" && !STATE.query && d.summary) {
         html += `
           <div class="daily-briefing-panel">
             <div class="db-header">
-              <span class="db-title">💡 오늘의 AI 트렌드</span>
-              <span class="db-meta">🕒 ${kstStr} · 📡 X · Threads · HN · Reddit · GeekNews · 최근 24시간</span>
+              <span class="db-title">💡 ${lang === "en" ? "AI Trend Summary" : "AI 트렌드 요약"}</span>
+              <span class="db-meta">🕒 ${kstStr}${escapeHTML(srcMeta)}</span>
             </div>
             <p class="db-summary">${escapeHTML(d.summary)}</p>
             <div class="db-footer">
-              ⚠️ 주식·투자 신호는 제외, 게시물 내 모델명·수치는 원문 그대로이며 교차 검증되지 않았습니다.
+              ⚠️ ${lang === "en" ? "Financial/investment signals excluded. Model names and figures are verbatim and unverified." : "주식·투자 신호는 제외, 게시물 내 모델명·수치는 원문 그대로이며 교차 검증되지 않았습니다."}
             </div>
           </div>
         `;
@@ -520,8 +535,8 @@ function render() {
         html += `
           <div class="daily-briefing-panel is-compact">
             <div class="db-header" style="margin-bottom:0;">
-              <span class="db-title">💡 검색 결과</span>
-              <span class="db-meta">🕒 ${kstStr} · 최근 24시간 핫이슈 정렬</span>
+              <span class="db-title">💡 ${lang === "en" ? "Search Results" : "검색 결과"}</span>
+              <span class="db-meta">🕒 ${kstStr}</span>
             </div>
           </div>
         `;
@@ -571,6 +586,7 @@ function matchesNews(item) {
 
 function newsCardHTML(item, idx = 0) {
   const safeId = escapeHTML(item.id || "");
+  const lang = getLang();
   
   const rank = idx + 1;
   const isAllCategory = STATE.category === "all" && !STATE.query;
@@ -578,9 +594,9 @@ function newsCardHTML(item, idx = 0) {
   let sticker = "";
   if (isAllCategory) {
     let stColor = "s-gray";
-    let stBottom = "트렌드";
+    let stBottom = lang === "en" ? "TREND" : "트렌드";
     if (rank === 1) { stColor = "s-coral"; stBottom = "TOP"; }
-    else if (rank === 2 || rank === 3) { stColor = "s-lemon"; stBottom = "급상승"; }
+    else if (rank === 2 || rank === 3) { stColor = "s-lemon"; stBottom = lang === "en" ? "HOT" : "급상승"; }
     
     sticker = `
       <div class="sticker ${stColor}">
@@ -824,7 +840,117 @@ document.addEventListener("keydown", e => {
   if (e.key === "Escape") closeModal();
 });
 
-const CRITERIA_HTML = `
+function getCriteriaHTML(lang) {
+  if (lang === "en") {
+    return `
+  <div class="cr-eyebrow">CC-TRENDS · SCORING</div>
+  <h2 class="cr-title">How is the ranking calculated?</h2>
+  <p class="cr-lede">Recalculated every week with weighted scores across 4 axes.</p>
+
+  <div class="cr-formula">
+    <div class="cr-formula-line">
+      <span class="cr-token">score</span>
+      <span class="cr-eq">=</span>
+      <span class="cr-weight w-velocity"><b>0.4</b>·velocity</span>
+      <span class="cr-plus">+</span>
+      <span class="cr-weight w-buzz"><b>0.3</b>·buzz</span>
+      <span class="cr-plus">+</span>
+      <span class="cr-weight w-quality"><b>0.2</b>·quality</span>
+      <span class="cr-plus">+</span>
+      <span class="cr-weight w-recency"><b>0.1</b>·recency</span>
+    </div>
+    <div class="cr-bar">
+      <span class="cr-bar-seg w-velocity" style="flex:40"><span>40%</span></span>
+      <span class="cr-bar-seg w-buzz" style="flex:30"><span>30%</span></span>
+      <span class="cr-bar-seg w-quality" style="flex:20"><span>20%</span></span>
+      <span class="cr-bar-seg w-recency" style="flex:10"><span>10%</span></span>
+    </div>
+  </div>
+
+  <div class="cr-section">
+    <div class="cr-section-label">4 Evaluation Axes</div>
+    <div class="cr-axes">
+      <div class="cr-axis">
+        <div class="cr-axis-head">
+          <span class="cr-axis-dot w-velocity"></span>
+          <span class="cr-axis-name">Velocity</span>
+          <span class="cr-axis-pct">40%</span>
+        </div>
+        <p class="cr-axis-desc">GitHub 7-day star growth rate. Age adjustment applied to new items (within 30 days).</p>
+      </div>
+      <div class="cr-axis">
+        <div class="cr-axis-head">
+          <span class="cr-axis-dot w-buzz"></span>
+          <span class="cr-axis-name">Community Buzz</span>
+          <span class="cr-axis-pct">30%</span>
+        </div>
+        <p class="cr-axis-desc">Weighted sum of mentions on HN · dev.to · GeekNews · velog · X. Reach 2+ platforms +10, 3+ +15, HN frontpage +10.</p>
+      </div>
+      <div class="cr-axis">
+        <div class="cr-axis-head">
+          <span class="cr-axis-dot w-quality"></span>
+          <span class="cr-axis-name">Quality</span>
+          <span class="cr-axis-pct">20%</span>
+        </div>
+        <p class="cr-axis-desc">README depth, license, recent commits, tests/examples, CI, documentation score.</p>
+      </div>
+      <div class="cr-axis">
+        <div class="cr-axis-head">
+          <span class="cr-axis-dot w-recency"></span>
+          <span class="cr-axis-name">Recency</span>
+          <span class="cr-axis-pct">10%</span>
+        </div>
+        <p class="cr-axis-desc">How fresh the latest commit is. 0 score if abandoned for 60+ days.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="cr-section">
+    <div class="cr-section-label">Rising vs Classic</div>
+    <div class="cr-versus">
+      <div class="cr-vs-card cr-rising">
+        <div class="cr-vs-head"><span class="cr-vs-icon">🔥</span><strong>Rising</strong> · Trending this week</div>
+        <div class="cr-vs-rule">Satisfy any one condition</div>
+        <ul>
+          <li>Created within 30 days</li>
+          <li>velocity ≥ 60 + 2+ community mentions in 14 days</li>
+          <li>velocity ≥ 80 (Explosive growth) — Regardless of source <span style="opacity:.7">⚠️ Shows single source</span></li>
+          <li>Reached HN frontpage within 7 days</li>
+        </ul>
+      </div>
+      <div class="cr-vs-card cr-classic">
+        <div class="cr-vs-head"><span class="cr-vs-icon">⭐</span><strong>Classic</strong> · Already famous</div>
+        <div class="cr-vs-rule">Satisfy both conditions</div>
+        <ul>
+          <li>Total stars ≥ 1000 or Created > 30 days ago</li>
+          <li>Top 20% in velocity or consistent top quality score</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="cr-section">
+    <div class="cr-section-label">Bias Adjustments</div>
+    <div class="cr-biases">
+      <div class="cr-bias-row">
+        <span class="cr-bias-tag">i18n</span>
+        <span>Additional buzz points for finding Korean README/blogs — adjusting for English-speaking scale difference</span>
+      </div>
+      <div class="cr-bias-row">
+        <span class="cr-bias-tag">official</span>
+        <span>Anthropic official/employee projects get tags only, score remains the same</span>
+      </div>
+    </div>
+  </div>
+
+  <p class="cr-foot">Selected in order of score per category (Rising: skill 8·mcp 6·agent 4·harness 2 / Classic: skill 6·mcp 4·agent 4·harness 2) · Ties broken by recent updates · Under-quota not forced · Under-scored reviewed next week</p>
+
+  <a class="m-cta" href="https://github.com/ldk-hub/ai-weekly" target="_blank" rel="noopener">
+    View source code →
+  </a>
+`;
+  }
+  return `
   <div class="cr-eyebrow">CC-TRENDS · SCORING</div>
   <h2 class="cr-title">순위는 어떻게 매겨지나요?</h2>
   <p class="cr-lede">매주 4가지 축의 가중 점수로 다시 계산합니다.</p>
@@ -933,10 +1059,11 @@ const CRITERIA_HTML = `
     소스 코드 보기 →
   </a>
 `;
+}
 
 function openCriteria() {
   const modal = document.getElementById("modal");
-  document.getElementById("modal-body").innerHTML = CRITERIA_HTML;
+  document.getElementById("modal-body").innerHTML = getCriteriaHTML(getLang());
   modal.classList.add("open");
   modal.setAttribute("aria-hidden", "false");
   document.body.classList.add("modal-open");
@@ -972,8 +1099,10 @@ document.getElementById("lang-toggle")?.addEventListener("click", () => {
   localStorage.setItem(I18N_KEY, next);
   applyLang(next);
   renderUpdateBar();
+  renderPageSummary();
   renderArchiveMenu();
   renderCategoryFilter();
+  render();
 });
 applyLang(getLang());
 
@@ -997,7 +1126,12 @@ function renderThemeToggle() {
   updateThemeColorMeta(eff);
   const btn = document.getElementById("theme-toggle");
   if (!btn) return;
-  btn.textContent = eff === 'dark' ? '☀️ 라이트' : '🌙 다크';
+  const lang = getLang();
+  if (lang === "en") {
+    btn.textContent = eff === 'dark' ? '☀️ Light' : '🌙 Dark';
+  } else {
+    btn.textContent = eff === 'dark' ? '☀️ 라이트' : '🌙 다크';
+  }
 }
 document.getElementById("theme-toggle")?.addEventListener("click", () => {
   const next = getEffectiveTheme() === 'dark' ? 'light' : 'dark';
@@ -1166,10 +1300,11 @@ function starboardCardHTML(item, idx) {
     "dormant": "sb-badge-dormant"
   }[item.activity];
   
+  const lang = getLang();
   const badgeLabel = {
-    "active": "활발",
-    "slowing": "둔화",
-    "dormant": "방치"
+    "active": lang === "en" ? "Active" : "활발",
+    "slowing": lang === "en" ? "Slowing" : "둔화",
+    "dormant": lang === "en" ? "Dormant" : "방치"
   }[item.activity];
   
   const repoName = item.id.split("/")[1];

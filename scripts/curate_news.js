@@ -239,7 +239,7 @@ function buildSummary(news) {
   const breakdown = SIGNAL_IDS.filter((k) => counts[k])
     .map((k) => `${SIGNALS[k].split("·")[0]} ${counts[k]}건`)
     .join(" · ");
-  return `오늘의 AI 기술 신호 ${news.length}건 — ${breakdown}. 최상위 이슈: ${news[0].headline}`;
+  return `AI 기술 신호 ${news.length}건 — ${breakdown}. 최상위 이슈: ${news[0].headline}`;
 }
 
 async function main() {
