@@ -8,7 +8,10 @@ const crypto = require("crypto");
 const Parser = require("rss-parser");
 const cheerio = require("cheerio");
 const moment = require("moment-timezone");
-const { execFileSync } = require("child_process");
+const { execFile, execFileSync } = require("child_process");
+const { promisify } = require("util");
+
+const execFileAsync = promisify(execFile);
 
 const ROOT = path.join(__dirname, "..");
 const OUT = path.join(ROOT, "data", "news_candidates.json");
@@ -21,6 +24,7 @@ const NOW_KST = moment().tz("Asia/Seoul");
 
 const UA = "Mozilla/5.0 (compatible; ai-weekly-newsbot/1.0)";
 const NET_TIMEOUT_MS = Number(process.env.NEWS_NET_TIMEOUT_MS || 12000);
+const SOCIAL_TIMEOUT_MS = Number(process.env.NEWS_SOCIAL_TIMEOUT_MS || 180000);
 const BODY_MIN_CHARS = 400;
 const BODY_MAX_CHARS = 6000;
 const BODY_FETCH_TIMEOUT_MS = 8000;
@@ -414,13 +418,16 @@ async function fetchSocial() {
     console.warn("[social] last30days 스킬 없음 — 건너뜀");
     return [];
   }
+  // 반드시 비동기로 실행한다. execFileSync 는 이벤트 루프를 파이썬이 끝날 때까지 블록해서
+  // 같은 Promise.all 안의 다른 소스들의 fetch 타임아웃을 일제히 발화시킨다 (전량 abort 원인).
   let raw;
   try {
-    raw = execFileSync(
+    const { stdout } = await execFileAsync(
       "python3",
       [skill, "AI model release OR LLM OR AI agent OR developer tool", "--days", "1", "--emit=json"],
-      { encoding: "utf8", maxBuffer: 10 * 1024 * 1024, stdio: ["ignore", "pipe", "pipe"] }
+      { encoding: "utf8", maxBuffer: 10 * 1024 * 1024, timeout: SOCIAL_TIMEOUT_MS }
     );
+    raw = stdout;
   } catch (e) {
     raw = e.stdout || "";
     if (!raw) {
@@ -556,6 +563,9 @@ async function main() {
     fetchSocial(),
   ]);
   groups.forEach((g, i) => console.log(`[${labels[i]}] ${g.length}건`));
+  if (Object.keys(dateless).length) {
+    console.warn(`[window] 발행일 없음/파싱불가로 제외: ${JSON.stringify(dateless)} — 특정 소스에 몰려 있으면 그 피드의 날짜 필드명을 확인할 것`);
+  }
 
   const candidates = dedupe(groups.flat());
   console.log(`중복 제거 후 ${candidates.length}건`);

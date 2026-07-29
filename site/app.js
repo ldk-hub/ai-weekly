@@ -1290,7 +1290,12 @@ function renderStarboard() {
     return;
   }
   
-  let html = `<div class="sb-list">`;
+  const gridClass = STATE.viewMode === 'list' ? 'grid list-view' : 'grid';
+  const gridStyle = STATE.viewMode === 'list' 
+    ? 'display:flex;flex-direction:column;gap:12px;' 
+    : 'display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;';
+    
+  let html = `<div class="${gridClass}" style="${gridStyle}">`;
   html += list.map((item, idx) => starboardCardHTML(item, idx)).join("");
   html += `</div>`;
   el.innerHTML = html;
@@ -1315,14 +1320,22 @@ function starboardCardHTML(item, idx) {
   const ownerName = item.id.split("/")[0];
   
   const sign = item.velocity > 0 ? "+" : "";
-  const velocityColor = item.velocity > 0 ? "color: var(--mint);" : (item.velocity < 0 ? "color: var(--coral);" : "color: var(--muted);");
+  const velocityColor = item.velocity > 0 ? "var(--mint)" : (item.velocity < 0 ? "var(--coral)" : "var(--muted)");
   
-  // Create simple SVG sparkline
+  let stColor = "s-gray";
+  let stBottom = "PICK";
+  if (rank === 1) { stColor = "s-coral"; stBottom = "TOP"; }
+  else if (rank <= 3) { stColor = "s-lemon"; stBottom = lang === "en" ? "HOT" : "급상승"; }
+  else {
+    const STICKER_FALLBACKS = ["s-mint", "s-sky", "s-lavender", "s-pink"];
+    stColor = STICKER_FALLBACKS[idx % STICKER_FALLBACKS.length];
+  }
+  
+  const width = 300;
+  const height = 80;
   const max = Math.max(...item.sparklineData);
   const min = Math.min(...item.sparklineData);
   const range = max - min || 1;
-  const width = 100;
-  const height = 30;
   const step = width / Math.max(1, item.sparklineData.length - 1);
   const points = item.sparklineData.map((val, i) => {
     const x = i * step;
@@ -1330,24 +1343,40 @@ function starboardCardHTML(item, idx) {
     return `${x},${y}`;
   }).join(" ");
   
-  const svg = `<svg class="sb-sparkline" width="${width}" height="${height}" viewBox="0 -5 ${width} ${height+10}">
-    <polyline fill="none" stroke="var(--lemon)" stroke-width="2" points="${points}" stroke-linecap="round" stroke-linejoin="round"/>
+  const svg = `<svg class="sb-sparkline" width="100%" height="${height}" viewBox="0 -10 ${width} ${height+20}" preserveAspectRatio="none" style="margin-top:auto; padding-top:16px;">
+    <polyline fill="none" stroke="${velocityColor}" stroke-width="3" points="${points}" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>`;
   
+  const avatar = (item.meta && item.meta.owner_avatar) ? item.meta.owner_avatar : `https://github.com/${ownerName}.png?size=80`;
+  const desc = (item.meta && item.meta.desc_ko) ? item.meta.desc_ko : "";
+  
   return `
-    <a href="https://github.com/${item.id}" target="_blank" rel="noopener" class="sb-item">
-      <div class="sb-rank">#${rank}</div>
-      <div class="sb-info">
-        <div class="sb-repo-name"><span style="color:var(--muted);font-weight:400;margin-right:2px;">${escapeHTML(ownerName)}/</span>${escapeHTML(repoName)}</div>
-        <div class="sb-meta">
-          ⭐ ${item.currentStars.toLocaleString()} <span style="${velocityColor} font-size: 12px; margin-left: 4px;">${sign}${item.velocity.toLocaleString()}/wk</span>
+    <article class="card" onclick="window.open('https://github.com/${escapeHTML(item.id)}', '_blank')" style="padding: 24px 22px 0; overflow:hidden;">
+      <div class="sticker ${stColor}">
+        <strong>#${String(rank).padStart(2, '0')}</strong>
+        ${escapeHTML(stBottom)}
+      </div>
+      
+      <div class="card-head" style="margin-bottom:12px;">
+        <img class="avatar" src="${escapeHTML(avatar)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'"/>
+        <div class="head-meta">
+          <div class="repo-id" style="font-size: 15px;">${escapeHTML(ownerName)} /</div>
+          <h3 style="margin:0; font-size: 20px; word-break:break-all;">${escapeHTML(repoName)}</h3>
         </div>
       </div>
-      <div class="sb-chart">${svg}</div>
-      <div class="sb-activity">
-        <span class="sb-badge ${badgeClass}">${badgeLabel}</span>
+      
+      ${desc ? `<p class="catch" style="font-weight:400; font-size:14px; opacity:0.8; margin-bottom:12px; display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${escapeHTML(desc)}</p>` : ""}
+      
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span class="stars-line" style="font-size:16px; font-weight:600;">★ ${item.currentStars.toLocaleString()}</span>
+          <span style="color:${velocityColor}; font-weight:700; font-size: 15px; background:var(--surface); padding:2px 8px; border-radius:12px; display:inline-block;">${sign}${item.velocity.toLocaleString()}/wk</span>
+        </div>
+        <span class="sb-badge ${badgeClass}" style="margin:0;">${badgeLabel}</span>
       </div>
-    </a>
+      
+      ${svg}
+    </article>
   `;
 }
 
