@@ -1361,7 +1361,7 @@ function starboardCardHTML(item, idx) {
   }
   
   return `
-    <article class="card" onclick="window.open('https://github.com/${escapeHTML(item.id)}', '_blank')" style="padding: 24px 22px 0; overflow:hidden;">
+    <article class="card" style="padding: 24px 22px 0; overflow:hidden;">
       <div class="sticker ${stColor}">
         <strong>#${String(rank).padStart(2, '0')}</strong>
         ${escapeHTML(stBottom)}
@@ -1385,8 +1385,13 @@ function starboardCardHTML(item, idx) {
         <span class="sb-badge ${badgeClass}" style="margin:0;">${badgeLabel}</span>
       </div>
       
-      <div style="font-size:13.5px; color:var(--muted); line-height:1.4; margin-bottom:8px; padding: 0 4px;">
-        ${chartComment}
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:8px; padding: 0 4px;">
+        <div style="font-size:13.5px; color:var(--muted); line-height:1.4; max-width:65%;">
+          ${chartComment}
+        </div>
+        <a class="repo-link" href="https://github.com/${escapeHTML(item.id)}" target="_blank" rel="noopener" style="margin:0;">
+          GITHUB <span class="arrow">→</span>
+        </a>
       </div>
       
       ${svg}
