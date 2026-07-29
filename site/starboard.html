@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI위클리 — 📈 스타보드</title>
+<meta name="description" content="Claude Code 생태계 리포의 주간 스타 증감을 헤비급·미들급·라이트급 리그별 순위표로 추적합니다." />
+<meta name="theme-color" content="#fbfaf6" />
+<script>try{const t=localStorage.getItem('aiw-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+
+<link rel="canonical" href="https://ldk-hub.github.io/ai-weekly/starboard.html" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="AI위클리 — 📈 스타보드" />
+<meta property="og:description" content="추적 리포의 주간 스타 증감을 리그별 순위표로. 활동성 배지와 순위 변동을 함께 봅니다." />
+<meta property="og:url" content="https://ldk-hub.github.io/ai-weekly/starboard.html" />
+<meta property="og:image" content="https://ldk-hub.github.io/ai-weekly/og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="AI Weekly — 리포 스타 증감 리그 순위표." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="AI위클리 — 📈 스타보드" />
+<meta name="twitter:description" content="Claude Code 생태계 리포의 주간 스타 증감 리그별 순위표." />
+<meta name="twitter:image" content="https://ldk-hub.github.io/ai-weekly/og.png" />
+<meta property="og:locale" content="ko_KR" />
+
+<link rel="icon" type="image/svg+xml" href="claude-code.svg" />
+<link rel="alternate" type="application/rss+xml" title="AI Weekly weekly RSS" href="https://ldk-hub.github.io/ai-weekly/feed.xml" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=12" />
+
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YLKMDP5YKQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-YLKMDP5YKQ');
+</script>
+
+<!-- Counter.dev (private dashboard) -->
+</head>
+
+<body>
+
+<div class="layout-wrapper">
+
+  <div class="header-container" role="banner">
+    <div class="hero-header">
+      <div class="hero-titles">
+        <h1 class="hero-h1" data-i18n-en-html="Tracking the <span class='hl-mint'>growth</span> of<br>top GitHub <span class='hl-lemon'>repositories</span>." data-i18n-ko-html="가장 빠르게 <span class='hl-mint'>성장하는</span><br>리포지토리 <span class='hl-lemon'>순위표</span>.">가장 빠르게 <span class="hl-mint">성장하는</span><br>리포지토리 <span class="hl-lemon">순위표</span>.</h1>
+        <p class="hero-p" data-i18n-en-html="Weekly star growth rankings across Heavyweight (30k+), Middleweight, and Lightweight leagues." data-i18n-ko-html="헤비급(3만+), 미들급, 라이트급 리그별 주간 스타 증가 순위와 활동성 지표.">헤비급(3만+), 미들급, 라이트급 리그별 주간 스타 증가 순위와 활동성 지표.</p>
+      </div>
+
+      <div class="hero-actions">
+        <div class="brand-actions">
+          <button class="theme-toggle" id="theme-toggle" aria-label="테마 전환" type="button">🌙 다크</button>
+          <button class="lang-toggle" id="lang-toggle" aria-label="언어 전환" type="button">
+            <span class="lang-opt" data-lang="en">EN</span>
+            <span class="lang-sep">/</span>
+            <span class="lang-opt" data-lang="ko">KO</span>
+          </button>
+          <a class="gh-btn" href="https://github.com/ldk-hub/ai-weekly" target="_blank" rel="noopener">GitHub</a>
+        </div>
+        <div class="hero-art-dots">
+          <img src="claude-avatar.svg" alt="Claude" style="width:72px; height:72px; object-fit:contain;" />
+        </div>
+      </div>
+    </div>
+
+    <div class="update-bar" id="update-bar" role="status" aria-live="polite">
+      <div class="update-meta">
+        <span class="update-dot"></span>
+        <span class="update-text"><strong id="updated-at">—</strong> <span data-i18n-en="Updated" data-i18n-ko="갱신">갱신</span></span>
+        <span class="update-sep"></span>
+        <span class="update-text" id="next-at-container"><span data-i18n-en="Next" data-i18n-ko="다음">다음</span> <strong id="next-at" style="font-weight:inherit">—</strong></span>
+        <span class="update-sep" id="next-at-sep"></span>
+        <span class="version-pill" id="version-pill"></span>
+        <span class="update-sep"></span>
+        <span class="visit-counter" title="누적 방문자">
+          <span data-i18n-en="Visit" data-i18n-ko="방문">방문</span> <img src="https://visitor-badge.laobi.icu/badge?page_id=ldk-hub.aiweekly.news&left_text=visitors&left_color=%230E0E0E&right_color=%23D97757" alt="visitor counter" loading="lazy" />
+        </span>
+      </div>
+
+      <div class="update-actions-right">
+        <div class="archive-wrap">
+          <button class="archive-btn" id="archive-btn" type="button" aria-haspopup="listbox" aria-expanded="false">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="3" width="12" height="11" rx="2"></rect><path d="M2 6.5h12M5.5 2v2M10.5 2v2"></path></svg>
+            <span data-i18n-en="Past weeks" data-i18n-ko="지난 주차">지난 주차</span>
+            <svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg>
+          </button>
+          <ul class="archive-menu" id="archive-menu" role="listbox" hidden></ul>
+        </div>
+
+        <div class="subscribe-wrapper" id="subscribe-wrapper">
+          <button class="subscribe-btn-open" id="subscribe-open" type="button">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1.5" y="3.5" width="13" height="9" rx="2"></rect><path d="m2 4.5 6 4 6-4"></path></svg>
+            <span data-i18n-en="Subscribe" data-i18n-ko="구독">구독</span>
+          </button>
+          <form class="subscribe-form" id="subscribe-form" style="display:none" action="https://rlaalstn.substack.com/api/v1/free?nojs=true" method="post" target="_blank">
+            <input type="hidden" name="first_url" value="https://ldk-hub.github.io/ai-weekly/" />
+            <input type="hidden" name="source" value="subscribe_widget" />
+            <input type="email" name="email" required placeholder="이메일 주소" data-i18n-en-placeholder="your@email.com" data-i18n-ko-placeholder="이메일 주소" aria-label="이메일 구독" />
+            <button type="submit" class="subscribe-submit" data-i18n-en="Subscribe" data-i18n-ko="구독하기">구독하기</button>
+            <button type="button" class="subscribe-close" id="subscribe-close">×</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="unified-nav-box">
+      <div class="unb-top">
+        <nav class="page-nav">
+          <a href="index.html" class="pn-link">
+            <span class="pn-icon">🧩</span><span data-i18n-en="Popular Plugins" data-i18n-ko="인기 플러그인">인기 플러그인</span>
+          </a>
+          <a href="news.html" class="pn-link">
+            <span class="pn-icon">📰</span><span data-i18n-en="AI News" data-i18n-ko="AI 뉴스">AI 뉴스</span>
+          </a>
+          <a href="starboard.html" class="pn-link is-active">
+            <span class="pn-icon">📈</span><span data-i18n-en="Starboard" data-i18n-ko="스타보드">스타보드</span>
+          </a>
+        </nav>
+        <div class="unb-summary" id="page-summary">—</div>
+      </div>
+      
+      <div class="unb-bottom sb-controls">
+        <nav class="cat-filter" role="tablist" aria-label="리그 선택">
+          <button class="cat-chip active" data-tab="heavy" role="tab" aria-selected="true">
+            🥊 <span data-i18n-en="Heavyweight" data-i18n-ko="헤비급">헤비급</span> <span class="tab-count" id="heavy-count">0</span>
+          </button>
+          <button class="cat-chip" data-tab="middle" role="tab" aria-selected="false">
+            🥋 <span data-i18n-en="Middleweight" data-i18n-ko="미들급">미들급</span> <span class="tab-count" id="middle-count">0</span>
+          </button>
+          <button class="cat-chip" data-tab="light" role="tab" aria-selected="false">
+            🪶 <span data-i18n-en="Lightweight" data-i18n-ko="라이트급">라이트급</span> <span class="tab-count" id="light-count">0</span>
+          </button>
+        </nav>
+        <div class="filter-right">
+          <span class="sb-league-hint" data-i18n-en="Heavyweight 30k+ · Middleweight 3k–30k · Lightweight under 3k" data-i18n-ko="헤비급 3만+ · 미들급 3천~3만 · 라이트급 3천 미만">헤비급 3만+ · 미들급 3천~3만 · 라이트급 3천 미만</span>
+          <button class="view-toggle" id="view-toggle" aria-label="뷰 모드 전환" type="button" title="리스트 보기">
+            <span class="vt-icon" id="vt-icon">☷</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feed grouped by day -->
+  <main id="starboard-container"><div style="text-align:center;padding:60px 0;color:var(--muted);font-size:15px;">스타보드 랭킹표가 여기에 렌더링됩니다.</div></main>
+
+  <footer class="site-footer">
+    <span>AI위클리 · Claude Code 주간 인덱스</span>
+    <span><a href="index.html">인기 플러그인</a> · <a href="news.html">AI 뉴스</a> · <a href="starboard.html">스타보드</a></span>
+  </footer>
+
+</div>
+
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-panel" role="dialog" aria-modal="true">
+    <button class="modal-close" data-close aria-label="close">✕</button>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<script src="app.js?v=16"></script>
+</body>
+</html>
