@@ -96,7 +96,7 @@ async function loadArchives() {
 
 function nextUpdateDate(from) {
   const d = new Date(from);
-  if (isNewsPage) {
+  if (isNewsPage || isStarboardPage) {
     d.setDate(d.getDate() + 1);
   } else {
     const day = d.getDay();
@@ -134,13 +134,12 @@ function renderPageSummary() {
       el.textContent = newCount > 0 ? `오늘 ${total}건 수집 · 신규 ${newCount}` : `오늘 ${total}건 수집`;
     }
   } else if (isStarboardPage) {
-    const list = STATE.data.items || [];
-    total = list.length;
-    list.forEach(item => { if (checkNew(item)) newCount++; });
+    const d = STATE.data || {};
+    total = (d.heavy?.length || 0) + (d.middle?.length || 0) + (d.light?.length || 0);
     if (lang === "en") {
-      el.textContent = newCount > 0 ? `Collected ${total} items · ${newCount} new` : `Collected ${total} items`;
+      el.textContent = `Tracking ${total} repositories`;
     } else {
-      el.textContent = newCount > 0 ? `전체 ${total}개 자료 · 신규 ${newCount}` : `전체 ${total}개 자료`;
+      el.textContent = `전체 ${total}개 리포지토리 추적 중`;
     }
   } else {
     const rising = STATE.data.rising || [];
@@ -1085,26 +1084,17 @@ function processStarboardData() {
     const latestDate = latestEntry.date;
     const currentStars = latestEntry.stars;
     
-    // Calculate 7-day velocity
-    const latestDateObj = new Date(latestDate);
-    const sevenDaysAgoObj = new Date(latestDateObj.getTime() - 7 * 24 * 60 * 60 * 1000);
-    const iso7 = sevenDaysAgoObj.toISOString().slice(0, 10);
-    
-    // Find closest date in history <= 7 days ago
-    let pastStars = currentStars;
-    let foundPast = false;
-    for (let i = history.length - 1; i >= 0; i--) {
-      if (history[i].date <= iso7) {
-        pastStars = history[i].stars;
-        foundPast = true;
-        break;
+    // Calculate 7-day velocity (normalized)
+    let velocity = 0;
+    const samplesBeforeLatest = history.filter(h => h.date < latestDate);
+    if (samplesBeforeLatest.length > 0) {
+      const base = samplesBeforeLatest[samplesBeforeLatest.length - 1];
+      const days = Math.round((new Date(latestDate) - new Date(base.date)) / 86400000);
+      if (days > 0) {
+        const delta = currentStars - base.stars;
+        velocity = Math.round((delta * 7) / days);
       }
     }
-    if (!foundPast && history.length > 0) {
-      pastStars = history[0].stars;
-    }
-    
-    const velocity = currentStars - pastStars;
     
     // Activity badge logic
     const pushedDate = repoMeta.pushed_at ? new Date(repoMeta.pushed_at) : new Date(0);

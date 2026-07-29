@@ -32,8 +32,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if git diff --stat data/ | grep -q "changed"; then
-            git add data/
+          if git diff --stat data/ site/public/data/ | grep -q "changed"; then
+            git add data/ site/public/data/
             git commit -m "chore(stars): daily collect $(date +'%Y-%m-%d')"
             git push
           else

@@ -16,7 +16,7 @@
   <!-- Version pill (right side) -->
   <g transform="translate(940, 64)">
     <rect x="0" y="0" width="200" height="36" rx="18" fill="#f2efe5"/>
-    <text x="100" y="23" font-size="13" font-weight="600" fill="#0e0e0e" text-anchor="middle">📅 2026.07.27 · v2026.07.27</text>
+    <text x="100" y="23" font-size="13" font-weight="600" fill="#0e0e0e" text-anchor="middle">📅 2026.07.29 · v2026.07.29</text>
   </g>
 
   <!-- Main title -->
@@ -34,7 +34,7 @@
 
       <g transform="translate(24, 220)">
         <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">affaan-m/ECC</text>
-        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 234k</text>
+        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 235k</text>
       </g>
     </g>
     <g transform="translate(427, 290)">
@@ -46,7 +46,7 @@
 
       <g transform="translate(24, 220)">
         <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">Leonxlnx/taste-skill</text>
-        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 68k</text>
+        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 69k</text>
       </g>
     </g>
     <g transform="translate(794, 290)">
@@ -58,7 +58,7 @@
 
       <g transform="translate(24, 220)">
         <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">addyosmani/agent-skills</text>
-        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 80k</text>
+        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 81k</text>
       </g>
     </g>
 

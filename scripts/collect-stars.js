@@ -256,7 +256,7 @@ async function main() {
     process.exit(1);
   }
   
-  // Atomic writes
+  // Atomic writes to data/
   const tmpMeta = `${META_PATH}.tmp`;
   fs.writeFileSync(tmpMeta, JSON.stringify(meta, null, 2));
   fs.renameSync(tmpMeta, META_PATH);
@@ -264,6 +264,13 @@ async function main() {
   const tmpLedger = `${LEDGER_PATH}.tmp`;
   fs.writeFileSync(tmpLedger, JSON.stringify(ledger, null, 2));
   fs.renameSync(tmpLedger, LEDGER_PATH);
+  
+  // Mirror to site/public/data/ for frontend
+  const PUBLIC_DATA_DIR = path.join(ROOT, 'site', 'public', 'data');
+  if (fs.existsSync(PUBLIC_DATA_DIR)) {
+    fs.copyFileSync(META_PATH, path.join(PUBLIC_DATA_DIR, 'stars_meta.json'));
+    fs.copyFileSync(LEDGER_PATH, path.join(PUBLIC_DATA_DIR, 'stars_ledger.json'));
+  }
   
   console.log("Data saved successfully.");
 }
