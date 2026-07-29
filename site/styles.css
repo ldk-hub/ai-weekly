@@ -1459,6 +1459,11 @@ footer a:hover, footer .foot-link:hover { color: var(--accent); border-bottom-co
   
   .unb-bottom { flex-direction: column; align-items: stretch; gap: 12px; padding: 11px 10px; }
   .unb-search-wrap { width: 100%; }
+  /* column stretch 에서 margin-left:auto + 검색창 width:100% 가 남으면
+     뷰 토글이 컨테이너 밖으로 밀려 반쯤 잘린다. 검색창은 남는 폭만 쓰게 한다. */
+  .filter-right { width: 100%; margin-left: 0; }
+  .filter-right .unb-search-wrap { width: auto; flex: 1 1 auto; min-width: 0; }
+  .view-toggle { flex: 0 0 36px; }
   
   .data-tabs-wrap { flex-wrap: wrap; }
   .data-tabs-wrap .tabs { width: 100%; }
@@ -1769,3 +1774,43 @@ footer a:hover, footer .foot-link:hover { color: var(--accent); border-bottom-co
   }
 }
 
+
+/* ============ STARBOARD 레이아웃 보정 ============ */
+/* .card 의 min-height:420px 는 플러그인 카드(설명·기능 리스트가 긴) 기준이다.
+   스타보드 카드는 내용이 짧아 스파크라인(margin-top:auto)이 바닥으로 밀리면서
+   본문과 그래프 사이에 100px 이상 빈 공간이 생겼다. 높이는 내용이 정한다. */
+#starboard-container .card { min-height: 0; gap: 2px; }
+
+/* 리그 기준을 칩 옆에 노출 — "헤비급"이 뭔지 툴팁 없이 알 수 있게 */
+.sb-league-hint {
+  font-size: 12.5px;
+  color: var(--muted);
+  white-space: nowrap;
+  letter-spacing: -0.2px;
+}
+
+@media (max-width: 768px) {
+  /* 모바일에서는 기준 문구를 접고 토글만 남긴다 */
+  .sb-league-hint { display: none; }
+  #starboard-container .card { min-height: 0; }
+}
+
+/* 관측 2회로 추세를 그릴 수 없을 때의 자리 표시 (그래프 자리를 비워두지 않는다) */
+.sb-nochart {
+  margin-top: auto;
+  padding: 14px 4px 16px;
+  font-size: 12px;
+  color: var(--soft);
+  border-top: 1px dashed var(--border);
+  letter-spacing: -0.2px;
+}
+
+@media (max-width: 768px) {
+  /* 스타보드는 검색창이 없어 filter-right 에 토글만 남는다.
+     column stretch 를 그대로 두면 토글이 빈 줄 하나를 혼자 차지한다. */
+  .sb-controls { flex-direction: row; align-items: center; gap: 10px; }
+  .sb-controls .cat-filter { flex: 1 1 auto; flex-wrap: wrap; }
+  .sb-controls .filter-right { width: auto; justify-content: flex-end; }
+  /* "다음 7/30 (목)" 이 토큰 중간에서 3줄로 쪼개지던 문제 */
+  #next-at-container { white-space: nowrap; }
+}
