@@ -1,9 +1,9 @@
 const isNewsPage = !!document.getElementById("news-feed-container");
-const isStudyPage = !!document.getElementById("study-container");
+const isStarboardPage = !!document.getElementById("starboard-container");
 
 const STATE = {
   data: null,
-  tab: "rising",
+  tab: isStarboardPage ? "heavy" : "rising",
   query: "",
   category: "all",
   source: "latest", // "latest" or filename like "2026-04-20.json"
@@ -42,21 +42,37 @@ const STUDY_CATEGORIES = [
 
 async function load(source) {
   STATE.source = source || "latest";
-  let url;
-  if (isNewsPage) {
-    url = STATE.source === "latest" ? "public/data/news_latest.json" : `public/data/archive/news_${STATE.source}`;
-  } else if (isStudyPage) {
-    url = STATE.source === "latest" ? "public/data/study_latest.json" : `public/data/archive/study_${STATE.source}`;
+  
+  if (isStarboardPage) {
+    try {
+      const [metaRes, ledgerRes] = await Promise.all([
+        fetch("public/data/stars_meta.json", { cache: "no-store" }),
+        fetch("public/data/stars_ledger.json", { cache: "no-store" })
+      ]);
+      STATE.data = {
+        meta: await metaRes.json(),
+        ledger: await ledgerRes.json(),
+        generated_at: new Date().toISOString()
+      };
+      // Process data into leagues
+      processStarboardData();
+    } catch (e) {
+      STATE.data = { meta: {}, ledger: {}, generated_at: null, heavy: [], middle: [], light: [] };
+    }
   } else {
-    url = STATE.source === "latest" ? "public/data/latest.json" : `public/data/archive/${STATE.source}`;
-  }
-  try {
-    const res = await fetch(url, { cache: "no-store" });
-    STATE.data = await res.json();
-  } catch (e) {
-    if (isNewsPage) STATE.data = { generated_at: null, news: [] };
-    else if (isStudyPage) STATE.data = { generated_at: null, items: [] };
-    else STATE.data = { generated_at: null, rising: [], classic: [] };
+    let url;
+    if (isNewsPage) {
+      url = STATE.source === "latest" ? "public/data/news_latest.json" : `public/data/archive/news_${STATE.source}`;
+    } else {
+      url = STATE.source === "latest" ? "public/data/latest.json" : `public/data/archive/${STATE.source}`;
+    }
+    try {
+      const res = await fetch(url, { cache: "no-store" });
+      STATE.data = await res.json();
+    } catch (e) {
+      if (isNewsPage) STATE.data = { generated_at: null, news: [] };
+      else STATE.data = { generated_at: null, rising: [], classic: [] };
+    }
   }
   renderUpdateBar();
   renderPageSummary();
@@ -68,7 +84,7 @@ async function loadArchives() {
   try {
     let url = "public/data/archive/index.json";
     if (isNewsPage) url = "public/data/archive/news_index.json";
-    if (isStudyPage) url = "public/data/archive/study_index.json";
+    if (isStarboardPage) url = "public/data/archive/study_index.json";
     const res = await fetch(url, { cache: "no-store" });
     const j = await res.json();
     STATE.archives = j.archives || [];
@@ -117,7 +133,7 @@ function renderPageSummary() {
     } else {
       el.textContent = newCount > 0 ? `오늘 ${total}건 수집 · 신규 ${newCount}` : `오늘 ${total}건 수집`;
     }
-  } else if (isStudyPage) {
+  } else if (isStarboardPage) {
     const list = STATE.data.items || [];
     total = list.length;
     list.forEach(item => { if (checkNew(item)) newCount++; });
@@ -228,7 +244,7 @@ function renderCategoryFilter() {
         <span class="cat-count">${count}</span>
       </button>`;
     }).join("");
-  } else if (isStudyPage) {
+  } else if (isStarboardPage) {
     const list = (STATE.data?.items || []);
     wrap.innerHTML = STUDY_CATEGORIES.map(c => {
       const count = c.id === "all" ? list.length : list.filter(x => x.type === c.id).length;
@@ -521,24 +537,8 @@ function render() {
       html += `</div>`;
       el.innerHTML = html;
     }
-  } else if (isStudyPage) {
-    const el = document.getElementById("study-container");
-    if (!el) return;
-    renderCategoryFilter();
-    let list = (d.items || []);
-    if (STATE.category !== "all") {
-      list = list.filter(x => x.type === STATE.category);
-    }
-    list = list.filter(matchesStudy);
-
-    if (list.length === 0) {
-      el.innerHTML = `<div style="text-align:center;padding:60px 0;color:var(--muted);font-size:15px;">스터디 자료가 없습니다. 검색어를 변경해보세요.</div>`;
-    } else {
-      let html = `<div class="grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;padding-top:20px;">`;
-      html += list.map((it, idx) => studyCardHTML(it, idx)).join("");
-      html += `</div>`;
-      el.innerHTML = html;
-    }
+  } else if (isStarboardPage) {
+    renderStarboard();
   } else {
     const base = d[STATE.tab] || [];
     const list = base
@@ -1064,3 +1064,161 @@ document.addEventListener("DOMContentLoaded", () => {
     visitCounter.title = "오늘 방문자";
   }
 });
+
+function processStarboardData() {
+  const meta = STATE.data.meta || { repos: {} };
+  const ledger = STATE.data.ledger || {};
+  const repos = Object.keys(meta.repos).filter(id => !meta.repos[id].gone);
+  
+  const processed = [];
+  const now = new Date();
+  
+  for (const id of repos) {
+    const repoMeta = meta.repos[id];
+    const history = ledger[id] || [];
+    if (history.length === 0) continue;
+    
+    // Sort history by date just in case
+    history.sort((a, b) => a.date.localeCompare(b.date));
+    
+    const latestEntry = history[history.length - 1];
+    const latestDate = latestEntry.date;
+    const currentStars = latestEntry.stars;
+    
+    // Calculate 7-day velocity
+    const latestDateObj = new Date(latestDate);
+    const sevenDaysAgoObj = new Date(latestDateObj.getTime() - 7 * 24 * 60 * 60 * 1000);
+    const iso7 = sevenDaysAgoObj.toISOString().slice(0, 10);
+    
+    // Find closest date in history <= 7 days ago
+    let pastStars = currentStars;
+    let foundPast = false;
+    for (let i = history.length - 1; i >= 0; i--) {
+      if (history[i].date <= iso7) {
+        pastStars = history[i].stars;
+        foundPast = true;
+        break;
+      }
+    }
+    if (!foundPast && history.length > 0) {
+      pastStars = history[0].stars;
+    }
+    
+    const velocity = currentStars - pastStars;
+    
+    // Activity badge logic
+    const pushedDate = repoMeta.pushed_at ? new Date(repoMeta.pushed_at) : new Date(0);
+    const daysSincePush = (now - pushedDate) / (1000 * 60 * 60 * 24);
+    
+    let activity = "active";
+    if (repoMeta.dormant || daysSincePush > 90) {
+      activity = "dormant";
+    } else if (daysSincePush <= 7) {
+      activity = "active";
+    } else if (daysSincePush <= 30) {
+      activity = "slowing";
+    } else {
+      activity = "slowing";
+    }
+    
+    // Build sparkline data (last 14 points or similar)
+    const recentEntries = history.slice(-14);
+    const sparklineData = recentEntries.map(e => e.stars);
+    
+    processed.push({
+      id,
+      meta: repoMeta,
+      currentStars,
+      velocity,
+      activity,
+      sparklineData
+    });
+  }
+  
+  // Sort by velocity desc, then currentStars desc
+  processed.sort((a, b) => b.velocity - a.velocity || b.currentStars - a.currentStars);
+  
+  STATE.data.heavy = processed.filter(r => r.currentStars >= 30000);
+  STATE.data.middle = processed.filter(r => r.currentStars >= 3000 && r.currentStars < 30000);
+  STATE.data.light = processed.filter(r => r.currentStars < 3000);
+}
+
+function renderStarboard() {
+  const el = document.getElementById("starboard-container");
+  if (!el) return;
+  
+  const list = STATE.data[STATE.tab] || [];
+  
+  // Update counts
+  const heavyBtn = document.getElementById("heavy-count");
+  if (heavyBtn) heavyBtn.textContent = (STATE.data.heavy || []).length;
+  const middleBtn = document.getElementById("middle-count");
+  if (middleBtn) middleBtn.textContent = (STATE.data.middle || []).length;
+  const lightBtn = document.getElementById("light-count");
+  if (lightBtn) lightBtn.textContent = (STATE.data.light || []).length;
+  
+  if (list.length === 0) {
+    el.innerHTML = `<div style="text-align:center;padding:60px 0;color:var(--muted);font-size:15px;">이 리그에는 아직 등록된 리포지토리가 없습니다.</div>`;
+    return;
+  }
+  
+  let html = `<div class="sb-list">`;
+  html += list.map((item, idx) => starboardCardHTML(item, idx)).join("");
+  html += `</div>`;
+  el.innerHTML = html;
+}
+
+function starboardCardHTML(item, idx) {
+  const rank = idx + 1;
+  const badgeClass = {
+    "active": "sb-badge-active",
+    "slowing": "sb-badge-slowing",
+    "dormant": "sb-badge-dormant"
+  }[item.activity];
+  
+  const badgeLabel = {
+    "active": "활발",
+    "slowing": "둔화",
+    "dormant": "방치"
+  }[item.activity];
+  
+  const repoName = item.id.split("/")[1];
+  const ownerName = item.id.split("/")[0];
+  
+  const sign = item.velocity > 0 ? "+" : "";
+  const velocityColor = item.velocity > 0 ? "color: var(--mint);" : (item.velocity < 0 ? "color: var(--coral);" : "color: var(--muted);");
+  
+  // Create simple SVG sparkline
+  const max = Math.max(...item.sparklineData);
+  const min = Math.min(...item.sparklineData);
+  const range = max - min || 1;
+  const width = 100;
+  const height = 30;
+  const step = width / Math.max(1, item.sparklineData.length - 1);
+  const points = item.sparklineData.map((val, i) => {
+    const x = i * step;
+    const y = height - ((val - min) / range) * height;
+    return `${x},${y}`;
+  }).join(" ");
+  
+  const svg = `<svg class="sb-sparkline" width="${width}" height="${height}" viewBox="0 -5 ${width} ${height+10}">
+    <polyline fill="none" stroke="var(--lemon)" stroke-width="2" points="${points}" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`;
+  
+  return `
+    <a href="https://github.com/${item.id}" target="_blank" rel="noopener" class="sb-item">
+      <div class="sb-rank">#${rank}</div>
+      <div class="sb-info">
+        <div class="sb-repo-name"><span style="color:var(--muted);font-weight:400;margin-right:2px;">${escapeHTML(ownerName)}/</span>${escapeHTML(repoName)}</div>
+        <div class="sb-meta">
+          ⭐ ${item.currentStars.toLocaleString()} <span style="${velocityColor} font-size: 12px; margin-left: 4px;">${sign}${item.velocity.toLocaleString()}/wk</span>
+        </div>
+      </div>
+      <div class="sb-chart">${svg}</div>
+      <div class="sb-activity">
+        <span class="sb-badge ${badgeClass}">${badgeLabel}</span>
+      </div>
+    </a>
+  `;
+}
+

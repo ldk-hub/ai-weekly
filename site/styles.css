@@ -24,6 +24,7 @@
   --hl-sky:   #d4e5fa;
   --hl-lilac: #e0d4f5;
   --hl-coral: #ff9476;
+  --lemon:    #d6a100;
 
   --hover-shadow: 0 16px 32px rgba(14, 14, 14, 0.08);
 }
@@ -40,6 +41,7 @@ html[data-theme="dark"] {
   --muted:        #a29b8c;
   --soft:         #6f6b60;
   --accent:       #E08963;
+  --lemon:        #ffeca0;
   --hl-mint:      rgba(122, 199, 150, 0.24);
   --hl-lemon:     rgba(240, 210, 90, 0.22);
   --hl-peach:     rgba(255, 148, 118, 0.2);
@@ -1687,3 +1689,83 @@ footer a:hover, footer .foot-link:hover { color: var(--accent); border-bottom-co
     display: none !important;
   }
 }
+
+/* Starboard UI */
+.sb-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 20px;
+}
+.sb-item {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--text);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.sb-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--shadow);
+}
+.sb-rank {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--muted);
+  width: 48px;
+  text-align: center;
+}
+.sb-info {
+  flex: 1;
+  padding: 0 16px;
+}
+.sb-repo-name {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.sb-meta {
+  font-size: 13px;
+  color: var(--text);
+}
+.sb-chart {
+  width: 120px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+}
+.sb-activity {
+  width: 80px;
+  display: flex;
+  justify-content: flex-end;
+}
+.sb-badge {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+.sb-badge-active {
+  background: rgba(43, 219, 172, 0.1);
+  color: var(--mint);
+}
+.sb-badge-slowing {
+  background: rgba(217, 119, 87, 0.1);
+  color: var(--coral);
+}
+.sb-badge-dormant {
+  background: var(--bg);
+  color: var(--muted);
+}
+@media (max-width: 768px) {
+  .sb-chart {
+    display: none;
+  }
+}
+
