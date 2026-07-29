@@ -56,7 +56,9 @@ GEMINI_API_KEY=... node scripts/collect_news.js && node scripts/curate_news.js
 - **본문 확보**: 본문 400자 미만 항목은 원문 HTML 을 fetch 해 cheerio 로 본문 추출(최대 6000자). GitHub 은 README, arXiv 는 abstract 를 본문으로 사용. 로그인 벽 도메인(X·Instagram·Threads·YouTube)은 fetch 생략
 - **중복 제거**: URL 정규화 + 제목 정규화. 같은 이슈를 여러 매체가 다루면 본문 긴 쪽을 남기고 `cross_sources` 에 누적 (= 화제성 근거)
 - **소스 상한**: arXiv 30 / GitHub 50 (`NEWS_CAP_ARXIV`, `NEWS_CAP_GITHUB`). 잘린 건수는 로그에 출력됨
-- **게이트**: 본문 120자 미만 폐기, 수집 0건이면 **exit 1** (기존 데이터 보존)
+- **네트워크 타임아웃**: 모든 fetch 는 12초 상한(`NEWS_NET_TIMEOUT_MS`)을 거친다. 전역 `fetch` 는 기본 타임아웃이 없어, 없으면 한 호스트가 응답을 끌 때 `Promise.all` 이 영구 대기한다
+- **동기 실행 금지**: `last30days` 호출은 반드시 비동기(`execFileAsync`)다. `execFileSync` 로 두면 파이썬이 끝날 때까지 이벤트 루프가 멈춰 **다른 소스 전부가 타임아웃으로 abort** 된다 (실측: geeknews·arXiv 전량 0건). 파이썬 자체 상한은 `NEWS_SOCIAL_TIMEOUT_MS`(기본 180초)
+- **게이트**: 본문 120자 미만 폐기, 수집 0건이면 **exit 1** (기존 데이터 보존). 발행일이 없어 제외된 항목은 소스별 건수로 경고 출력 — 특정 소스에 몰리면 그 피드의 날짜 필드명을 확인할 것
 
 ### Phase 2 — 큐레이션 (`scripts/curate_news.js`, Gemini)
 
@@ -98,7 +100,7 @@ console.log('총',d.news.length,'건 | 신호분포',JSON.stringify(d.signal_cou
 
 ## 알려진 제약 (숨기지 말고 보고할 것)
 
-- **Reddit**: 비인증 접근은 전 엔드포인트 403. `REDDIT_CLIENT_ID` / `REDDIT_CLIENT_SECRET`(https://www.reddit.com/prefs/apps 의 script 앱) 없으면 통째로 건너뛴다
+- **Reddit**: `.json` 엔드포인트는 비인증 403 이지만 `r/<sub>/top/.rss?t=day` 는 **무인증 200** — OAuth 크레덴셜 불필요. 대신 IP throttle 이 강해 연속 요청은 429 이므로 순차 + 서브레딧 간 20초 지연 + 429 1회 재시도로 수집한다. RSS 에 점수 필드가 없어 "당일 top 정렬"을 품질 프록시로 쓰고 서브당 상위 8건만 취한다. 일부 서브가 timeout/429 로 빠지는 것은 정상 열화 (`NEWS_REDDIT_DELAY_MS`, `NEWS_REDDIT_PER_SUB`, `NEWS_SKIP_REDDIT=1` 로 조정)
 - **GitHub**: `GH_TOKEN`/`GITHUB_TOKEN`/`gh auth token` 중 하나 필요. 없으면 `oss` 신호(④) 전량 누락
 - **X·Threads·Instagram**: 직접 스크래핑 불가. `last30days` 스킬 결과에만 의존하며, 그 결과에 해당 플랫폼이 없으면 그날 0건이 정상. 출처 라벨은 last30days 의 `source` 가 아니라 **링크 호스트**로 판정한다 (라벨 어긋남이 잦음)
 - 소스가 비어도 파이프라인은 계속 진행한다. **다만 어떤 소스가 왜 비었는지 반드시 보고한다** — 조용한 누락 금지

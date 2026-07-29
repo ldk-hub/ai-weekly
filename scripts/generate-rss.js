@@ -109,3 +109,76 @@ ${items}
 const xml = buildFeed();
 fs.writeFileSync(OUT, xml);
 console.log(`✓ RSS feed written: ${OUT} (${xml.length} bytes)`);
+
+// 뉴스 전용 피드. 없으면 news.html 이 주간 플러그인 피드를 자기 피드처럼 광고하게 된다.
+// 항목 단위(기사 1건 = 1 entry)로 내보낸다 — 주간 피드는 주차 단위라 성격이 다르다.
+function buildNewsFeed() {
+  const latest = loadJSON(path.join(ROOT, "site/public/data/news_latest.json"));
+  if (!latest || !Array.isArray(latest.news) || latest.news.length === 0) return null;
+
+  const items = latest.news
+    .slice(0, 50)
+    .map((n) => {
+      const desc = [n.summary_ko, n.body_ko].filter(Boolean).join("\n\n");
+      const cats = [n.signal_name, n.category_name, ...(n.tags || [])].filter(Boolean);
+      return `    <item>
+      <title>${esc(n.title_ko || n.headline)}</title>
+      <link>${esc(n.url)}</link>
+      <guid isPermaLink="false">${esc(n.id)}</guid>
+      <pubDate>${rfc822(n.publish_date || latest.generated_at)}</pubDate>
+${cats.map((c) => `      <category>${esc(c)}</category>`).join("\n")}
+      <description>${esc(desc)}</description>
+    </item>`;
+    })
+    .join("\n");
+
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>AI위클리 — AI 뉴스</title>
+    <link>${SITE_URL}news.html</link>
+    <atom:link href="${SITE_URL}news-feed.xml" rel="self" type="application/rss+xml" />
+    <description>모델 릴리스 · 개발자 도구 · 오픈소스 · 연구 소식의 3줄 한국어 요약.</description>
+    <language>ko</language>
+    <lastBuildDate>${rfc822(latest.generated_at || Date.now())}</lastBuildDate>
+${items}
+  </channel>
+</rss>
+`;
+}
+
+const newsXml = buildNewsFeed();
+if (newsXml) {
+  const newsOut = path.join(ROOT, "site", "news-feed.xml");
+  fs.writeFileSync(newsOut, newsXml);
+  console.log(`✓ news RSS written: ${newsOut} (${newsXml.length} bytes)`);
+} else {
+  console.warn("· news_latest.json 없음/빈 배열 — 뉴스 피드 생략");
+}
+
+// sitemap 의 lastmod 를 각 페이지의 실제 데이터 갱신일로 다시 쓴다.
+// 하드코딩해 두면 데이터만 갱신될 때 lastmod 가 거짓이 된다.
+function dataDate(relPath, fallback) {
+  try {
+    const d = JSON.parse(fs.readFileSync(path.join(ROOT, relPath), "utf8"));
+    const ts = d.generated_at || d.generated;
+    if (ts) return new Date(ts).toISOString().slice(0, 10);
+  } catch { /* 파일 없으면 fallback */ }
+  return fallback;
+}
+
+const today = new Date().toISOString().slice(0, 10);
+const pages = [
+  { loc: SITE_URL, lastmod: dataDate("site/public/data/latest.json", today), extra: "    <changefreq>weekly</changefreq>\n    <priority>1.0</priority>" },
+  { loc: `${SITE_URL}news.html`, lastmod: dataDate("site/public/data/news_latest.json", today), extra: "    <priority>0.9</priority>" },
+  { loc: `${SITE_URL}starboard.html`, lastmod: dataDate("data/stars_meta.json", today), extra: "    <changefreq>daily</changefreq>\n    <priority>0.8</priority>" },
+];
+
+const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${pages.map((p) => `  <url>\n    <loc>${p.loc}</loc>\n    <lastmod>${p.lastmod}</lastmod>\n${p.extra}\n  </url>`).join("\n")}
+</urlset>
+`;
+const sitemapPath = path.join(ROOT, "site", "sitemap.xml");
+fs.writeFileSync(sitemapPath, sitemap);
+console.log(`✓ sitemap written: ${sitemapPath}`);

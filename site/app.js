@@ -130,14 +130,11 @@ function renderPageSummary() {
   const checkNew = (item) => (item.badges || []).some(b => b.includes("신상") || b.includes("7일") || b.includes("NEW"));
   
   if (isNewsPage) {
+    // "신규 N" 은 손으로 붙인 badges 에만 존재했다. 큐레이터는 badges 를 만들지 않고,
+    // 애초에 피드의 모든 항목이 신규라 구분 자체가 무의미하므로 건수만 표시한다.
     const list = STATE.data.news || [];
     total = list.length;
-    list.forEach(item => { if (checkNew(item)) newCount++; });
-    if (lang === "en") {
-      el.textContent = newCount > 0 ? `Collected ${total} news · ${newCount} new` : `Collected ${total} news`;
-    } else {
-      el.textContent = newCount > 0 ? `${total}건 수집 · 신규 ${newCount}` : `${total}건 수집`;
-    }
+    el.textContent = lang === "en" ? `Collected ${total} news` : `${total}건 수집`;
   } else if (isStarboardPage) {
     const d = STATE.data || {};
     total = (d.heavy?.length || 0) + (d.middle?.length || 0) + (d.light?.length || 0);
@@ -783,9 +780,9 @@ if (viewToggleBtn) {
     render();
   });
 }
-document.querySelectorAll(".tab").forEach(btn => {
+document.querySelectorAll(".tab, .cat-chip[data-tab]").forEach(btn => {
   btn.addEventListener("click", () => {
-    document.querySelectorAll(".tab").forEach(b => {
+    document.querySelectorAll(".tab, .cat-chip[data-tab]").forEach(b => {
       b.classList.remove("active");
       b.setAttribute("aria-selected", "false");
     });
@@ -1350,6 +1347,19 @@ function starboardCardHTML(item, idx) {
   const avatar = (item.meta && item.meta.owner_avatar) ? item.meta.owner_avatar : `https://github.com/${ownerName}.png?size=80`;
   const desc = (item.meta && item.meta.desc_ko) ? item.meta.desc_ko : "";
   
+  let chartComment = "";
+  if (lang === "en") {
+    if (item.velocity > 1000) chartComment = "Experiencing explosive growth over the last 14 days.";
+    else if (item.velocity > 300) chartComment = "Showing a steady upward trend recently.";
+    else if (item.velocity > 0) chartComment = "Gaining slow but consistent traction.";
+    else chartComment = "Growth has plateaued or slowed down.";
+  } else {
+    if (item.velocity > 1000) chartComment = "최근 14일간 폭발적인 별(Star) 증가세를 기록 중입니다.";
+    else if (item.velocity > 300) chartComment = "최근 꾸준하고 안정적인 우상향 트렌드를 보입니다.";
+    else if (item.velocity > 0) chartComment = "완만하지만 지속적인 관심을 얻고 있습니다.";
+    else chartComment = "최근 성장세가 다소 주춤하거나 정체된 상태입니다.";
+  }
+  
   return `
     <article class="card" onclick="window.open('https://github.com/${escapeHTML(item.id)}', '_blank')" style="padding: 24px 22px 0; overflow:hidden;">
       <div class="sticker ${stColor}">
@@ -1367,12 +1377,16 @@ function starboardCardHTML(item, idx) {
       
       ${desc ? `<p class="catch" style="font-weight:400; font-size:14px; opacity:0.8; margin-bottom:12px; display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${escapeHTML(desc)}</p>` : ""}
       
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
         <div style="display:flex; align-items:center; gap:8px;">
           <span class="stars-line" style="font-size:16px; font-weight:600;">★ ${item.currentStars.toLocaleString()}</span>
           <span style="color:${velocityColor}; font-weight:700; font-size: 15px; background:var(--surface); padding:2px 8px; border-radius:12px; display:inline-block;">${sign}${item.velocity.toLocaleString()}/wk</span>
         </div>
         <span class="sb-badge ${badgeClass}" style="margin:0;">${badgeLabel}</span>
+      </div>
+      
+      <div style="font-size:13.5px; color:var(--muted); line-height:1.4; margin-bottom:8px; padding: 0 4px;">
+        ${chartComment}
       </div>
       
       ${svg}
