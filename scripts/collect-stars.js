@@ -233,7 +233,7 @@ async function main() {
         meta.repos[canonicalId].archived = repoData.archived;
         meta.repos[canonicalId].checked_at = today;
         meta.repos[canonicalId].gone = false;
-        meta.repos[canonicalId].suspect = suspectMsg;
+        meta.repos[canonicalId].suspect = suspectMsg || meta.repos[canonicalId].suspect;
         meta.repos[canonicalId].dormant = isDormant;
         
         successCount++;
