@@ -20,6 +20,7 @@ const SINCE_EPOCH = Math.floor(SINCE.getTime() / 1000);
 const NOW_KST = moment().tz("Asia/Seoul");
 
 const UA = "Mozilla/5.0 (compatible; ai-weekly-newsbot/1.0)";
+const NET_TIMEOUT_MS = Number(process.env.NEWS_NET_TIMEOUT_MS || 12000);
 const BODY_MIN_CHARS = 400;
 const BODY_MAX_CHARS = 6000;
 const BODY_FETCH_TIMEOUT_MS = 8000;
@@ -37,10 +38,15 @@ const LEGACY_KEYWORDS = [
 // ── 유틸 ──────────────────────────────────────────────────────────────
 const sha = (s) => crypto.createHash("sha1").update(s).digest("hex").slice(0, 10);
 
-function inWindow(dateLike) {
-  if (!dateLike) return false;
-  const d = new Date(dateLike);
-  return !Number.isNaN(d.getTime()) && d >= SINCE;
+// 날짜가 없거나 파싱 불가한 항목은 시간창 판정이 불가능해 제외한다.
+// 조용히 사라지면 "날짜 필드명이 다른 피드"가 전량 누락돼도 알 수 없으므로 건수를 집계해 main 에서 보고한다.
+const dateless = {};
+function inWindow(dateLike, sourceLabel = "unknown") {
+  if (!dateLike || Number.isNaN(new Date(dateLike).getTime())) {
+    dateless[sourceLabel] = (dateless[sourceLabel] || 0) + 1;
+    return false;
+  }
+  return new Date(dateLike) >= SINCE;
 }
 
 function isLegacy(text) {
@@ -65,18 +71,35 @@ function normalizeTitle(t) {
   return (t || "").toLowerCase().replace(/[^a-z0-9가-힣]/g, "").slice(0, 60);
 }
 
+// 전역 fetch 는 기본 타임아웃이 없다. 한 호스트가 응답을 끌면 main 의 Promise.all 이 영구 대기하므로
+// 모든 네트워크 경로는 이 래퍼를 거친다.
+async function fetchWithTimeout(url, { headers = {}, timeoutMs = NET_TIMEOUT_MS } = {}) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const res = await fetch(url, { headers: { "User-Agent": UA, ...headers }, signal: controller.signal });
+    if (!res.ok) {
+      const err = new Error(`HTTP ${res.status}`);
+      err.status = res.status;
+      throw err;
+    }
+    return res;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 async function getJson(url, headers = {}) {
-  const res = await fetch(url, { headers: { "User-Agent": UA, ...headers } });
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  return res.json();
+  return (await fetchWithTimeout(url, { headers })).json();
 }
 
 // rss-parser 의 내장 http 클라이언트는 이 환경에서 타임아웃 나므로 fetch 로 받아 파싱만 위임
 async function parseFeed(url) {
-  const res = await fetch(url, { headers: { "User-Agent": UA } });
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const res = await fetchWithTimeout(url);
   return new Parser().parseString(await res.text());
 }
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 async function pMap(items, limit, fn) {
   let cursor = 0;
@@ -173,7 +196,7 @@ async function fetchGeekNews() {
   try {
     const feed = await parseFeed("https://news.hada.io/rss/news");
     for (const item of feed.items) {
-      if (!inWindow(item.pubDate)) continue;
+      if (!inWindow(item.pubDate, "geeknews")) continue;
       if (isLegacy(item.title) || isLegacy(item.contentSnippet)) continue;
       out.push(makeCandidate({
         source: "geeknews",
@@ -305,7 +328,7 @@ async function fetchArxiv() {
     );
     for (const item of feed.items) {
       const date = item.isoDate || item.pubDate || item.published;
-      if (!inWindow(date)) continue;
+      if (!inWindow(date, "arxiv")) continue;
       out.push(makeCandidate({
         source: "arxiv",
         sourceName: "arXiv",
@@ -326,62 +349,56 @@ async function fetchArxiv() {
 // ③④⑥ 실사용·워크플로우 논의
 const SUBREDDITS = ["LocalLLaMA", "MachineLearning", "ClaudeAI", "OpenAI", "singularity"];
 
-// 비인증 reddit.com 은 전 엔드포인트 403 이므로 app-only OAuth 토큰이 있어야 수집된다.
-// https://www.reddit.com/prefs/apps 에서 script 앱 생성 후 REDDIT_CLIENT_ID / REDDIT_CLIENT_SECRET 설정.
-async function redditToken() {
-  const id = process.env.REDDIT_CLIENT_ID;
-  const secret = process.env.REDDIT_CLIENT_SECRET;
-  if (!id || !secret) return null;
-  try {
-    const res = await fetch("https://www.reddit.com/api/v1/access_token", {
-      method: "POST",
-      headers: {
-        Authorization: `Basic ${Buffer.from(`${id}:${secret}`).toString("base64")}`,
-        "Content-Type": "application/x-www-form-urlencoded",
-        "User-Agent": UA,
-      },
-      body: "grant_type=client_credentials",
-    });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    return (await res.json()).access_token || null;
-  } catch (e) {
-    console.warn("[reddit] 토큰 발급 실패:", e.message);
-    return null;
+// reddit.com 의 `.json` 엔드포인트는 비인증 403 이지만 `top/.rss?t=day` 는 무인증 200 이다 (OAuth 불필요).
+// 대신 IP 단위 throttle 이 강해 연속 요청은 429 를 받는다 → 순차 + 지연 + 429 재시도 필수.
+// RSS 에는 점수 필드가 없으므로 "당일 top 정렬" 자체를 품질 프록시로 쓰고 상위 N 개만 취한다.
+const REDDIT_DELAY_MS = Number(process.env.NEWS_REDDIT_DELAY_MS || 20000);
+const REDDIT_PER_SUB = Number(process.env.NEWS_REDDIT_PER_SUB || 8);
+
+async function fetchRedditSub(sub) {
+  const url = `https://www.reddit.com/r/${sub}/top/.rss?t=day`;
+  for (let attempt = 0; attempt < 2; attempt++) {
+    try {
+      return await parseFeed(url);
+    } catch (e) {
+      if (e.status === 429 && attempt === 0) {
+        console.warn(`[reddit] r/${sub} 429 — ${REDDIT_DELAY_MS / 1000}s 후 재시도`);
+        await sleep(REDDIT_DELAY_MS);
+        continue;
+      }
+      throw e;
+    }
   }
+  return null;
 }
 
 async function fetchReddit() {
-  const token = await redditToken();
-  if (!token) {
-    console.warn("[reddit] REDDIT_CLIENT_ID/SECRET 없음 — 커뮤니티 신호 건너뜀 (비인증 접근은 403)");
+  if (process.env.NEWS_SKIP_REDDIT === "1") {
+    console.warn("[reddit] NEWS_SKIP_REDDIT=1 — 건너뜀");
     return [];
   }
   const out = [];
-  for (const sub of SUBREDDITS) {
+  for (const [idx, sub] of SUBREDDITS.entries()) {
+    if (idx > 0) await sleep(REDDIT_DELAY_MS); // throttle 회피: 서브레딧 간 간격 확보
     try {
-      const body = await getJson(`https://oauth.reddit.com/r/${sub}/top?t=day&limit=25`, {
-        Authorization: `Bearer ${token}`,
-      });
-      for (const child of body.data?.children || []) {
-        const p = child.data;
-        if (!p || p.stickied) continue;
-        const created = new Date((p.created_utc || 0) * 1000);
-        if (created < SINCE) continue;
-        if ((p.score || 0) < 30) continue;
+      const feed = await fetchRedditSub(sub);
+      let taken = 0;
+      for (const item of feed?.items || []) {
+        if (taken >= REDDIT_PER_SUB) break;
+        const date = item.isoDate || item.pubDate || item.updated;
+        if (!inWindow(date, "reddit")) continue;
+        const author = (item.author || "").replace(/^\/u\//, "");
         out.push(makeCandidate({
           source: "reddit",
           sourceName: "Reddit",
-          url: p.url_overridden_by_dest || `https://www.reddit.com${p.permalink}`,
-          title: p.title,
-          author: `r/${sub} · u/${p.author}`,
-          publishDate: created,
-          body: p.selftext || "",
-          metrics: {
-            score: p.score,
-            comments: p.num_comments,
-            discussion_url: `https://www.reddit.com${p.permalink}`,
-          },
+          url: item.link,
+          title: item.title,
+          author: `r/${sub}${author ? ` · u/${author}` : ""}`,
+          publishDate: date,
+          body: (item.contentSnippet || item.content || "").replace(/\s+/g, " ").trim(),
+          metrics: { rank_in_sub: taken + 1, discussion_url: item.link },
         }));
+        taken++;
       }
     } catch (e) {
       console.warn(`[reddit] r/${sub} 실패:`, e.message);

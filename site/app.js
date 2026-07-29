@@ -49,10 +49,13 @@ async function load(source) {
         fetch("public/data/stars_meta.json", { cache: "no-store" }),
         fetch("public/data/stars_ledger.json", { cache: "no-store" })
       ]);
+      const meta = await metaRes.json();
+      const ledger = await ledgerRes.json();
       STATE.data = {
-        meta: await metaRes.json(),
-        ledger: await ledgerRes.json(),
-        generated_at: new Date().toISOString()
+        meta,
+        ledger,
+        generated_at: meta.generated_at || new Date().toISOString(),
+        version: meta.generated_at ? `v${new Date(meta.generated_at).getUTCFullYear()}.${String(new Date(meta.generated_at).getUTCMonth() + 1).padStart(2, '0')}.${String(new Date(meta.generated_at).getUTCDate()).padStart(2, '0')}` : null
       };
       // Process data into leagues
       processStarboardData();
@@ -1102,6 +1105,7 @@ document.getElementById("lang-toggle")?.addEventListener("click", () => {
   renderPageSummary();
   renderArchiveMenu();
   renderCategoryFilter();
+  renderThemeToggle();
   render();
 });
 applyLang(getLang());
