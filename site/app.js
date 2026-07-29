@@ -1,9 +1,9 @@
 const isNewsPage = !!document.getElementById("news-feed-container");
-const isStudyPage = !!document.getElementById("study-container");
+const isStarboardPage = !!document.getElementById("starboard-container");
 
 const STATE = {
   data: null,
-  tab: "rising",
+  tab: isStarboardPage ? "heavy" : "rising",
   query: "",
   category: "all",
   source: "latest", // "latest" or filename like "2026-04-20.json"
@@ -42,21 +42,43 @@ const STUDY_CATEGORIES = [
 
 async function load(source) {
   STATE.source = source || "latest";
-  let url;
-  if (isNewsPage) {
-    url = STATE.source === "latest" ? "public/data/news_latest.json" : `public/data/archive/news_${STATE.source}`;
-  } else if (isStudyPage) {
-    url = STATE.source === "latest" ? "public/data/study_latest.json" : `public/data/archive/study_${STATE.source}`;
+  
+  if (isStarboardPage) {
+    try {
+      const [metaRes, ledgerRes] = await Promise.all([
+        fetch("public/data/stars_meta.json", { cache: "no-store" }),
+        fetch("public/data/stars_ledger.json", { cache: "no-store" })
+      ]);
+      const meta = await metaRes.json();
+      const ledger = await ledgerRes.json();
+      STATE.data = {
+        meta,
+        ledger,
+        generated_at: meta.generated_at || new Date().toISOString(),
+        version: meta.generated_at ? `v${new Date(meta.generated_at).getUTCFullYear()}.${String(new Date(meta.generated_at).getUTCMonth() + 1).padStart(2, '0')}.${String(new Date(meta.generated_at).getUTCDate()).padStart(2, '0')}` : null
+      };
+      // Process data into leagues
+      processStarboardData();
+    } catch (e) {
+      STATE.data = { meta: {}, ledger: {}, generated_at: null, heavy: [], middle: [], light: [] };
+    }
   } else {
-    url = STATE.source === "latest" ? "public/data/latest.json" : `public/data/archive/${STATE.source}`;
-  }
-  try {
-    const res = await fetch(url, { cache: "no-store" });
-    STATE.data = await res.json();
-  } catch (e) {
-    if (isNewsPage) STATE.data = { generated_at: null, news: [] };
-    else if (isStudyPage) STATE.data = { generated_at: null, items: [] };
-    else STATE.data = { generated_at: null, rising: [], classic: [] };
+    let url;
+    if (isNewsPage) {
+      // news_index.json 은 과거 항목이 날짜만("2026-07-13.json"), 최근 항목이 접두사까지
+      // ("news_2026-07-28.json") 담고 있다. 무조건 접두사를 붙이면 news_news_... 로 404 난다.
+      const file = STATE.source.startsWith("news_") ? STATE.source : `news_${STATE.source}`;
+      url = STATE.source === "latest" ? "public/data/news_latest.json" : `public/data/archive/${file}`;
+    } else {
+      url = STATE.source === "latest" ? "public/data/latest.json" : `public/data/archive/${STATE.source}`;
+    }
+    try {
+      const res = await fetch(url, { cache: "no-store" });
+      STATE.data = await res.json();
+    } catch (e) {
+      if (isNewsPage) STATE.data = { generated_at: null, news: [] };
+      else STATE.data = { generated_at: null, rising: [], classic: [] };
+    }
   }
   renderUpdateBar();
   renderPageSummary();
@@ -65,10 +87,16 @@ async function load(source) {
 }
 
 async function loadArchives() {
+  // 스타보드는 과거 스냅샷 파일이 없다 (ledger 한 개가 전 이력을 담는다).
+  // 삭제된 스터디 페이지의 study_index.json(빈 배열)을 읽던 잔재라 아예 건너뛴다.
+  if (isStarboardPage) {
+    STATE.archives = [];
+    renderArchiveMenu();
+    return;
+  }
   try {
     let url = "public/data/archive/index.json";
     if (isNewsPage) url = "public/data/archive/news_index.json";
-    if (isStudyPage) url = "public/data/archive/study_index.json";
     const res = await fetch(url, { cache: "no-store" });
     const j = await res.json();
     STATE.archives = j.archives || [];
@@ -78,9 +106,11 @@ async function loadArchives() {
   renderArchiveMenu();
 }
 
+// 스타보드는 매일 자동 수집(stars.yml), 플러그인은 매주 월요일(weekly-trends.yml) — 둘은 예고가 사실이다.
+// 뉴스는 고정 주기가 없어 예고하지 않는다 (renderUpdateBar 가 해당 블록을 숨김).
 function nextUpdateDate(from) {
   const d = new Date(from);
-  if (isNewsPage) {
+  if (isStarboardPage) {
     d.setDate(d.getDate() + 1);
   } else {
     const day = d.getDay();
@@ -109,22 +139,18 @@ function renderPageSummary() {
   const checkNew = (item) => (item.badges || []).some(b => b.includes("신상") || b.includes("7일") || b.includes("NEW"));
   
   if (isNewsPage) {
+    // "신규 N" 은 손으로 붙인 badges 에만 존재했다. 큐레이터는 badges 를 만들지 않고,
+    // 애초에 피드의 모든 항목이 신규라 구분 자체가 무의미하므로 건수만 표시한다.
     const list = STATE.data.news || [];
     total = list.length;
-    list.forEach(item => { if (checkNew(item)) newCount++; });
+    el.textContent = lang === "en" ? `Collected ${total} news` : `${total}건 수집`;
+  } else if (isStarboardPage) {
+    const d = STATE.data || {};
+    total = (d.heavy?.length || 0) + (d.middle?.length || 0) + (d.light?.length || 0);
     if (lang === "en") {
-      el.textContent = newCount > 0 ? `Collected ${total} news · ${newCount} new` : `Collected ${total} news`;
+      el.textContent = `Tracking ${total} repositories`;
     } else {
-      el.textContent = newCount > 0 ? `오늘 ${total}건 수집 · 신규 ${newCount}` : `오늘 ${total}건 수집`;
-    }
-  } else if (isStudyPage) {
-    const list = STATE.data.items || [];
-    total = list.length;
-    list.forEach(item => { if (checkNew(item)) newCount++; });
-    if (lang === "en") {
-      el.textContent = newCount > 0 ? `Collected ${total} items · ${newCount} new` : `Collected ${total} items`;
-    } else {
-      el.textContent = newCount > 0 ? `전체 ${total}개 자료 · 신규 ${newCount}` : `전체 ${total}개 자료`;
+      el.textContent = `전체 ${total}개 리포지토리 추적 중`;
     }
   } else {
     const rising = STATE.data.rising || [];
@@ -164,7 +190,7 @@ function renderUpdateBar() {
   if (!updEl) return;
   if (ts) {
     updEl.textContent = `${fmtKFull(ts)} (${dayLabel(ts, lang)})`;
-    if (STATE.source === "latest") {
+    if (STATE.source === "latest" && !isNewsPage) {
       const nm = nextUpdateDate(ts);
       if (nxtEl) nxtEl.textContent = `${fmtKDate(nm)} (${dayLabel(nm, lang)})`;
       if (nxtContainer) nxtContainer.style.display = "";
@@ -193,6 +219,9 @@ function renderUpdateBar() {
 function renderArchiveMenu() {
   const ul = document.getElementById("archive-menu");
   if (!ul) return;
+  // 아카이브가 없으면 버튼 자체를 감춘다 (열어도 "최신"만 있는 죽은 컨트롤이 된다)
+  const wrap = ul.closest(".archive-wrap");
+  if (wrap) wrap.style.display = STATE.archives.length ? "" : "none";
   const lang = getLang();
   const latestLabel = lang === "en" ? "Latest week" : "최신 주차";
   const items = [
@@ -228,7 +257,7 @@ function renderCategoryFilter() {
         <span class="cat-count">${count}</span>
       </button>`;
     }).join("");
-  } else if (isStudyPage) {
+  } else if (isStarboardPage) {
     const list = (STATE.data?.items || []);
     wrap.innerHTML = STUDY_CATEGORIES.map(c => {
       const count = c.id === "all" ? list.length : list.filter(x => x.type === c.id).length;
@@ -298,16 +327,19 @@ function formatRepoId(id) {
 
 const STICKER_FALLBACKS = ["s-mint", "s-lemon", "s-sky", "s-pink", "s-peach", "s-lilac"];
 function stickerFor(item, idx) {
-  const rank = idx + 1;
+  // 데이터에 저장된 rank 를 쓴다. 화면 index 로 계산하면 카테고리 필터·검색만 해도
+  // 다른 리포가 "#01 TOP" 을 달게 되어 존재하지 않는 순위를 표시한다.
+  const rank = item.rank ?? idx + 1;
   const isRising = (item.badges || []).some(b => b.includes("Rising"));
   const isNew = (item.badges || []).some(b => b.includes("신상") || b.includes("7일"));
   const isKor = (item.badges || []).some(b => b.includes("한국어"));
+  const lang = getLang();
 
-  if (isNew) return { color: "s-mint", top: "NEW", bottom: "신상" };
+  if (isNew) return { color: "s-mint", top: "NEW", bottom: lang === "en" ? "NEW" : "신상" };
   if (isRising && rank === 1) return { color: "s-coral", top: "#01", bottom: "TOP" };
-  if (isRising && rank <= 3) return { color: "s-lemon", top: "#0" + rank, bottom: "급상승" };
-  if (rank === 1) return { color: "s-lemon", top: "#01", bottom: "대세" };
-  if (isKor) return { color: "s-sky", top: "KR", bottom: "한국어" };
+  if (isRising && rank <= 3) return { color: "s-lemon", top: "#0" + rank, bottom: lang === "en" ? "HOT" : "급상승" };
+  if (rank === 1) return { color: "s-lemon", top: "#01", bottom: lang === "en" ? "TREND" : "대세" };
+  if (isKor) return { color: "s-sky", top: "KR", bottom: lang === "en" ? "KOR" : "한국어" };
   if (isRising) return { color: "s-pink", top: "HOT", bottom: "화제" };
   return { color: STICKER_FALLBACKS[idx % STICKER_FALLBACKS.length], top: "#" + String(rank).padStart(2,"0"), bottom: "PICK" };
 }
@@ -315,9 +347,9 @@ function stickerFor(item, idx) {
 function cardHTML(item, idx) {
   const safeId = escapeHTML(item.id || "");
   const avatar = item.thumbnail_url || `https://github.com/${(item.id || "").split("/")[0]}.png?size=80`;
-  const rank = idx + 1;
+  const rank = item.rank ?? idx + 1;
   const rankStr = String(rank).padStart(2, "0");
-  const isFeatured = idx === 0;
+  const isFeatured = rank === 1;
   const st = stickerFor(item, idx);
 
   const feats = (item.key_features || []).slice(0, 3).map(f =>
@@ -358,9 +390,11 @@ const SOURCE_LABEL = {
 function sourcesLine(item) {
   const srcs = (item.sources || []).slice(0, 5);
   const score = item.trend_score;
+  const lang = getLang();
   if (!srcs.length && score == null) return "";
   const chips = srcs.map(s => `<span class="src-chip">${escapeHTML(SOURCE_LABEL[s] || s)}</span>`).join("");
-  const scoreEl = (score != null) ? `<span class="src-score" title="검증 점수">검증 ${score}</span>` : "";
+  const scoreLabel = lang === "en" ? "Score" : "검증";
+  const scoreEl = (score != null) ? `<span class="src-score" title="${scoreLabel}"> ${scoreLabel} ${score}</span>` : "";
   return `<div class="src-line">${chips}${scoreEl}</div>`;
 }
 
@@ -378,7 +412,10 @@ function modalHTML(item, tab, rank) {
     else if (b.includes("Classic")) cls = "b-classic";
     return `<span class="m-badge ${cls}">${escapeHTML(b)}</span>`;
   }).join("");
-  const tabLabel = tab === "rising" ? "이번 주 뜨는" : "이미 유명한";
+  const lang = getLang();
+  const tabLabel = tab === "rising" 
+    ? (lang === "en" ? "Trending" : "이번 주 뜨는") 
+    : (lang === "en" ? "Classic" : "이미 유명한");
   const rankStr = String(rank).padStart(2, "0");
 
   return `
@@ -400,13 +437,13 @@ function modalHTML(item, tab, rank) {
     ${modalSourcesSection(item)}
     ${badges ? `<div class="m-badges">${badges}</div>` : ""}
     ${item.summary_ko ? `<div class="m-section"><div class="m-label">어떤 프로젝트인가</div><p class="m-summary">${escapeHTML(item.summary_ko)}</p></div>` : ""}
-    ${feats ? `<div class="m-section"><div class="m-label">핵심 기능</div><ul class="m-features">${feats}</ul></div>` : ""}
-    ${item.use_case ? `<div class="m-section"><div class="m-label">이럴 때 쓰면 좋아요</div><div class="m-usecase">${escapeHTML(item.use_case)}</div></div>` : ""}
-    ${item.install_hint ? `<div class="m-section"><div class="m-label">설치 · 시작하기</div><div class="m-install">${escapeHTML(item.install_hint)}</div></div>` : ""}
-    ${tags ? `<div class="m-section"><div class="m-label">태그</div><div class="m-tags">${tags}</div></div>` : ""}
+    ${feats ? `<div class="m-section"><div class="m-label">${lang === "en" ? "Key Features" : "핵심 기능"}</div><ul class="m-features">${feats}</ul></div>` : ""}
+    ${item.use_case ? `<div class="m-section"><div class="m-label">${lang === "en" ? "Use Cases" : "이럴 때 쓰면 좋아요"}</div><div class="m-usecase">${escapeHTML(item.use_case)}</div></div>` : ""}
+    ${item.install_hint ? `<div class="m-section"><div class="m-label">${lang === "en" ? "Getting Started" : "설치 · 시작하기"}</div><div class="m-install">${escapeHTML(item.install_hint)}</div></div>` : ""}
+    ${tags ? `<div class="m-section"><div class="m-label">${lang === "en" ? "Tags" : "태그"}</div><div class="m-tags">${tags}</div></div>` : ""}
     <div class="m-cta-row">
       <a class="m-cta" href="${escapeHTML(item.official_url || "#")}" target="_blank" rel="noopener">
-        GitHub에서 열기 →
+        ${lang === "en" ? "Open in GitHub →" : "GitHub에서 열기 →"}
       </a>
     </div>
   `;
@@ -418,9 +455,11 @@ function modalSourcesSection(item) {
   const score = item.trend_score;
   if (!srcs.length && !evi.length && score == null) return "";
 
-  let html = `<div class="m-section"><div class="m-label">출처 · 검증</div>`;
+  let html = `<div class="m-section"><div class="m-label">${getLang() === "en" ? "Sources & Score" : "출처 · 검증"}</div>`;
   if (score != null) {
-    html += `<div class="m-score-box">검증 점수 <strong>${score}</strong> / 100<span class="m-score-formula">velocity · buzz · quality · recency 종합</span></div>`;
+    const scoreText = getLang() === "en" ? "Validation Score" : "검증 점수";
+    const scoreFormula = getLang() === "en" ? "velocity · buzz · quality · recency" : "velocity · buzz · quality · recency 종합";
+    html += `<div class="m-score-box">${scoreText} <strong>${score}</strong> / 100<span class="m-score-formula">${scoreFormula}</span></div>`;
   }
   if (srcs.length) {
     const chips = srcs.map(s => `<span class="src-chip">${escapeHTML(SOURCE_LABEL[s] || s)}</span>`).join("");
@@ -443,9 +482,9 @@ function modalSourcesSection(item) {
 function findItem(id) {
   const d = STATE.data || {};
   const rIdx = (d.rising || []).findIndex(x => x.id === id);
-  if (rIdx >= 0) return { item: d.rising[rIdx], tab: "rising", rank: rIdx + 1 };
+  if (rIdx >= 0) return { item: d.rising[rIdx], tab: "rising", rank: d.rising[rIdx].rank ?? rIdx + 1 };
   const cIdx = (d.classic || []).findIndex(x => x.id === id);
-  if (cIdx >= 0) return { item: d.classic[cIdx], tab: "classic", rank: cIdx + 1 };
+  if (cIdx >= 0) return { item: d.classic[cIdx], tab: "classic", rank: d.classic[cIdx].rank ?? cIdx + 1 };
   return null;
 }
 
@@ -488,16 +527,21 @@ function render() {
       const kstDate = new Date(genTime.getTime() + (9 * 60 + genTime.getTimezoneOffset()) * 60000);
       const kstStr = kstDate.toISOString().replace('T', ' ').substring(0, 16) + ' KST';
       
+      // 출처는 하드코딩하지 않는다 — 실제 수집된 항목의 매체만 표기 (없는 매체를 광고하지 않기 위함)
+      const srcNames = [...new Set((d.news || []).map(n => n.category_name).filter(Boolean))];
+      const srcMeta = srcNames.length ? ` · 📡 ${srcNames.join(" · ")}` : "";
+
+      const lang = getLang();
       if (STATE.category === "all" && !STATE.query && d.summary) {
         html += `
           <div class="daily-briefing-panel">
             <div class="db-header">
-              <span class="db-title">💡 오늘의 AI 트렌드</span>
-              <span class="db-meta">🕒 ${kstStr} · 📡 X · Threads · HN · Reddit · GeekNews · 최근 24시간</span>
+              <span class="db-title">💡 ${lang === "en" ? "AI Trend Summary" : "AI 트렌드 요약"}</span>
+              <span class="db-meta">🕒 ${kstStr}${escapeHTML(srcMeta)}</span>
             </div>
             <p class="db-summary">${escapeHTML(d.summary)}</p>
             <div class="db-footer">
-              ⚠️ 주식·투자 신호는 제외, 게시물 내 모델명·수치는 원문 그대로이며 교차 검증되지 않았습니다.
+              ⚠️ ${lang === "en" ? "Financial/investment signals excluded. Model names and figures are verbatim and unverified." : "주식·투자 신호는 제외, 게시물 내 모델명·수치는 원문 그대로이며 교차 검증되지 않았습니다."}
             </div>
           </div>
         `;
@@ -505,8 +549,8 @@ function render() {
         html += `
           <div class="daily-briefing-panel is-compact">
             <div class="db-header" style="margin-bottom:0;">
-              <span class="db-title">💡 검색 결과</span>
-              <span class="db-meta">🕒 ${kstStr} · 최근 24시간 핫이슈 정렬</span>
+              <span class="db-title">💡 ${lang === "en" ? "Search Results" : "검색 결과"}</span>
+              <span class="db-meta">🕒 ${kstStr}</span>
             </div>
           </div>
         `;
@@ -521,24 +565,8 @@ function render() {
       html += `</div>`;
       el.innerHTML = html;
     }
-  } else if (isStudyPage) {
-    const el = document.getElementById("study-container");
-    if (!el) return;
-    renderCategoryFilter();
-    let list = (d.items || []);
-    if (STATE.category !== "all") {
-      list = list.filter(x => x.type === STATE.category);
-    }
-    list = list.filter(matchesStudy);
-
-    if (list.length === 0) {
-      el.innerHTML = `<div style="text-align:center;padding:60px 0;color:var(--muted);font-size:15px;">스터디 자료가 없습니다. 검색어를 변경해보세요.</div>`;
-    } else {
-      let html = `<div class="grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;padding-top:20px;">`;
-      html += list.map((it, idx) => studyCardHTML(it, idx)).join("");
-      html += `</div>`;
-      el.innerHTML = html;
-    }
+  } else if (isStarboardPage) {
+    renderStarboard();
   } else {
     const base = d[STATE.tab] || [];
     const list = base
@@ -572,21 +600,18 @@ function matchesNews(item) {
 
 function newsCardHTML(item, idx = 0) {
   const safeId = escapeHTML(item.id || "");
+  const lang = getLang();
   
-  const rank = idx + 1;
-  const isAllCategory = STATE.category === "all" && !STATE.query;
-  
+  // 스티커는 큐레이터가 매긴 importance(0~100)만 근거로 한다.
+  // 예전엔 화면 index 로 "#01 TOP" 을 붙였는데, 정렬·필터가 바뀌면 아무 기사나 1위가 됐다.
   let sticker = "";
-  if (isAllCategory) {
-    let stColor = "s-gray";
-    let stBottom = "트렌드";
-    if (rank === 1) { stColor = "s-coral"; stBottom = "TOP"; }
-    else if (rank === 2 || rank === 3) { stColor = "s-lemon"; stBottom = "급상승"; }
-    
+  const importance = Number(item.importance);
+  if (Number.isFinite(importance) && importance > 0) {
+    const stColor = importance >= 80 ? "s-coral" : importance >= 60 ? "s-lemon" : "s-gray";
     sticker = `
-      <div class="sticker ${stColor}">
-        <strong>#${String(rank).padStart(2, '0')}</strong>
-        ${stBottom}
+      <div class="sticker ${stColor}" title="${lang === "en" ? "Curation importance score" : "큐레이션 중요도 점수"}">
+        <strong>${Math.round(importance)}</strong>
+        ${lang === "en" ? "SCORE" : "중요도"}
       </div>
     `;
   }
@@ -668,13 +693,13 @@ function newsCardHTML(item, idx = 0) {
     ">본문 펼쳐 읽기 ↓</button>
   ` : "";
   
-  const tags = (item.tags && item.tags.length > 0) ? `<div style="margin-top:16px; display:flex; flex-wrap:wrap; gap:8px;">${item.tags.map(t => `<span style="font-size:12.5px; padding:4px 10px; border-radius:12px; background:rgba(0,0,0,0.04); color:var(--ink-2); font-weight:500;">#${escapeHTML(t)}</span>`).join("")}</div>` : "";
+  const tags = (item.tags && item.tags.length > 0) ? `<div style="margin-top:16px; display:flex; flex-wrap:wrap; gap:8px;">${item.tags.map(t => `<span style="font-size:12.5px; padding:4px 10px; border-radius:12px; background:var(--pill); color:var(--ink-2); font-weight:500;">#${escapeHTML(t)}</span>`).join("")}</div>` : "";
 
   const related = (item.related_articles && item.related_articles.length > 0) ? `<div style="margin-top:20px; font-size:14px; background:var(--pill); padding:16px; border-radius:12px;"><strong style="color:var(--ink-2); display:flex; align-items:center; gap:6px;">🔗 관련 기사</strong><ul style="margin-top:8px; padding-left:20px; color:var(--muted); list-style-type:circle;">${item.related_articles.map(r => `<li style="margin-bottom:6px;"><a href="${escapeHTML(r.url)}" target="_blank" rel="noopener" style="color:var(--muted); text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--muted)'">${escapeHTML(r.title)}</a></li>`).join("")}</ul></div>` : "";
 
   const sources = (item.sources || []).map(s => `<span class="src-chip">${escapeHTML(s)}</span>`).join("");
   const linkBtn = item.url ? `
-    <div class="card-foot" style="margin-top:24px; border-top:1px solid rgba(255,255,255,0.06); padding-top:16px;">
+    <div class="card-foot" style="margin-top:24px; border-top:1px solid var(--border); padding-top:16px;">
       <span class="meta-left"></span>
       <a class="repo-link" href="${escapeHTML(item.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
         원문 보기 <span class="arrow">→</span>
@@ -694,7 +719,7 @@ function newsCardHTML(item, idx = 0) {
       ${bodyKo}
       ${tags}
       ${related}
-      <div class="src-line" style="margin-top:20px; flex-wrap:wrap; gap:8px;">${sources}</div>
+      ${sources ? `<div class="src-line" style="margin-top:20px; flex-wrap:wrap; gap:8px;">${sources}</div>` : ""}
       ${linkBtn}
     </article>
   `;
@@ -717,7 +742,7 @@ function studyCardHTML(item, idx) {
   const time = escapeHTML(item.estimated_time || "");
   const tags = (item.tags || []).map(t => `<span class="src-chip" style="background:var(--pill); border:none; padding:4px 8px; font-size:12px;">#${escapeHTML(t)}</span>`).join("");
   const linkBtn = item.url ? `
-    <div class="card-foot" style="margin-top:24px; border-top:1px solid rgba(255,255,255,0.06); padding-top:16px;">
+    <div class="card-foot" style="margin-top:24px; border-top:1px solid var(--border); padding-top:16px;">
       <span class="meta-left" style="color:var(--muted); font-size:13px; font-weight:500;">⏱️ ${time}</span>
       <a class="repo-link" href="${escapeHTML(item.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
         자료 보기 <span class="arrow">→</span>
@@ -765,9 +790,9 @@ if (viewToggleBtn) {
     render();
   });
 }
-document.querySelectorAll(".tab").forEach(btn => {
+document.querySelectorAll(".tab, .cat-chip[data-tab]").forEach(btn => {
   btn.addEventListener("click", () => {
-    document.querySelectorAll(".tab").forEach(b => {
+    document.querySelectorAll(".tab, .cat-chip[data-tab]").forEach(b => {
       b.classList.remove("active");
       b.setAttribute("aria-selected", "false");
     });
@@ -825,7 +850,117 @@ document.addEventListener("keydown", e => {
   if (e.key === "Escape") closeModal();
 });
 
-const CRITERIA_HTML = `
+function getCriteriaHTML(lang) {
+  if (lang === "en") {
+    return `
+  <div class="cr-eyebrow">CC-TRENDS · SCORING</div>
+  <h2 class="cr-title">How is the ranking calculated?</h2>
+  <p class="cr-lede">Recalculated every week with weighted scores across 4 axes.</p>
+
+  <div class="cr-formula">
+    <div class="cr-formula-line">
+      <span class="cr-token">score</span>
+      <span class="cr-eq">=</span>
+      <span class="cr-weight w-velocity"><b>0.4</b>·velocity</span>
+      <span class="cr-plus">+</span>
+      <span class="cr-weight w-buzz"><b>0.3</b>·buzz</span>
+      <span class="cr-plus">+</span>
+      <span class="cr-weight w-quality"><b>0.2</b>·quality</span>
+      <span class="cr-plus">+</span>
+      <span class="cr-weight w-recency"><b>0.1</b>·recency</span>
+    </div>
+    <div class="cr-bar">
+      <span class="cr-bar-seg w-velocity" style="flex:40"><span>40%</span></span>
+      <span class="cr-bar-seg w-buzz" style="flex:30"><span>30%</span></span>
+      <span class="cr-bar-seg w-quality" style="flex:20"><span>20%</span></span>
+      <span class="cr-bar-seg w-recency" style="flex:10"><span>10%</span></span>
+    </div>
+  </div>
+
+  <div class="cr-section">
+    <div class="cr-section-label">4 Evaluation Axes</div>
+    <div class="cr-axes">
+      <div class="cr-axis">
+        <div class="cr-axis-head">
+          <span class="cr-axis-dot w-velocity"></span>
+          <span class="cr-axis-name">Velocity</span>
+          <span class="cr-axis-pct">40%</span>
+        </div>
+        <p class="cr-axis-desc">GitHub 7-day star growth rate. Age adjustment applied to new items (within 30 days).</p>
+      </div>
+      <div class="cr-axis">
+        <div class="cr-axis-head">
+          <span class="cr-axis-dot w-buzz"></span>
+          <span class="cr-axis-name">Community Buzz</span>
+          <span class="cr-axis-pct">30%</span>
+        </div>
+        <p class="cr-axis-desc">Weighted sum of mentions on HN · dev.to · GeekNews · velog · X. Reach 2+ platforms +10, 3+ +15, HN frontpage +10.</p>
+      </div>
+      <div class="cr-axis">
+        <div class="cr-axis-head">
+          <span class="cr-axis-dot w-quality"></span>
+          <span class="cr-axis-name">Quality</span>
+          <span class="cr-axis-pct">20%</span>
+        </div>
+        <p class="cr-axis-desc">README depth, license, recent commits, tests/examples, CI, documentation score.</p>
+      </div>
+      <div class="cr-axis">
+        <div class="cr-axis-head">
+          <span class="cr-axis-dot w-recency"></span>
+          <span class="cr-axis-name">Recency</span>
+          <span class="cr-axis-pct">10%</span>
+        </div>
+        <p class="cr-axis-desc">How fresh the latest commit is. 0 score if abandoned for 60+ days.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="cr-section">
+    <div class="cr-section-label">Rising vs Classic</div>
+    <div class="cr-versus">
+      <div class="cr-vs-card cr-rising">
+        <div class="cr-vs-head"><span class="cr-vs-icon">🔥</span><strong>Rising</strong> · Trending this week</div>
+        <div class="cr-vs-rule">Satisfy any one condition</div>
+        <ul>
+          <li>Created within 30 days</li>
+          <li>velocity ≥ 60 + 2+ community mentions in 14 days</li>
+          <li>velocity ≥ 80 (Explosive growth) — Regardless of source <span style="opacity:.7">⚠️ Shows single source</span></li>
+          <li>Reached HN frontpage within 7 days</li>
+        </ul>
+      </div>
+      <div class="cr-vs-card cr-classic">
+        <div class="cr-vs-head"><span class="cr-vs-icon">⭐</span><strong>Classic</strong> · Already famous</div>
+        <div class="cr-vs-rule">Satisfy both conditions</div>
+        <ul>
+          <li>Total stars ≥ 1000 or Created > 30 days ago</li>
+          <li>Top 20% in velocity or consistent top quality score</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="cr-section">
+    <div class="cr-section-label">Bias Adjustments</div>
+    <div class="cr-biases">
+      <div class="cr-bias-row">
+        <span class="cr-bias-tag">i18n</span>
+        <span>Additional buzz points for finding Korean README/blogs — adjusting for English-speaking scale difference</span>
+      </div>
+      <div class="cr-bias-row">
+        <span class="cr-bias-tag">official</span>
+        <span>Anthropic official/employee projects get tags only, score remains the same</span>
+      </div>
+    </div>
+  </div>
+
+  <p class="cr-foot">Selected in order of score per category (Rising: skill 8·mcp 6·agent 4·harness 2 / Classic: skill 6·mcp 4·agent 4·harness 2) · Ties broken by recent updates · Under-quota not forced · Under-scored reviewed next week</p>
+
+  <a class="m-cta" href="https://github.com/ldk-hub/ai-weekly" target="_blank" rel="noopener">
+    View source code →
+  </a>
+`;
+  }
+  return `
   <div class="cr-eyebrow">CC-TRENDS · SCORING</div>
   <h2 class="cr-title">순위는 어떻게 매겨지나요?</h2>
   <p class="cr-lede">매주 4가지 축의 가중 점수로 다시 계산합니다.</p>
@@ -934,10 +1069,11 @@ const CRITERIA_HTML = `
     소스 코드 보기 →
   </a>
 `;
+}
 
 function openCriteria() {
   const modal = document.getElementById("modal");
-  document.getElementById("modal-body").innerHTML = CRITERIA_HTML;
+  document.getElementById("modal-body").innerHTML = getCriteriaHTML(getLang());
   modal.classList.add("open");
   modal.setAttribute("aria-hidden", "false");
   document.body.classList.add("modal-open");
@@ -973,8 +1109,11 @@ document.getElementById("lang-toggle")?.addEventListener("click", () => {
   localStorage.setItem(I18N_KEY, next);
   applyLang(next);
   renderUpdateBar();
+  renderPageSummary();
   renderArchiveMenu();
   renderCategoryFilter();
+  renderThemeToggle();
+  render();
 });
 applyLang(getLang());
 
@@ -998,7 +1137,12 @@ function renderThemeToggle() {
   updateThemeColorMeta(eff);
   const btn = document.getElementById("theme-toggle");
   if (!btn) return;
-  btn.textContent = eff === 'dark' ? '☀️ 라이트' : '🌙 다크';
+  const lang = getLang();
+  if (lang === "en") {
+    btn.textContent = eff === 'dark' ? '☀️ Light' : '🌙 Dark';
+  } else {
+    btn.textContent = eff === 'dark' ? '☀️ 라이트' : '🌙 다크';
+  }
 }
 document.getElementById("theme-toggle")?.addEventListener("click", () => {
   const next = getEffectiveTheme() === 'dark' ? 'light' : 'dark';
@@ -1064,3 +1208,210 @@ document.addEventListener("DOMContentLoaded", () => {
     visitCounter.title = "오늘 방문자";
   }
 });
+
+function processStarboardData() {
+  const meta = STATE.data.meta || { repos: {} };
+  const ledger = STATE.data.ledger || {};
+  const repos = Object.keys(meta.repos).filter(id => !meta.repos[id].gone);
+  
+  const processed = [];
+  const now = new Date();
+  
+  for (const id of repos) {
+    const repoMeta = meta.repos[id];
+    const history = ledger[id] || [];
+    if (history.length === 0) continue;
+    
+    // Sort history by date just in case
+    history.sort((a, b) => a.date.localeCompare(b.date));
+    
+    const latestEntry = history[history.length - 1];
+    const latestDate = latestEntry.date;
+    const currentStars = latestEntry.stars;
+    
+    // Calculate 7-day velocity (normalized)
+    let velocity = 0;
+    const samplesBeforeLatest = history.filter(h => h.date < latestDate);
+    if (samplesBeforeLatest.length > 0) {
+      const base = samplesBeforeLatest[samplesBeforeLatest.length - 1];
+      const days = Math.round((new Date(latestDate) - new Date(base.date)) / 86400000);
+      if (days > 0) {
+        const delta = currentStars - base.stars;
+        velocity = Math.round((delta * 7) / days);
+      }
+    }
+    
+    // Activity badge logic
+    const pushedDate = repoMeta.pushed_at ? new Date(repoMeta.pushed_at) : new Date(0);
+    const daysSincePush = (now - pushedDate) / (1000 * 60 * 60 * 24);
+    
+    let activity = "active";
+    if (repoMeta.dormant || daysSincePush > 90) {
+      activity = "dormant";
+    } else if (daysSincePush <= 7) {
+      activity = "active";
+    } else if (daysSincePush <= 30) {
+      activity = "slowing";
+    } else {
+      activity = "slowing";
+    }
+    
+    // Build sparkline data (last 14 points or similar)
+    const recentEntries = history.slice(-14);
+    const sparklineData = recentEntries.map(e => e.stars);
+    
+    processed.push({
+      id,
+      meta: repoMeta,
+      currentStars,
+      velocity,
+      activity,
+      sparklineData
+    });
+  }
+  
+  // Sort by velocity desc, then currentStars desc
+  processed.sort((a, b) => b.velocity - a.velocity || b.currentStars - a.currentStars);
+  
+  STATE.data.heavy = processed.filter(r => r.currentStars >= 30000);
+  STATE.data.middle = processed.filter(r => r.currentStars >= 3000 && r.currentStars < 30000);
+  STATE.data.light = processed.filter(r => r.currentStars < 3000);
+}
+
+function renderStarboard() {
+  const el = document.getElementById("starboard-container");
+  if (!el) return;
+  
+  const list = STATE.data[STATE.tab] || [];
+  
+  // Update counts
+  const heavyBtn = document.getElementById("heavy-count");
+  if (heavyBtn) heavyBtn.textContent = (STATE.data.heavy || []).length;
+  const middleBtn = document.getElementById("middle-count");
+  if (middleBtn) middleBtn.textContent = (STATE.data.middle || []).length;
+  const lightBtn = document.getElementById("light-count");
+  if (lightBtn) lightBtn.textContent = (STATE.data.light || []).length;
+  
+  if (list.length === 0) {
+    el.innerHTML = `<div style="text-align:center;padding:60px 0;color:var(--muted);font-size:15px;">이 리그에는 아직 등록된 리포지토리가 없습니다.</div>`;
+    return;
+  }
+  
+  const gridClass = STATE.viewMode === 'list' ? 'grid list-view' : 'grid';
+  const gridStyle = STATE.viewMode === 'list' 
+    ? 'display:flex;flex-direction:column;gap:12px;' 
+    : 'display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;';
+    
+  let html = `<div class="${gridClass}" style="${gridStyle}">`;
+  html += list.map((item, idx) => starboardCardHTML(item, idx)).join("");
+  html += `</div>`;
+  el.innerHTML = html;
+}
+
+function starboardCardHTML(item, idx) {
+  const rank = idx + 1;
+  const badgeClass = {
+    "active": "sb-badge-active",
+    "slowing": "sb-badge-slowing",
+    "dormant": "sb-badge-dormant"
+  }[item.activity];
+  
+  const lang = getLang();
+  const badgeLabel = {
+    "active": lang === "en" ? "Active" : "활발",
+    "slowing": lang === "en" ? "Slowing" : "둔화",
+    "dormant": lang === "en" ? "Dormant" : "방치"
+  }[item.activity];
+  
+  const repoName = item.id.split("/")[1];
+  const ownerName = item.id.split("/")[0];
+  
+  const sign = item.velocity > 0 ? "+" : "";
+  const velocityColor = item.velocity > 0 ? "var(--mint)" : (item.velocity < 0 ? "var(--coral)" : "var(--muted)");
+  
+  let stColor = "s-gray";
+  let stBottom = "PICK";
+  if (rank === 1) { stColor = "s-coral"; stBottom = "TOP"; }
+  else if (rank <= 3) { stColor = "s-lemon"; stBottom = lang === "en" ? "HOT" : "급상승"; }
+  else {
+    const STICKER_FALLBACKS = ["s-mint", "s-sky", "s-lavender", "s-pink"];
+    stColor = STICKER_FALLBACKS[idx % STICKER_FALLBACKS.length];
+  }
+  
+  const width = 300;
+  const height = 80;
+  const max = Math.max(...item.sparklineData);
+  const min = Math.min(...item.sparklineData);
+  const range = max - min || 1;
+  const step = width / Math.max(1, item.sparklineData.length - 1);
+  const points = item.sparklineData.map((val, i) => {
+    const x = i * step;
+    const y = height - ((val - min) / range) * height;
+    return `${x},${y}`;
+  }).join(" ");
+  
+  // 관측이 2개면 어떤 리포든 min→max 를 잇는 같은 대각선이 나온다 (추세 정보 0).
+  // 실제로 109개 중 58개가 관측 2회라, 그 경우엔 그래프 대신 사유를 밝힌다.
+  const svg = item.sparklineData.length >= 3
+    ? `<svg class="sb-sparkline" width="100%" height="${height}" viewBox="0 -10 ${width} ${height+20}" preserveAspectRatio="none" style="margin-top:auto; padding-top:16px;">
+    <polyline fill="none" stroke="${velocityColor}" stroke-width="3" points="${points}" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`
+    : `<div class="sb-nochart">${lang === "en"
+        ? `${item.sparklineData.length} observations — trend chart needs 3+`
+        : `관측 ${item.sparklineData.length}회 · 추이 그래프는 3회부터`}</div>`;
+  
+  const avatar = (item.meta && item.meta.owner_avatar) ? item.meta.owner_avatar : `https://github.com/${ownerName}.png?size=80`;
+  const desc = (item.meta && item.meta.desc_ko) ? item.meta.desc_ko : "";
+  
+  let chartComment = "";
+  if (lang === "en") {
+    if (item.velocity > 1000) chartComment = "Explosive star growth on a weekly basis.";
+    else if (item.velocity > 300) chartComment = "Showing a steady upward trend recently.";
+    else if (item.velocity > 0) chartComment = "Gaining slow but consistent traction.";
+    else chartComment = "Growth has plateaued or slowed down.";
+  } else {
+    if (item.velocity > 1000) chartComment = "주간 기준 폭발적인 별(Star) 증가세를 기록 중입니다.";
+    else if (item.velocity > 300) chartComment = "최근 꾸준하고 안정적인 우상향 트렌드를 보입니다.";
+    else if (item.velocity > 0) chartComment = "느리지만 꾸준히 관심을 얻고 있습니다.";
+    else chartComment = "최근 성장세가 다소 주춤하거나 정체된 상태입니다.";
+  }
+  
+  return `
+    <article class="card" style="padding: 24px 22px 0; overflow:hidden;">
+      <div class="sticker ${stColor}">
+        <strong>#${String(rank).padStart(2, '0')}</strong>
+        ${escapeHTML(stBottom)}
+      </div>
+      
+      <div class="card-head" style="margin-bottom:12px;">
+        <img class="avatar" src="${escapeHTML(avatar)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'"/>
+        <div class="head-meta">
+          <div class="repo-id" style="font-size: 15px;">${escapeHTML(ownerName)} /</div>
+          <h3 style="margin:0; font-size: 20px; word-break:break-all;">${escapeHTML(repoName)}</h3>
+        </div>
+      </div>
+      
+      ${desc ? `<p class="catch" style="font-weight:400; font-size:14px; opacity:0.8; margin-bottom:12px; display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${escapeHTML(desc)}</p>` : ""}
+      
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span class="stars-line" style="font-size:16px; font-weight:600;">★ ${item.currentStars.toLocaleString()}</span>
+          <span style="color:${velocityColor}; font-weight:700; font-size: 15px; background:var(--surface); padding:2px 8px; border-radius:12px; display:inline-block;">${sign}${item.velocity.toLocaleString()}/wk</span>
+        </div>
+        <span class="sb-badge ${badgeClass}" style="margin:0;">${badgeLabel}</span>
+      </div>
+      
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:8px; padding: 0 4px;">
+        <div style="font-size:13.5px; color:var(--muted); line-height:1.4; max-width:65%;">
+          ${chartComment}
+        </div>
+        <a class="repo-link" href="https://github.com/${escapeHTML(item.id)}" target="_blank" rel="noopener" style="margin:0;">
+          GITHUB <span class="arrow">→</span>
+        </a>
+      </div>
+      
+      ${svg}
+    </article>
+  `;
+}
+

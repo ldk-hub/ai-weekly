@@ -3,22 +3,23 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>AI위클리 — AI/코딩 스터디</title>
-<meta name="description" content="Claude Code 쓰는 사람들을 위한 주간 도구 인덱스. 에이전트, 스킬, 하네스, MCP를 GitHub과 개발자 커뮤니티에서 매주 모아 정리합니다." />
+<title>AI위클리 — 📈 스타보드</title>
+<meta name="description" content="Claude Code 생태계 리포의 주간 스타 증감을 헤비급·미들급·라이트급 리그별 순위표로 추적합니다." />
 <meta name="theme-color" content="#fbfaf6" />
 <script>try{const t=localStorage.getItem('aiw-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
 
+<link rel="canonical" href="https://ldk-hub.github.io/ai-weekly/starboard.html" />
 <meta property="og:type" content="website" />
-<meta property="og:title" content="AI위클리 — Claude Code 도구 주간 인덱스" />
-<meta property="og:description" content="에이전트, 스킬, 하네스, MCP를 매주 모아 정리하는 Claude Code 도구 인덱스." />
-<meta property="og:url" content="https://ldk-hub.github.io/ai-weekly/" />
+<meta property="og:title" content="AI위클리 — 📈 스타보드" />
+<meta property="og:description" content="추적 리포의 주간 스타 증감을 리그별 순위표로. 활동성 배지와 순위 변동을 함께 봅니다." />
+<meta property="og:url" content="https://ldk-hub.github.io/ai-weekly/starboard.html" />
 <meta property="og:image" content="https://ldk-hub.github.io/ai-weekly/og.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content="AI Weekly — 이번 주 Claude Code에서 뭐가 뜨고, 뭐가 이미 자리잡았나." />
+<meta property="og:image:alt" content="AI Weekly — 리포 스타 증감 리그 순위표." />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="AI위클리 — Claude Code 도구 주간 인덱스" />
-<meta name="twitter:description" content="GitHub과 개발자 커뮤니티에서 매주 수집한 에이전트·스킬·하네스·MCP 인덱스." />
+<meta name="twitter:title" content="AI위클리 — 📈 스타보드" />
+<meta name="twitter:description" content="Claude Code 생태계 리포의 주간 스타 증감 리그별 순위표." />
 <meta name="twitter:image" content="https://ldk-hub.github.io/ai-weekly/og.png" />
 <meta property="og:locale" content="ko_KR" />
 
@@ -28,7 +29,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=8" />
+<link rel="stylesheet" href="styles.css?v=12" />
 
 <!-- Google Analytics 4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-YLKMDP5YKQ"></script>
@@ -40,15 +41,17 @@
 </script>
 
 <!-- Counter.dev (private dashboard) -->
+</head>
+
 <body>
 
 <div class="layout-wrapper">
 
-  <div class="header-container">
+  <div class="header-container" role="banner">
     <div class="hero-header">
       <div class="hero-titles">
-        <h1 class="hero-h1" data-i18n-en-html="Read together, dive deep together:<br><span class='hl-mint'>AI Study</span>." data-i18n-ko-html="같이 읽고, 같이 파고드는<br><span class='hl-mint'>AI 스터디</span>.">같이 읽고, 같이 파고드는<br><span class="hl-mint">AI 스터디</span>.</h1>
-        <p class="hero-p" data-i18n-en-html="An archive of <strong class='hero-strong'>learning materials</strong> by topic and weekly reading lists for papers and articles." data-i18n-ko-html="주제별 <strong class='hero-strong'>학습 자료 아카이브</strong>와 매주 함께 읽는 논문 · 아티클 리딩 리스트.">주제별 <strong class="hero-strong">학습 자료 아카이브</strong>와 매주 함께 읽는 논문 · 아티클 리딩 리스트.</p>
+        <h1 class="hero-h1" data-i18n-en-html="Tracking the <span class='hl-mint'>growth</span> of<br>top GitHub <span class='hl-lemon'>repositories</span>." data-i18n-ko-html="가장 빠르게 <span class='hl-mint'>성장하는</span><br>리포지토리 <span class='hl-lemon'>순위표</span>.">가장 빠르게 <span class="hl-mint">성장하는</span><br>리포지토리 <span class="hl-lemon">순위표</span>.</h1>
+        <p class="hero-p" data-i18n-en-html="Weekly star growth rankings across Heavyweight (30k+), Middleweight, and Lightweight leagues." data-i18n-ko-html="헤비급(3만+), 미들급, 라이트급 리그별 주간 스타 증가 순위와 활동성 지표.">헤비급(3만+), 미들급, 라이트급 리그별 주간 스타 증가 순위와 활동성 지표.</p>
       </div>
 
       <div class="hero-actions">
@@ -77,7 +80,7 @@
         <span class="version-pill" id="version-pill"></span>
         <span class="update-sep"></span>
         <span class="visit-counter" title="누적 방문자">
-          <span data-i18n-en="Visit" data-i18n-ko="방문">방문</span> <img src="https://visitor-badge.laobi.icu/badge?page_id=ldk-hub.aiweekly.study&left_text=visitors&left_color=%230E0E0E&right_color=%23D97757" alt="visitor counter" loading="lazy" />
+          <span data-i18n-en="Visit" data-i18n-ko="방문">방문</span> <img src="https://visitor-badge.laobi.icu/badge?page_id=ldk-hub.aiweekly.news&left_text=visitors&left_color=%230E0E0E&right_color=%23D97757" alt="visitor counter" loading="lazy" />
         </span>
       </div>
 
@@ -107,38 +110,50 @@
       </div>
     </div>
 
-    <div class="unified-nav-box" style="margin-bottom: 26px;">
+    <div class="unified-nav-box">
       <div class="unb-top">
         <nav class="page-nav">
           <a href="index.html" class="pn-link">
             <span class="pn-icon">🧩</span><span data-i18n-en="Popular Plugins" data-i18n-ko="인기 플러그인">인기 플러그인</span>
           </a>
           <a href="news.html" class="pn-link">
-            <span class="pn-icon">📰</span><span data-i18n-en="Daily News" data-i18n-ko="데일리뉴스">데일리뉴스</span>
+            <span class="pn-icon">📰</span><span data-i18n-en="AI News" data-i18n-ko="AI 뉴스">AI 뉴스</span>
           </a>
-          <a href="study.html" class="pn-link is-active">
-            <span class="pn-icon">📚</span><span data-i18n-en="Study" data-i18n-ko="스터디">스터디</span>
+          <a href="starboard.html" class="pn-link is-active">
+            <span class="pn-icon">📈</span><span data-i18n-en="Starboard" data-i18n-ko="스타보드">스타보드</span>
           </a>
         </nav>
         <div class="unb-summary" id="page-summary">—</div>
       </div>
       
-      <div class="unb-bottom">
-        <nav class="cat-filter" id="cat-filter" role="tablist" aria-label="Category filter"></nav>
-        <div class="unb-search-wrap">
-          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="#A7A199" stroke-width="1.7"><circle cx="7" cy="7" r="4.5"></circle><path d="m10.5 10.5 3 3"></path></svg>
-          <input type="search" id="search" placeholder="자료 검색" data-i18n-en-placeholder="Search materials" data-i18n-ko-placeholder="자료 검색" aria-label="검색" />
+      <div class="unb-bottom sb-controls">
+        <nav class="cat-filter" role="tablist" aria-label="리그 선택">
+          <button class="cat-chip active" data-tab="heavy" role="tab" aria-selected="true">
+            🥊 <span data-i18n-en="Heavyweight" data-i18n-ko="헤비급">헤비급</span> <span class="tab-count" id="heavy-count">0</span>
+          </button>
+          <button class="cat-chip" data-tab="middle" role="tab" aria-selected="false">
+            🥋 <span data-i18n-en="Middleweight" data-i18n-ko="미들급">미들급</span> <span class="tab-count" id="middle-count">0</span>
+          </button>
+          <button class="cat-chip" data-tab="light" role="tab" aria-selected="false">
+            🪶 <span data-i18n-en="Lightweight" data-i18n-ko="라이트급">라이트급</span> <span class="tab-count" id="light-count">0</span>
+          </button>
+        </nav>
+        <div class="filter-right">
+          <span class="sb-league-hint" data-i18n-en="Heavyweight 30k+ · Middleweight 3k–30k · Lightweight under 3k" data-i18n-ko="헤비급 3만+ · 미들급 3천~3만 · 라이트급 3천 미만">헤비급 3만+ · 미들급 3천~3만 · 라이트급 3천 미만</span>
+          <button class="view-toggle" id="view-toggle" aria-label="뷰 모드 전환" type="button" title="리스트 보기">
+            <span class="vt-icon" id="vt-icon">☷</span>
+          </button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Reading list & Archive -->
-  <main id="study-container"><div style="text-align:center;padding:60px 0;color:var(--muted);font-size:15px;">스터디 아카이브가 여기에 렌더링됩니다.</div></main>
+  <!-- Feed grouped by day -->
+  <main id="starboard-container"><div style="text-align:center;padding:60px 0;color:var(--muted);font-size:15px;">스타보드 랭킹표가 여기에 렌더링됩니다.</div></main>
 
   <footer class="site-footer">
     <span>AI위클리 · Claude Code 주간 인덱스</span>
-    <span><a href="index.html">인기 플러그인</a> · <a href="news.html">데일리뉴스</a> · <a href="study.html">스터디</a></span>
+    <span><a href="index.html">인기 플러그인</a> · <a href="news.html">AI 뉴스</a> · <a href="starboard.html">스타보드</a></span>
   </footer>
 
 </div>
@@ -151,6 +166,6 @@
   </div>
 </div>
 
-<script src="app.js?v=9"></script>
+<script src="app.js?v=16"></script>
 </body>
 </html>

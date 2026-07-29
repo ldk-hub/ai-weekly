@@ -3,32 +3,34 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>AI위클리 — 데일리뉴스</title>
-<meta name="description" content="Claude Code 쓰는 사람들을 위한 주간 도구 인덱스. 에이전트, 스킬, 하네스, MCP를 GitHub과 개발자 커뮤니티에서 매주 모아 정리합니다." />
+<title>AI위클리 — AI 뉴스</title>
+<meta name="description" content="모델 릴리스 · 개발자 도구 · 오픈소스 · 연구 소식을 모아 3줄 한국어 요약과 원문 링크로 정리하는 AI 뉴스 피드." />
 <meta name="theme-color" content="#fbfaf6" />
 <script>try{const t=localStorage.getItem('aiw-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
 
+<link rel="canonical" href="https://ldk-hub.github.io/ai-weekly/news.html" />
 <meta property="og:type" content="website" />
-<meta property="og:title" content="AI위클리 — Claude Code 도구 주간 인덱스" />
-<meta property="og:description" content="에이전트, 스킬, 하네스, MCP를 매주 모아 정리하는 Claude Code 도구 인덱스." />
-<meta property="og:url" content="https://ldk-hub.github.io/ai-weekly/" />
+<meta property="og:title" content="AI위클리 — AI 뉴스" />
+<meta property="og:description" content="쏟아지는 AI 소식을 3줄 요약으로. 모델 릴리스 · 개발자 도구 · 오픈소스 · 연구를 한국어 요약과 원문 링크로 정리합니다." />
+<meta property="og:url" content="https://ldk-hub.github.io/ai-weekly/news.html" />
 <meta property="og:image" content="https://ldk-hub.github.io/ai-weekly/og.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content="AI Weekly — 이번 주 Claude Code에서 뭐가 뜨고, 뭐가 이미 자리잡았나." />
+<meta property="og:image:alt" content="AI Weekly — 쏟아지는 AI 소식을 3줄 요약으로 읽습니다." />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="AI위클리 — Claude Code 도구 주간 인덱스" />
-<meta name="twitter:description" content="GitHub과 개발자 커뮤니티에서 매주 수집한 에이전트·스킬·하네스·MCP 인덱스." />
+<meta name="twitter:title" content="AI위클리 — AI 뉴스" />
+<meta name="twitter:description" content="모델 릴리스 · 개발자 도구 · 오픈소스 · 연구 소식을 3줄 한국어 요약과 원문 링크로." />
 <meta name="twitter:image" content="https://ldk-hub.github.io/ai-weekly/og.png" />
 <meta property="og:locale" content="ko_KR" />
 
 <link rel="icon" type="image/svg+xml" href="claude-code.svg" />
-<link rel="alternate" type="application/rss+xml" title="AI Weekly weekly RSS" href="https://ldk-hub.github.io/ai-weekly/feed.xml" />
+<link rel="alternate" type="application/rss+xml" title="AI위클리 — AI 뉴스 RSS" href="https://ldk-hub.github.io/ai-weekly/news-feed.xml" />
+<link rel="alternate" type="application/rss+xml" title="AI위클리 — 주간 플러그인 RSS" href="https://ldk-hub.github.io/ai-weekly/feed.xml" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=8" />
+<link rel="stylesheet" href="styles.css?v=12" />
 
 <!-- Google Analytics 4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-YLKMDP5YKQ"></script>
@@ -40,15 +42,17 @@
 </script>
 
 <!-- Counter.dev (private dashboard) -->
+</head>
+
 <body>
 
 <div class="layout-wrapper">
 
-  <div class="header-container">
+  <div class="header-container" role="banner">
     <div class="hero-header">
       <div class="hero-titles">
-        <h1 class="hero-h1" data-i18n-en-html="Every morning, read yesterday's <span class='hl-mint'>AI news</span><br>in a 3-line <span class='hl-lemon'>summary</span>." data-i18n-ko-html="매일 아침, 어제의 <span class='hl-mint'>AI 소식</span>을<br>3줄 <span class='hl-lemon'>요약</span>으로 읽습니다.">매일 아침, 어제의 <span class="hl-mint">AI 소식</span>을<br>3줄 <span class="hl-lemon">요약</span>으로 읽습니다.</h1>
-        <p class="hero-p" data-i18n-en-html="Daily feed curating model releases, research, products, and industry news into <strong class='hero-strong'>summaries and source links</strong>." data-i18n-ko-html="모델 릴리스 · 연구 · 제품 · 산업 소식을 매일 수집해 <strong class='hero-strong'>요약과 원문 링크</strong>로 정리하는 데일리 피드.">모델 릴리스 · 연구 · 제품 · 산업 소식을 매일 수집해 <strong class="hero-strong">요약과 원문 링크</strong>로 정리하는 데일리 피드.</p>
+        <h1 class="hero-h1" data-i18n-en-html="The flood of <span class='hl-mint'>AI news</span>,<br>in 3-line <span class='hl-lemon'>summaries</span>." data-i18n-ko-html="쏟아지는 <span class='hl-mint'>AI 소식</span>을<br>3줄 <span class='hl-lemon'>요약</span>으로 읽습니다.">쏟아지는 <span class="hl-mint">AI 소식</span>을<br>3줄 <span class="hl-lemon">요약</span>으로 읽습니다.</h1>
+        <p class="hero-p" data-i18n-en-html="Model releases, developer tools, open source, and research — gathered into <strong class='hero-strong'>summaries and source links</strong>." data-i18n-ko-html="모델 릴리스 · 개발자 도구 · 오픈소스 · 연구 소식을 모아 <strong class='hero-strong'>요약과 원문 링크</strong>로 정리합니다.">모델 릴리스 · 개발자 도구 · 오픈소스 · 연구 소식을 모아 <strong class="hero-strong">요약과 원문 링크</strong>로 정리합니다.</p>
       </div>
 
       <div class="hero-actions">
@@ -114,10 +118,10 @@
             <span class="pn-icon">🧩</span><span data-i18n-en="Popular Plugins" data-i18n-ko="인기 플러그인">인기 플러그인</span>
           </a>
           <a href="news.html" class="pn-link is-active">
-            <span class="pn-icon">📰</span><span data-i18n-en="Daily News" data-i18n-ko="데일리뉴스">데일리뉴스</span>
+            <span class="pn-icon">📰</span><span data-i18n-en="AI News" data-i18n-ko="AI 뉴스">AI 뉴스</span>
           </a>
-          <a href="study.html" class="pn-link">
-            <span class="pn-icon">📚</span><span data-i18n-en="Study" data-i18n-ko="스터디">스터디</span>
+          <a href="starboard.html" class="pn-link">
+            <span class="pn-icon">📈</span><span data-i18n-en="Starboard" data-i18n-ko="스타보드">스타보드</span>
           </a>
         </nav>
         <div class="unb-summary" id="page-summary">—</div>
@@ -139,11 +143,11 @@
   </div>
 
   <!-- Feed grouped by day -->
-  <main id="news-feed-container"><div style="text-align:center;padding:60px 0;color:var(--muted);font-size:15px;">데일리뉴스 콘텐츠가 여기에 렌더링됩니다.</div></main>
+  <main id="news-feed-container"><div style="text-align:center;padding:60px 0;color:var(--muted);font-size:15px;" data-i18n-en="Loading AI news…" data-i18n-ko="AI 뉴스를 불러오는 중…">AI 뉴스를 불러오는 중…</div></main>
 
   <footer class="site-footer">
     <span>AI위클리 · Claude Code 주간 인덱스</span>
-    <span><a href="index.html">인기 플러그인</a> · <a href="news.html">데일리뉴스</a> · <a href="study.html">스터디</a></span>
+    <span><a href="index.html">인기 플러그인</a> · <a href="news.html">AI 뉴스</a> · <a href="starboard.html">스타보드</a></span>
   </footer>
 
 </div>
@@ -156,6 +160,6 @@
   </div>
 </div>
 
-<script src="app.js?v=9"></script>
+<script src="app.js?v=16"></script>
 </body>
 </html>

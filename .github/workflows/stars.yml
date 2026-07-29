@@ -1,0 +1,41 @@
+name: Collect Stars
+
+on:
+  schedule:
+    - cron: '0 23 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: "stars-collection"
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Collect Stars
+        run: node scripts/collect-stars.js
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit and Push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --stat data/ site/public/data/ | grep -q "changed"; then
+            git add data/ site/public/data/
+            git commit -m "chore(stars): daily collect $(date +'%Y-%m-%d')"
+            git push
+          else
+            echo "No changes to commit."
+          fi
