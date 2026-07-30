@@ -10,7 +10,7 @@ const SITE_URL = "https://ldk-hub.github.io/ai-weekly/";
 const ROOT = path.resolve(__dirname, "..", "..");
 const LATEST = path.join(ROOT, "site/public/data/latest.json");
 const ARCHIVE_DIR = path.join(ROOT, "data/archive");
-const OUT = path.join(ROOT, "site/feed.xml");
+const OUT = path.join(ROOT, "site", "public", "feed.xml");
 
 function esc(s) {
   return String(s ?? "")
@@ -149,7 +149,7 @@ ${items}
 
 const newsXml = buildNewsFeed();
 if (newsXml) {
-  const newsOut = path.join(ROOT, "site", "news-feed.xml");
+  const newsOut = path.join(ROOT, "site", "public", "news-feed.xml");
   fs.writeFileSync(newsOut, newsXml);
   console.log(`✓ news RSS written: ${newsOut} (${newsXml.length} bytes)`);
 } else {
@@ -179,6 +179,6 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 ${pages.map((p) => `  <url>\n    <loc>${p.loc}</loc>\n    <lastmod>${p.lastmod}</lastmod>\n${p.extra}\n  </url>`).join("\n")}
 </urlset>
 `;
-const sitemapPath = path.join(ROOT, "site", "sitemap.xml");
+const sitemapPath = path.join(ROOT, "site", "public", "sitemap.xml");
 fs.writeFileSync(sitemapPath, sitemap);
 console.log(`✓ sitemap written: ${sitemapPath}`);
