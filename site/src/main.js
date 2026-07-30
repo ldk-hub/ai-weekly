@@ -29,9 +29,9 @@ async function load(source) {
       // news_index.json 은 과거 항목이 날짜만("2026-07-13.json"), 최근 항목이 접두사까지
       // ("news_2026-07-28.json") 담고 있다. 무조건 접두사를 붙이면 news_news_... 로 404 난다.
       const file = STATE.source.startsWith("news_") ? STATE.source : `news_${STATE.source}`;
-      url = STATE.source === "latest" ? "public/data/news_latest.json" : `public/data/archive/${file}`;
+      url = STATE.source === "latest" ? "data/news_latest.json" : `data/archive/${file}`;
     } else {
-      url = STATE.source === "latest" ? "public/data/latest.json" : `public/data/archive/${STATE.source}`;
+      url = STATE.source === "latest" ? "data/latest.json" : `data/archive/${STATE.source}`;
     }
     try {
       const res = await fetch(url, { cache: "no-store" });
@@ -56,8 +56,8 @@ async function loadArchives() {
     return;
   }
   try {
-    let url = "public/data/archive/index.json";
-    if (isNewsPage) url = "public/data/archive/news_index.json";
+    let url = "data/archive/index.json";
+    if (isNewsPage) url = "data/archive/news_index.json";
     const res = await fetch(url, { cache: "no-store" });
     const j = await res.json();
     STATE.archives = j.archives || [];
