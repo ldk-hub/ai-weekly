@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// _workspace/04_curated.json → latest.json + 아카이브 양쪽 트리 + 인덱스 + RSS + OG.
+// .tmp/04_curated.json → latest.json + 아카이브 양쪽 트리 + 인덱스 + RSS + OG.
 // 주간 발행의 정식 경로. site-builder 는 이 스크립트 1콜 + 검증만 담당한다.
 //
 // 사용: node scripts/publish-curated.js [YYYY-MM-DD]   (기본값: 오늘)
@@ -7,8 +7,8 @@ const fs = require("fs");
 const path = require("path");
 const { execFileSync } = require("child_process");
 
-const ROOT = path.join(__dirname, "..");
-const CURATED = path.join(ROOT, "_workspace", "04_curated.json");
+const ROOT = path.join(__dirname, "..", "..");
+const CURATED = path.join(ROOT, ".tmp", "04_curated.json");
 const LATEST = path.join(ROOT, "site", "public", "data", "latest.json");
 const TODAY = process.argv[2] || new Date().toISOString().slice(0, 10);
 if (!/^\d{4}-\d{2}-\d{2}$/.test(TODAY)) {
@@ -66,7 +66,7 @@ fs.writeFileSync(archiveSitePath, JSON.stringify(latest, null, 2));
 // 매주 사람이 기억해야 하는 후속 단계 3개를 여기서 함께 처리한다.
 for (const s of ["build-archive-index.js", "generate-rss.js", "generate-og.js"]) {
   try {
-    execFileSync("node", [path.join(__dirname, s)], { stdio: "inherit" });
+    execFileSync("node", [path.join(__dirname, "..", "core", s)], { stdio: "inherit" });
   } catch (e) {
     console.warn(`post-step failed (${s}): ${e.message.split("\n")[0]}`);
   }

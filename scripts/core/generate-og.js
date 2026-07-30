@@ -9,7 +9,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const SITE_DIR = path.join(__dirname, "..", "site");
+const SITE_DIR = path.join(__dirname, "..", "..", "site");
 const DATA_PATH = path.join(SITE_DIR, "public", "data", "latest.json");
 const OUT_SVG = path.join(SITE_DIR, "og.svg");
 const OUT_PNG = path.join(SITE_DIR, "og.png");

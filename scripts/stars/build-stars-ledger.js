@@ -15,8 +15,8 @@
 const fs = require("fs");
 const path = require("path");
 
-const ROOT = path.resolve(__dirname, "..");
-const LEDGER = path.join(ROOT, "data", "stars_ledger.json");
+const ROOT = path.resolve(__dirname, "..", "..");
+const LEDGER = path.join(ROOT, "data", "stars", "stars_ledger.json");
 const ARCHIVE_DIR = path.join(ROOT, "data", "archive");
 
 function itemsOf(d) {

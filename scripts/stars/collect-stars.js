@@ -5,9 +5,9 @@ const path = require('path');
 const { execSync } = require('child_process');
 const { load, record } = require('./build-stars-ledger');
 
-const ROOT = path.resolve(__dirname, '..');
-const LEDGER_PATH = path.join(ROOT, 'data', 'stars_ledger.json');
-const META_PATH = path.join(ROOT, 'data', 'stars_meta.json');
+const ROOT = path.resolve(__dirname, "..", "..");
+const LEDGER_PATH = path.join(ROOT, 'data', 'stars', 'stars_ledger.json');
+const META_PATH = path.join(ROOT, 'data', 'stars', 'stars_meta.json');
 const LATEST_PATH = path.join(ROOT, 'site', 'public', 'data', 'latest.json');
 
 function mergeSamples(ledger, oldId, newId) {

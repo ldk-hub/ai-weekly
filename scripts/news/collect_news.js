@@ -13,8 +13,8 @@ const { promisify } = require("util");
 
 const execFileAsync = promisify(execFile);
 
-const ROOT = path.join(__dirname, "..");
-const OUT = path.join(ROOT, "data", "news_candidates.json");
+const ROOT = path.join(__dirname, "..", "..");
+const OUT = path.join(ROOT, ".tmp", "news_candidates.json");
 
 const WINDOW_HOURS = Number(process.env.NEWS_WINDOW_HOURS || 24);
 const SINCE = new Date(Date.now() - WINDOW_HOURS * 3600 * 1000);

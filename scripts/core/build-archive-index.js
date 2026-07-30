@@ -2,7 +2,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const ARCHIVE_DIR = path.join(__dirname, "..", "site", "public", "data", "archive");
+const ARCHIVE_DIR = path.join(__dirname, "..", "..", "site", "public", "data", "archive");
 if (!fs.existsSync(ARCHIVE_DIR)) {
   console.error("archive dir not found:", ARCHIVE_DIR);
   process.exit(0);

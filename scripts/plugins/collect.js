@@ -4,8 +4,8 @@
 const fs = require("fs");
 const path = require("path");
 
-const ROOT = path.join(__dirname, "..");
-const OUT = path.join(ROOT, "data", "candidates.json");
+const ROOT = path.join(__dirname, "..", "..");
+const OUT = path.join(ROOT, ".tmp", "candidates.json");
 const GH_TOKEN = process.env.GH_TOKEN || process.env.GITHUB_TOKEN;
 if (!GH_TOKEN) {
   console.error("GH_TOKEN (or GITHUB_TOKEN) is required");

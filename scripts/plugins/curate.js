@@ -4,8 +4,8 @@
 const fs = require("fs");
 const path = require("path");
 
-const ROOT = path.join(__dirname, "..");
-const CANDIDATES = path.join(ROOT, "data", "candidates.json");
+const ROOT = path.join(__dirname, "..", "..");
+const CANDIDATES = path.join(ROOT, ".tmp", "candidates.json");
 const LATEST = path.join(ROOT, "site", "public", "data", "latest.json");
 const API_KEY = process.env.GEMINI_API_KEY;
 const MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash";

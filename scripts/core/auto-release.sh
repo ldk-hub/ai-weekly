@@ -3,7 +3,7 @@
 # Creates a release with this week's version tag + Top 3 summary
 set -euo pipefail
 
-PROJECT_DIR="${PROJECT_DIR:-$(cd "$(dirname "$0")/.." && pwd)}"
+PROJECT_DIR="${PROJECT_DIR:-$(cd "$(dirname "$0")/../.." && pwd)}"
 LATEST="$PROJECT_DIR/site/public/data/latest.json"
 
 if [[ ! -f "$LATEST" ]]; then
