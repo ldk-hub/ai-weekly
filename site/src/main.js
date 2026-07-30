@@ -7,8 +7,8 @@ async function load(source) {
   if (isStarboardPage) {
     try {
       const [metaRes, ledgerRes] = await Promise.all([
-        fetch("public/data/stars_meta.json", { cache: "no-store" }),
-        fetch("public/data/stars_ledger.json", { cache: "no-store" })
+        fetch("data/stars_meta.json", { cache: "no-store" }),
+        fetch("data/stars_ledger.json", { cache: "no-store" })
       ]);
       const meta = await metaRes.json();
       const ledger = await ledgerRes.json();
