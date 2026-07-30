@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>AI위클리 — AI 뉴스</title>
+    <link>https://ldk-hub.github.io/ai-weekly/news.html</link>
+    <atom:link href="https://ldk-hub.github.io/ai-weekly/news-feed.xml" rel="self" type="application/rss+xml" />
+    <description>모델 릴리스 · 개발자 도구 · 오픈소스 · 연구 소식의 3줄 한국어 요약.</description>
+    <language>ko</language>
+    <lastBuildDate>Tue, 28 Jul 2026 14:36:00 GMT</lastBuildDate>
+    <item>
+      <title>react-native-pure-chart 2.0.0 - SVG/Skia 없이 View만으로 차트 그리는 라이브러리, 9년 만에 AI 에이전트로 부활 시킨 이야기</title>
+      <link>https://news.hada.io/topic?id=31902</link>
+      <guid isPermaLink="false">gn_1</guid>
+      <pubDate>Tue, 28 Jul 2026 04:00:00 GMT</pubDate>
+      <category>GeekNews</category>
+      <category>AI 에이전트</category>
+      <category>React Native</category>
+      <category>오픈소스</category>
+      <description>• 9년 전 만들어졌던 React Native 차트 라이브러리가 AI 에이전트의 도움으로 새롭게 부활했습니다.
+• SVG나 Skia에 의존하지 않고 오직 순수 View 컴포넌트만을 이용해 차트를 렌더링하는 것이 특징입니다.
+• 레거시 프로젝트도 AI를 통해 최신 트렌드에 맞게 리팩토링할 수 있음을 보여준 훌륭한 사례입니다.
+
+react-native-pure-chart 2.0.0 - SVG/Skia 없이 View만으로 차트 그리는 라이브러리, 9년 만에 AI 에이전트로 부활 시킨 이야기. 9년 전에 만들었던 React Native 차트 라이브러리를 AI 코딩 어시스턴트의 도움을 받아 완전히 리팩토링하여 최신 생태계에 맞게 재출시했습니다.</description>
+    </item>
+    <item>
+      <title>LLM에게 신뢰도 점수를 요구하지 마라</title>
+      <link>https://justinflick.com/2026/07/27/llm-confidence-scores.html</link>
+      <guid isPermaLink="false">hn_1</guid>
+      <pubDate>Tue, 28 Jul 2026 03:30:00 GMT</pubDate>
+      <category>Hacker News</category>
+      <category>LLM</category>
+      <category>Prompt Engineering</category>
+      <description>• 사람들은 종종 LLM에게 자신의 답변에 대한 확신도(Confidence Score)를 1~100점 사이로 물어보곤 합니다.
+• 하지만 LLM은 실제로 자신이 얼마나 확신하는지 인지하지 못하며, 그저 그럴듯한 숫자를 지어낼 뿐입니다.
+• 정확도 측정을 위해서는 LLM의 자체 평가 대신 별도의 검증 프레임워크나 외부 데이터 기반의 평가가 필요합니다.
+
+Hello, Reader. If someone sent you this post, you have probably tried to extrude a confidence score out of an LLM. I’ve now had this conversation at multiple companies with multiple people, and I’ve had to explain why asking an LLM &apos;How confident are you?&apos; is a fundamentally flawed approach.</description>
+    </item>
+    <item>
+      <title>synthetic-sciences/openscience — 과학 연구용 오픈소스 AI 워크벤치</title>
+      <link>https://github.com/synthetic-sciences/openscience</link>
+      <guid isPermaLink="false">gh_1</guid>
+      <pubDate>Tue, 28 Jul 2026 05:10:00 GMT</pubDate>
+      <category>GitHub</category>
+      <category>Research</category>
+      <category>AI Workbench</category>
+      <category>오픈소스</category>
+      <description>• 과학 및 연구 환경에 최적화된 새로운 오픈소스 AI 워크벤치가 GitHub에 공개되었습니다.
+• 논문 분석, 가설 검증, 실험 데이터 처리 등 연구자들을 위한 전용 AI 에이전트와 도구 모음을 제공합니다.
+• ML 엔지니어링과 Co-Scientist 패러다임에 관심 있는 개발자들에게 큰 주목을 받고 있습니다.
+
+The open-source AI workbench for scientific research. topics: agent, ai, ai-agent, bun, cli, co-scientist, llm, ml, ml-engineering, open-source, research, research-tools, science, scientific-computing</description>
+    </item>
+    <item>
+      <title>claude-real-video — Claude가 동영상을 직접 이해하게 하는 로컬 오픈소스 툴</title>
+      <link>https://github.com/HUANGCHIHHUNGLeo/claude-real-video</link>
+      <guid isPermaLink="false">gh_2</guid>
+      <pubDate>Tue, 28 Jul 2026 06:20:00 GMT</pubDate>
+      <category>GitHub</category>
+      <category>Video AI</category>
+      <category>Claude</category>
+      <category>Open Source</category>
+      <description>• Claude를 비롯한 LLM이 실제로 비디오를 시청하고 장면을 이해할 수 있도록 돕는 로컬 구동 툴이 출시되었습니다.
+• FFMPEG를 활용해 장면 단위(Scene-aware)로 중복 없는 키프레임을 추출하고 자막과 함께 모델에 전달합니다.
+• URL이나 로컬 비디오 파일을 모두 지원하며, MIT 라이선스로 누구나 쉽게 활용할 수 있습니다.
+
+Let Claude (or any LLM) actually watch a video — scene-aware, deduplicated frames + transcript, from a URL or local file. Runs locally, MIT. topics: claude, claude-code, cli, ffmpeg, keyframe-extraction</description>
+    </item>
+    <item>
+      <title>7 new open source AI tools you need right now</title>
+      <link>https://www.youtube.com/watch?v=Xn-gtHDsaPY</link>
+      <guid isPermaLink="false">yt_1</guid>
+      <pubDate>Tue, 28 Jul 2026 02:15:00 GMT</pubDate>
+      <category>YouTube</category>
+      <category>DevTools</category>
+      <category>Open Source</category>
+      <description>• 코딩 에이전트 시대에 개발자들이 즉시 활용해볼 수 있는 7가지 최신 오픈소스 AI 툴들을 소개하는 영상입니다.
+• 에디터 플러그인부터 터미널 AI 도우미까지 생산성을 극적으로 끌어올리는 강력한 툴들이 포함되어 있습니다.
+• 개발 환경에 AI를 적극적으로 통합하려는 프론트엔드/백엔드 개발자들에게 실용적인 가이드를 제공합니다.
+
+Every developer in 2026 has the same problem. You open your editor, you write one line of code, and suddenly a dozen different AI agents are arguing in your terminal about how to do it better. Here are 7 new tools you must know.</description>
+    </item>
+    <item>
+      <title>AI 에이전트를 배우기 전 반드시 알아야 할 핵심 기초</title>
+      <link>https://www.youtube.com/watch?v=ZaPbP9DwBOE</link>
+      <guid isPermaLink="false">yt_2</guid>
+      <pubDate>Tue, 28 Jul 2026 01:00:00 GMT</pubDate>
+      <category>YouTube</category>
+      <category>AI Agents</category>
+      <category>Tutorial</category>
+      <description>• AI 에이전트(LangChain, LangGraph 등)를 무작정 배우기 전에 확실히 이해해야 할 핵심 개념들을 다룹니다.
+• 프롬프트 엔지니어링, 컨텍스트 윈도우, 토큰, 임베딩, RAG, 벡터 DB, MCP 등 기반 기술을 상세히 설명합니다.
+• 복잡한 에이전트 시스템을 설계하기 위해 반드시 짚고 넘어가야 할 필수 로드맵 영상입니다.
+
+A lot has been going on with AI over the past few years. Prompt engineering, context, windows, tokens, embeddings, rag, vector DB, MCPS, agents, lang chain, langraph, claude, Gemini, and more. If you want to build agents, learn these first.</description>
+    </item>
+    <item>
+      <title>오픈 웨이트 모델에 대한 Anthropic의 입장</title>
+      <link>https://news.hada.io/topic?id=31900</link>
+      <guid isPermaLink="false">gn_2</guid>
+      <pubDate>Tue, 28 Jul 2026 04:10:00 GMT</pubDate>
+      <category>GeekNews</category>
+      <category>Anthropic</category>
+      <category>Open Source</category>
+      <category>LLM</category>
+      <description>• Anthropic은 위험한 능력이 없는 오픈 웨이트 모델을 공공재로 평가하며 긍정적인 입장을 밝혔습니다.
+• 기업, 개발자, 연구자 모두에게 실질적인 가치를 제공한다고 보았습니다.
+• AI 생태계 전반의 범주적인 발전을 지지하는 메시지를 던졌습니다.
+
+오픈 웨이트 모델에 대한 Anthropic의 입장 (anthropic.com). 위험한 능력이 없는 오픈 웨이트 모델은 기업·개발자·연구자에게 가치를 제공하는 공공재이며, Anthropic은 이를 범주 전체에 걸쳐 지지합니다.</description>
+    </item>
+    <item>
+      <title>개발자를 위한 데이터 도구 지형 가이드</title>
+      <link>https://news.hada.io/topic?id=31899</link>
+      <guid isPermaLink="false">gn_3</guid>
+      <pubDate>Tue, 28 Jul 2026 04:05:00 GMT</pubDate>
+      <category>GeekNews</category>
+      <category>Data Engineering</category>
+      <category>Guide</category>
+      <description>• 데이터 분야에 처음 입문하는 소프트웨어 개발자들을 위한 종합적인 가이드입니다.
+• 단순히 도구의 이름을 나열하는 것을 넘어, 데이터의 수집/저장/처리 단계별 역할을 상세히 설명합니다.
+• 복잡한 최신 데이터 인프라 트렌드를 한눈에 파악할 수 있게 도와줍니다.
+
+개발자를 위한 데이터 도구 지형 가이드. 데이터 분야에 처음 참여한 소프트웨어 개발자가 도구의 이름만 외우지 않고, 데이터의 수집/저장/처리/활용 단계에서 각 도구가 맡는 역할과 연결을 이해하도록 돕습니다.</description>
+    </item>
+    <item>
+      <title>Dozenal – 공간 기반 숫자 퍼즐 게임 (Show HN)</title>
+      <link>https://dozenal.game</link>
+      <guid isPermaLink="false">hn_2</guid>
+      <pubDate>Tue, 28 Jul 2026 03:40:00 GMT</pubDate>
+      <category>Hacker News</category>
+      <category>Indie Game</category>
+      <category>Puzzle</category>
+      <description>• 그리드 기반의 새로운 숫자 퍼즐 게임 &apos;Dozenal&apos;이 HackerNews에서 화제가 되었습니다.
+• 공간감각과 산술 능력을 동시에 활용하여 퍼즐을 풀어나가는 독특한 룰을 제공합니다.
+• 단순하면서도 두뇌를 자극하는 인디 게임 프로젝트입니다.
+
+Hello HN! We&apos;re Rory and Chris, and we&apos;ve made a game called Dozenal, a grid-based number puzzle game where the objective is to use all tiles...</description>
+    </item>
+    <item>
+      <title>deer-flow/llm-space — 에이전트 아이디어 검증 및 디버깅을 위한 데스크톱 앱</title>
+      <link>https://github.com/deer-flow/llm-space</link>
+      <guid isPermaLink="false">gh_3</guid>
+      <pubDate>Tue, 28 Jul 2026 05:20:00 GMT</pubDate>
+      <category>GitHub</category>
+      <category>Desktop App</category>
+      <category>AI Agents</category>
+      <category>DevTools</category>
+      <description>• AI 에이전트 아이디어를 빠르게 프로토타이핑하고, 각 실행 단계를 분석할 수 있는 데스크톱 앱입니다.
+• 로컬 우선 설계로 실패를 리플레이하고 성능을 직관적으로 평가할 수 있습니다.
+• 에이전트 개발 주기를 대폭 단축시켜 줄 유용한 개발자 도구입니다.
+
+A desktop app to prototype agent ideas, inspect every harness step, replay failures, and evaluate performance, all in one place. Local-first, cloud-ready.</description>
+    </item>
+    <item>
+      <title>uzairansaruzi/hermex — Hermes 에이전트를 위한 iPhone 네이티브 앱</title>
+      <link>https://github.com/uzairansaruzi/hermex</link>
+      <guid isPermaLink="false">gh_4</guid>
+      <pubDate>Tue, 28 Jul 2026 05:25:00 GMT</pubDate>
+      <category>GitHub</category>
+      <category>iOS</category>
+      <category>Hermes</category>
+      <category>SwiftUI</category>
+      <description>• 셀프 호스팅하는 Hermes AI 에이전트를 모바일에서 편리하게 사용할 수 있는 네이티브 iOS 클라이언트입니다.
+• SwiftUI로 깔끔하게 구현되어 있으며, 개인 서버의 에이전트와 매끄럽게 연동됩니다.
+• 오픈소스로 배포되어 누구나 로컬 에이전트 전용 앱으로 커스터마이징 가능합니다.
+
+Native iPhone app for your Hermes agent. topics: hermes, hermes-agent, hermex, ios, llm, self-hosted, swift, swiftui</description>
+    </item>
+    <item>
+      <title>AI 에이전트 완벽 가이드: 초보자를 위한 포괄적 설명</title>
+      <link>https://www.youtube.com/watch?v=hLJTcVHW8_I</link>
+      <guid isPermaLink="false">yt_3</guid>
+      <pubDate>Tue, 28 Jul 2026 01:10:00 GMT</pubDate>
+      <category>YouTube</category>
+      <category>AI Agents</category>
+      <category>Beginner Guide</category>
+      <description>• AI 에이전트의 작동 원리와 잠재력을 가장 알기 쉽게 풀어낸 초보자 맞춤형 해설 영상입니다.
+• 단순히 정해진 대답을 하는 것을 넘어 목표를 향해 자율적으로 움직이는 에이전트의 차별점을 분석합니다.
+• 복잡한 전문 용어 없이도 트렌드의 핵심을 짚어내어 많은 조회수를 기록 중입니다.
+
+Hello everyone. In today&apos;s video we&apos;ll dive into the fascinating world of AI agents. AI agents are fundamentally changing the way we think about software automation.</description>
+    </item>
+  </channel>
+</rss>
