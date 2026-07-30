@@ -37,20 +37,20 @@ jobs:
       - name: Collect (GitHub + HN, deterministic)
         env:
           GH_TOKEN: ${{ github.token }}
-        run: node scripts/collect.js
+        run: node scripts/plugins/collect.js
 
       - name: Curate (Gemini free tier)
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: node scripts/curate.js
+        run: node scripts/plugins/curate.js
 
       - name: Post-process (RSS · archive · OG)
         run: |
-          node scripts/generate-rss.js || echo "::warning::RSS generation failed (continuing)"
+          node scripts/core/generate-rss.js || echo "::warning::RSS generation failed (continuing)"
           mkdir -p site/public/data/archive
           cp -n data/archive/*.json site/public/data/archive/ 2>/dev/null || true
-          node scripts/build-archive-index.js || echo "::warning::archive index gen failed (continuing)"
-          node scripts/generate-og.js || echo "::warning::OG generation failed (continuing)"
+          node scripts/core/build-archive-index.js || echo "::warning::archive index gen failed (continuing)"
+          node scripts/core/generate-og.js || echo "::warning::OG generation failed (continuing)"
 
       - name: Commit & push
         run: |
@@ -80,9 +80,16 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm install
+      - name: Build site
+        run: npm run build
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: ./site
+          path: ./dist
       - id: deployment
         uses: actions/deploy-pages@v4

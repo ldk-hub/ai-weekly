@@ -24,7 +24,7 @@ jobs:
           node-version: '18'
 
       - name: Collect Stars
-        run: node scripts/collect-stars.js
+        run: node scripts/stars/collect-stars.js
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
