@@ -135,7 +135,9 @@ async function fetchRepo(id, token) {
     full_name: data.full_name,
     stargazers_count: data.stargazers_count,
     pushed_at: data.pushed_at,
-    archived: data.archived
+    archived: data.archived,
+    description: data.description,
+    owner_avatar: data.owner && data.owner.avatar_url
   };
 }
 
@@ -235,6 +237,8 @@ async function main() {
         meta.repos[canonicalId].gone = false;
         meta.repos[canonicalId].suspect = suspectMsg || meta.repos[canonicalId].suspect;
         meta.repos[canonicalId].dormant = isDormant;
+        meta.repos[canonicalId].description = repoData.description || "";
+        meta.repos[canonicalId].owner_avatar = repoData.owner_avatar || "";
         
         successCount++;
       } catch (e) {

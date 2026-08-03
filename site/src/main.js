@@ -1322,20 +1322,9 @@ function starboardCardHTML(item, idx) {
         : `관측 ${item.sparklineData.length}회 · 추이 그래프는 3회부터`}</div>`;
   
   const avatar = (item.meta && item.meta.owner_avatar) ? item.meta.owner_avatar : `https://github.com/${ownerName}.png?size=80`;
-  const desc = (item.meta && item.meta.desc_ko) ? item.meta.desc_ko : "";
+  const desc = (item.meta && item.meta.desc_ko) ? item.meta.desc_ko : ((item.meta && item.meta.description) ? item.meta.description : "");
   
-  let chartComment = "";
-  if (lang === "en") {
-    if (item.velocity > 1000) chartComment = "Explosive star growth on a weekly basis.";
-    else if (item.velocity > 300) chartComment = "Showing a steady upward trend recently.";
-    else if (item.velocity > 0) chartComment = "Gaining slow but consistent traction.";
-    else chartComment = "Growth has plateaued or slowed down.";
-  } else {
-    if (item.velocity > 1000) chartComment = "주간 기준 폭발적인 별(Star) 증가세를 기록 중입니다.";
-    else if (item.velocity > 300) chartComment = "최근 꾸준하고 안정적인 우상향 트렌드를 보입니다.";
-    else if (item.velocity > 0) chartComment = "느리지만 꾸준히 관심을 얻고 있습니다.";
-    else chartComment = "최근 성장세가 다소 주춤하거나 정체된 상태입니다.";
-  }
+  const chartComment = desc;
   
   return `
     <article class="card" style="padding: 24px 22px 0; overflow:hidden;">
