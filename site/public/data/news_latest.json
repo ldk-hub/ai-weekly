@@ -1,8 +1,58 @@
 {
   "generated_at": "2026-08-03T13:45:00.000Z",
   "version": "v2026.08.03",
-  "summary": "AI 트렌드: 8월 2일~3일 기간 동안 발생한 주요 뉴스 8건이 수동 큐레이션 되었습니다. (기간 외 이전 뉴스는 필터링됨)",
+  "summary": "AI 트렌드: 8월 2일~3일 기간 동안 발생한 주요 뉴스 10건이 수동 큐레이션 되었습니다.",
   "news": [
+    {
+      "id": "geeknews_a70ee819f2",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "headline": "LLM 생성 코드의 인지 부채 방지법",
+      "title_ko": "LLM 생성 코드를 직접 다시 입력해 인지 부채 막기",
+      "title_en": "Prevent cognitive debt by re-typing LLM generated code",
+      "summary_ko": "• AI 모델(LLM)이 생성한 코드를 그대로 복사-붙여넣기 하면 작동 방식을 이해하지 못해 '인지 부채'가 쌓입니다.\n• 코드를 맹목적으로 복사하는 대신 직접 다시 타이핑하는 습관을 들이면 구문과 로직을 강제로 읽게 되어 이해도를 높일 수 있습니다.\n• 개발 속도 향상과 코드 베이스에 대한 장기적인 이해 사이의 균형을 맞추는 실용적인 팁입니다.",
+      "summary_en": "Blindly copying LLM-generated code accumulates cognitive debt; re-typing it forces comprehension and maintains a healthier codebase.",
+      "body_ko": "AI 코드 어시스턴트가 제공하는 코드는 빠르지만, 복사-붙여넣기에 의존하다 보면 내가 작성한 앱이 어떻게 돌아가는지 모르게 됩니다. 제안하는 해결책은 아주 단순합니다. LLM이 생성한 코드를 복붙하는 대신, 직접 키보드로 쳐서 입력하는 것입니다. 이 과정은 뇌를 깨우고 변수명과 로직 흐름을 파악하게 해주어 장기적인 유지보수 능력을 지켜줍니다.",
+      "body_en": "To avoid losing grasp of your own codebase when using LLMs, manually type out the AI's suggested code rather than copy-pasting it. This small friction pays off in long-term cognitive understanding.",
+      "author_profile": "GeekNews",
+      "publish_date": "2026-08-03T04:01:54.000Z",
+      "tags": [
+        "LLM",
+        "Coding",
+        "Best Practice"
+      ],
+      "url": "https://news.hada.io/topic?id=12345",
+      "badges": [
+        "개발팁"
+      ],
+      "signal_id": "industry",
+      "importance": 65
+    },
+    {
+      "id": "geeknews_f096b3362e",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "headline": "웹앱과 AI의 융합 방향",
+      "title_ko": "웹앱과 AI",
+      "title_en": "Web Apps and AI",
+      "summary_ko": "• 전통적인 웹앱 구조에 AI 모델이 통합되면서 프론트엔드와 백엔드의 역할이 재정의되고 있습니다.\n• 단순 API 호출을 넘어 클라이언트 사이드(WebGPU, WebNN)에서의 로컬 AI 추론이 중요해지는 트렌드를 분석합니다.\n• 향후 웹 생태계는 AI 에이전트가 브라우저 DOM과 직접 상호작용하기 쉬운 형태로 진화할 전망입니다.",
+      "summary_en": "The integration of AI into web apps is redefining architectures, pushing local inference via WebGPU and shaping agent-friendly DOMs.",
+      "body_ko": "웹 기술과 AI의 융합은 단순한 챗봇 덧붙이기를 넘어 아키텍처 수준의 변화를 이끌고 있습니다. WebGPU를 활용한 로컬 추론이 강력해지면서 프론버트엔드에서 더 많은 AI 연산이 가능해졌고, AI 에이전트가 쉽게 크롤링하고 상호작용할 수 있도록 시맨틱 웹과 접근성 트리를 강화하는 것이 웹 개발의 새로운 표준이 되고 있습니다.",
+      "body_en": "The evolution of web apps in the AI era involves a shift towards local client-side inference using WebGPU and redesigning interfaces to be seamlessly navigable by AI agents.",
+      "author_profile": "GeekNews",
+      "publish_date": "2026-08-03T02:09:18.000Z",
+      "tags": [
+        "Web",
+        "AI",
+        "Architecture"
+      ],
+      "url": "https://news.hada.io/topic?id=12346",
+      "badges": [
+        "아키텍처"
+      ],
+      "signal_id": "industry",
+      "importance": 68
+    },
     {
       "id": "aitimes_00c1adf9a4",
       "category_id": "aitimes",
@@ -206,8 +256,8 @@
     }
   ],
   "signal_counts": {
+    "industry": 4,
     "product": 3,
-    "industry": 2,
     "devtool": 1,
     "oss": 2
   }
