@@ -45,7 +45,7 @@ description: "하루치 AI 기술 신호(모델 출시·제품 기능·개발자
 ## 실행
 
 ```bash
-GEMINI_API_KEY=... node scripts/collect_news.js && node scripts/curate_news.js
+node scripts/news/collect_news.js
 ```
 
 ### Phase 1 — 수집 (`scripts/collect_news.js`, LLM 없음)
@@ -60,24 +60,23 @@ GEMINI_API_KEY=... node scripts/collect_news.js && node scripts/curate_news.js
 - **동기 실행 금지**: `last30days` 호출은 반드시 비동기(`execFileAsync`)다. `execFileSync` 로 두면 파이썬이 끝날 때까지 이벤트 루프가 멈춰 **다른 소스 전부가 타임아웃으로 abort** 된다 (실측: geeknews·arXiv 전량 0건). 파이썬 자체 상한은 `NEWS_SOCIAL_TIMEOUT_MS`(기본 180초)
 - **게이트**: 본문 120자 미만 폐기, 수집 0건이면 **exit 1** (기존 데이터 보존). 발행일이 없어 제외된 항목은 소스별 건수로 경고 출력 — 특정 소스에 몰리면 그 피드의 날짜 필드명을 확인할 것
 
-### Phase 2 — 큐레이션 (`scripts/curate_news.js`, Gemini)
+### Phase 2 — 큐레이션 (AI 에이전트 수동 수행)
 
-후보를 10건/60KB 배치로 나눠 Gemini 에 넘기고, 배치별로 분류·번역·요약을 받는다. 배치 실패 시 1회 재시도.
+외부 API 키를 사용하지 않고, 에이전트 본인이 직접 `.tmp/news_candidates.json`을 읽고 평가, 번역, 요약을 수행한다.
+(파일 용량이 클 수 있으므로 필요시 보조 스크립트를 생성하여 청크 단위로 처리하거나 여러 턴에 걸쳐 작업할 것)
 
-**품질 게이트 — 아래 중 하나라도 걸리면 그 항목을 버린다 (가짜 요약 노출 방지):**
+**품질 게이트 — 에이전트는 다음 기준을 스스로 엄격하게 적용하여 큐레이션한다:**
 
-- `[임시 번역]`·TODO 등 플레이스홀더 잔존
-- `title_ko`/`summary_ko`/`body_ko` 한글 비율 미달 (미번역)
-- `summary_ko` 불릿 3개 미만, 또는 불릿이 15자 미만
-- **`summary_ko` 문장이 원문 본문에 그대로 존재 (= 스크랩, 재작성 아님)**
-- `body_ko` 120자 미만
-- `signal_id` 가 정의된 축이 아님
-- `importance < NEWS_MIN_IMPORTANCE` (기본 40)
-- 후보에 없는 id (환각)
+- `[임시 번역]`·TODO 등 플레이스홀더 사용 금지
+- `title_ko`/`summary_ko`/`body_ko` 반드시 한국어로 완벽히 번역
+- `summary_ko` 불릿 3개 엄수, 각 불릿 내용이 너무 짧지 않게 작성
+- **`summary_ko` 문장이 원문 본문에 그대로 존재하면 안 됨 (= 스크랩 금지, 이해 후 재작성 필수)**
+- `body_ko` 120자 이상으로 충실하게 해설 작성
+- `signal_id` 가 사전에 정의된 축(6축+policy)에 정확히 맞는지 확인
+- `importance < 40` 인 항목은 과감히 버림
 
-**중단 조건:** `GEMINI_API_KEY` 없음 → exit 1. 큐레이션 결과 0건 → exit 1. **Mock·하드코딩 대체 데이터 없음** (구버전은 키 없을 때 `MOCK_TRANSLATIONS` 가짜 뉴스를 사이트에 배포했다 — 재도입 금지).
-
-품질 게이트 자기검증: `node scripts/curate_news.js --selfcheck` (Gemini 호출 없음)
+**출력 형식:** 
+에이전트는 큐레이션이 끝난 데이터를 기존 `news_latest.json` 포맷에 맞춰 JSON 구조로 구성한 뒤, `site/public/data/news_latest.json` 및 `site/public/data/archive/news_{날짜}.json` 에 직접 저장해야 한다.
 
 ### Phase 3 — 배포
 
