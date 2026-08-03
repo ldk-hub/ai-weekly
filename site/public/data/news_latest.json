@@ -1,7 +1,7 @@
 {
   "generated_at": "2026-08-03T13:31:00.000Z",
   "version": "v2026.08.03",
-  "summary": "AI 트렌드: 총 3건의 주요 뉴스가 에이전트를 통해 수동 큐레이션 되었습니다.",
+  "summary": "AI 트렌드: 총 8건의 주요 뉴스가 에이전트를 통해 수동 큐레이션 되었습니다.",
   "news": [
     {
       "id": "anthropic_6ff2575416",
@@ -77,11 +77,140 @@
       ],
       "signal_id": "product",
       "importance": 80
+    },
+    {
+      "id": "hackernews_9dfd2a68e1",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "headline": "하드웨어·소프트웨어 만능 AI 에이전트",
+      "title_ko": "Sprocket: 하드웨어 및 소프트웨어 개발을 위한 최고의 AI 에이전트",
+      "title_en": "Show HN: Sprocket – The Best AI Agent for Hardware and Software Development",
+      "summary_ko": "• 16세 개발자가 개발한 오픈소스 AI 에이전트 Sprocket이 소프트웨어는 물론 하드웨어 설계(BOM 작성, 조립 설명서 등)까지 지원합니다.\n• 웹에서 실시간으로 컨텍스트를 검색하여 높은 신뢰성을 보장하며, 필요시 에이전트가 자체적으로 하드웨어나 SaaS 결제까지 수행할 수 있습니다.\n• Codex나 Cursor에 버금가는 에이전트 하네스 품질과 UI를 제공하며 지속적으로 발전 중입니다.",
+      "summary_en": "Sprocket is an open-source AI agent built by a 16-year-old that excels in both software and hardware design, capable of executing autonomous purchases and generating detailed assembly instructions.",
+      "body_ko": "해커뉴스에 공개된 Sprocket은 16세 개발자가 만든 오픈소스 AI 에이전트로, 소프트웨어뿐만 아니라 하드웨어 개발에 특화된 기능을 제공합니다. React 기반의 회로도 생성, BOM(자재명세서) 작성, 조립 설명서 생성 등을 지원하며, 웹 검색을 통해 최신 컨텍스트를 유지합니다. 가장 놀라운 점은 명령을 받으면 필요한 하드웨어 부품이나 SaaS 구독을 에이전트가 자체적으로 결제 및 구매할 수 있다는 점입니다.",
+      "body_en": "Sprocket is a novel AI agent that bridges software and hardware development. It can generate schematics, BOMs, and assembly instructions, while also possessing the capability to autonomously purchase parts and SaaS subscriptions from the web.",
+      "author_profile": "@amronos",
+      "publish_date": "2026-08-02T16:26:19.000Z",
+      "tags": [
+        "Agent",
+        "Hardware",
+        "Open Source"
+      ],
+      "url": "https://sprocket-demo.spikonado.com",
+      "badges": [
+        "주목"
+      ],
+      "signal_id": "product",
+      "importance": 78
+    },
+    {
+      "id": "hackernews_ae7888d1b8",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "headline": "AI 에이전트 전용 브라우저 자동화",
+      "title_ko": "Agent-Browser: AI 에이전트를 위한 브라우저 자동화 도구",
+      "title_en": "Agent-Browser – Browser Automation for AI",
+      "summary_ko": "• AI 에이전트가 브라우저를 제어할 수 있도록 설계된 100% Rust 기반의 네이티브 CLI 도구입니다.\n• 거대한 DOM 전체를 읽는 대신 압축된 텍스트 기반의 접근성 트리(Accessibility Tree)를 반환하여 LLM의 토큰 사용량을 극적으로 줄였습니다.\n• 상태 유지, 네트워크 제어, 비디오 녹화 등을 지원하며 Claude Code, Codex, Gemini 등 다양한 에이전트와 완벽히 호환됩니다.",
+      "summary_en": "Agent-Browser is a Rust-based CLI designed for AI agents, offering compact accessibility tree snapshots that reduce token usage while providing robust browser automation features.",
+      "body_ko": "Agent-Browser는 AI 에이전트의 브라우저 제어 효율성을 극대화하기 위해 개발된 도구입니다. 기존 도구들이 수천 토큰에 달하는 전체 DOM을 반환했던 것과 달리, 요소별 고유 참조(Ref)가 포함된 압축된 접근성 트리를 반환하여 토큰 사용량을 200~400개 수준으로 줄였습니다. 100% Rust로 작성된 클라이언트-데몬 아키텍처를 채택하여 빠르고 안정적이며, 세션과 쿠키 등 상태 유지 기능을 통해 장기 실행되는 에이전트 워크플로우를 강력하게 지원합니다.",
+      "body_en": "Designed for AI agents, Agent-Browser provides a token-efficient way to navigate and interact with web pages. By returning compact accessibility trees with specific element references, it reduces context size drastically compared to full DOM dumps. It supports native binaries across macOS, Linux, and Windows.",
+      "author_profile": "Hacker News",
+      "publish_date": "2026-08-02T00:00:00.000Z",
+      "tags": [
+        "Browser",
+        "Agent",
+        "Rust"
+      ],
+      "url": "https://agent-browser.dev/",
+      "badges": [
+        "도구"
+      ],
+      "signal_id": "devtool",
+      "importance": 82
+    },
+    {
+      "id": "github_bfd5476dfa",
+      "category_id": "github",
+      "category_name": "GitHub",
+      "headline": "RTX 50 시리즈용 밑바닥부터 짠 추론 엔진",
+      "title_ko": "memra: NVIDIA RTX 50 시리즈를 위한 Rust+CUDA LLM 추론 엔진",
+      "title_en": "avifenesh/memra — from-scratch LLM inference engine for NVIDIA RTX 50-series",
+      "summary_ko": "• 프레임워크나 ggml에 의존하지 않고 Rust와 CUDA만으로 밑바닥부터 작성된 RTX 50 시리즈(Blackwell) 전용 LLM 추론 엔진입니다.\n• 단일 GPU에서 하드웨어 한계치까지 커스텀 커널을 튜닝하여, llama.cpp 대비 최대 2.3배의 추론 속도(Qwen 3.5 모델 기준)를 달성했습니다.\n• MoE 모델의 VRAM 초과 시 RAM과 NVMe로 스필링(Spill)하는 기능을 지원하여 거대 모델을 로컬 환경에서 구동 가능하게 합니다.",
+      "summary_en": "Memra is a from-scratch Rust+CUDA LLM inference engine optimized specifically for NVIDIA RTX 50-series, achieving up to 2.3x performance gains over llama.cpp.",
+      "body_ko": "memra는 NVIDIA RTX 50 시리즈(Blackwell 아키텍처)의 잠재력을 극한으로 끌어내기 위해 ggml 등 기존 프레임워크를 배제하고 Rust와 CUDA로 직접 작성된 LLM 추론 엔진입니다. 하드웨어 스펙에 맞춰 모든 커널이 정밀 튜닝되었으며, Qwen 3.6-35B MoE나 Gemma-4 26B 등 최신 모델을 완벽히 지원합니다. 단일 GPU 환경에서도 VRAM을 초과하는 MoE 전문가 가중치를 RAM과 NVMe 스토리지로 매끄럽게 오프로드하여 쾌적한 속도를 보장합니다.",
+      "body_en": "Memra is a highly optimized, single-GPU LLM inference engine written from scratch in Rust and CUDA for NVIDIA RTX 50-series GPUs. It bypasses existing frameworks to deliver hardware-specific tuned kernels, supporting seamless VRAM-to-NVMe spilling for large MoE models.",
+      "author_profile": "avifenesh",
+      "publish_date": "2026-07-05T20:45:33.000Z",
+      "tags": [
+        "Inference",
+        "CUDA",
+        "Rust",
+        "RTX50"
+      ],
+      "url": "https://github.com/avifenesh/memra",
+      "badges": [
+        "고성능"
+      ],
+      "signal_id": "oss",
+      "importance": 87
+    },
+    {
+      "id": "github_320a038352",
+      "category_id": "github",
+      "category_name": "GitHub",
+      "headline": "초거대 MoE 로컬 구동의 혁신",
+      "title_ko": "pulsar: 거대 MoE 모델을 위한 SSD 스트리밍 추론 엔진",
+      "title_en": "giannisanni/pulsar — SSD-streaming inference engine for giant MoE models",
+      "summary_ko": "• 소비자용 GPU(RTX 4060 Ti 등 16GB) 2장으로 GLM 5.2 743B나 Hy3 295B 등 수백억 파라미터의 거대 MoE 모델을 구동할 수 있는 혁신적인 엔진입니다.\n• 전문가(Expert) 가중치는 NVMe SSD에 두고 토큰 단위로 실시간 스트리밍하며, VRAM에는 핵심 라우터와 어텐션만 상주시키는 방식을 사용합니다.\n• 제로 설정(Zero-config)으로 다중 GPU 대역폭을 스스로 측정하여 가장 최적화된 위치에 메모리를 배치합니다.",
+      "summary_en": "Pulsar allows running giant MoE models (up to 743B) on consumer hardware by streaming expert weights directly from NVMe SSDs while keeping critical components in VRAM.",
+      "body_ko": "pulsar는 감당할 수 없을 만큼 거대한 Mixture-of-Experts(MoE) 모델을 일반 소비자용 PC에서 구동하게 해주는 Rust+CUDA 기반 스트리밍 추론 엔진입니다. 743B 크기의 GLM-5.2 모델을 초당 2토큰, 295B 크기의 Hy3 모델을 초당 7토큰 속도로 추론해 냅니다. VRAM에는 텐서 결정에 필요한 상위 라우터만 올리고 방대한 전문가 가중치들은 PCIe를 통해 NVMe SSD에서 즉석으로 스트리밍하는 기법을 극대화하여 llama.cpp 없이도 로컬 거대 모델 생태계에 새로운 가능성을 열었습니다.",
+      "body_en": "Pulsar is a breakthrough inference engine that enables consumer hardware with limited VRAM to run giant MoE models like the 743B GLM-5.2. It dynamically streams experts from NVMe SSDs per token while intelligently managing multi-GPU PCIe bandwidth.",
+      "author_profile": "giannisanni",
+      "publish_date": "2026-07-13T04:08:14.000Z",
+      "tags": [
+        "Inference",
+        "MoE",
+        "SSD Streaming"
+      ],
+      "url": "https://github.com/giannisanni/pulsar",
+      "badges": [
+        "돌파구"
+      ],
+      "signal_id": "oss",
+      "importance": 89
+    },
+    {
+      "id": "aitimes_02bc1f6c20",
+      "category_id": "aitimes",
+      "category_name": "AI타임스",
+      "headline": "중국 벤처캐피털 AI 투자 총력전",
+      "title_ko": "중국 VC, 3년 한파 깨고 50조 투자 총력전... AI·로봇이 부활 이끈다",
+      "title_en": "Chinese VCs raise $35B targeting AI and robotics",
+      "summary_ko": "• 3년간 극심한 침체를 겪던 중국 벤처캐피털 시장이 딥시크, 문샷 AI 등의 기술력 입증을 바탕으로 약 50조 원(350억 달러) 규모의 신규 펀드를 조성하고 있습니다.\n• 지푸AI와 미니맥스 등의 성공적인 IPO가 투자 심리 회복을 견인했으며, AI 모델뿐 아니라 로봇 산업이 핵심 투자 대상으로 부상했습니다.\n• 글로벌 투자자들은 비용 효율성이 뛰어난 중국 AI 기업 투자를 미국 기술주의 '헤지(Hedge)' 전략으로 인식하고 자금을 투입하고 있습니다.",
+      "summary_en": "Following a three-year freeze, Chinese venture capital is making a massive $35 billion comeback, driven by the success of local AI startups like DeepSeek and robotics.",
+      "body_ko": "중국의 벤처 투자 시장이 AI와 로봇 분야를 중심으로 3년 만에 기지개를 켜고 있습니다. 시장조사기관에 따르면 현재 60여 개의 신규 달러 펀드가 총 350억 달러(약 50조 원) 조달을 목표로 조성 중입니다. 이는 딥시크(DeepSeek)와 문샷 AI 등 중국 토종 모델들이 글로벌 수준의 경쟁력을 증명하고 성공적으로 증시에 안착한 덕분입니다. 투자자들은 맹목적인 분산 투자 대신 AI 에이전트, 로봇 공급망, AI 전용 하드웨어 등 검증된 타깃에 자본을 집중하는 '매수자 시장' 형태로 투자 방향을 정교화하고 있습니다.",
+      "body_en": "Chinese venture capital firms are raising approximately $35 billion in new funds, breaking a three-year investment winter. The resurgence is heavily focused on AI and robotics, spurred by the technological and financial successes of domestic firms like DeepSeek and Moonshot AI. Investors are selectively targeting AI agents and specialized hardware.",
+      "author_profile": "박찬 기자",
+      "publish_date": "2026-08-03T03:30:22.000Z",
+      "tags": [
+        "VC",
+        "China",
+        "Investment",
+        "Robotics"
+      ],
+      "url": "https://www.aitimes.com/news/articleView.html?idxno=213468",
+      "badges": [
+        "투자"
+      ],
+      "signal_id": "industry",
+      "importance": 76
     }
   ],
   "signal_counts": {
     "model": 1,
-    "oss": 1,
-    "product": 1
+    "oss": 3,
+    "product": 2,
+    "devtool": 1,
+    "industry": 1
   }
 }
