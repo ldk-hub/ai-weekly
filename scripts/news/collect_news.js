@@ -194,29 +194,104 @@ async function enrichBodies(candidates) {
 }
 
 // ── 소스별 수집 ───────────────────────────────────────────────────────
-// ①~⑥ 혼합 (국내 개발자 커뮤니티)
-async function fetchGeekNews() {
-  const out = [];
-  try {
-    const feed = await parseFeed("https://news.hada.io/rss/news");
-    for (const item of feed.items) {
-      if (!inWindow(item.pubDate, "geeknews")) continue;
-      if (isLegacy(item.title) || isLegacy(item.contentSnippet)) continue;
-      out.push(makeCandidate({
-        source: "geeknews",
-        sourceName: "GeekNews",
-        url: item.link,
-        title: item.title,
-        author: item.creator || "GeekNews",
-        publishDate: item.pubDate,
-        body: item.contentSnippet || item.content || "",
-        lang: "ko",
-      }));
+// ①~⑥ 혼합 (엄선 피드) — `~/bin/geeknews-dooray.py`(cron 09:00 KST → Dooray webhook)의 소스 테이블 이식
+const FEED_PER_SOURCE = Number(process.env.NEWS_FEED_PER_SOURCE || 5);
+const FEED_MIN_PER_SOURCE = Number(process.env.NEWS_FEED_MIN_PER_SOURCE || 3);
+const FEED_FLOOR_FILL = process.env.NEWS_FEED_FLOOR_FILL !== "0";
+
+const CURATED_FEEDS = [
+  { source: "geeknews", name: "GeekNews", url: "https://news.hada.io/rss/news", lang: "ko" },
+  { source: "simonwillison", name: "Simon Willison", url: "https://simonwillison.net/atom/everything/", lang: "en" },
+  { source: "naverd2", name: "네이버 D2", url: "https://d2.naver.com/d2.atom", lang: "ko" },
+  { source: "aitimes", name: "AI타임스", url: "https://www.aitimes.com/rss/allArticle.xml", lang: "ko" },
+  { source: "anthropic", name: "Anthropic News", url: "scrape:anthropic-news", lang: "en" },
+];
+
+const ANTHROPIC_BASE = "https://www.anthropic.com";
+const ANTHROPIC_CARD_DATE = /([A-Z][a-z]{2}\s+\d{1,2},\s+\d{4})/;
+
+// anthropic.com/news 는 RSS 가 없다. 목록 카드에서 slug+발행일을, 본문 페이지에서 og 메타를 취한다.
+async function fetchAnthropicNews(limit) {
+  const $list = cheerio.load(await (await fetchWithTimeout(`${ANTHROPIC_BASE}/news`)).text());
+  const cards = [];
+  const seen = new Set();
+  $list('a[href^="/news/"]').each((_i, el) => {
+    const slug = ($list(el).attr("href") || "").split("?")[0];
+    if (!/^\/news\/[a-z0-9][a-z0-9-]*$/.test(slug) || seen.has(slug)) return;
+    seen.add(slug);
+    const date = ANTHROPIC_CARD_DATE.exec($list(el).text().replace(/\s+/g, " "));
+    cards.push({ slug, pubDate: date ? date[1] : "" });
+  });
+
+  const picked = cards.slice(0, limit);
+  const out = new Array(picked.length);
+  await pMap(picked, 4, async ({ slug, pubDate }, i) => {
+    try {
+      const $ = cheerio.load(await (await fetchWithTimeout(`${ANTHROPIC_BASE}${slug}`)).text());
+      const meta = (p) => $(`meta[property="${p}"]`).attr("content") || "";
+      const title = (meta("og:title") || $("title").text()).replace(/\s*\\?\s*Anthropic\s*$/, "").trim();
+      if (title) out[i] = { title, link: `${ANTHROPIC_BASE}${slug}`, pubDate, body: meta("og:description") || "" };
+    } catch (e) {
+      console.warn(`[anthropic] ${slug} 실패: ${e.message}`);
     }
+  });
+  return out.filter(Boolean);
+}
+
+function normalizeFeedItems(feed) {
+  return (feed.items || []).map((item) => ({
+    title: item.title,
+    link: item.link,
+    pubDate: item.isoDate || item.pubDate,
+    body: item.contentSnippet || item.content || item.summary || "",
+    author: item.creator || item.author || "",
+  }));
+}
+
+async function fetchCuratedFeed(def) {
+  let raw;
+  try {
+    raw = def.url === "scrape:anthropic-news"
+      ? await fetchAnthropicNews(FEED_PER_SOURCE)
+      : normalizeFeedItems(await parseFeed(def.url));
   } catch (e) {
-    console.warn("[geeknews] 실패:", e.message);
+    console.warn(`[${def.source}] 실패: ${e.message}`);
+    return [];
   }
-  return out;
+
+  const usable = raw
+    .filter((i) => i.title && i.link && !isLegacy(i.title) && !isLegacy(i.body))
+    .sort((a, b) => new Date(b.pubDate || 0) - new Date(a.pubDate || 0));
+
+  const picked = usable.filter((i) => inWindow(i.pubDate, def.source)).slice(0, FEED_PER_SOURCE);
+
+  // 네이버 D2·Anthropic 은 발행 주기가 몇 주라 24시간 창만 보면 상시 0건이다.
+  // 하한(3건)까지만 창 밖에서 최신순으로 채우고 `outside_window` 로 표시해 큐레이터가 강등할 수 있게 한다.
+  const floorFilled = [];
+  if (FEED_FLOOR_FILL && picked.length < FEED_MIN_PER_SOURCE) {
+    const chosen = new Set(picked.map((i) => i.link));
+    for (const i of usable) {
+      if (picked.length + floorFilled.length >= FEED_MIN_PER_SOURCE) break;
+      if (!chosen.has(i.link)) floorFilled.push(i);
+    }
+    if (floorFilled.length) {
+      console.log(`[${def.source}] 24h 내 ${picked.length}건 → 하한 보충 ${floorFilled.length}건 (창 밖, outside_window 표기)`);
+    }
+  }
+
+  return [...picked, ...floorFilled].map((i) => ({
+    ...makeCandidate({
+      source: def.source,
+      sourceName: def.name,
+      url: i.link,
+      title: i.title,
+      author: i.author || def.name,
+      publishDate: i.pubDate,
+      body: i.body,
+      lang: def.lang,
+    }),
+    outside_window: floorFilled.includes(i),
+  }));
 }
 
 // ①②③⑤⑥ (기술 커뮤니티 화제성)
@@ -553,9 +628,9 @@ async function main() {
   console.log(`뉴스 수집 시작 — 최근 ${WINDOW_HOURS}시간 (KST ${NOW_KST.format()})`);
   console.log("==========================================");
 
-  const labels = ["geeknews", "hackernews", "github", "arxiv", "reddit", "social"];
+  const labels = [...CURATED_FEEDS.map((f) => f.source), "hackernews", "github", "arxiv", "reddit", "social"];
   const groups = await Promise.all([
-    fetchGeekNews(),
+    ...CURATED_FEEDS.map((f) => fetchCuratedFeed(f)),
     fetchHackerNews(),
     fetchGitHub(),
     fetchArxiv(),
@@ -563,6 +638,7 @@ async function main() {
     fetchSocial(),
   ]);
   groups.forEach((g, i) => console.log(`[${labels[i]}] ${g.length}건`));
+
   if (Object.keys(dateless).length) {
     console.warn(`[window] 발행일 없음/파싱불가로 제외: ${JSON.stringify(dateless)} — 특정 소스에 몰려 있으면 그 피드의 날짜 필드명을 확인할 것`);
   }
@@ -578,6 +654,14 @@ async function main() {
   const selected = capPerSource(withBody);
   if (selected.length < withBody.length) {
     console.log(`소스별 상한 적용: ${withBody.length} → ${selected.length}건`);
+  }
+
+  // 하한 판정은 수집 직후가 아니라 본문 게이트까지 통과한 최종 건수로 한다 — 노출되는 건 이쪽이다
+  const thin = CURATED_FEEDS
+    .map((f) => [f.source, selected.filter((c) => c.source === f.source).length])
+    .filter(([, n]) => n < FEED_MIN_PER_SOURCE);
+  if (thin.length) {
+    console.warn(`[feeds] 하한(${FEED_MIN_PER_SOURCE}건) 미달: ${thin.map(([s, n]) => `${s}=${n}`).join(", ")} — 피드 응답·본문 게이트를 확인할 것`);
   }
 
   fs.mkdirSync(path.dirname(OUT), { recursive: true });

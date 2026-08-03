@@ -62,13 +62,19 @@ Google: site:x.com "claude code plugin"
 **최소 10건**
 
 ### GeekNews (한국)
+
+`search?q=` 는 쓰지 말 것 — 클라이언트 사이드 Google CSE 라 curl·WebFetch 로는 결과가 0건이다.
+서버 렌더링 목록 페이지를 날짜별로 훑고 로컬에서 키워드 매칭한다.
+
 ```
-https://news.hada.io/search?q=claude
-https://news.hada.io/search?q=앤트로픽
-https://news.hada.io/search?q=MCP
-https://news.hada.io/search?q=클로드
-https://news.hada.io/search?q=AI+에이전트
+https://news.hada.io/new
+https://news.hada.io/past
+https://news.hada.io/past?day=2026-08-03   # 날짜만큼 반복
 ```
+
+**`day=` 는 `YYYY-MM-DD` 다.** `YYYYMMDD` 를 주면 에러 없이 빈 결과가 와서
+조용히 누락된다 (2026-08-03 런: 138건 → 형식 교정 후 298건).
+
 댓글 + 추천 수 기록. **최소 10건**
 
 ### velog

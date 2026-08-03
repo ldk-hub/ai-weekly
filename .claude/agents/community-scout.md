@@ -89,11 +89,12 @@ curl -sS "$BASE?subreddit=ClaudeAI&query=skill&after=$AFTER&limit=25\
 - `site:x.com "claude code plugin"`
 
 ### GeekNews
-- `news.hada.io/search?q=claude`
-- `news.hada.io/search?q=앤트로픽`
-- `news.hada.io/search?q=MCP`
-- `news.hada.io/search?q=클로드`
-- `news.hada.io/search?q=AI 에이전트`
+`search?q=` 는 클라이언트 사이드 Google CSE — curl·WebFetch 결과 0건이라 쓰지 않는다.
+서버 렌더링 목록을 날짜별로 훑고 키워드는 로컬에서 매칭한다.
+- `news.hada.io/new`
+- `news.hada.io/past`
+- `news.hada.io/past?day=2026-08-03` — 필요한 날짜만큼 반복. **`YYYY-MM-DD` 형식.**
+  `YYYYMMDD` 는 에러 없이 빈 결과라 조용히 누락된다 (2026-08-03 런: 138 → 298건)
 
 ### velog
 - `site:velog.io "claude code"` (Google)
