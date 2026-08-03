@@ -1,58 +1,8 @@
 {
-  "generated_at": "2026-08-03T13:31:00.000Z",
+  "generated_at": "2026-08-03T13:45:00.000Z",
   "version": "v2026.08.03",
-  "summary": "AI 트렌드: 총 8건의 주요 뉴스가 에이전트를 통해 수동 큐레이션 되었습니다.",
+  "summary": "AI 트렌드: 8월 2일~3일 기간 동안 발생한 주요 뉴스 8건이 수동 큐레이션 되었습니다. (기간 외 이전 뉴스는 필터링됨)",
   "news": [
-    {
-      "id": "anthropic_6ff2575416",
-      "category_id": "anthropic",
-      "category_name": "Anthropic News",
-      "headline": "Claude Opus 5 출시",
-      "title_ko": "Claude Opus 5 출시: Frontier 모델 성능에 가격은 절반",
-      "title_en": "Introducing Claude Opus 5",
-      "summary_ko": "• Anthropic이 Fable 5급 지능을 절반 가격에 제공하는 새로운 Claude Opus 5 모델을 출시했습니다.\n• 코딩, 지식 작업, 컴퓨터 제어 벤치마크(OSWorld 2.0 등)에서 탁월한 성능을 기록하며 이전 세대 대비 비용 효율성이 크게 향상되었습니다.\n• 스스로 시각화 파이프라인을 구축하거나 근본적인 버그를 수정하는 등 뛰어난 에이전틱 수행 능력을 보여줍니다.",
-      "summary_en": "Anthropic releases Claude Opus 5, offering near-Fable 5 frontier intelligence at half the price, with strong capabilities in agentic coding, problem solving, and visual outputs.",
-      "body_ko": "Anthropic은 성능과 비용 효율성을 획기적으로 개선한 Claude Opus 5를 출시했습니다. 이 모델은 코딩(Frontier-Bench), 컴퓨터 제어(OSWorld 2.0), 유전체학 등 다양한 분야에서 기존 Opus 4.8 대비 압도적인 성능을 보이며 Fable 5 모델에 근접하는 지능을 자랑합니다. 특히 에이전트로서의 끈기와 반복 작업 능력이 강화되어, 막힌 문제를 스스로 우회하거나 근본 원인을 파악해 수정하는 데 탁월한 능력을 발휘합니다.",
-      "body_en": "Anthropic launched Claude Opus 5, a proactive model offering near-Fable 5 intelligence at half the price. It excels in software engineering, knowledge work, and visual outputs, demonstrating strong agency and thoroughness in complex tasks like OSWorld 2.0 and structural biology.",
-      "author_profile": "Anthropic News",
-      "publish_date": "2026-07-23T15:00:00.000Z",
-      "tags": [
-        "LLM",
-        "Anthropic",
-        "Claude"
-      ],
-      "url": "https://www.anthropic.com/news/claude-opus-5",
-      "badges": [
-        "신상"
-      ],
-      "signal_id": "model",
-      "importance": 90
-    },
-    {
-      "id": "github_8c71293d91",
-      "category_id": "github",
-      "category_name": "GitHub",
-      "headline": "오픈소스 AI 에이전트 Cindy",
-      "title_ko": "Cindy: 개봉 즉시 사용 가능한 데스크탑용 오픈소스 AI 에이전트",
-      "title_en": "makecindy/cindy — Consider it done. The open-source AI agent that works out of the box",
-      "summary_ko": "• Cindy는 로컬 환경의 파일과 앱을 직접 다루며 실질적인 업무를 수행하는 데스크탑용 오픈소스 AI 에이전트입니다.\n• Claude Code와 Codex 등 다양한 하네스(Harness)와 모델을 자유롭게 혼합하여 병렬로 작업을 실행하고 검토할 수 있습니다.\n• 로컬 메모리, 스킬 공유, MCP를 통한 시스템 연동 기능 등을 제공하여 사용자 환경에 맞춰 자유롭게 커스터마이징 가능합니다.",
-      "summary_en": "Cindy is an out-of-the-box, open-source desktop AI agent that executes real workflows locally, combining multiple models and harnesses like Claude Code and Codex.",
-      "body_ko": "makecindy가 공개한 Cindy는 즉시 사용 가능한 데스크탑 및 모바일용 오픈소스 AI 에이전트 클라이언트입니다. 로컬 머신의 파일이나 브라우저, 스마트폰을 직접 제어하며 실질적인 작업을 수행할 수 있습니다. 단일 에이전트에 그치지 않고 여러 모델과 하네스를 전환해가며 워크플로우를 구성할 수 있으며, 사용자만의 작업 방식을 '스킬'로 저장해 재사용하거나 MCP(Model Context Protocol)를 통해 사내 도구와 연결할 수 있는 뛰어난 확장성을 자랑합니다.",
-      "body_en": "Cindy is an open-source AI agent that runs locally to complete real work across files and apps. It supports multiple harnesses like Claude Code and Codex, allowing flexible model switching. Users can customize memory, skills, and MCP integrations to automate workflows.",
-      "author_profile": "makecindy",
-      "publish_date": "2026-07-22T17:49:34.000Z",
-      "tags": [
-        "Agent",
-        "Open Source",
-        "Desktop"
-      ],
-      "url": "https://github.com/makecindy/cindy",
-      "badges": [
-        "OSS"
-      ],
-      "signal_id": "oss",
-      "importance": 85
-    },
     {
       "id": "aitimes_00c1adf9a4",
       "category_id": "aitimes",
@@ -61,9 +11,9 @@
       "title_ko": "오픈AI, ChatGPT 크롬 확장 및 데스크톱 앱 브라우저 통합 기능 대규모 업데이트",
       "title_en": "OpenAI enhances ChatGPT browser integration",
       "summary_ko": "• 오픈AI가 ChatGPT 크롬 확장 프로그램에 '사이드 챗' 기능을 추가하여 웹페이지와 유튜브 영상을 실시간으로 분석하고 질문할 수 있게 되었습니다.\n• 데스크톱 앱 내장 브라우저 또한 강화되어 여러 탭의 비교 분석, 브라우저 기록 참조, 웹 내 직접 조작 기능 등이 지원됩니다.\n• 브라우저 환경이 AI 서비스의 주요 격전지로 부상함에 따라, 별도 검색 창 없이 웹 탐색과 AI 활용을 결합하는 '웹 기반 AI 연구 도우미' 전략을 구체화했습니다.",
-      "summary_en": "OpenAI significantly upgraded the ChatGPT Chrome extension and desktop app, introducing 'Side Chat' for real-time web and YouTube analysis without copy-pasting.",
-      "body_ko": "오픈AI가 챗GPT의 웹 브라우징 경험을 대대적으로 개편했습니다. 크롬 확장 프로그램에 추가된 '사이드 챗'을 통해 사용자는 현재 보고 있는 기사나 유튜브 영상을 복사·붙여넣기 없이 즉시 분석하고 요약할 수 있습니다. 또한 데스크톱 앱은 내장 브라우저를 활용해 여러 쇼핑몰이나 탭을 비교 분석하고, 기록을 기반으로 개인화된 추천을 제공합니다. 이는 단순한 챗봇을 넘어 브라우저를 통합적인 'AI 워크스페이스'로 전환하려는 강력한 행보로 풀이됩니다.",
-      "body_en": "OpenAI announced a major update to ChatGPT's Chrome extension and desktop app, introducing seamless browser integration. The new 'Side Chat' allows users to query currently viewed web pages and YouTube videos directly. The desktop app now supports analyzing multiple tabs and operating as a web-based AI research assistant.",
+      "summary_en": "OpenAI significantly upgraded the ChatGPT Chrome extension and desktop app, introducing 'Side Chat' for real-time web and YouTube analysis.",
+      "body_ko": "오픈AI가 챗GPT의 웹 브라우징 경험을 대대적으로 개편했습니다. 크롬 확장 프로그램에 추가된 '사이드 챗'을 통해 사용자는 현재 보고 있는 기사나 유튜브 영상을 복사·붙여넣기 없이 즉시 분석하고 요약할 수 있습니다. 데스크톱 앱은 내장 브라우저를 활용해 여러 탭을 비교 분석하고, 기록을 기반으로 개인화된 추천을 제공합니다.",
+      "body_en": "OpenAI announced a major update to ChatGPT's Chrome extension and desktop app, introducing seamless browser integration with 'Side Chat'.",
       "author_profile": "박찬 기자",
       "publish_date": "2026-08-03T03:20:33.000Z",
       "tags": [
@@ -76,7 +26,58 @@
         "제품"
       ],
       "signal_id": "product",
+      "importance": 85
+    },
+    {
+      "id": "aitimes_02bc1f6c20",
+      "category_id": "aitimes",
+      "category_name": "AI타임스",
+      "headline": "중국 벤처캐피털 AI 투자 총력전",
+      "title_ko": "중국 VC, 3년 한파 깨고 50조 투자 총력전... AI·로봇이 부활 이끈다",
+      "title_en": "Chinese VCs raise $35B targeting AI and robotics",
+      "summary_ko": "• 3년간 극심한 침체를 겪던 중국 벤처캐피털 시장이 딥시크, 문샷 AI 등의 기술력 입증을 바탕으로 약 50조 원(350억 달러) 규모의 신규 펀드를 조성하고 있습니다.\n• 지푸AI와 미니맥스 등의 성공적인 IPO가 투자 심리 회복을 견인했으며, AI 모델뿐 아니라 로봇 산업이 핵심 투자 대상으로 부상했습니다.\n• 글로벌 투자자들은 비용 효율성이 뛰어난 중국 AI 기업 투자를 미국 기술주의 '헤지(Hedge)' 전략으로 인식하고 자금을 투입하고 있습니다.",
+      "summary_en": "Following a three-year freeze, Chinese venture capital is making a massive $35 billion comeback, driven by the success of local AI startups.",
+      "body_ko": "중국의 벤처 투자 시장이 AI와 로봇 분야를 중심으로 3년 만에 기지개를 켜고 있습니다. 시장조사기관에 따르면 현재 60여 개의 신규 달러 펀드가 총 350억 달러(약 50조 원) 조달을 목표로 조성 중입니다. 이는 딥시크(DeepSeek)와 문샷 AI 등 중국 토종 모델들이 글로벌 경쟁력을 증명한 덕분입니다.",
+      "body_en": "Chinese venture capital firms are raising approximately $35 billion in new funds, breaking a three-year investment winter.",
+      "author_profile": "박찬 기자",
+      "publish_date": "2026-08-03T03:30:22.000Z",
+      "tags": [
+        "VC",
+        "China",
+        "Investment",
+        "Robotics"
+      ],
+      "url": "https://www.aitimes.com/news/articleView.html?idxno=213468",
+      "badges": [
+        "투자"
+      ],
+      "signal_id": "industry",
       "importance": 80
+    },
+    {
+      "id": "aitimes_apple_bug",
+      "category_id": "aitimes",
+      "category_name": "AI타임스",
+      "headline": "ChatGPT로 애플 버그 적발",
+      "title_ko": "챗GPT로 3주 만에 취약점 50개 적발…애플, AI 시대 버그 바운티 '과부하'",
+      "title_en": "ChatGPT finds 50 vulnerabilities in 3 weeks, overloading Apple's bug bounty",
+      "summary_ko": "• 해커들이 ChatGPT를 활용하여 불과 3주 만에 애플 시스템에서 50개의 보안 취약점을 찾아내어 보고했습니다.\n• AI의 발전으로 취약점 스캐닝과 보고서 작성이 자동화되면서 기업들의 버그 바운티 프로그램이 밀려드는 리포트로 과부하를 겪고 있습니다.\n• 이는 AI가 보안 분석에 가져온 혁신적인 속도를 보여주는 동시에, 새로운 보안 방어 체계의 필요성을 시사합니다.",
+      "summary_en": "Hackers leveraged ChatGPT to discover 50 vulnerabilities in Apple's systems within three weeks, overwhelming their bug bounty program.",
+      "body_ko": "AI 기술의 발전이 보안 업계에 양날의 검이 되고 있습니다. 해커들이 챗GPT를 이용해 코드 취약점을 자동 분석하고 보고서를 생성함으로써 3주 만에 애플에서 50개의 버그를 찾아냈습니다. 이로 인해 버그 바운티 팀이 폭주하는 보고서를 감당하지 못하는 상황이 발생했습니다.",
+      "body_en": "AI-powered vulnerability scanning is revolutionizing cybersecurity, as hackers used ChatGPT to find 50 bugs in Apple systems in just three weeks.",
+      "author_profile": "AI타임스",
+      "publish_date": "2026-08-03T03:07:16.000Z",
+      "tags": [
+        "Security",
+        "Apple",
+        "ChatGPT"
+      ],
+      "url": "https://www.aitimes.com",
+      "badges": [
+        "보안"
+      ],
+      "signal_id": "industry",
+      "importance": 75
     },
     {
       "id": "hackernews_9dfd2a68e1",
@@ -86,9 +87,9 @@
       "title_ko": "Sprocket: 하드웨어 및 소프트웨어 개발을 위한 최고의 AI 에이전트",
       "title_en": "Show HN: Sprocket – The Best AI Agent for Hardware and Software Development",
       "summary_ko": "• 16세 개발자가 개발한 오픈소스 AI 에이전트 Sprocket이 소프트웨어는 물론 하드웨어 설계(BOM 작성, 조립 설명서 등)까지 지원합니다.\n• 웹에서 실시간으로 컨텍스트를 검색하여 높은 신뢰성을 보장하며, 필요시 에이전트가 자체적으로 하드웨어나 SaaS 결제까지 수행할 수 있습니다.\n• Codex나 Cursor에 버금가는 에이전트 하네스 품질과 UI를 제공하며 지속적으로 발전 중입니다.",
-      "summary_en": "Sprocket is an open-source AI agent built by a 16-year-old that excels in both software and hardware design, capable of executing autonomous purchases and generating detailed assembly instructions.",
-      "body_ko": "해커뉴스에 공개된 Sprocket은 16세 개발자가 만든 오픈소스 AI 에이전트로, 소프트웨어뿐만 아니라 하드웨어 개발에 특화된 기능을 제공합니다. React 기반의 회로도 생성, BOM(자재명세서) 작성, 조립 설명서 생성 등을 지원하며, 웹 검색을 통해 최신 컨텍스트를 유지합니다. 가장 놀라운 점은 명령을 받으면 필요한 하드웨어 부품이나 SaaS 구독을 에이전트가 자체적으로 결제 및 구매할 수 있다는 점입니다.",
-      "body_en": "Sprocket is a novel AI agent that bridges software and hardware development. It can generate schematics, BOMs, and assembly instructions, while also possessing the capability to autonomously purchase parts and SaaS subscriptions from the web.",
+      "summary_en": "Sprocket is an open-source AI agent built by a 16-year-old that excels in both software and hardware design.",
+      "body_ko": "해커뉴스에 공개된 Sprocket은 16세 개발자가 만든 오픈소스 AI 에이전트로, 소프트웨어뿐만 아니라 하드웨어 개발에 특화된 기능을 제공합니다. 가장 놀라운 점은 명령을 받으면 필요한 하드웨어 부품이나 SaaS 구독을 에이전트가 자체적으로 결제 및 구매할 수 있다는 점입니다.",
+      "body_en": "Sprocket is a novel AI agent that bridges software and hardware development. It can generate schematics, BOMs, and assembly instructions.",
       "author_profile": "@amronos",
       "publish_date": "2026-08-02T16:26:19.000Z",
       "tags": [
@@ -111,9 +112,9 @@
       "title_ko": "Agent-Browser: AI 에이전트를 위한 브라우저 자동화 도구",
       "title_en": "Agent-Browser – Browser Automation for AI",
       "summary_ko": "• AI 에이전트가 브라우저를 제어할 수 있도록 설계된 100% Rust 기반의 네이티브 CLI 도구입니다.\n• 거대한 DOM 전체를 읽는 대신 압축된 텍스트 기반의 접근성 트리(Accessibility Tree)를 반환하여 LLM의 토큰 사용량을 극적으로 줄였습니다.\n• 상태 유지, 네트워크 제어, 비디오 녹화 등을 지원하며 Claude Code, Codex, Gemini 등 다양한 에이전트와 완벽히 호환됩니다.",
-      "summary_en": "Agent-Browser is a Rust-based CLI designed for AI agents, offering compact accessibility tree snapshots that reduce token usage while providing robust browser automation features.",
-      "body_ko": "Agent-Browser는 AI 에이전트의 브라우저 제어 효율성을 극대화하기 위해 개발된 도구입니다. 기존 도구들이 수천 토큰에 달하는 전체 DOM을 반환했던 것과 달리, 요소별 고유 참조(Ref)가 포함된 압축된 접근성 트리를 반환하여 토큰 사용량을 200~400개 수준으로 줄였습니다. 100% Rust로 작성된 클라이언트-데몬 아키텍처를 채택하여 빠르고 안정적이며, 세션과 쿠키 등 상태 유지 기능을 통해 장기 실행되는 에이전트 워크플로우를 강력하게 지원합니다.",
-      "body_en": "Designed for AI agents, Agent-Browser provides a token-efficient way to navigate and interact with web pages. By returning compact accessibility trees with specific element references, it reduces context size drastically compared to full DOM dumps. It supports native binaries across macOS, Linux, and Windows.",
+      "summary_en": "Agent-Browser is a Rust-based CLI designed for AI agents, offering compact accessibility tree snapshots.",
+      "body_ko": "Agent-Browser는 AI 에이전트의 브라우저 제어 효율성을 극대화하기 위해 개발된 도구입니다. 기존 도구들이 수천 토큰에 달하는 전체 DOM을 반환했던 것과 달리, 요소별 고유 참조(Ref)가 포함된 압축된 접근성 트리를 반환하여 토큰 사용량을 200~400개 수준으로 줄였습니다.",
+      "body_en": "Designed for AI agents, Agent-Browser provides a token-efficient way to navigate and interact with web pages.",
       "author_profile": "Hacker News",
       "publish_date": "2026-08-02T00:00:00.000Z",
       "tags": [
@@ -129,88 +130,85 @@
       "importance": 82
     },
     {
-      "id": "github_bfd5476dfa",
+      "id": "github_determinflow",
       "category_id": "github",
       "category_name": "GitHub",
-      "headline": "RTX 50 시리즈용 밑바닥부터 짠 추론 엔진",
-      "title_ko": "memra: NVIDIA RTX 50 시리즈를 위한 Rust+CUDA LLM 추론 엔진",
-      "title_en": "avifenesh/memra — from-scratch LLM inference engine for NVIDIA RTX 50-series",
-      "summary_ko": "• 프레임워크나 ggml에 의존하지 않고 Rust와 CUDA만으로 밑바닥부터 작성된 RTX 50 시리즈(Blackwell) 전용 LLM 추론 엔진입니다.\n• 단일 GPU에서 하드웨어 한계치까지 커스텀 커널을 튜닝하여, llama.cpp 대비 최대 2.3배의 추론 속도(Qwen 3.5 모델 기준)를 달성했습니다.\n• MoE 모델의 VRAM 초과 시 RAM과 NVMe로 스필링(Spill)하는 기능을 지원하여 거대 모델을 로컬 환경에서 구동 가능하게 합니다.",
-      "summary_en": "Memra is a from-scratch Rust+CUDA LLM inference engine optimized specifically for NVIDIA RTX 50-series, achieving up to 2.3x performance gains over llama.cpp.",
-      "body_ko": "memra는 NVIDIA RTX 50 시리즈(Blackwell 아키텍처)의 잠재력을 극한으로 끌어내기 위해 ggml 등 기존 프레임워크를 배제하고 Rust와 CUDA로 직접 작성된 LLM 추론 엔진입니다. 하드웨어 스펙에 맞춰 모든 커널이 정밀 튜닝되었으며, Qwen 3.6-35B MoE나 Gemma-4 26B 등 최신 모델을 완벽히 지원합니다. 단일 GPU 환경에서도 VRAM을 초과하는 MoE 전문가 가중치를 RAM과 NVMe 스토리지로 매끄럽게 오프로드하여 쾌적한 속도를 보장합니다.",
-      "body_en": "Memra is a highly optimized, single-GPU LLM inference engine written from scratch in Rust and CUDA for NVIDIA RTX 50-series GPUs. It bypasses existing frameworks to deliver hardware-specific tuned kernels, supporting seamless VRAM-to-NVMe spilling for large MoE models.",
-      "author_profile": "avifenesh",
-      "publish_date": "2026-07-05T20:45:33.000Z",
+      "headline": "프로덕션급 AI 워크플로우 런타임",
+      "title_ko": "DeterminFlow: 프로덕션 환경을 위한 AI 워크플로우 런타임",
+      "title_en": "alikon-art/DeterminFlow — A production-oriented AI workflow runtime",
+      "summary_ko": "• DeterminFlow는 복잡한 AI 워크플로우를 안정적인 서비스로 구축, 검증 및 배포하기 위한 프로덕션 지향 런타임입니다.\n• 장애 발생 시 신속한 복구와 검증을 지원하여 AI 서비스의 신뢰성을 엔터프라이즈 수준으로 끌어올립니다.\n• 신뢰성 높은 AI 인프라 구축을 위한 최신 오픈소스 트렌드를 보여줍니다.",
+      "summary_en": "DeterminFlow is a production-oriented AI workflow runtime designed for building, validating, and shipping reliable complex AI workflows.",
+      "body_ko": "이 프로젝트는 AI 모델 자체보다는 워크플로우의 안정적이고 반복 가능한 실행에 초점을 맞춘 런타임입니다. 엔터프라이즈 환경에서 요구되는 장애 복구(Recovery)와 검증 기능을 내장하고 있습니다.",
+      "body_en": "This runtime focuses on shipping dependable AI workflows by providing robust validation and recovery mechanisms suitable for enterprise deployments.",
+      "author_profile": "alikon-art",
+      "publish_date": "2026-08-02T07:40:51.000Z",
       "tags": [
-        "Inference",
-        "CUDA",
-        "Rust",
-        "RTX50"
+        "Workflow",
+        "Runtime",
+        "Production"
       ],
-      "url": "https://github.com/avifenesh/memra",
+      "url": "https://github.com/alikon-art/DeterminFlow",
       "badges": [
-        "고성능"
+        "OSS"
       ],
       "signal_id": "oss",
-      "importance": 87
+      "importance": 65
     },
     {
-      "id": "github_320a038352",
+      "id": "github_hanami",
       "category_id": "github",
       "category_name": "GitHub",
-      "headline": "초거대 MoE 로컬 구동의 혁신",
-      "title_ko": "pulsar: 거대 MoE 모델을 위한 SSD 스트리밍 추론 엔진",
-      "title_en": "giannisanni/pulsar — SSD-streaming inference engine for giant MoE models",
-      "summary_ko": "• 소비자용 GPU(RTX 4060 Ti 등 16GB) 2장으로 GLM 5.2 743B나 Hy3 295B 등 수백억 파라미터의 거대 MoE 모델을 구동할 수 있는 혁신적인 엔진입니다.\n• 전문가(Expert) 가중치는 NVMe SSD에 두고 토큰 단위로 실시간 스트리밍하며, VRAM에는 핵심 라우터와 어텐션만 상주시키는 방식을 사용합니다.\n• 제로 설정(Zero-config)으로 다중 GPU 대역폭을 스스로 측정하여 가장 최적화된 위치에 메모리를 배치합니다.",
-      "summary_en": "Pulsar allows running giant MoE models (up to 743B) on consumer hardware by streaming expert weights directly from NVMe SSDs while keeping critical components in VRAM.",
-      "body_ko": "pulsar는 감당할 수 없을 만큼 거대한 Mixture-of-Experts(MoE) 모델을 일반 소비자용 PC에서 구동하게 해주는 Rust+CUDA 기반 스트리밍 추론 엔진입니다. 743B 크기의 GLM-5.2 모델을 초당 2토큰, 295B 크기의 Hy3 모델을 초당 7토큰 속도로 추론해 냅니다. VRAM에는 텐서 결정에 필요한 상위 라우터만 올리고 방대한 전문가 가중치들은 PCIe를 통해 NVMe SSD에서 즉석으로 스트리밍하는 기법을 극대화하여 llama.cpp 없이도 로컬 거대 모델 생태계에 새로운 가능성을 열었습니다.",
-      "body_en": "Pulsar is a breakthrough inference engine that enables consumer hardware with limited VRAM to run giant MoE models like the 743B GLM-5.2. It dynamically streams experts from NVMe SSDs per token while intelligently managing multi-GPU PCIe bandwidth.",
-      "author_profile": "giannisanni",
-      "publish_date": "2026-07-13T04:08:14.000Z",
+      "headline": "경량화된 3D 로컬 AI 챗 동반자",
+      "title_ko": "Hanami: 초경량 로컬 중심 3D LLM 채팅 동반자",
+      "title_en": "Undi95/Hanami — An ultra-light, local-first LLM chat companion with a living 3D VRM avatar",
+      "summary_ko": "• DB나 클라우드 의존성 없이 완벽히 로컬에서 동작하는 초경량 3D VRM 아바타 챗 동반자입니다.\n• 텍스트 입력에 실시간으로 반응하며 걷고 앉고 제스처를 취하는 등 생동감 있는 인터랙션을 제공합니다.\n• 구독료나 클라우드 비용 없이 누구나 개인화된 AI 동반자를 로컬에서 쾌적하게 구동할 수 있습니다.",
+      "summary_en": "Hanami is an ultra-light, local-first LLM chat companion featuring a responsive 3D VRM avatar with no cloud or database dependencies.",
+      "body_ko": "Hanami는 프라이버시를 완벽히 보장하면서 생동감 있는 3D 캐릭터와 대화할 수 있는 오픈소스 프로젝트입니다. 무거운 데이터베이스나 유료 클라우드 API 없이도 사용자의 타자 입력에 즉각적으로 반응하며 자연스러운 움직임을 보여줍니다.",
+      "body_en": "Hanami offers a private, local-only 3D avatar chat experience, providing fluid animations and immediate responses to user input without any paywalls or cloud services.",
+      "author_profile": "Undi95",
+      "publish_date": "2026-08-02T02:15:06.000Z",
       "tags": [
-        "Inference",
-        "MoE",
-        "SSD Streaming"
+        "Local",
+        "3D Avatar",
+        "Companion"
       ],
-      "url": "https://github.com/giannisanni/pulsar",
+      "url": "https://github.com/Undi95/Hanami",
       "badges": [
-        "돌파구"
+        "트렌드"
       ],
       "signal_id": "oss",
-      "importance": 89
+      "importance": 70
     },
     {
-      "id": "aitimes_02bc1f6c20",
-      "category_id": "aitimes",
-      "category_name": "AI타임스",
-      "headline": "중국 벤처캐피털 AI 투자 총력전",
-      "title_ko": "중국 VC, 3년 한파 깨고 50조 투자 총력전... AI·로봇이 부활 이끈다",
-      "title_en": "Chinese VCs raise $35B targeting AI and robotics",
-      "summary_ko": "• 3년간 극심한 침체를 겪던 중국 벤처캐피털 시장이 딥시크, 문샷 AI 등의 기술력 입증을 바탕으로 약 50조 원(350억 달러) 규모의 신규 펀드를 조성하고 있습니다.\n• 지푸AI와 미니맥스 등의 성공적인 IPO가 투자 심리 회복을 견인했으며, AI 모델뿐 아니라 로봇 산업이 핵심 투자 대상으로 부상했습니다.\n• 글로벌 투자자들은 비용 효율성이 뛰어난 중국 AI 기업 투자를 미국 기술주의 '헤지(Hedge)' 전략으로 인식하고 자금을 투입하고 있습니다.",
-      "summary_en": "Following a three-year freeze, Chinese venture capital is making a massive $35 billion comeback, driven by the success of local AI startups like DeepSeek and robotics.",
-      "body_ko": "중국의 벤처 투자 시장이 AI와 로봇 분야를 중심으로 3년 만에 기지개를 켜고 있습니다. 시장조사기관에 따르면 현재 60여 개의 신규 달러 펀드가 총 350억 달러(약 50조 원) 조달을 목표로 조성 중입니다. 이는 딥시크(DeepSeek)와 문샷 AI 등 중국 토종 모델들이 글로벌 수준의 경쟁력을 증명하고 성공적으로 증시에 안착한 덕분입니다. 투자자들은 맹목적인 분산 투자 대신 AI 에이전트, 로봇 공급망, AI 전용 하드웨어 등 검증된 타깃에 자본을 집중하는 '매수자 시장' 형태로 투자 방향을 정교화하고 있습니다.",
-      "body_en": "Chinese venture capital firms are raising approximately $35 billion in new funds, breaking a three-year investment winter. The resurgence is heavily focused on AI and robotics, spurred by the technological and financial successes of domestic firms like DeepSeek and Moonshot AI. Investors are selectively targeting AI agents and specialized hardware.",
-      "author_profile": "박찬 기자",
-      "publish_date": "2026-08-03T03:30:22.000Z",
+      "id": "github_mavenix",
+      "category_id": "github",
+      "category_name": "GitHub",
+      "headline": "운영 및 자동화 특화 AI 에이전트",
+      "title_ko": "Mavenix: OpenClaw 기반 운영 및 자동화 전문 AI 에이전트",
+      "title_en": "Maventlabs/Mavenix — An Operations & Automation Specialist AI Agent powered by OpenClaw",
+      "summary_ko": "• OpenClaw 프레임워크를 바탕으로 구축된 고도화된 운영 및 워크플로우 자동화 전문 에이전트입니다.\n• 거시적인 비즈니스 전략과 실제 확장 가능한 실행 레이어 사이의 간극을 지능적인 오케스트레이션으로 메워줍니다.\n• 반복 업무를 자동화하고 프로세스 효율을 극대화하는 데 특화되어 있습니다.",
+      "summary_en": "Mavenix is an Operations & Automation Specialist AI Agent powered by OpenClaw, bridging high-level strategy with reliable execution.",
+      "body_ko": "Mavenix는 단순 반복 업무를 넘어 복잡한 비즈니스 프로세스와 오케스트레이션을 담당할 수 있도록 설계된 전문 에이전트입니다. OpenClaw 프레임워크의 강력한 기능을 활용해 추상적인 전략을 구체적이고 신뢰할 수 있는 자동화 워크플로우로 변환해 냅니다.",
+      "body_en": "Leveraging the OpenClaw framework, Mavenix specializes in transforming high-level business strategies into scalable, automated workflows and process orchestrations.",
+      "author_profile": "Maventlabs",
+      "publish_date": "2026-08-02T02:15:49.000Z",
       "tags": [
-        "VC",
-        "China",
-        "Investment",
-        "Robotics"
+        "Automation",
+        "Agent",
+        "OpenClaw"
       ],
-      "url": "https://www.aitimes.com/news/articleView.html?idxno=213468",
+      "url": "https://github.com/Maventlabs/Mavenix",
       "badges": [
-        "투자"
+        "자동화"
       ],
-      "signal_id": "industry",
-      "importance": 76
+      "signal_id": "product",
+      "importance": 68
     }
   ],
   "signal_counts": {
-    "model": 1,
-    "oss": 3,
-    "product": 2,
+    "product": 3,
+    "industry": 2,
     "devtool": 1,
-    "industry": 1
+    "oss": 2
   }
 }
