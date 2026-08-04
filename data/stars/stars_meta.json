@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-08-04T23:51:31.078Z",
+  "generated_at": "2026-08-04T23:57:37.591Z",
   "repos": {
     "santifer/career-ops": {
-      "pushed_at": "2026-08-04T20:46:07Z",
+      "pushed_at": "2026-08-04T23:55:35Z",
       "archived": false,
       "checked_at": "2026-08-04",
       "gone": false,
@@ -125,7 +125,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/144026857?v=4"
     },
     "openclaw/openclaw": {
-      "pushed_at": "2026-08-04T23:50:27Z",
+      "pushed_at": "2026-08-04T23:54:24Z",
       "archived": false,
       "checked_at": "2026-08-04",
       "gone": false,
@@ -135,7 +135,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/252820863?v=4"
     },
     "modelcontextprotocol/servers": {
-      "pushed_at": "2026-08-04T10:33:31Z",
+      "pushed_at": "2026-08-04T23:54:25Z",
       "archived": false,
       "checked_at": "2026-08-04",
       "gone": false,
@@ -627,7 +627,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/118165258?v=4"
     },
     "anthropics/claude-plugins-official": {
-      "pushed_at": "2026-08-04T23:37:33Z",
+      "pushed_at": "2026-08-04T23:57:37Z",
       "archived": false,
       "checked_at": "2026-08-04",
       "gone": false,
@@ -770,7 +770,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/74989412?v=4"
     },
     "anthropics/knowledge-work-plugins": {
-      "pushed_at": "2026-08-04T23:33:36Z",
+      "pushed_at": "2026-08-04T23:57:05Z",
       "archived": false,
       "checked_at": "2026-08-04",
       "gone": false,
@@ -820,7 +820,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/1672?v=4"
     },
     "can1357/oh-my-pi": {
-      "pushed_at": "2026-08-04T21:20:13Z",
+      "pushed_at": "2026-08-04T23:53:36Z",
       "archived": false,
       "checked_at": "2026-08-04",
       "gone": false,
@@ -910,7 +910,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/275299222?v=4"
     },
     "minetechnic2012-lang/claude-ops-inspector": {
-      "pushed_at": "2026-08-04T22:03:05Z",
+      "pushed_at": "2026-08-04T23:54:13Z",
       "archived": false,
       "checked_at": "2026-08-04",
       "gone": false,
@@ -1396,6 +1396,51 @@
       "dormant": null,
       "description": "Claude-style promo videos from ground-truth captures — a Claude Code skill (Remotion)",
       "owner_avatar": "https://avatars.githubusercontent.com/u/14728591?v=4"
+    },
+    "agiwhitelist/auteur": {
+      "pushed_at": "2026-07-12T11:20:34Z",
+      "archived": false,
+      "checked_at": "2026-08-04",
+      "gone": false,
+      "dormant": null,
+      "description": "The Claude Code skill that directs a website like a film. Commit-sheet, generated assets, build, and an executable anti-slop linter that gates every ship.",
+      "owner_avatar": "https://avatars.githubusercontent.com/u/283798423?v=4"
+    },
+    "MemTensor/memmy-agent": {
+      "pushed_at": "2026-08-04T12:15:31Z",
+      "archived": false,
+      "checked_at": "2026-08-04",
+      "gone": false,
+      "dormant": null,
+      "description": "🍙 A personal AI agent & local memory hub for all AI agents like Claude Code, Codex, OpenClaw and Hermes Agent. Gives every AI one shared, fully controlled memory  and persistent context — all AI remember the same you.",
+      "owner_avatar": "https://avatars.githubusercontent.com/u/210160027?v=4"
+    },
+    "vshulcz/deja-vu": {
+      "pushed_at": "2026-08-04T22:41:46Z",
+      "archived": false,
+      "checked_at": "2026-08-04",
+      "gone": false,
+      "dormant": null,
+      "description": "Your agents already solved this. deja finds it — it indexes the sessions your coding agents already wrote to disk, months of history from before you installed it, and recalls them automatically at session start across seventeen harnesses. 84.9% hit@1 on LongMemEval-S, no LLM, no embeddings. One zero-dep binary, fully local.",
+      "owner_avatar": "https://avatars.githubusercontent.com/u/99616188?v=4"
+    },
+    "theswerd/brainless": {
+      "pushed_at": "2026-07-14T01:10:20Z",
+      "archived": false,
+      "checked_at": "2026-08-04",
+      "gone": false,
+      "dormant": null,
+      "description": "Claude Code, Codex, and Grok interfaces as shadcn components",
+      "owner_avatar": "https://avatars.githubusercontent.com/u/38309438?v=4"
+    },
+    "n8n-io/n8n": {
+      "pushed_at": "2026-08-04T23:38:35Z",
+      "archived": false,
+      "checked_at": "2026-08-04",
+      "gone": false,
+      "dormant": null,
+      "description": "Fair-code workflow automation platform with native AI capabilities. Combine visual building with custom code, self-host or cloud, 400+ integrations.",
+      "owner_avatar": "https://avatars.githubusercontent.com/u/45487711?v=4"
     }
   }
 }

@@ -141,14 +141,20 @@ async function main() {
     }
   }
 
-  const all = [...repos.values()];
+  const all = [...repos.values()].filter((c) => c.stars >= 3); // 노이즈 컷
   const velMeta = scoreVelocity(all);
   for (const c of all) c.velocity_7d = c.v7d; // 하위 호환 필드명
 
-  // 상위 후보만 유지 (프롬프트 크기 제한): 성장률 점수 기준
-  const candidates = all
-    .sort((a, b) => b.velocity_score - a.velocity_score || b.stars - a.stars)
-    .slice(0, 60);
+  // 성장률만으로 자르면 신상이 100점에 몰려 풀 전체를 차지하고 classic 후보가 0 이 된다
+  // (2026-08-04 실측: 60/60 이 30일 내 신상, 최대 1,658★, classic 발행 0건)
+  const pick = new Map();
+  const take = (list, n) => list.slice(0, n).forEach((c) => pick.set(c.id, c));
+  const byVelocity = [...all].sort((a, b) => b.velocity_score - a.velocity_score || b.stars - a.stars);
+  const byStars = [...all].sort((a, b) => b.stars - a.stars);
+  take(all.filter((c) => prevStars[c.id] != null), 40); // 직전 주 등재분 = classic 연속성
+  take(byVelocity, 40); // rising 후보
+  take(byStars, 20); // classic 후보 (성장률 낮아도 풀에 남긴다)
+  const candidates = [...pick.values()].sort((a, b) => b.velocity_score - a.velocity_score);
 
   fs.mkdirSync(path.dirname(OUT), { recursive: true });
   fs.writeFileSync(

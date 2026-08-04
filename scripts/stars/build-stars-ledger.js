@@ -114,7 +114,8 @@ function estimateV7d(stars, createdDaysAgo) {
 /** 절대 델타가 아니라 주간 성장률로 본다 — 규모가 큰 리포가 자동 우위를 갖지 않게. */
 function growthRate(stars, v7d) {
   if (!v7d || v7d <= 0) return 0;
-  return v7d / Math.max(stars - v7d, 1);
+  // 분모는 stars — `stars - v7d` 로 하면 신상에서 0 에 수렴해 1★ 리포가 700% 로 튄다
+  return Math.min(1, v7d / Math.max(stars, 1));
 }
 
 function median(sorted) {
@@ -132,15 +133,21 @@ function scoreVelocity(items) {
     }
     it.growth_rate = growthRate(it.stars, it.v7d);
   }
-  const rates = items
-    .map((i) => i.growth_rate)
-    .filter((r) => r > 0)
-    .sort((a, b) => a - b);
-  const med = median(rates);
+  // 중앙값은 원장 실측분만으로 낸다 — 추정치를 섞으면 신상 코호트가 기준선을 끌어올려
+  // 기성 리포가 전부 0점 근처로 눌린다 (2026-08-04: 실측 98% vs 추정 525%)
+  const rate = (i) => i.growth_rate;
+  const measured = items.filter((i) => !i.v7d_estimated && i.growth_rate > 0).map(rate);
+  const fallback = items.filter((i) => i.growth_rate > 0).map(rate);
+  const cohort = (measured.length >= 5 ? measured : fallback).sort((a, b) => a - b);
+  const med = median(cohort);
   for (const it of items) {
     it.velocity_score = med > 0 ? Math.min(100, (33.3 * it.growth_rate) / med) : 0;
   }
-  return { median_growth_rate: med, measured: rates.length };
+  return {
+    median_growth_rate: med,
+    measured: measured.length,
+    cohort: measured.length >= 5 ? "measured" : "fallback_all",
+  };
 }
 
 if (require.main === module) {
