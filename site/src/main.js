@@ -21,7 +21,7 @@ async function load(source) {
       // Process data into leagues
       processStarboardData();
     } catch (e) {
-      STATE.data = { meta: {}, ledger: {}, generated_at: null, heavy: [], middle: [], light: [] };
+      STATE.data = { meta: {}, ledger: {}, generated_at: null, heavy: [], lightheavy: [], middle: [], welter: [], light: [], feather: [], bantam: [], fly: [] };
     }
   } else {
     let url;
@@ -107,7 +107,7 @@ function renderPageSummary() {
     el.textContent = lang === "en" ? `Collected ${total} news` : `${total}건 수집`;
   } else if (isStarboardPage) {
     const d = STATE.data || {};
-    total = (d.heavy?.length || 0) + (d.middle?.length || 0) + (d.light?.length || 0);
+    total = (d.heavy?.length || 0) + (d.lightheavy?.length || 0) + (d.middle?.length || 0) + (d.welter?.length || 0) + (d.light?.length || 0) + (d.feather?.length || 0) + (d.bantam?.length || 0) + (d.fly?.length || 0);
     if (lang === "en") {
       el.textContent = `Tracking ${total} repositories`;
     } else {
@@ -1234,9 +1234,14 @@ function processStarboardData() {
   // Sort by velocity desc, then currentStars desc
   processed.sort((a, b) => b.velocity - a.velocity || b.currentStars - a.currentStars);
   
-  STATE.data.heavy = processed.filter(r => r.currentStars >= 30000);
-  STATE.data.middle = processed.filter(r => r.currentStars >= 3000 && r.currentStars < 30000);
-  STATE.data.light = processed.filter(r => r.currentStars < 3000);
+  STATE.data.heavy = processed.filter(r => r.currentStars >= 100000);
+  STATE.data.lightheavy = processed.filter(r => r.currentStars >= 50000 && r.currentStars < 100000);
+  STATE.data.middle = processed.filter(r => r.currentStars >= 20000 && r.currentStars < 50000);
+  STATE.data.welter = processed.filter(r => r.currentStars >= 10000 && r.currentStars < 20000);
+  STATE.data.light = processed.filter(r => r.currentStars >= 5000 && r.currentStars < 10000);
+  STATE.data.feather = processed.filter(r => r.currentStars >= 2000 && r.currentStars < 5000);
+  STATE.data.bantam = processed.filter(r => r.currentStars >= 500 && r.currentStars < 2000);
+  STATE.data.fly = processed.filter(r => r.currentStars < 500);
 }
 
 function renderStarboard() {
@@ -1246,12 +1251,11 @@ function renderStarboard() {
   const list = STATE.data[STATE.tab] || [];
   
   // Update counts
-  const heavyBtn = document.getElementById("heavy-count");
-  if (heavyBtn) heavyBtn.textContent = (STATE.data.heavy || []).length;
-  const middleBtn = document.getElementById("middle-count");
-  if (middleBtn) middleBtn.textContent = (STATE.data.middle || []).length;
-  const lightBtn = document.getElementById("light-count");
-  if (lightBtn) lightBtn.textContent = (STATE.data.light || []).length;
+  const tabs = ['heavy', 'lightheavy', 'middle', 'welter', 'light', 'feather', 'bantam', 'fly'];
+  for (const tab of tabs) {
+    const btn = document.getElementById(tab + "-count");
+    if (btn) btn.textContent = (STATE.data[tab] || []).length;
+  }
   
   if (list.length === 0) {
     el.innerHTML = `<div style="text-align:center;padding:60px 0;color:var(--muted);font-size:15px;">이 리그에는 아직 등록된 리포지토리가 없습니다.</div>`;
