@@ -18,17 +18,58 @@ github-scout 결과(`_workspace/01_github_raw.json`)를 받아, **각 후보 리
 
 ## Phase A 쿼리 팩
 
-### Reddit — Google 우회 (직접 접근 불가)
-⚠️ **직접 접근 전면 차단.** `www.reddit.com/*.json`, `old.reddit.com`, redlib 미러 모두 datacenter IP 차단으로 403 (User-Agent 넣어도 무효, 2026-07 실측). curl·WebFetch로 reddit.com 직접 시도 금지 — 시간 낭비.
-**유일한 경로 = Google `site:reddit.com` (WebSearch).** SERP 스니펫으로 제목·서브레딧·언급 리포 확보(본문/댓글은 못 읽음 → engagement는 스니펫에 upvote/comment 숫자 보이면만 기록, 없으면 `engagement:null`).
+### Reddit — 직접 수집 (SERP 아님)
+
+**Google SERP 로 가지 말 것.** aggregator 만 돌려주고 engagement 가 없어 사실상 0건이다.
+2026-07 에 "직접 접근 전면 차단" 으로 판단해 SERP 전용으로 바꾼 게 회귀 지점이었다 —
+차단이 아니라 **스로틀**이었다.
+
+#### 403/429 는 영구 차단이 아니다 (2026-08-03 실측)
+
+같은 엔드포인트가 조건에 따라 200 도 되고 403 도 된다. 갈리는 건 두 가지뿐:
+
+| 조건 | 통과 | 막힘 |
+|---|---|---|
+| User-Agent | `Mozilla/5.0 (compatible; ai-weekly-newsbot/1.0)` — 정직한 봇 표기 | `Mozilla/5.0` 등 브라우저 위장 |
+| 페이싱 | **순차** + 서브레딧 간 20초 + 429 시 1회 재시도 | 병렬·연타 (3~4초 간격도 트립) |
+
+브라우저 위장 UA 를 datacenter IP 에서 더 세게 막는다. 연타로 403 을 받고 "차단됐다"
+결론 내리지 말 것 — 20초 쉬고 다시 보라.
+
+#### 주 경로 A — reddit.com RSS (엔드포인트 안정, engagement 없음)
+
+`scripts/news/collect_news.js` 의 `fetchRedditSub` 가 이 방식이고 실제로 돈다
+(2026-08-03 cc-news 런: LocalLLaMA 5 · MachineLearning 6 · OpenAI 5 수집, ClaudeAI·
+singularity 만 429 로 탈락 = 정상 열화).
+
 ```
-Google: site:reddit.com/r/ClaudeAI (skill OR agent OR mcp OR harness) after:{LAST_WEEK}
-Google: site:reddit.com/r/ClaudeCode after:{LAST_WEEK}
-Google: site:reddit.com "claude code" (skill OR mcp OR agent) after:{LAST_WEEK}
-Google: site:reddit.com/r/LocalLLaMA "claude code" after:{LAST_WEEK}
-Google: site:reddit.com/r/programming claude code after:{LAST_WEEK}
+https://www.reddit.com/r/{sub}/top/.rss?t=day     # 또는 t=week
+https://www.reddit.com/r/{sub}/new/.rss
 ```
-**최소 10건** (SERP 경유라 20건 강제는 완화. 0건이면 `02c.failures`에 "reddit SERP 0건" 명시)
+RSS 에는 점수 필드가 없다 → `t=day|week` 의 top 정렬 자체를 품질 프록시로 쓰고
+서브당 상위 N 건만 취한다. `engagement:null` 로 남긴다.
+
+#### 주 경로 B — arctic-shift (검색·engagement 필요할 때)
+
+Pushshift 후계, 무료·무인증. `score`/`num_comments` 실측값과 키워드 검색을 준다.
+2026-08-03 오전 런에서 55/56 성공·1542건(전 소스 최대). **단 같은 날 오후 전 파라미터
+조합이 HTTP 500** — 가용성이 들쭉날쭉하니 A 를 대체하는 게 아니라 보완으로 쓴다.
+
+```bash
+BASE=https://arctic-shift.photon-reddit.com/api/posts/search
+AFTER=$(date -j -v-14d +%s)   # epoch 정수 필수 (ISO 는 400)
+curl -sS "$BASE?subreddit=ClaudeAI&query=skill&after=$AFTER&limit=100\
+&fields=title,selftext,score,num_comments,created_utc,id,author,subreddit"
+```
+
+제약·순회 대상·쿼리 팩은 `community-scout.md` 의 Reddit 절이 SSOT.
+요약: `query` 단독 불가(`subreddit` 동반 필수) · `after` 는 epoch · 후보당 키워드 검색은
+429 나므로 **서브레딧 전량 수집 후 로컬 정규식 매칭**이 안전하다.
+
+**순서:** A(RSS) 로 커버리지 확보 → B(arctic-shift) 로 engagement·검색 보강 →
+둘 다 죽었을 때만 SERP. A 나 B 가 죽으면 `02c.failures` 에 남긴다 — 조용히 SERP 로 내려가지 말 것.
+
+**최소 15건**
 
 ### HackerNews (Algolia)
 ```
@@ -185,7 +226,7 @@ for repo_id in github_candidates:
 
 | 상황 | 대응 |
 |---|---|
-| Reddit 직접 접근(json/old/mirror) | 전면 403, 시도 금지 → Google `site:reddit.com` WebSearch가 유일 경로 |
+| Reddit 403/429 | 차단 아니라 스로틀. 봇 UA + 순차 + 서브당 20초로 재시도 → 그래도 실패면 arctic-shift. SERP 는 최후 |
 | X 직접 접근 불가 | Google `site:x.com` 사용 |
 | HN Algolia 응답 없음 | `news.ycombinator.com/from?site=...` 시도 |
 | 어떤 소스도 0건 | `02c_coverage_report.json`에 명시 → analyzer가 단일출처 강등 강하게 적용 |

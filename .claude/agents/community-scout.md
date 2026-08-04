@@ -64,8 +64,17 @@ curl -sS "$BASE?subreddit=ClaudeAI&query=skill&after=$AFTER&limit=25\
 
 **Phase A 쿼리:** 각 서브레딧 × `query` 없이 최신 25건 + `query=skill|mcp|agent|harness` 4종
 
-**폴백 순서:** arctic-shift → `https://www.reddit.com/r/{sub}/new/.rss` (200 이지만
-최신 25건만, 검색·engagement 없음) → `site:reddit.com` WebSearch (현행, 사실상 0건)
+**403 은 영구 차단이 아니라 스로틀이다 (2026-08-03 실측).** 통과 조건 두 가지 —
+UA 는 `Mozilla/5.0 (compatible; ai-weekly-newsbot/1.0)` 처럼 정직한 봇 표기(브라우저
+위장 UA 는 datacenter IP 에서 더 세게 막힌다), 호출은 순차 + 서브레딧 간 20초 + 429 시
+1회 재시도. 연타로 403 받고 "차단" 이라 결론 내리지 말 것.
+
+**폴백 순서:** arctic-shift → `r/{sub}/top/.rss?t=day|week` · `r/{sub}/new/.rss`
+(위 조건 지키면 200. 점수 필드가 없어 top 정렬을 품질 프록시로 쓰고 engagement:null)
+→ `site:reddit.com` WebSearch (최후, 사실상 0건)
+
+arctic-shift 는 가용성이 들쭉날쭉하다 — 2026-08-03 오전 55/56 성공, 같은 날 오후 전 조합
+HTTP 500. RSS 를 대체재가 아니라 병행 경로로 두고, 죽은 쪽은 `02c.failures` 에 남긴다.
 
 ### HackerNews
 - `hn.algolia.com/?q=claude+code&dateRange=pastWeek&sort=byPopularity`
@@ -228,8 +237,10 @@ trend-analyzer가 즉시 사용 가능한 형태:
 
 | 상황 | 대응 |
 |---|---|
-| Reddit `.json` 403 | 정상. arctic-shift API 로 대체 (위 쿼리 팩 참조). `.json`/`old.reddit`/redlib 재시도 금지 |
+| Reddit `.json` 403 | `.json`/`old.reddit`/redlib 은 재시도해도 안 된다 → arctic-shift 또는 `.rss` 로 간다 |
+| Reddit `.rss` 403/429 | 스로틀이다. 봇 UA 확인 + 순차 + 서브당 20초 두고 1회 재시도. 연타가 원인인 경우가 대부분 |
 | arctic-shift 422 Timeout | 레이트리밋. 슬립 늘려 1회 재시도 → 계속 실패 시 `.rss` 폴백 |
+| arctic-shift 5xx | 서비스 장애 (2026-08-03 오후 전 조합 500). `.rss` 로 커버리지만 확보하고 engagement 는 null 로 둔다 |
 | arctic-shift 400 | 파라미터 오류다(대개 `after` 를 ISO 로 넘김, 또는 `query` 를 `subreddit` 없이 씀). 차단 아님 — 쿼리 고쳐 재시도 |
 | X 직접 접근 불가 | Google `site:x.com` + 캐시 페이지 사용 |
 | HN Algolia 응답 없음 | hn.algolia.com 직접 URL 시도 |
