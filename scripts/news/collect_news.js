@@ -194,49 +194,20 @@ async function enrichBodies(candidates) {
 }
 
 // ── 소스별 수집 ───────────────────────────────────────────────────────
-// ①~⑥ 혼합 (엄선 피드) — `~/bin/geeknews-dooray.py`(cron 09:00 KST → Dooray webhook)의 소스 테이블 이식
+// 수집 매체는 7종으로 고정: GeekNews · Hacker News · AI타임스 · Reddit · GitHub · X · Threads.
+// 그 밖의 피드를 추가하면 24시간 창 안에 발행이 없어 창 밖 기사를 끌어오게 된다 (과거 회귀 지점).
 const FEED_PER_SOURCE = Number(process.env.NEWS_FEED_PER_SOURCE || 5);
-const FEED_MIN_PER_SOURCE = Number(process.env.NEWS_FEED_MIN_PER_SOURCE || 3);
-const FEED_FLOOR_FILL = process.env.NEWS_FEED_FLOOR_FILL !== "0";
 
 const CURATED_FEEDS = [
   { source: "geeknews", name: "GeekNews", url: "https://news.hada.io/rss/news", lang: "ko" },
-  { source: "simonwillison", name: "Simon Willison", url: "https://simonwillison.net/atom/everything/", lang: "en" },
-  { source: "naverd2", name: "네이버 D2", url: "https://d2.naver.com/d2.atom", lang: "ko" },
   { source: "aitimes", name: "AI타임스", url: "https://www.aitimes.com/rss/allArticle.xml", lang: "ko" },
-  { source: "anthropic", name: "Anthropic News", url: "scrape:anthropic-news", lang: "en" },
 ];
 
-const ANTHROPIC_BASE = "https://www.anthropic.com";
-const ANTHROPIC_CARD_DATE = /([A-Z][a-z]{2}\s+\d{1,2},\s+\d{4})/;
-
-// anthropic.com/news 는 RSS 가 없다. 목록 카드에서 slug+발행일을, 본문 페이지에서 og 메타를 취한다.
-async function fetchAnthropicNews(limit) {
-  const $list = cheerio.load(await (await fetchWithTimeout(`${ANTHROPIC_BASE}/news`)).text());
-  const cards = [];
-  const seen = new Set();
-  $list('a[href^="/news/"]').each((_i, el) => {
-    const slug = ($list(el).attr("href") || "").split("?")[0];
-    if (!/^\/news\/[a-z0-9][a-z0-9-]*$/.test(slug) || seen.has(slug)) return;
-    seen.add(slug);
-    const date = ANTHROPIC_CARD_DATE.exec($list(el).text().replace(/\s+/g, " "));
-    cards.push({ slug, pubDate: date ? date[1] : "" });
-  });
-
-  const picked = cards.slice(0, limit);
-  const out = new Array(picked.length);
-  await pMap(picked, 4, async ({ slug, pubDate }, i) => {
-    try {
-      const $ = cheerio.load(await (await fetchWithTimeout(`${ANTHROPIC_BASE}${slug}`)).text());
-      const meta = (p) => $(`meta[property="${p}"]`).attr("content") || "";
-      const title = (meta("og:title") || $("title").text()).replace(/\s*\\?\s*Anthropic\s*$/, "").trim();
-      if (title) out[i] = { title, link: `${ANTHROPIC_BASE}${slug}`, pubDate, body: meta("og:description") || "" };
-    } catch (e) {
-      console.warn(`[anthropic] ${slug} 실패: ${e.message}`);
-    }
-  });
-  return out.filter(Boolean);
-}
+// 지정 7매체. 최종 건수가 0인 소스는 main 에서 [MISSING] 으로 보고한다 — 조용한 누락 금지
+const REQUIRED_SOURCES = {
+  geeknews: "GeekNews", hackernews: "Hacker News", aitimes: "AI타임스",
+  reddit: "Reddit", github: "GitHub", x: "X (Twitter)", threads: "Threads",
+};
 
 function normalizeFeedItems(feed) {
   return (feed.items || []).map((item) => ({
@@ -248,39 +219,23 @@ function normalizeFeedItems(feed) {
   }));
 }
 
+// 창 밖 보충(floor-fill)은 두지 않는다. 24시간 창이 이 파이프라인의 유일한 신선도 계약이고,
+// 보충분은 큐레이터까지 표식이 전달되지 않아 과거 기사가 오늘치로 배포됐다.
 async function fetchCuratedFeed(def) {
   let raw;
   try {
-    raw = def.url === "scrape:anthropic-news"
-      ? await fetchAnthropicNews(FEED_PER_SOURCE)
-      : normalizeFeedItems(await parseFeed(def.url));
+    raw = normalizeFeedItems(await parseFeed(def.url));
   } catch (e) {
     console.warn(`[${def.source}] 실패: ${e.message}`);
     return [];
   }
 
-  const usable = raw
+  return raw
     .filter((i) => i.title && i.link && !isLegacy(i.title) && !isLegacy(i.body))
-    .sort((a, b) => new Date(b.pubDate || 0) - new Date(a.pubDate || 0));
-
-  const picked = usable.filter((i) => inWindow(i.pubDate, def.source)).slice(0, FEED_PER_SOURCE);
-
-  // 네이버 D2·Anthropic 은 발행 주기가 몇 주라 24시간 창만 보면 상시 0건이다.
-  // 하한(3건)까지만 창 밖에서 최신순으로 채우고 `outside_window` 로 표시해 큐레이터가 강등할 수 있게 한다.
-  const floorFilled = [];
-  if (FEED_FLOOR_FILL && picked.length < FEED_MIN_PER_SOURCE) {
-    const chosen = new Set(picked.map((i) => i.link));
-    for (const i of usable) {
-      if (picked.length + floorFilled.length >= FEED_MIN_PER_SOURCE) break;
-      if (!chosen.has(i.link)) floorFilled.push(i);
-    }
-    if (floorFilled.length) {
-      console.log(`[${def.source}] 24h 내 ${picked.length}건 → 하한 보충 ${floorFilled.length}건 (창 밖, outside_window 표기)`);
-    }
-  }
-
-  return [...picked, ...floorFilled].map((i) => ({
-    ...makeCandidate({
+    .filter((i) => inWindow(i.pubDate, def.source))
+    .sort((a, b) => new Date(b.pubDate || 0) - new Date(a.pubDate || 0))
+    .slice(0, FEED_PER_SOURCE)
+    .map((i) => makeCandidate({
       source: def.source,
       sourceName: def.name,
       url: i.link,
@@ -289,9 +244,7 @@ async function fetchCuratedFeed(def) {
       publishDate: i.pubDate,
       body: i.body,
       lang: def.lang,
-    }),
-    outside_window: floorFilled.includes(i),
-  }));
+    }));
 }
 
 // ①②③⑤⑥ (기술 커뮤니티 화제성)
@@ -371,7 +324,9 @@ async function fetchGitHub() {
     url: r.html_url,
     title: `${r.full_name} — ${r.description || "(설명 없음)"}`,
     author: r.owner.login,
-    publishDate: r.created_at,
+    // 급상승 쿼리는 30일 내 생성 리포까지 잡는다. 신호 발생 시점은 생성일이 아니라 최근 push 다 —
+    // created_at 을 쓰면 한 달 전 날짜가 오늘치 뉴스로 표시된다 (실측 34건)
+    publishDate: r.pushed_at || r.created_at,
     body: [r.description || "", `topics: ${(r.topics || []).join(", ")}`, `language: ${r.language || "n/a"}`].join("\n"),
     metrics: { stars: r.stargazers_count, forks: r.forks_count, created_at: r.created_at, pushed_at: r.pushed_at, repo: r.full_name },
     signalHint: "oss",
@@ -396,35 +351,6 @@ async function fetchGitHub() {
   return out;
 }
 
-// ⑤ 연구·논문
-const ARXIV_CATEGORIES = ["cs.AI", "cs.CL", "cs.LG", "cs.MA"];
-async function fetchArxiv() {
-  const out = [];
-  try {
-    const q = ARXIV_CATEGORIES.map((c) => `cat:${c}`).join("+OR+");
-    const feed = await parseFeed(
-      `http://export.arxiv.org/api/query?search_query=${q}&sortBy=submittedDate&sortOrder=descending&max_results=60`
-    );
-    for (const item of feed.items) {
-      const date = item.isoDate || item.pubDate || item.published;
-      if (!inWindow(date, "arxiv")) continue;
-      out.push(makeCandidate({
-        source: "arxiv",
-        sourceName: "arXiv",
-        url: item.link,
-        title: (item.title || "").replace(/\s+/g, " ").trim(),
-        author: String(item.creator || item.author || "arXiv").replace(/\s+/g, " ").trim(),
-        publishDate: date,
-        body: (item.summary || item.contentSnippet || "").replace(/\s+/g, " ").trim(),
-        signalHint: "research",
-      }));
-    }
-  } catch (e) {
-    console.warn("[arxiv] 실패:", e.message);
-  }
-  return out;
-}
-
 // ③④⑥ 실사용·워크플로우 논의
 const SUBREDDITS = ["LocalLLaMA", "MachineLearning", "ClaudeAI", "OpenAI", "singularity"];
 
@@ -433,19 +359,20 @@ const SUBREDDITS = ["LocalLLaMA", "MachineLearning", "ClaudeAI", "OpenAI", "sing
 // RSS 에는 점수 필드가 없으므로 "당일 top 정렬" 자체를 품질 프록시로 쓰고 상위 N 개만 취한다.
 const REDDIT_DELAY_MS = Number(process.env.NEWS_REDDIT_DELAY_MS || 20000);
 const REDDIT_PER_SUB = Number(process.env.NEWS_REDDIT_PER_SUB || 8);
+const REDDIT_ATTEMPTS = Number(process.env.NEWS_REDDIT_ATTEMPTS || 3);
 
+// throttle 은 몇 분 단위로 풀린다. 1회 재시도로는 서브 전량이 빠져 Reddit 이 통째로 0건이 됐다 → 지연을 늘려가며 3회.
 async function fetchRedditSub(sub) {
   const url = `https://www.reddit.com/r/${sub}/top/.rss?t=day`;
-  for (let attempt = 0; attempt < 2; attempt++) {
+  for (let attempt = 0; attempt < REDDIT_ATTEMPTS; attempt++) {
     try {
       return await parseFeed(url);
     } catch (e) {
-      if (e.status === 429 && attempt === 0) {
-        console.warn(`[reddit] r/${sub} 429 — ${REDDIT_DELAY_MS / 1000}s 후 재시도`);
-        await sleep(REDDIT_DELAY_MS);
-        continue;
-      }
-      throw e;
+      const last = attempt === REDDIT_ATTEMPTS - 1;
+      if (last || (e.status !== 429 && e.name !== "AbortError")) throw e;
+      const wait = REDDIT_DELAY_MS * (attempt + 1);
+      console.warn(`[reddit] r/${sub} ${e.status || e.name} — ${wait / 1000}s 후 재시도 (${attempt + 2}/${REDDIT_ATTEMPTS})`);
+      await sleep(wait);
     }
   }
   return null;
@@ -520,18 +447,19 @@ async function fetchSocial() {
     return [];
   }
 
+  // 지정 7매체만 남긴다. last30days 는 YouTube·web 등도 섞어 반환하는데 그대로 통과시키면
+  // 목록 밖 매체가 하루치 상당량을 차지한다 (실측 youtube 9건).
   const PLATFORM = {
     x: ["x", "X (Twitter)"],
     twitter: ["x", "X (Twitter)"],
     threads: ["threads", "Threads"],
-    instagram: ["instagram", "Instagram"],
     reddit: ["reddit", "Reddit"],
     hackernews: ["hackernews", "Hacker News"],
-    youtube: ["youtube", "YouTube"],
     github: ["github", "GitHub"],
   };
 
   const out = [];
+  let offlist = 0;
   for (const item of data.results || []) {
     const url = item.best_url || item.url;
     if (!url) continue; // 원문 링크 없는 항목은 폐기 (링크 검증 원칙)
@@ -540,14 +468,20 @@ async function fetchSocial() {
     try { host = new URL(url).host.replace(/^www\./, ""); } catch { /* noop */ }
     const hostKey = host.includes("twitter") || host.includes("x.com") ? "x"
       : host.includes("threads") ? "threads"
-      : host.includes("instagram") ? "instagram"
       : host.includes("reddit") ? "reddit"
       : host.includes("ycombinator") ? "hackernews"
-      : host.includes("youtu") ? "youtube"
       : host.includes("github.com") ? "github"
       : null;
-    const rawSource = String(item.source || (item.sources || [])[0] || "web").toLowerCase();
-    const [source, sourceName] = PLATFORM[hostKey] || PLATFORM[rawSource] || ["web", host || "Web"];
+    const rawSource = String(item.source || (item.sources || [])[0] || "").toLowerCase();
+    const platform = PLATFORM[hostKey] || PLATFORM[rawSource];
+    if (!platform) {
+      offlist++;
+      continue;
+    }
+    const [source, sourceName] = platform;
+
+    const published = item.published_at || item.date;
+    if (published && !inWindow(published, "social")) continue; // --days 1 을 신뢰하지 않는다
 
     let body = item.content || item.summary || item.snippet || "";
     if (!body && Array.isArray(item.evidence)) {
@@ -559,11 +493,12 @@ async function fetchSocial() {
       url,
       title: item.topic || item.title || String(body).slice(0, 80),
       author: item.author || (item.voices || [])[0] || sourceName,
-      publishDate: item.published_at || item.date || Date.now(),
+      publishDate: published || Date.now(),
       body,
       metrics: { engagement: item.engagement ?? null },
     }));
   }
+  if (offlist) console.log(`[social] 지정 7매체 밖 ${offlist}건 제외`);
   return out;
 }
 
@@ -594,14 +529,12 @@ function dedupe(candidates) {
 }
 
 // ── 소스별 상한 (큐레이션 배치 폭주 방지) ─────────────────────────────
-// arXiv·GitHub 은 하루치가 수십~수백 건이라 그대로 넘기면 Gemini 호출이 폭증한다.
+// GitHub 은 하루치가 수십~수백 건이라 그대로 넘기면 Gemini 호출이 폭증한다.
 // 신호 자체를 죽이지 않도록 상한만 두고, 소스 내부 랭킹으로 상위를 남긴다.
 const SOURCE_CAPS = {
-  arxiv: Number(process.env.NEWS_CAP_ARXIV || 30),
   github: Number(process.env.NEWS_CAP_GITHUB || 50),
 };
 const SOURCE_RANK = {
-  arxiv: (a, b) => new Date(b.publish_date) - new Date(a.publish_date),
   github: (a, b) => (b.metrics.stars || 0) - (a.metrics.stars || 0),
 };
 
@@ -628,12 +561,11 @@ async function main() {
   console.log(`뉴스 수집 시작 — 최근 ${WINDOW_HOURS}시간 (KST ${NOW_KST.format()})`);
   console.log("==========================================");
 
-  const labels = [...CURATED_FEEDS.map((f) => f.source), "hackernews", "github", "arxiv", "reddit", "social"];
+  const labels = [...CURATED_FEEDS.map((f) => f.source), "hackernews", "github", "reddit", "social"];
   const groups = await Promise.all([
     ...CURATED_FEEDS.map((f) => fetchCuratedFeed(f)),
     fetchHackerNews(),
     fetchGitHub(),
-    fetchArxiv(),
     fetchReddit(),
     fetchSocial(),
   ]);
@@ -656,23 +588,27 @@ async function main() {
     console.log(`소스별 상한 적용: ${withBody.length} → ${selected.length}건`);
   }
 
-  // 하한 판정은 수집 직후가 아니라 본문 게이트까지 통과한 최종 건수로 한다 — 노출되는 건 이쪽이다
-  const thin = CURATED_FEEDS
-    .map((f) => [f.source, selected.filter((c) => c.source === f.source).length])
-    .filter(([, n]) => n < FEED_MIN_PER_SOURCE);
-  if (thin.length) {
-    console.warn(`[feeds] 하한(${FEED_MIN_PER_SOURCE}건) 미달: ${thin.map(([s, n]) => `${s}=${n}`).join(", ")} — 피드 응답·본문 게이트를 확인할 것`);
-  }
+  // 판정은 수집 직후가 아니라 본문 게이트까지 통과한 최종 건수로 한다 — 노출되는 건 이쪽이다
+  const finalCounts = {};
+  for (const c of selected) finalCounts[c.source] = (finalCounts[c.source] || 0) + 1;
+  const missing = Object.entries(REQUIRED_SOURCES).filter(([s]) => !finalCounts[s]);
 
   fs.mkdirSync(path.dirname(OUT), { recursive: true });
   fs.writeFileSync(OUT, JSON.stringify({
     collected_at: new Date().toISOString(),
     window: { hours: WINDOW_HOURS, since: SINCE.toISOString() },
     source_counts: Object.fromEntries(labels.map((l, i) => [l, groups[i].length])),
+    final_counts: finalCounts,
+    missing_sources: missing.map(([s]) => s),
     candidates: selected,
   }, null, 2));
 
   console.log(`\n✅ 수집 완료: ${selected.length}건 → ${OUT}`);
+  console.log(`   매체별 최종: ${JSON.stringify(finalCounts)}`);
+  if (missing.length) {
+    console.warn(`\n[MISSING] 지정 7매체 중 ${missing.length}개 0건 — 보고 필수:`);
+    for (const [s, name] of missing) console.warn(`  - ${name} (${s})`);
+  }
   if (selected.length === 0) {
     console.error("수집 0건 — 큐레이션 중단 (기존 데이터 보존)");
     process.exit(1);

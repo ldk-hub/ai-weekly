@@ -20,17 +20,16 @@ export const CATEGORIES = [
   { id: "mcp",     emoji: "🔌", label_ko: "MCP",      label_en: "MCP" },
 ];
 
+// cc-news 수집 매체 7종과 1:1 로 맞춘다 — 목록에 없는 탭은 항상 0건이라 렌더되지 않는다
 export const NEWS_CATEGORIES = [
   { id: "all",       emoji: "✨", label_ko: "전체",         label_en: "All" },
   { id: "geeknews",  emoji: "🤓", label_ko: "GeekNews",     label_en: "GeekNews" },
   { id: "hackernews",emoji: "🔥", label_ko: "Hacker News",  label_en: "Hacker News" },
-  { id: "youtube",   emoji: "🎥", label_ko: "YouTube",      label_en: "YouTube" },
-  { id: "x",         emoji: "🐦", label_ko: "X (Twitter)",  label_en: "X" },
+  { id: "aitimes",   emoji: "📰", label_ko: "AI타임스",      label_en: "AI Times" },
   { id: "reddit",    emoji: "👽", label_ko: "Reddit",       label_en: "Reddit" },
-  { id: "threads",   emoji: "🧵", label_ko: "Threads",      label_en: "Threads" },
   { id: "github",    emoji: "🐙", label_ko: "GitHub",       label_en: "GitHub" },
-  { id: "arxiv",     emoji: "📄", label_ko: "arXiv",        label_en: "arXiv" },
-  { id: "instagram", emoji: "📸", label_ko: "Instagram",    label_en: "Instagram" },
+  { id: "x",         emoji: "🐦", label_ko: "X (Twitter)",  label_en: "X" },
+  { id: "threads",   emoji: "🧵", label_ko: "Threads",      label_en: "Threads" },
 ];
 
 export const STUDY_CATEGORIES = [

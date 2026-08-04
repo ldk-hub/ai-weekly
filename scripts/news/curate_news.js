@@ -21,8 +21,16 @@ const BATCH_CHARS = 60000;
 const BODY_SLICE = 5000;
 
 const SELFCHECK = process.argv.includes("--selfcheck");
+const VALIDATE = process.argv.includes("--validate");
 
-if (!API_KEY && !SELFCHECK) {
+// 출처 표기 — 결과물에 "봇"·"에이전트"가 썼다는 표현을 쓰지 않는다
+const CURATED_BY = "ldk-hub";
+const BODY_MIN_SENTENCES = 5;
+
+// 투자·재무 중심 기사 하드 룰. LLM 프롬프트만으로는 새는 게 확인돼(중국 VC 50조 기사) 코드로도 막는다
+const FINANCE_RE = /투자|펀딩|증시|주가|시총|기업\s*가치|밸류에이션|상장|IPO|funding|fundrais|raises?\s+\$|valuation|Series\s+[A-F]\b/i;
+
+if (!API_KEY && !SELFCHECK && !VALIDATE) {
   console.error("GEMINI_API_KEY is required (mock 대체 없음 — 기존 데이터 보존을 위해 중단)");
   process.exit(1);
 }
@@ -39,17 +47,15 @@ const SIGNALS = {
 };
 const SIGNAL_IDS = Object.keys(SIGNALS);
 
+// 수집 매체 7종. 여기 없는 값은 collect 단계에서 이미 버려진다
 const SOURCE_NAMES = {
   geeknews: "GeekNews",
   hackernews: "Hacker News",
-  github: "GitHub",
-  arxiv: "arXiv",
+  aitimes: "AI타임스",
   reddit: "Reddit",
+  github: "GitHub",
   x: "X (Twitter)",
   threads: "Threads",
-  instagram: "Instagram",
-  youtube: "YouTube",
-  web: "Web",
 };
 
 const PROMPT_RULES = `너는 AI 기술 신호 전문 큐레이터다. 아래 후보 목록(JSON)의 **각 항목을 개별적으로** 판정·번역·요약하라.
@@ -72,7 +78,7 @@ ${SIGNAL_IDS.map((k) => `  - ${k}: ${SIGNALS[k]}`).join("\n")}
       1번째=무엇이 일어났나, 2번째=기술적으로 무엇이 새로운가(수치·모델명·벤치마크 등 구체값), 3번째=개발자에게 왜 중요한가.
       원문 문장을 잘라 붙이지 말고 이해한 내용을 새 문장으로 쓸 것.
   - summary_en: 위 요약의 영어판 3문장.
-  - body_ko: 한국어 해설 5~10문장. 배경·동작 방식·한계·비교 대상을 담는다. 원문 본문 통째 복사 금지.
+  - body_ko: 한국어 해설 **5문장 이상 10문장 이하**. 배경·동작 방식·한계·비교 대상을 담는다. 원문 본문 통째 복사 금지. (5문장 미만은 자동 폐기된다)
   - body_en: body_ko 의 영어판.
   - oss 항목은 body_ko 에 "무엇을 하는 도구인지 / 어떻게 쓰는지 / 누가 만들었는지"를 반드시 포함.
   - research 항목은 body_ko 에 "제안 기법 / 실험 결과 수치 / 기존 방법 대비 차이"를 반드시 포함.
@@ -163,9 +169,11 @@ function qualityIssues(item, fact) {
   });
   if (isCopy) issues.push("summary_ko 원문 복붙");
 
-  if (bodyKo.replace(/\s/g, "").length < 120) issues.push("body_ko 과단축");
+  const sentences = bodyKo.split(/(?<=[.!?])\s+/).filter((s) => s.replace(/\s/g, "").length >= 10);
+  if (sentences.length < BODY_MIN_SENTENCES) issues.push(`body_ko ${sentences.length}문장 (규격 ${BODY_MIN_SENTENCES}~10)`);
   if (koreanRatio(bodyKo) < 0.25) issues.push("body_ko 미번역");
   if (!SIGNAL_IDS.includes(item.signal_id)) issues.push(`signal_id 불명(${item.signal_id})`);
+  if (FINANCE_RE.test(fact.title) || FINANCE_RE.test(titleKo)) issues.push("투자·재무 중심 기사(하드 룰)");
 
   return issues;
 }
@@ -194,6 +202,7 @@ function merge(item, fact) {
     url: fact.url,
     sources: fact.cross_sources || [fact.source_name],
     metrics: fact.metrics || {},
+    curated_by: CURATED_BY,
   };
 }
 
@@ -239,7 +248,7 @@ function buildSummary(news) {
   const breakdown = SIGNAL_IDS.filter((k) => counts[k])
     .map((k) => `${SIGNALS[k].split("·")[0]} ${counts[k]}건`)
     .join(" · ");
-  return `AI 기술 신호 ${news.length}건 — ${breakdown}. 최상위 이슈: ${news[0].headline}`;
+  return `AI 기술 신호 ${news.length}건 — ${breakdown}. 최상위 이슈: ${news[0].headline}. ${CURATED_BY}에서 큐레이션 하였습니다.`;
 }
 
 async function main() {
@@ -276,6 +285,7 @@ async function main() {
     generated_at: new Date().toISOString(),
     version: `v${today.replaceAll("-", ".")}`,
     summary: buildSummary(news),
+    curated_by: CURATED_BY,
     signal_counts: signalCounts,
     news,
   };
@@ -310,7 +320,52 @@ async function main() {
   console.log(`   아카이브: archive/news_${today}.json`);
 }
 
-// 품질 게이트 자기검증: node scripts/curate_news.js --selfcheck (Gemini 호출 없음)
+// Gemini 없이 사람·에이전트가 news_latest.json 을 직접 쓴 경우에도 같은 게이트를 통과해야 배포한다
+function validate(file) {
+  if (!fs.existsSync(CANDIDATES)) {
+    console.error(`검증 불가: ${CANDIDATES} 없음 — collect_news.js 를 먼저 실행할 것`);
+    process.exit(1);
+  }
+  const { candidates, missing_sources = [] } = JSON.parse(fs.readFileSync(CANDIDATES, "utf8"));
+  const factMap = new Map(candidates.map((c) => [c.id, c]));
+  const data = JSON.parse(fs.readFileSync(file, "utf8"));
+  const news = data.news || [];
+
+  const violations = [];
+  if (data.curated_by !== CURATED_BY) violations.push(`(전체) curated_by 가 "${CURATED_BY}" 아님: ${data.curated_by}`);
+  if (!String(data.summary || "").includes(CURATED_BY)) violations.push(`(전체) summary 에 "${CURATED_BY}" 출처 표기 없음`);
+  if (/봇|bot|에이전트|agent/i.test(data.summary || "")) violations.push("(전체) summary 에 봇·에이전트 표현");
+  if (!news.length) violations.push("(전체) news 0건");
+
+  for (const n of news) {
+    const tag = `${n.id}`;
+    const fact = factMap.get(n.id);
+    if (!fact) {
+      violations.push(`${tag}: 후보에 없는 id — 수집되지 않은 항목(환각 또는 손으로 지어낸 id)`);
+      continue;
+    }
+    for (const [field, expected] of [["url", fact.url], ["publish_date", fact.publish_date], ["author_profile", fact.author]]) {
+      if (n[field] !== expected) violations.push(`${tag}: ${field} 가 수집값과 다름 (${n[field]} ≠ ${expected})`);
+    }
+    for (const field of ["signal_name", "sources", "metrics", "category_id", "curated_by"]) {
+      if (n[field] === undefined) violations.push(`${tag}: 필수 필드 ${field} 누락`);
+    }
+    if (n.signal_name && n.signal_name !== SIGNALS[n.signal_id]) violations.push(`${tag}: signal_name 이 signal_id 와 불일치`);
+    if (Number(n.importance) < MIN_IMPORTANCE) violations.push(`${tag}: importance ${n.importance} < ${MIN_IMPORTANCE}`);
+    for (const issue of qualityIssues(n, fact)) violations.push(`${tag}: ${issue}`);
+  }
+
+  console.log(`검증 대상 ${news.length}건 (${file})`);
+  if (missing_sources.length) console.warn(`[MISSING] 수집 0건 매체: ${missing_sources.join(", ")} — 보고에 포함할 것`);
+  if (violations.length) {
+    console.error(`\n❌ 규격 위반 ${violations.length}건 — 배포 금지:`);
+    for (const v of violations) console.error(`  - ${v}`);
+    process.exit(1);
+  }
+  console.log("✅ 규격 통과 — 배포 가능");
+}
+
+// 품질 게이트 자기검증: node scripts/news/curate_news.js --selfcheck (Gemini 호출 없음)
 function selfcheck() {
   const assert = require("assert");
   const fact = {
@@ -324,7 +379,7 @@ function selfcheck() {
     title_en: "Anthropic ships Claude Opus 5",
     summary_ko: "• 앤트로픽이 새 플래그십 모델 Claude Opus 5를 정식 공개했다.\n• 컨텍스트 창이 100만 토큰으로 늘고 에이전트형 코딩 벤치마크 점수가 올랐다.\n• 장문 리포지터리 전체를 한 번에 다루는 코딩 에이전트 구성이 쉬워진다.",
     summary_en: "Anthropic shipped Claude Opus 5 with a 1M context window.",
-    body_ko: "앤트로픽이 플래그십 모델 계열을 갱신했다. 이번 버전은 컨텍스트 한도를 100만 토큰으로 넓혔고, 에이전트형 코딩 과제에서 이전 세대보다 높은 점수를 기록했다. 기존에는 파일 단위로 잘라 넣어야 했던 대형 저장소를 한 번에 올릴 수 있게 되어 코드베이스 전체 탐색이 필요한 작업의 구성이 단순해진다. 다만 가격과 지연 시간은 별도 확인이 필요하다.",
+    body_ko: "앤트로픽이 플래그십 모델 계열을 갱신했다. 이번 버전은 컨텍스트 한도를 100만 토큰으로 넓혔다. 에이전트형 코딩 과제에서 이전 세대보다 높은 점수를 기록했다. 기존에는 파일 단위로 잘라 넣어야 했던 대형 저장소를 한 번에 올릴 수 있게 됐다. 코드베이스 전체 탐색이 필요한 작업의 구성이 그만큼 단순해진다. 다만 가격과 지연 시간은 별도 확인이 필요하다.",
     body_en: "Anthropic refreshed its flagship line...",
     tags: ["모델 출시", "컨텍스트", "코딩 에이전트"],
   };
@@ -336,7 +391,8 @@ function selfcheck() {
     ["불릿 부족", { ...good, summary_ko: "• 앤트로픽이 새 모델을 공개했다." }, "summary_ko 불릿 1개"],
     ["원문 복붙", { ...good, summary_ko: `• Anthropic released Claude Opus 5 with a 1M token context window\n• 두 번째 불릿 문장은 충분히 길게 작성한다.\n• 세 번째 불릿 문장도 충분히 길게 작성한다.` }, null],
     ["signal 불명", { ...good, signal_id: "unknown" }, "signal_id 불명(unknown)"],
-    ["body 과단축", { ...good, body_ko: "짧다." }, "body_ko 과단축"],
+    ["body 과단축", { ...good, body_ko: "짧게 두 문장만 쓴 해설이다. 규격은 다섯 문장이다." }, "body_ko 2문장 (규격 5~10)"],
+    ["투자 기사", { ...good, title_ko: "중국 VC, 3년 한파 깨고 50조 투자 총력전" }, "투자·재무 중심 기사(하드 룰)"],
   ];
   for (const [label, item, expected] of cases) {
     const issues = qualityIssues(item, fact);
@@ -356,6 +412,9 @@ function selfcheck() {
 
 if (SELFCHECK) {
   selfcheck();
+} else if (VALIDATE) {
+  const i = process.argv.indexOf("--validate");
+  validate(process.argv[i + 1] && !process.argv[i + 1].startsWith("--") ? process.argv[i + 1] : LATEST);
 } else {
   main().catch((e) => {
     console.error(e.message);
