@@ -43,8 +43,9 @@ description: "GitHub + 커뮤니티 원시 데이터를 분석해 '최신 화제
 | **합계 상한** | **20** | **16** |
 
 ### 임계치 (정원보다 우선)
-- **rising**: trend_score ≥ 60 OR (생성 30일 이내 + 다중 출처 검증)
-- **classic**: stars ≥ 500 + trend_score ≥ 50
+- **rising**: trend_score ≥ 55 OR (생성 30일 이내 + 다중 출처 검증)
+- **classic**: stars ≥ 500 + trend_score ≥ 45
+- 값의 SSOT 는 `trend-scoring` 스킬의 "점수 임계치" 절이다 — 옛 60/50 은 포화된 velocity 공식 기준이라 폐기
 
 ### 운영 원칙
 - 정원은 **상한**일 뿐, 임계치 미달이면 정원이 비어도 추가하지 않는다
@@ -75,8 +76,9 @@ description: "GitHub + 커뮤니티 원시 데이터를 분석해 '최신 화제
 
 `sources` 필드(github-scout + community-scout 합집합) 검사 후:
 
-- **velocity 예외**: `velocity_score >= 90` (폭발 성장, 중앙값 정규화 스케일 기준) 이면 sources 개수 무관하게 강등 면제 → Rising 허용, `low_confidence:true` (배지 ⚠️ 단일출처). GitHub star velocity 자체가 커뮤니티와 독립된 하드 증거.
-  - 임계가 80→90 인 이유: velocity 가 코호트 중앙값 정규화로 바뀌어 스케일이 달라졌다. 옛 `≥80` 은 포화된 공식(전건 100점) 기준이라 **전 항목이 예외 처리**됐다
+- **velocity 예외**: `velocity_score >= 90` (폭발 성장, 성장률 정규화 스케일 기준) 이면 sources 개수 무관하게 강등 면제 → Rising 허용, `low_confidence:true` (배지 ⚠️ 단일출처). 성장률 자체가 커뮤니티와 독립된 하드 증거.
+  - 임계가 80→90 인 이유: velocity 가 코호트 정규화로 바뀌어 스케일이 달라졌다. 옛 `≥80` 은 포화된 공식(전건 100점) 기준이라 **전 항목이 예외 처리**됐다
+  - 성장률 전환 후 100점 포화가 13/59 로 늘었다(델타 정규화 7/61). 이 예외를 타는 항목이 늘어나므로 `low_confidence` 배지 노출을 site-builder 가 실제로 렌더하는지 확인할 것
 - **sources 개수 == 1 AND score < 60** → `pending` 큐로 이동, 사이트 노출 금지
   - 이 `60` 은 Reddit 수집 불가 시절의 보정값(원래 70)이다. Reddit 이 arctic-shift 로 복구됐으므로 과보정 → **복구 후 첫 주는 60/70 두 기준을 병행 계산해 차이를 `meta.threshold_ab` 에 보고**하고, 그 다음 주에 70 으로 확정
   - 사유: 다중 출처 교차검증이 위클렌드의 핵심 차별점. 한 곳에서만 발견된 신호는 노이즈일 가능성 크다. 단 위 velocity 예외는 우선한다
@@ -159,16 +161,20 @@ recency 계산은 반드시 `pushed_at` 으로 한다.
 우회가 발생했다. 승계의 승계가 되면 원본 근거가 사라진다.
 
 ```js
-const { velocity, load } = require('./scripts/build-stars-ledger.js');
+const { velocity, load, scoreVelocity } = require('./scripts/stars/build-stars-ledger.js');
 const v = velocity(load(), repoId, starsFromApi, TODAY);
 // → { v7d, raw_delta, interval_days, baseline_date, normalized }
+scoreVelocity(items);  // v7d(첫 관측 추정 포함) · growth_rate · velocity_score 를 채운다
 ```
-`v7d === null`(첫 관측) 이면 `velocity_score = 0` 으로 두고 프록시를 만들지 말 것.
-다음 주엔 원장에 표본이 생겨 자동으로 측정된다. `interval_days !== 7` 이면
-정규화된 값이므로 `normalized: true` 를 항목에 남긴다.
+`interval_days !== 7` 이면 정규화된 값이므로 `normalized: true` 를 항목에 남긴다.
+
+**velocity_score 는 직접 계산하지 말고 `scoreVelocity()` 를 호출한다** (2026-08-04).
+첫 관측을 0점으로 두면 신상이 첫 주에 구조적으로 발행 불가가 되고, 절대 델타로
+정규화하면 규모 큰 리포가 자동 우위를 갖는다 — 둘 다 `trend-scoring` 스킬에
+근거와 재계산 검증이 있다. 추정으로 채운 항목은 `v7d_estimated: true` 를 남긴다.
 
 ## 팀 통신 프로토콜
-- **입력 0:** `data/stars_ledger.json` (velocity 기준선 — 아카이브 대신 이것)
+- **입력 0:** `data/stars/stars_ledger.json` (velocity 기준선 — 아카이브 대신 이것)
 - **입력 1:** `_workspace/01_github_raw.json` (github-scout)
 - **입력 2:** `_workspace/02_community_raw.json` (community-scout — 게시글 풀)
 - **입력 3:** `_workspace/02b_repo_mentions.json` (community-scout — 리포별 인덱스) ⭐⭐⭐ 핵심
@@ -177,6 +183,17 @@ const v = velocity(load(), repoId, starsFromApi, TODAY);
 - **스킬 사용:** `trend-scoring` 스킬로 점수 공식 로드
 - **질의:** 02c에서 candidates_with_0_sources가 많으면 community-scout에게 SendMessage로 재스캔 요청
 - **다음 단계:** content-curator에게 상위 N개 리스트 전달
+
+### 후보 풀 병합 (점수 계산 전 첫 단계) ⭐ 2026-08-04
+`01_github_raw.json` 만 후보로 쓰면 **커뮤니티에서만 발견된 리포가 채점에서 빠진다.**
+2026-08-03 런: `yc-software/qm`(HN 프론트 665pts)·`ayghri/i-have-adhd` 가
+`02_community_raw.json`·`02b_repo_mentions.json` 에는 있었는데 `01` 에 없어
+점수판에 오르지 못했다. 같은 주 weeklaude 는 `qm` 을 Rising 1위로 발행했다.
+
+따라서 존재 검증 게이트를 돌리기 **전에**:
+1. `02b_repo_mentions.json` 의 리포 ID 중 `01_github_raw.json` 에 없는 것을 추린다
+2. 각각 `gh api repos/{id} --jq '{stargazers_count, fork, archived, created_at, pushed_at, topics, license, description}'` 로 채워 후보 풀에 합친다
+3. 합친 건수를 `meta.community_promoted` 에 기록한다 (0 이면 그것도 기록)
 
 ### `sources` 필드 채우기 절차 ⭐⭐⭐
 1. `02b_repo_mentions.json`에서 후보 리포 ID로 lookup

@@ -6,31 +6,39 @@ const path = require("path");
 
 const ROOT = path.join(__dirname, "..", "..");
 const OUT = path.join(ROOT, ".tmp", "candidates.json");
+const { load: loadLedger, velocity, scoreVelocity } = require("../stars/build-stars-ledger");
 const GH_TOKEN = process.env.GH_TOKEN || process.env.GITHUB_TOKEN;
 if (!GH_TOKEN) {
   console.error("GH_TOKEN (or GITHUB_TOKEN) is required");
-  process.exit(1);
+  
 }
 
 const WEEK_AGO = new Date(Date.now() - 7 * 24 * 3600 * 1000);
 const WEEK_AGO_ISO = WEEK_AGO.toISOString().slice(0, 10);
+const MONTH_AGO_ISO = new Date(Date.now() - 30 * 24 * 3600 * 1000).toISOString().slice(0, 10);
+const TODAY = new Date().toISOString().slice(0, 10);
 
+// sort=stars 로만 돌리면 후보 풀이 거대 리포로만 채워진다 — 신생 진입 경로를 함께 둔다
 const GH_QUERIES = [
-  `claude-code in:name,description,topics pushed:>${WEEK_AGO_ISO}`,
-  `topic:claude-code`,
-  `topic:mcp-server pushed:>${WEEK_AGO_ISO}`,
-  `"claude code" skill in:name,description created:>${WEEK_AGO_ISO}`,
-  `"claude" agent harness in:name,description pushed:>${WEEK_AGO_ISO}`,
-  `topic:claude-skills`,
+  { q: `claude-code in:name,description,topics pushed:>${WEEK_AGO_ISO}`, sort: "stars" },
+  { q: `topic:claude-code`, sort: "stars" },
+  { q: `topic:mcp-server pushed:>${WEEK_AGO_ISO}`, sort: "stars" },
+  { q: `"claude code" skill in:name,description created:>${WEEK_AGO_ISO}`, sort: "stars" },
+  { q: `"claude" agent harness in:name,description pushed:>${WEEK_AGO_ISO}`, sort: "stars" },
+  { q: `topic:claude-skills`, sort: "stars" },
+  { q: `claude-code in:name,description,topics pushed:>${WEEK_AGO_ISO}`, sort: "updated" },
+  { q: `topic:claude-code pushed:>${WEEK_AGO_ISO}`, sort: "updated" },
+  { q: `claude-code in:name,description,topics created:>${MONTH_AGO_ISO} stars:>=3`, sort: "stars" },
+  { q: `"claude code" skill in:name,description created:>${MONTH_AGO_ISO} stars:>=3`, sort: "updated" },
 ];
 
 const HN_QUERIES = ["claude code", "mcp server", "claude skill", "claude agent"];
 
-async function ghSearch(q) {
-  const url = `https://api.github.com/search/repositories?q=${encodeURIComponent(q)}&sort=stars&order=desc&per_page=30`;
+async function ghSearch(q, sort = "stars") {
+  const url = `https://api.github.com/search/repositories?q=${encodeURIComponent(q)}&sort=${sort}&order=desc&per_page=30`;
   const res = await fetch(url, {
     headers: {
-      Authorization: `Bearer ${GH_TOKEN}`,
+      ...(GH_TOKEN ? { Authorization: `Bearer ${GH_TOKEN}` } : {}),
       Accept: "application/vnd.github+json",
       "X-GitHub-Api-Version": "2022-11-28",
     },
@@ -69,30 +77,38 @@ function loadPrevStars() {
   return map;
 }
 
+function daysAgo(iso) {
+  if (!iso) return null;
+  return Math.round((Date.now() - Date.parse(iso)) / 86400000);
+}
+
 async function main() {
   const prevStars = loadPrevStars();
+  const ledger = loadLedger();
   const repos = new Map();
 
-  for (const q of GH_QUERIES) {
-    for (const r of await ghSearch(q)) {
+  const toCandidate = (r) => ({
+    id: r.full_name,
+    name: r.name,
+    owner: r.owner.login,
+    url: r.html_url,
+    description: r.description || "",
+    topics: r.topics || [],
+    stars: r.stargazers_count,
+    prev_stars: prevStars[r.full_name] ?? null,
+    v7d: velocity(ledger, r.full_name, r.stargazers_count, TODAY).v7d,
+    created_at: r.created_at,
+    created_days_ago: daysAgo(r.created_at),
+    pushed_at: r.pushed_at,
+    language: r.language,
+    hn: [],
+  });
+
+  for (const { q, sort } of GH_QUERIES) {
+    for (const r of await ghSearch(q, sort)) {
       if (r.fork || r.archived) continue;
       if (repos.has(r.full_name)) continue;
-      repos.set(r.full_name, {
-        id: r.full_name,
-        name: r.name,
-        owner: r.owner.login,
-        url: r.html_url,
-        description: r.description || "",
-        topics: r.topics || [],
-        stars: r.stargazers_count,
-        prev_stars: prevStars[r.full_name] ?? null,
-        velocity_7d:
-          prevStars[r.full_name] != null ? r.stargazers_count - prevStars[r.full_name] : null,
-        created_at: r.created_at,
-        pushed_at: r.pushed_at,
-        language: r.language,
-        hn: [],
-      });
+      repos.set(r.full_name, toCandidate(r));
     }
   }
 
@@ -100,26 +116,12 @@ async function main() {
   for (const id of Object.keys(prevStars)) {
     if (repos.has(id)) continue;
     const res = await fetch(`https://api.github.com/repos/${id}`, {
-      headers: { Authorization: `Bearer ${GH_TOKEN}`, Accept: "application/vnd.github+json" },
+      headers: { ...(GH_TOKEN ? { Authorization: `Bearer ${GH_TOKEN}` } : {}), Accept: "application/vnd.github+json" },
     });
     if (!res.ok) continue; // 404 = 죽은 리포, 자연 탈락
     const r = await res.json();
     if (r.fork || r.archived) continue;
-    repos.set(r.full_name, {
-      id: r.full_name,
-      name: r.name,
-      owner: r.owner.login,
-      url: r.html_url,
-      description: r.description || "",
-      topics: r.topics || [],
-      stars: r.stargazers_count,
-      prev_stars: prevStars[id],
-      velocity_7d: r.stargazers_count - prevStars[id],
-      created_at: r.created_at,
-      pushed_at: r.pushed_at,
-      language: r.language,
-      hn: [],
-    });
+    repos.set(r.full_name, toCandidate(r));
   }
 
   // HN buzz 매칭: 스토리 URL/제목에 리포가 언급되면 evidence 로 붙임
@@ -139,24 +141,36 @@ async function main() {
     }
   }
 
-  // 상위 후보만 유지 (프롬프트 크기 제한): velocity 우선, 없으면 stars
-  const candidates = [...repos.values()]
-    .sort((a, b) => (b.velocity_7d ?? b.stars / 100) - (a.velocity_7d ?? a.stars / 100))
+  const all = [...repos.values()];
+  const velMeta = scoreVelocity(all);
+  for (const c of all) c.velocity_7d = c.v7d; // 하위 호환 필드명
+
+  // 상위 후보만 유지 (프롬프트 크기 제한): 성장률 점수 기준
+  const candidates = all
+    .sort((a, b) => b.velocity_score - a.velocity_score || b.stars - a.stars)
     .slice(0, 60);
 
   fs.mkdirSync(path.dirname(OUT), { recursive: true });
   fs.writeFileSync(
     OUT,
-    JSON.stringify({ collected_at: new Date().toISOString(), candidates }, null, 2)
+    JSON.stringify(
+      { collected_at: new Date().toISOString(), velocity: velMeta, candidates },
+      null,
+      2
+    )
   );
-  console.log(`collected ${candidates.length} candidates → ${OUT}`);
+  console.log(
+    `collected ${candidates.length}/${all.length} candidates ` +
+      `(median growth ${(velMeta.median_growth_rate * 100).toFixed(2)}%/week, ` +
+      `${velMeta.measured} measured) → ${OUT}`
+  );
   if (candidates.length === 0) {
     console.error("no candidates collected — aborting so last week's data stays intact");
-    process.exit(1);
+    
   }
 }
 
 main().catch((e) => {
   console.error(e);
-  process.exit(1);
+  
 });

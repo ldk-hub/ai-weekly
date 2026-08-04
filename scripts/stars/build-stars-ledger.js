@@ -104,6 +104,45 @@ function velocity(ledger, repoId, starsNow, today) {
   };
 }
 
+/** 표본 없는 신상(60일 내)은 누적 stars 가 곧 획득분이므로 주간 환산으로 추정한다. */
+function estimateV7d(stars, createdDaysAgo) {
+  if (createdDaysAgo == null || createdDaysAgo > 60) return null;
+  const age = Math.max(createdDaysAgo, 1);
+  return Math.min(stars, Math.round((stars * 7) / age));
+}
+
+/** 절대 델타가 아니라 주간 성장률로 본다 — 규모가 큰 리포가 자동 우위를 갖지 않게. */
+function growthRate(stars, v7d) {
+  if (!v7d || v7d <= 0) return 0;
+  return v7d / Math.max(stars - v7d, 1);
+}
+
+function median(sorted) {
+  if (!sorted.length) return 0;
+  const m = sorted.length / 2;
+  return sorted.length % 2 ? sorted[Math.floor(m)] : (sorted[m - 1] + sorted[m]) / 2;
+}
+
+/** 코호트 성장률 중앙값을 33점에 맞춘다(3배=100점). items 의 v7d·growth_rate·velocity_score 를 채운다. */
+function scoreVelocity(items) {
+  for (const it of items) {
+    if (it.v7d == null) {
+      it.v7d = estimateV7d(it.stars, it.created_days_ago);
+      it.v7d_estimated = it.v7d != null;
+    }
+    it.growth_rate = growthRate(it.stars, it.v7d);
+  }
+  const rates = items
+    .map((i) => i.growth_rate)
+    .filter((r) => r > 0)
+    .sort((a, b) => a - b);
+  const med = median(rates);
+  for (const it of items) {
+    it.velocity_score = med > 0 ? Math.min(100, (33.3 * it.growth_rate) / med) : 0;
+  }
+  return { median_growth_rate: med, measured: rates.length };
+}
+
 if (require.main === module) {
   const args = process.argv.slice(2);
   const ledger = load();
@@ -129,4 +168,4 @@ if (require.main === module) {
   }
 }
 
-module.exports = { velocity, load, record };
+module.exports = { velocity, load, record, estimateV7d, growthRate, scoreVelocity };

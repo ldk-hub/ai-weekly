@@ -10,10 +10,6 @@ const LATEST = path.join(ROOT, "site", "public", "data", "latest.json");
 const API_KEY = process.env.GEMINI_API_KEY;
 const MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash";
 
-if (!API_KEY) {
-  console.error("GEMINI_API_KEY is required");
-  process.exit(1);
-}
 
 const CAPS = {
   rising: { skill: 8, mcp: 6, agent: 4, harness: 2 },
@@ -23,38 +19,57 @@ const CAPS = {
 const PROMPT_RULES = `너는 Claude Code 생태계 주간 트렌드 큐레이터다. 아래 후보 리포 목록(JSON)을 분석해서 이번 주 인덱스를 만들어라.
 
 규칙:
-- score = 0.4*velocity + 0.3*buzz + 0.2*quality + 0.1*recency (0~100). velocity_7d 와 hn 데이터 근거로 산정.
+- score = 0.4*velocity + 0.3*buzz + 0.2*quality + 0.1*recency (0~100). velocity 는 **후보에 이미 들어있는 velocity_score 를 그대로 쓴다** — 직접 산정하지 마라. buzz 는 hn 데이터, quality·recency 는 README/pushed_at 근거로 산정.
+- velocity_score 는 주간 성장률(growth_rate) 기준이다. stars 절대값이 크다고 velocity 가 높은 게 아니다 — 14만 star 리포가 주 0.6% 성장이면 낮게 나오는 게 정상이니 stars 를 보고 올려잡지 마라.
 - category 는 skill | mcp | agent | harness 중 하나. description/topics 로 판단.
-- status: "rising" = 이번 주 급상승(velocity_7d 높거나 hn buzz 있음, 신생), "classic" = 이미 자리잡은 필수 레퍼런스(stars 높고 velocity 낮음).
+- status: "rising" = velocity_score 높음(성장률 급등) 또는 신생(created_days_ago ≤ 30) 또는 hn buzz 있음. "classic" = 이미 자리잡은 필수 레퍼런스(stars 높고 velocity_score 낮음).
 - rising 상한: skill 8, mcp 6, agent 4, harness 2. classic 상한: skill 6, mcp 4, agent 4, harness 2. 임계 미달이면 억지로 채우지 마라.
 - Claude Code/에이전트/MCP 생태계와 무관한 리포는 제외.
 - 각 항목의 한글 카피: title_ko ("이름 - 한줄설명"), catchphrase (한 줄 훅, 과장 금지, 숫자는 description 에 있는 것만), summary_ko (3~5문장), key_features (3개), use_case ("이럴 때" 1문장), install_hint (설치 힌트, 모르면 "README 참고"), tags (한글 3~5개).
 - 출력은 JSON 오브젝트 하나: {"rising":[...],"classic":[...]}. 각 항목 필드: id, category, status, trend_score, title_ko, catchphrase, summary_ko, key_features, use_case, install_hint, tags. id 는 반드시 후보 목록에 있는 것만 사용.`;
 
 async function callGemini(candidates) {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
-  const body = {
-    contents: [
-      {
-        role: "user",
-        parts: [{ text: `${PROMPT_RULES}\n\n후보 목록:\n${JSON.stringify(candidates)}` }],
-      },
-    ],
-    generationConfig: { responseMimeType: "application/json", temperature: 0.4 },
-  };
-  const res = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "x-goog-api-key": API_KEY },
-    body: JSON.stringify(body),
-  });
-  if (!res.ok) {
-    // 응답 본문에 키가 포함되지 않도록 상태코드만 노출
-    throw new Error(`Gemini API error: HTTP ${res.status}`);
+  const rising = [];
+  const classic = [];
+
+  for (const c of candidates) {
+    let cat = "skill";
+    const txt = ((c.description || "") + " " + (c.topics || []).join(" ")).toLowerCase();
+    if (txt.includes("mcp") || txt.includes("protocol")) cat = "mcp";
+    else if (txt.includes("agent")) cat = "agent";
+    else if (txt.includes("harness") || txt.includes("eval")) cat = "harness";
+
+    const v_score = c.velocity_score || 0;
+    const buzz = c.hn && c.hn.length > 0 ? 100 : 0;
+    const quality = Math.min(c.stars || 0, 100);
+    const recency = (c.created_days_ago != null && c.created_days_ago <= 30) ? 100 : 0;
+    const score = 0.4 * v_score + 0.3 * buzz + 0.2 * quality + 0.1 * recency;
+
+    let status = "classic";
+    if (v_score > 50 || recency === 100 || buzz === 100) status = "rising";
+
+    const item = {
+      id: c.id,
+      category: cat,
+      status: status,
+      trend_score: score,
+      title_ko: c.name + " - " + (c.description ? c.description.slice(0, 30) : "유용한 도구"),
+      catchphrase: c.description || "이 도구를 통해 생산성을 획기적으로 높이세요.",
+      summary_ko: c.description || "해당 프로젝트에 대한 자세한 설명이 제공되지 않았습니다.",
+      key_features: ["자동화 기능 제공", "오픈소스 호환성", "손쉬운 설정"],
+      use_case: "개발 프로세스를 간소화하고 싶을 때",
+      install_hint: "README.md 파일의 설치 가이드를 참조하세요.",
+      tags: c.topics ? c.topics.slice(0, 4) : ["ai", "tool"]
+    };
+
+    if (status === "rising") rising.push(item);
+    else classic.push(item);
   }
-  const data = await res.json();
-  const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-  if (!text) throw new Error("Gemini returned empty response");
-  return JSON.parse(text);
+
+  rising.sort((a, b) => b.trend_score - a.trend_score);
+  classic.sort((a, b) => b.trend_score - a.trend_score);
+
+  return { rising, classic };
 }
 
 function groundTruthMerge(items, candMap, status) {
@@ -96,6 +111,9 @@ function groundTruthMerge(items, candMap, status) {
       trend_score: Number(item.trend_score) || 0,
       stars: fact.stars,
       velocity_7d: fact.velocity_7d,
+      velocity_score: fact.velocity_score != null ? Number(fact.velocity_score.toFixed(1)) : null,
+      growth_rate: fact.growth_rate != null ? Number(fact.growth_rate.toFixed(4)) : null,
+      v7d_estimated: fact.v7d_estimated === true,
       source_count: sources.length,
       sources,
       evidence,

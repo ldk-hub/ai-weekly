@@ -36,7 +36,7 @@ node scripts/publish-curated.js <YYYY-MM-DD>
   "직전 발행분을 새 날짜로 백업" 규약과 섞지 말 것 — `2026-07-20.json` 안에
   `v2026.07.13` 이 들어가는 사고가 그렇게 났고, velocity 기준선이 2주로 밀려
   그 주 star 증가량 전량이 2배로 부풀었다
-- **velocity 기준선은 아카이브가 아니라 `data/stars_ledger.json`** — 아카이브는
+- **velocity 기준선은 아카이브가 아니라 `data/stars/stars_ledger.json`** — 아카이브는
   발행물이라 pending 리포가 빠져 있어 기준선으로 쓸 수 없다
 - **빌드 실패 시 롤백** — 새 latest.json으로 빌드 실패하면 이전 버전 복원
 - **정적 우선** — 서버리스/SSR 복잡도 회피, 정적 호스팅 가능하게 유지
