@@ -13,6 +13,7 @@
 ![Built with Claude Code](https://img.shields.io/badge/Built%20with-Claude%20Code-D97757?style=flat-square)
 ![Auto Updated](https://img.shields.io/badge/Updated-Daily%20&%20Weekly-22c55e?style=flat-square)
 ![License](https://img.shields.io/badge/License-MIT-0e0e0e?style=flat-square)
+![Responsive UX](https://img.shields.io/badge/UX-Mobile_Responsive_%26_Clean_URLs-blue?style=flat-square)
 
 </div>
 
@@ -127,19 +128,18 @@ community-scout ┘    분류·점수·dedup    한글화·gh api 검증     pub
 
 ---
 
-## 3부: 📚 스터디 (Study)
+## 3부: 📈 스타보드 (Starboard)
 
-빠르게 변하는 기술 트렌드 속에서도 **변하지 않는 기본기(Foundation)**와 **심층적인 인사이트**를 다지는 공간입니다. AI와 관련된 핵심 논문, 필수 아티클, 그리고 튜토리얼 영상을 큐레이션하여 함께 읽어 나갑니다.
+Claude Code 생태계 내 주요 리포지토리들의 **주간 GitHub 스타(Star) 증감 현황**을 추적하고 시각화하는 리더보드입니다. 단기적으로 반짝이는 도구뿐만 아니라, 꾸준히 성장하는 생태계 핵심 프로젝트들을 발굴합니다.
 
-### 📌 주요 카테고리
-- **논문 (Paper)**: Transformer, LLM 아키텍처 등 AI 생태계의 근간이 되는 파운데이션 논문 리뷰
-- **아티클/블로그 (Article/Blog)**: 자율 에이전트, 프롬프트 엔지니어링 등 실무 적용 및 구조 설계에 관한 깊이 있는 아티클
-- **강의/영상 (Video/Lecture)**: 코드로 직접 밑바닥부터 짜보거나(from scratch) 시각적으로 쉽게 풀어내는 심화 학습 자료
-- **공식 문서 (Official Docs)**: MCP(Model Context Protocol) 등 업계 표준으로 떠오르는 기술의 공식 문서
+### 📌 주요 특징
+- **리그(League) 기반 분류**: 누적 스타 수에 따라 Minor, Major, Premier, Legend 등 리그를 나누어 체급에 맞는 공정한 성장을 추적합니다.
+- **주간 증감률 트래킹**: 매주 월요일마다 이전 주 대비 스타가 얼마나 늘었는지(Velocity) 계산하고, 눈에 띄는 활동성(🔥)을 뱃지로 부여합니다.
+- **아카이브 및 트렌드 분석**: 일회성 큐레이션에 그치지 않고, 오픈소스 프로젝트의 장기적인 생명력과 커뮤니티 반응을 가시적으로 보여줍니다.
 
 ### 💡 기획 의도
-"뉴스는 매일 가볍게, 스터디는 주말에 무겁게!" 
-파편화된 최신 정보 속에서 방향성을 잃지 않도록, 개발자와 기획자가 반드시 숙지하면 좋은 핵심 레퍼런스들을 엄선하여 보관합니다.
+"어떤 프로젝트가 진짜 커뮤니티의 선택을 받고 있을까?" 
+단순히 새로 나온 도구를 소개하는 것을 넘어, 오픈소스 생태계에서 실질적으로 사용되고 검증되는 프로젝트들의 성장 궤적을 투명하게 관찰하기 위해 기획되었습니다.
 
 ---
 
