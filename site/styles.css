@@ -27,6 +27,11 @@
   --lemon:    #d6a100;
 
   --hover-shadow: 0 16px 32px rgba(14, 14, 14, 0.08);
+
+  /* starboard velocity — 정의 누락으로 스파크라인 stroke 가 none 으로 계산되던 것 복구 */
+  --mint:    #2bab84;
+  --coral:   #d97757;
+  --surface: var(--pill);
 }
 
 html[data-theme="dark"] {
@@ -50,6 +55,8 @@ html[data-theme="dark"] {
   --hl-lilac:     rgba(200, 162, 200, 0.2);
   --hl-coral:     rgba(255, 127, 80, 0.2);
   --hover-shadow: 0 16px 32px rgba(0, 0, 0, 0.5);
+  --mint:         #4fd4a3;
+  --coral:        #e08963;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -73,6 +80,8 @@ html[data-theme="dark"] {
     --hl-lilac:     rgba(200, 162, 200, 0.2);
     --hl-coral:     rgba(255, 127, 80, 0.2);
     --hover-shadow: 0 16px 32px rgba(0, 0, 0, 0.5);
+    --mint:         #4fd4a3;
+    --coral:        #e08963;
   }
 }
 
@@ -85,10 +94,12 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  overflow-x: hidden;
+  overflow-x: clip;
   min-height: 100vh;
+  min-height: 100dvh;
   font-size: 14px;
   word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 ::selection { background: var(--accent); color: var(--card); }
@@ -134,6 +145,12 @@ body {
   background: #FDE68A;
   border-radius: 6px;
   padding: 0 8px;
+}
+/* 줄바꿈으로 조각나도 padding·radius 를 조각마다 유지 */
+.hero-titles h1 .hl-mint,
+.hero-titles h1 .hl-lemon {
+  -webkit-box-decoration-break: clone;
+          box-decoration-break: clone;
 }
 .hero-titles p {
   margin: 18px 0 0;
@@ -196,7 +213,8 @@ html[data-theme="dark"] .hero-titles p strong { color: var(--ink); }
   cursor: pointer;
 }
 .lang-toggle .lang-opt { transition: color 0.2s; }
-.lang-toggle .lang-opt.is-active { color: var(--ink); }
+.lang-toggle .lang-opt.is-active,
+.lang-toggle .lang-opt.active { color: var(--ink); }
 .lang-toggle .lang-sep { color: var(--border); }
 
 .gh-btn {
@@ -217,6 +235,7 @@ html[data-theme="dark"] .hero-titles p strong { color: var(--ink); }
 .hero-art-dots {
   margin-right: 8px;
 }
+.hero-art-dots img { width: 72px; height: 72px; object-fit: contain; }
 .dot-grid {
   display: grid;
   grid-template-columns: repeat(5, 16px);
@@ -284,6 +303,7 @@ html[data-theme="dark"] .update-sep { background: var(--border-hover); }
 }
 .visit-counter img {
   height: 16px;
+  width: auto;
   border-radius: 3px;
 }
 
@@ -501,18 +521,24 @@ html[data-theme="dark"] .pn-link:hover { background: rgba(0,0,0,0.2); }
   transition: all 0.2s;
 }
 .cat-chip:hover { border-color: var(--border-hover); color: var(--ink); }
-.cat-chip.is-active {
+/* starboard 정적 HTML 은 .active / .tab-count, JS 렌더 칩은 .is-active / .cat-count 를 쓴다 */
+.cat-chip.is-active,
+.cat-chip.active {
   border-color: var(--ink);
   background: var(--ink);
   color: var(--bg);
   font-weight: 650;
 }
-.cat-chip .cat-count {
+.cat-chip .cat-count,
+.cat-chip .tab-count {
   font-size: 11.5px;
   color: var(--soft);
   font-variant-numeric: tabular-nums;
 }
-.cat-chip.is-active .cat-count {
+.cat-chip.is-active .cat-count,
+.cat-chip.is-active .tab-count,
+.cat-chip.active .cat-count,
+.cat-chip.active .tab-count {
   color: inherit;
   opacity: 0.72;
 }
@@ -607,7 +633,7 @@ main {
 /* ============ GRID ============ */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
   gap: 16px;
 }
 
@@ -906,6 +932,7 @@ main {
   align-items: flex-start; justify-content: center;
   padding: 40px 20px;
   overflow-y: auto;
+  overscroll-behavior: contain;
 }
 .modal.open { display: flex; }
 .modal-backdrop {
@@ -1455,7 +1482,8 @@ footer a:hover, footer .foot-link:hover { color: var(--accent); border-bottom-co
   }
   .page-nav::-webkit-scrollbar { display: none; /* Safari/Chrome */ }
   .pn-link { padding: 0 14px; height: 34px; font-size: 13.5px; }
-  .unb-summary { padding-left: 4px; padding-bottom: 2px; }
+  /* 교차축 auto 마진이 align-items:stretch 를 무효화해 요약만 우측 정렬되던 것 */
+  .unb-summary { margin-left: 0; padding-left: 4px; padding-bottom: 2px; }
   
   .unb-bottom { flex-direction: column; align-items: stretch; gap: 12px; padding: 11px 10px; }
   .unb-search-wrap { width: 100%; }
@@ -1486,11 +1514,85 @@ footer a:hover, footer .foot-link:hover { color: var(--accent); border-bottom-co
   .m-usecase { font-size: 14.5px; padding: 16px 18px; line-height: 1.7; }
   .m-section { margin-bottom: 32px; }
   
-  footer { 
-    padding: 32px 16px 40px; 
-    flex-direction: column; 
-    align-items: flex-start; 
-    gap: 16px; 
+  footer {
+    padding: 32px 16px 40px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  /* --- 갱신바: nowrap flex 가 마지막 자식(방문자 뱃지)을 뷰포트 밖으로 밀어내던 것 --- */
+  .update-meta { flex-wrap: wrap; row-gap: 6px; column-gap: 14px; }
+  .update-meta .update-sep { display: none; }
+  .visit-counter { flex-shrink: 0; }
+  .visit-counter img { max-width: 100%; }
+
+  /* --- 주차 드롭다운: 앵커가 왼쪽으로 옮겨졌는데 right:0 이 남아 화면 밖으로 열리던 것 --- */
+  .archive-menu {
+    left: 0; right: auto;
+    width: min(210px, calc(100vw - 40px));
+    max-height: min(56vh, 420px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .archive-menu li button { padding: 13px 12px; }
+
+  /* --- 구독 폼: 폰트 16px(iOS 자동확대 차단)와 wrap 은 반드시 세트 --- */
+  .update-actions-right { flex-wrap: wrap; row-gap: 10px; }
+  .subscribe-wrapper { min-width: 0; max-width: 100%; }
+  .subscribe-form { width: 100%; max-width: 100%; }
+  .subscribe-form input { width: auto; flex: 1 1 0; min-width: 0; font-size: 16px; }
+  .unb-search-wrap input { font-size: 16px; min-width: 0; }
+
+  /* --- 카드 핵심기능이 nowrap 으로 최대 32% 잘리던 것 --- */
+  .features li { white-space: normal; text-overflow: clip; line-height: 1.45; }
+
+  /* --- 스티커 예약폭이 리포명 트랙을 156px 로 누르던 것 --- */
+  .card-head { padding-right: 64px; }
+  .news-card .repo-id { white-space: normal; overflow: visible; text-overflow: clip; line-height: 1.35; }
+  .m-repo { white-space: normal; overflow: visible; }
+  .m-avatar { flex-shrink: 0; }
+
+  /* --- 스타보드: 인라인 max-width:65% + shrink:0 합이 카드 폭을 넘겨 GITHUB 버튼이 잘리던 것 --- */
+  #starboard-container .card > div:has(> .repo-link) { flex-wrap: wrap; row-gap: 10px; }
+  #starboard-container .card > div:has(> .repo-link) > div {
+    max-width: none !important;
+    min-width: 0;
+    flex: 1 1 100%;
+  }
+  #starboard-container .card .repo-link { margin-left: auto; }
+  #starboard-container .card { padding: 20px 16px 12px !important; }
+  #starboard-container .sticker { width: 52px; height: 52px; top: 10px; right: 10px; font-size: 9.5px; }
+  #starboard-container .sticker strong { font-size: 13px; margin-bottom: 1px; }
+  #starboard-container .card-head { padding-right: 62px; }
+  #starboard-container .card-head h3 { font-size: 17px !important; word-break: normal !important; }
+  .sb-sparkline { height: 56px; }
+
+  /* --- 터치 타깃 44px (세로만 늘어나 폭 예산 무영향) --- */
+  .theme-toggle, .lang-toggle, .gh-btn,
+  .archive-btn, .subscribe-btn-open, .ctrl-link { height: auto; min-height: 44px; }
+  .subscribe-form { height: 44px; }
+  .subscribe-submit { height: 34px; }
+  .subscribe-close { width: 34px; height: 34px; position: relative; }
+  .subscribe-close::after { content: ""; position: absolute; inset: -5px; }
+  .repo-link { min-height: 44px; padding: 12px 18px; }
+  footer a, footer .foot-link { display: inline-block; padding: 10px 2px; }
+
+  /* --- 모달 닫기: 스크롤하면 화면 밖으로 사라지던 것 (fixed 는 transform 없는 애니메이션과 세트) --- */
+  .modal-close {
+    position: fixed;
+    top: 14px; right: 14px;
+    width: 44px; height: 44px;
+    z-index: 210;
+    background: var(--card);
+    box-shadow: 0 2px 10px rgba(0,0,0,.25);
+  }
+  .modal-panel { animation: fadein-m .2s ease; }
+
+  .pn-link.is-active { box-shadow: none; }
+  html[lang="en"] .page-nav {
+    -webkit-mask-image: linear-gradient(90deg,#000 calc(100% - 26px),transparent);
+            mask-image: linear-gradient(90deg,#000 calc(100% - 26px),transparent);
   }
 }
 
@@ -1696,60 +1798,6 @@ footer a:hover, footer .foot-link:hover { color: var(--accent); border-bottom-co
 }
 
 /* Starboard UI */
-.sb-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding-top: 20px;
-}
-.sb-item {
-  display: flex;
-  align-items: center;
-  padding: 16px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  text-decoration: none;
-  color: var(--text);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.sb-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px var(--shadow);
-}
-.sb-rank {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--muted);
-  width: 48px;
-  text-align: center;
-}
-.sb-info {
-  flex: 1;
-  padding: 0 16px;
-}
-.sb-repo-name {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-.sb-meta {
-  font-size: 13px;
-  color: var(--text);
-}
-.sb-chart {
-  width: 120px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 16px;
-}
-.sb-activity {
-  width: 80px;
-  display: flex;
-  justify-content: flex-end;
-}
 .sb-badge {
   font-size: 12px;
   padding: 4px 10px;
@@ -1768,11 +1816,13 @@ footer a:hover, footer .foot-link:hover { color: var(--accent); border-bottom-co
   background: var(--bg);
   color: var(--muted);
 }
-@media (max-width: 768px) {
-  .sb-chart {
-    display: none;
-  }
-}
+
+/* main.js 가 실제로 그리는 클래스 — preserveAspectRatio=none 의 선 굵기 왜곡을 상쇄 */
+.sb-sparkline { display: block; width: 100%; }
+.sb-sparkline polyline { vector-effect: non-scaling-stroke; }
+
+/* 스타보드 카드에는 클릭 리스너가 없다 (위임은 #grid 에만 걸림) */
+#starboard-container .card { cursor: default; }
 
 
 /* ============ STARBOARD 레이아웃 보정 ============ */
@@ -1813,4 +1863,110 @@ footer a:hover, footer .foot-link:hover { color: var(--accent); border-bottom-co
   .sb-controls .filter-right { width: auto; justify-content: flex-end; }
   /* "다음 7/30 (목)" 이 토큰 중간에서 3줄로 쪼개지던 문제 */
   #next-at-container { white-space: nowrap; }
+}
+
+/* ============ 소형 화면 (≤640) ============ */
+@media (max-width: 640px) {
+  .news-card h3 { -webkit-line-clamp: 3; }
+
+  .daily-briefing-panel { padding: 18px 16px 18px 20px; margin-bottom: 24px; }
+  .daily-briefing-panel.is-compact { padding: 14px 14px 14px 18px; }
+  .db-summary { font-size: 15px; line-height: 1.65; margin-bottom: 16px; }
+  .db-footer { margin-top: 14px; padding-top: 12px; }
+
+  /* 리스트 뷰: 본문 트랙이 154px 라 제목 전건이 한 줄 ellipsis 로 잘리던 것 */
+  .list-view .news-card {
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 10px;
+    padding: 12px 14px !important;
+  }
+  .list-view .news-card .head-meta { display: none; }
+  .list-view .news-card a h3,
+  .list-view .news-card .nc-summary {
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .list-view .news-card a { padding: 6px 0; }
+}
+
+/* ============ 폰 전용 (≤480) — 파일 끝이어야 768 블록을 소스 순서로 이긴다 ============ */
+@media (max-width: 480px) {
+  .header-container { padding: 20px 12px 0; }
+  main { padding: 12px 12px 64px; }
+  .unb-top { padding: 10px; }
+  .unb-bottom { padding: 11px 10px; }
+  .update-bar { padding: 0 0 8px; }
+
+  .hero-titles h1 { font-size: clamp(22px, 6.4vw, 28px); line-height: 1.4; letter-spacing: -0.6px; text-wrap: balance; }
+  .hero-titles h1 .hl-mint,
+  .hero-titles h1 .hl-lemon { padding: 0 5px; border-radius: 5px; }
+
+  /* 줄바꿈보다 한 줄 유지가 직관적 — 대신 여백을 깎아 맞춘다 */
+  .hero-actions { gap: 12px; }
+  .brand-actions { flex-wrap: nowrap; justify-content: flex-end; gap: 6px; }
+  .theme-toggle, .lang-toggle, .gh-btn { flex: 0 0 auto; white-space: nowrap; }
+  .theme-toggle { padding: 0 11px; }
+  .lang-toggle  { padding: 0 10px; }
+  .gh-btn       { padding: 0 12px; }
+  .hero-art-dots { margin-right: 0; }
+  .hero-art-dots img { width: 52px; height: 52px; }
+
+  .pn-link { padding: 0 8px; gap: 4px; height: 44px; font-size: 13px; }
+
+  /* 칩 행이 최대 4줄로 접히던 것을 1줄 가로 스크롤로.
+     .sb-controls .cat-filter (특이도 0,2,0) 를 이기려면 셀렉터를 맞춰야 한다 */
+  .unb-bottom .cat-filter,
+  .sb-controls .cat-filter {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    -webkit-mask-image: linear-gradient(90deg,#000 calc(100% - 26px),transparent);
+            mask-image: linear-gradient(90deg,#000 calc(100% - 26px),transparent);
+  }
+  .unb-bottom .cat-filter::-webkit-scrollbar,
+  .sb-controls .cat-filter::-webkit-scrollbar { display: none; }
+  .cat-chip { flex: 0 0 auto; scroll-snap-align: start; height: 40px; padding: 0 11px; gap: 5px; }
+
+  /* 스타보드 뷰 토글은 gap 만 바꾸는 no-op — 그 54px 를 리그 칩 8개에 넘긴다 */
+  .sb-controls .filter-right { display: none; }
+  /* 리그 8개는 어떤 폭에도 안 들어간다 — 칩 단위 스냅으로 "잘림"이 아니라 "스트립"으로 읽히게 */
+  .sb-controls .cat-filter { scroll-snap-type: x mandatory; scroll-padding-left: 2px; }
+
+  .unb-search-wrap { height: 44px; }
+  .view-toggle { width: 44px; height: 44px; flex: 0 0 44px; }
+
+  /* height:32px 고정에 2줄 라벨이 접히면 반전 배경 밖으로 나가 글자가 소실된다 */
+  .data-tabs-wrap .tab {
+    height: auto;
+    min-height: 44px;
+    padding: 6px 10px;
+    line-height: 1.25;
+    text-align: center;
+  }
+}
+
+/* ============ 초소형 폰 (≤380) — 320px 에서도 헤더·탭이 한 줄을 유지하게 ============ */
+@media (max-width: 380px) {
+  .hero-actions { gap: 10px; }
+  .brand-actions { gap: 5px; }
+  .theme-toggle, .lang-toggle, .gh-btn { font-size: 12.5px; padding: 0 9px; }
+  .hero-art-dots img { width: 44px; height: 44px; }
+  .pn-link { padding: 0 6px; font-size: 12.5px; }
+  .data-tabs-wrap .tab { font-size: 12.5px; padding: 6px 8px; }
+}
+
+/* ============ 가로모드 (노치폰 landscape) ============ */
+@media (orientation: landscape) and (max-height: 500px) {
+  .header-container { padding-top: 12px; }
+  .hero-titles h1 { font-size: 22px; line-height: 1.2; }
+  .hero-titles p,
+  .hero-art-dots { display: none; }
+  .update-bar { margin-top: 12px; padding-bottom: 6px; }
+  .data-tabs-wrap { margin-top: 12px; }
+  main { padding-top: 12px; }
 }

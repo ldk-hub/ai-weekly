@@ -520,7 +520,7 @@ function render() {
       const gridClass = STATE.viewMode === 'list' ? 'grid list-view' : 'grid';
       const gridStyle = STATE.viewMode === 'list' 
         ? 'display:flex;flex-direction:column;gap:12px;' 
-        : 'display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;';
+        : 'display:grid;grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr));gap:24px;';
       html += `<div class="${gridClass}" style="${gridStyle}">`;
       html += list.map((it, idx) => newsCardHTML(it, idx)).join("");
       html += `</div>`;
@@ -1265,7 +1265,7 @@ function renderStarboard() {
   const gridClass = STATE.viewMode === 'list' ? 'grid list-view' : 'grid';
   const gridStyle = STATE.viewMode === 'list' 
     ? 'display:flex;flex-direction:column;gap:12px;' 
-    : 'display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;';
+    : 'display:grid;grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr));gap:24px;';
     
   let html = `<div class="${gridClass}" style="${gridStyle}">`;
   html += list.map((item, idx) => starboardCardHTML(item, idx)).join("");
@@ -1318,7 +1318,7 @@ function starboardCardHTML(item, idx) {
   // 관측이 2개면 어떤 리포든 min→max 를 잇는 같은 대각선이 나온다 (추세 정보 0).
   // 실제로 109개 중 58개가 관측 2회라, 그 경우엔 그래프 대신 사유를 밝힌다.
   const svg = item.sparklineData.length >= 3
-    ? `<svg class="sb-sparkline" width="100%" height="${height}" viewBox="0 -10 ${width} ${height+20}" preserveAspectRatio="none" style="margin-top:auto; padding-top:16px;">
+    ? `<svg class="sb-sparkline" width="100%" height="${height}" viewBox="-2 -10 ${width + 4} ${height+20}" preserveAspectRatio="none" style="margin-top:auto; padding-top:16px;">
     <polyline fill="none" stroke="${velocityColor}" stroke-width="3" points="${points}" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>`
     : `<div class="sb-nochart">${lang === "en"

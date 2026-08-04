@@ -5,8 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>AI위클리 — 📈 스타보드</title>
 <meta name="description" content="Claude Code 생태계 리포의 주간 스타 증감을 헤비급·미들급·라이트급 리그별 순위표로 추적합니다." />
-<meta name="theme-color" content="#fbfaf6" />
-<script>try{const t=localStorage.getItem('aiw-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+<meta name="theme-color" content="#fbfaf6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#161410" media="(prefers-color-scheme: dark)" />
+<script>try{const t=localStorage.getItem('aiw-theme');if(t){document.documentElement.dataset.theme=t;document.querySelectorAll('meta[name="theme-color"]').forEach(m=>{m.removeAttribute('media');m.content=t==='dark'?'#161410':'#fbfaf6';});}}catch(e){}</script>
 
 <link rel="canonical" href="https://ldk-hub.github.io/ai-weekly/starboard.html" />
 <meta property="og:type" content="website" />
@@ -29,7 +30,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=12" />
+<link rel="stylesheet" href="styles.css?v=13" />
 
 <!-- Google Analytics 4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-YLKMDP5YKQ"></script>
@@ -65,7 +66,7 @@
           <a class="gh-btn" href="https://github.com/ldk-hub/ai-weekly" target="_blank" rel="noopener">GitHub</a>
         </div>
         <div class="hero-art-dots">
-          <img src="claude-avatar.svg" alt="Claude" style="width:72px; height:72px; object-fit:contain;" />
+          <img src="claude-avatar.svg" alt="Claude" width="72" height="72" />
         </div>
       </div>
     </div>
@@ -80,7 +81,7 @@
         <span class="version-pill" id="version-pill"></span>
         <span class="update-sep"></span>
         <span class="visit-counter" title="누적 방문자">
-          <span data-i18n-en="Visit" data-i18n-ko="방문">방문</span> <img src="https://visitor-badge.laobi.icu/badge?page_id=ldk-hub.aiweekly.news&left_text=visitors&left_color=%230E0E0E&right_color=%23D97757" alt="visitor counter" loading="lazy" />
+          <span data-i18n-en="Visit" data-i18n-ko="방문">방문</span> <img src="https://visitor-badge.laobi.icu/badge?page_id=ldk-hub.aiweekly.news&left_text=visitors&left_color=%230E0E0E&right_color=%23D97757" alt="visitor counter" loading="lazy" width="52" height="16" />
         </span>
       </div>
 
