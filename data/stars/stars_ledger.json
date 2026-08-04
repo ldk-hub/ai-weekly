@@ -50,7 +50,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 62661
+      "stars": 62552
     }
   ],
   "JuliusBrussee/caveman": [
@@ -112,7 +112,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 95526
+      "stars": 95277
     }
   ],
   "garrytan/gstack": [
@@ -158,7 +158,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 126113
+      "stars": 125934
     }
   ],
   "slavingia/skills": [
@@ -185,10 +185,6 @@
     {
       "date": "2026-08-02",
       "stars": 9722
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 9741
     }
   ],
   "yizhiyanhua-ai/fireworks-tech-graph": [
@@ -223,10 +219,6 @@
     {
       "date": "2026-08-02",
       "stars": 9599
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 9641
     }
   ],
   "patoles/agent-flow": [
@@ -253,10 +245,6 @@
     {
       "date": "2026-08-02",
       "stars": 1434
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 1439
     }
   ],
   "dominikmartn/nothing-design-skill": [
@@ -283,10 +271,6 @@
     {
       "date": "2026-08-02",
       "stars": 2683
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 2687
     }
   ],
   "zarazhangrui/codebase-to-course": [
@@ -317,10 +301,6 @@
     {
       "date": "2026-08-02",
       "stars": 5317
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 5322
     }
   ],
   "joyehuang/Learn-Open-Harness": [
@@ -347,10 +327,6 @@
     {
       "date": "2026-08-02",
       "stars": 25
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 26
     }
   ],
   "gavraz/recon": [
@@ -377,10 +353,6 @@
     {
       "date": "2026-08-02",
       "stars": 261
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 261
     }
   ],
   "efij/secure-claude-code": [
@@ -406,10 +378,6 @@
     },
     {
       "date": "2026-08-02",
-      "stars": 13
-    },
-    {
-      "date": "2026-08-03",
       "stars": 13
     }
   ],
@@ -480,7 +448,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 140131
+      "stars": 140024
     }
   ],
   "modelcontextprotocol/servers": [
@@ -519,10 +487,6 @@
     {
       "date": "2026-08-02",
       "stars": 89141
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 89163
     }
   ],
   "openclaw/openclaw": [
@@ -549,10 +513,6 @@
     {
       "date": "2026-08-02",
       "stars": 384953
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 385048
     }
   ],
   "ComposioHQ/awesome-claude-skills": [
@@ -602,7 +562,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 71698
+      "stars": 71616
     }
   ],
   "nextlevelbuilder/ui-ux-pro-max-skill": [
@@ -648,7 +608,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 113057
+      "stars": 112701
     }
   ],
   "hesreallyhim/awesome-claude-code": [
@@ -698,7 +658,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 51592
+      "stars": 51540
     }
   ],
   "shareAI-lab/learn-claude-code": [
@@ -748,7 +708,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 73109
+      "stars": 72994
     }
   ],
   "musistudio/claude-code-router": [
@@ -782,7 +742,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 36380
+      "stars": 36350
     }
   ],
   "modelcontextprotocol/python-sdk": [
@@ -809,10 +769,6 @@
     {
       "date": "2026-08-02",
       "stars": 23850
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 23868
     }
   ],
   "thedotmack/claude-mem": [
@@ -882,7 +838,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 89440
+      "stars": 89341
     }
   ],
   "rtk-ai/rtk": [
@@ -936,7 +892,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 74557
+      "stars": 74380
     }
   ],
   "getagentseal/codeburn": [
@@ -967,10 +923,6 @@
     {
       "date": "2026-08-02",
       "stars": 9103
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 9122
     }
   ],
   "codeany-ai/open-agent-sdk-typescript": [
@@ -997,10 +949,6 @@
     {
       "date": "2026-08-02",
       "stars": 2739
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 2743
     }
   ],
   "alchaincyf/darwin-skill": [
@@ -1027,10 +975,6 @@
     {
       "date": "2026-08-02",
       "stars": 5287
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 5316
     }
   ],
   "ghostwright/phantom": [
@@ -1057,10 +1001,6 @@
     {
       "date": "2026-08-02",
       "stars": 1456
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 1459
     }
   ],
   "Manavarya09/design-extract": [
@@ -1093,10 +1033,6 @@
     {
       "date": "2026-08-02",
       "stars": 2113
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 2119
     }
   ],
   "drona23/claude-token-efficient": [
@@ -1123,10 +1059,6 @@
     {
       "date": "2026-08-02",
       "stars": 5909
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 5913
     }
   ],
   "gsd-build/get-shit-done": [
@@ -1165,10 +1097,6 @@
     {
       "date": "2026-08-02",
       "stars": 64777
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 64772
     }
   ],
   "openai/codex-plugin-cc": [
@@ -1195,10 +1123,6 @@
     {
       "date": "2026-08-02",
       "stars": 30980
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 31140
     }
   ],
   "kyegomez/OpenMythos": [
@@ -1225,10 +1149,6 @@
     {
       "date": "2026-08-02",
       "stars": 14766
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 14768
     }
   ],
   "browser-use/browser-harness": [
@@ -1255,10 +1175,6 @@
     {
       "date": "2026-08-02",
       "stars": 16424
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 16451
     }
   ],
   "alchaincyf/huashu-design": [
@@ -1285,10 +1201,6 @@
     {
       "date": "2026-08-02",
       "stars": 22337
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 22395
     }
   ],
   "op7418/guizang-ppt-skill": [
@@ -1315,10 +1227,6 @@
     {
       "date": "2026-08-02",
       "stars": 22995
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 23083
     }
   ],
   "OpenCoworkAI/open-codesign": [
@@ -1345,10 +1253,6 @@
     {
       "date": "2026-08-02",
       "stars": 7642
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 7650
     }
   ],
   "shanraisshan/claude-code-best-practice": [
@@ -1398,7 +1302,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 63947
+      "stars": 63896
     }
   ],
   "farion1231/cc-switch": [
@@ -1452,7 +1356,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 123947
+      "stars": 123576
     }
   ],
   "VoltAgent/awesome-claude-code-subagents": [
@@ -1483,10 +1387,6 @@
     {
       "date": "2026-08-02",
       "stars": 23954
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 23983
     }
   ],
   "VoltAgent/awesome-agent-skills": [
@@ -1524,7 +1424,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 29496
+      "stars": 29445
     }
   ],
   "HKUDS/nanobot": [
@@ -1566,7 +1466,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 46575
+      "stars": 46519
     }
   ],
   "NousResearch/hermes-agent": [
@@ -1616,7 +1516,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 224881
+      "stars": 224310
     }
   ],
   "ultraworkers/claw-code": [
@@ -1651,10 +1551,6 @@
     {
       "date": "2026-08-02",
       "stars": 194955
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 194965
     }
   ],
   "mvanhorn/last30days-skill": [
@@ -1708,7 +1604,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 57096
+      "stars": 56871
     }
   ],
   "wshobson/agents": [
@@ -1742,7 +1638,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 38462
+      "stars": 38438
     }
   ],
   "anomalyco/opencode": [
@@ -1781,10 +1677,6 @@
     {
       "date": "2026-08-02",
       "stars": 192403
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 192871
     }
   ],
   "ChromeDevTools/chrome-devtools-mcp": [
@@ -1827,10 +1719,6 @@
     {
       "date": "2026-08-02",
       "stars": 48389
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 48475
     }
   ],
   "czlonkowski/n8n-mcp": [
@@ -1861,10 +1749,6 @@
     {
       "date": "2026-08-02",
       "stars": 22476
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 22533
     }
   ],
   "different-ai/openwork": [
@@ -1895,10 +1779,6 @@
     {
       "date": "2026-08-02",
       "stars": 20297
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 20671
     }
   ],
   "github/github-mcp-server": [
@@ -1933,10 +1813,6 @@
     {
       "date": "2026-08-02",
       "stars": 31903
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 31931
     }
   ],
   "zilliztech/claude-context": [
@@ -1967,10 +1843,6 @@
     {
       "date": "2026-08-02",
       "stars": 12232
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 12243
     }
   ],
   "nexu-io/open-design": [
@@ -2020,7 +1892,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 83410
+      "stars": 83220
     }
   ],
   "HKUDS/OpenHarness": [
@@ -2047,10 +1919,6 @@
     {
       "date": "2026-08-02",
       "stars": 15174
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 15190
     }
   ],
   "ChrisWiles/claude-code-showcase": [
@@ -2077,10 +1945,6 @@
     {
       "date": "2026-08-02",
       "stars": 6014
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 6013
     }
   ],
   "supermemoryai/claude-supermemory": [
@@ -2106,10 +1970,6 @@
     },
     {
       "date": "2026-08-02",
-      "stars": 2731
-    },
-    {
-      "date": "2026-08-03",
       "stars": 2731
     }
   ],
@@ -2137,10 +1997,6 @@
     {
       "date": "2026-08-02",
       "stars": 1266
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 1266
     }
   ],
   "levnikolaevich/claude-code-skills": [
@@ -2167,10 +2023,6 @@
     {
       "date": "2026-08-02",
       "stars": 526
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 527
     }
   ],
   "anthropics/skills": [
@@ -2212,7 +2064,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 166030
+      "stars": 165811
     }
   ],
   "code-yeongyu/oh-my-openagent": [
@@ -2250,7 +2102,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 67145
+      "stars": 67054
     }
   ],
   "anthropics/claude-plugins-official": [
@@ -2284,7 +2136,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 33009
+      "stars": 32973
     }
   ],
   "Piebald-AI/claude-code-system-prompts": [
@@ -2311,10 +2163,6 @@
     {
       "date": "2026-08-02",
       "stars": 12145
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 12155
     }
   ],
   "revfactory/harness": [
@@ -2341,10 +2189,6 @@
     {
       "date": "2026-08-02",
       "stars": 8582
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 8591
     }
   ],
   "ai-boost/awesome-harness-engineering": [
@@ -2371,10 +2215,6 @@
     {
       "date": "2026-08-02",
       "stars": 3358
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 3375
     }
   ],
   "alirezarezvani/claude-skills": [
@@ -2401,10 +2241,6 @@
     {
       "date": "2026-08-02",
       "stars": 23659
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 23740
     }
   ],
   "anthropics/financial-services": [
@@ -2431,10 +2267,6 @@
     {
       "date": "2026-08-02",
       "stars": 33957
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 33979
     }
   ],
   "affaan-m/ECC": [
@@ -2504,7 +2336,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 237322
+      "stars": 237058
     }
   ],
   "mattpocock/skills": [
@@ -2531,10 +2363,6 @@
     {
       "date": "2026-08-02",
       "stars": 199871
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 201475
     }
   ],
   "anthropics/knowledge-work-plugins": [
@@ -2561,10 +2389,6 @@
     {
       "date": "2026-08-02",
       "stars": 23254
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 23265
     }
   ],
   "microsoft/playwright-mcp": [
@@ -2595,10 +2419,6 @@
     {
       "date": "2026-08-02",
       "stars": 35755
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 35781
     }
   ],
   "colbymchenry/codegraph": [
@@ -2644,7 +2464,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 64286
+      "stars": 64103
     }
   ],
   "addyosmani/agent-skills": [
@@ -2686,7 +2506,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 81454
+      "stars": 81351
     }
   ],
   "multica-ai/andrej-karpathy-skills": [
@@ -2736,7 +2556,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 199144
+      "stars": 198800
     }
   ],
   "upstash/context7": [
@@ -2763,10 +2583,6 @@
     {
       "date": "2026-08-02",
       "stars": 60167
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 60205
     }
   ],
   "ruvnet/ruflo": [
@@ -2812,7 +2628,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 66952
+      "stars": 66866
     }
   ],
   "zhayujie/CowAgent": [
@@ -2839,10 +2655,6 @@
     {
       "date": "2026-08-02",
       "stars": 46278
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 46292
     }
   ],
   "multica-ai/multica": [
@@ -2869,10 +2681,6 @@
     {
       "date": "2026-08-02",
       "stars": 43279
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 43542
     }
   ],
   "Chachamaru127/claude-code-harness": [
@@ -2899,10 +2707,6 @@
     {
       "date": "2026-08-02",
       "stars": 3036
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 3038
     }
   ],
   "DietrichGebert/ponytail": [
@@ -2940,7 +2744,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 94899
+      "stars": 94053
     }
   ],
   "can1357/oh-my-pi": [
@@ -2971,10 +2775,6 @@
     {
       "date": "2026-08-02",
       "stars": 21276
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 21575
     }
   ],
   "Imbad0202/academic-research-skills": [
@@ -3016,7 +2816,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 40729
+      "stars": 40571
     }
   ],
   "blader/humanizer": [
@@ -3050,7 +2850,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 32944
+      "stars": 32742
     }
   ],
   "Leonxlnx/taste-skill": [
@@ -3088,7 +2888,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 71103
+      "stars": 70420
     }
   ],
   "cobusgreyling/loop-engineering": [
@@ -3115,10 +2915,6 @@
     {
       "date": "2026-08-02",
       "stars": 9776
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 9820
     }
   ],
   "kepano/obsidian-skills": [
@@ -3145,10 +2941,6 @@
     {
       "date": "2026-08-02",
       "stars": 43940
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 44004
     }
   ],
   "Graphify-Labs/graphify": [
@@ -3206,7 +2998,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 101836
+      "stars": 101079
     }
   ],
   "headroomlabs-ai/headroom": [
@@ -3240,7 +3032,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 64331
+      "stars": 64067
     }
   ],
   "Panniantong/Agent-Reach": [
@@ -3274,7 +3066,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 65682
+      "stars": 64679
     }
   ],
   "Egonex-AI/Understand-Anything": [
@@ -3312,7 +3104,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 77348
+      "stars": 77183
     }
   ],
   "Sakshxm1/hermes-agency-orchestrator": [
@@ -3338,10 +3130,6 @@
     },
     {
       "date": "2026-08-02",
-      "stars": 155
-    },
-    {
-      "date": "2026-08-03",
       "stars": 155
     }
   ],
@@ -3369,10 +3157,6 @@
     {
       "date": "2026-08-02",
       "stars": 152
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 152
     }
   ],
   "Frisher1/ClaudeCode-Workflow-Lab": [
@@ -3398,10 +3182,6 @@
     },
     {
       "date": "2026-08-02",
-      "stars": 153
-    },
-    {
-      "date": "2026-08-03",
       "stars": 153
     }
   ],
@@ -3429,10 +3209,6 @@
     {
       "date": "2026-08-02",
       "stars": 107
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 107
     }
   ],
   "cheshireyang/mindmap-mcts-skill": [
@@ -3458,10 +3234,6 @@
     },
     {
       "date": "2026-08-02",
-      "stars": 107
-    },
-    {
-      "date": "2026-08-03",
       "stars": 107
     }
   ],
@@ -3489,10 +3261,6 @@
     {
       "date": "2026-08-02",
       "stars": 62
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 62
     }
   ],
   "liigoQi/defficiency-skills": [
@@ -3518,10 +3286,6 @@
     },
     {
       "date": "2026-08-02",
-      "stars": 151
-    },
-    {
-      "date": "2026-08-03",
       "stars": 151
     }
   ],
@@ -3556,7 +3320,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 37297
+      "stars": 37128
     }
   ],
   "PDFMathTranslate/PDFMathTranslate": [
@@ -3583,10 +3347,6 @@
     {
       "date": "2026-08-02",
       "stars": 35908
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 35935
     }
   ],
   "sansan0/TrendRadar": [
@@ -3613,10 +3373,6 @@
     {
       "date": "2026-08-02",
       "stars": 61096
-    },
-    {
-      "date": "2026-08-03",
-      "stars": 61119
     }
   ],
   "x1xhlol/system-prompts-and-models-of-ai-tools": [
@@ -3646,7 +3402,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 142540
+      "stars": 142514
     }
   ],
   "asgeirtj/system_prompts_leaks": [
@@ -3676,7 +3432,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 62164
+      "stars": 61998
     }
   ],
   "router-for-me/CLIProxyAPI": [
@@ -3706,7 +3462,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 46084
+      "stars": 45986
     }
   ],
   "sickn33/agentic-awesome-skills": [
@@ -3736,7 +3492,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 44372
+      "stars": 44311
     }
   ],
   "Alishahryar1/free-claude-code": [
@@ -3766,7 +3522,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 44029
+      "stars": 43731
     }
   ],
   "coreyhaines31/marketingskills": [
@@ -3796,7 +3552,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 42874
+      "stars": 42767
     }
   ],
   "luongnv89/claude-howto": [
@@ -3826,7 +3582,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 40813
+      "stars": 40785
     }
   ],
   "Yeachan-Heo/oh-my-claudecode": [
@@ -3856,7 +3612,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 38301
+      "stars": 38264
     }
   ],
   "Wei-Shaw/sub2api": [
@@ -3886,7 +3642,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 35736
+      "stars": 35604
     }
   ],
   "K-Dense-AI/scientific-agent-skills": [
@@ -3916,7 +3672,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 32522
+      "stars": 32406
     }
   ],
   "diegosouzapw/OmniRoute": [
@@ -3946,7 +3702,7 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 38785
+      "stars": 37883
     }
   ],
   "nanocoai/nanoclaw": [
@@ -3976,85 +3732,85 @@
     },
     {
       "date": "2026-08-03",
-      "stars": 30422
+      "stars": 30410
     }
   ],
   "iOfficeAI/AionUi": [
     {
       "date": "2026-08-03",
-      "stars": 31342
+      "stars": 31278
     }
   ],
   "mukul975/Anthropic-Cybersecurity-Skills": [
     {
       "date": "2026-08-03",
-      "stars": 27232
+      "stars": 27164
     }
   ],
   "OthmanAdi/planning-with-files": [
     {
       "date": "2026-08-03",
-      "stars": 25949
+      "stars": 25928
     }
   ],
   "Vincentwei1021/video-shotcraft": [
     {
       "date": "2026-08-03",
-      "stars": 3419
+      "stars": 3261
     }
   ],
   "nagisanzenin/engram": [
     {
       "date": "2026-08-03",
-      "stars": 1156
+      "stars": 1151
     }
   ],
   "Alisa0808/vox-director": [
     {
       "date": "2026-08-03",
-      "stars": 1017
+      "stars": 968
     }
   ],
   "0xsline/OpenChatCut": [
     {
       "date": "2026-08-03",
-      "stars": 779
+      "stars": 763
     }
   ],
   "Raymondhou0917/speak-human-tw": [
     {
       "date": "2026-08-03",
-      "stars": 735
+      "stars": 734
     }
   ],
   "SeanJ1ang/design-judge-skills": [
     {
       "date": "2026-08-03",
-      "stars": 740
+      "stars": 695
     }
   ],
   "Nanako0129/pilotfish": [
     {
       "date": "2026-08-03",
-      "stars": 574
+      "stars": 572
     }
   ],
   "mikehasa/agentacct": [
     {
       "date": "2026-08-03",
-      "stars": 546
+      "stars": 541
     }
   ],
   "worldwonderer/novel-to-game": [
     {
       "date": "2026-08-03",
-      "stars": 546
+      "stars": 517
     }
   ],
   "worldwonderer/drama-skills": [
     {
       "date": "2026-08-03",
-      "stars": 466
+      "stars": 452
     }
   ]
 }
