@@ -6,9 +6,9 @@
 
 **AI 뉴스(3줄 요약)**와 매주 수집되는 **Claude Code 인기 플러그인 인덱스**, 그리고 리포 스타 증감을 추적하는 **스타보드**를 제공합니다.
 
-[🌐 사이트](https://ldk-hub.github.io/ai-weekly/) ·
-[📡 RSS](https://ldk-hub.github.io/ai-weekly/feed.xml) ·
-[⭐ Star](https://github.com/ldk-hub/ai-weekly)
+[🌐 사이트](https://ldk-hub.github.io/) ·
+[📡 RSS](https://ldk-hub.github.io/feed.xml) ·
+[⭐ Star](https://github.com/ldk-hub/ldk-hub.github.io)
 
 ![Built with Claude Code](https://img.shields.io/badge/Built%20with-Claude%20Code-D97757?style=flat-square)
 ![Auto Updated](https://img.shields.io/badge/Updated-Daily%20&%20Weekly-22c55e?style=flat-square)
@@ -183,7 +183,7 @@ node scripts/curate_news.js --selfcheck
 
 ## 기여 및 라이선스
 
-- 버그 제보 및 누락된 유용한 리포는 [Issue](https://github.com/ldk-hub/ai-weekly/issues)로 부탁드립니다.
+- 버그 제보 및 누락된 유용한 리포는 [Issue](https://github.com/ldk-hub/ldk-hub.github.io/issues)로 부탁드립니다.
 - 데이터는 CC-BY 4.0, 소스 코드는 MIT 라이선스가 적용됩니다.
 
 <div align="center">

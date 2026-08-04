@@ -11,7 +11,7 @@ Hacker News, GeekNews, Reddit, X(Twitter), Threads... 정보의 출처는 넘쳐
 
 **"매일 쏟아지는 AI 뉴스와 도구들을 피로도 없이 한 곳에서 볼 수는 없을까?"**
 
-이런 고민에서 출발하여, 저격형 맞춤 큐레이션 플랫폼 **[AI위클리 (AI Weekly)](https://ldk-hub.github.io/ai-weekly/)**를 기획하고 개발하게 되었습니다.
+이런 고민에서 출발하여, 저격형 맞춤 큐레이션 플랫폼 **[AI위클리 (AI Weekly)](https://ldk-hub.github.io/)**를 기획하고 개발하게 되었습니다.
 
 ---
 
@@ -57,8 +57,8 @@ AI위클리의 가장 큰 매력은 겉으로 보이는 심플한 UI 뒤에 숨�
 AI위클리는 거창한 포털 사이트를 지향하지 않습니다. 그저 "오늘 AI 업계에 무슨 일이 있었지?" 궁금할 때, 주소창에 치고 들어와 **1분 만에 쓱 훑어보고 나갈 수 있는 가볍고 쾌적한 아지트**가 되기를 바랍니다.
 
 정보의 홍수 속에서 익사하지 않고, 나에게 필요한 인사이트라는 파도를 멋지게 서핑하고 싶으시다면? 
-지금 바로 [AI위클리](https://ldk-hub.github.io/ai-weekly/)를 북마크해 보세요! 🌊
+지금 바로 [AI위클리](https://ldk-hub.github.io/)를 북마크해 보세요! 🌊
 
 ---
-- **사이트 바로가기**: [https://ldk-hub.github.io/ai-weekly/](https://ldk-hub.github.io/ai-weekly/)
-- **소스코드(GitHub)**: [https://github.com/ldk-hub/ai-weekly](https://github.com/ldk-hub/ai-weekly)
+- **사이트 바로가기**: [https://ldk-hub.github.io/](https://ldk-hub.github.io/)
+- **소스코드(GitHub)**: [https://github.com/ldk-hub/ldk-hub.github.io](https://github.com/ldk-hub/ldk-hub.github.io)
