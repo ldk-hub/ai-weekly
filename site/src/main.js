@@ -1341,8 +1341,7 @@ function starboardCardHTML(item, idx) {
         </div>
       </div>
       
-      ${desc ? `<p class="catch" style="font-weight:400; font-size:14px; opacity:0.8; margin-bottom:12px; display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${escapeHTML(desc)}</p>` : ""}
-      
+
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
         <div style="display:flex; align-items:center; gap:8px;">
           <span class="stars-line" style="font-size:16px; font-weight:600;">★ ${item.currentStars.toLocaleString()}</span>
