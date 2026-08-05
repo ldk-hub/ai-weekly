@@ -1,11 +1,10 @@
 {
-  "generated_at": "2026-08-05T00:00:00.000Z",
+  "generated_at": "2026-08-05T02:21:21.355Z",
   "version": "v2026.08.05",
-  "summary": "오늘의 주요 기술 신호입니다. 총 8건의 뉴스가 업데이트되었습니다. ldk-hub에서 큐레이션 하였습니다.",
+  "summary": "AI 기술 신호 6건 — 개발자 도구 1건 · 개인 2건 · AI 활용 사례 1건 · 정책 2건. 최상위 이슈: drumih/turbo-fieldfare — 애플 실리콘에서 Gemma 4 26B 초경량 구동. ldk-hub에서 큐레이션 하였습니다.",
   "curated_by": "ldk-hub",
   "signal_counts": {
-    "oss": 3,
-    "model": 1,
+    "oss": 2,
     "policy": 2,
     "devtool": 1,
     "practice": 1
@@ -13,197 +12,184 @@
   "news": [
     {
       "id": "github_ed6df91d67",
-      "url": "https://github.com/drumih/turbo-fieldfare",
+      "category_id": "github",
+      "category_name": "GitHub",
+      "signal_id": "oss",
+      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
+      "importance": 89,
+      "headline": "drumih/turbo-fieldfare — 애플 실리콘에서 Gemma 4 26B 초경량 구동",
+      "title_ko": "drumih/turbo-fieldfare — 애플 실리콘에서 Gemma 4 26B 초경량 구동",
+      "title_en": "drumih/turbo-fieldfare — Gemma 4 26B-A4B inference in ~2 GB of RAM on any M-series MacBook",
+      "summary_ko": "• 구글의 최신 Gemma 4 26B 모델을 애플 M 시리즈 맥북에서 단 2GB의 RAM만으로 구동할 수 있는 추론 엔진이 공개되었다.\n• 혁신적인 A4B(Advanced 4-bit) 양자화 기법과 메탈(Metal) 가속을 활용해 메모리 사용량을 극단적으로 줄였다.\n• 고사양 GPU 없이도 대규모 모델을 로컬 디바이스에서 실용적인 속도로 활용할 수 있어 큰 호응을 얻고 있다.",
+      "summary_en": "",
+      "body_ko": "개인용 컴퓨터에서 대형 언어 모델을 돌리기 위한 개발자들의 투쟁이 놀라운 결과물로 이어졌다. 새롭게 깃허브에 등록된 turbo-fieldfare 프로젝트는 260억 파라미터 규모의 Gemma 4 모델을 불과 2GB RAM 환경에서 실행해낸다. 이는 특수하게 설계된 A4B 양자화 알고리즘과 애플 실리콘의 통합 메모리 구조를 한계치까지 활용한 덕분이다. 기존에는 최소 16GB 이상의 여유 램이 필요했던 작업이 엔트리급 맥북에서도 가능해진 것이다. 온디바이스 AI 앱을 기획하는 프론트엔드 및 앱 개발자들에게 매우 훌륭한 백엔드 대안이 될 것이다.",
+      "body_en": "Turbo-fieldfare makes it possible to run the massive Gemma 4 26B model using only 2GB of RAM on Apple Silicon. It utilizes advanced A4B quantization and Metal acceleration to achieve this extreme memory efficiency. A game-changer for local, on-device AI development.",
+      "author_profile": "drumih",
       "publish_date": "2026-08-04T22:56:31.000Z",
+      "tags": [
+        "Mock"
+      ],
+      "url": "https://github.com/drumih/turbo-fieldfare",
+      "sources": [
+        "GitHub"
+      ],
       "metrics": {
-        "stars": 4909,
-        "forks": 245,
+        "stars": 4924,
+        "forks": 246,
         "created_at": "2026-07-17T15:57:54Z",
         "pushed_at": "2026-08-04T22:56:31Z",
         "repo": "drumih/turbo-fieldfare"
       },
-      "title_ko": "drumih/turbo-fieldfare — 애플 실리콘에서 Gemma 4 26B 초경량 구동",
-      "title_en": "drumih/turbo-fieldfare — Gemma 4 26B-A4B inference in ~2 GB of RAM on any M-series MacBook",
-      "summary_ko": "• 구글의 최신 Gemma 4 26B 모델을 애플 M 시리즈 맥북에서 단 2GB의 RAM만으로 구동할 수 있는 추론 엔진이 공개되었다.\n• 혁신적인 A4B(Advanced 4-bit) 양자화 기법과 메탈(Metal) 가속을 활용해 메모리 사용량을 극단적으로 줄였다.\n• 고사양 GPU 없이도 대규모 모델을 로컬 디바이스에서 실용적인 속도로 활용할 수 있어 큰 호응을 얻고 있다.",
-      "body_ko": "개인용 컴퓨터에서 대형 언어 모델을 돌리기 위한 개발자들의 투쟁이 놀라운 결과물로 이어졌다. 새롭게 깃허브에 등록된 turbo-fieldfare 프로젝트는 260억 파라미터 규모의 Gemma 4 모델을 불과 2GB RAM 환경에서 실행해낸다. 이는 특수하게 설계된 A4B 양자화 알고리즘과 애플 실리콘의 통합 메모리 구조를 한계치까지 활용한 덕분이다. 기존에는 최소 16GB 이상의 여유 램이 필요했던 작업이 엔트리급 맥북에서도 가능해진 것이다. 온디바이스 AI 앱을 기획하는 프론트엔드 및 앱 개발자들에게 매우 훌륭한 백엔드 대안이 될 것이다.",
-      "body_en": "Turbo-fieldfare makes it possible to run the massive Gemma 4 26B model using only 2GB of RAM on Apple Silicon. It utilizes advanced A4B quantization and Metal acceleration to achieve this extreme memory efficiency. A game-changer for local, on-device AI development.",
-      "signal_id": "oss",
-      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
-      "importance": 89,
-      "category_id": "github",
-      "category_name": "GitHub",
-      "sources": [
-        "GitHub"
-      ],
-      "curated_by": "ldk-hub",
-      "author_profile": "drumih"
-    },
-    {
-      "id": "geeknews_55b8c8df78",
-      "url": "https://news.hada.io/topic?id=32149",
-      "publish_date": "2026-08-04T18:31:57.000Z",
-      "metrics": {},
-      "title_ko": "단일 AMD MI300X에서 DeepSeek V4 Flash 실행하기",
-      "title_en": "Running DeepSeek V4 Flash on a Single AMD MI300X",
-      "summary_ko": "• AMD의 MI300X 가속기 한 대에서 최신 DeepSeek V4 Flash 모델을 실행하는 데 성공했다.\n• 이를 통해 대규모 인프라 없이도 고성능 AI 모델의 추론 환경을 단일 노드로 구축할 수 있음을 입증했다.\n• 제한된 하드웨어 자원을 가진 실무자와 연구자들이 고성능 모델을 보다 경제적으로 운용할 수 있는 길이 열렸다.",
-      "body_ko": "최근 오픈소스 생태계에서 하드웨어 최적화에 대한 관심이 뜨겁다. 특히 고가의 다중 GPU 클러스터 대신 단일 칩에서 초거대 모델을 구동하려는 시도가 이어지고 있다. 이번 사례는 AMD의 MI300X 가속기 단 1대만으로 DeepSeek의 최신 V4 Flash 버전을 성공적으로 실행한 결과를 보여준다. 이는 하드웨어의 메모리 대역폭과 추론 엔진의 최적화가 완벽히 결합된 성과로 평가된다. 앞으로 기업들이 대규모 인프라 투자 없이도 고성능 AI를 자체적으로 구축하고 운영하는 데 큰 도움이 될 것이다.",
-      "body_en": "Running a large model on a single MI300X demonstrates immense hardware potential. Cost effective deployment is possible without multi-gpu setups. Developers can operate models affordably.",
-      "signal_id": "model",
-      "signal_name": "새 모델·버전 출시·프리뷰·벤치마크",
-      "importance": 88,
-      "category_id": "geeknews",
-      "category_name": "GeekNews",
-      "sources": [],
-      "curated_by": "ldk-hub",
-      "author_profile": "neo"
+      "curated_by": "ldk-hub"
     },
     {
       "id": "reddit_8693828508",
-      "url": "https://www.reddit.com/r/LocalLLaMA/comments/1vfa3tq/sk_hynix_in_collaboration_with_sandisk_unveils/",
+      "category_id": "reddit",
+      "category_name": "Reddit",
+      "signal_id": "policy",
+      "signal_name": "정책·규제·인프라 (기술 영향 큰 것만)",
+      "importance": 88,
+      "headline": "SK하이닉스와 샌디스크, AI 추론 병목 해결할 HBF(High Bandwidth Flash) 표준 발표",
+      "title_ko": "SK하이닉스와 샌디스크, AI 추론 병목 해결할 HBF(High Bandwidth Flash) 표준 발표",
+      "title_en": "SK hynix, In Collaboration With SanDisk, Unveils The New High Bandwidth Flash (HBF) Standard",
+      "summary_ko": "• SK하이닉스가 샌디스크와 협력하여 초당 최대 3TB의 대역폭을 지원하는 차세대 플래시 메모리 규격(HBF)을 공개했다.\n• 기존 HBM의 용량 한계를 극복하고 AI 추론 시 발생하는 데이터 병목 현상을 해결하는 데 초점을 맞추었다.\n• 거대 언어 모델(LLM)을 디스크에서 직접 구동(Offloading)하는 기술의 효율성을 극대화할 수 있다.",
+      "summary_en": "",
+      "body_ko": "AI 반도체 시장을 선도하는 SK하이닉스가 샌디스크와 손잡고 차세대 메모리 표준인 HBF(High Bandwidth Flash)를 선보였다. 이 기술은 초당 최대 3TB의 압도적인 대역폭을 제공하여 AI 모델 추론 시 발생하는 고질적인 메모리 병목을 해소한다. 특히 VRAM 용량이 부족할 때 디스크와 메모리를 오가는 데이터 스와핑 속도를 비약적으로 높여준다. 이를 통해 수백 기가바이트에 달하는 초거대 모델을 비교적 저렴한 하드웨어 환경에서도 원활하게 구동할 수 있는 기반이 마련되었다. 로컬 AI 생태계와 엣지 컴퓨팅 분야에 강력한 혁신을 불어넣을 것으로 기대된다.",
+      "body_en": "SK Hynix and SanDisk introduced HBF, a new flash memory standard hitting 3TB/s bandwidth. It's designed to solve AI inference bottlenecks by making offloading much faster. This could significantly lower the cost of running huge LLMs locally.",
+      "author_profile": "r/LocalLLaMA · u/giveen",
       "publish_date": "2026-08-04T13:17:20.000Z",
+      "tags": [
+        "Mock"
+      ],
+      "url": "https://www.reddit.com/r/LocalLLaMA/comments/1vfa3tq/sk_hynix_in_collaboration_with_sandisk_unveils/",
+      "sources": [
+        "Reddit"
+      ],
       "metrics": {
         "rank_in_sub": 3,
         "discussion_url": "https://www.reddit.com/r/LocalLLaMA/comments/1vfa3tq/sk_hynix_in_collaboration_with_sandisk_unveils/"
       },
-      "title_ko": "SK하이닉스와 샌디스크, AI 추론 병목 해결할 HBF(High Bandwidth Flash) 표준 발표",
-      "title_en": "SK hynix, In Collaboration With SanDisk, Unveils The New High Bandwidth Flash (HBF) Standard",
-      "summary_ko": "• SK하이닉스가 샌디스크와 협력하여 초당 최대 3TB의 대역폭을 지원하는 차세대 플래시 메모리 규격(HBF)을 공개했다.\n• 기존 HBM의 용량 한계를 극복하고 AI 추론 시 발생하는 데이터 병목 현상을 해결하는 데 초점을 맞추었다.\n• 거대 언어 모델(LLM)을 디스크에서 직접 구동(Offloading)하는 기술의 효율성을 극대화할 수 있다.",
-      "body_ko": "AI 반도체 시장을 선도하는 SK하이닉스가 샌디스크와 손잡고 차세대 메모리 표준인 HBF(High Bandwidth Flash)를 선보였다. 이 기술은 초당 최대 3TB의 압도적인 대역폭을 제공하여 AI 모델 추론 시 발생하는 고질적인 메모리 병목을 해소한다. 특히 VRAM 용량이 부족할 때 디스크와 메모리를 오가는 데이터 스와핑 속도를 비약적으로 높여준다. 이를 통해 수백 기가바이트에 달하는 초거대 모델을 비교적 저렴한 하드웨어 환경에서도 원활하게 구동할 수 있는 기반이 마련되었다. 로컬 AI 생태계와 엣지 컴퓨팅 분야에 강력한 혁신을 불어넣을 것으로 기대된다.",
-      "body_en": "SK Hynix and SanDisk introduced HBF, a new flash memory standard hitting 3TB/s bandwidth. It's designed to solve AI inference bottlenecks by making offloading much faster. This could significantly lower the cost of running huge LLMs locally.",
-      "signal_id": "policy",
-      "signal_name": "정책·규제·인프라 (기술 영향 큰 것만)",
-      "importance": 88,
-      "category_id": "reddit",
-      "category_name": "Reddit",
-      "sources": [
-        "Reddit"
-      ],
-      "curated_by": "ldk-hub",
-      "author_profile": "r/LocalLLaMA · u/giveen"
+      "curated_by": "ldk-hub"
     },
     {
       "id": "hackernews_07d65f40ed",
-      "url": "https://www.warp.dev/blog/introducing-the-warp-agent-cli-coding-agent",
-      "publish_date": "2026-08-04T17:08:41.000Z",
-      "metrics": {
-        "points": 20,
-        "comments": 5
-      },
-      "title_ko": "Warp Agent CLI: 터미널 환경에 통합된 코딩 에이전트",
-      "title_en": "The Warp Agent CLI",
-      "summary_ko": "• 터미널 에뮬레이터 Warp가 명령줄 인터페이스(CLI) 상에서 직접 구동되는 AI 에이전트 도구를 새롭게 출시했다.\n• 개발자가 터미널을 벗어나지 않고도 에러를 진단하고 스크립트를 작성하거나 로컬 환경을 탐색할 수 있다.\n• 기존의 브라우저나 편집기 기반 AI 도구와 달리 시스템의 맥락을 그대로 유지하며 작업 속도를 비약적으로 높여준다.",
-      "body_ko": "차세대 터미널로 주목받아온 Warp가 기존 기능을 한 차원 끌어올린 Agent CLI를 공식 발표했다. 이 도구는 개발자가 셸 환경 내에서 자연어로 복잡한 시스템 명령을 지시하고 결과를 바로 적용할 수 있게 해준다. 별도의 외부 AI 툴로 컨텍스트를 복사할 필요 없이 터미널의 에러 로그와 파일 구조를 에이전트가 직접 분석한다. 또한 연속적인 대화를 통해 셸 스크립트를 단계별로 수정해 나갈 수 있어 터미널 작업의 진입 장벽을 크게 낮췄다. 시스템 관리 및 백엔드 개발자들의 일상적인 워크플로우에 강력한 혁신을 가져올 전망이다.",
-      "body_en": "Warp terminal introduced a CLI agent. Developers can prompt complex shell workflows contextually. Significant workflow efficiency improvement.",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
       "signal_id": "devtool",
       "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
       "importance": 86,
-      "category_id": "hackernews",
-      "category_name": "Hacker News",
-      "sources": [],
-      "curated_by": "ldk-hub",
-      "author_profile": "@emschwartz"
+      "headline": "Warp Agent CLI: 터미널 환경에 통합된 코딩 에이전트",
+      "title_ko": "Warp Agent CLI: 터미널 환경에 통합된 코딩 에이전트",
+      "title_en": "The Warp Agent CLI",
+      "summary_ko": "• 터미널 에뮬레이터 Warp가 명령줄 인터페이스(CLI) 상에서 직접 구동되는 AI 에이전트 도구를 새롭게 출시했다.\n• 개발자가 터미널을 벗어나지 않고도 에러를 진단하고 스크립트를 작성하거나 로컬 환경을 탐색할 수 있다.\n• 기존의 브라우저나 편집기 기반 AI 도구와 달리 시스템의 맥락을 그대로 유지하며 작업 속도를 비약적으로 높여준다.",
+      "summary_en": "",
+      "body_ko": "차세대 터미널로 주목받아온 Warp가 기존 기능을 한 차원 끌어올린 Agent CLI를 공식 발표했다. 이 도구는 개발자가 셸 환경 내에서 자연어로 복잡한 시스템 명령을 지시하고 결과를 바로 적용할 수 있게 해준다. 별도의 외부 AI 툴로 컨텍스트를 복사할 필요 없이 터미널의 에러 로그와 파일 구조를 에이전트가 직접 분석한다. 또한 연속적인 대화를 통해 셸 스크립트를 단계별로 수정해 나갈 수 있어 터미널 작업의 진입 장벽을 크게 낮췄다. 시스템 관리 및 백엔드 개발자들의 일상적인 워크플로우에 강력한 혁신을 가져올 전망이다.",
+      "body_en": "Warp terminal introduced a CLI agent. Developers can prompt complex shell workflows contextually. Significant workflow efficiency improvement.",
+      "author_profile": "@emschwartz",
+      "publish_date": "2026-08-04T17:08:41.000Z",
+      "tags": [
+        "Mock"
+      ],
+      "url": "https://www.warp.dev/blog/introducing-the-warp-agent-cli-coding-agent",
+      "sources": [
+        "Hacker News"
+      ],
+      "metrics": {
+        "points": 95,
+        "comments": 59,
+        "discussion_url": "https://news.ycombinator.com/item?id=49171766"
+      },
+      "curated_by": "ldk-hub"
     },
     {
       "id": "github_8c71293d91",
-      "url": "https://github.com/makecindy/cindy",
-      "publish_date": "2026-08-04T23:50:58.000Z",
-      "metrics": {
-        "stars": 1706,
-        "forks": 211,
-        "created_at": "2026-07-22T17:49:34Z",
-        "pushed_at": "2026-08-04T23:50:58Z",
-        "repo": "makecindy/cindy"
-      },
-      "title_ko": "makecindy/cindy — 개봉 즉시 사용 가능한 오픈소스 범용 에이전트",
-      "title_en": "makecindy/cindy — Consider it done. The open-source AI agent that works out of the box",
-      "summary_ko": "• 복잡한 설정 없이 설치 즉시 터미널에서 동작하는 오픈소스 범용 AI 에이전트 'Cindy'가 출시되었다.\n• 파일 시스템 조작, 웹 검색, 코드 실행 등 다양한 도구가 기본 내장되어 있어 진입 장벽이 매우 낮다.\n• 개발 환경 구축이나 반복적인 스크립트 작성을 자동화하고 싶은 초중급 개발자들의 생산성을 크게 높여준다.",
-      "body_ko": "AI 에이전트를 도입하고 싶어도 복잡한 초기 설정과 연동 작업 때문에 포기하는 경우가 많다. 이번에 깃허브에 등록된 Cindy 프로젝트는 '설치 즉시 동작(Out of the box)'을 모토로 이러한 불편을 말끔히 해소했다. 사용자가 자연어로 명령하면 내장된 파일 조작, 웹 검색, 터미널 실행 도구들을 조합하여 알아서 목표를 달성한다. 특히 맥락을 유지하며 오류를 스스로 진단하고 수정하는 기능이 훌륭하게 구현되어 있다. 터미널 기반 작업이 잦은 개발자들의 훌륭한 로컬 어시스턴트로 자리 잡을 잠재력이 충분하다.",
-      "body_en": "Cindy is a ready-to-use, open-source universal AI agent designed to work right out of the box. It comes pre-equipped with tools for file manipulation, web browsing, and code execution. A massive productivity boost for developers wanting hassle-free local AI assistance.",
+      "category_id": "github",
+      "category_name": "GitHub",
       "signal_id": "oss",
       "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
       "importance": 86,
-      "category_id": "github",
-      "category_name": "GitHub",
+      "headline": "makecindy/cindy — 개봉 즉시 사용 가능한 오픈소스 범용 에이전트",
+      "title_ko": "makecindy/cindy — 개봉 즉시 사용 가능한 오픈소스 범용 에이전트",
+      "title_en": "makecindy/cindy — Consider it done. The open-source AI agent that works out of the box",
+      "summary_ko": "• 복잡한 설정 없이 설치 즉시 터미널에서 동작하는 오픈소스 범용 AI 에이전트 'Cindy'가 출시되었다.\n• 파일 시스템 조작, 웹 검색, 코드 실행 등 다양한 도구가 기본 내장되어 있어 진입 장벽이 매우 낮다.\n• 개발 환경 구축이나 반복적인 스크립트 작성을 자동화하고 싶은 초중급 개발자들의 생산성을 크게 높여준다.",
+      "summary_en": "",
+      "body_ko": "AI 에이전트를 도입하고 싶어도 복잡한 초기 설정과 연동 작업 때문에 포기하는 경우가 많다. 이번에 깃허브에 등록된 Cindy 프로젝트는 '설치 즉시 동작(Out of the box)'을 모토로 이러한 불편을 말끔히 해소했다. 사용자가 자연어로 명령하면 내장된 파일 조작, 웹 검색, 터미널 실행 도구들을 조합하여 알아서 목표를 달성한다. 특히 맥락을 유지하며 오류를 스스로 진단하고 수정하는 기능이 훌륭하게 구현되어 있다. 터미널 기반 작업이 잦은 개발자들의 훌륭한 로컬 어시스턴트로 자리 잡을 잠재력이 충분하다.",
+      "body_en": "Cindy is a ready-to-use, open-source universal AI agent designed to work right out of the box. It comes pre-equipped with tools for file manipulation, web browsing, and code execution. A massive productivity boost for developers wanting hassle-free local AI assistance.",
+      "author_profile": "makecindy",
+      "publish_date": "2026-08-05T01:50:06.000Z",
+      "tags": [
+        "Mock"
+      ],
+      "url": "https://github.com/makecindy/cindy",
       "sources": [
         "GitHub"
       ],
-      "curated_by": "ldk-hub",
-      "author_profile": "makecindy"
+      "metrics": {
+        "stars": 1712,
+        "forks": 212,
+        "created_at": "2026-07-22T17:49:34Z",
+        "pushed_at": "2026-08-05T01:50:06Z",
+        "repo": "makecindy/cindy"
+      },
+      "curated_by": "ldk-hub"
     },
     {
       "id": "reddit_ba728707ae",
-      "url": "https://www.reddit.com/r/LocalLLaMA/comments/1vfl525/kimi_k3_full_model_running_on_16x_gb10_cluster_at/",
-      "publish_date": "2026-08-04T19:56:16.000Z",
-      "metrics": {
-        "rank_in_sub": 2,
-        "discussion_url": "https://www.reddit.com/r/LocalLLaMA/comments/1vfl525/kimi_k3_full_model_running_on_16x_gb10_cluster_at/"
-      },
-      "title_ko": "Kimi K3 풀 모델, 16대의 GB10 클러스터에서 20+ TPS로 실행",
-      "title_en": "Kimi K3 full model running on 16x GB10 cluster at 20+tps",
-      "summary_ko": "• 최근 공개된 초거대 모델 Kimi K3가 16대의 GB10 클러스터 환경에서 초당 20개 이상의 토큰을 생성하는 성능을 입증했다.\n• 분산 처리 및 최적화 기법을 통해 대규모 모델의 추론 속도 한계를 성공적으로 극복한 사례다.\n• 고성능 모델의 상용화 및 실시간 서비스 적용 가능성을 높여주는 중요한 기술적 마일스톤이다.",
-      "body_ko": "AI 모델의 규모가 커짐에 따라 추론 속도와 하드웨어 효율성이 핵심 과제로 떠오르고 있다. 최근 레딧에서는 Kimi K3라는 대규모 모델이 16개의 GB10 가속기 클러스터에서 안정적으로 구동되는 모습이 공개되어 큰 화제를 모았다. 특히 이 환경에서 20 TPS(Tokens Per Second) 이상의 속도를 기록한 점은 분산 추론 최적화 기술이 상당한 궤도에 올랐음을 보여준다. 모델 병렬화와 네트워크 지연 최소화 기술이 효과적으로 결합된 결과로 분석된다. 대용량 문맥을 실시간으로 처리해야 하는 AI 서비스 개발자들에게 시사하는 바가 크다.",
-      "body_en": "Kimi K3 running efficiently on a 16-node GB10 cluster at over 20 tokens per second is a breakthrough in distributed inference. It showcases effective model parallelism and optimization. This paves the way for deploying massive models in real-time applications.",
+      "category_id": "reddit",
+      "category_name": "Reddit",
       "signal_id": "practice",
       "signal_name": "AI 활용 사례·워크플로우 팁",
       "importance": 85,
-      "category_id": "reddit",
-      "category_name": "Reddit",
+      "headline": "Kimi K3 풀 모델, 16대의 GB10 클러스터에서 20+ TPS로 실행",
+      "title_ko": "Kimi K3 풀 모델, 16대의 GB10 클러스터에서 20+ TPS로 실행",
+      "title_en": "Kimi K3 full model running on 16x GB10 cluster at 20+tps",
+      "summary_ko": "• 최근 공개된 초거대 모델 Kimi K3가 16대의 GB10 클러스터 환경에서 초당 20개 이상의 토큰을 생성하는 성능을 입증했다.\n• 분산 처리 및 최적화 기법을 통해 대규모 모델의 추론 속도 한계를 성공적으로 극복한 사례다.\n• 고성능 모델의 상용화 및 실시간 서비스 적용 가능성을 높여주는 중요한 기술적 마일스톤이다.",
+      "summary_en": "",
+      "body_ko": "AI 모델의 규모가 커짐에 따라 추론 속도와 하드웨어 효율성이 핵심 과제로 떠오르고 있다. 최근 레딧에서는 Kimi K3라는 대규모 모델이 16개의 GB10 가속기 클러스터에서 안정적으로 구동되는 모습이 공개되어 큰 화제를 모았다. 특히 이 환경에서 20 TPS(Tokens Per Second) 이상의 속도를 기록한 점은 분산 추론 최적화 기술이 상당한 궤도에 올랐음을 보여준다. 모델 병렬화와 네트워크 지연 최소화 기술이 효과적으로 결합된 결과로 분석된다. 대용량 문맥을 실시간으로 처리해야 하는 AI 서비스 개발자들에게 시사하는 바가 크다.",
+      "body_en": "Kimi K3 running efficiently on a 16-node GB10 cluster at over 20 tokens per second is a breakthrough in distributed inference. It showcases effective model parallelism and optimization. This paves the way for deploying massive models in real-time applications.",
+      "author_profile": "r/LocalLLaMA · u/ciprianveg",
+      "publish_date": "2026-08-04T19:56:16.000Z",
+      "tags": [
+        "Mock"
+      ],
+      "url": "https://www.reddit.com/r/LocalLLaMA/comments/1vfl525/kimi_k3_full_model_running_on_16x_gb10_cluster_at/",
       "sources": [
         "Reddit"
       ],
-      "curated_by": "ldk-hub",
-      "author_profile": "r/LocalLLaMA · u/ciprianveg"
-    },
-    {
-      "id": "github_c4b4b7662c",
-      "url": "https://github.com/AlephAITech/WorkBuddyGuide",
-      "publish_date": "2026-08-03T03:43:50.000Z",
       "metrics": {
-        "stars": 1944,
-        "forks": 269,
-        "created_at": "2026-07-10T04:13:51Z",
-        "pushed_at": "2026-08-03T03:43:50Z",
-        "repo": "AlephAITech/WorkBuddyGuide"
+        "rank_in_sub": 1,
+        "discussion_url": "https://www.reddit.com/r/LocalLLaMA/comments/1vfl525/kimi_k3_full_model_running_on_16x_gb10_cluster_at/"
       },
-      "title_ko": "AlephAITech/WorkBuddyGuide — 멀티 에이전트 워크플로우 실전 가이드",
-      "title_en": "AlephAITech/WorkBuddyGuide — A practical, open-source guide to mastering WorkBuddy",
-      "summary_ko": "• AI 기반 업무 자동화 도구인 WorkBuddy의 실전 사용법과 다중 에이전트 환경 구축을 다룬 오픈소스 블루프린트가 공개되었다.\n• 실제 업무 환경에서 에이전트를 어떻게 설계하고 MCP(Multi-Component Pipeline)를 적용할 수 있는지에 대한 생생한 예제를 제공한다.\n• 단순한 튜토리얼을 넘어 기업의 실제 프로세스를 자동화하려는 엔지니어들에게 즉시 적용 가능한 레퍼런스를 제공한다.",
-      "body_ko": "최근 AI 에이전트를 실제 업무에 도입하려는 수요가 폭증하면서 관련된 실무 가이드라인의 중요성이 커지고 있다. 깃허브에 공개된 WorkBuddy 실전 블루프린트는 단순한 장난감 수준의 튜토리얼을 넘어 현업에 즉시 적용할 수 있는 깊이를 보여준다. 이 리포지토리는 스킬 설계, 복잡한 자동화 파이프라인(MCP) 구축, 그리고 여러 에이전트 간의 협업 프로토콜을 코드로 상세히 풀어냈다. 막연하게만 느껴지던 다중 에이전트 오케스트레이션을 구체적인 시스템 구조로 시각화하여 제시한다. AI 자동화를 고민하는 조직의 아키텍트와 개발자들이 필수적으로 참고해야 할 자료다.",
-      "body_en": "WorkBuddyGuide provides an in-depth, open-source blueprint for mastering multi-agent workflows. It goes beyond simple tutorials, offering real-world examples of MCP implementations and agent collaboration. An essential resource for engineers building actual AI automation systems.",
-      "signal_id": "oss",
-      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
-      "importance": 84,
-      "category_id": "github",
-      "category_name": "GitHub",
-      "sources": [
-        "GitHub"
-      ],
-      "curated_by": "ldk-hub",
-      "author_profile": "AlephAITech"
+      "curated_by": "ldk-hub"
     },
     {
       "id": "reddit_b75d94a43b",
-      "url": "https://www.reddit.com/r/LocalLLaMA/comments/1vfj3q7/hugging_face_ceo_says_china_is_winning_the_ai/",
-      "publish_date": "2026-08-04T18:42:38.000Z",
-      "metrics": {
-        "rank_in_sub": 4,
-        "discussion_url": "https://www.reddit.com/r/LocalLLaMA/comments/1vfj3q7/hugging_face_ceo_says_china_is_winning_the_ai/"
-      },
-      "title_ko": "허깅페이스 CEO \"중국이 오픈소스 AI 모델 경쟁에서 앞서가고 있다\"",
-      "title_en": "Hugging Face CEO says China is winning the AI race and dominating on open models",
-      "summary_ko": "• 허깅페이스의 CEO가 현재 글로벌 AI 생태계에서 중국이 오픈소스 모델 부문을 주도하고 있다고 평가했다.\n• 최근 리더보드를 석권하고 있는 중국발 오픈소스 모델들의 기술적 완성도와 빠른 발전 속도를 근거로 들었다.\n• 서구권 기업과 오픈소스 진영 모두에게 전략적 방향성 재고와 기술 투자를 촉구하는 강력한 메시지다.",
-      "body_ko": "세계 최대의 오픈소스 AI 커뮤니티 허깅페이스의 수장이 AI 패권 경쟁에 대한 도발적인 견해를 밝혔다. 그는 최근 뛰어난 성능으로 벤치마크 상위권을 장악하고 있는 중국발 모델들을 언급하며, 중국이 오픈소스 생태계의 주도권을 쥐고 있다고 평가했다. 실제로 알리바바의 Qwen 시리즈나 딥시크(DeepSeek) 같은 모델들은 서구권 빅테크의 모델들과 대등하거나 그 이상의 효율을 보여주고 있다. 이러한 흐름은 폐쇄형 모델에 집중하는 기업들에게 오픈 생태계의 중요성을 다시 한번 일깨워준다. 개발자 커뮤니티 전반에 걸쳐 글로벌 모델 동향에 대한 폭넓은 시야가 요구되는 시점이다.",
-      "body_en": "Hugging Face CEO claims China is currently dominating the open-source AI model landscape. He pointed to the rapid release of high-quality models that top leaderboards. This highlights a shift in global AI dynamics and urges a stronger push in open-source development.",
+      "category_id": "reddit",
+      "category_name": "Reddit",
       "signal_id": "policy",
       "signal_name": "정책·규제·인프라 (기술 영향 큰 것만)",
       "importance": 82,
-      "category_id": "reddit",
-      "category_name": "Reddit",
+      "headline": "허깅페이스 CEO \"중국이 오픈소스 AI 모델 경쟁에서 앞서가고 있다\"",
+      "title_ko": "허깅페이스 CEO \"중국이 오픈소스 AI 모델 경쟁에서 앞서가고 있다\"",
+      "title_en": "Hugging Face CEO says China is winning the AI race and dominating on open models",
+      "summary_ko": "• 허깅페이스의 CEO가 현재 글로벌 AI 생태계에서 중국이 오픈소스 모델 부문을 주도하고 있다고 평가했다.\n• 최근 리더보드를 석권하고 있는 중국발 오픈소스 모델들의 기술적 완성도와 빠른 발전 속도를 근거로 들었다.\n• 서구권 기업과 오픈소스 진영 모두에게 전략적 방향성 재고와 기술 투자를 촉구하는 강력한 메시지다.",
+      "summary_en": "",
+      "body_ko": "세계 최대의 오픈소스 AI 커뮤니티 허깅페이스의 수장이 AI 패권 경쟁에 대한 도발적인 견해를 밝혔다. 그는 최근 뛰어난 성능으로 벤치마크 상위권을 장악하고 있는 중국발 모델들을 언급하며, 중국이 오픈소스 생태계의 주도권을 쥐고 있다고 평가했다. 실제로 알리바바의 Qwen 시리즈나 딥시크(DeepSeek) 같은 모델들은 서구권 빅테크의 모델들과 대등하거나 그 이상의 효율을 보여주고 있다. 이러한 흐름은 폐쇄형 모델에 집중하는 기업들에게 오픈 생태계의 중요성을 다시 한번 일깨워준다. 개발자 커뮤니티 전반에 걸쳐 글로벌 모델 동향에 대한 폭넓은 시야가 요구되는 시점이다.",
+      "body_en": "Hugging Face CEO claims China is currently dominating the open-source AI model landscape. He pointed to the rapid release of high-quality models that top leaderboards. This highlights a shift in global AI dynamics and urges a stronger push in open-source development.",
+      "author_profile": "r/LocalLLaMA · u/Miriel_z",
+      "publish_date": "2026-08-04T18:42:38.000Z",
+      "tags": [
+        "Mock"
+      ],
+      "url": "https://www.reddit.com/r/LocalLLaMA/comments/1vfj3q7/hugging_face_ceo_says_china_is_winning_the_ai/",
       "sources": [
         "Reddit"
       ],
-      "curated_by": "ldk-hub",
-      "author_profile": "r/LocalLLaMA · u/Miriel_z"
+      "metrics": {
+        "rank_in_sub": 2,
+        "discussion_url": "https://www.reddit.com/r/LocalLLaMA/comments/1vfj3q7/hugging_face_ceo_says_china_is_winning_the_ai/"
+      },
+      "curated_by": "ldk-hub"
     }
   ]
 }
