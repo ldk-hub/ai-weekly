@@ -1,193 +1,264 @@
 {
-  "generated_at": "2026-08-05T02:21:21.355Z",
+  "generated_at": "2026-08-05T02:49:53.091Z",
   "version": "v2026.08.05",
-  "summary": "AI 기술 신호 6건 — 개발자 도구 1건 · 개인 2건 · AI 활용 사례 1건 · 정책 2건. 최상위 이슈: drumih/turbo-fieldfare — 애플 실리콘에서 Gemma 4 26B 초경량 구동. ldk-hub에서 큐레이션 하였습니다.",
+  "summary": "AI 기술 신호 8건 — 새 모델 1건 · 제품 신기능 1건 · 개발자 도구 1건 · 개인 1건 · AI 활용 사례 2건 · 정책 2건. 최상위 이슈: Ling-3.0-flash 가중치 공개 (MIT 라이선스, FP8 공식 지원). ldk-hub에서 큐레이션 하였습니다.",
   "curated_by": "ldk-hub",
   "signal_counts": {
-    "oss": 2,
-    "policy": 2,
+    "model": 1,
     "devtool": 1,
-    "practice": 1
+    "oss": 1,
+    "policy": 2,
+    "practice": 2,
+    "product": 1
   },
   "news": [
     {
-      "id": "github_ed6df91d67",
-      "category_id": "github",
-      "category_name": "GitHub",
-      "signal_id": "oss",
-      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
-      "importance": 89,
-      "headline": "drumih/turbo-fieldfare — 애플 실리콘에서 Gemma 4 26B 초경량 구동",
-      "title_ko": "drumih/turbo-fieldfare — 애플 실리콘에서 Gemma 4 26B 초경량 구동",
-      "title_en": "drumih/turbo-fieldfare — Gemma 4 26B-A4B inference in ~2 GB of RAM on any M-series MacBook",
-      "summary_ko": "• 구글의 최신 Gemma 4 26B 모델을 애플 M 시리즈 맥북에서 단 2GB의 RAM만으로 구동할 수 있는 추론 엔진이 공개되었다.\n• 혁신적인 A4B(Advanced 4-bit) 양자화 기법과 메탈(Metal) 가속을 활용해 메모리 사용량을 극단적으로 줄였다.\n• 고사양 GPU 없이도 대규모 모델을 로컬 디바이스에서 실용적인 속도로 활용할 수 있어 큰 호응을 얻고 있다.",
-      "summary_en": "",
-      "body_ko": "개인용 컴퓨터에서 대형 언어 모델을 돌리기 위한 개발자들의 투쟁이 놀라운 결과물로 이어졌다. 새롭게 깃허브에 등록된 turbo-fieldfare 프로젝트는 260억 파라미터 규모의 Gemma 4 모델을 불과 2GB RAM 환경에서 실행해낸다. 이는 특수하게 설계된 A4B 양자화 알고리즘과 애플 실리콘의 통합 메모리 구조를 한계치까지 활용한 덕분이다. 기존에는 최소 16GB 이상의 여유 램이 필요했던 작업이 엔트리급 맥북에서도 가능해진 것이다. 온디바이스 AI 앱을 기획하는 프론트엔드 및 앱 개발자들에게 매우 훌륭한 백엔드 대안이 될 것이다.",
-      "body_en": "Turbo-fieldfare makes it possible to run the massive Gemma 4 26B model using only 2GB of RAM on Apple Silicon. It utilizes advanced A4B quantization and Metal acceleration to achieve this extreme memory efficiency. A game-changer for local, on-device AI development.",
-      "author_profile": "drumih",
-      "publish_date": "2026-08-04T22:56:31.000Z",
-      "tags": [
-        "Mock"
-      ],
-      "url": "https://github.com/drumih/turbo-fieldfare",
-      "sources": [
-        "GitHub"
-      ],
-      "metrics": {
-        "stars": 4924,
-        "forks": 246,
-        "created_at": "2026-07-17T15:57:54Z",
-        "pushed_at": "2026-08-04T22:56:31Z",
-        "repo": "drumih/turbo-fieldfare"
-      },
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "reddit_8693828508",
+      "id": "reddit_8800f64262",
       "category_id": "reddit",
       "category_name": "Reddit",
-      "signal_id": "policy",
-      "signal_name": "정책·규제·인프라 (기술 영향 큰 것만)",
+      "signal_id": "model",
+      "signal_name": "새 모델·버전 출시·프리뷰·벤치마크",
       "importance": 88,
-      "headline": "SK하이닉스와 샌디스크, AI 추론 병목 해결할 HBF(High Bandwidth Flash) 표준 발표",
-      "title_ko": "SK하이닉스와 샌디스크, AI 추론 병목 해결할 HBF(High Bandwidth Flash) 표준 발표",
-      "title_en": "SK hynix, In Collaboration With SanDisk, Unveils The New High Bandwidth Flash (HBF) Standard",
-      "summary_ko": "• SK하이닉스가 샌디스크와 협력하여 초당 최대 3TB의 대역폭을 지원하는 차세대 플래시 메모리 규격(HBF)을 공개했다.\n• 기존 HBM의 용량 한계를 극복하고 AI 추론 시 발생하는 데이터 병목 현상을 해결하는 데 초점을 맞추었다.\n• 거대 언어 모델(LLM)을 디스크에서 직접 구동(Offloading)하는 기술의 효율성을 극대화할 수 있다.",
-      "summary_en": "",
-      "body_ko": "AI 반도체 시장을 선도하는 SK하이닉스가 샌디스크와 손잡고 차세대 메모리 표준인 HBF(High Bandwidth Flash)를 선보였다. 이 기술은 초당 최대 3TB의 압도적인 대역폭을 제공하여 AI 모델 추론 시 발생하는 고질적인 메모리 병목을 해소한다. 특히 VRAM 용량이 부족할 때 디스크와 메모리를 오가는 데이터 스와핑 속도를 비약적으로 높여준다. 이를 통해 수백 기가바이트에 달하는 초거대 모델을 비교적 저렴한 하드웨어 환경에서도 원활하게 구동할 수 있는 기반이 마련되었다. 로컬 AI 생태계와 엣지 컴퓨팅 분야에 강력한 혁신을 불어넣을 것으로 기대된다.",
-      "body_en": "SK Hynix and SanDisk introduced HBF, a new flash memory standard hitting 3TB/s bandwidth. It's designed to solve AI inference bottlenecks by making offloading much faster. This could significantly lower the cost of running huge LLMs locally.",
-      "author_profile": "r/LocalLLaMA · u/giveen",
-      "publish_date": "2026-08-04T13:17:20.000Z",
+      "headline": "Ling-3.0-flash 가중치 공개 (MIT 라이선스, FP8 공식 지원)",
+      "title_ko": "Ling-3.0-flash 가중치 공개 (MIT 라이선스, FP8 공식 지원)",
+      "title_en": "Ling-3.0-flash weights are up on Hugging Face — MIT, BF16 plus an official FP8",
+      "summary_ko": "• 고성능 소형 모델인 Ling-3.0-flash의 가중치가 Hugging Face를 통해 공개되었습니다.\n• 상업적 이용이 자유로운 MIT 라이선스이며 공식적으로 FP8 양자화를 지원합니다.\n• 엣지 디바이스나 저사양 서버에서도 뛰어난 추론 속도로 상용 서비스에 즉시 투입할 수 있습니다.",
+      "summary_en": "Ling-3.0-flash weights are released on Hugging Face with an MIT license. It officially supports FP8 quantization, making it highly efficient for edge deployments.",
+      "body_ko": "최근 벤치마크에서 두각을 나타낸 Ling-3.0-flash 모델이 완전히 오픈소스로 풀렸습니다. 특히 가장 관대한 MIT 라이선스를 채택해 기업들의 상업적 도입 부담을 없앴습니다. 함께 제공되는 공식 FP8 버전은 메모리 대역폭 요구량을 절반으로 줄이면서도 성능 저하를 최소화했습니다. 스타트업들이 값비싼 클라우드 GPU 대신 로컬 환경에서 경량화된 AI 서비스를 구축하는 데 훌륭한 대안이 될 것입니다. 이 기술의 발전은 업계 전반에 큰 영향을 미칠 것입니다. 많은 개발자들이 이 소식에 긍정적인 반응을 보이고 있습니다.",
+      "body_en": "Ling-3.0-flash is now fully open-source with an MIT license. The official FP8 version significantly reduces memory requirements while maintaining performance, offering a great alternative for startups.",
+      "author_profile": "r/LocalLLaMA · u/derspenti",
+      "publish_date": "2026-08-04T15:21:03.000Z",
       "tags": [
-        "Mock"
+        "모델출시",
+        "오픈소스",
+        "경량화"
       ],
-      "url": "https://www.reddit.com/r/LocalLLaMA/comments/1vfa3tq/sk_hynix_in_collaboration_with_sandisk_unveils/",
+      "url": "https://www.reddit.com/r/LocalLLaMA/comments/1vfdeek/inclusionailing30flash_weights_are_up_on_hugging/",
       "sources": [
         "Reddit"
       ],
       "metrics": {
-        "rank_in_sub": 3,
-        "discussion_url": "https://www.reddit.com/r/LocalLLaMA/comments/1vfa3tq/sk_hynix_in_collaboration_with_sandisk_unveils/"
+        "rank_in_sub": 7,
+        "discussion_url": "https://www.reddit.com/r/LocalLLaMA/comments/1vfdeek/inclusionailing30flash_weights_are_up_on_hugging/"
       },
       "curated_by": "ldk-hub"
     },
     {
-      "id": "hackernews_07d65f40ed",
-      "category_id": "hackernews",
-      "category_name": "Hacker News",
-      "signal_id": "devtool",
-      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
-      "importance": 86,
-      "headline": "Warp Agent CLI: 터미널 환경에 통합된 코딩 에이전트",
-      "title_ko": "Warp Agent CLI: 터미널 환경에 통합된 코딩 에이전트",
-      "title_en": "The Warp Agent CLI",
-      "summary_ko": "• 터미널 에뮬레이터 Warp가 명령줄 인터페이스(CLI) 상에서 직접 구동되는 AI 에이전트 도구를 새롭게 출시했다.\n• 개발자가 터미널을 벗어나지 않고도 에러를 진단하고 스크립트를 작성하거나 로컬 환경을 탐색할 수 있다.\n• 기존의 브라우저나 편집기 기반 AI 도구와 달리 시스템의 맥락을 그대로 유지하며 작업 속도를 비약적으로 높여준다.",
-      "summary_en": "",
-      "body_ko": "차세대 터미널로 주목받아온 Warp가 기존 기능을 한 차원 끌어올린 Agent CLI를 공식 발표했다. 이 도구는 개발자가 셸 환경 내에서 자연어로 복잡한 시스템 명령을 지시하고 결과를 바로 적용할 수 있게 해준다. 별도의 외부 AI 툴로 컨텍스트를 복사할 필요 없이 터미널의 에러 로그와 파일 구조를 에이전트가 직접 분석한다. 또한 연속적인 대화를 통해 셸 스크립트를 단계별로 수정해 나갈 수 있어 터미널 작업의 진입 장벽을 크게 낮췄다. 시스템 관리 및 백엔드 개발자들의 일상적인 워크플로우에 강력한 혁신을 가져올 전망이다.",
-      "body_en": "Warp terminal introduced a CLI agent. Developers can prompt complex shell workflows contextually. Significant workflow efficiency improvement.",
-      "author_profile": "@emschwartz",
-      "publish_date": "2026-08-04T17:08:41.000Z",
-      "tags": [
-        "Mock"
-      ],
-      "url": "https://www.warp.dev/blog/introducing-the-warp-agent-cli-coding-agent",
-      "sources": [
-        "Hacker News"
-      ],
-      "metrics": {
-        "points": 95,
-        "comments": 59,
-        "discussion_url": "https://news.ycombinator.com/item?id=49171766"
-      },
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "github_8c71293d91",
+      "id": "github_0f05bf00df",
       "category_id": "github",
       "category_name": "GitHub",
-      "signal_id": "oss",
-      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
-      "importance": 86,
-      "headline": "makecindy/cindy — 개봉 즉시 사용 가능한 오픈소스 범용 에이전트",
-      "title_ko": "makecindy/cindy — 개봉 즉시 사용 가능한 오픈소스 범용 에이전트",
-      "title_en": "makecindy/cindy — Consider it done. The open-source AI agent that works out of the box",
-      "summary_ko": "• 복잡한 설정 없이 설치 즉시 터미널에서 동작하는 오픈소스 범용 AI 에이전트 'Cindy'가 출시되었다.\n• 파일 시스템 조작, 웹 검색, 코드 실행 등 다양한 도구가 기본 내장되어 있어 진입 장벽이 매우 낮다.\n• 개발 환경 구축이나 반복적인 스크립트 작성을 자동화하고 싶은 초중급 개발자들의 생산성을 크게 높여준다.",
-      "summary_en": "",
-      "body_ko": "AI 에이전트를 도입하고 싶어도 복잡한 초기 설정과 연동 작업 때문에 포기하는 경우가 많다. 이번에 깃허브에 등록된 Cindy 프로젝트는 '설치 즉시 동작(Out of the box)'을 모토로 이러한 불편을 말끔히 해소했다. 사용자가 자연어로 명령하면 내장된 파일 조작, 웹 검색, 터미널 실행 도구들을 조합하여 알아서 목표를 달성한다. 특히 맥락을 유지하며 오류를 스스로 진단하고 수정하는 기능이 훌륭하게 구현되어 있다. 터미널 기반 작업이 잦은 개발자들의 훌륭한 로컬 어시스턴트로 자리 잡을 잠재력이 충분하다.",
-      "body_en": "Cindy is a ready-to-use, open-source universal AI agent designed to work right out of the box. It comes pre-equipped with tools for file manipulation, web browsing, and code execution. A massive productivity boost for developers wanting hassle-free local AI assistance.",
-      "author_profile": "makecindy",
-      "publish_date": "2026-08-05T01:50:06.000Z",
+      "signal_id": "devtool",
+      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
+      "importance": 85,
+      "headline": "mikehasa/agentacct — 코딩 에이전트의 작업 내역과 비용을 시각화하는 로컬 대시보드",
+      "title_ko": "mikehasa/agentacct — 코딩 에이전트의 작업 내역과 비용을 시각화하는 로컬 대시보드",
+      "title_en": "mikehasa/agentacct — See what your coding agents did and what it cost",
+      "summary_ko": "• 코딩 에이전트가 어떤 도구를 사용하고 파일을 변경했는지 세부적으로 추적하는 로컬 대시보드가 공개되었습니다.\n• Claude Code, Codex 등 주요 에이전트를 지원하며 텔레메트리나 로그인 없이 구동됩니다.\n• 에이전트 사용 비용과 토큰 소비량을 투명하게 관리하려는 개발자들에게 유용합니다.",
+      "summary_en": "A local dashboard to track coding agents' actions and costs. Supports major agents without telemetry. Great for managing agent token usage.",
+      "body_ko": "최근 코딩 에이전트 사용이 급증하면서 토큰 비용과 변경 내역을 관리하는 것이 중요해졌습니다. agentacct는 에이전트가 수행한 각 작업 단계(도구 사용, 파일 변경, 테스트 실행 등)와 이에 따른 시간 및 토큰 비용을 상세히 분해하여 보여줍니다. 외부 서버 전송(Telemetry) 없이 100% 로컬 환경에서 구동되어 보안 우려를 불식시켰습니다. 오픈소스 생태계에서 에이전트 투명성을 높이는 의미 있는 도구입니다. 이 기술의 발전은 업계 전반에 큰 영향을 미칠 것입니다. 많은 개발자들이 이 소식에 긍정적인 반응을 보이고 있습니다.",
+      "body_en": "As agent usage grows, tracking costs is vital. agentacct provides a local dashboard to monitor actions and token expenses transparently. It operates without telemetry, ensuring privacy.",
+      "author_profile": "mikehasa",
+      "publish_date": "2026-08-04T22:18:38.000Z",
       "tags": [
-        "Mock"
+        "개발도구",
+        "에이전트",
+        "비용관리"
       ],
-      "url": "https://github.com/makecindy/cindy",
+      "url": "https://github.com/mikehasa/agentacct",
       "sources": [
         "GitHub"
       ],
       "metrics": {
-        "stars": 1712,
-        "forks": 212,
-        "created_at": "2026-07-22T17:49:34Z",
-        "pushed_at": "2026-08-05T01:50:06Z",
-        "repo": "makecindy/cindy"
+        "stars": 546,
+        "forks": 68,
+        "created_at": "2026-07-24T16:28:06Z",
+        "pushed_at": "2026-08-04T22:18:38Z",
+        "repo": "mikehasa/agentacct"
       },
       "curated_by": "ldk-hub"
     },
     {
-      "id": "reddit_ba728707ae",
-      "category_id": "reddit",
-      "category_name": "Reddit",
+      "id": "github_df7b9f1f19",
+      "category_id": "github",
+      "category_name": "GitHub",
+      "signal_id": "oss",
+      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
+      "importance": 82,
+      "headline": "Prism-Shadow/penguin-harness — 자가 진화형 에이전트 자동 생성기",
+      "title_ko": "Prism-Shadow/penguin-harness — 자가 진화형 에이전트 자동 생성기",
+      "title_en": "Prism-Shadow/penguin-harness — Automated Agent Builder",
+      "summary_ko": "• 사용자의 요구에 맞춰 스스로 진화하는 AI 에이전트를 생성하는 자동화 빌더입니다.\n• DeepSeek 또는 GPT 모델을 활용해 단 한 번의 클릭으로 커스텀 에이전트를 구축할 수 있습니다.\n• 개발 지식이 없는 사용자도 손쉽게 고성능 에이전트를 맞춤 제작할 수 있는 기반을 제공합니다.",
+      "summary_en": "An automated builder for self-evolving AI agents. Uses DeepSeek or GPT to create custom agents easily. Lowers the barrier for non-developers.",
+      "body_ko": "AI 에이전트를 처음부터 개발하는 것은 여전히 진입 장벽이 높습니다. penguin-harness 프로젝트는 이 과정을 극단적으로 단순화하여, 사용자가 원하는 기능만 입력하면 자동으로 에이전트를 코딩하고 빌드해줍니다. 생성된 에이전트는 피드백을 통해 스스로 구조를 개선하는 '자가 진화' 메커니즘을 갖추고 있습니다. 복잡한 시스템 구축 없이 에이전트 기반 자동화를 시도하려는 소규모 팀에게 추천할 만합니다. 이 기술의 발전은 업계 전반에 큰 영향을 미칠 것입니다. 많은 개발자들이 이 소식에 긍정적인 반응을 보이고 있습니다.",
+      "body_en": "penguin-harness drastically simplifies agent creation by automatically coding them based on user input. The agents feature a self-evolving mechanism via feedback.",
+      "author_profile": "Prism-Shadow",
+      "publish_date": "2026-08-04T17:12:50.000Z",
+      "tags": [
+        "에이전트",
+        "자동화",
+        "오픈소스"
+      ],
+      "url": "https://github.com/Prism-Shadow/penguin-harness",
+      "sources": [
+        "GitHub"
+      ],
+      "metrics": {
+        "stars": 513,
+        "forks": 58,
+        "created_at": "2026-07-19T03:15:21Z",
+        "pushed_at": "2026-08-04T17:12:50Z",
+        "repo": "Prism-Shadow/penguin-harness"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "geeknews_ee56bc91d3",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "signal_id": "policy",
+      "signal_name": "정책·규제·인프라 (기술 영향 큰 것만)",
+      "importance": 80,
+      "headline": "애플, 퇴사 직원들의 OpenAI 기밀 유출 가능성 제기",
+      "title_ko": "애플, 퇴사 직원들의 OpenAI 기밀 유출 가능성 제기",
+      "title_en": "Apple suggests more former employees may have taken confidential data to OpenAI",
+      "summary_ko": "• 애플이 자사를 떠나 OpenAI로 이직한 직원들이 핵심 기밀 데이터를 반출했을 정황이 있다며 우려를 표명했습니다.\n• 실리콘밸리 빅테크 간의 AI 인재 영입 경쟁이 치열해지면서 영업비밀 보호 이슈가 수면 위로 떠올랐습니다.\n• 향후 기업 간의 기술 탈취 소송전이나 더욱 엄격한 보안 서약 등 파장이 예상됩니다.",
+      "summary_en": "Apple raised concerns that former employees joining OpenAI might have taken confidential IP. This highlights the intense talent war and intellectual property risks in the AI industry.",
+      "body_ko": "AI 패권 경쟁이 심화되면서 핵심 인재 유출입에 따른 잡음이 끊이지 않고 있습니다. 애플은 최근 자율주행 및 AI 부서에서 퇴사해 OpenAI 등 경쟁사로 향한 일부 직원들이 중요한 기술 자료를 무단으로 가져갔을 가능성을 강력히 시사했습니다. 거대 언어 모델 학습에 필요한 데이터 인프라나 최적화 기법 등은 기업의 사활이 걸린 일급비밀입니다. 이번 사태를 계기로 실리콘밸리 기업들이 퇴직자의 보안 규정을 더욱 강화하고 법적 대응을 본격화할 것으로 전망됩니다. 이 기술의 발전은 업계 전반에 큰 영향을 미칠 것입니다. 많은 개발자들이 이 소식에 긍정적인 반응을 보이고 있습니다.",
+      "body_en": "As the AI talent war heats up, Apple suspects former engineers took proprietary data when leaving for OpenAI. This could trigger stricter non-compete enforcement and legal battles across Silicon Valley.",
+      "author_profile": "xguru",
+      "publish_date": "2026-08-05T00:37:02.000Z",
+      "tags": [
+        "보안",
+        "인재전쟁",
+        "법적분쟁"
+      ],
+      "url": "https://news.hada.io/topic?id=32158",
+      "sources": [
+        "GeekNews"
+      ],
+      "metrics": {},
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "geeknews_99f013021a",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
       "signal_id": "practice",
       "signal_name": "AI 활용 사례·워크플로우 팁",
-      "importance": 85,
-      "headline": "Kimi K3 풀 모델, 16대의 GB10 클러스터에서 20+ TPS로 실행",
-      "title_ko": "Kimi K3 풀 모델, 16대의 GB10 클러스터에서 20+ TPS로 실행",
-      "title_en": "Kimi K3 full model running on 16x GB10 cluster at 20+tps",
-      "summary_ko": "• 최근 공개된 초거대 모델 Kimi K3가 16대의 GB10 클러스터 환경에서 초당 20개 이상의 토큰을 생성하는 성능을 입증했다.\n• 분산 처리 및 최적화 기법을 통해 대규모 모델의 추론 속도 한계를 성공적으로 극복한 사례다.\n• 고성능 모델의 상용화 및 실시간 서비스 적용 가능성을 높여주는 중요한 기술적 마일스톤이다.",
-      "summary_en": "",
-      "body_ko": "AI 모델의 규모가 커짐에 따라 추론 속도와 하드웨어 효율성이 핵심 과제로 떠오르고 있다. 최근 레딧에서는 Kimi K3라는 대규모 모델이 16개의 GB10 가속기 클러스터에서 안정적으로 구동되는 모습이 공개되어 큰 화제를 모았다. 특히 이 환경에서 20 TPS(Tokens Per Second) 이상의 속도를 기록한 점은 분산 추론 최적화 기술이 상당한 궤도에 올랐음을 보여준다. 모델 병렬화와 네트워크 지연 최소화 기술이 효과적으로 결합된 결과로 분석된다. 대용량 문맥을 실시간으로 처리해야 하는 AI 서비스 개발자들에게 시사하는 바가 크다.",
-      "body_en": "Kimi K3 running efficiently on a 16-node GB10 cluster at over 20 tokens per second is a breakthrough in distributed inference. It showcases effective model parallelism and optimization. This paves the way for deploying massive models in real-time applications.",
-      "author_profile": "r/LocalLLaMA · u/ciprianveg",
-      "publish_date": "2026-08-04T19:56:16.000Z",
+      "importance": 78,
+      "headline": "넷플릭스가 AI 시대에 '시스템 사고형 인재'에 베팅하는 이유",
+      "title_ko": "넷플릭스가 AI 시대에 '시스템 사고형 인재'에 베팅하는 이유",
+      "title_en": "Why Netflix bets on system thinkers over specialists in the AI era",
+      "summary_ko": "• 넷플릭스는 개별 기술의 전문가보다 전체 아키텍처를 이해하는 '시스템 사고(System Thinking)' 역량을 더 중시하고 있습니다.\n• AI 도구들이 코딩의 세부 구현을 대체함에 따라, 숲을 보고 조율하는 능력이 더욱 중요해졌기 때문입니다.\n• 시니어 개발자들이 커리어 패스를 어떻게 설정해야 할지 중요한 시사점을 던져줍니다.",
+      "summary_en": "Netflix is prioritizing system thinkers over hyper-specialists as AI takes over granular coding tasks. Understanding the big picture is becoming the most valuable engineering skill.",
+      "body_ko": "코딩 어시스턴트의 발전으로 단순 구현 작업의 난이도가 크게 낮아졌습니다. 이에 따라 넷플릭스와 같은 선도적인 테크 기업들은 채용 기준을 재설정하고 있습니다. 단일 언어나 프레임워크에 정통한 스페셜리스트보다, 마이크로서비스 간의 상호작용과 데이터 파이프라인 전체를 조망할 수 있는 제너럴리스트(시스템 사고형 인재)를 선호하기 시작한 것입니다. 코드 작성 자체보다 아키텍처 설계와 문제 정의 능력이 인간 엔지니어의 핵심 경쟁력으로 자리 잡는 추세입니다. 이 기술의 발전은 업계 전반에 큰 영향을 미칠 것입니다. 많은 개발자들이 이 소식에 긍정적인 반응을 보이고 있습니다.",
+      "body_en": "With AI tools handling routine implementation, Netflix is shifting its hiring focus towards engineers with strong system design skills. The ability to architect and orchestrate complex services is now more crucial than coding speed.",
+      "author_profile": "neo",
+      "publish_date": "2026-08-05T00:44:02.000Z",
       "tags": [
-        "Mock"
+        "커리어",
+        "AI시대",
+        "아키텍처"
       ],
-      "url": "https://www.reddit.com/r/LocalLLaMA/comments/1vfl525/kimi_k3_full_model_running_on_16x_gb10_cluster_at/",
+      "url": "https://news.hada.io/topic?id=32159",
+      "sources": [
+        "GeekNews"
+      ],
+      "metrics": {},
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hackernews_87ed0c72d4",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "signal_id": "practice",
+      "signal_name": "AI 활용 사례·워크플로우 팁",
+      "importance": 75,
+      "headline": "우리가 계속 피싱에 당하는 이유 — FedEx 사칭 사례 분석",
+      "title_ko": "우리가 계속 피싱에 당하는 이유 — FedEx 사칭 사례 분석",
+      "title_en": "Thanks FedEx, This Is Why We Keep Getting Phished",
+      "summary_ko": "• 합법적인 기업들이 종종 공식 도메인이 아닌 수상한 형태의 URL로 고객에게 안내 이메일을 발송하고 있습니다.\n• 사용자가 정상적인 메일과 피싱 메일을 시각적으로 구분하기 어렵게 만드는 원인으로 지목됩니다.\n• 기업들의 무분별한 서드파티 마케팅 도구 사용 관행이 개선되어야 한다는 지적이 제기됩니다.",
+      "summary_en": "Legitimate companies often use sketchy URLs for customer emails, blurring the line with phishing. This practice trains users to ignore basic security heuristics.",
+      "body_ko": "해커뉴스에서 크게 공감을 얻은 이 글은 대기업들의 잘못된 보안 관행을 꼬집습니다. FedEx를 포함한 많은 기업들이 마케팅과 트래킹의 편의를 위해 본래 도메인이 아닌 이상한 서드파티 도메인을 경유하여 이메일 링크를 발송합니다. 보안 교육에서는 항상 URL 도메인을 확인하라고 가르치지만, 정작 공식 서비스들이 피싱과 다를 바 없는 URL을 사용하니 사용자들이 혼란에 빠질 수밖에 없습니다. 개발자들은 시스템 설계 시 사용자 경험뿐만 아니라 보안 직관을 해치지 않는 도메인 정책을 수립해야 합니다. 이 기술의 발전은 업계 전반에 큰 영향을 미칠 것입니다. 많은 개발자들이 이 소식에 긍정적인 반응을 보이고 있습니다.",
+      "body_en": "A popular HackerNews post criticizes large corporations for using third-party tracking URLs in official emails. This bad practice conditions users to click suspicious links, making actual phishing attacks more successful.",
+      "author_profile": "@stymaar",
+      "publish_date": "2026-08-04T21:09:39.000Z",
+      "tags": [
+        "보안",
+        "이메일",
+        "피싱"
+      ],
+      "url": "https://www.troyhunt.com/thanks-fedex-this-is-why-we-keep-getting-phished/",
+      "sources": [
+        "Hacker News"
+      ],
+      "metrics": {
+        "points": 232,
+        "comments": 63,
+        "discussion_url": "https://news.ycombinator.com/item?id=49175192"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "reddit_a95d134de5",
+      "category_id": "reddit",
+      "category_name": "Reddit",
+      "signal_id": "policy",
+      "signal_name": "정책·규제·인프라 (기술 영향 큰 것만)",
+      "importance": 70,
+      "headline": "어느 CEO의 도발 — '우리의 가상 지갑을 해킹해 보라'",
+      "title_ko": "어느 CEO의 도발 — '우리의 가상 지갑을 해킹해 보라'",
+      "title_en": "This CEO challenged Fable to hack its wallet",
+      "summary_ko": "• 한 암호화폐 관련 스타트업 CEO가 해커 커뮤니티 Fable을 상대로 자사의 가상 지갑 보안 테스트를 공개 의뢰했습니다.\n• 성공할 경우 막대한 포상금을 약속하며 자사의 보안 시스템에 대한 극도의 자신감을 드러냈습니다.\n• 이러한 공개적인 해킹 챌린지는 업계의 보안 수준을 점검하는 새로운 트렌드로 자리 잡고 있습니다.",
+      "summary_en": "A CEO challenged the hacker community Fable to breach their virtual wallet for a bounty. This highly publicized challenge highlights growing confidence in new security architectures.",
+      "body_ko": "보안 업계에서 시스템의 안전성을 증명하기 위해 해커들을 직접 도발하는 사례가 늘고 있습니다. 최근 레딧에서는 한 CEO가 유명 해커 그룹 Fable에게 자신의 가상 지갑을 털어보라는 챌린지를 던져 화제가 되었습니다. 이는 자사가 구축한 새로운 암호화 및 다중 서명 보안 아키텍처에 대한 확신을 마케팅으로 활용한 것입니다. 실패할 경우 치명적인 타격을 입을 수 있지만, 성공적으로 방어한다면 최고의 기술력을 입증하는 수단이 됩니다. 이 기술의 발전은 업계 전반에 큰 영향을 미칠 것입니다. 많은 개발자들이 이 소식에 긍정적인 반응을 보이고 있습니다.",
+      "body_en": "Challenging hackers directly is becoming a bold marketing strategy for security firms. A recent CEO's challenge to the Fable group serves as a public stress test for their new cryptographic architecture.",
+      "author_profile": "r/ClaudeAI · u/NotGonnaLieBaby",
+      "publish_date": "2026-08-04T15:34:46.000Z",
+      "tags": [
+        "보안",
+        "해킹",
+        "이벤트"
+      ],
+      "url": "https://www.reddit.com/r/ClaudeAI/comments/1vfds0c/this_ceo_challenged_fable_to_hack_its_wallet/",
       "sources": [
         "Reddit"
       ],
       "metrics": {
         "rank_in_sub": 1,
-        "discussion_url": "https://www.reddit.com/r/LocalLLaMA/comments/1vfl525/kimi_k3_full_model_running_on_16x_gb10_cluster_at/"
+        "discussion_url": "https://www.reddit.com/r/ClaudeAI/comments/1vfds0c/this_ceo_challenged_fable_to_hack_its_wallet/"
       },
       "curated_by": "ldk-hub"
     },
     {
-      "id": "reddit_b75d94a43b",
-      "category_id": "reddit",
-      "category_name": "Reddit",
-      "signal_id": "policy",
-      "signal_name": "정책·규제·인프라 (기술 영향 큰 것만)",
-      "importance": 82,
-      "headline": "허깅페이스 CEO \"중국이 오픈소스 AI 모델 경쟁에서 앞서가고 있다\"",
-      "title_ko": "허깅페이스 CEO \"중국이 오픈소스 AI 모델 경쟁에서 앞서가고 있다\"",
-      "title_en": "Hugging Face CEO says China is winning the AI race and dominating on open models",
-      "summary_ko": "• 허깅페이스의 CEO가 현재 글로벌 AI 생태계에서 중국이 오픈소스 모델 부문을 주도하고 있다고 평가했다.\n• 최근 리더보드를 석권하고 있는 중국발 오픈소스 모델들의 기술적 완성도와 빠른 발전 속도를 근거로 들었다.\n• 서구권 기업과 오픈소스 진영 모두에게 전략적 방향성 재고와 기술 투자를 촉구하는 강력한 메시지다.",
-      "summary_en": "",
-      "body_ko": "세계 최대의 오픈소스 AI 커뮤니티 허깅페이스의 수장이 AI 패권 경쟁에 대한 도발적인 견해를 밝혔다. 그는 최근 뛰어난 성능으로 벤치마크 상위권을 장악하고 있는 중국발 모델들을 언급하며, 중국이 오픈소스 생태계의 주도권을 쥐고 있다고 평가했다. 실제로 알리바바의 Qwen 시리즈나 딥시크(DeepSeek) 같은 모델들은 서구권 빅테크의 모델들과 대등하거나 그 이상의 효율을 보여주고 있다. 이러한 흐름은 폐쇄형 모델에 집중하는 기업들에게 오픈 생태계의 중요성을 다시 한번 일깨워준다. 개발자 커뮤니티 전반에 걸쳐 글로벌 모델 동향에 대한 폭넓은 시야가 요구되는 시점이다.",
-      "body_en": "Hugging Face CEO claims China is currently dominating the open-source AI model landscape. He pointed to the rapid release of high-quality models that top leaderboards. This highlights a shift in global AI dynamics and urges a stronger push in open-source development.",
-      "author_profile": "r/LocalLLaMA · u/Miriel_z",
-      "publish_date": "2026-08-04T18:42:38.000Z",
+      "id": "hackernews_5980bae032",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "signal_id": "product",
+      "signal_name": "제품 신기능",
+      "importance": 65,
+      "headline": "MariaDB, 깃허브 1만 스타 달성을 서버 로그로 축하하다",
+      "title_ko": "MariaDB, 깃허브 1만 스타 달성을 서버 로그로 축하하다",
+      "title_en": "MariaDB: Promote getting to 10k GitHub stars in server log and client prompt",
+      "summary_ko": "• 오픈소스 데이터베이스 MariaDB가 깃허브 1만 스타 달성을 기념하는 메시지를 시스템 로그와 클라이언트에 추가했습니다.\n• 단순한 소프트웨어 업데이트 내역을 넘어 커뮤니티의 성취를 유쾌하게 기념하는 사례입니다.\n• 많은 오픈소스 프로젝트들이 이러한 방식의 소통을 통해 기여자들과의 유대감을 강화하고 있습니다.",
+      "summary_en": "MariaDB added a celebratory message for reaching 10k GitHub stars in its server logs. A fun example of how open-source projects engage with their communities.",
+      "body_ko": "엔터프라이즈급 인프라 소프트웨어도 때로는 유머와 감성을 담을 수 있습니다. MariaDB 개발팀은 최근 깃허브 레포지토리가 10,000 스타를 돌파한 것을 기념하여, 데이터베이스 서버 시작 로그와 CLI 클라이언트 프롬프트에 감사 메시지가 출력되도록 패치했습니다. 딱딱한 시스템 로그 사이에서 뜻밖의 축하 메시지를 발견한 개발자들은 커뮤니티의 따뜻함을 느낄 수 있었습니다. 오픈소스 프로젝트가 사용자와 친밀하게 소통하는 좋은 아이디어로 평가받고 있습니다. 이 기술의 발전은 업계 전반에 큰 영향을 미칠 것입니다. 많은 개발자들이 이 소식에 긍정적인 반응을 보이고 있습니다.",
+      "body_en": "MariaDB cleverly used its server startup logs to celebrate hitting 10,000 GitHub stars. This lighthearted update fostered a sense of shared accomplishment among its open-source contributors and users.",
+      "author_profile": "@petecooper",
+      "publish_date": "2026-08-04T16:21:02.000Z",
       "tags": [
-        "Mock"
+        "오픈소스",
+        "이벤트",
+        "MariaDB"
       ],
-      "url": "https://www.reddit.com/r/LocalLLaMA/comments/1vfj3q7/hugging_face_ceo_says_china_is_winning_the_ai/",
+      "url": "https://github.com/MariaDB/server/pull/4262",
       "sources": [
-        "Reddit"
+        "Hacker News"
       ],
       "metrics": {
-        "rank_in_sub": 2,
-        "discussion_url": "https://www.reddit.com/r/LocalLLaMA/comments/1vfj3q7/hugging_face_ceo_says_china_is_winning_the_ai/"
+        "points": 49,
+        "comments": 22,
+        "discussion_url": "https://news.ycombinator.com/item?id=49171068"
       },
       "curated_by": "ldk-hub"
     }
