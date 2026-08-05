@@ -1,16 +1,43 @@
 {
   "generated_at": "2026-08-05T00:00:00.000Z",
   "version": "v2026.08.05",
-  "summary": "오늘의 주요 기술 신호입니다. 총 7건의 뉴스가 업데이트되었습니다. ldk-hub에서 큐레이션 하였습니다.",
+  "summary": "오늘의 주요 기술 신호입니다. 총 8건의 뉴스가 업데이트되었습니다. ldk-hub에서 큐레이션 하였습니다.",
   "curated_by": "ldk-hub",
   "signal_counts": {
+    "oss": 3,
     "model": 1,
-    "product": 1,
-    "research": 2,
+    "policy": 2,
     "devtool": 1,
-    "oss": 2
+    "practice": 1
   },
   "news": [
+    {
+      "id": "github_ed6df91d67",
+      "url": "https://github.com/drumih/turbo-fieldfare",
+      "publish_date": "2026-08-04T22:56:31.000Z",
+      "metrics": {
+        "stars": 4909,
+        "forks": 245,
+        "created_at": "2026-07-17T15:57:54Z",
+        "pushed_at": "2026-08-04T22:56:31Z",
+        "repo": "drumih/turbo-fieldfare"
+      },
+      "title_ko": "drumih/turbo-fieldfare — 애플 실리콘에서 Gemma 4 26B 초경량 구동",
+      "title_en": "drumih/turbo-fieldfare — Gemma 4 26B-A4B inference in ~2 GB of RAM on any M-series MacBook",
+      "summary_ko": "• 구글의 최신 Gemma 4 26B 모델을 애플 M 시리즈 맥북에서 단 2GB의 RAM만으로 구동할 수 있는 추론 엔진이 공개되었다.\n• 혁신적인 A4B(Advanced 4-bit) 양자화 기법과 메탈(Metal) 가속을 활용해 메모리 사용량을 극단적으로 줄였다.\n• 고사양 GPU 없이도 대규모 모델을 로컬 디바이스에서 실용적인 속도로 활용할 수 있어 큰 호응을 얻고 있다.",
+      "body_ko": "개인용 컴퓨터에서 대형 언어 모델을 돌리기 위한 개발자들의 투쟁이 놀라운 결과물로 이어졌다. 새롭게 깃허브에 등록된 turbo-fieldfare 프로젝트는 260억 파라미터 규모의 Gemma 4 모델을 불과 2GB RAM 환경에서 실행해낸다. 이는 특수하게 설계된 A4B 양자화 알고리즘과 애플 실리콘의 통합 메모리 구조를 한계치까지 활용한 덕분이다. 기존에는 최소 16GB 이상의 여유 램이 필요했던 작업이 엔트리급 맥북에서도 가능해진 것이다. 온디바이스 AI 앱을 기획하는 프론트엔드 및 앱 개발자들에게 매우 훌륭한 백엔드 대안이 될 것이다.",
+      "body_en": "Turbo-fieldfare makes it possible to run the massive Gemma 4 26B model using only 2GB of RAM on Apple Silicon. It utilizes advanced A4B quantization and Metal acceleration to achieve this extreme memory efficiency. A game-changer for local, on-device AI development.",
+      "signal_id": "oss",
+      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
+      "importance": 89,
+      "category_id": "github",
+      "category_name": "GitHub",
+      "sources": [
+        "GitHub"
+      ],
+      "curated_by": "ldk-hub",
+      "author_profile": "drumih"
+    },
     {
       "id": "geeknews_55b8c8df78",
       "url": "https://news.hada.io/topic?id=32149",
@@ -31,45 +58,28 @@
       "author_profile": "neo"
     },
     {
-      "id": "aitimes_e04d6ecbfb",
-      "url": "https://www.aitimes.com/news/articleView.html?idxno=213507",
-      "publish_date": "2026-08-04T22:00:00.000Z",
-      "metrics": {},
-      "title_ko": "베타 테스터가 본 시리 AI의 강점은 '아이폰 이해력'",
-      "title_en": "Siri AI's strength is 'iPhone comprehension'",
-      "summary_ko": "• 애플의 시리 AI 베타 버전은 챗GPT 같은 범용 챗봇이라기보다는 기기 제어와 컨텍스트 이해에 특화되어 있다.\n• 아이폰 내의 앱 데이터와 사용자 패턴을 깊이 있게 이해하여, 화면상의 정보를 바탕으로 동작을 수행한다.\n• 개발자와 기획자들은 모바일 OS에 깊이 통합된 온디바이스 AI가 제공하는 새로운 형태의 사용자 경험을 참고할 수 있다.",
-      "body_ko": "애플의 차세대 시리 AI에 대한 베타 테스터들의 초기 반응이 공개되었다. 가장 눈에 띄는 점은 이 시스템이 챗GPT와 같은 범용적인 대화형 AI 시스템을 지향하지 않는다는 것이다. 대신 시리는 아이폰 자체의 생태계와 사용자 인터페이스를 완벽하게 이해하고 제어하는 데 초점을 맞추었다. 사용자의 화면 상태나 앱 내 컨텍스트를 파악하여 복잡한 다중 단계를 요구하는 작업을 매끄럽게 처리해낸다. 이는 향후 모바일 애플리케이션 개발 시 운영체제 수준의 AI 통합이 가져올 새로운 기준을 제시하고 있다.",
-      "body_en": "Siri's new beta excels at understanding device context. It uses app data directly on device. This shows a new benchmark for mobile OS AI integration.",
-      "signal_id": "product",
-      "signal_name": "제품 신기능",
-      "importance": 82,
-      "category_id": "aitimes",
-      "category_name": "AI타임스",
-      "sources": [],
-      "curated_by": "ldk-hub",
-      "author_profile": "AI타임스"
-    },
-    {
-      "id": "hackernews_1ec1aa1c7a",
-      "url": "https://vetto.ai/companies/computer-anthology-terminal-tasks.html",
-      "publish_date": "2026-08-04T14:38:41.000Z",
+      "id": "reddit_8693828508",
+      "url": "https://www.reddit.com/r/LocalLLaMA/comments/1vfa3tq/sk_hynix_in_collaboration_with_sandisk_unveils/",
+      "publish_date": "2026-08-04T13:17:20.000Z",
       "metrics": {
-        "points": 15,
-        "comments": 2
+        "rank_in_sub": 3,
+        "discussion_url": "https://www.reddit.com/r/LocalLLaMA/comments/1vfa3tq/sk_hynix_in_collaboration_with_sandisk_unveils/"
       },
-      "title_ko": "Computer Anthology: AI 에이전트를 위한 지속 진화형 벤치마크",
-      "title_en": "Computer Anthology: A continuously evolving benchmark family for AI agents",
-      "summary_ko": "• AI 에이전트의 실질적인 컴퓨터 조작 능력을 평가하기 위한 새로운 벤치마크 'Computer Anthology'가 발표되었다.\n• 이 벤치마크는 터미널 작업부터 웹 탐색까지 고도로 복잡해지는 에이전트 워크플로우를 포괄적으로 평가한다.\n• 고정된 테스트셋의 한계를 넘어 지속적으로 업데이트되므로, 개발자들이 에이전트의 실제 활용 성능을 정확히 측정할 수 있다.",
-      "body_ko": "그동안 AI 에이전트의 성능을 측정하는 벤치마크는 고정된 환경과 제한된 작업에 머무르는 한계가 있었다. 이를 해결하기 위해 지속적으로 진화하는 벤치마크 제품군인 Computer Anthology가 새롭게 등장했다. 이 프로젝트는 단순한 문답을 넘어, 에이전트가 마우스와 키보드를 조작하고 복잡한 터미널 명령을 수행하는 능력을 실증적으로 검증한다. 테스트 시나리오가 멈춰있지 않고 커뮤니티 기여를 통해 계속 진화한다는 점이 가장 큰 특징이다. 에이전트를 개발하는 연구진과 기업들에게 매우 유용한 성능 측정 표준이 될 것으로 기대된다.",
-      "body_en": "Computer Anthology is an evolving benchmark for AI agents. It effectively tests agents' ability to control computers practically. A new standard for evaluating agent capability.",
-      "signal_id": "research",
-      "signal_name": "연구·논문·새 기법",
-      "importance": 80,
-      "category_id": "hackernews",
-      "category_name": "Hacker News",
-      "sources": [],
+      "title_ko": "SK하이닉스와 샌디스크, AI 추론 병목 해결할 HBF(High Bandwidth Flash) 표준 발표",
+      "title_en": "SK hynix, In Collaboration With SanDisk, Unveils The New High Bandwidth Flash (HBF) Standard",
+      "summary_ko": "• SK하이닉스가 샌디스크와 협력하여 초당 최대 3TB의 대역폭을 지원하는 차세대 플래시 메모리 규격(HBF)을 공개했다.\n• 기존 HBM의 용량 한계를 극복하고 AI 추론 시 발생하는 데이터 병목 현상을 해결하는 데 초점을 맞추었다.\n• 거대 언어 모델(LLM)을 디스크에서 직접 구동(Offloading)하는 기술의 효율성을 극대화할 수 있다.",
+      "body_ko": "AI 반도체 시장을 선도하는 SK하이닉스가 샌디스크와 손잡고 차세대 메모리 표준인 HBF(High Bandwidth Flash)를 선보였다. 이 기술은 초당 최대 3TB의 압도적인 대역폭을 제공하여 AI 모델 추론 시 발생하는 고질적인 메모리 병목을 해소한다. 특히 VRAM 용량이 부족할 때 디스크와 메모리를 오가는 데이터 스와핑 속도를 비약적으로 높여준다. 이를 통해 수백 기가바이트에 달하는 초거대 모델을 비교적 저렴한 하드웨어 환경에서도 원활하게 구동할 수 있는 기반이 마련되었다. 로컬 AI 생태계와 엣지 컴퓨팅 분야에 강력한 혁신을 불어넣을 것으로 기대된다.",
+      "body_en": "SK Hynix and SanDisk introduced HBF, a new flash memory standard hitting 3TB/s bandwidth. It's designed to solve AI inference bottlenecks by making offloading much faster. This could significantly lower the cost of running huge LLMs locally.",
+      "signal_id": "policy",
+      "signal_name": "정책·규제·인프라 (기술 영향 큰 것만)",
+      "importance": 88,
+      "category_id": "reddit",
+      "category_name": "Reddit",
+      "sources": [
+        "Reddit"
+      ],
       "curated_by": "ldk-hub",
-      "author_profile": "@rigelbm"
+      "author_profile": "r/LocalLLaMA · u/giveen"
     },
     {
       "id": "hackernews_07d65f40ed",
@@ -94,70 +104,106 @@
       "author_profile": "@emschwartz"
     },
     {
-      "id": "hackernews_13055a7c12",
-      "url": "https://www.mixar.app",
-      "publish_date": "2026-08-04T00:00:00.000Z",
+      "id": "github_8c71293d91",
+      "url": "https://github.com/makecindy/cindy",
+      "publish_date": "2026-08-04T23:50:58.000Z",
       "metrics": {
-        "points": 15,
-        "comments": 2
+        "stars": 1706,
+        "forks": 211,
+        "created_at": "2026-07-22T17:49:34Z",
+        "pushed_at": "2026-08-04T23:50:58Z",
+        "repo": "makecindy/cindy"
       },
-      "title_ko": "AI 에이전트를 위한 3D 워크플로우 'Blender for AI Agents'",
-      "title_en": "Show HN: Blender for AI Agents",
-      "summary_ko": "• 유명 3D 그래픽 도구인 블렌더(Blender)를 AI 에이전트가 직접 제어하고 결과물을 생성할 수 있는 오픈소스 도구가 공개되었다.\n• 파이썬 API를 기반으로 에이전트가 씬(scene)을 구성하고 렌더링 파이프라인을 자동화할 수 있는 강력한 인터페이스를 제공한다.\n• 복잡한 3D 애셋 제작 과정을 텍스트 프롬프트와 에이전트 기반의 자동화 파이프라인으로 전환하려는 시도로 평가받는다.",
-      "body_ko": "오픈소스 커뮤니티에서 블렌더와 AI 에이전트를 매끄럽게 연결하는 새로운 프로젝트가 큰 화제를 모으고 있다. 이 도구는 에이전트가 복잡한 3D 씬을 코드로 정의하고 수정할 수 있는 직관적인 추상화 계층을 제공한다. 기존에는 개발자나 아티스트가 직접 제어해야 했던 블렌더의 수많은 파라미터들이 에이전트의 자율적인 판단에 의해 조율될 수 있게 되었다. 이 프로젝트를 만든 개발자들은 3D 콘텐츠 생성 자동화의 높은 장벽을 허물고자 했다고 밝혔다. 3D 에셋이나 메타버스 환경을 구축하는 워크플로우에 새로운 가능성을 제시하고 있다.",
-      "body_en": "This open-source project allows AI agents to control Blender efficiently. Agents can construct 3D scenes programmatically using text prompts. It opens new possibilities for 3D generation.",
+      "title_ko": "makecindy/cindy — 개봉 즉시 사용 가능한 오픈소스 범용 에이전트",
+      "title_en": "makecindy/cindy — Consider it done. The open-source AI agent that works out of the box",
+      "summary_ko": "• 복잡한 설정 없이 설치 즉시 터미널에서 동작하는 오픈소스 범용 AI 에이전트 'Cindy'가 출시되었다.\n• 파일 시스템 조작, 웹 검색, 코드 실행 등 다양한 도구가 기본 내장되어 있어 진입 장벽이 매우 낮다.\n• 개발 환경 구축이나 반복적인 스크립트 작성을 자동화하고 싶은 초중급 개발자들의 생산성을 크게 높여준다.",
+      "body_ko": "AI 에이전트를 도입하고 싶어도 복잡한 초기 설정과 연동 작업 때문에 포기하는 경우가 많다. 이번에 깃허브에 등록된 Cindy 프로젝트는 '설치 즉시 동작(Out of the box)'을 모토로 이러한 불편을 말끔히 해소했다. 사용자가 자연어로 명령하면 내장된 파일 조작, 웹 검색, 터미널 실행 도구들을 조합하여 알아서 목표를 달성한다. 특히 맥락을 유지하며 오류를 스스로 진단하고 수정하는 기능이 훌륭하게 구현되어 있다. 터미널 기반 작업이 잦은 개발자들의 훌륭한 로컬 어시스턴트로 자리 잡을 잠재력이 충분하다.",
+      "body_en": "Cindy is a ready-to-use, open-source universal AI agent designed to work right out of the box. It comes pre-equipped with tools for file manipulation, web browsing, and code execution. A massive productivity boost for developers wanting hassle-free local AI assistance.",
       "signal_id": "oss",
       "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
-      "importance": 77,
-      "category_id": "hackernews",
-      "category_name": "Hacker News",
-      "sources": [],
+      "importance": 86,
+      "category_id": "github",
+      "category_name": "GitHub",
+      "sources": [
+        "GitHub"
+      ],
       "curated_by": "ldk-hub",
-      "author_profile": "Hacker News"
+      "author_profile": "makecindy"
     },
     {
-      "id": "hackernews_b1c3187c9f",
-      "url": "https://projecthub.arduino.cc/neelbuilds/build-a-voice-based-kiosk-for-retail-store-using-moorcheh-edge-and-arduino-uno-q-7f3c7b",
-      "publish_date": "2026-08-04T00:00:00.000Z",
+      "id": "reddit_ba728707ae",
+      "url": "https://www.reddit.com/r/LocalLLaMA/comments/1vfl525/kimi_k3_full_model_running_on_16x_gb10_cluster_at/",
+      "publish_date": "2026-08-04T19:56:16.000Z",
       "metrics": {
-        "points": 15,
-        "comments": 2
+        "rank_in_sub": 2,
+        "discussion_url": "https://www.reddit.com/r/LocalLLaMA/comments/1vfl525/kimi_k3_full_model_running_on_16x_gb10_cluster_at/"
       },
-      "title_ko": "50달러 아두이노에서 로컬로 구동되는 AI 음성 에이전트",
-      "title_en": "An AI voice agent running locally on a $50 Arduino uno Q",
-      "summary_ko": "• 단돈 50달러에 불과한 소형 보드인 아두이노 우노(Arduino Uno) Q에서 완전한 오프라인 기반 AI 음성 에이전트를 구현하는 데 성공했다.\n• 초경량 양자화 모델을 사용하여 외부 클라우드 통신 없이 기기 자체에서 음성 인식과 답변 생성을 동시에 처리한다.\n• 프라이버시가 중요하거나 인터넷 연결이 불안정한 환경에서도 동작하는 저비용 엣지 AI 기기의 상용화 가능성을 입증했다.",
-      "body_ko": "최근 오픈소스 하드웨어 커뮤니티에서 매우 놀라운 프로젝트가 등장했다. 불과 50달러 수준의 아두이노 기기에서 실시간 음성 대화가 가능한 AI 에이전트를 로컬로 구동한 사례다. 이는 모델의 극단적인 양자화와 메모리 관리 최적화를 통해 엣지 디바이스의 하드웨어적 한계를 극복해낸 결과다. 외부 네트워크 연결이 필요 없기 때문에 응답 지연이 적고 사용자의 프라이버시가 완벽히 보호되는 장점이 있다. 스마트홈 기기나 저사양 임베디드 환경에서 AI 에이전트를 적용하려는 개발자들에게 훌륭한 레퍼런스가 되고 있다.",
-      "body_en": "An AI voice agent now runs entirely offline on a 50 dollar Arduino board. Extremely aggressive quantization enables edge computation. Great potential for offline smart devices.",
+      "title_ko": "Kimi K3 풀 모델, 16대의 GB10 클러스터에서 20+ TPS로 실행",
+      "title_en": "Kimi K3 full model running on 16x GB10 cluster at 20+tps",
+      "summary_ko": "• 최근 공개된 초거대 모델 Kimi K3가 16대의 GB10 클러스터 환경에서 초당 20개 이상의 토큰을 생성하는 성능을 입증했다.\n• 분산 처리 및 최적화 기법을 통해 대규모 모델의 추론 속도 한계를 성공적으로 극복한 사례다.\n• 고성능 모델의 상용화 및 실시간 서비스 적용 가능성을 높여주는 중요한 기술적 마일스톤이다.",
+      "body_ko": "AI 모델의 규모가 커짐에 따라 추론 속도와 하드웨어 효율성이 핵심 과제로 떠오르고 있다. 최근 레딧에서는 Kimi K3라는 대규모 모델이 16개의 GB10 가속기 클러스터에서 안정적으로 구동되는 모습이 공개되어 큰 화제를 모았다. 특히 이 환경에서 20 TPS(Tokens Per Second) 이상의 속도를 기록한 점은 분산 추론 최적화 기술이 상당한 궤도에 올랐음을 보여준다. 모델 병렬화와 네트워크 지연 최소화 기술이 효과적으로 결합된 결과로 분석된다. 대용량 문맥을 실시간으로 처리해야 하는 AI 서비스 개발자들에게 시사하는 바가 크다.",
+      "body_en": "Kimi K3 running efficiently on a 16-node GB10 cluster at over 20 tokens per second is a breakthrough in distributed inference. It showcases effective model parallelism and optimization. This paves the way for deploying massive models in real-time applications.",
+      "signal_id": "practice",
+      "signal_name": "AI 활용 사례·워크플로우 팁",
+      "importance": 85,
+      "category_id": "reddit",
+      "category_name": "Reddit",
+      "sources": [
+        "Reddit"
+      ],
+      "curated_by": "ldk-hub",
+      "author_profile": "r/LocalLLaMA · u/ciprianveg"
+    },
+    {
+      "id": "github_c4b4b7662c",
+      "url": "https://github.com/AlephAITech/WorkBuddyGuide",
+      "publish_date": "2026-08-03T03:43:50.000Z",
+      "metrics": {
+        "stars": 1944,
+        "forks": 269,
+        "created_at": "2026-07-10T04:13:51Z",
+        "pushed_at": "2026-08-03T03:43:50Z",
+        "repo": "AlephAITech/WorkBuddyGuide"
+      },
+      "title_ko": "AlephAITech/WorkBuddyGuide — 멀티 에이전트 워크플로우 실전 가이드",
+      "title_en": "AlephAITech/WorkBuddyGuide — A practical, open-source guide to mastering WorkBuddy",
+      "summary_ko": "• AI 기반 업무 자동화 도구인 WorkBuddy의 실전 사용법과 다중 에이전트 환경 구축을 다룬 오픈소스 블루프린트가 공개되었다.\n• 실제 업무 환경에서 에이전트를 어떻게 설계하고 MCP(Multi-Component Pipeline)를 적용할 수 있는지에 대한 생생한 예제를 제공한다.\n• 단순한 튜토리얼을 넘어 기업의 실제 프로세스를 자동화하려는 엔지니어들에게 즉시 적용 가능한 레퍼런스를 제공한다.",
+      "body_ko": "최근 AI 에이전트를 실제 업무에 도입하려는 수요가 폭증하면서 관련된 실무 가이드라인의 중요성이 커지고 있다. 깃허브에 공개된 WorkBuddy 실전 블루프린트는 단순한 장난감 수준의 튜토리얼을 넘어 현업에 즉시 적용할 수 있는 깊이를 보여준다. 이 리포지토리는 스킬 설계, 복잡한 자동화 파이프라인(MCP) 구축, 그리고 여러 에이전트 간의 협업 프로토콜을 코드로 상세히 풀어냈다. 막연하게만 느껴지던 다중 에이전트 오케스트레이션을 구체적인 시스템 구조로 시각화하여 제시한다. AI 자동화를 고민하는 조직의 아키텍트와 개발자들이 필수적으로 참고해야 할 자료다.",
+      "body_en": "WorkBuddyGuide provides an in-depth, open-source blueprint for mastering multi-agent workflows. It goes beyond simple tutorials, offering real-world examples of MCP implementations and agent collaboration. An essential resource for engineers building actual AI automation systems.",
       "signal_id": "oss",
       "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
-      "importance": 75,
-      "category_id": "hackernews",
-      "category_name": "Hacker News",
-      "sources": [],
+      "importance": 84,
+      "category_id": "github",
+      "category_name": "GitHub",
+      "sources": [
+        "GitHub"
+      ],
       "curated_by": "ldk-hub",
-      "author_profile": "Hacker News"
+      "author_profile": "AlephAITech"
     },
     {
-      "id": "hackernews_e7cbb42723",
-      "url": "https://arxiv.org/abs/2607.27191",
-      "publish_date": "2026-08-04T00:00:00.000Z",
+      "id": "reddit_b75d94a43b",
+      "url": "https://www.reddit.com/r/LocalLLaMA/comments/1vfj3q7/hugging_face_ceo_says_china_is_winning_the_ai/",
+      "publish_date": "2026-08-04T18:42:38.000Z",
       "metrics": {
-        "points": 15,
-        "comments": 2
+        "rank_in_sub": 4,
+        "discussion_url": "https://www.reddit.com/r/LocalLLaMA/comments/1vfj3q7/hugging_face_ceo_says_china_is_winning_the_ai/"
       },
-      "title_ko": "AI 에이전트가 개방형 연구를 수행할 수 있을까?",
-      "title_en": "Can AI agents conduct open-ended AI research?",
-      "summary_ko": "• 최근 발표된 논문에서는 자율 AI 에이전트가 인간의 개입 없이 개방형 연구 주제를 탐색하고 논문을 작성할 수 있는지에 대한 실증적 분석을 제시했다.\n• 실험 결과, 에이전트는 코드 구현과 벤치마크 평가 등 정형화된 작업에는 뛰어나지만, 완전히 새로운 방향성을 창출하는 데는 한계를 보였다.\n• 향후 AI 연구를 자동화하기 위해서는 에이전트의 단순한 추론 능력을 넘어 장기적인 탐색과 창의성을 평가하는 새로운 기준이 필요함을 강조한다.",
-      "body_ko": "자율형 에이전트가 과연 인간 수준의 개방형 인공지능 연구를 수행할 수 있는지에 대한 심도 있는 연구 결과가 아카이브에 공개되었다. 연구진은 에이전트에게 추상적인 연구 주제를 던져주고 가설 설정부터 코드 작성, 결과 분석에 이르는 전 과정을 모니터링했다. 결과적으로 에이전트는 기존의 논문을 바탕으로 코드를 구현하는 데는 능숙했으나, 완전히 새로운 발견을 이끄는 직관과 장기적인 문제 해결 능력은 부족했다. 이 논문은 AI가 연구자의 단순 보조 도구를 넘어 독립적인 연구 주체로 거듭나기 위한 과제를 잘 짚어냈다. 기존 대비 에이전트의 창의성을 높이기 위한 새로운 알고리즘의 필요성을 강하게 제기하고 있다.",
-      "body_en": "A new paper tests if autonomous agents can conduct open-ended AI research. Agents excel at coding but lack long-term creative vision. Shows limits of current inference loops.",
-      "signal_id": "research",
-      "signal_name": "연구·논문·새 기법",
-      "importance": 83,
-      "category_id": "hackernews",
-      "category_name": "Hacker News",
-      "sources": [],
+      "title_ko": "허깅페이스 CEO \"중국이 오픈소스 AI 모델 경쟁에서 앞서가고 있다\"",
+      "title_en": "Hugging Face CEO says China is winning the AI race and dominating on open models",
+      "summary_ko": "• 허깅페이스의 CEO가 현재 글로벌 AI 생태계에서 중국이 오픈소스 모델 부문을 주도하고 있다고 평가했다.\n• 최근 리더보드를 석권하고 있는 중국발 오픈소스 모델들의 기술적 완성도와 빠른 발전 속도를 근거로 들었다.\n• 서구권 기업과 오픈소스 진영 모두에게 전략적 방향성 재고와 기술 투자를 촉구하는 강력한 메시지다.",
+      "body_ko": "세계 최대의 오픈소스 AI 커뮤니티 허깅페이스의 수장이 AI 패권 경쟁에 대한 도발적인 견해를 밝혔다. 그는 최근 뛰어난 성능으로 벤치마크 상위권을 장악하고 있는 중국발 모델들을 언급하며, 중국이 오픈소스 생태계의 주도권을 쥐고 있다고 평가했다. 실제로 알리바바의 Qwen 시리즈나 딥시크(DeepSeek) 같은 모델들은 서구권 빅테크의 모델들과 대등하거나 그 이상의 효율을 보여주고 있다. 이러한 흐름은 폐쇄형 모델에 집중하는 기업들에게 오픈 생태계의 중요성을 다시 한번 일깨워준다. 개발자 커뮤니티 전반에 걸쳐 글로벌 모델 동향에 대한 폭넓은 시야가 요구되는 시점이다.",
+      "body_en": "Hugging Face CEO claims China is currently dominating the open-source AI model landscape. He pointed to the rapid release of high-quality models that top leaderboards. This highlights a shift in global AI dynamics and urges a stronger push in open-source development.",
+      "signal_id": "policy",
+      "signal_name": "정책·규제·인프라 (기술 영향 큰 것만)",
+      "importance": 82,
+      "category_id": "reddit",
+      "category_name": "Reddit",
+      "sources": [
+        "Reddit"
+      ],
       "curated_by": "ldk-hub",
-      "author_profile": "Hacker News"
+      "author_profile": "r/LocalLLaMA · u/Miriel_z"
     }
   ]
 }

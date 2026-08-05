@@ -271,7 +271,25 @@ async function main() {
     results.push(...(await curateBatch(batch, factMap, idx, batches.length)));
   }
 
-  const news = results.sort((a, b) => b.importance - a.importance);
+  // 플랫폼 밸런스 조정: 각 카테고리(매체)별 상위 3개 항목은 최상단에 배치되도록 가중치(+1000) 부여
+  const byCategory = {};
+  for (const item of results) {
+    if (!byCategory[item.category_id]) byCategory[item.category_id] = [];
+    byCategory[item.category_id].push(item);
+  }
+  for (const cat in byCategory) {
+    byCategory[cat].sort((a, b) => b.importance - a.importance);
+    byCategory[cat].slice(0, 3).forEach((item) => {
+      item._boost = 1000;
+    });
+  }
+
+  const news = results.sort((a, b) => {
+    const boostA = a._boost || 0;
+    const boostB = b._boost || 0;
+    return (b.importance + boostB) - (a.importance + boostA);
+  });
+  news.forEach((item) => delete item._boost);
   if (news.length === 0) {
     console.error("큐레이션 결과 0건 — 기존 news_latest.json 유지");
     process.exit(1);
