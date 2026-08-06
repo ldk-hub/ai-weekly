@@ -48,8 +48,12 @@
       "status": "rising",
       "catchphrase": "에이전트가 디스크에 기록한 이전 세션을 검색·색인하는 기억 도구",
       "summary_ko": "당신의 코딩 에이전트가 이미 해결한 문제를 다시 찾습니다. deja는 한 달 전 디스크에 기록된 세션까지 모두 색인하여 중복 작업을 막습니다.",
-      "key_features": [],
-      "use_case": "",
+      "key_features": [
+        "한 달 전 로컬 세션까지 검색 및 색인 가능",
+        "중복 작업 방지로 에이전트 자원 소모 최소화",
+        "기존 개발 기록을 지식 기반으로 활용"
+      ],
+      "use_case": "에이전트가 동일한 문제를 반복해서 풀려 할 때 과거 기록을 참조하게 할 때",
       "install_hint": "README 참고",
       "badge": "🔥 Rising",
       "badges": [
@@ -115,8 +119,12 @@
       "status": "rising",
       "catchphrase": "오픈소스 메타 하네스 및 범용 AI 에이전트 프레임워크",
       "summary_ko": "오픈소스 AI 에이전트 프레임워크이자 메타 하네스입니다. Claude Code, Codex, Cursor, Pi 및 커스텀 에이전트를 한 곳에서 오케스트레이션합니다.",
-      "key_features": [],
-      "use_case": "",
+      "key_features": [
+        "다양한 AI 에이전트를 한 곳에서 통합 관리",
+        "Codex, Claude Code, Cursor 등과 호환",
+        "오픈소스 기반 메타 하네스 아키텍처"
+      ],
+      "use_case": "여러 종류의 코딩 에이전트를 동원해 복합적인 개발 작업을 오케스트레이션할 때",
       "install_hint": "README 참고",
       "badge": "🔥 Rising",
       "badges": [
@@ -181,8 +189,12 @@
       "status": "rising",
       "catchphrase": "Rust 기반의 프론티어 에이전트 빌딩 블록",
       "summary_ko": "어디서나 Codex 수준의 성능을 발휘할 수 있게 돕는 Rust로 작성된 초경량 에이전트 구성 요소입니다.",
-      "key_features": [],
-      "use_case": "",
+      "key_features": [
+        "Rust 기반 초경량 에이전트 빌딩 블록",
+        "어디서든 Codex 수준의 성능을 구현 가능",
+        "메모리 및 실행 속도 극대화"
+      ],
+      "use_case": "제한된 환경에서 빠르고 효율적인 로컬 에이전트를 밑바닥부터 구성할 때",
       "install_hint": "README 참고",
       "badge": "🔥 Rising",
       "badges": [
@@ -248,8 +260,12 @@
       "status": "rising",
       "catchphrase": "MCP, 에이전트 시스템 및 평가(Evals) 종합 학습 로드맵",
       "summary_ko": "OpenAI, Claude, MCP, 하네스, Evals, 그리고 프로덕션 에이전트 시스템에 대한 가장 완벽한 학습 로드맵과 자료를 제공합니다.",
-      "key_features": [],
-      "use_case": "",
+      "key_features": [
+        "MCP 및 에이전트 시스템 종합 로드맵 제공",
+        "프로덕션급 에이전트 구축 Evals 자료 포함",
+        "Claude Code, OpenAI 관련 베스트 프랙티스 수록"
+      ],
+      "use_case": "에이전틱 엔지니어링을 처음부터 프로덕션 수준까지 체계적으로 학습하고 싶을 때",
       "install_hint": "README 참고",
       "badge": "🔥 Rising",
       "badges": [
@@ -274,8 +290,8 @@
       "category": "skill",
       "score": 73.8,
       "trend_score": 73.8,
-      "stars": 84010,
-      "velocity_7d": 364,
+      "stars": 84013,
+      "velocity_7d": 367,
       "velocity_score": 39.5,
       "growth_rate": 0.0043,
       "v7d_estimated": false,
@@ -314,8 +330,12 @@
       "status": "rising",
       "catchphrase": "에이전트를 디자인 엔지니어로 만드는 로컬 데스크탑 앱",
       "summary_ko": "오픈소스 Claude Design의 대안. 로컬 환경에서 실행되는 데스크탑 앱으로 코딩 에이전트가 UI/UX를 직접 설계하도록 돕습니다.",
-      "key_features": [],
-      "use_case": "",
+      "key_features": [
+        "코딩 에이전트를 UI/UX 디자인 엔지니어로 변환",
+        "안전한 로컬 데스크탑 앱 환경",
+        "Claude Design의 완벽한 오픈소스 대안"
+      ],
+      "use_case": "프론트엔드 개발 시 에이전트에게 시각적 디자인 업무까지 위임하고자 할 때",
       "install_hint": "README 참고",
       "badge": "🔥 Rising",
       "badges": [
@@ -340,8 +360,8 @@
       "category": "skill",
       "score": 73.1,
       "trend_score": 73.1,
-      "stars": 40912,
-      "velocity_7d": 1338,
+      "stars": 40925,
+      "velocity_7d": 1351,
       "velocity_score": 100,
       "growth_rate": 0.0327,
       "v7d_estimated": false,
@@ -376,8 +396,12 @@
       "status": "rising",
       "catchphrase": "290개 이상의 제공자를 묶는 무료 MIT AI 게이트웨이",
       "summary_ko": "중단 없는 코딩을 위한 무료 게이트웨이. 단일 엔드포인트로 290개 이상의 API(90개 무료)와 500개 이상의 모델에 연결합니다.",
-      "key_features": [],
-      "use_case": "",
+      "key_features": [
+        "단일 엔드포인트로 290개 이상의 API 통합",
+        "90개 이상의 무료 모델 접근 가능",
+        "중단 없는 코딩을 위한 무제한 게이트웨이"
+      ],
+      "use_case": "다양한 LLM 모델을 번갈아 테스트하거나 API 비용을 최소화하며 개발할 때",
       "install_hint": "README 참고",
       "badge": "🔥 Rising",
       "badges": [
@@ -402,8 +426,8 @@
       "category": "harness",
       "score": 73.1,
       "trend_score": 73.1,
-      "stars": 622,
-      "velocity_7d": 242,
+      "stars": 625,
+      "velocity_7d": 245,
       "velocity_score": 100,
       "growth_rate": 0.3891,
       "v7d_estimated": true,
@@ -432,8 +456,12 @@
       "status": "rising",
       "catchphrase": "원클릭으로 자가 진화 에이전트를 만드는 자동화 빌더",
       "summary_ko": "클릭 한 번으로 DeepSeek이나 GPT를 활용해 스스로 진화하는 맞춤형 에이전트를 생성하는 하네스 도구입니다.",
-      "key_features": [],
-      "use_case": "",
+      "key_features": [
+        "원클릭으로 자가 진화 에이전트 생성",
+        "DeepSeek 및 GPT 모델 전면 지원",
+        "개발 복잡성을 낮춘 자동화 빌더"
+      ],
+      "use_case": "복잡한 하네스 구축 없이 즉각적으로 스스로 학습하는 맞춤형 에이전트를 띄울 때",
       "install_hint": "README 참고",
       "badge": "🔥 Rising",
       "badges": [
@@ -489,8 +517,12 @@
       "status": "rising",
       "catchphrase": "에이전트 스킬 및 MCP 서버의 동작을 검증하는 평가 도구",
       "summary_ko": "Claude Code 스킬, MCP 서버, CLI가 실제로 잘 작동하는지 샌드박스 YAML 환경에서 테스트하고 검증합니다.",
-      "key_features": [],
-      "use_case": "",
+      "key_features": [
+        "Claude Code 스킬 및 MCP 서버 철저한 검증",
+        "안전한 샌드박스 기반 YAML 테스트 환경",
+        "에이전트 사용 시점의 동작 신뢰성 확보"
+      ],
+      "use_case": "직접 개발한 커스텀 스킬이나 MCP가 에이전트 환경에서 잘 작동하는지 테스트할 때",
       "install_hint": "README 참고",
       "badge": "🔥 Rising",
       "badges": [
@@ -516,8 +548,8 @@
       "category": "skill",
       "score": 71.8,
       "trend_score": 71.8,
-      "stars": 72643,
-      "velocity_7d": 1023,
+      "stars": 72647,
+      "velocity_7d": 1027,
       "velocity_score": 100,
       "growth_rate": 0.0141,
       "v7d_estimated": false,
@@ -551,8 +583,12 @@
       "status": "rising",
       "catchphrase": "따분하고 진부한 코드 생성을 막아주는 '훌륭한 안목' 스킬",
       "summary_ko": "당신의 AI 에이전트에게 훌륭한 안목을 부여합니다. 무미건조하고 뻔한 코드를 생성하지 않도록 억제하는 독특한 스킬입니다.",
-      "key_features": [],
-      "use_case": "",
+      "key_features": [
+        "무미건조하고 진부한 코드 생성 원천 차단",
+        "에이전트에게 훌륭한 디자인 안목 부여",
+        "창의적이고 독특한 코드 작성 유도"
+      ],
+      "use_case": "AI가 만들어낸 뻔한 템플릿 코드 대신 통찰력 있고 세련된 코드를 원할 때",
       "install_hint": "README 참고",
       "badge": "🔥 Rising",
       "badges": [
@@ -607,8 +643,12 @@
       "status": "rising",
       "catchphrase": "초기 기업 및 인큐베이터를 위한 AI 기반 오픈소스 펀딩 워크스페이스",
       "summary_ko": "컨설턴트, 어드바이저, 인큐베이터가 기업의 기회와 자금 조달을 효율적으로 관리할 수 있는 AI 워크스페이스입니다.",
-      "key_features": [],
-      "use_case": "",
+      "key_features": [
+        "인큐베이터 및 어드바이저용 자금 조달 워크스페이스",
+        "AI 기반 오픈소스 기업 관리 솔루션",
+        "스타트업 기회 발굴 및 투자 검토 최적화"
+      ],
+      "use_case": "초기 기업의 펀딩 기회와 투자 관련 지표를 에이전트의 도움으로 관리할 때",
       "install_hint": "README 참고",
       "badge": "🔥 Rising",
       "badges": [
@@ -634,8 +674,8 @@
       "category": "skill",
       "score": 70,
       "trend_score": 70,
-      "stars": 576,
-      "velocity_7d": 14,
+      "stars": 577,
+      "velocity_7d": 15,
       "velocity_score": 100,
       "growth_rate": 0.0243,
       "v7d_estimated": false,
@@ -658,8 +698,12 @@
       "status": "rising",
       "catchphrase": "소설을 플레이 가능한 게임으로 바꿔주는 에이전트 스킬",
       "summary_ko": "텍스트 소설을 원작에 기반한 완벽한 텍스트/비주얼 게임으로 변환해주는 Claude Code 및 Codex용 스킬입니다.",
-      "key_features": [],
-      "use_case": "",
+      "key_features": [
+        "일반 소설을 원작 기반 게임으로 변환",
+        "Codex 및 Kimi Code(K3) 완벽 지원",
+        "텍스트 기반 인터랙티브 스토리텔링 엔진"
+      ],
+      "use_case": "자신만의 이야기나 소설을 즉각적으로 플레이 가능한 인터랙티브 게임으로 만들 때",
       "install_hint": "README 참고",
       "badge": "🔥 Rising",
       "badges": [
@@ -710,8 +754,12 @@
       "status": "rising",
       "catchphrase": "프로젝트 증거를 기반으로 루프 수준의 인사이트를 추출하는 하네스",
       "summary_ko": "세션 기록과 프로젝트 데이터를 분석하여 개선점을 도출하고 코드 검증 다음 단계를 자동으로 제안하는 강력한 하네스입니다.",
-      "key_features": [],
-      "use_case": "",
+      "key_features": [
+        "세션 및 프로젝트 증거 기반 인사이트 추출",
+        "에이전트 루프 수준의 성능 분석 및 개선",
+        "검증 가능한 다음 작업 자동 제안"
+      ],
+      "use_case": "에이전트의 작업 루프를 추적하여 버그를 줄이고 다음 최적화 단계를 자동으로 도출할 때",
       "install_hint": "README 참고",
       "badge": "🔥 Rising",
       "badges": [
@@ -738,8 +786,8 @@
       "category": "skill",
       "score": 69.8,
       "trend_score": 69.8,
-      "stars": 96861,
-      "velocity_7d": 1192,
+      "stars": 96864,
+      "velocity_7d": 1195,
       "velocity_score": 100,
       "growth_rate": 0.0123,
       "v7d_estimated": false,
@@ -778,8 +826,12 @@
       "status": "rising",
       "catchphrase": "AI 에이전트가 시니어 개발자처럼 생각하게 만드는 도구",
       "summary_ko": "AI 에이전트가 방 안에 있는 가장 게으른(효율적인) 시니어 개발자처럼 생각하게 만듭니다. 가장 좋은 코드는 작성하지 않은 코드입니다.",
-      "key_features": [],
-      "use_case": "",
+      "key_features": [
+        "에이전트에게 시니어 개발자의 효율성 부여",
+        "불필요한 코드 작성을 최소화하는 추론 로직",
+        "간결하고 유지보수하기 쉬운 해결책 유도"
+      ],
+      "use_case": "수천 줄의 쓸데없는 코드 대신, 꼭 필요한 수정만 하는 효율적인 코딩이 필요할 때",
       "install_hint": "README 참고",
       "badge": "🔥 Rising",
       "badges": [
@@ -828,8 +880,12 @@
       "status": "rising",
       "catchphrase": "모든 코딩 에이전트를 위한 영구적인 중립 메모리",
       "summary_ko": "Codex, Claude Code, Pi 등 다양한 에이전트가 벤더에 종속되지 않고 세션 간 기억을 유지할 수 있는 메모리 모듈입니다.",
-      "key_features": [],
-      "use_case": "",
+      "key_features": [
+        "벤더 중립적인 에이전트 간 영구 메모리",
+        "Codex, Claude, Pi 등 모든 에이전트 지원",
+        "세션 종료 후에도 컨텍스트 완벽 보존"
+      ],
+      "use_case": "하나의 프로젝트를 여러 종류의 에이전트가 번갈아 작업하며 맥락을 유지해야 할 때",
       "install_hint": "README 참고",
       "badge": "🔥 Rising",
       "badges": [
@@ -880,8 +936,12 @@
       "status": "rising",
       "catchphrase": "데스크탑 환경에서 즉시 사용 가능한 오픈소스 AI 에이전트",
       "summary_ko": "별도 설정 없이 바로 동작하는 크로스 플랫폼 데스크탑 AI 비서. 복잡한 환경 설정 없이 누구나 쉽게 AI의 도움을 받을 수 있습니다.",
-      "key_features": [],
-      "use_case": "",
+      "key_features": [
+        "설치 즉시 동작하는 크로스 플랫폼 데스크탑 비서",
+        "직관적이고 쉬운 GUI 환경",
+        "복잡한 터미널 명령어 없이 활용 가능"
+      ],
+      "use_case": "CLI 환경에 익숙하지 않은 사용자가 데스크탑에서 바로 AI 비서를 활용하고자 할 때",
       "install_hint": "README 참고",
       "badge": "🔥 Rising",
       "badges": [
@@ -932,8 +992,12 @@
       "status": "rising",
       "catchphrase": "개인용 에이전트 및 로컬 메모리 허브",
       "summary_ko": "Claude Code, Codex, Hermes 등 모든 AI 에이전트에게 컨텍스트를 제공하는 개인 맞춤형 지식 허브이자 기억 저장소입니다.",
-      "key_features": [],
-      "use_case": "",
+      "key_features": [
+        "개인화된 로컬 메모리 허브 제공",
+        "Claude Code, Hermes 등 다양한 에이전트와 연동",
+        "사용자 특화 컨텍스트 지속 유지"
+      ],
+      "use_case": "나만의 작업 스타일과 프로젝트 맥락을 기억하는 전용 지식 저장소를 구축할 때",
       "install_hint": "README 참고",
       "badge": "🔥 Rising",
       "badges": [
@@ -984,8 +1048,12 @@
       "status": "rising",
       "catchphrase": "장기 수행 에이전트를 위한 데스크탑/CLI 컴퓨터 사용 하네스",
       "summary_ko": "데스크탑 앱과 CLI를 넘나들며 오랜 시간 동안 컨텍스트를 유지하면서 복잡한 작업을 수행하는 장기 작업용 하네스입니다.",
-      "key_features": [],
-      "use_case": "",
+      "key_features": [
+        "장기 수행 목표에 특화된 컴퓨터 사용 하네스",
+        "데스크탑 앱 및 CLI 환경 통합 제어",
+        "시간이 오래 걸리는 복잡한 작업 컨텍스트 유지"
+      ],
+      "use_case": "몇 시간에 걸친 복잡한 소프트웨어 설치 및 테스트 워크플로우를 에이전트에게 맡길 때",
       "install_hint": "README 참고",
       "badge": "🔥 Rising",
       "badges": [
@@ -1036,8 +1104,12 @@
       "status": "rising",
       "catchphrase": "나만의 브랜디드 에이전트 하네스를 구축하는 메타 하네스",
       "summary_ko": "자신만의 커스텀 CLI와 MCP 서버를 갖춘 전문화된 에이전트 하네스를 순식간에 스캐폴딩할 수 있는 메타 도구입니다.",
-      "key_features": [],
-      "use_case": "",
+      "key_features": [
+        "커스텀 CLI 및 MCP 서버 순식간에 스캐폴딩",
+        "특정 브랜드에 맞춘 에이전트 환경 구축",
+        "AI 에이전트 도구를 만들기 위한 메타 도구"
+      ],
+      "use_case": "자사 프로덕트나 팀에 특화된 완전히 새로운 에이전트 하네스를 처음부터 빠르게 구축할 때",
       "install_hint": "README 참고",
       "badge": "🔥 Rising",
       "badges": [
@@ -1065,8 +1137,8 @@
       "category": "mcp",
       "score": 62.2,
       "trend_score": 62.2,
-      "stars": 103117,
-      "velocity_7d": 666,
+      "stars": 103119,
+      "velocity_7d": 668,
       "velocity_score": 58.8,
       "growth_rate": 0.0064,
       "v7d_estimated": false,
@@ -1105,8 +1177,12 @@
       "status": "classic",
       "catchphrase": "모든 코드베이스와 문서를 지식 그래프로 변환하는 스킬",
       "summary_ko": "코드, 문서, SQL 스키마, PDF 등을 모두 쿼리 가능한 지식 그래프로 변환하여 에이전트에게 압도적인 탐색 능력을 부여합니다.",
-      "key_features": [],
-      "use_case": "",
+      "key_features": [
+        "코드, 문서, PDF 등을 지식 그래프로 완벽 변환",
+        "에이전트를 위한 쿼리 가능한 컨텍스트 제공",
+        "복잡한 프로젝트의 구조적 이해도 향상"
+      ],
+      "use_case": "수백 개의 파일로 얽힌 거대 프로젝트 구조를 에이전트가 한눈에 파악하게 할 때",
       "install_hint": "README 참고",
       "badge": "⭐ Classic",
       "badges": [
@@ -1131,8 +1207,8 @@
       "category": "agent",
       "score": 61.6,
       "trend_score": 61.6,
-      "stars": 140410,
-      "velocity_7d": 217,
+      "stars": 140409,
+      "velocity_7d": 216,
       "velocity_score": 14.1,
       "growth_rate": 0.0015,
       "v7d_estimated": false,
@@ -1171,8 +1247,12 @@
       "status": "classic",
       "catchphrase": "터미널에서 동작하며 코드베이스를 이해하는 코딩 에이전트",
       "summary_ko": "터미널에 상주하며 프로젝트 전체의 맥락을 완벽히 이해하고 빠른 개발을 돕는 Anthropic의 공식 에이전틱 코딩 도구입니다.",
-      "key_features": [],
-      "use_case": "",
+      "key_features": [
+        "명령어 라인에 상주하는 공식 에이전틱 코딩 도구",
+        "전체 코드베이스 맥락의 완벽한 이해",
+        "Anthropic이 직접 설계한 뛰어난 추론 능력"
+      ],
+      "use_case": "로컬 프로젝트 전반을 빠르게 리팩토링하거나 터미널에서 신규 기능을 구현할 때",
       "install_hint": "README 참고",
       "badge": "⭐ Classic",
       "badges": [
@@ -1226,8 +1306,12 @@
       "status": "classic",
       "catchphrase": "터미널에 Gemini의 강력함을 가져오는 오픈소스 AI 에이전트",
       "summary_ko": "구글 Gemini 모델의 추론 능력을 터미널 환경에 직접 통합하여 코딩 및 시스템 관리를 돕는 공식 오픈소스 CLI입니다.",
-      "key_features": [],
-      "use_case": "",
+      "key_features": [
+        "구글 Gemini 모델 기반 공식 오픈소스 CLI",
+        "터미널에서 직접 AI 추론 기능 통합",
+        "코딩 및 시스템 인프라 관리 고도화"
+      ],
+      "use_case": "Gemini의 강력한 멀티모달 및 추론 능력을 커맨드라인 환경에서 바로 호출하고 싶을 때",
       "install_hint": "README 참고",
       "badge": "⭐ Classic",
       "badges": [
@@ -1252,8 +1336,8 @@
       "category": "mcp",
       "score": 53,
       "trend_score": 53,
-      "stars": 124873,
-      "velocity_7d": 644,
+      "stars": 124877,
+      "velocity_7d": 648,
       "velocity_score": 47,
       "growth_rate": 0.0052,
       "v7d_estimated": false,
@@ -1287,8 +1371,12 @@
       "status": "classic",
       "catchphrase": "모든 코딩 에이전트를 통합하는 크로스 플랫폼 데스크탑 비서",
       "summary_ko": "Claude Code, Codex 등 다수의 에이전트를 하나의 데스크탑 앱에서 쉽게 전환하며 사용할 수 있는 올인원 도구입니다.",
-      "key_features": [],
-      "use_case": "",
+      "key_features": [
+        "다수 코딩 에이전트를 한 번에 전환하는 올인원 앱",
+        "Grok Build, Hermes, Claude Code 통합",
+        "크로스 플랫폼 지원 데스크탑 유틸리티"
+      ],
+      "use_case": "각기 다른 강점을 가진 여러 에이전트를 프로젝트 상황에 맞춰 즉각 스위칭하며 쓸 때",
       "install_hint": "README 참고",
       "badge": "⭐ Classic",
       "badges": [
@@ -1313,8 +1401,8 @@
       "category": "agent",
       "score": 50.9,
       "trend_score": 50.9,
-      "stars": 142603,
-      "velocity_7d": 42,
+      "stars": 142604,
+      "velocity_7d": 43,
       "velocity_score": 2.7,
       "growth_rate": 0.0003,
       "v7d_estimated": false,
@@ -1353,8 +1441,12 @@
       "status": "classic",
       "catchphrase": "주요 AI 코딩 도구들의 시스템 프롬프트 아카이브",
       "summary_ko": "Cursor, Claude Code, Devin 등 유명 AI 코딩 어시스턴트들의 시스템 프롬프트와 모델 설정값을 모아둔 귀중한 자료입니다.",
-      "key_features": [],
-      "use_case": "",
+      "key_features": [
+        "유명 AI 코딩 어시스턴트들의 시스템 프롬프트 총망라",
+        "Cursor, Devin 등 주요 툴 모델 설정값 제공",
+        "커스텀 에이전트 구축을 위한 핵심 참고 자료"
+      ],
+      "use_case": "뛰어난 성능을 내는 상용 코딩 에이전트들의 프롬프트 엔지니어링 비법을 벤치마킹할 때",
       "install_hint": "README 참고",
       "badge": "⭐ Classic",
       "badges": [
@@ -1379,8 +1471,8 @@
       "category": "skill",
       "score": 50.2,
       "trend_score": 50.2,
-      "stars": 226168,
-      "velocity_7d": 800,
+      "stars": 226173,
+      "velocity_7d": 805,
       "velocity_score": 32.2,
       "growth_rate": 0.0035,
       "v7d_estimated": false,
@@ -1419,8 +1511,12 @@
       "status": "classic",
       "catchphrase": "사용자와 함께 성장하는 개인 맞춤형 에이전트",
       "summary_ko": "단순한 명령어 수행을 넘어, 사용자의 작업 패턴을 학습하고 스스로 진화하는 NousResearch의 자율 에이전트입니다.",
-      "key_features": [],
-      "use_case": "",
+      "key_features": [
+        "사용자의 작업 패턴을 학습하며 자가 진화",
+        "단순 명령 수행 이상의 독립적 추론",
+        "NousResearch의 앞선 자율 에이전트 기술력"
+      ],
+      "use_case": "지시된 일만 하는 비서가 아니라 함께 성장하는 진정한 AI 파트너가 필요할 때",
       "install_hint": "README 참고",
       "badge": "⭐ Classic",
       "badges": [
@@ -1445,8 +1541,8 @@
       "category": "skill",
       "score": 49.9,
       "trend_score": 49.9,
-      "stars": 96190,
-      "velocity_7d": 448,
+      "stars": 96191,
+      "velocity_7d": 449,
       "velocity_score": 42.5,
       "growth_rate": 0.0047,
       "v7d_estimated": false,
@@ -1485,8 +1581,12 @@
       "status": "classic",
       "catchphrase": "원시인처럼 말하여 토큰을 65% 절약하는 스킬",
       "summary_ko": "왜 많은 토큰을 쓰나요? 적은 토큰이면 충분합니다. Claude가 원시인처럼 극도로 짧게 말하게 하여 비용을 대폭 줄입니다.",
-      "key_features": [],
-      "use_case": "",
+      "key_features": [
+        "응답 길이를 극단적으로 줄여 토큰 65% 절감",
+        "불필요한 문장 억제(원시인 말투)",
+        "빠른 피드백과 API 통신 비용 최소화"
+      ],
+      "use_case": "과도하게 친절한 AI의 답변 대신 핵심만 빠르게 확인하여 비용과 시간을 아끼고 싶을 때",
       "install_hint": "README 참고",
       "badge": "⭐ Classic",
       "badges": [
@@ -1511,8 +1611,8 @@
       "category": "skill",
       "score": 46.6,
       "trend_score": 46.6,
-      "stars": 113898,
-      "velocity_7d": 581,
+      "stars": 113900,
+      "velocity_7d": 583,
       "velocity_score": 46.5,
       "growth_rate": 0.0051,
       "v7d_estimated": false,
@@ -1535,8 +1635,12 @@
       "status": "classic",
       "catchphrase": "전문적인 UI/UX 설계 지능을 제공하는 스킬",
       "summary_ko": "다양한 플랫폼에 걸쳐 프로덕션 수준의 아름다운 UI/UX 디자인 인텔리전스와 코드를 에이전트에게 부여합니다.",
-      "key_features": [],
-      "use_case": "",
+      "key_features": [
+        "다양한 플랫폼용 프로덕션급 디자인 코드 생성",
+        "전문적인 UI/UX 인텔리전스 제공",
+        "시각적으로 뛰어난 결과물 도출"
+      ],
+      "use_case": "단순 기능 구현을 넘어 완성도 높고 미려한 사용자 인터페이스를 디자인해야 할 때",
       "install_hint": "README 참고",
       "badge": "⭐ Classic",
       "badges": [
@@ -1596,8 +1700,12 @@
       "status": "classic",
       "catchphrase": "실시간 글로벌 인텔리전스 및 지정학 모니터링 대시보드",
       "summary_ko": "AI를 기반으로 글로벌 뉴스, 지정학적 사건, 인프라 추적 데이터를 실시간으로 수집하고 분석하는 모니터링 대시보드입니다.",
-      "key_features": [],
-      "use_case": "",
+      "key_features": [
+        "AI 기반 실시간 글로벌 인텔리전스",
+        "지정학적 사건 및 인프라 추적 대시보드",
+        "글로벌 뉴스 데이터 자동 분석"
+      ],
+      "use_case": "전 세계 주요 뉴스와 인프라 변동 상황을 한눈에 파악하는 종합 관제 센터를 구축할 때",
       "install_hint": "README 참고",
       "badge": "⭐ Classic",
       "badges": [
@@ -1622,8 +1730,8 @@
       "category": "skill",
       "score": 44.5,
       "trend_score": 44.5,
-      "stars": 73355,
-      "velocity_7d": 168,
+      "stars": 73356,
+      "velocity_7d": 169,
       "velocity_score": 20.9,
       "growth_rate": 0.0023,
       "v7d_estimated": false,
@@ -1662,8 +1770,12 @@
       "status": "classic",
       "catchphrase": "Bash만으로 밑바닥부터 만드는 나노 에이전트 하네스",
       "summary_ko": "Bash 스크립트만 사용하여 Claude Code와 유사한 에이전트 하네스를 0에서 1까지 만들어보는 튜토리얼 성격의 도구입니다.",
-      "key_features": [],
-      "use_case": "",
+      "key_features": [
+        "Bash 쉘 스크립트 기반 나노 에이전트 하네스",
+        "0에서 1까지 만들어보는 완벽한 튜토리얼",
+        "최소한의 의존성으로 구동 원리 파악"
+      ],
+      "use_case": "복잡한 코딩 없이 Bash 스크립트만으로 에이전트 하네스의 핵심 동작 방식을 이해할 때",
       "install_hint": "README 참고",
       "badge": "⭐ Classic",
       "badges": [
@@ -1728,8 +1840,12 @@
       "status": "classic",
       "catchphrase": "LLM 토큰 소비를 60-90% 줄여주는 CLI 프록시",
       "summary_ko": "일반적인 개발 명령어 수행 시 토큰 낭비를 극단적으로 줄여주는 프록시. 의존성이 없는 단일 Rust 바이너리로 제공됩니다.",
-      "key_features": [],
-      "use_case": "",
+      "key_features": [
+        "일상적인 개발 명령어의 LLM 토큰 60-90% 절약",
+        "무설치/무의존성의 단일 Rust 바이너리",
+        "백그라운드에서 동작하는 고효율 프록시"
+      ],
+      "use_case": "에이전트 사용 빈도가 높아 API 토큰 비용 압박이 심할 때 투명하게 비용을 감축하고자 할 때",
       "install_hint": "README 참고",
       "badge": "⭐ Classic",
       "badges": [
@@ -1754,8 +1870,8 @@
       "category": "skill",
       "score": 37.4,
       "trend_score": 37.4,
-      "stars": 89767,
-      "velocity_7d": 182,
+      "stars": 89769,
+      "velocity_7d": 184,
       "velocity_score": 18.5,
       "growth_rate": 0.002,
       "v7d_estimated": false,
@@ -1794,8 +1910,12 @@
       "status": "classic",
       "catchphrase": "모든 에이전트를 위한 세션 간 영구 컨텍스트 저장소",
       "summary_ko": "에이전트가 세션 동안 수행한 모든 작업을 포착하고 압축하여 다음 세션에서도 기억을 유지할 수 있게 해줍니다.",
-      "key_features": [],
-      "use_case": "",
+      "key_features": [
+        "에이전트의 모든 작업 이력을 자동 포착 및 압축",
+        "어떤 에이전트와도 호환되는 세션 간 메모리",
+        "컨텍스트 유실 방지"
+      ],
+      "use_case": "이전 세션에서 해결했던 문제의 맥락을 다음 세션에서도 그대로 이어나가고 싶을 때",
       "install_hint": "README 참고",
       "badge": "⭐ Classic",
       "badges": [
@@ -1820,8 +1940,8 @@
       "category": "skill",
       "score": 36.8,
       "trend_score": 36.8,
-      "stars": 71898,
-      "velocity_7d": 126,
+      "stars": 71900,
+      "velocity_7d": 128,
       "velocity_score": 16,
       "growth_rate": 0.0018,
       "v7d_estimated": false,
@@ -1860,8 +1980,12 @@
       "status": "classic",
       "catchphrase": "Claude 스킬과 커스텀 워크플로우를 위한 훌륭한 리소스 모음",
       "summary_ko": "Claude AI의 성능을 극대화할 수 있는 유용한 스킬, 도구, 커스텀 워크플로우 리소스를 큐레이션한 목록입니다.",
-      "key_features": [],
-      "use_case": "",
+      "key_features": [
+        "Claude AI 성능 극대화를 위한 방대한 리소스 큐레이션",
+        "검증된 스킬과 커스텀 워크플로우 모음",
+        "커뮤니티 주도의 베스트 프랙티스 공유"
+      ],
+      "use_case": "내 워크플로우를 자동화할 뛰어난 기존 스킬이나 유용한 레퍼런스를 빠르게 찾고 싶을 때",
       "install_hint": "README 참고",
       "badge": "⭐ Classic",
       "badges": [
