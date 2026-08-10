@@ -16,7 +16,7 @@
   <!-- Version pill (right side) -->
   <g transform="translate(940, 64)">
     <rect x="0" y="0" width="200" height="36" rx="18" fill="#f2efe5"/>
-    <text x="100" y="23" font-size="13" font-weight="600" fill="#0e0e0e" text-anchor="middle">📅 2026.08.06 · v2026.08.06</text>
+    <text x="100" y="23" font-size="13" font-weight="600" fill="#0e0e0e" text-anchor="middle">📅 2026.08.10 · v2026.08.10</text>
   </g>
 
   <!-- Main title -->
@@ -34,7 +34,7 @@
 
       <g transform="translate(24, 220)">
         <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">vshulcz/deja-vu</text>
-        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 580</text>
+        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 616</text>
       </g>
     </g>
     <g transform="translate(427, 290)">
@@ -46,7 +46,7 @@
 
       <g transform="translate(24, 220)">
         <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">omnigent-ai/omnigent</text>
-        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 8.2k</text>
+        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 8.4k</text>
       </g>
     </g>
     <g transform="translate(794, 290)">
@@ -58,7 +58,7 @@
 
       <g transform="translate(24, 220)">
         <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">gakonst/nanocodex</text>
-        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 363</text>
+        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 380</text>
       </g>
     </g>
 
