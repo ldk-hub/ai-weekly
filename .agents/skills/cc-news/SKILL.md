@@ -15,7 +15,7 @@ description: "지난 24시간의 AI 기술 신호(모델 출시·제품 기능·
 | Hacker News | Algolia `search_by_date` (10개 쿼리, points≥15) | |
 | AI타임스 | RSS `aitimes.com/rss/allArticle.xml` | |
 | Reddit | `r/<sub>/top/.rss?t=day` × 5서브 | 무인증 200, IP throttle 있음 |
-| GitHub | Search API (신생 저star 리포 포함) | `GH_TOKEN` 필요 |
+| GitHub | Search API (최근 7~30일 생성 + 급상승 핫이슈 위주) | `GH_TOKEN` 필요 |
 | X (Twitter) | `last30days` 스킬 경유 | 직접 스크래핑 불가 |
 | Threads | `last30days` 스킬 경유 | 직접 스크래핑 불가 |
 
@@ -98,7 +98,10 @@ node scripts/news/curate_news.js --validate                         # 배포 전
 **2-B. 에이전트 직접 작성 (키 없을 때)**
 후보 파일을 읽고 직접 판정·번역·요약해 `news_latest.json` 을 쓴다. 이때:
 
-- **`id`·`url`·`publish_date`·`author_profile` 은 후보 파일에서 복사한다.** 새로 만들거나 요약하지 않는다
+- **매체별 균형 (핵심):** 수집된 전체 후보 중 단일 매체에 편중되지 않도록, **각 플랫폼당 3~5건씩** 골고루 선별하여 큐레이션해야 한다. 귀찮다고 1~2개만 하고 끝내거나 특정 매체를 통째로 누락하는 것은 **절대 금지**다.
+- **GitHub 핫이슈 우선:** 단순히 오늘 생성된 리포지토리가 아니라, 커뮤니티에서 별 20~100개 이상을 획득하며 급상승하는 '핫이슈'를 선별한다.
+- **`id`·`url`·`publish_date`·`author_profile` 은 후보 파일에서 복사한다.** 새로 만들거나 요약하지 않는다 (작성 시 `publish_date` 원본 일치 여부 철저히 확인).
+- **`body_ko` 길이 엄수:** 반드시 **5~10문장**이어야 한다. 작성 후 스스로 문장 부호(`.`) 개수를 세어 검증 절차에 걸리지 않도록 철저히 확인한다.
 - **후보 파일에 없는 항목을 추가하지 않는다.** 기억이나 별도 검색으로 알게 된 기사도 안 된다 — 다음 수집에 잡힌다
 - 필수 필드(`signal_name`·`sources`·`metrics`·`category_id`·`curated_by`)를 빼지 않는다
 - 작성 후 **반드시** `--validate` 를 돌리고, 통과 전에는 커밋하지 않는다
