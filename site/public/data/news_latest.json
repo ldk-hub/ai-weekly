@@ -1,6 +1,6 @@
 {
   "curated_by": "ldk-hub",
-  "summary": "ldk-hub에서 큐레이션 하였습니다. 총 10건의 최신 AI 기술 소식을 전달합니다.",
+  "summary": "ldk-hub에서 큐레이션 하였습니다. 총 11건의 최신 AI 기술 소식을 전달합니다.",
   "news": [
     {
       "id": "geeknews_9b44e7e044",
@@ -83,27 +83,6 @@
       "metrics": {},
       "sources": [
         "hackernews"
-      ],
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "github_ed6df91d67",
-      "title_ko": "TurboFieldfare: 8GB 맥북에서 Gemma 4 26B 모델을 구동하는 Swift 런타임",
-      "title_en": "TurboFieldfare: Run Gemma 4 26B on 8GB MacBooks",
-      "summary_ko": "• 260억 파라미터의 Gemma 4 26B 모델을 8GB RAM을 장착한 M시리즈 맥북에서 약 2GB 메모리만 사용하여 구동합니다.\n• 모델 전체를 메모리에 올리지 않고, 공유 코어와 KV 캐시만 유지한 채 각 토큰에 필요한 전문가(Expert) 웨이트만 SSD에서 스트리밍합니다.\n• MLX 래퍼가 아닌 Swift와 Metal로 직접 작성된 맞춤형 런타임으로, M2 에어에서 초당 5~6 토큰의 디코딩 속도를 보여줍니다.",
-      "body_ko": "개인 개발자가 8GB 메모리 맥북에서도 26B 파라미터의 거대 모델을 돌릴 수 있게 해주는 TurboFieldfare 오픈소스를 공개했습니다. 비결은 14GB에 달하는 모델을 한 번에 RAM에 올리는 대신, 필요한 전문가 웨이트(MoE)만 SSD에서 실시간으로 스트리밍하는 구조에 있습니다. 이를 통해 실제 메모리 사용량을 2GB 수준으로 억제했습니다. 범용 프레임워크인 MLX나 llama.cpp에 의존하지 않고 Swift와 Metal을 활용해 바닥부터 새로 짰으며, GUI 앱과 CLI, OpenAI 호환 서버 기능까지 모두 내장하고 있어 로컬 AI 사용자들에게 큰 주목을 받고 있습니다. 특히 값비싼 최상위 장비 없이도 최신 언어 모델을 개인 환경에서 연구하고 실험할 수 있는 진입 장벽을 대폭 낮췄다는 점에서 의미가 큽니다.",
-      "body_en": "An independent developer has released TurboFieldfare, a custom Swift and Metal runtime that enables running the 26B parameter Gemma 4 model on entry-level 8GB MacBooks. Instead of loading the entire 14GB model into RAM, it keeps only the 1.35GB core and KV cache in memory while streaming the necessary expert weights directly from the SSD per token. This keeps RAM usage around 2GB. Built from scratch without relying on MLX or llama.cpp, it achieves 5-6 tokens per second on an M2 Air and includes a native Mac app and OpenAI-compatible server.",
-      "signal_id": "oss",
-      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
-      "importance": 90,
-      "category_id": "github",
-      "category_name": "GitHub",
-      "url": "https://github.com/drumih/turbo-fieldfare",
-      "author_profile": "drumih",
-      "publish_date": "2026-08-11T17:37:40.000Z",
-      "metrics": {},
-      "sources": [
-        "github"
       ],
       "curated_by": "ldk-hub"
     },
@@ -192,20 +171,62 @@
       "curated_by": "ldk-hub"
     },
     {
-      "id": "github_8c71293d91",
-      "title_ko": "Cindy: 즉시 실전 업무 투입이 가능한 오픈소스 AI 에이전트",
-      "title_en": "Cindy: The open-source AI agent that works out of the box",
-      "summary_ko": "• 복잡한 설정 없이 데스크톱과 모바일에서 곧바로 실행하여 실제 로컬 파일과 앱을 제어할 수 있는 오픈소스 AI 에이전트 'Cindy'가 공개되었습니다.\n• Claude Code나 Codex 등 다양한 모델과 하네스를 자유롭게 섞어 쓰면서 하나의 태스크를 병렬로 계획하고 검토할 수 있는 아키텍처를 갖췄습니다.\n• 사용자의 수정 사항을 영구적으로 기억하고, MCP를 통해 사내 도구와 연동하며, 반복 업무를 자동화하는 등 실무에 최적화된 확장성을 제공합니다.",
-      "body_ko": "즉시 실무에 투입할 수 있도록 '개봉 즉시 사용(Out of the box)'을 표방한 오픈소스 AI 에이전트 Cindy가 릴리즈되었습니다. 기존 에이전트들이 복잡한 CLI 설정이나 서버 구축을 요구했던 것과 달리, 네이티브 데스크톱 및 모바일 앱 형태로 제공되어 접근성이 매우 뛰어납니다. 사용자의 실제 로컬 파일과 시스템 환경을 기반으로 작동하며, 작업 도중에도 Claude Code에서 다른 모델로 유연하게 전환할 수 있는 멀티 하네스 시스템을 채택했습니다. 사용자가 작업 방식을 한 번만 교정해주면 이를 메모리에 영구 저장하여 점진적으로 똑똑해집니다. 향후 팀 단위의 스킬 공유와 오픈 마켓플레이스까지 염두에 두고 있어 생태계 확장이 기대됩니다.",
-      "body_en": "Cindy is a newly released open-source AI agent designed to work out of the box without complex setups. Available as desktop and mobile apps, it operates locally on your machine, interacting directly with your files and applications. It supports multiple harnesses like Claude Code and Codex, allowing users to switch models mid-task while retaining workspace memory. Cindy learns from user corrections, supports MCP for internal tool integrations, and can automate recurring tasks. Its open architecture, licensed under Apache-2.0, positions it as a highly scalable assistant ready for real-world daily workflows.",
-      "signal_id": "oss",
-      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
-      "importance": 86,
+      "id": "github_52c42de3c3",
+      "title_ko": "grok-build: xAI가 공개한 코딩 에이전트 하네스 및 TUI",
+      "title_en": "grok-build: xAI's coding agent harness and TUI",
+      "summary_ko": "• xAI에서 코딩 에이전트를 위한 하네스 및 풀스크린 TUI 도구인 grok-build를 오픈소스로 공개했습니다.\n• 마우스 인터랙션을 지원하며 확장성이 뛰어난 터미널 환경을 제공하여 개발자 친화적인 에이전트 구동 환경을 구축할 수 있습니다.\n• 단기간에 2만 4천 개 이상의 별(Star)을 받으며 전 세계 AI 개발자들의 폭발적인 관심을 끌고 있습니다.",
+      "body_ko": "xAI가 코드 작성과 에이전트 관리에 최적화된 새로운 하네스 도구인 'grok-build'를 릴리스했습니다. 이 프로젝트는 단순한 스크립트 실행기를 넘어, 전체 화면(TUI) 기반의 유려한 인터페이스와 마우스 조작까지 완벽하게 지원합니다. 덕분에 개발자들은 복잡한 에이전트의 작업 과정을 터미널에서 훨씬 직관적으로 모니터링하고 개입할 수 있게 되었습니다. 확장성이 뛰어나 다양한 서드파티 에이전트와 결합하기 쉬운 구조로 설계되었습니다. 공개 직후 단숨에 2만 4천 개 이상의 GitHub Star를 돌파하며 강력한 팬덤과 실용성을 동시에 입증하고 있습니다.",
+      "body_en": "xAI has released 'grok-build', a new harness tool optimized for coding agents and development workflows. Beyond a simple script runner, it offers a fullscreen Terminal User Interface (TUI) with full mouse support, allowing developers to intuitively monitor and interact with their agents. Its highly extensible design makes it easy to integrate with various third-party AI models. The project has already garnered over 24,000 GitHub stars shortly after its launch, proving both its massive popularity and practical utility in the developer community.",
+      "signal_id": "devtool",
+      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
+      "importance": 95,
       "category_id": "github",
       "category_name": "GitHub",
-      "url": "https://github.com/makecindy/cindy",
-      "author_profile": "makecindy",
-      "publish_date": "2026-08-12T00:30:37.000Z",
+      "url": "https://github.com/xai-org/grok-build",
+      "author_profile": "xai-org",
+      "publish_date": "2026-08-11T20:25:27.000Z",
+      "metrics": {},
+      "sources": [
+        "github"
+      ],
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "github_bc4d73f421",
+      "title_ko": "qm: 다중 사용자와 에이전트를 위한 협업 하네스",
+      "title_en": "qm: Multiplayer agent harness for work",
+      "summary_ko": "• 여러 사용자와 AI 에이전트가 동시에 참여해 작업을 수행할 수 있는 멀티플레이어 하네스 'qm'이 공개되었습니다.\n• 팀 단위의 복잡한 워크플로우를 에이전트가 분담하고 조율할 수 있도록 설계된 기업형 협업 도구입니다.\n• 1만 3천 개 이상의 Star를 받으며 향후 B2B AI 자동화 시장에서의 핵심 잠재력을 인정받고 있습니다.",
+      "body_ko": "단일 사용자와 에이전트의 1:1 관계를 넘어, 팀 전체가 참여할 수 있는 멀티플레이어 에이전트 하네스 'qm'이 큰 화제입니다. 이 도구는 여러 개발자나 작업자가 다수의 AI 에이전트와 동시에 소통하며 복잡한 프로젝트를 함께 진행할 수 있는 환경을 제공합니다. 기존 에이전트들이 개인화된 데스크톱 도구에 머물렀다면, qm은 철저하게 팀 워크플로우와 B2B 협업을 타겟으로 설계되었습니다. 최근 1만 3천 개가 넘는 Star를 달성하는 등 폭발적으로 성장하고 있습니다. 앞으로 기업들의 AI 도입과 자동화 파이프라인 구축에 핵심적인 역할을 할 것으로 기대됩니다.",
+      "body_en": "Moving beyond 1:1 interactions, 'qm' introduces a multiplayer agent harness designed for team-wide collaboration. It allows multiple developers and AI agents to communicate and work together on complex projects simultaneously. Unlike existing agents that function primarily as personalized desktop tools, qm is explicitly built for B2B workflows and team synchronization. The project is experiencing explosive growth, quickly surpassing 13,000 GitHub stars. It is highly anticipated to play a core role in enterprise AI adoption and automated pipelines.",
+      "signal_id": "devtool",
+      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
+      "importance": 90,
+      "category_id": "github",
+      "category_name": "GitHub",
+      "url": "https://github.com/yc-software/qm",
+      "author_profile": "yc-software",
+      "publish_date": "2026-08-12T00:43:51.000Z",
+      "metrics": {},
+      "sources": [
+        "github"
+      ],
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "github_08dd754836",
+      "title_ko": "Comp AI CRM: AI 에이전트 중심의 오픈소스 CRM",
+      "title_en": "Comp AI CRM: Agentic-first CRM",
+      "summary_ko": "• 사람이 기록하는 것이 아니라 AI 에이전트가 스스로 데이터를 조사하고 입력하는 '에이전트 퍼스트' 오픈소스 CRM이 출시되었습니다.\n• 백그라운드에서 스케줄에 따라 독립적으로 실행되며, 불확실한 정보는 추측하지 않고 확실한 근거가 있는 데이터만 기록합니다.\n• TypeScript, Postgres, Bun 등으로 구축되었으며, 사람의 단순 반복 업무를 완전히 자동화하는 데 초점을 맞추고 있습니다.",
+      "body_ko": "사람을 돕기 위해 챗봇을 끼워 넣은 기존 CRM과 달리, 처음부터 AI 에이전트가 단독으로 운영하도록 설계된 'Comp AI CRM'이 등장했습니다. 이 시스템에서 CRM은 사람이 일하는 화면이 아니라, 에이전트가 수집한 정보를 보관하는 거대한 노트(DB) 역할을 합니다. 에이전트는 백그라운드에서 독자적인 스케줄에 따라 잠재 고객을 조사하고 메일 기록을 분석해 스스로 빈칸을 채워 넣습니다. 특히 모호한 데이터를 억지로 유추하지 않고 확실한 근거가 있을 때만 확정 짓는 엄격한 규칙을 적용해 신뢰성을 높였습니다. 영업 담당자들이 정보 검색과 입력에 낭비하던 시간을 획기적으로 줄여줄 것으로 평가받고 있습니다.",
+      "body_en": "Unlike traditional CRMs that merely bolt an AI chatbot onto the side, 'Comp AI CRM' is an open-source, agentic-first platform designed to run autonomously. Here, the CRM serves as a notebook for the agent, rather than a workspace for humans. Operating independently in the background, the agent researches leads, analyzes meeting threads, and populates fields on its own schedule. It enforces a strict rule of never guessing uncertain data; it only records facts backed by strong evidence, ensuring high reliability. This innovative approach is praised for potentially eliminating the tedious data entry and research tasks that burden sales teams.",
+      "signal_id": "oss",
+      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
+      "importance": 88,
+      "category_id": "github",
+      "category_name": "GitHub",
+      "url": "https://github.com/trycompai/crm",
+      "author_profile": "trycompai",
+      "publish_date": "2026-08-12T01:15:03.000Z",
       "metrics": {},
       "sources": [
         "github"
