@@ -1,6 +1,6 @@
 {
   "curated_by": "ldk-hub",
-  "summary": "ldk-hub에서 큐레이션 하였습니다. 2건의 기술 소식을 전달합니다.",
+  "summary": "ldk-hub에서 큐레이션 하였습니다. 5건의 최신 AI 기술 소식을 전달합니다.",
   "news": [
     {
       "id": "geeknews_9b44e7e044",
@@ -38,6 +38,63 @@
       "publish_date": "2026-08-12T00:30:02.000Z",
       "metrics": {},
       "sources": ["geeknews"],
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "aitimes_17d8593a07",
+      "title_ko": "구글 '제미나이 3.7 플래시' 파이썬 SDK 코드 포착... 출시 임박",
+      "title_en": "Google 'Gemini 3.7 Flash' code spotted in Python SDK... launch imminent",
+      "summary_ko": "• 구글 공식 파이썬 젠AI SDK에 '제미나이 3.7 플래시' 모델 옵션이 추가된 것이 확인되었습니다.\n• 플래시 계열은 약 두 달 간격으로 빠르게 세대교체가 이루어지고 있으며, 소형·고효율 모델 전략에 집중하고 있습니다.\n• 대규모 자동화 작업과 AI 에이전트에 적합한 저지연 모델로, 조만간 개발자 프리뷰나 API로 공개될 가능성이 높습니다.",
+      "body_ko": "구글의 차세대 경량 모델 '제미나이 3.7 플래시' 출시가 임박한 정황이 공식 파이썬 SDK에서 포착되었습니다. 아직 공식 발표는 없지만, 구글이 직접 관리하는 개발자 도구에 모델명이 추가된 것은 강력한 출시 신호입니다. 구글은 이전 3.5 플래시(5월)와 3.6 플래시(7월)에 이어 불과 몇 주 만에 다음 버전을 준비하며 플래시 계열의 업데이트 주기를 크게 앞당기고 있습니다. 대규모 플래그십 모델 개발이 다소 지연되는 가운데, 빠르고 저렴한 소형 모델을 통해 AI 에이전트와 자동화 시장의 점유율을 확보하려는 구글의 전략이 엿보입니다. 이러한 행보는 향후 온디바이스 AI 기기에서의 성능 우위를 점하기 위한 포석으로도 풀이됩니다.",
+      "body_en": "Signs of Google's upcoming lightweight model, Gemini 3.7 Flash, have been spotted in the official Python SDK. Although there has been no official announcement, the addition of the model name to developer tools directly managed by Google is a strong signal of an imminent launch. Google is accelerating its Flash series update cycle, with only a few weeks passing since the 3.6 Flash release in July. This indicates a strategic focus on providing fast, low-cost models suited for AI agents and automation.",
+      "signal_id": "model",
+      "signal_name": "새 모델·버전 출시·프리뷰·벤치마크",
+      "importance": 80,
+      "category_id": "aitimes",
+      "category_name": "AI타임스",
+      "url": "https://www.aitimes.com/news/articleView.html?idxno=213793",
+      "author_profile": "박찬 기자",
+      "publish_date": "2026-08-11T09:18:18.000Z",
+      "metrics": {},
+      "sources": ["aitimes"],
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hackernews_180bb44976",
+      "title_ko": "macOS 가상머신에서 llama.cpp로 LLM 추론 속도 16배 향상",
+      "title_en": "Faster LLM Inference with llama.cpp on Apple Silicon and macOS VMs",
+      "summary_ko": "• Apple Silicon macOS 가상머신(VM) 환경에서 Metal 호환성 레이어를 적용하여 LLM 추론 속도를 11~16배 향상시켰습니다.\n• 가상 GPU가 최신 커널을 지원하지 않는다고 보고하던 문제를, 프로세스 스코프의 Metal shim을 주입해 해결했습니다.\n• 12B 및 30B 모델 테스트 결과, 네이티브 호스트(베어메탈) 대비 95~99% 수준의 성능을 가상머신에서 달성했습니다.",
+      "body_ko": "Apple Silicon 환경의 macOS 가상머신에서 발생하던 심각한 GPU 성능 저하 원인을 규명하고 해결한 연구가 공개되었습니다. 기본적으로 macOS VM의 가상 GPU는 보수적인 하드웨어 스펙을 보고하여, llama.cpp 같은 최신 LLM 도구들이 느린 구형 Metal 커널을 선택하게 만듭니다. 연구진은 단일 프로세스에만 작용하는 Metal 호환성 레이어(shim)를 개발해 이 문제를 우회했습니다. 이를 적용한 결과, TinyLlama 1.1B부터 30B 모델까지 토큰 생성 속도가 최대 16배 빨라졌으며, 호스트 머신(베어메탈) 성능의 95% 이상을 VM에서 온전히 끌어낼 수 있게 되었습니다. 개발자들은 이 우회 기법이 향후 클라우드 기반 Mac 인프라나 로컬 에이전트 환경에서 큰 비용 절감을 가져올 것으로 기대하고 있습니다.",
+      "body_en": "Researchers have resolved a severe GPU performance bottleneck for LLM inference inside Apple Silicon macOS virtual machines. macOS VMs typically report conservative GPU capabilities, causing tools like llama.cpp to fall back on slower Metal kernels. By introducing a process-scoped Metal capability shim, they forced the selection of modern kernels. This simple layer increased prompt processing and token generation speeds by 11–16x, allowing VMs to reach over 95% of bare-metal host performance across various models.",
+      "signal_id": "research",
+      "signal_name": "연구·논문·새 기법",
+      "importance": 82,
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "url": "https://github.com/trycua/cua/blob/main/blog/gpu-passthrough-macos-vms.md",
+      "author_profile": "@frabonacci",
+      "publish_date": "2026-08-11T14:50:33.000Z",
+      "metrics": {},
+      "sources": ["hackernews"],
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "github_ed6df91d67",
+      "title_ko": "TurboFieldfare: 8GB 맥북에서 Gemma 4 26B 모델을 구동하는 Swift 런타임",
+      "title_en": "TurboFieldfare: Run Gemma 4 26B on 8GB MacBooks",
+      "summary_ko": "• 260억 파라미터의 Gemma 4 26B 모델을 8GB RAM을 장착한 M시리즈 맥북에서 약 2GB 메모리만 사용하여 구동합니다.\n• 모델 전체를 메모리에 올리지 않고, 공유 코어와 KV 캐시만 유지한 채 각 토큰에 필요한 전문가(Expert) 웨이트만 SSD에서 스트리밍합니다.\n• MLX 래퍼가 아닌 Swift와 Metal로 직접 작성된 맞춤형 런타임으로, M2 에어에서 초당 5~6 토큰의 디코딩 속도를 보여줍니다.",
+      "body_ko": "개인 개발자가 8GB 메모리 맥북에서도 26B 파라미터의 거대 모델을 돌릴 수 있게 해주는 TurboFieldfare 오픈소스를 공개했습니다. 비결은 14GB에 달하는 모델을 한 번에 RAM에 올리는 대신, 필요한 전문가 웨이트(MoE)만 SSD에서 실시간으로 스트리밍하는 구조에 있습니다. 이를 통해 실제 메모리 사용량을 2GB 수준으로 억제했습니다. 범용 프레임워크인 MLX나 llama.cpp에 의존하지 않고 Swift와 Metal을 활용해 바닥부터 새로 짰으며, GUI 앱과 CLI, OpenAI 호환 서버 기능까지 모두 내장하고 있어 로컬 AI 사용자들에게 큰 주목을 받고 있습니다. 특히 값비싼 최상위 장비 없이도 최신 언어 모델을 개인 환경에서 연구하고 실험할 수 있는 진입 장벽을 대폭 낮췄다는 점에서 의미가 큽니다.",
+      "body_en": "An independent developer has released TurboFieldfare, a custom Swift and Metal runtime that enables running the 26B parameter Gemma 4 model on entry-level 8GB MacBooks. Instead of loading the entire 14GB model into RAM, it keeps only the 1.35GB core and KV cache in memory while streaming the necessary expert weights directly from the SSD per token. This keeps RAM usage around 2GB. Built from scratch without relying on MLX or llama.cpp, it achieves 5-6 tokens per second on an M2 Air and includes a native Mac app and OpenAI-compatible server.",
+      "signal_id": "oss",
+      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
+      "importance": 90,
+      "category_id": "github",
+      "category_name": "GitHub",
+      "url": "https://github.com/drumih/turbo-fieldfare",
+      "author_profile": "drumih",
+      "publish_date": "2026-08-11T17:37:40.000Z",
+      "metrics": {},
+      "sources": ["github"],
       "curated_by": "ldk-hub"
     }
   ]
