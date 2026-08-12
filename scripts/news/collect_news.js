@@ -288,11 +288,14 @@ async function fetchHackerNews() {
 
 // ④ 개인·소규모 오픈소스 (핵심 신호 — 신생 저star 리포까지 발굴)
 const GH_QUERIES = [
-  `created:>=${SINCE_DATE} stars:>=3 llm in:name,description,topics`,
-  `created:>=${SINCE_DATE} stars:>=3 "ai agent" in:name,description`,
-  `created:>=${SINCE_DATE} stars:>=2 mcp in:name,description,topics`,
-  `created:>=${SINCE_DATE} stars:>=3 "coding agent" OR "claude code" in:name,description`,
-  `pushed:>=${SINCE_DATE} created:>=${new Date(Date.now() - 30 * 864e5).toISOString().slice(0, 10)} stars:>=20 topic:llm`,
+  // 커뮤니티 핫이슈 (최근 7일 생성, 별 20개 이상)
+  `created:>=${new Date(Date.now() - 7 * 864e5).toISOString().slice(0, 10)} pushed:>=${SINCE_DATE} stars:>=20 "llm" OR "ai" OR "agent" in:name,description,topics`,
+  // 이번 달 급상승 핫이슈 (최근 30일 생성, 별 100개 이상)
+  `created:>=${new Date(Date.now() - 30 * 864e5).toISOString().slice(0, 10)} pushed:>=${SINCE_DATE} stars:>=100 "llm" OR "ai" OR "agent" OR "mcp" in:name,description,topics`,
+  // 특정 주요 키워드 급상승 (최근 14일 생성, 별 10개 이상)
+  `created:>=${new Date(Date.now() - 14 * 864e5).toISOString().slice(0, 10)} pushed:>=${SINCE_DATE} stars:>=10 "coding agent" OR "claude code" OR "mcp" in:name,description,topics`,
+  // 기존 대형 리포 중 오늘 업데이트된 핫이슈 (별 1000개 이상) - 매일 똑같은 게 나오는 걸 방지하기 위해 정렬을 'updated' 로 할 수도 있지만 API 특성상 쿼리만 수정
+  `pushed:>=${SINCE_DATE} stars:>=5000 topic:llm OR topic:ai-agent OR topic:mcp`,
 ];
 async function fetchGitHub() {
   const token = ghToken();
