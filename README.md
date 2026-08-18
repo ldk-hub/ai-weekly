@@ -2,192 +2,188 @@
 
 # AI위클리 <sub>· AI Weekly</sub>
 
-**최신 AI 트렌드와 이번 주 Claude Code 도구 생태계를 한 눈에.**
+**최신 AI 기술 신호와 Claude Code 에이전트 생태계를 한눈에 조망하는 데이터 파이프라인**
 
-**AI 뉴스(3줄 요약)**와 매주 수집되는 **Claude Code 인기 플러그인 인덱스**, 그리고 리포 스타 증감을 추적하는 **스타보드**를 제공합니다.
+매일 엄선되는 **AI 뉴스(3줄 요약 & 심층 해설)**, 매주 수집·분석되는 **Claude Code 트렌드 인덱스**, 그리고 오픈소스 성장세를 추적하는 **스타보드(Starboard)**를 전자동으로 제공합니다.
 
-[🌐 사이트](https://ldk-hub.github.io/ai-weekly/) ·
-[📡 RSS](https://ldk-hub.github.io/ai-weekly/feed.xml) ·
-[⭐ Star](https://github.com/ldk-hub/ai-weekly)
+[🌐 라이브 사이트](https://ldk-hub.github.io/ai-weekly/) ·
+[📡 RSS 피드](https://ldk-hub.github.io/ai-weekly/feed.xml) ·
+[📰 뉴스 RSS](https://ldk-hub.github.io/ai-weekly/news-feed.xml) ·
+[⭐ GitHub](https://github.com/ldk-hub/ai-weekly)
 
 ![Built with Claude Code](https://img.shields.io/badge/Built%20with-Claude%20Code-D97757?style=flat-square)
 ![Auto Updated](https://img.shields.io/badge/Updated-Daily%20&%20Weekly-22c55e?style=flat-square)
 ![License](https://img.shields.io/badge/License-MIT-0e0e0e?style=flat-square)
-![Responsive UX](https://img.shields.io/badge/UX-Mobile_Responsive_%26_Clean_URLs-blue?style=flat-square)
+![Vite + Static](https://img.shields.io/badge/Stack-Vite%20%7C%20Vanilla%20JS%20%7C%20Node.js-blue?style=flat-square)
 
 </div>
 
 ---
 
-## 1부: 📰 AI 뉴스 (AI News)
+## 💡 프로젝트 핵심 가치 (Engineering Highlights)
 
-쏟아지는 AI 모델 릴리스, 개발자 도구, 오픈소스, 연구 소식. 어디서부터 봐야 할지 모르는 분들을 위해 **최근 24시간 안에 나온 것**만 골라 **3줄 요약**으로 전달합니다. (갱신 주기는 고정되어 있지 않고, 사이트에는 실제 갱신 시각만 표시합니다.)
+> **"신뢰할 수 있는 데이터, LLM 환각을 원천 차단하는 엄격한 품질 게이트, 그리고 완벽히 자동화된 정적 배포"**
+
+- **결정적 수집(Deterministic Collection) + 지능형 큐레이션**: 사실 데이터(Stars, 날짜, URL, 작성자)는 코드로 강제 고정하고, 맥락 분석 및 번역만 에이전트/LLM에 위임하여 환각(Hallucination)을 0%로 차단합니다.
+- **다단계 품질 게이트 (Automated Quality Gates)**: 3불릿 요약 규격, 5~10문장 심층 해설, 원문 복붙 탐지, 금융/광고 필터, 플랫폼 균형 배분 등을 CLI 검증기(`--validate`)로 자동 검사합니다.
+- **성장률 기반 코호트 정규화 (Growth-Rate Cohort Normalization)**: 절대 스타 수에 치우치지 않고, 주간 성장률(Velocity)과 커뮤니티 반응(Buzz)을 종합한 4축 스코어링으로 진짜 떠오르는 라이징 프로젝트를 발굴합니다.
+- **Vite 기반 초경량 아키텍처**: 빌드 시간 0.2초 미만의 정적 번들링과 순수 JSON 기반 아카이빙으로 외부 백엔드 의존성 없이 무중단 운영됩니다.
+
+---
+
+## 1부: 📰 AI 뉴스 (AI News / `cc-news`)
+
+쏟아지는 모델 릴리스, 제품 기능, 오픈소스, 논문 소식 중에서 **최근 24시간 동안 발생한 진짜 기술 신호**만을 수집하여 **3줄 요약과 5~10문장 한국어 해설**로 제공합니다.
 
 ### 📌 주요 특징
-- **기술 신호 6축 수집**: 모델 출시·제품 신기능·개발자 도구/에이전트·**개인 오픈소스**·연구/논문·활용 워크플로우. 정책/규제는 기술 영향이 큰 것만 간략히.
-- **광범위한 데이터 수집**: GeekNews, Hacker News, GitHub, arXiv, Reddit, 그리고 last30days 스킬 경유 X/Threads/YouTube.
-- **본문까지 확보**: 제목만 긁지 않고 원문 HTML·GitHub README·arXiv abstract 를 가져와 요약 근거로 삼습니다.
-- **AI 큐레이션**: 스크랩이 아니라 **재작성**. Gemini 가 한국어로 번역하고 3불릿 요약 + 5~10문장 해설을 새로 씁니다. 원문 복붙·미번역은 품질 게이트가 걸러냅니다.
+- **기술 신호 6축 분류**: 모델 출시(`model`), 제품 기능(`product`), 개발자 도구/에이전트(`devtool`), 개인 오픈소스(`oss`), 연구/논문(`research`), 실무 워크플로우(`practice`) (+영향력 큰 `policy`).
+- **7개 고정 매체 수집**: GeekNews, Hacker News, AI타임스, Reddit, GitHub, X (Twitter), Threads. (24시간 시간창 계약을 엄수하기 위해 발행 주기가 긴 매체는 제외).
+- **원문 스크랩이 아닌 '재작성'**: 원문 HTML과 GitHub README를 분석하여 ①무엇이 일어났나 ②기술적으로 무엇이 새로운가 ③개발자에게 왜 중요한가를 완결된 한국어 문장으로 작성합니다.
+- **플랫폼 균형 선별**: 특정 매체에 편중되지 않도록 플랫폼별 3~5건씩 균형 있게 선별합니다.
 
-### ⚙️ 어떻게 굴러가나 (파이프라인)
+### ⚙️ 파이프라인 흐름
 ```
-collect_news.js ─→ curate_news.js ─→ news_latest.json ─→ 🌐
-(결정적 수집·본문·중복제거)  (Gemini 분류·번역·요약 + 품질 게이트)
+collect_news.js ───────→ curate_news.js ───────→ --validate 검증 ───────→ news_latest.json
+(7개 매체 병렬 수집)     (신호 분류·번역·해설)     (품질/규격 100% 통과)      (+ 아카이브/RSS 갱신)
 ```
-- **수집 (`scripts/collect_news.js`)**: 최근 24시간 6개 소스 병렬 수집 → 본문 보강 → URL·제목 중복 제거 → `data/news_candidates.json`. LLM 미사용
-- **큐레이션 (`scripts/curate_news.js`)**: 배치 단위 Gemini 호출로 `signal_id` 분류 + 한국어 번역·요약. 품질 게이트 통과분만 발행. **API 키가 없으면 mock 없이 중단** (기존 데이터 보존)
-- **발행**: `site/public/data/news_latest.json` + `archive/news_{날짜}.json`
+- **수집 (`scripts/news/collect_news.js`)**: 24시간 윈도우 수집 → Cheerio 본문 확보(120자 이상) → URL 중복 제거 → `.tmp/news_candidates.json`
+- **큐레이션 (`scripts/news/curate_news.js`)**: 6축 신호 분류 + 한글 재작성 요약 (API 키 또는 에이전트 직접 큐레이션)
+- **검증 (`node scripts/news/curate_news.js --validate`)**: 배포 전 필수 게이트 검사 통과 후 라이브 반영
 
-### 🗂 데이터 스키마
-`site/public/data/news_latest.json` 구조:
+### 🗂 데이터 스키마 (`site/public/data/news_latest.json`)
 ```json
 {
-  "summary": "오늘의 신호 분포 한 줄 요약",
-  "signal_counts": { "model": 3, "oss": 5, "research": 4 },
+  "summary": "AI 기술 신호 18건 — oss 5건 · product 5건 ... ldk-hub에서 큐레이션 하였습니다.",
+  "curated_by": "ldk-hub",
   "news": [
     {
-      "id": "고유ID",
-      "signal_id": "model | product | devtool | oss | research | practice | policy",
-      "signal_name": "새 모델·버전 출시·프리뷰·벤치마크",
-      "importance": 78,
-      "category_id": "geeknews | hackernews | github | arxiv | reddit | x | threads | youtube",
-      "category_name": "출처 표기",
-      "headline": "한국어 제목",
-      "title_ko": "한국어 제목",
-      "title_en": "English title",
-      "summary_ko": "• 무엇이 일어났나\n• 기술적으로 뭐가 새로운가\n• 개발자에게 왜 중요한가",
-      "body_ko": "5~10문장 한국어 해설 (배경·동작·한계·비교)",
-      "url": "원문 링크",
-      "sources": ["Hacker News", "GeekNews"],
-      "tags": ["기술", "오픈소스"]
+      "id": "geeknews_f5c2b70404",
+      "signal_id": "practice",
+      "signal_name": "AI 활용 사례·워크플로우 팁",
+      "importance": 88,
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "headline": "AI 레드 에이전트, 깃허브 코파일럿 취약점 이용해 스노우플레이크 Jira 침해 시연",
+      "title_ko": "AI 레드 에이전트, 깃허브 코파일럿 취약점 이용해 스노우플레이크 Jira 침해 시연",
+      "title_en": "AI-Generated GitHub Copilot Autofix Allowed Compromise of Snowflake's Jira",
+      "summary_ko": "• Wiz Research의 자율 AI 보안 에이전트가 코파일럿 취약점을 발견했습니다.\n• 공개 리포지토리 이슈 조작으로 내부 접근 토큰을 탈취했습니다.\n• CI/CD와 결합된 AI 도구의 새로운 위협 모델을 실증했습니다.",
+      "body_ko": "클라우드 보안 기업 Wiz의 연구팀이 자율 침투 에이전트를 통해 ... (5~10문장 해설)",
+      "url": "https://news.hada.io/topic?id=32595",
+      "publish_date": "2026-08-17T22:32:25.000Z",
+      "sources": ["https://news.hada.io/topic?id=32595"],
+      "curated_by": "ldk-hub"
     }
   ]
 }
 ```
 
-> 필요 환경변수: `GEMINI_API_KEY`(필수) · `GH_TOKEN`/`gh auth`(오픈소스 신호) · `REDDIT_CLIENT_ID`/`REDDIT_CLIENT_SECRET`(Reddit, 비인증은 403)
-
 ---
 
-## 2부: 🧩 인기 플러그인 (Popular Plugins)
+## 2부: 🧩 인기 플러그인 (Popular Plugins / `cc-trends`)
 
-Claude Code 도구는 매일 수십 개씩 쏟아집니다. 인스타·트위터에서 "이거 좋다" 보고 일주일 지나면 어디 갔는지 모르는 정보들을 아카이브합니다. **매주 월요일 한 번**, 그 주에 뜬 것과 이미 자리잡은 것을 한 페이지로 정리합니다.
+Claude Code 도구와 에이전트 프레임워크는 매일 수십 개씩 쏟아집니다. **매주 월요일**, 한 주간 가장 뜨거웠던 라이징 프로젝트와 검증된 클래식 프로젝트를 선별해 인덱싱합니다.
 
-### 📌 주요 카테고리
-- 🔥 **Rising** — 이번 주 급상승 + 커뮤니티에서 회자된 것 (생성 30일 이내 OR 최근 커뮤니티 점수 급상승)
-- ⭐ **Classic** — 이미 검증된 필수 레퍼런스 (stars 500+ AND 지속적 커밋 관리)
-- 📦 **Archive** — 지난 주차 리스트 보존 및 탐색
+### 📌 주요 카테고리 & 적응형 정원제 (Adaptive Quota)
+- 🔥 **Rising (상한 20건)**: 최근 30일 내 급부상한 프로젝트 (스킬 8, MCP 6, 에이전트 4, 하네스 2)
+- ⭐ **Classic (상한 16건)**: Stars 500+ 이상으로 검증된 필수 레퍼런스 (스킬 6, MCP 4, 에이전트 4, 하네스 2)
+- 📦 **Archive**: 주차별 주간 스냅샷 영구 보존 및 탐색
 
 ### 🆚 일반 awesome-list와의 차이점
-| | 일반 awesome-list | **AI위클리 (인기 플러그인)** |
+| 구분 | 일반 awesome-list | **AI위클리 (`cc-trends`)** |
 |---|---|---|
-| 갱신 | PR 받을 때 (비정기) | **매주 월요일 자동** |
-| 범위 | GitHub 링크만 | GitHub + HN + Reddit + dev.to + GeekNews + velog |
-| 정렬 | 시간순/카테고리순 | **4축 가중 점수** (velocity · buzz · quality · recency) |
-| 한국어 | 없음 | **한 줄 요약 + 캐치프레이즈** 카드마다 제공 |
-| 중복 | 수동 관리 | **fork·미러·owner 변형 자동 컷** |
+| **갱신 주기** | PR 접수 시 (비정기 수동) | **매주 정기 자동 파이프라인** |
+| **수집 범위** | GitHub 링크 위주 | **GitHub + HN + Reddit + dev.to + GeekNews + velog** |
+| **정렬 기준** | 단순 스타순 / 등록순 | **4축 종합 스코어링** (`0.4*속도 + 0.3*버즈 + 0.2*품질 + 0.1*최신성`) |
+| **콘텐츠** | 원문 한 줄 설명 | **한글 제목 + 캐치프레이즈 + 3대 핵심기능 + 유스케이스 + 설치 힌트** |
+| **신뢰도 검증**| 수동 확인 | **존재 검증(`gh api`), 단일출처 강등 규칙, 중복/포크 자동 컷** |
 
-### ⚙️ 어떻게 굴러가나 (아키텍처)
-5명의 Claude Code 서브에이전트가 오케스트레이터 스킬 아래에서 매주 자동으로 처리합니다.
-
+### ⚙️ 파이프라인 아키텍처
 ```
-github-scout    ┐                                                              
-                 ├─→ trend-analyzer ─→ content-curator ─→ site-builder ─→ 🌐
-community-scout ┘    분류·점수·dedup    한글화·gh api 검증     publish gate
-   ↑ A: 광역 + B: 역방향 검증
+github-scout    ┐
+                 ├─→ trend-analyzer ──→ content-curator ──→ publish-curated.js ──→ 🌐
+community-scout ┘    (4축 점수·정원 컷)    (한글화·유스케이스)   (Stars 동기화·RSS·OG)
 ```
 
-- **github-scout**: GitHub 트렌딩 및 awesome-list 스캔
-- **community-scout**: 광역 스캔 및 후보 리포 역방향 교차 검증 (영향력자 가중치 포함)
-- **trend-analyzer**: Rising/Classic 분류, 4축 점수 부여 및 중복 제거
-- **content-curator**: 한글 요약 및 `gh api`를 통한 데이터/존재 검증
-- **site-builder**: 최종 데이터를 `latest.json`에 반영하고 정적 배포
-
-모든 프롬프트와 에이전트 설정은 [`.claude/`](.claude/) 폴더 내에 공개되어 있습니다.
-
-### 🛡 품질 게이트 (4겹 검증)
-- **존재 검증**: `gh api` 404 응답 시 즉시 제외
-- **단일출처 강등**: 출처가 1곳이며 점수가 낮을 경우 보류
-- **데이터 강제 동기화**: `stargazers_count` 등을 `gh api` 원본으로 덮어쓰기하여 환각(Hallucination) 차단
-- **Publish Gate**: 발행 전 최종 필터링을 통해 미달 리포트 사전 차단
-
-### 🗂 데이터 스키마
-`site/public/data/latest.json` 구조:
-```json
-{
-  "id": "owner/repo",
-  "category": "skill",
-  "title_ko": "한글 제목",
-  "catchphrase": "한 줄 훅",
-  "summary_ko": "3~5줄 요약",
-  "trend_score": 87,
-  "stars": 24115,
-  "badges": ["🔥 Rising", "🆕 신상"]
-}
-```
+### 🛡 4중 품질 검증 게이트
+1. **존재 검증**: GitHub API로 리포지토리 존재 및 아카이브 여부 실시간 확인
+2. **단일 출처 강등**: 교차 검증되지 않은 단일 소스 항목은 점수 임계치 미달 시 `pending` 강등
+3. **사실 필드 강제 동기화**: `stars`, `pushed_at` 등 핵심 메타는 GitHub 원본 데이터로 강제 덮어쓰기
+4. **Publish Gate**: 미검증 항목 또는 중복 설명 포함 시 배포 즉시 차단
 
 ---
 
-## 3부: 📈 스타보드 (Starboard)
+## 3부: 📈 스타보드 (Starboard / `cc-star`)
 
-Claude Code 생태계 내 주요 리포지토리들의 **주간 GitHub 스타(Star) 증감 현황**을 추적하고 시각화하는 리더보드입니다. 단기적으로 반짝이는 도구뿐만 아니라, 꾸준히 성장하는 생태계 핵심 프로젝트들을 발굴합니다.
+Claude Code 생태계 내 170여 개 핵심 오픈소스의 **일간/주간 스타(Star) 증감 현황과 성장 궤적**을 시각화하는 리더보드입니다.
 
 ### 📌 주요 특징
-- **리그(League) 기반 분류**: 누적 스타 수에 따라 Minor, Major, Premier, Legend 등 리그를 나누어 체급에 맞는 공정한 성장을 추적합니다.
-- **주간 증감률 트래킹**: 매주 월요일마다 이전 주 대비 스타가 얼마나 늘었는지(Velocity) 계산하고, 눈에 띄는 활동성(🔥)을 뱃지로 부여합니다.
-- **아카이브 및 트렌드 분석**: 일회성 큐레이션에 그치지 않고, 오픈소스 프로젝트의 장기적인 생명력과 커뮤니티 반응을 가시적으로 보여줍니다.
-
-### 💡 기획 의도
-"어떤 프로젝트가 진짜 커뮤니티의 선택을 받고 있을까?" 
-단순히 새로 나온 도구를 소개하는 것을 넘어, 오픈소스 생태계에서 실질적으로 사용되고 검증되는 프로젝트들의 성장 궤적을 투명하게 관찰하기 위해 기획되었습니다.
+- **체급별 리그(League) 분류**: `Legend`, `Premier`, `Major`, `Minor`로 체급을 나누어 대형 리포와 신생 리포 모두 공정하게 성장을 비교합니다.
+- **원장 기반 속도(Velocity) 추적**: `data/stars/stars_ledger.json`에 일자별 스타 표본을 원자적으로 기록하여 정확한 주간 델타를 계산합니다.
+- **장기 휴면 및 이상치 감지**: 장기간 커밋이 없거나 비정상적인 스타 변동을 자동으로 감지합니다.
 
 ---
 
 ## 4부: 🚀 구조 및 실행 방법
 
-### 📂 폴더 구조
+### 📂 디렉토리 구조
 ```
-aiweekly/
-├── .claude/         # 플러그인 큐레이션을 위한 5명의 서브에이전트와 스킬 정의
-├── site/            # 프론트엔드 정적 웹사이트 (데이터 뷰어)
-│   ├── public/data/ # 생성된 뉴스/플러그인 최신 데이터(latest.json) 및 이미지 에셋
-│   └── index.html   # 메인 뷰어
-├── scripts/         # 수집(collect.js) 및 큐레이션(curate.js), RSS 생성 스크립트 등
-└── data/archive/    # 플러그인/뉴스 과거 주차별 원본 데이터 스냅샷 백업
+ai-weekly/
+├── .agents/skills/      # Claude Code / Antigravity 자동화 스킬 정의 (cc-news, cc-star, cc-trends 등)
+├── site/                # Vite 기반 정적 웹 프론트엔드
+│   ├── public/data/     # 라이브 JSON 데이터 (news_latest.json, latest.json, stars_meta.json 등)
+│   ├── index.html       # 트렌드 플러그인 뷰어
+│   ├── news.html        # 데일리 AI 뉴스 뷰어
+│   └── starboard.html   # 스타보드 랭킹 뷰어
+├── scripts/
+│   ├── core/            # RSS 피드, OG 이미지, 아카이브 인덱스 생성기
+│   ├── news/            # 뉴스 수집(collect_news.js) 및 큐레이션/검증(curate_news.js)
+│   ├── plugins/         # 트렌드 수집(collect.js) 및 발행(publish-curated.js)
+│   └── stars/           # 스타보드 크롤러(collect-stars.js) 및 원장 관리자
+└── data/
+    ├── archive/         # 주차별/일자별 원본 데이터 영구 아카이브
+    └── stars/           # 스타보드 시계열 원장 및 메타데이터
 ```
 
-### 💻 실행하기
+### 💻 실행 명령어 (NPM Scripts)
 
-**1. 프론트엔드 로컬 프리뷰**
+**1. 로컬 개발 서버 및 빌드**
 ```bash
-# 사이트 디렉토리로 서버 실행
-python3 -m http.server 8000 --directory site
+npm run dev        # Vite 로컬 개발 서버 실행 (http://localhost:5173)
+npm run build      # 프로덕션 정적 번들 빌드
+npm run preview    # 빌드된 프로덕션 번들 로컬 프리뷰
 ```
-자세한 정적 사이트 구조는 [site/README.md](site/README.md)를 참고하세요.
 
-**2. 수집 파이프라인 수동 실행**
+**2. 데이터 파이프라인 수동 실행**
 ```bash
-# 뉴스 파이프라인 (스크립트 직접 실행)
-node scripts/collect_news.js
-GEMINI_API_KEY=... node scripts/curate_news.js
+# 📰 데일리 AI 뉴스 수집 및 큐레이션 (검증 포함)
+npm run data:news
+node scripts/news/curate_news.js --validate
 
-# 품질 게이트 자기검증 (Gemini 호출 없음)
-node scripts/curate_news.js --selfcheck
+# 📈 스타보드 데이터 갱신
+npm run data:stars
 
-# 플러그인 파이프라인 (Claude Code 스킬 실행)
-/cc-trends
+# 🧩 주간 플러그인 트렌드 수집 및 발행
+npm run data:plugins
+npm run data:publish
 ```
-> **자동화 안내**: GitHub Actions (`.github/workflows/weekly-trends.yml`)를 통해 매주 자동 갱신됩니다.
+
+**3. Claude Code / Antigravity 슬래시 커맨드**
+```bash
+/cc-news      # 데일리 뉴스 수집 → 직접 큐레이션 → 검증 파이프라인 실행
+/cc-trends    # 주간 트렌드 수집 → 점수 계산 → 큐레이션 → 배포 실행
+/cc-star      # 스타보드 실시간 크롤링 및 메타 갱신 실행
+```
 
 ---
 
-## 기여 및 라이선스
+## 📄 라이선스 및 기여 안내
 
-- 버그 제보 및 누락된 유용한 리포는 [Issue](https://github.com/ldk-hub/ai-weekly/issues)로 부탁드립니다.
-- 데이터는 CC-BY 4.0, 소스 코드는 MIT 라이선스가 적용됩니다.
+- **코드 라이선스**: [MIT License](LICENSE)
+- **데이터 라이선스**: [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+- 버그 제보, 유용한 오픈소스 제안은 [GitHub Issues](https://github.com/ldk-hub/ai-weekly/issues)를 통해 환영합니다.
 
 <div align="center">
-Maintained by [ldk-hub](https://github.com/ldk-hub) <br>
-Based on [weeklaude](https://github.com/INNO-HI/weeklaude) by INNO-HI (MIT) <br>
-Built with [Claude Code](https://claude.com/claude-code)
+Maintained by <strong><a href="https://github.com/ldk-hub">ldk-hub</a></strong> <br>
+Based on <a href="https://github.com/INNO-HI/weeklaude">weeklaude</a> by INNO-HI (MIT) <br>
+Automated with <strong><a href="https://claude.com/claude-code">Claude Code</a></strong>
 </div>
