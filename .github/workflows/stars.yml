@@ -30,12 +30,13 @@ jobs:
 
       - name: Commit and Push
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "ldk-hub"
+          git config user.email "ldk-hub@users.noreply.github.com"
           if git diff --stat data/ site/public/data/ | grep -q "changed"; then
             git add data/ site/public/data/
             git commit -m "chore(stars): daily collect $(date +'%Y-%m-%d')"
-            git push
+            git pull --rebase origin main || true
+            git push origin main
           else
             echo "No changes to commit."
           fi

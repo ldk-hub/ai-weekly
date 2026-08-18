@@ -1,18 +1,18 @@
-name: Weekly trends pipeline
+name: Daily News Pipeline
 
 on:
   schedule:
-    - cron: '0 0 * * 1' # 매주 월요일 00:00 UTC = 09:00 KST
+    - cron: '30 23 * * *' # 매일 23:30 UTC = 08:30 KST (출근 전 자동 갱신)
   workflow_dispatch:
 
 concurrency:
-  group: weekly-trends
+  group: daily-news
   cancel-in-progress: false
 
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 60
     permissions:
       contents: write
     steps:
@@ -21,7 +21,7 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           if [ -z "$GEMINI_API_KEY" ]; then
-            echo "::error::GEMINI_API_KEY secret이 없습니다. https://aistudio.google.com/apikey 에서 발급 후 Settings > Secrets and variables > Actions 에 등록하세요."
+            echo "::error::GEMINI_API_KEY secret이 없습니다. Settings > Secrets and variables > Actions 에 등록하세요."
             exit 1
           fi
 
@@ -34,38 +34,35 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Collect (GitHub + HN, deterministic)
+      - name: Collect News (7 sources)
         env:
-          GH_TOKEN: ${{ github.token }}
-        run: node scripts/plugins/collect.js
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/news/collect_news.js
 
-      - name: Curate (Gemini free tier)
+      - name: Curate News (Gemini)
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: node scripts/plugins/curate.js
+        run: node scripts/news/curate_news.js
 
-      - name: Post-process (RSS · archive · OG)
-        run: |
-          node scripts/core/generate-rss.js || echo "::warning::RSS generation failed (continuing)"
-          mkdir -p site/public/data/archive
-          cp -n data/archive/*.json site/public/data/archive/ 2>/dev/null || true
-          node scripts/core/build-archive-index.js || echo "::warning::archive index gen failed (continuing)"
-          node scripts/core/generate-og.js || echo "::warning::OG generation failed (continuing)"
+      - name: Validate Curation
+        run: node scripts/news/curate_news.js --validate
+
+      - name: Post-process (RSS & Sitemap)
+        run: node scripts/core/generate-rss.js || echo "::warning::RSS generation failed"
 
       - name: Commit & push
         run: |
           git config user.name "ldk-hub"
           git config user.email "ldk-hub@users.noreply.github.com"
-          git add site/public/data data/archive site/public/feed.xml site/public/og.svg site/public/og.png
+          git add site/public/data data/archive site/public/news-feed.xml site/public/sitemap.xml
           if git diff --cached --quiet; then
             echo "No data changes — skipping commit."
           else
-            git commit -m "Weekly update · $(date +%Y-%m-%d)"
+            git commit -m "chore(news): daily update $(date +'%Y-%m-%d')"
             git pull --rebase origin main || true
             git push origin main
           fi
 
-  # GITHUB_TOKEN 으로 push 한 커밋은 deploy-pages.yml 을 트리거하지 않으므로 여기서 직접 배포
   deploy:
     needs: update
     runs-on: ubuntu-latest
