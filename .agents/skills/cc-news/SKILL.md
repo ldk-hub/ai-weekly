@@ -122,16 +122,19 @@ node scripts/news/curate_news.js --validate                         # 배포 전
 
 게이트 자기검증: `node scripts/news/curate_news.js --selfcheck` (네트워크·LLM 호출 없음)
 
-### Phase 3 — 배포
+### Phase 3 — 배포 및 알림
 
 `--validate` 통과 후에만:
 
 ```bash
-node scripts/core/generate-rss.js   # 선택
-git add site/public/data && git commit -m "chore: update daily news $(date +%Y-%m-%d)"
+node scripts/core/generate-rss.js     # RSS 피드 갱신
+npm run notify:dooray                 # 두레이(Dooray) 데일리 뉴스 카드 알림 발송
+git add site/public/data data/archive site/public/news-feed.xml site/public/sitemap.xml
+git commit -m "chore: update daily news $(date +%Y-%m-%d)"
 ```
 
 `news_latest.json` + `archive/news_{날짜}.json` + `archive/news_index.json` 세 파일을 함께 커밋한다.
+GitHub Actions(`daily-news.yml`)에서는 매일 아침 08:30 KST에 큐레이션 및 커밋 후 두레이 알림이 자동으로 전송된다.
 
 ## 보고 (필수 항목)
 
