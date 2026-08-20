@@ -66,7 +66,7 @@ jobs:
       - name: Send Dooray Notification
         env:
           DOORAY_WEBHOOK_URL: ${{ secrets.DOORAY_WEBHOOK_URL }}
-        run: node scripts/core/notify-dooray.js news
+        run: node scripts/core/notify-dooray.js
 
   deploy:
     needs: update
