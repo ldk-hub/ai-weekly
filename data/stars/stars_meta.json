@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-08-19T23:11:28.891Z",
+  "generated_at": "2026-08-20T00:38:51.766Z",
   "repos": {
     "santifer/career-ops": {
       "pushed_at": "2026-08-19T19:08:01Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -12,9 +12,9 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/256850418?v=4"
     },
     "garrytan/gstack": {
-      "pushed_at": "2026-08-19T21:23:55Z",
+      "pushed_at": "2026-08-19T23:53:19Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -24,7 +24,7 @@
     "JuliusBrussee/caveman": {
       "pushed_at": "2026-08-19T16:22:16Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -34,7 +34,7 @@
     "slavingia/skills": {
       "pushed_at": "2026-04-14T00:53:57Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -44,7 +44,7 @@
     "patoles/agent-flow": {
       "pushed_at": "2026-07-11T15:57:04Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -54,7 +54,7 @@
     "dominikmartn/nothing-design-skill": {
       "pushed_at": "2026-04-01T05:40:04Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -64,7 +64,7 @@
     "yizhiyanhua-ai/fireworks-tech-graph": {
       "pushed_at": "2026-08-18T23:12:08Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -77,7 +77,7 @@
       ],
       "pushed_at": "2026-08-19T13:37:02Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -87,7 +87,7 @@
     "efij/secure-claude-code": {
       "pushed_at": "2026-05-19T10:36:04Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": "stars_dropped:88→13",
       "dormant": true,
@@ -97,7 +97,7 @@
     "zarazhangrui/codebase-to-course": {
       "pushed_at": "2026-03-30T18:26:09Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -107,7 +107,7 @@
     "gavraz/recon": {
       "pushed_at": "2026-07-17T19:10:27Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -117,7 +117,7 @@
     "joyehuang/Learn-Open-Harness": {
       "pushed_at": "2026-04-07T16:20:35Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": "stars_dropped:231→25",
       "dormant": true,
@@ -125,9 +125,9 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/144026857?v=4"
     },
     "openclaw/openclaw": {
-      "pushed_at": "2026-08-19T23:10:29Z",
+      "pushed_at": "2026-08-20T00:36:19Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -135,9 +135,9 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/252820863?v=4"
     },
     "modelcontextprotocol/servers": {
-      "pushed_at": "2026-08-18T16:04:56Z",
+      "pushed_at": "2026-08-20T00:05:46Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -147,7 +147,7 @@
     "anthropics/claude-code": {
       "pushed_at": "2026-08-19T20:02:05Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -158,9 +158,9 @@
       "aliases": [
         "affaan-m/everything-claude-code"
       ],
-      "pushed_at": "2026-08-19T22:53:56Z",
+      "pushed_at": "2026-08-19T23:31:56Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -170,7 +170,7 @@
     "musistudio/claude-code-router": {
       "pushed_at": "2026-08-19T09:58:28Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -178,9 +178,9 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/21162426?v=4"
     },
     "hesreallyhim/awesome-claude-code": {
-      "pushed_at": "2026-08-19T21:08:01Z",
+      "pushed_at": "2026-08-20T00:12:41Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -190,7 +190,7 @@
     "shareAI-lab/learn-claude-code": {
       "pushed_at": "2026-08-18T17:42:28Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -200,7 +200,7 @@
     "nextlevelbuilder/ui-ux-pro-max-skill": {
       "pushed_at": "2026-08-18T18:16:41Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -210,7 +210,7 @@
     "ComposioHQ/awesome-claude-skills": {
       "pushed_at": "2026-08-10T21:45:44Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -218,9 +218,9 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/128464815?v=4"
     },
     "rtk-ai/rtk": {
-      "pushed_at": "2026-08-19T23:05:35Z",
+      "pushed_at": "2026-08-20T00:31:07Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -228,9 +228,9 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/258253854?v=4"
     },
     "thedotmack/claude-mem": {
-      "pushed_at": "2026-08-19T22:52:35Z",
+      "pushed_at": "2026-08-19T23:56:52Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -240,7 +240,7 @@
     "modelcontextprotocol/python-sdk": {
       "pushed_at": "2026-08-19T16:08:41Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -253,7 +253,7 @@
     "phuryn/claude-usage": {
       "pushed_at": "2026-07-10T10:08:48Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -263,7 +263,7 @@
     "alchaincyf/darwin-skill": {
       "pushed_at": "2026-07-27T04:35:52Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -273,7 +273,7 @@
     "drona23/claude-token-efficient": {
       "pushed_at": "2026-06-16T03:10:06Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -283,7 +283,7 @@
     "codeany-ai/open-agent-sdk-typescript": {
       "pushed_at": "2026-07-26T03:22:14Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -293,7 +293,7 @@
     "ghostwright/phantom": {
       "pushed_at": "2026-06-16T21:26:09Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -303,7 +303,7 @@
     "getagentseal/codeburn": {
       "pushed_at": "2026-08-19T20:49:53Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -316,7 +316,7 @@
       ],
       "pushed_at": "2026-08-19T21:16:42Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -326,7 +326,7 @@
     "alchaincyf/huashu-design": {
       "pushed_at": "2026-08-13T23:48:36Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -336,7 +336,7 @@
     "op7418/guizang-ppt-skill": {
       "pushed_at": "2026-08-07T03:58:08Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -346,7 +346,7 @@
     "gsd-build/get-shit-done": {
       "pushed_at": "2026-05-31T17:46:54Z",
       "archived": true,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -356,7 +356,7 @@
     "OpenCoworkAI/open-codesign": {
       "pushed_at": "2026-08-04T08:08:53Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -366,7 +366,7 @@
     "kyegomez/OpenMythos": {
       "pushed_at": "2026-05-23T11:58:48Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -376,7 +376,7 @@
     "browser-use/browser-harness": {
       "pushed_at": "2026-08-19T21:04:24Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -386,7 +386,7 @@
     "openai/codex-plugin-cc": {
       "pushed_at": "2026-07-08T00:17:31Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -399,7 +399,7 @@
       ],
       "pushed_at": "2026-04-20T10:05:04Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -409,7 +409,7 @@
     "mvanhorn/last30days-skill": {
       "pushed_at": "2026-08-18T17:14:35Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -419,7 +419,7 @@
     "farion1231/cc-switch": {
       "pushed_at": "2026-08-19T05:49:45Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -429,7 +429,7 @@
     "shanraisshan/claude-code-best-practice": {
       "pushed_at": "2026-08-19T06:38:38Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -439,7 +439,7 @@
     "VoltAgent/awesome-agent-skills": {
       "pushed_at": "2026-08-18T12:20:59Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -449,7 +449,7 @@
     "HKUDS/nanobot": {
       "pushed_at": "2026-08-19T17:53:48Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -459,7 +459,7 @@
     "ultraworkers/claw-code": {
       "pushed_at": "2026-08-16T06:18:45Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -467,9 +467,9 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/272961631?v=4"
     },
     "NousResearch/hermes-agent": {
-      "pushed_at": "2026-08-19T23:10:13Z",
+      "pushed_at": "2026-08-20T00:33:13Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -479,7 +479,7 @@
     "VoltAgent/awesome-claude-code-subagents": {
       "pushed_at": "2026-08-12T13:34:46Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -489,7 +489,7 @@
     "wshobson/agents": {
       "pushed_at": "2026-08-18T15:56:45Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -499,7 +499,7 @@
     "czlonkowski/n8n-mcp": {
       "pushed_at": "2026-08-19T10:24:39Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -507,9 +507,9 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/56956555?v=4"
     },
     "different-ai/openwork": {
-      "pushed_at": "2026-08-19T22:22:06Z",
+      "pushed_at": "2026-08-19T23:30:00Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -517,9 +517,9 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/118544361?v=4"
     },
     "anomalyco/opencode": {
-      "pushed_at": "2026-08-19T23:08:27Z",
+      "pushed_at": "2026-08-20T00:34:15Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -529,7 +529,7 @@
     "ChromeDevTools/chrome-devtools-mcp": {
       "pushed_at": "2026-08-19T18:56:30Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -537,9 +537,9 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/11260967?v=4"
     },
     "nexu-io/open-design": {
-      "pushed_at": "2026-08-19T19:51:59Z",
+      "pushed_at": "2026-08-19T23:38:08Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -549,7 +549,7 @@
     "zilliztech/claude-context": {
       "pushed_at": "2026-07-14T12:00:38Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -559,7 +559,7 @@
     "github/github-mcp-server": {
       "pushed_at": "2026-08-19T21:28:59Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -567,9 +567,9 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/9919?v=4"
     },
     "code-yeongyu/oh-my-openagent": {
-      "pushed_at": "2026-08-19T23:10:01Z",
+      "pushed_at": "2026-08-19T23:20:17Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -579,7 +579,7 @@
     "ChrisWiles/claude-code-showcase": {
       "pushed_at": "2026-01-06T19:05:18Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -589,7 +589,7 @@
     "coleam00/claude-memory-compiler": {
       "pushed_at": "2026-04-06T19:46:57Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -599,7 +599,7 @@
     "levnikolaevich/claude-code-skills": {
       "pushed_at": "2026-08-07T06:27:29Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -609,7 +609,7 @@
     "supermemoryai/claude-supermemory": {
       "pushed_at": "2026-08-19T04:14:07Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -619,7 +619,7 @@
     "HKUDS/OpenHarness": {
       "pushed_at": "2026-06-04T02:42:40Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -629,7 +629,7 @@
     "anthropics/claude-plugins-official": {
       "pushed_at": "2026-08-19T18:49:01Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -639,7 +639,7 @@
     "anthropics/skills": {
       "pushed_at": "2026-08-18T16:02:06Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -649,7 +649,7 @@
     "alirezarezvani/claude-skills": {
       "pushed_at": "2026-08-17T02:43:44Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -659,7 +659,7 @@
     "revfactory/harness": {
       "pushed_at": "2026-07-24T23:35:08Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -669,7 +669,7 @@
     "mattpocock/skills": {
       "pushed_at": "2026-08-19T13:09:36Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -679,7 +679,7 @@
     "ai-boost/awesome-harness-engineering": {
       "pushed_at": "2026-08-19T14:18:02Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": true,
@@ -689,7 +689,7 @@
     "Piebald-AI/claude-code-system-prompts": {
       "pushed_at": "2026-08-19T00:35:37Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -699,7 +699,7 @@
     "anthropics/financial-services": {
       "pushed_at": "2026-08-04T14:41:29Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -712,7 +712,7 @@
       ],
       "pushed_at": "2026-08-11T14:13:37Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -722,7 +722,7 @@
     "addyosmani/agent-skills": {
       "pushed_at": "2026-08-14T18:51:33Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -732,7 +732,7 @@
     "colbymchenry/codegraph": {
       "pushed_at": "2026-08-08T02:56:05Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -742,7 +742,7 @@
     "ruvnet/ruflo": {
       "pushed_at": "2026-08-19T06:22:54Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -752,7 +752,7 @@
     "zhayujie/CowAgent": {
       "pushed_at": "2026-08-19T11:14:12Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -762,7 +762,7 @@
     "upstash/context7": {
       "pushed_at": "2026-08-19T09:01:11Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -772,7 +772,7 @@
     "anthropics/knowledge-work-plugins": {
       "pushed_at": "2026-08-19T19:03:32Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -782,7 +782,7 @@
     "microsoft/playwright-mcp": {
       "pushed_at": "2026-08-19T19:40:03Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -792,7 +792,7 @@
     "DietrichGebert/ponytail": {
       "pushed_at": "2026-08-07T21:44:01Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -800,9 +800,9 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/137048761?v=4"
     },
     "Imbad0202/academic-research-skills": {
-      "pushed_at": "2026-08-19T20:48:54Z",
+      "pushed_at": "2026-08-19T23:13:23Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -812,7 +812,7 @@
     "blader/humanizer": {
       "pushed_at": "2026-08-19T05:58:53Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -822,7 +822,7 @@
     "can1357/oh-my-pi": {
       "pushed_at": "2026-08-19T22:57:40Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -832,7 +832,7 @@
     "cobusgreyling/loop-engineering": {
       "pushed_at": "2026-08-19T08:20:12Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -842,7 +842,7 @@
     "Chachamaru127/claude-code-harness": {
       "pushed_at": "2026-08-17T03:36:03Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -852,7 +852,7 @@
     "Leonxlnx/taste-skill": {
       "pushed_at": "2026-08-17T22:57:24Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -862,7 +862,7 @@
     "multica-ai/multica": {
       "pushed_at": "2026-08-19T19:27:42Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -870,9 +870,9 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/254743058?v=4"
     },
     "Frisher1/ClaudeCode-Workflow-Lab": {
-      "pushed_at": "2026-08-19T22:20:53Z",
+      "pushed_at": "2026-08-19T23:19:31Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -882,7 +882,7 @@
     "kepano/obsidian-skills": {
       "pushed_at": "2026-06-08T16:12:01Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -892,7 +892,7 @@
     "Panniantong/Agent-Reach": {
       "pushed_at": "2026-08-12T03:39:49Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -900,9 +900,9 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/73925474?v=4"
     },
     "Sakshxm1/hermes-agency-orchestrator": {
-      "pushed_at": "2026-08-19T22:19:49Z",
+      "pushed_at": "2026-08-19T23:18:35Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -910,9 +910,9 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/275299222?v=4"
     },
     "minetechnic2012-lang/claude-ops-inspector": {
-      "pushed_at": "2026-08-19T22:13:38Z",
+      "pushed_at": "2026-08-20T00:37:42Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -922,7 +922,7 @@
     "headroomlabs-ai/headroom": {
       "pushed_at": "2026-08-19T21:22:01Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -932,7 +932,7 @@
     "liigoQi/defficiency-skills": {
       "pushed_at": "2026-06-28T07:57:09Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -942,7 +942,7 @@
     "davila7/claude_subagents": {
       "pushed_at": "2026-06-21T23:08:38Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -952,7 +952,7 @@
     "sansan0/TrendRadar": {
       "pushed_at": "2026-07-17T13:54:28Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -960,9 +960,9 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/77180927?v=4"
     },
     "DeusData/codebase-memory-mcp": {
-      "pushed_at": "2026-08-19T22:12:48Z",
+      "pushed_at": "2026-08-19T23:41:54Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -972,7 +972,7 @@
     "x1xhlol/system-prompts-and-models-of-ai-tools": {
       "pushed_at": "2026-08-11T13:01:09Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -982,7 +982,7 @@
     "YuanpingSong/ultracodex": {
       "pushed_at": "2026-07-30T00:23:32Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -990,9 +990,9 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/22571239?v=4"
     },
     "PDFMathTranslate/PDFMathTranslate": {
-      "pushed_at": "2026-08-19T19:58:42Z",
+      "pushed_at": "2026-08-20T00:27:58Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -1002,7 +1002,7 @@
     "cheshireyang/mindmap-mcts-skill": {
       "pushed_at": "2026-06-24T09:35:04Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -1012,7 +1012,7 @@
     "Wei-Shaw/sub2api": {
       "pushed_at": "2026-08-19T16:39:05Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -1022,7 +1022,7 @@
     "Yeachan-Heo/oh-my-claudecode": {
       "pushed_at": "2026-08-18T12:34:36Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -1030,9 +1030,9 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/54757707?v=4"
     },
     "Alishahryar1/free-claude-code": {
-      "pushed_at": "2026-08-19T06:42:55Z",
+      "pushed_at": "2026-08-20T00:14:31Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -1042,7 +1042,7 @@
     "asgeirtj/system_prompts_leaks": {
       "pushed_at": "2026-08-19T22:47:42Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -1052,7 +1052,7 @@
     "coreyhaines31/marketingskills": {
       "pushed_at": "2026-08-19T18:16:52Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -1062,7 +1062,7 @@
     "luongnv89/claude-howto": {
       "pushed_at": "2026-08-19T08:58:30Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -1072,7 +1072,7 @@
     "router-for-me/CLIProxyAPI": {
       "pushed_at": "2026-08-19T19:40:52Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -1080,9 +1080,9 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/233033915?v=4"
     },
     "sickn33/agentic-awesome-skills": {
-      "pushed_at": "2026-08-19T21:55:28Z",
+      "pushed_at": "2026-08-20T00:36:56Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -1090,9 +1090,9 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/184072420?v=4"
     },
     "diegosouzapw/OmniRoute": {
-      "pushed_at": "2026-08-19T21:44:14Z",
+      "pushed_at": "2026-08-20T00:27:44Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -1102,7 +1102,7 @@
     "K-Dense-AI/scientific-agent-skills": {
       "pushed_at": "2026-08-19T22:41:49Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "suspect": null,
       "dormant": null,
@@ -1112,7 +1112,7 @@
     "iOfficeAI/AionUi": {
       "pushed_at": "2026-08-19T20:18:51Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "Open-source 24/7 Cowork app for OpenClaw, Hermes, Claude Code, Codex, OpenCode and 20+ more CLI Agent | Customize your assistants | Team them up｜Star if you like it!",
@@ -1121,7 +1121,7 @@
     "mukul975/Anthropic-Cybersecurity-Skills": {
       "pushed_at": "2026-08-08T14:55:19Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "817 structured cybersecurity skills for AI agents · Mapped to 6 frameworks: MITRE ATT&CK, NIST CSF 2.0, MITRE ATLAS, D3FEND, NIST AI RMF & MITRE F3 (Fight Fraud) · agentskills.io standard · Works with Claude Code, GitHub Copilot, Codex CLI, Cursor, Gemini CLI & 20+ platforms · 29 security domains · Apache 2.0",
@@ -1130,7 +1130,7 @@
     "Alisa0808/vox-director": {
       "pushed_at": "2026-08-11T15:39:41Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "Turn one topic into a finished Vox-style paper-collage explainer/ad video — automated end to end on Atlas Cloud + ffmpeg. An agent skill.",
@@ -1139,7 +1139,7 @@
     "Vincentwei1021/video-shotcraft": {
       "pushed_at": "2026-08-14T04:17:16Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "AI video skill for Claude Code & Codex — cinematic product videos with Remotion: 152 shot recipe cards, 209 motion previews, a production-ready template",
@@ -1148,7 +1148,7 @@
     "OthmanAdi/planning-with-files": {
       "pushed_at": "2026-08-19T17:32:24Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "Persistent file-based planning for AI coding agents and long-running tasks. Crash-proof markdown plans, session recovery after /clear and compaction, per-turn re-injection against context rot, deterministic completion gate. Manus-style. Install from npm, the Claude Code plugin marketplace, or npx skills. Codex, Cursor, OpenCode, 60+ agents.",
@@ -1157,7 +1157,7 @@
     "nagisanzenin/engram": {
       "pushed_at": "2026-08-18T06:13:31Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "Evidence-based learning engine for Claude Code — first-principles curricula, free-recall verification with receipts, FSRS-scheduled memory, and explorable artifacts. Learn anything; keep it.",
@@ -1166,7 +1166,7 @@
     "0xsline/OpenChatCut": {
       "pushed_at": "2026-08-19T18:03:57Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "Open-source, local-first conversational AI video editor with a professional multi-track timeline, Agent Skills, MCP integration, and Remotion rendering.",
@@ -1175,7 +1175,7 @@
     "Nanako0129/pilotfish": {
       "pushed_at": "2026-08-07T22:26:53Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "Multi-model orchestration layer for Claude Code — the frontier model plans, cheaper models execute, verification guards quality. One-prompt install.",
@@ -1184,7 +1184,7 @@
     "Raymondhou0917/speak-human-tw": {
       "pushed_at": "2026-08-19T01:40:38Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "「說人話」：繁體中文的去 AI 味改寫 skill。抓 38 種 AI 寫作痕跡，順手校正中國用語與半形標點，給 Claude Code / Codex / Cursor 用。",
@@ -1193,7 +1193,7 @@
     "SeanJ1ang/design-judge-skills": {
       "pushed_at": "2026-08-19T04:02:13Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "Evidence-driven Agent Skills for design award research, evaluation, award matching, entry writing, and submission readiness.",
@@ -1202,7 +1202,7 @@
     "worldwonderer/drama-skills": {
       "pushed_at": "2026-08-19T10:56:43Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "AI 短剧/漫剧创作 skill 合集，覆盖剧本、资产、分镜、图片/视频提示词到独立审查全链路，适配 Claude Code 与 Codex。| An AI short-drama skill suite for Claude Code & Codex: scripts, assets, storyboards, image/video prompts, and independent review.",
@@ -1211,7 +1211,7 @@
     "mikehasa/agentacct": {
       "pushed_at": "2026-08-18T16:55:58Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "See what your coding agents did and what it cost. Breaks each task down into work steps — tools used, files changed, tests run, time and tokens spent. Local-first dashboard for Claude Code, Codex, OpenCode, and more. No login, no telemetry.",
@@ -1220,7 +1220,7 @@
     "worldwonderer/novel-to-game": {
       "pushed_at": "2026-08-17T17:49:20Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "Agent Skills that turn novels into source-grounded, fully playable games for Claude Code, Codex, and Kimi Code(K3).",
@@ -1238,7 +1238,7 @@
     "0rangec3t/Black-cat": {
       "pushed_at": "2026-08-03T05:37:34Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "Claude Code RedTeam Skill — Hypothesis-Driven Cognitive Architecture。一个假设-证据驱动的红队skill",
@@ -1265,7 +1265,7 @@
     "tsingyuai/growth-lab": {
       "pushed_at": "2026-08-11T04:56:57Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "An end-to-end growth tool that understands the product, fetch the data it needs, researches the market, executes campaigns, and reviews results to improve the next round of growth. 从代码到市场的开源端到端增长工具。理解产品、接入信息渠道、研究市场、执行增长行动，并基于真实数据自我改进。",
@@ -1274,7 +1274,7 @@
     "masonpsreed8378/illustrator-html-design-skill": {
       "pushed_at": "2026-08-19T23:03:59Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "A 2026 Claude Code learning package for converting Adobe Illustrator designs into responsive, accessible HTML, CSS, and SVG implementations ready for browser development.",
@@ -1284,7 +1284,7 @@
     "drpwchen/lecture-to-notes": {
       "pushed_at": "2026-08-07T10:36:16Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "Lecture recordings → structured grounded notes + a synced HTML viewer: video, timestamped transcript and curated summary on one page. Local GPU pipeline (Whisper ASR · slide extraction · OCR · VLM signals · capture-time alignment). Claude Code skill + plain CLI.",
@@ -1293,16 +1293,16 @@
     "allenloves/de-ai-tone": {
       "pushed_at": "2026-07-29T19:38:35Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "去 AI 味：繁體中文寫作與翻譯的風格規範（Claude Code skill）",
       "owner_avatar": "https://avatars.githubusercontent.com/u/8461727?v=4"
     },
     "risa-labs-inc/BossConsole": {
-      "pushed_at": "2026-08-19T23:04:36Z",
+      "pushed_at": "2026-08-20T00:32:34Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "Open-source, multi-platform harness for AI agents — a native, multi-threaded operator's console (JVM, not Electron) to run Claude Code, Codex, Gemini or OpenCode with a real browser, terminal, editor, secrets & 100+ MCP tools. Built for enterprises, science & research.",
@@ -1320,7 +1320,7 @@
     "danilo-znamerovszkij/draw-your-font": {
       "pushed_at": "2026-08-05T07:48:36Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "Turn a photo of your handwriting into a real font (TTF/WOFF/WOFF2) - free, open source, no uploads. Node CLI + Claude Code skill.",
@@ -1329,16 +1329,16 @@
     "scriptscrypt/animation-reverse-engineering": {
       "pushed_at": "2026-07-31T15:26:22Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "Claude Code skill: reverse-engineer any motion reference into production animation code via frame-level dissection",
       "owner_avatar": "https://avatars.githubusercontent.com/u/94689880?v=4"
     },
     "makecindy/cindy": {
-      "pushed_at": "2026-08-19T22:05:05Z",
+      "pushed_at": "2026-08-19T23:52:55Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "Consider it done. The open-source AI agent that works out of the box · 想到，就能做到。开源、开箱即用的 AI Agent。",
@@ -1347,7 +1347,7 @@
     "dungnotnull/historical-cadastral-map-restoration-agent-skill": {
       "pushed_at": "2026-07-29T08:35:21Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "🗺️📜 Historical Cadastral Map Restoration & GIS Digitization Engine | Production-grade Claude Code harness for historical cartography preservation & georeferencing. Features GCP transformation, IIIF integration..",
@@ -1356,7 +1356,7 @@
     "chris-asmussen/warden": {
       "pushed_at": "2026-07-31T22:08:20Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "One MCP server that fronts many MCP servers + Skills behind a small tool set and routes to the best one, keeping an agent's context tiny. Migrate your Claude Code MCPs/skills behind it.",
@@ -1365,7 +1365,7 @@
     "bemoshiur/OmniRank": {
       "pushed_at": "2026-08-16T14:53:04Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "OmniRank — the SEO/AEO/GEO auditor that runs inside your repo. Audits any site across search, answer and generative-engine gates, resolves each finding to the source file that owns it, and shows the diff that fixes it. Generates llms.txt + facts.json. Claude Code plugin + CLI.",
@@ -1374,7 +1374,7 @@
     "GrubbyLee/skill-manager": {
       "pushed_at": "2026-08-18T05:03:31Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "Zero-dependency CLI to scan, recommend, deduplicate, audit, and visualize Claude Code / Codex skills and MCP servers.",
@@ -1383,7 +1383,7 @@
     "DannylydST/sorftime-seller-agent": {
       "pushed_at": "2026-08-13T09:58:26Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "Free AI-powered Amazon product research & marketplace intelligence for 6 platforms. Hidden Profit Index — Sorftime's proprietary algorithm for finding overlooked high-margin products. 80+ MCP tools. Amazon FBA, Walmart, TikTok Shop, Shopee, TEMU, 1688. Claude Code, Codex, Cursor, OpenClaw. Open source.",
@@ -1392,7 +1392,7 @@
     "AmazingAng/ccvideo": {
       "pushed_at": "2026-07-31T10:54:44Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "Claude-style promo videos from ground-truth captures — a Claude Code skill (Remotion)",
@@ -1401,7 +1401,7 @@
     "agiwhitelist/auteur": {
       "pushed_at": "2026-08-06T20:06:09Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "The Claude Code skill that directs a website like a film. Commit-sheet, generated assets, build, and an executable anti-slop linter that gates every ship.",
@@ -1410,16 +1410,16 @@
     "MemTensor/memmy-agent": {
       "pushed_at": "2026-08-19T12:08:54Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "🍙  A personal AI agent & local memory hub for all AI agents, gives every AI one shared, fully controlled memory and persistent context — all AI remember the same you. Now supports Claude Code, Codex, OpenClaw and Hermes Agent etc.",
       "owner_avatar": "https://avatars.githubusercontent.com/u/210160027?v=4"
     },
     "vshulcz/deja-vu": {
-      "pushed_at": "2026-08-19T23:10:36Z",
+      "pushed_at": "2026-08-20T00:34:35Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "Memory for coding agents. Indexes the sessions 18 agents already wrote to disk, including months from before you installed it, and recalls them in any of them. No LLM, no embeddings — one local Go binary.",
@@ -1428,16 +1428,16 @@
     "theswerd/brainless": {
       "pushed_at": "2026-07-14T01:10:20Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "Claude Code, Codex, and Grok interfaces as shadcn components",
       "owner_avatar": "https://avatars.githubusercontent.com/u/38309438?v=4"
     },
     "n8n-io/n8n": {
-      "pushed_at": "2026-08-19T22:32:08Z",
+      "pushed_at": "2026-08-20T00:28:40Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "Fair-code workflow automation platform with native AI capabilities. Combine visual building with custom code, self-host or cloud, 400+ integrations.",
@@ -1446,7 +1446,7 @@
     "keyuchen21/agentic-engineering-handbook": {
       "pushed_at": "2026-08-03T15:26:34Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "The definitive OpenAI, Claude, MCP, Harness, Evals, and Production Agent Systems learning roadmap.",
@@ -1455,7 +1455,7 @@
     "gakonst/nanocodex": {
       "pushed_at": "2026-08-19T16:55:04Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "Building blocks for frontier OpenAI agents in Rust. Nanocodex empowers you with Codex-level performance anywhere.",
@@ -1464,16 +1464,16 @@
     "Prism-Shadow/penguin-harness": {
       "pushed_at": "2026-08-19T14:09:46Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "🐧 Harness for RSI. Let AI Build AI. Everything is Transparent.",
       "owner_avatar": "https://avatars.githubusercontent.com/u/236323912?v=4"
     },
     "omnigent-ai/omnigent": {
-      "pushed_at": "2026-08-19T22:41:09Z",
+      "pushed_at": "2026-08-20T00:10:19Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "Omnigent is an open-source AI agent framework and meta-harness: orchestrate Claude Code, Codex, Cursor, Pi, and custom agents — swap harnesses without rewriting, enforce policies and sandboxing, and collaborate in real time from any device.",
@@ -1482,7 +1482,7 @@
     "UiPath/coder_eval": {
       "pushed_at": "2026-08-19T21:58:10Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "Test that your Claude Code skills, MCP servers, and CLIs actually work when an agent uses them — sandboxed YAML suites, activation checks, A/B experiments, CI gates.",
@@ -1491,7 +1491,7 @@
     "ruvnet/metaharness": {
       "pushed_at": "2026-08-19T08:51:51Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "🛠️ The meta-harness for AI agents — scaffold your own focused, branded agent harness with its own npx CLI, MCP server, memory, learning loop, and witness-signed releases. Works with Claude Code, Codex, pi.dev, Hermes, OpenClaw, and RVM (hardware-isolated sandbox).",
@@ -1500,7 +1500,7 @@
     "koala73/worldmonitor": {
       "pushed_at": "2026-08-19T22:01:32Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "Real-time global intelligence dashboard. AI-powered news aggregation, geopolitical monitoring, and infrastructure tracking in a unified situational awareness interface",
@@ -1509,7 +1509,7 @@
     "adm73/OpenBcon": {
       "pushed_at": "2026-08-11T16:31:50Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "Open-source AI funding workspace for consultants, advisors, and incubators. Manage opportunities, companies, applications, and AI-generated funding packages.",
@@ -1518,7 +1518,7 @@
     "AMAP-ML/LongHorizon-Harness": {
       "pushed_at": "2026-08-17T13:48:50Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "The long-horizon computer-use harness. Run AI agents across desktop apps and the CLI for extended periods while preserving task state and making reliable progress on complex workflows. Features fresh-context execution, durable verified state, independent auditing, recoverable progress, and native Claude Code / Codex / OpenClaw integration.",
@@ -1527,7 +1527,7 @@
     "pax-beehive/paxm": {
       "pushed_at": "2026-08-05T21:09:37Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "Persistent, provider-neutral memory for Codex, Claude Code, OpenCode, Pi, and MCP coding agents.",
@@ -1536,7 +1536,7 @@
     "QoderAI/better-harness": {
       "pushed_at": "2026-08-19T14:13:23Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "An open-source Harness Engineering platform for coding agents—define harnesses as code, run controlled experiments, inspect evidence, and compare outcomes.",
@@ -1545,25 +1545,25 @@
     "google-gemini/gemini-cli": {
       "pushed_at": "2026-08-19T21:33:30Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "An open-source AI agent that brings the power of Gemini directly into your terminal.",
       "owner_avatar": "https://avatars.githubusercontent.com/u/161781182?v=4"
     },
     "lidge-jun/opencodex": {
-      "pushed_at": "2026-08-19T22:15:30Z",
+      "pushed_at": "2026-08-20T00:34:42Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "Universal provider proxy for OpenAI Codex & Claude Code — use any LLM (Claude, Gemini, Grok, DeepSeek, Ollama…) with Codex CLI, App, SDK, and Claude Code",
       "owner_avatar": "https://avatars.githubusercontent.com/u/243035832?v=4"
     },
     "ccch1mneyyy/dsh-TUI": {
-      "pushed_at": "2026-08-19T22:47:17Z",
+      "pushed_at": "2026-08-20T00:26:32Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "DSH 官方公众号收录的 TUI 补位插件：Claude Code 风，鲸鱼顶栏/实时状态/流式思考/双击 Esc 回滚/上下文进度+TPS。npm 一键装。  DSH official WeChat featured TUI plugin — Claude Code style: whale bar, live status, streaming thoughts, double-Esc rollback, context bar + TPS. npm one-click.",
@@ -1572,7 +1572,7 @@
     "sv-number/mcp-server": {
       "pushed_at": "2026-08-10T18:55:24Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "MCP server for AI agents that need a phone number: order a private number in 200+ countries, read the SMS verification code, hand it back. The widest country coverage in the category, and you can check it with one API call.",
@@ -1581,7 +1581,7 @@
     "eternityspring/shuohao-skills": {
       "pushed_at": "2026-08-19T03:03:35Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "AI 短剧制作的 skill 集合：拆角色、排大纲、出场景与道具设定、写剧本、切分镜 | Agent skills for AI short-drama production — character bibles, adaptation outlines, art bibles, screenplays, storyboards. Runs in Claude Code & codex.",
@@ -1590,7 +1590,7 @@
     "egoist/waku": {
       "pushed_at": "2026-08-19T18:56:59Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "⚡ A native app for all your coding agents.",
@@ -1599,7 +1599,7 @@
     "AmazingAng/old-coder": {
       "pushed_at": "2026-08-18T10:39:04Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "An old coder's strategy for the agent era: don't read the code — make it run the gauntlet. Evidence-first development skill for coding agents, inspired by Uncle Bob.",
@@ -1608,7 +1608,7 @@
     "MaxFreedomPollard/Compartment": {
       "pushed_at": "2026-08-14T18:56:07Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "Encrypted, fully offline agentic memory. One click install, GUI w/ memory map, all OS and agents. Superior memory creation, storage and retrieval.",
@@ -1617,7 +1617,7 @@
     "alexgreensh/attention-span": {
       "pushed_at": "2026-08-19T13:46:52Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "Make your agents talk human. ADHD-friendly output styles for Claude Code. So you can pay attention, not tokens.",
@@ -1626,7 +1626,7 @@
     "QwenAudio/qwen-audio-agent": {
       "pushed_at": "2026-08-19T13:25:22Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "A realtime voice runtime that keeps Agents talking, working, and present.  Real-time Voice Runtime for AI Agents",
@@ -1635,7 +1635,7 @@
     "Leutenegger/book-to-skill": {
       "pushed_at": "2026-08-14T11:41:40Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "Turn any technical book PDF into a Claude Code skill — ready to study, reference, and use while you work.",
@@ -1644,7 +1644,7 @@
     "danyuchn/asd-ste100-skill": {
       "pushed_at": "2026-08-13T11:03:39Z",
       "archived": false,
-      "checked_at": "2026-08-19",
+      "checked_at": "2026-08-20",
       "gone": false,
       "dormant": null,
       "description": "ASD-STE100 Simplified Technical English rules, repurposed as a Claude Code skill for rewriting ambiguous agent-facing English.",

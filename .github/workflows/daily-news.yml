@@ -2,7 +2,7 @@ name: Daily News Pipeline
 
 on:
   schedule:
-    - cron: '30 23 * * *' # 매일 23:30 UTC = 08:30 KST (출근 전 자동 갱신)
+    - cron: '0 0 * * *' # 매일 00:00 UTC = 09:00 KST (매일 아침 9시 정기 자동 실행 및 두레이 알림)
   workflow_dispatch:
 
 concurrency:
