@@ -65,6 +65,11 @@ jobs:
             git push origin main
           fi
 
+      - name: Send Dooray Notification
+        env:
+          DOORAY_WEBHOOK_URL: ${{ secrets.DOORAY_WEBHOOK_URL }}
+        run: node scripts/core/notify-dooray.js trends
+
   # GITHUB_TOKEN 으로 push 한 커밋은 deploy-pages.yml 을 트리거하지 않으므로 여기서 직접 배포
   deploy:
     needs: update
