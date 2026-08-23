@@ -1,6 +1,11 @@
 {
   "archives": [
     {
+      "file": "news_2026-08-23.json",
+      "version": "v2026.08.23",
+      "generated_at": "2026-08-23T07:17:09.981Z"
+    },
+    {
       "file": "news_2026-08-21.json",
       "version": "v2026.08.21",
       "generated_at": "2026-08-21T01:08:21.731Z"

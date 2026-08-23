@@ -2,13 +2,13 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..', '..');
-const CANDIDATES_PATH = path.join(ROOT, '.tmp', 'news_candidates.json');
-const LATEST_PATH = path.join(ROOT, 'site', 'public', 'data', 'news_latest.json');
+const CANDIDATES_FILE = path.join(ROOT, '.tmp', 'news_candidates.json');
+const LATEST_FILE = path.join(ROOT, 'site', 'public', 'data', 'news_latest.json');
 const ARCHIVE_DIR = path.join(ROOT, 'site', 'public', 'data', 'archive');
-const DATA_ARCHIVE_DIR = path.join(ROOT, 'data', 'archive');
+const INDEX_FILE = path.join(ARCHIVE_DIR, 'news_index.json');
 
-const raw = JSON.parse(fs.readFileSync(CANDIDATES_PATH, 'utf8'));
-const factMap = new Map(raw.candidates.map(c => [c.id, c]));
+const raw = JSON.parse(fs.readFileSync(CANDIDATES_FILE, 'utf8'));
+const candidateMap = new Map(raw.candidates.map(c => [c.id, c]));
 
 const SIGNALS = {
   model: "새 모델·버전 출시·프리뷰·벤치마크",
@@ -20,337 +20,316 @@ const SIGNALS = {
   policy: "정책·규제·인프라 (기술 영향 큰 것만)",
 };
 
-const SOURCE_NAMES = {
-  geeknews: "GeekNews",
-  hackernews: "Hacker News",
-  aitimes: "AI타임스",
-  reddit: "Reddit",
-  github: "GitHub",
-  x: "X (Twitter)",
-  threads: "Threads",
-};
-
-const CURATED_ITEMS = [
-  // === GEEKNEWS ===
+const curatedItems = [
+  // 1. Google Antigravity Remote
   {
-    id: "geeknews_b825474539",
-    signal_id: "oss",
-    importance: 87,
-    title_ko: "Kaneo — 복잡한 기능을 덜어내고 본질에 집중한 오픈소스 프로젝트 관리 도구",
-    title_en: "Kaneo: Minimalist open-source project management tool",
-    summary_ko: "• 지라(Jira)의 과도한 설정과 느린 반응 속도를 탈피하고 필요한 기능만 직관적으로 담은 오픈소스 도구 Kaneo가 공개되었습니다.\n• 칸반 보드, 마일스톤 추적, 마크다운 문서 작성을 100% 로컬 및 셀프 호스팅 환경에서 가볍게 구동할 수 있습니다.\n• 팀 생산성을 저해하는 복잡한 관리 오버헤드를 줄이고 개발자 중심의 경량 워크플로우를 제공합니다.",
-    body_ko: "비대해진 상용 프로젝트 관리 도구들의 복잡성과 느린 속도에 지친 개발자들을 위해 미니멀 오픈소스 프로젝트 매니지먼트 툴 'Kaneo'가 공개되었습니다. Kaneo는 지라나 아사나처럼 수백 개의 설정 메뉴로 사용자를 압도하는 대신, 직관적인 칸반 보드와 마일스톤, 마크다운 이슈 트래킹에 집중합니다. 자체 서버나 Docker 컨테이너에 단 몇 초 만에 설치하여 프라이빗하게 데이터를 관리할 수 있습니다. 경량 프론트엔드 아키텍처로 제작되어 지연 시간 없는 즉각적인 태스크 전환과 실시간 협업을 지원합니다. 불필요한 행정 오버헤드를 걷어내고 실제 코드 개발과 제품 출시에 몰입하고자 하는 소규모 스타트업 및 오픈소스 팀에 최적화되었습니다. 릴리스 직후 심플함과 빠른 속도로 개발자 커뮤니티에서 뜨거운 지지를 받고 있습니다.",
-    tags: ["Kaneo", "프로젝트관리", "오픈소스", "칸반보드", "개발생산성"]
-  },
-  {
-    id: "geeknews_aa49a005c6",
-    signal_id: "practice",
-    importance: 89,
-    title_ko: "대화를 지식으로 전환하기: Slack이 인간과 AI 에이전트 협업 팀을 구축하는 방법",
-    title_en: "Turning Conversations into Knowledge: How Slack Builds Human-Agent Teams",
-    summary_ko: "• 슬랙 엔지니어링 팀이 일상 대화 채널의 방대한 히스토리를 AI 에이전트의 구조화된 지식 베이스로 자동 전환하는 아키텍처를 공개했습니다.\n• 대화 맥락과 코드 스니펫, 의사결정 과정을 실시간 요약하여 팀원과 서브 에이전트가 공유하는 지식 그래프를 구축합니다.\n• 흩어져 유실되던 슬랙 대화 데이터를 조직의 영구적 자산으로 탈바꿈시키는 실전 엔지니어링 팁을 공유합니다.",
-    body_ko: "협업 메신저 슬랙(Slack)이 팀 채널에서 매일 쏟아지는 수천 건의 일상 대화를 AI 에이전트의 정제된 지식 베이스로 자동 축적하는 내부 엔지니어링 아키텍처를 발표했습니다. 엔지니어링 팀은 비정형 슬랙 스레드에서 핵심 의사결정 맥락, 버그 해결책, 배포 히스토리를 자동으로 감지하여 구조화된 엔티티로 인덱싱하는 파이프라인을 구축했습니다. 이를 통해 인간 팀원은 물론 새로 투입된 AI 코딩 에이전트가 과거의 대화 기록을 기반으로 정확한 기술적 판단을 내릴 수 있습니다. 팀원의 질문에 대해 과거 해결 이력과 담당자 레퍼런스를 즉각 연결해 줌으로써 불필요한 반복 커뮤니케이션을 획기적으로 줄였습니다. 대화형 메신저가 단순한 소통 창구를 넘어 조직의 실시간 인텔리전스 허브로 진화하는 모범 사례를 제시했습니다. 에이전틱 협업 환경을 구축하려는 모든 테크 기업의 필독 레퍼런스로 꼽힙니다.",
-    tags: ["Slack", "인간에이전트협업", "지식베이스", "지식그래프", "엔지니어링"]
-  },
-  {
-    id: "geeknews_3f93770c96",
-    signal_id: "practice",
-    importance: 81,
-    title_ko: "Rust 개발자가 Zig 언어로 JSONPath 엔진을 재구현하며 분석한 핵심 차이점",
-    title_en: "Rewriting JSONPath from Rust to Zig: Lessons and Differences",
-    summary_ko: "• 숙련된 Rust 엔지니어가 고성능 JSONPath 파서 엔진을 Zig 언어로 바닥부터 다시 작성하며 경험한 기술적 장단점을 분석했습니다.\n• 명시적인 메모리 할당자(Allocator) 제어와 Comptime 메타프로그래밍이 런타임 성능과 바이너리 크기에 미친 영향을 심층 비교했습니다.\n• 시스템 프로그래밍과 고성능 에이전트 런타임 구축 시 Rust와 Zig의 적절한 선택 기준을 제시합니다.",
-    body_ko: "Rust로 대규모 데이터 파서를 개발해 온 한 시니어 엔지니어가 고성능 JSONPath 쿼리 엔진을 차세대 시스템 언어인 Zig로 재구현한 상세 비교 분석 글을 발표했습니다. 저자는 Zig의 가장 큰 강점으로 복잡한 매크로 시스템 대신 강력한 컴파일 타임 연산(Comptime)을 통해 제로 코스트 추상화를 달성할 수 있다는 점을 꼽았습니다. 또한 모든 메모리 할당을 호출자가 명시적으로 전달하는 Allocator 패턴 덕분에 임베디드 및 WebAssembly 타깃에서 바이너리 크기를 절반 이하로 줄일 수 있었습니다. 반면 Rust의 엄격한 라이프타임 검증기가 제공하는 컴파일 타임 동시성 안전성의 가치도 함께 재조명했습니다. 초경량 코딩 에이전트 CLI나 고속 데이터 전처리 파이프라인을 구축할 때 두 언어의 트레이드오프를 명확히 이해할 수 있는 훌륭한 엔지니어링 가이드입니다. 시스템 언어 생태계의 최신 발전 동향을 파악하고자 하는 개발자들의 큰 호응을 얻고 있습니다.",
-    tags: ["Rust", "Zig", "JSONPath", "시스템프로그래밍", "성능최적화"]
-  },
-
-  // === AITIMES ===
-  {
-    id: "aitimes_04e66f6c12",
+    id: "aitimes_caaf834661",
     signal_id: "product",
-    importance: 93,
-    title_ko: "앤트로픽, '클로드 코워크' 웹·모바일 확장 출시… 구글 워크스페이스 연동 대폭 강화",
-    title_en: "Anthropic expands Claude Cowork to web and mobile with deep Google Workspace integration",
-    summary_ko: "• 앤트로픽이 팀 협업 AI 플랫폼 '클로드 코워크(Claude Cowork)'의 지원 범위를 웹과 모바일 앱으로 전면 확장했습니다.\n• 구글 드라이브, 지메일, 캘린더와의 양방향 실시간 동기화를 지원하여 문서 검토와 회의 요약을 자율 대행합니다.\n• 터미널 중심의 코딩 에이전트를 넘어 전사적 비즈니스 협업 생태계로 클로드의 영토를 확장하고 있습니다.",
-    body_ko: "앤트로픽이 팀 단위 업무 협업을 위한 AI 서비스 '클로드 코워크(Claude Cowork)'를 웹 브라우저와 모바일 환경까지 전격 확장 출시했습니다. 이번 업데이트를 통해 구글 워크스페이스(Google Workspace)와의 심층 연동이 기본 탑재되어, 지메일 서신 분석, 구글 드라이브 문서 공동 편집, 캘린더 일정 조율을 클로드가 백그라운드에서 지능적으로 처리합니다. 모바일 기기에서도 데스크톱과 완전히 동기화된 에이전트 세션을 이어갈 수 있어 이동 중에도 복잡한 비즈니스 문서 검토를 즉시 위임할 수 있습니다. 기업 내부 데이터의 암호화 격리와 엄격한 권한 관리 기능을 내장하여 엔터프라이즈 보안 기준을 완벽히 충족합니다. 마이크로소프트의 코파일럿과 오픈AI의 챗GPT 엔터프라이즈가 주도하던 기업용 협업 시장에서 앤트로픽의 강력한 대항마로 평가받고 있습니다. 실무 생산성 도구 전반에 걸쳐 에이전트 중심의 업무 혁신을 가속화할 전망입니다.",
-    tags: ["앤트로픽", "클로드코워크", "구글워크스페이스", "팀협업", "생산성도구"]
-  },
-  {
-    id: "aitimes_f17735830a",
-    signal_id: "research",
-    importance: 91,
-    title_ko: "클로드, 단백질 설계 및 분석 화학서 뛰어난 성능 입증… '화학자급 직관' 구현",
-    title_en: "Claude demonstrates expert-level intuition in protein design and analytical chemistry",
-    summary_ko: "• 앤트로픽의 Claude 모델이 복잡한 분자 구조 예측과 유기화학 합성 경로 설계에서 전문 화학자 수준의 추론 직관을 입증했습니다.\n• 분광 데이터 해석과 단백질 리간드 결합력 예측 평가에서 기존 도메인 특화 화학 모델들을 뛰어넘는 정확도를 기록했습니다.\n• AI가 단순 텍스트 코딩을 넘어 자연과학 및 신약 개발 연구의 필수 실험 파트너로 진화하고 있습니다.",
-    body_ko: "인공지능 연구 저널에 발표된 최신 평가 결과에 따르면 앤트로픽의 Claude 모델이 복잡한 유기 분자 합성 및 단백질 설계 태스크에서 박사급 화학자에 필적하는 추론 능력을 보여주었습니다. 연구진은 NMR 분광 데이터 해석, 분자 구조 최적화, 반응 역학 예측 등 고난도 화학 벤치마크를 수행한 결과 Claude가 단순 암기를 넘어 분자 결합의 물리화학적 원리를 깊이 이해하고 있음을 확인했습니다. 특히 수천 개의 합성 경로 중 부반응을 최소화하는 최적의 반응 조건을 인간 연구원보다 10배 이상 빠른 속도로 제안했습니다. 기존에 수개월 이상 소요되던 신약 후보 물질 스크리닝과 효소 엔지니어링 기간을 획기적으로 단축할 수 있는 가능성을 열었습니다. 텍스트와 코드를 학습한 범용 대형 언어 모델이 자연과학의 심오한 물리 법칙까지 자율 추론해 낼 수 있음을 증명한 중대한 이정표로 평가받고 있습니다. 바이오테크 및 제약 업계의 AI 도입 열풍을 한층 더 가속화할 것으로 기대됩니다.",
-    tags: ["바이오AI", "단백질설계", "화학추론", "앤트로픽", "신약개발"]
-  },
-  {
-    id: "aitimes_5ee2576953",
-    signal_id: "model",
-    importance: 89,
-    title_ko: "지푸 AI, 'GLM-5.3' 공식 API 공개… 가격 동결로 글로벌 프론티어 시장 가성비 공략",
-    title_en: "Zhipu AI officially releases GLM-5.3 API with frozen pricing to dominate frontier market",
-    summary_ko: "• Zhipu AI가 최상위 지능 벤치마크를 달성한 플래그십 파운데이션 모델 'GLM-5.3'의 상용 API를 공식 오픈했습니다.\n• 성능 업그레이드에도 불구하고 이전 버전과 동일한 토큰 가격을 유지하여 엔터프라이즈 고객의 도입 비용을 대폭 낮췄습니다.\n• 높은 코딩 및 에이전트 추론 역량을 바탕으로 글로벌 오픈 API 시장에서 독점 모델들에 대한 가격 공세를 강화합니다.",
-    body_ko: "중국 대표 인공지능 기업 지푸 AI(Zhipu AI)가 글로벌 벤치마크 상위권을 기록한 차세대 파운데이션 모델 'GLM-5.3'의 개발자용 상용 API를 공식 릴리스했습니다. GLM-5.3은 이전 세대 대비 복합 수학 문제 해결, 긴 문서 분석, 에이전트 도구 호출 능력이 비약적으로 향상된 모델입니다. 특히 지푸 AI는 성능 향상에도 불구하고 API 호출 단가를 기존 수준으로 완전히 동결하여 대규모 트래픽을 처리하는 글로벌 스타트업과 기업 고객들을 집중 공략하고 있습니다. 최근 Unblocked 등 글로벌 개발 도구 기업들이 비용 절감을 위해 에이전트 트래픽을 GLM으로 이전하는 흐름과 맞물려 강력한 시장 견인력을 발휘하고 있습니다. 높은 한국어 및 다국어 지원 능력을 갖추어 국내 엔터프라이즈 환경에서도 매력적인 대체재로 급부상하고 있습니다. 프론티어 AI 시장에서 성능과 가격 경쟁력을 앞세운 멀티 모델 생태계의 주도권 다툼이 더욱 치열해질 전망입니다.",
-    tags: ["지푸AI", "GLM-5.3", "API출시", "가성비LLM", "인공지능모델"]
-  },
-  {
-    id: "aitimes_b799380d0c",
-    signal_id: "policy",
-    importance: 79,
-    title_ko: "데이터센터 전력·환경 반발 달래기에 나선 빅테크… 핵심 해법은 'AI 실질 효용 증명'",
-    title_en: "Big Tech addresses AI data center environmental concerns by proving real utility",
-    summary_ko: "• 대규모 AI 데이터센터 건립으로 인한 전력망 과부하와 환경 이슈에 대응하기 위해 빅테크들이 친환경 인프라 투자를 대폭 확대하고 있습니다.\n• 단순한 설비 투자를 넘어 의료, 기후 예측, 산업 공정 최적화 등 AI의 구체적인 사회적 효용을 증명하는 데 주력하고 있습니다.\n• 인공지능 인프라 구축의 지속 가능성과 사회적 수용성을 확보하기 위한 거버넌스 전략이 필수 과제로 떠올랐습니다.",
-    body_ko: "전 세계적으로 대규모 AI 데이터센터 증설에 따른 전력 소모와 탄소 배출에 대한 지역사회의 반발이 거세지자 글로벌 빅테크 기업들이 종합적인 대응책 마련에 나섰습니다. 마이크로소프트, 구글, 아마존 등은 원자력 및 차세대 재생에너지 직접 조달 계약을 체결하는 동시에 수냉식 냉각 시스템을 전면 도입하고 있습니다. 특히 기업들은 인프라 투자에 대한 사회적 합의를 이끌어내기 위해 신약 개발, 기후 변화 시뮬레이션, 공공 서비스 혁신 등 AI가 창출하는 실질적인 효용을 가시적으로 입증하는 데 역량을 집중하고 있습니다. 단순한 기술 경쟁을 넘어 인프라의 환경적 지속 가능성이 AI 기업의 장기적인 기업 가치를 결정하는 핵심 변수로 부상했습니다. 각국 정부의 엄격한 에너지 규제에 발맞춰 고효율 저전력 추론 칩셋 개발과 데이터센터 위치 분산 전략이 필수적인 경영 과제로 자리잡았습니다. 친환경 AI 인프라 생태계로의 전환이 본격화되고 있음을 보여주는 중요한 정책적 흐름입니다.",
-    tags: ["AI데이터센터", "친환경인프라", "에너지정책", "지속가능성", "빅테크"]
+    importance: 92,
+    title_ko: "구글, 안티그래비티 IDE 모바일 원격 제어 출시... 장시간 에이전트 작업 실시간 모니터링 지원",
+    title_en: "Google launches Antigravity IDE remote control for background agent workflows",
+    summary_ko: "• 구글이 차세대 코딩 환경 안티그래비티(Antigravity)의 모바일 및 웹 기반 원격 제어 기능을 공식 공개했다.\n• 백그라운드에서 수 시간 동안 진행되는 대규모 리팩터링 및 빌드 진단 과정을 모바일로 확인하고 승인할 수 있다.\n• 개발자가 자리를 비우거나 이동하는 중에도 비동기 AI 에이전트의 워크플로우를 중단 없이 관리할 수 있게 된다.",
+    summary_en: "• Google released remote control capabilities for its Antigravity IDE across mobile and web interfaces.\n• Developers can monitor and approve multi-hour agent refactoring and build diagnostics on the go.\n• This enables uninterrupted supervision of long-running asynchronous AI workflows outside the desk.",
+    body_ko: "구글이 AI 코딩 에이전트 환경인 안티그래비티 IDE에 모바일 원격 제어 기능을 새롭게 선보였다. 기존에는 대규모 코드베이스 리팩터링이나 테스트 수정 같은 장기 작업을 실행하면 개발자가 PC 앞에서 대기해야 하는 불편이 있었다. 이번 업데이트를 통해 모바일 브라우저나 전용 인터페이스에서 에이전트의 현재 실행 단계와 터미널 로그를 실시간으로 확인할 수 있다. 에이전트가 중요한 파일 수정이나 명령어 실행 전 승인을 요청할 때도 스마트폰 알림을 통해 즉시 결정을 내릴 수 있다. 개발자가 자리를 비우더라도 장시간 소요되는 에이전트 작업 파이프라인이 멈추지 않고 연속성을 유지하게 된다. 복잡한 시스템 단위 개발 작업에서 비동기 에이전트 협업 효율을 한층 끌어올릴 것으로 기대된다.",
+    body_en: "Google has introduced mobile remote control features to its Antigravity IDE for long-running agent tasks. Previously, extensive refactoring and continuous test fixes required developers to stay tethered to their workstations. With this update, engineers can monitor agent progression and terminal output directly from mobile web interfaces. The system sends interactive alerts whenever the agent needs explicit approval for critical edits or execution. This eliminates workflow bottlenecks during extended asynchronous autonomous runs. It marks a significant shift toward continuous ambient development powered by coding agents.",
+    tags: ["구글", "안티그래비티", "코딩 에이전트", "원격 제어", "개발 환경"]
   },
 
-  // === HACKER NEWS ===
+  // 2. Anthropic Claude Code /eli5
   {
-    id: "hackernews_9153675c9b",
+    id: "aitimes_59e8721fa6",
     signal_id: "devtool",
-    importance: 88,
-    title_ko: "Autolith — Common Lisp 라이브 런타임을 결합한 터미널 프로그래밍 에이전트",
-    title_en: "Autolith: A programming agent with a live runtime and Common Lisp integration",
-    summary_ko: "• 터미널 세션을 벗어나지 않고 라이브 REPL 런타임과 대화하며 코드를 검증하는 프로그래밍 에이전트 Autolith가 공개되었습니다.\n• 파일 읽기/수정, 워크스페이스 검색, 테스트 실행은 물론 Common Lisp 환경과의 실시간 양방향 상호작용을 지원합니다.\n• 정적 코드 완성을 넘어 실행 중인 런타임 상태를 직접 조작하며 디버깅하는 차세대 에이전트 경험을 제공합니다.",
-    body_ko: "개발사 Lambda Symbolics가 라이브 런타임 환경과 긴밀히 통합된 터미널 기반 프로그래밍 에이전트 'Autolith'를 Hacker News에 선보였습니다. 기존 코딩 도구들이 정적 파일 수정에 그쳤던 반면, Autolith는 실행 중인 Common Lisp 런타임과 직접 통신하며 변수 상태와 함수 반환값을 실시간으로 확인합니다. 개발자가 터미널 대화창에서 명령을 내리면 에이전트가 소스코드를 수정하는 동시에 REPL에 즉시 함수를 재정의하고 테스트를 수행합니다. 복잡한 알고리즘이나 상태 머신을 디버깅할 때 프로세스를 재시작할 필요 없이 라이브 환경에서 결함을 초고속으로 수정할 수 있습니다. 파일 시스템 탐색과 프로젝트 컨텍스트 추적 기능이 유기적으로 결합되어 개발자의 작업 흐름을 끊김 없이 유지해 줍니다. 인터랙티브 프로그래밍의 강력함과 현대 LLM 에이전트 기술이 완벽하게 융합된 혁신적인 개발 도구로 평가받고 있습니다.",
-    tags: ["Autolith", "라이브런타임", "CommonLisp", "코딩에이전트", "개발도구"]
-  },
-  {
-    id: "hackernews_732681d48a",
-    signal_id: "oss",
-    importance: 87,
-    title_ko: "Vomit — 로컬 경량 LLM으로 Claude 토큰 출력을 실시간 정제하는 오픈소스 도구",
-    title_en: "Vomit: Clean up Claude token output with a local lightweight LLM",
-    summary_ko: "• Claude 모델이 긴 추론 과정에서 출력하는 과도한 장황함과 불필요한 토큰 노이즈를 로컬 LLM으로 즉시 압축·정제하는 오픈소스 'Vomit'이 공개되었습니다.\n• 외부 텔레메트리 없이 100% 로컬 머신에서 독립 실행되어 완벽한 개인정보 보호와 제로 레이턴시를 보장합니다.\n• 복잡한 에이전트 체인의 중간 출력물을 정돈하여 다운스트림 컨텍스트 오버헤드를 대폭 절감합니다.",
-    body_ko: "개발자 Zach Ahn이 최신 Claude 모델의 장황한 추론 토큰 출력을 간결하고 명확한 텍스트로 정제해 주는 오픈소스 유틸리티 'Vomit'을 릴리스했습니다. 최근 대형 언어 모델들이 생각의 연쇄(CoT) 과정에서 지나치게 방대한 부가 설명을 쏟아내면서 후속 에이전트 도구의 컨텍스트 윈도우를 낭비하는 문제가 빈번했습니다. Vomit은 Claude의 출력을 로컬 경량 LLM(Ollama 등) 파이프라인으로 실시간 통과시켜 핵심 요점과 실행 코드만 깔끔하게 추출합니다. 외부 서버 통신이 전혀 없는 순수 로컬 방식으로 구동되어 기업 내부의 민감한 코드가 유출될 위험이 전혀 없습니다. 에이전트 오케스트레이션 파이프라인의 중간 필터로 삽입되어 전체 시스템의 토큰 소비 효율을 극대화해 줍니다. 오픈소스 커뮤니티의 실용적인 문제 해결 능력을 보여준 훌륭한 엔지니어링 도구로 호평을 받고 있습니다.",
-    tags: ["Vomit", "토큰정제", "로컬LLM", "오픈소스", "에이전트최적화"]
-  },
-  {
-    id: "hackernews_52fb0c0724",
-    signal_id: "product",
-    importance: 86,
-    title_ko: "Vendo (YC S26) — 사용자가 기존 소프트웨어 위에 맞춤형 기능을 자율 구축하는 에이전트",
-    title_en: "Launch HN: Vendo (YC S26) – Let users build custom features on top of existing software",
-    summary_ko: "• Y Combinator S26 출신 Vendo가 사용자가 이미 사용 중인 SaaS 제품 위에 필요한 기능을 즉석에서 구축하는 에이전트를 공개했습니다.\n• 대시보드, 자동화 워크플로우, 미니 앱을 자연어로 설명하면 제품 API와 UI 위에 실시간으로 빌드합니다.\n• 소프트웨어 기능 개발의 주도권을 공급사에서 실제 최종 사용자에게로 이전하는 패러다임 혁신을 제시합니다.",
-    body_ko: "YC 2026 여름 배치 스타트업 Vendo가 기존 업무용 소프트웨어 위에 커스텀 기능을 즉석에서 생성해 주는 혁신적인 에이전트 플랫폼을 런칭했습니다. 사용자가 슬랙, 노션, 세일즈포스 등 일상적으로 사용하는 도구 안에서 필요한 특정 워크플로우나 데이터 대시보드를 자연어로 설명하면 에이전트가 즉각 구현합니다. 기업이 특정 기능 업데이트를 기다리거나 비싼 외주 개발을 맡길 필요 없이 현업 담당자가 필요한 도구를 직접 조립할 수 있습니다. 제품의 핵심 API와 상태 인터페이스를 안전하게 연동하여 기존 비즈니스 로직을 손상시키지 않고 안전하게 확장됩니다. 소프트웨어의 완성품 개념을 해체하고 사용자 맞춤형 런타임 확장을 가능케 하는 차세대 SaaS 인터페이스로 주목받고 있습니다. 업무 효율성을 극대화하려는 글로벌 비즈니스 팀들 사이에서 큰 관심을 모으고 있습니다.",
-    tags: ["Vendo", "YC", "소프트웨어확장", "맞춤형기능", "에이전트플랫폼"]
-  },
-  {
-    id: "hackernews_ffa8fa943f",
-    signal_id: "practice",
-    importance: 82,
-    title_ko: "27달러 초저가 오픈소스 스마트워치에서 Claude 코딩 에이전트로 펌웨어 해킹하기",
-    title_en: "Hacking with Claude on a $27 open-source smart watch",
-    summary_ko: "• 소프트웨어 엔지니어 Mike Kasberg가 27달러짜리 PineTime 스마트워치의 임베디드 펌웨어를 Claude Code로 자율 개발한 경험을 공유했습니다.\n• C/C++ 하드웨어 드라이버 작성, 메모리 제약 디버깅, BLE 통신 스택 구축을 에이전트 협업으로 단 몇 시간 만에 완료했습니다.\n• 웹/앱 개발을 넘어 저수준 임베디드 IoT 영역까지 코딩 에이전트의 실전 효용성을 완벽히 입증했습니다.",
-    body_ko: "엔지니어 Mike Kasberg가 27달러 상당의 오픈소스 스마트워치 'PineTime'의 임베디드 펌웨어를 AI 코딩 에이전트와 함께 개조한 실전 해킹기가 기술 블로그를 통해 공개되었습니다. 저자는 수년간 방치해 두었던 스마트워치의 제한된 메모리와 레지스터 구조를 Claude에게 학습시키고 맞춤형 UI 및 센서 드라이버 코드를 작성하도록 지시했습니다. 에이전트는 C 언어 기반의 실시간 운영체제(FreeRTOS) API와 블루투스(BLE) 통신 프로토콜을 정확히 이해하고 복잡한 컴파일 에러를 스스로 수정했습니다. 인간 엔지니어가 수일간 씨름해야 했던 저수준 레지스터 비트 연산과 타이밍 버그가 단 몇 차례의 대화 세션만으로 깔끔하게 해결되었습니다. 소프트웨어 엔지니어링 에이전트가 웹이나 모바일 앱을 넘어 하드웨어 임베디드 시스템 개발까지 획기적으로 가속할 수 있음을 보여준 흥미로운 실전 사례입니다. 메이커 커뮤니티와 IoT 개발자들에게 신선한 충격과 영감을 선사하고 있습니다.",
-    tags: ["임베디드AI", "스마트워치", "PineTime", "ClaudeCode", "하드웨어해킹"]
+    importance: 89,
+    title_ko: "앤트로픽 사내에서 유행하는 클로드 코드 '/eli5' 스킬... 복잡한 아키텍처와 코드를 다이어그램으로 설명",
+    title_en: "Anthropic's popular Claude Code '/eli5' skill explains complex code with visual diagrams",
+    summary_ko: "• 앤트로픽 엔지니어들이 사내에서 널리 활용 중인 클로드 코드용 '/eli5' 커스텀 스킬이 외부에 알려졌다.\n• 명령어 뒤에 '/eli5'를 붙이면 난해한 코드베이스를 초심자 눈높이에 맞춘 비유와 머메이드(Mermaid) 다이어그램으로 시각화한다.\n• 신규 입사자의 온보딩 기간을 단축하고 복잡한 레거시 시스템의 핵심 흐름을 빠르게 파악하도록 돕는다.",
+    summary_en: "• Anthropic engineers revealed an internal '/eli5' skill widely adopted within Claude Code workflows.\n• Appending '/eli5' transforms intricate code into beginner-friendly analogies and Mermaid architecture diagrams.\n• It significantly accelerates codebase onboarding and clarifies legacy dependencies for engineering teams.",
+    body_ko: "앤트로픽 내부 개발자들 사이에서 복잡한 시스템 구조를 직관적으로 풀어내는 클로드 코드 전용 '/eli5' 스킬이 큰 호응을 얻고 있다. 질문 뒤에 해당 명령어를 덧붙이면 복잡한 호출 흐름이나 디자인 패턴을 초심자도 이해할 수 있는 쉬운 문장으로 재구성한다. 단순 텍스트 설명에 그치지 않고 머메이드(Mermaid) 형식의 시각적 다이어그램을 함께 생성해 모듈 간 상호작용을 한눈에 보여준다. 앤트로픽 사내에서는 대규모 코드베이스에 처음 투입된 엔지니어의 온보딩과 코드 리뷰 이해도를 높이는 데 적극 활용되고 있다. 복잡한 추상화 계층을 빠르게 파악해야 하는 오픈소스 기여자들에게도 유용한 프롬프트 엔지니어링 사례로 평가받는다. 에이전트 도구 생태계가 단순 코드 생성을 넘어 지식 전달과 문서화 보조 도구로 확장되고 있음을 보여준다.",
+    body_en: "Anthropic's engineering team has popularized an internal '/eli5' skill built for Claude Code. By appending the command to questions, the agent re-explains intricate systems using intuitive analogies and clean phrasing. It automatically generates Mermaid architecture diagrams alongside explanations to visualize control flow. Internal teams actively use it to onboard developers onto unfamiliar repositories and streamline architectural reviews. It serves as an instructive blueprint for integrating contextual mental models into AI CLI tools. The tool demonstrates how coding assistants are evolving into interactive comprehension engines.",
+    tags: ["앤트로픽", "클로드 코드", "개발자 도구", "다이어그램", "코드 시각화"]
   },
 
-  // === REDDIT ===
+  // 3. NVIDIA AVO Harness
   {
-    id: "reddit_7fd00fce15",
-    signal_id: "model",
+    id: "aitimes_b21a068500",
+    signal_id: "research",
     importance: 90,
-    title_ko: "Qwen3.8-27B, 로컬 모델 중 최고 수준의 자율 에이전트(Agency) 능력 입증",
-    title_en: "Qwen3.8-27B demonstrates unprecedented agency with 80 autonomous tool calls",
-    summary_ko: "• r/LocalLLaMA 커뮤니티에서 Qwen3.8-27B 로컬 모델이 인간 개입 없이 80번 연속 도구 호출을 수행하며 복잡한 웹 조회를 완수했습니다.\n• 대학교 웹사이트의 복잡한 인증과 미로 같은 페이지 구조를 자율 탐색하여 학사 일정을 완벽히 추출해 냈습니다.\n• 상용 독점 모델에 뒤지지 않는 에이전트 행동 능력을 27B 오픈 모델로 로컬에서 구현할 수 있음을 증명했습니다.",
-    body_ko: "로컬 AI 커뮤니티 r/LocalLLaMA의 한 사용자가 Qwen3.8-27B 모델의 압도적인 자율 에이전트 실행 능력(Agency)을 실증한 후기를 공유해 화제를 모으고 있습니다. 작성자는 단 한 줄의 프롬프트와 로그인 자격 증명만 제공했을 뿐인데, 모델이 대학교 포털의 복잡한 웹페이지를 스스로 탐색하며 무려 80회의 연속 도구 호출(Tool Call)을 성공적으로 수행했습니다. 복잡한 세션 유지와 폼 입력, 예외 처리를 인간의 추가 개입 없이 자율적으로 판단하여 원하는 시간표 데이터를 완벽히 수집했습니다. 이전 세대 오픈소스 모델들이 3~4회의 도구 호출만 넘어가도 컨텍스트를 잃고 루프에 빠지던 고질적 한계를 완벽히 극복했습니다. 개인 PC의 24GB VRAM 환경에서도 양자화를 통해 부드럽게 구동되어 고성능 자율 에이전트의 대중화를 앞당겼습니다. 오픈소스 로컬 LLM이 실전 에이전틱 워크플로우에 충분히 투입될 수 있는 성숙도에 도달했음을 보여주는 결정적 사례입니다.",
-    tags: ["Qwen3.8", "로컬에이전트", "도구호출", "LocalLLaMA", "오픈소스LLM"]
-  },
-  {
-    id: "reddit_fc9dcdaee5",
-    signal_id: "oss",
-    importance: 86,
-    title_ko: "단 250달러로 사전 학습한 1B 파라미터 미니 Kimi-K3 오픈소스 복제 모델 공개",
-    title_en: "Building a mini Kimi-K3 from Scratch under $250",
-    summary_ko: "• 한 개인 개발자가 단 250달러의 연산 비용으로 50억 토큰을 학습시켜 Kimi-K3 구조를 재현한 1B 소형 모델을 공개했습니다.\n• 1.02B 총 파라미터 중 토큰당 145M만 활성화되는 초경량 MoE 구조로 GPT-2 벤치마크 성능을 뛰어넘었습니다.\n• 거대 자본 없이도 개인 연구자가 최신 프론티어 MoE 아키텍처를 학습하고 검증할 수 있는 재현 가이드를 제공합니다.",
-    body_ko: "개인 AI 연구자 OtherRaisin3426이 단 250달러의 클라우드 GPU 예산으로 Moonshot AI의 Kimi-K3 아키텍처를 복제한 1B 소형 모델을 사전 학습한 결과를 공개했습니다. 이 모델은 정제된 50억 개의 고품질 토큰을 학습하였으며, 1.02B 총 파라미터 중 토큰당 단 145M 파라미터만 활성화되는 극도로 효율적인 MoE 구조를 가집니다. 표준 언어 이해도 평가에서 동급 크기의 기존 밀집 모델들을 제치고 뛰어난 추론 효율과 낮은 손실값을 달성했습니다. 방대한 자본이 투입되는 빅테크의 모델 학습 방식을 개인이 적은 예산으로 축소 재현할 수 있는 데이터 정제 파이프라인과 하이퍼파라미터 레시피를 전면 오픈소스로 공개했습니다. 소형 온디바이스 기기나 엣지 디바이스에 특화된 고효율 언어 모델 연구의 새로운 가능성을 열었습니다. 오픈소스 AI 연구 생태계의 민주화와 혁신적 실험 정신을 보여주는 훌륭한 본보기로 극찬을 받고 있습니다.",
-    tags: ["KimiK3", "사전학습", "소형LLM", "MoE아키텍처", "오픈소스"]
-  },
-  {
-    id: "reddit_783a6cb19f",
-    signal_id: "model",
-    importance: 88,
-    title_ko: "텐센트, 차세대 플래그십 파운데이션 모델 '훈위안(Hunyuan) Hy4' 비공개 테스트 개시",
-    title_en: "Tencent begins testing next-gen flagship model Hunyuan Hy4",
-    summary_ko: "• 중국 빅테크 텐센트가 전문가급 문제 해결 능력과 도구 사용에 특화된 차세대 플래그십 모델 'Hy4'의 테스트를 시작했습니다.\n• 일반 범용 모델 Hy3와 추론 특화 DeepSeek 연동 옵션에 이어 최상위 엔터프라이즈 티어로 배치되었습니다.\n• 중국 빅테크 간의 프론티어 파운데이션 모델 경쟁이 한층 더 치열해지고 있습니다.",
-    body_ko: "중국 최대 IT 기업 텐센트(Tencent)가 자사의 차세대 주력 대형 언어 모델 '훈위안(Hunyuan) Hy4'의 내부 테스트 및 비공개 배포를 개시했습니다. 공개된 인터페이스 스크린샷에 따르면 Hy4는 '전문가 수준 모델' 및 '도구를 활용한 복합 문제 해결'에 최적화된 최상위 엔진으로 정의되어 있습니다. 기존의 범용 Hy3 모델과 비교해 복잡한 멀티스텝 추론, 코딩 도구 호출, 외부 API 연동 정확도가 대폭 강화되었습니다. 텐센트 클라우드 생태계 전반에 통합되어 엔터프라이즈 고객들의 고난도 자동화 업무를 전담할 플래그십 모델로 자리잡을 예정입니다. 알리바바의 Qwen, 바이두의 어니봇, Moonshot의 Kimi와 맞붙는 중국 AI 시장의 기술 패권 경쟁이 더욱 가속화되고 있습니다. 글로벌 AI 모델 랜드스케이프에서 아시아권 빅테크들의 독자적인 모델 고도화 추세를 보여주는 중요한 지표입니다.",
-    tags: ["텐센트", "훈위안", "Hy4", "중국AI", "플래그십LLM"]
-  },
-  {
-    id: "reddit_3ce939f18e",
-    signal_id: "practice",
-    importance: 84,
-    title_ko: "DeepSeek V4 Flash를 초당 150토큰으로 로컬 구동하는 16x 5060Ti 하드웨어 구성기",
-    title_en: "Running DeepSeek V4 Flash locally at 130-150 tokens/sec with 16x RTX 5060Ti cluster",
-    summary_ko: "• 저가형 RTX 5060 Ti GPU 16장과 PCIe PLX 스위치를 조합해 고성능 DeepSeek 모델을 초당 150토큰으로 구동한 홈랩 빌드가 화제입니다.\n• 고가의 엔터프라이즈 H100 서버 없이도 일반 소비자용 GPU 클러스터로 초고속 로컬 추론 환경을 구축했습니다.\n• PCIe 레인 대역폭 병목을 극복하고 메모리 패브릭을 최적화한 실전 하드웨어 엔지니어링 팁을 공유합니다.",
-    body_ko: "Reddit r/LocalLLaMA 커뮤니티의 한 엔지니어가 소비자용 가성비 그래픽카드 16장을 연결하여 최신 DeepSeek 모델을 초당 150토큰의 고속으로 구동한 홈랩 클러스터 구축기를 공개했습니다. 작성자는 듀얼 PLX88096 PCIe 스위치 보드를 활용해 16GB VRAM을 장착한 RTX 5060 Ti 16장을 단일 리눅스 시스템에 성공적으로 바인딩했습니다. 수천만 원을 호가하는 엔터프라이즈 전용 가속기 없이도 대형 양자화 모델을 완벽히 메모리에 상주시키며 실시간 스트리밍 응답을 달성했습니다. GPU 간 P2P 통신 대역폭과 전력 분배, 쿨링 솔루션을 치밀하게 설계하여 장시간 부하 테스트에서도 스로틀링 없는 안정성을 확보했습니다. 로컬에서 독립적인 초고속 AI 추론 인프라를 구축하고자 하는 하드웨어 마니아와 스타트업들에게 실질적인 가성비 빌드 청사진을 제시했습니다. 소비자용 하드웨어의 한계를 창의적인 엔지니어링으로 돌파한 모범적인 사례로 커뮤니티의 폭발적인 추천을 받았습니다.",
-    tags: ["로컬추론", "GPU클러스터", "RTX5060Ti", "DeepSeek", "하드웨어엔지니어링"]
+    title_ko: "엔비디아 AVO, 자율 검증 및 조율 하네스로 장기 실행 AI 에이전트의 문제 해결 성공률 대폭 향상",
+    title_en: "NVIDIA AVO demonstrates autonomous verification and orchestration harness for long-horizon agents",
+    summary_ko: "• 엔비디아가 단일 LLM 호출의 한계를 넘어 장시간 자율 계획과 실행을 조율하는 AVO 하네스 연구를 발표했다.\n• 자율 검증(Autonomous Verification) 피드백 루프를 통해 복잡한 멀티스텝 작업 성공률을 기존 대비 35% 이상 개선했다.\n• 모델 자체의 파라미터 크기보다 에이전트의 상태를 추적하고 오류를 수정하는 하네스 아키텍처의 중요성을 입증했다.",
+    summary_en: "• NVIDIA introduced its AVO harness research for orchestrating long-horizon autonomous agent tasks.\n• Autonomous verification feedback loops improved multi-step problem solving success rates by over 35%.\n• The findings highlight that outer orchestration harnesses matter as much as base foundation model scale.",
+    body_ko: "엔비디아가 장시간에 걸친 자율 작업 수행을 제어하는 범용 에이전트 하네스 구조인 AVO 연구 결과를 발표했다. 이번 연구는 단일 프롬프트 기반 모델 추론의 한계를 극복하고 실행 계획 수립과 검증 단계를 분리하는 조율 아키텍처를 제안했다. 에이전트가 도구를 호출한 뒤 결과의 정합성을 스스로 평가하는 자체 검증 루프를 도입해 오류 누적을 방지했다. 벤치마크 실험 결과 멀티스텝 코딩 및 데이터 파이프라인 과제에서 기존 대비 35% 향상된 완수율을 기록했다. 연구진은 모델 가중치 확장보다 외부 상태 관리와 런타임 하네스 설계가 장기 자율성에 더 결정적인 영향을 미친다고 분석했다. 복잡한 업무를 위임받는 프로덕션 레벨 에이전트 구축의 핵심 참조 아키텍처가 될 전망이다.",
+    body_en: "NVIDIA published research on its Autonomous Verification and Orchestration (AVO) framework for long-horizon tasks. The architecture decouples planning, execution, and verification into a structured outer control loop. Self-evaluating verification steps check intermediate tool outputs to prevent compounded errors during execution. In multi-step benchmarks, the harness achieved a 35% improvement in end-to-end task completion rates over standard prompting. The authors argue that outer orchestration frameworks dictate reliability more than marginal LLM parameter gains. This provides a robust structural reference for enterprise-grade autonomous workflows.",
+    tags: ["엔비디아", "에이전트 하네스", "자율 에이전트", "AI 연구", "벤치마크"]
   },
 
-  // === GITHUB ===
+  // 4. Liquid AI DeSpark
+  {
+    id: "aitimes_d41a332b43",
+    signal_id: "research",
+    importance: 88,
+    title_ko: "리퀴드 AI '디스파크', 소형 모델 예측과 대형 모델 검증 결합해 추론 메모리 대역폭 병목 극복",
+    title_en: "Liquid AI introduces DeSpark speculative decoding method to overcome memory bandwidth limits",
+    summary_ko: "• 리퀴드 AI가 온디바이스 및 고속 추론을 위한 하이브리드 투기적 디코딩 기술 '디스파크(DeSpark)'를 공개했다.\n• 초경량 소형 모델이 다음 토큰들을 초고속으로 초안 작성하고 대형 메인 모델이 병렬 검증하는 구조를 갖췄다.\n• 메모리 대역폭 읽기 병목을 줄여 동일 하드웨어 대비 토큰 생성 속도를 최대 2.8배 가속했다.",
+    summary_en: "• Liquid AI unveiled DeSpark, a speculative decoding technique designed for efficient edge and server inference.\n• A lightweight draft model writes candidate tokens rapidly while a larger model verifies them in parallel.\n• It reduces memory bandwidth bottlenecks, accelerating token generation throughput by up to 2.8x.",
+    body_ko: "리퀴드 AI가 대형언어모델 추론 과정의 고질적인 메모리 병목 현상을 해소하는 '디스파크' 기술을 발표했다. 기존 자기회귀 디코딩 방식은 매 토큰마다 대규모 가중치를 메모리에서 읽어와야 해 대역폭 한계에 부딪혔다. 디스파크는 계산 비용이 매우 적은 소형 모델이 연속된 토큰 묶음을 선제적으로 생성하고 메인 모델이 한 번의 순전파로 이를 동시 검증한다. 검증 단계에서 불일치가 발생할 때만 정확한 가중치로 롤백하는 메커니즘을 통해 정확도 손실을 완전히 차단했다. 실험 측정 결과 표준 벤치마크 환경에서 추론 지연 시간을 대폭 단축하며 초당 생성 토큰 수를 최대 2.8배 높였다. 실시간 응답이 필수적인 로컬 코딩 도우미와 대화형 온디바이스 에이전트의 효율성을 크게 끌어올릴 기술로 평가된다.",
+    body_en: "Liquid AI announced DeSpark, an advanced speculative decoding system designed to eliminate memory bandwidth limits. Standard autoregressive generation is bounded by repeated weight loading cycles for each generated token. DeSpark pairs a lightweight draft model to generate token candidate bursts with a primary model that validates them simultaneously. Rollback safety guarantees zero accuracy degradation by reverting whenever speculative predictions deviate. Empirical tests show up to a 2.8x boost in token throughput without compromising output quality. The method offers substantial efficiency gains for latency-critical local agents and on-device assistants.",
+    tags: ["리퀴드AI", "디스파크", "추론 최적화", "투기적 디코딩", "메모리 효율"]
+  },
+
+  // 5. GeekNews - Local LLM Attention Backend Analysis
+  {
+    id: "geeknews_da7ee87198",
+    signal_id: "practice",
+    importance: 87,
+    title_ko: "로컬 LLM이 기대보다 둔하게 느껴지는 기술적 이유... GPU 정밀도와 vLLM 어텐션 백엔드 편차 분석",
+    title_en: "Why local LLMs underperform expectations: GPU precision and vLLM attention backend divergence",
+    summary_ko: "• 동일한 오픈소스 모델 가중치를 사용하더라도 하드웨어와 추론 백엔드에 따라 실제 에이전트 성능 차이가 발생한다는 분석이 공유됐다.\n• 10만 토큰 규모의 실제 에이전트 작업에서 vLLM 어텐션 커널과 KV 캐시 양자화 방식에 따라 출력 불일치가 누적되는 현상이 확인됐다.\n• 로컬 환경에서 긴 문맥 도구 호출 신뢰성을 확보하기 위한 정밀도 및 런타임 설정 가이드라인을 제시한다.",
+    summary_en: "• Technical analysis demonstrates why local open models experience degradation across different runtime backends.\n• Experiments with 100k context workloads reveal diverging token outputs caused by vLLM attention kernels and KV quantization.\n• The post provides precision settings and operational guidelines to maintain stable agentic tool calling.",
+    body_ko: "로컬 환경에서 구동하는 오픈소스 LLM이 클라우드 API보다 도구 호출에 자주 실패하는 기술적 원인을 규명한 분석 글이 개발자 커뮤니티에서 주목받고 있다. 동일한 모델 가중치라 하더라도 vLLM 등 추론 프레임워크의 어텐션 커널 구현과 GPU 아키텍처에 따라 미세한 부동소수점 오차가 발생한다. 짧은 대화에서는 차이가 미미하지만 10만 토큰에 달하는 긴 문맥 에이전트 작업에서는 오차가 누적되어 결정적인 불일치를 유발한다. 특히 KV 캐시 양자화를 과도하게 적용할 경우 도구 호출 인자의 JSON 문법 파싱 오류가 급증하는 것으로 측정됐다. 분석팀은 가중치 정밀도(BF16) 유지와 FlashAttention 백엔드 일치성 점검을 필수 조치로 권고했다. 로컬 LLM 기반 자율 에이전트를 안정적으로 서비스하려는 엔지니어들에게 실질적인 점검 목록을 제공한다.",
+    body_en: "An in-depth technical report analyzes why locally hosted LLMs frequently exhibit subtle failures during agentic tool use. Even with identical checkpoint weights, differences in GPU instructions and vLLM attention backends introduce minor floating-point divergence. Over extended 100k-token agent context windows, these cumulative errors trigger cascading hallucinations and schema errors. Aggressive KV cache quantization was shown to degrade strict JSON parameter formatting substantially. The researchers advise retaining BF16 precision and standardizing attention kernels across deployment environments. It delivers valuable troubleshooting insights for engineers deploying production-grade local agents.",
+    tags: ["로컬LLM", "vLLM", "추론 백엔드", "양자화", "에이전트 안정성"]
+  },
+
+  // 6. GeekNews - Munder Difflin Agent Harness
+  {
+    id: "geeknews_7aa3770606",
+    signal_id: "oss",
+    importance: 84,
+    title_ko: "Munder Difflin, 사용자 업무 도구와 지식을 공유하는 로컬 복제 에이전트 오피스 하네스",
+    title_en: "Munder Difflin: Open-source local agent harness running specialized digital worker clones",
+    summary_ko: "• 사용자의 컴퓨터 도구와 작업 맥락을 공유하는 다중 가상 직원 에이전트를 로컬에서 구동하는 오픈소스 하네스가 공개됐다.\n• 기존 에이전트 CLI와 API 구독을 연동해 각기 다른 전문 역할을 맡은 복제 에이전트들이 협업 오피스 형태로 작동한다.\n• 외부 클라우드 의존 없이 로컬 머신 내에서 프라이빗하게 다중 에이전트 오피스 파이프라인을 구축할 수 있다.",
+    summary_en: "• Munder Difflin released an open-source local harness to run multi-agent digital worker clones on user machines.\n• It integrates existing agent CLIs and subscriptions to coordinate specialized roles across a virtual workplace.\n• Developers can orchestrate autonomous multi-agent teamwork locally without leaking confidential workplace context.",
+    body_ko: "개발자 개인의 업무 스타일과 로컬 도구를 공유하는 가상 협업 하네스 Munder Difflin이 오픈소스로 공개됐다. 이 도구는 사용자가 보유한 기존 에이전트 CLI와 API 키를 그대로 활용해 로컬 환경에서 여러 가상 동료를 생성한다. 각 복제 에이전트는 기획, 코딩, 테스트, 문서화 등 세부 직무를 할당받아 독립된 컨텍스트에서 업무를 수행한다. 로컬 파일 시스템과 셸 도구를 안전하게 공유하며 상호 피드백을 주고받는 협업 워크플로우를 제공한다. 클라우드 서비스에 민감한 회사 코드나 개인 데이터를 업로드하지 않고도 복합 에이전트 팀을 운용할 수 있는 점이 특징이다. 로컬 퍼스트 AI 워크스페이스 구축을 시도하는 개발자들에게 매력적인 대안을 제시한다.",
+    body_en: "Munder Difflin has been released as an open-source agent harness designed to simulate local digital coworkers. It leverages existing local agent CLIs and credentials to instantiate specialized autonomous worker clones. Each clone assumes specific project roles such as architecture, implementation, validation, and documentation. The system coordinates shared filesystem access and terminal execution while maintaining isolated task contexts. By executing entirely on the host machine, it safeguards proprietary data from third-party cloud aggregators. It presents a compelling framework for developers pursuing private local multi-agent environments.",
+    tags: ["오픈소스", "에이전트 하네스", "로컬AI", "멀티에이전트", "워크플로우"]
+  },
+
+  // 7. Hacker News - Fast and Hard Code by Armin Ronacher
+  {
+    id: "hackernews_2036406660",
+    signal_id: "practice",
+    importance: 86,
+    title_ko: "아르민 로나허의 'Fast and Hard Code'... AI 코딩 시대에 더욱 중요해진 정적 타입과 컴파일러 검증",
+    title_en: "Armin Ronacher on 'Fast and Hard Code': Why static typing and compiler guarantees matter in the AI era",
+    summary_ko: "• Flask 창시자 아르민 로나허가 AI 에이전트 코드 생성이 보편화된 시대의 엔지니어링 패러다임 변화를 분석했다.\n• AI가 작성하기 쉬운 느슨한 코드보다 컴파일러와 타입 체커가 엄격하게 검증하는 '단단한(Hard) 코드'의 가치를 역설했다.\n• 자동화된 도구가 무한히 코드를 생성할 때 발생할 수 있는 런타임 오류와 유지보수 비용을 통제하는 설계 원칙을 제시한다.",
+    summary_en: "• Flask creator Armin Ronacher examined shifting software paradigms as AI coding assistants become standard.\n• He argues that strict, compiler-verified 'hard code' is far superior to lenient code when agents generate volume.\n• The essay establishes architectural principles to contain runtime defects caused by automated code generation.",
+    body_ko: "Flask의 창시자이자 오픈소스 리더인 아르민 로나허가 AI 시대의 소프트웨어 작성 방식을 다룬 글을 기고했다. 최근 AI 도구의 발전으로 누구나 손쉽게 동작하는 코드를 빠르게 찍어낼 수 있게 되면서 언어 선택 기준이 바뀌고 있다. 저자는 파이썬처럼 런타임에 유연한 언어보다 Rust나 엄격한 타입의 언어처럼 컴파일 시점에 결함을 잡아내는 구조가 필수적이라고 강조한다. AI 에이전트가 방대한 양의 코드를 단시간에 쏟아낼 때 인간이 모든 줄을 수동으로 검증하기 어렵기 때문이다. 컴파일러의 엄격한 타입 시스템과 정적 분석 도구가 에이전트의 환각과 부작용을 막아주는 든든한 방어막 역할을 수행한다. 향후 소프트웨어 아키텍처는 사람이 읽기 쉬운 구조보다 기계와 도구가 엄밀히 검증할 수 있는 계약 중심 설계로 진화할 것으로 전망된다.",
+    body_en: "Open-source pioneer Armin Ronacher published a thoughtful essay examining coding paradigms in the age of AI. As LLMs make rapid code generation ubiquitous, the architectural criteria for evaluating programming languages must evolve. Ronacher emphasizes that strict languages like Rust and strongly typed systems provide indispensable guardrails against agentic hallucinations. When AI produces thousands of lines instantly, manual human inspection becomes impractical without compiler enforcement. Rigorous type systems act as automated arbiters, catching edge cases before runtime deployment. Modern system design must prioritize formal compiler verification over subjective visual readability.",
+    tags: ["아르민로나허", "정적분석", "타입시스템", "소프트웨어공학", "에이전트코딩"]
+  },
+
+  // 8. Hacker News - Why local LLM feels dumber
+  {
+    id: "hackernews_2ecbd0cbe9",
+    signal_id: "research",
+    importance: 85,
+    title_ko: "긴 문맥에서 로컬 LLM 도구 호출이 실패하는 이유... 양자화 및 vLLM 백엔드 수렴성 고찰",
+    title_en: "Why local LLMs fail tool calling in long contexts: Quantization and backend convergence dynamics",
+    summary_ko: "• 오픈소스 대형 모델을 로컬 환경에 서빙할 때 발생하는 누적 출력 편차와 도구 호출 오류 메커니즘이 분석됐다.\n• Qwen3.6-27B 모델 기반의 10만 토큰 에이전트 실험에서 어텐션 백엔드 차이가 후반부 토큰 선택의 군집 불일치를 초래했다.\n• 고난도 에이전트 작업을 수행할 때 KV 캐시 양자화 깊이와 부동소수점 누적 오차를 제어하는 실무적 해결책을 다룬다.",
+    summary_en: "• Technical investigation uncovers the mathematical mechanics behind local LLM tool-calling failures in long context.\n• Tests on Qwen3.6-27B with 100k tokens reveal that differing attention implementations create clustered divergent outputs.\n• The findings outline concrete tuning steps for KV cache quantization and floating-point stability during complex tasks.",
+    body_ko: "로컬 서버에서 구동하는 LLM이 장시간 진행되는 에이전트 세션에서 급격히 판단력이 저하되는 메커니즘을 규명한 연구가 해커뉴스에서 큰 관심을 모았다. 10만 토큰에 이르는 장문 컨텍스트 벤치마크에서 vLLM의 세부 커널 설정에 따른 출력 궤적을 정밀하게 추적했다. 가중치가 완전히 일치하더라도 어텐션 연산 시 발생하는 미세한 라운딩 오차가 문맥 후반부에서 토큰 선택 확률을 왜곡시켰다. 이로 인해 에이전트가 복잡한 도구 호출 스키마를 준수하지 못하고 엉뚱한 인자를 반환하는 현상이 관측됐다. 연구진은 고성능 에이전트 파이프라인에서는 무분별한 4비트 양자화를 지양하고 FP8/BF16 정밀도를 보장할 것을 제안했다. 로컬 인프라 기반 AI 엔지니어링에서 재현성과 안정성을 확보하기 위한 핵심 참고 자료다.",
+    body_en: "A comprehensive investigation on Hacker News examines why local LLM instances struggle with complex tool-calling workflows over long horizons. Tracing token probability trajectories on a 100k-token workload exposed subtle accumulation errors in vLLM attention implementations. Minor numerical precision variations in attention layers compound into major structural hallucinations late in the context window. As a result, agents fail to adhere to rigid JSON function calling schemas under heavy load. The authors recommend avoiding aggressive 4-bit KV quantization in favor of calibrated FP8 or BF16 setups for critical workloads. It offers essential operational knowledge for production-grade self-hosted LLM clusters.",
+    tags: ["해커뉴스", "로컬추론", "어텐션커널", "장문문맥", "에이전트신뢰성"]
+  },
+
+  // 9. GitHub - yc-software/qm
   {
     id: "github_bc4d73f421",
     signal_id: "oss",
-    importance: 93,
-    title_ko: "qm — 슬랙과 웹 환경을 모두 지원하는 팀 전용 멀티플레이어 에이전트 하네스",
-    title_en: "yc-software/qm: Multiplayer agent harness for work in Slack and on the web",
-    summary_ko: "• 팀 동료들이 동일한 에이전트 세션에 접속하여 함께 코딩과 리서치를 진행하는 멀티플레이어 에이전트 하네스 'qm'이 공개되었습니다.\n• 슬랙 채널 및 인터랙티브 웹 UI를 동시에 지원하여 팀원 간 프롬프트 공유와 에이전트 제어를 원활히 중계합니다.\n• 14,000개 이상의 스타를 받으며 원격 협업 엔지니어링 팀의 차세대 필수 도구로 급부상했습니다.",
-    body_ko: "오픈소스 개발사 yc-software가 팀 단위의 공동 작업을 위해 설계된 멀티플레이어 AI 에이전트 하네스 'qm'을 깃허브에 공개했습니다. 기존의 에이전트 도구들이 개인의 로컬 터미널에 갇혀 있던 한계를 깨고, 여러 명의 엔지니어가 슬랙이나 웹 대시보드를 통해 단일 에이전트 세션을 함께 관찰하고 지시할 수 있는 환경을 제공합니다. 에이전트가 코드를 수정하거나 명령어를 실행할 때 팀원 전체에게 실시간 스트리밍으로 전송되며 누구나 즉각 피드백을 추가할 수 있습니다. TypeScript 기반의 모듈형 아키텍처로 구축되어 사내 깃 저장소 및 내부 API와 손쉽게 바인딩됩니다. 원격 근무 환경에서 시니어와 주니어 개발자가 AI 에이전트를 매개로 페어 프로그래밍을 진행하기에 최적화되었습니다. 공개 이후 14,000개가 넘는 스타를 기록하며 글로벌 오픈소스 협업 에이전트 분야의 선두 주자로 자리매김했습니다.",
-    tags: ["qm", "멀티플레이어", "에이전트하네스", "팀협업", "오픈소스"]
+    importance: 91,
+    title_ko: "yc-software/qm — 업무 환경을 위한 TypeScript 기반 멀티플레이어 AI 에이전트 하네스",
+    title_en: "yc-software/qm: Open-source multiplayer agent harness for collaborative workplace automation",
+    summary_ko: "• 실제 직무 환경에서 여러 AI 에이전트와 인간 작업자가 협업할 수 있도록 설계된 하네스 'qm'이 공개됐다.\n• TypeScript로 작성되었으며 실시간 세션 공유, 공유 메모리 버스, 역할 기반 도구 접근 제어 기능을 지원한다.\n• 복수의 에이전트가 동일한 프로젝트 목표를 공유하며 병렬로 태스크를 분담하고 검증할 수 있는 토대를 제공한다.",
+    summary_en: "• yc-software open-sourced 'qm', a TypeScript multiplayer agent harness designed for collaborative workplace execution.\n• It features real-time session synchronization, a shared memory bus, and role-based tool capability boundaries.\n• The framework enables multiple autonomous agents to parallelize subtasks and cross-validate project deliverables.",
+    body_ko: "GitHub에서 1만 4천 개 이상의 스타를 기록하며 주목받고 있는 오픈소스 프로젝트 yc-software/qm은 실무용 멀티플레이어 에이전트 하네스다. 단일 에이전트가 순차적으로 명령을 처리하던 방식을 넘어 여러 전문 에이전트가 동시에 참여하는 협업 환경을 구축한다. TypeScript 기반으로 개발되어 웹소켓 실시간 이벤트 전파와 공용 메모리 저장소를 통해 에이전트 간 상태 동기화를 보장한다. 에이전트마다 셸 실행, 파일 수정, 웹 검색 등 허용된 권한을 세밀하게 분리해 오작동 리스크를 최소화했다. 팀 단위 엔지니어링 워크플로우에 에이전트 군단을 자연스럽게 배치할 수 있는 모듈식 구조를 갖췄다. 멀티 에이전트 조율 인프라를 직접 구축하려는 개발팀에게 강력한 기반 도구가 될 것이다.",
+    body_en: "With over 14k GitHub stars, yc-software/qm is an open-source multiplayer agent harness tailored for enterprise engineering workflows. Moving past single-threaded sequential execution, it coordinates multi-agent squads working alongside human engineers. Built with TypeScript, it provides websocket-driven state synchronization and shared memory buses across active participants. Strict role-based capability scoping restricts file access, shell execution, and network tools per agent instance. The modular architecture facilitates seamless deployment of autonomous teams for complex refactoring initiatives. It serves as a foundational building block for multi-agent collaboration architectures.",
+    tags: ["GitHub", "오픈소스", "멀티에이전트", "TypeScript", "협업도구"]
   },
+
+  // 10. GitHub - yetone/cumora
   {
-    id: "github_08dd754836",
+    id: "github_41cd6da4bc",
     signal_id: "oss",
-    importance: 90,
-    title_ko: "Comp AI CRM — AI 에이전트를 위해 최초로 설계된 오픈소스 Agentic-first CRM",
-    title_en: "trycompai/crm: Open source CRM designed for AI agents (Agentic-first)",
-    summary_ko: "• 인간 직원이 아닌 AI 자율 에이전트가 고객 데이터와 영업 파이프라인을 직접 관리하도록 설계된 오픈소스 CRM이 출시되었습니다.\n• 구조화된 JSON-RPC API와 완벽한 도구 호출 인터페이스를 기본 제공하여 에이전트의 데이터 접근성을 극대화했습니다.\n• 8,700개 이상의 스타를 모으며 차세대 엔터프라이즈 B2B 에이전트 인프라의 핵심 소프트웨어로 떠올랐습니다.",
-    body_ko: "오픈소스 스타트업 trycompai가 AI 에이전트가 모든 고객 관계 관리 업무를 자율 수행할 수 있도록 설계된 최초의 Agentic-first CRM 'Comp AI CRM'을 공개했습니다. 기존의 세일즈포스나 허브스팟 같은 전통 CRM이 복잡한 인간용 GUI에 치중되어 에이전트가 데이터를 조작하기 까다로웠던 단점을 완벽히 해결했습니다. 모든 고객 상호작용, 리드 점수화, 이메일 히스토리가 에이전트 친화적인 구조화된 스키마로 저장되며 고속 도구 호출(Tool calling) API를 제공합니다. 백그라운드 에이전트가 잠재 고객의 반응을 실시간 분석하고 맞춤형 후속 미팅을 자율 조율하는 등 완전 자동화된 영업 파이프라인을 구축할 수 있습니다. 자체 호스팅이 가능한 오픈소스 코드로 제공되어 기업 고객 정보의 외부 유출 걱정 없이 안전하게 운영됩니다. 엔터프라이즈 소프트웨어 시장이 에이전트 중심 구조로 어떻게 재편되어야 하는지를 명확히 보여주는 혁신적인 프로젝트로 평가받고 있습니다.",
-    tags: ["CompAI", "AgenticCRM", "B2B소프트웨어", "영업자동화", "오픈소스"]
+    importance: 86,
+    title_ko: "yetone/cumora — AI 에이전트를 동료 팀원으로 통합하는 크로스 플랫폼 팀 협업 메신저",
+    title_en: "yetone/cumora: Cross-platform team chat integrating AI coding agents as native teammates",
+    summary_ko: "• Claude Code, Codex 등 다양한 AI 에이전트를 채팅 채널의 정식 팀원으로 초대하는 오픈소스 메신저가 공개됐다.\n• 크로스 플랫폼 환경을 지원하며 로컬 CLI 에이전트부터 클라우드 모델까지 자유롭게 두뇌로 연결할 수 있다.\n• 동료 개발자와 AI 에이전트가 동일한 대화방에서 실시간으로 코드를 리뷰하고 작업을 위임할 수 있다.",
+    summary_en: "• yetone released cumora, an open-source cross-platform team chat app where AI agents participate as native team members.\n• It supports both local CLI agents (Claude Code, Codex) and cloud model endpoints via pluggable interfaces.\n• Teams can collaborate, review code diffs, and delegate engineering tasks directly inside shared messaging channels.",
+    body_ko: "개발자 yetone이 공개한 cumora는 인간과 AI 에이전트가 한 공간에서 소통하는 새로운 형태의 오픈소스 팀 메신저다. 기존 협업 툴에 챗봇을 연동하는 수준을 넘어 에이전트가 프로젝트 파일과 컨텍스트를 직접 다루는 1등 팀원으로 참여한다. 사용자는 자신의 로컬 머신에서 실행 중인 Claude Code나 Codex 인스턴스를 채팅방에 손쉽게 연동할 수 있다. 크로스 플랫폼 데스크톱 환경을 지원해 macOS, Windows, Linux 전반에서 매끄러운 사용 경험을 제공한다. 대화 중 특정 코드 파일의 변경 사항을 요청하면 에이전트가 백그라운드에서 작업 후 디프(Diff)를 채널에 보고한다. 인간과 자율 에이전트 간의 자연스러운 일상 협업 방식을 앞당기는 시도로 주목받고 있다.",
+    body_en: "Created by developer yetone, cumora is an open-source cross-platform messaging application integrating AI agents as full teammates. Unlike standard chatbot integrations, agents operate with native access to workspace contexts and tools. Developers can seamlessly attach local CLI agents like Claude Code or remote LLM backends directly to channels. It runs cross-platform across macOS, Windows, and Linux with a polished desktop UI. Teammates can mention agents to inspect branches, generate PR summaries, and review diffs collaboratively. It provides a forward-looking paradigm for human-agent software engineering collaboration.",
+    tags: ["GitHub", "오픈소스", "클로드코드", "팀협업", "데스크톱앱"]
   },
+
+  // 11. GitHub - vercel-labs/fx
   {
-    id: "github_227805cd2a",
-    signal_id: "oss",
-    importance: 89,
-    title_ko: "genoffice — 오피스 문서(Word, Excel, PPT) 자율 편집을 지원하는 오픈소스 AI 스위트",
-    title_en: "genspark-ai/genoffice: Free, open-source AI office suite for Word, Excel, PPT",
-    summary_ko: "• Genspark 팀이 Word, Excel, PowerPoint, PDF 문서를 로컬에서 내장 AI 에이전트와 대화하며 자율 편집하는 오피스 스위트를 릴리스했습니다.\n• 상용 MS Office 없이도 크로스 플랫폼(macOS, Windows, Linux)에서 복잡한 서식과 수식을 원본 그대로 자동 작성합니다.\n• 3,400개 이상의 스타를 달성하며 오픈소스 데스크톱 문서 자동화 도구로 큰 인기를 끌고 있습니다.",
-    body_ko: "Genspark AI 팀이 마이크로소프트 오피스의 주요 포맷(.docx, .xlsx, .pptx)과 PDF, 마크다운 문서를 자율 편집할 수 있는 데스크톱 AI 오피스 스위트 'genoffice'를 선보였습니다. 사용자가 자연어로 보고서 개요나 데이터 정리 방향을 전달하면 내장된 AI 에이전트가 복잡한 엑셀 수식과 슬라이드 레이아웃을 서식 깨짐 없이 완벽하게 자동 생성합니다. 클라우드 전송 없이 로컬 독립 환경에서 구동되어 사내 기밀 문서나 회계 자료를 다룰 때도 완벽한 보안성을 보장합니다. Electron 기반 크로스 플랫폼 기술로 개발되어 맥, 윈도우, 리눅스 전 기기에서 부드러운 성능을 제공합니다. 값비싼 상용 오피스 구독료를 절감하고 AI 기반 문서 업무 혁신을 사내에 도입하려는 중소기업과 개인 개발자들에게 최적의 대안을 제시합니다. 깃허브 공개 직후 3,400개가 넘는 스타를 기록하며 글로벌 오픈소스 생산성 분야에서 뜨거운 지지를 받고 있습니다.",
-    tags: ["genoffice", "AI오피스", "문서자동화", "크로스플랫폼", "오픈소스"]
+    id: "github_130237f17e",
+    signal_id: "devtool",
+    importance: 88,
+    title_ko: "Vercel Labs fx — Zig 언어로 구현된 유닉스 철학 기반의 초경량 CLI 코딩 에이전트",
+    title_en: "Vercel Labs releases fx: Ultra-lightweight Unix-philosophy coding agent built in Zig",
+    summary_ko: "• Vercel Labs가 단일 바이너리로 배포되는 초경량 CLI 코딩 에이전트 'fx'를 오픈소스로 공개했다.\n• 고성능 시스템 프로그래밍 언어인 Zig로 작성되어 극도로 빠른 시작 속도와 최소한의 리소스 점유율을 자랑한다.\n• 유닉스 파이프라인 및 표준 입출력과 완벽히 결합하여 터미널 중심의 자동화 워크플로우를 극대화한다.",
+    summary_en: "• Vercel Labs open-sourced 'fx', an ultra-lightweight command-line coding agent distributed as a single binary.\n• Built in Zig, it delivers instantaneous startup latency and minimal memory footprint across platforms.\n• It seamlessly integrates with standard Unix pipelines and stream I/O for efficient terminal-native workflows.",
+    body_ko: "Vercel Labs가 Zig 언어로 밑바닥부터 작성한 터미널 코딩 에이전트 fx를 공개했다. 무거운 런타임이나 복잡한 의존성 없이 단일 정적 바이너리로 즉시 실행되는 것이 최대 강점이다. 유닉스 철학을 철저히 따라 표준 입력과 출력을 활용해 기존 셸 명령어 및 파이프와 유기적으로 결합된다. 파일 탐색, 코드 수정, 커맨드 실행 등의 핵심 기능만을 군더더기 없이 탑재해 반응 속도를 극대화했다. 시스템 리소스를 거의 차지하지 않아 원격 서버나 임베디드 개발 환경에서도 가볍게 구동할 수 있다. 미니멀한 CLI 도구를 선호하는 개발자들에게 고효율 코딩 보조 도구로 급부상하고 있다.",
+    body_en: "Vercel Labs has introduced fx, a terminal-native coding assistant engineered from the ground up in Zig. Distributed as a standalone static binary, it bypasses bulky runtime dependencies and delivers instant startup. Adhering strictly to Unix philosophy, it composes effortlessly with standard terminal pipes and scripting utilities. The tool focuses on essential agent capabilities—file manipulation, inspection, and execution—with zero interface overhead. Its negligible footprint makes it uniquely suited for remote SSH servers and minimal headless environments. It offers a masterclass in building high-speed, clutter-free AI developer tooling.",
+    tags: ["Vercel", "Zig", "CLI도구", "코딩에이전트", "오픈소스"]
   },
+
+  // 12. GitHub - fuxicodex/Fuxi
   {
-    id: "github_eba74d5dd0",
-    signal_id: "oss",
-    importance: 87,
-    title_ko: "trueforge — LLM을 실전 에이전트로 전환시키는 오픈소스 에이전트 하네스 런타임",
-    title_en: "truefoundry/trueforge: The open-source agent harness runtime layer",
-    summary_ko: "• TrueFoundry 팀이 정적 대화형 LLM을 실제 업무를 수행하는 강력한 에이전트로 격상시키는 런타임 레이어 'trueforge'를 공개했습니다.\n• 메모리 지속성, 상태 추적, 에러 자동 복구, 외부 도구 오케스트레이션을 단일 하네스 엔진으로 표준화했습니다.\n• 2,400개 이상의 스타를 모으며 실프로덕션 에이전트 배포의 필수 미들웨어로 급부상했습니다.",
-    body_ko: "클라우드 플랫폼 전문 기업 TrueFoundry가 다양한 대형 언어 모델을 실전 작업용 에이전트로 변환해 주는 오픈소스 하네스 런타임 'trueforge'를 배포했습니다. 단순한 프롬프트 호출을 넘어 장기 실행 세션에서의 상태 머신 관리, 도구 실행 실패 시의 자율 롤백, 계층형 메모리 지속성을 견고한 미들웨어 레이어로 추상화했습니다. TypeScript와 모던 비동기 아키텍처로 설계되어 기존 백엔드 마이크로서비스에 손쉽게 임베딩될 수 있습니다. OpenAI, Anthropic, DeepSeek 등 다양한 모델 공급자와의 호환 어댑터를 내장하여 단일 벤더 종속 없이 유연하게 에이전트 두뇌를 교체할 수 있습니다. 엔터프라이즈 환경에서 불안정한 에이전트 루프의 신뢰도를 보장하고 개발 기간을 획기적으로 줄여주는 필수 인프라로 인정받고 있습니다. 출시 이후 2,400개가 넘는 스타를 모으며 에이전트 엔지니어링 커뮤니티에서 확고한 입지를 다지고 있습니다.",
-    tags: ["trueforge", "에이전트하네스", "런타임레이어", "미들웨어", "오픈소스"]
-  },
-  {
-    id: "github_77dab0d451",
-    signal_id: "oss",
+    id: "github_0e0fb8b5f9",
+    signal_id: "devtool",
     importance: 85,
-    title_ko: "ip-as-logo-skill — 컴팩트 네오 스큐어모피즘 캐릭터 로고 디자인 전용 에이전트 스킬",
-    title_en: "s1dashu/ip-as-logo-skill: Agent skill for simplified neo-skeuomorphic IP mascot logos",
-    summary_ko: "• AI 코딩 에이전트가 프로젝트와 브랜드에 최적화된 라운드형 네오 스큐어모피즘 캐릭터 로고를 자율 디자인하는 스킬셋이 공개되었습니다.\n• 복잡한 프롬프트 엔지니어링 없이 간결한 설정만으로 일관된 미적 감각의 고품질 IP 마스코트 이미지를 생성합니다.\n• 3,000개 이상의 스타를 모으며 오픈소스 프로젝트의 시각적 브랜딩 자동화 도구로 큰 호평을 얻고 있습니다.",
-    body_ko: "독립 크리에이터 s1dashu가 AI 에이전트 도구(Codex, Claude Code 등)에 장착할 수 있는 전용 캐릭터 로고 생성 스킬 'ip-as-logo-skill'을 오픈소스로 공개했습니다. 이 스킬은 최근 모던 UI 디자인 트렌드로 부상한 심플하고 둥근 형태의 네오 스큐어모피즘(Neo-skeuomorphism) 스타일 마스코트 로고를 자동으로 렌더링하도록 유도합니다. 프로젝트 이름과 핵심 키워드만 전달하면 에이전트가 색상 팔레트, 광원 효과, 3D 질감을 정밀 제어한 최적의 이미지 프롬프트를 자율 구성합니다. 1인 개발자나 소규모 오픈소스 팀이 디자이너 없이도 높은 완성도의 브랜드 아이덴티티와 깃허브 아바타를 손쉽게 구축할 수 있습니다. 릴리스 이후 3,000개가 넘는 스타를 기록하며 개발자들의 시각적 브랜딩 고민을 덜어주는 창의적인 에이전트 스킬로 극찬을 받고 있습니다. 코드 작성을 넘어 브랜드 디자인 영역까지 확장되는 에이전트 스킬 생태계의 가능성을 보여준 대표적인 사례입니다.",
-    tags: ["로고디자인", "에이전트스킬", "브랜딩", "네오스큐어모피즘", "오픈소스"]
+    title_ko: "fuxicodex/Fuxi — 멀티 LLM 비용 최적화 라우팅을 내장한 독립형 터미널 코딩 에이전트",
+    title_en: "fuxicodex/Fuxi: Fast terminal coding agent featuring dynamic cost-aware LLM routing",
+    summary_ko: "• 다중 LLM 제공자 간의 지능형 비용 최적화 라우팅을 지원하는 터미널 코딩 에이전트 'Fuxi'가 공개됐다.\n• 단순 코드 수정은 저비용 모델로, 복잡한 아키텍처 설계와 리팩터링은 고성능 모델로 자동 분기 처리한다.\n• 셸 명령어 실행과 도구 호출 권한을 효율적으로 제어해 API 비용을 대폭 절감하면서도 생산성을 유지한다.",
+    summary_en: "• fuxicodex unveiled Fuxi, an autonomous terminal coding agent equipped with cost-aware multi-LLM routing.\n• It automatically directs simple edits to lightweight models while reserving frontier reasoning models for complex refactoring.\n• The framework optimizes monthly API expenditures while sustaining high developer velocity inside the shell.",
+    body_ko: "터미널에서 독립적으로 실행되며 비용 효율성을 극대화한 오픈소스 코딩 에이전트 Fuxi가 깃허브에서 주목받고 있다. Fuxi는 사용자가 입력한 요청의 복잡도를 사전에 분석해 최적의 LLM 백엔드를 자동으로 선택하는 동적 라우팅 엔진을 갖췄다. 오타 수정이나 단순 파일 조작은 저렴한 소형 모델에 위임하고 심층적인 리팩터링 과제에만 고성능 플래그십 모델을 호출한다. 터미널 내에서 직접 소스코드를 편집하고 테스트 명령어를 수행하며 개발 흐름을 방해하지 않는다. 일일 수천 번의 도구 호출이 발생하는 대규모 프로젝트에서 API 비용을 50% 이상 절감할 수 있는 실용적 이점을 제공한다. 개인 개발자와 스타트업의 에이전트 도입 비용 부담을 덜어주는 실속형 솔루션이다.",
+    body_en: "Fuxi is an open-source terminal coding assistant designed to optimize developer productivity and API token budgets. It embeds an intelligent triage layer that assesses task difficulty to route queries across multiple LLM providers dynamically. Routine file edits and formatting are routed to cost-effective models, while complex system architectural changes engage frontier models. Operating directly in the CLI, it executes commands, edits files, and evaluates tests autonomously. This intelligent dispatch mechanism slashes enterprise API bills by over 50% during intense development cycles. It delivers a highly practical solution for developers balancing performance with operational costs.",
+    tags: ["GitHub", "코딩에이전트", "비용최적화", "LLM라우팅", "터미널도구"]
+  },
+
+  // 13. GitHub - cinderline/northcinder
+  {
+    id: "github_3637a38eac",
+    signal_id: "oss",
+    importance: 83,
+    title_ko: "cinderline/northcinder — 구매 전 사용자 승인을 필수로 요구하는 오픈소스 이커머스 MCP 서버",
+    title_en: "cinderline/northcinder: Open-source local MCP server for unbiased shopping with explicit human approval",
+    summary_ko: "• AI 쇼핑 에이전트가 특정 플랫폼에 편향되지 않고 공정하게 상품을 비교하도록 돕는 오픈소스 MCP 서버가 출시됐다.\n• 상품 추천 근거와 제외 사유를 투명하게 공개하며 실제 결제 전 반드시 사용자의 서명 승인을 거치는 구조를 채택했다.\n• Shopify, WooCommerce, eBay 등 다양한 커머스 플랫폼을 독립적으로 연동하여 로컬 환경에서 안전하게 구동된다.",
+    summary_en: "• cinderline launched NorthCinder, an open-source Model Context Protocol server enabling unbiased agentic commerce.\n• It provides transparent comparison reasoning and strictly enforces mandatory human cryptographic approval before purchases.\n• Built-in adapters support Shopify, WooCommerce, eBay, and Etsy while running privately on local machines.",
+    body_ko: "AI 에이전트 기반 이커머스 환경에서 소비자의 주도권을 지켜주는 오픈소스 MCP 서버 NorthCinder가 발표됐다. 대형 플랫폼의 쇼핑 에이전트가 자사 이익에 맞춰 추천 결과를 왜곡하는 문제를 방지하기 위해 설계됐다. 사용자가 지정한 복수의 쇼핑몰 데이터를 중립적으로 크롤링하고 랭킹 산정 근거와 탈락 사유를 투명하게 보여준다. 추천과 구매 단계를 완전히 분리해 결제 시점에는 반드시 사용자의 일회성 승인 토큰을 요구한다. 카드 원본 정보를 저장하지 않고 브라우저 장바구니 링크로 결제를 유도해 금융 보안 사고를 원천 차단했다. 에이전트 커머스 시대를 맞이해 투명성과 프라이버시를 지키는 모범적인 오픈소스 사례로 꼽힌다.",
+    body_en: "NorthCinder is an open-source Model Context Protocol (MCP) server engineered to ensure transparency in agentic shopping. Created to counter biased algorithmic steering by dominant retail platforms, it evaluates products across self-hosted store connections neutrally. The server outputs structured comparison reasoning, explicitly listing why top finalists ranked ahead of rejected offers. It strictly decouples product research from transactional execution, requiring explicit human approval per unit purchase. Direct payment details are rejected in favor of secure browser cart handoffs or single-use tokens. It establishes an essential privacy-preserving standard for emerging autonomous shopping assistants.",
+    tags: ["MCP", "이커머스", "오픈소스", "에이전트보안", "로컬퍼스트"]
+  },
+
+  // 14. GitHub - guillaumemeyer/watermarks-remover
+  {
+    id: "github_f9c276cedf",
+    signal_id: "oss",
+    importance: 84,
+    title_ko: "guillaumemeyer/watermarks-remover — 다양한 생성 AI 표식 및 C2PA 메타데이터를 정제하는 오픈소스 도구",
+    title_en: "guillaumemeyer/watermarks-remover: Open-source tool to sanitize AI provenance metadata and watermarks",
+    summary_ko: "• 텍스트, 이미지, 문서 파일에서 생성형 AI의 비가시적 워터마크와 C2PA 출처 메타데이터를 정제하는 도구가 공개됐다.\n• 유니코드 특수 문자 위생 처리, 통계적 재작성 훅, PNG·JPEG·PDF·DOCX 파일 내 메타데이터 정리 기능을 제공한다.\n• AI 생성 콘텐츠의 포맷 호환성을 높이고 원치 않는 메타데이터 누출을 방지하는 유틸리티로 1만 7천 개 이상의 스타를 얻었다.",
+    summary_en: "• Developer guillaumemeyer released an open-source utility to strip invisible AI provenance markers and C2PA metadata.\n• It features Unicode text hygiene filters, statistical rewrite hooks, and metadata cleaners across PNG, JPEG, PDF, and DOCX.\n• With over 17k GitHub stars, it helps developers sanitize exported assets and ensure cross-platform formatting hygiene.",
+    body_ko: "생성형 AI가 산출물에 자동으로 삽입하는 비가시적 워터마크와 출처 메타데이터를 일괄 정리해주는 오픈소스 도구가 화제를 모으고 있다. 깃허브 스타 1만 7천 개를 돌파한 이 프로젝트는 다양한 벤더의 AI 흔적을 파일 형식에 맞춰 제거한다. 텍스트 문서에서는 제로위드스(Zero-width) 공백 같은 유니코드 은닉 문자를 필터링하고 통계적 패턴을 정상화한다. 이미지와 PDF, 오피스 문서에 포함된 C2PA 규격 메타데이터와 EXIF 태그를 깨끗하게 청소해 준다. 여러 AI 도구를 조합해 파이프라인을 구축할 때 발생하는 포맷 호환성 충돌과 불필요한 메타데이터 비대화를 방지한다. AI 파이프라인 자산의 정합성과 클린 빌드를 유지하려는 엔지니어들에게 실용적인 도구로 활용되고 있다.",
+    body_en: "An open-source data hygiene project by guillaumemeyer has gained rapid traction with over 17,000 GitHub stars. The utility cleans invisible synthetic watermarks and C2PA provenance metadata embedded across multiple AI vendor exports. For textual assets, it purges zero-width Unicode characters and normalizes statistical phrasing footprints. For visual media and document formats like PDF, PNG, and DOCX, it strips opaque vendor tracking headers cleanly. It prevents formatting conflicts and unnecessary metadata bloat when chaining multimodal AI generation pipelines. The tool provides a clean-room asset preparation standard for production content pipelines.",
+    tags: ["GitHub", "오픈소스", "워터마크", "데이터클리닝", "C2PA"]
   }
 ];
 
-function buildSummary(news) {
-  const signalCounts = {};
-  for (const n of news) signalCounts[n.signal_id] = (signalCounts[n.signal_id] || 0) + 1;
-  const breakdown = Object.entries(signalCounts)
-    .map(([k, v]) => `${k} ${v}건`)
-    .join(" · ");
-  return `AI 기술 신호 ${news.length}건 — ${breakdown}. ldk-hub에서 큐레이션 하였습니다.`;
-}
-
-function runCuration() {
-  const finalItems = [];
-
-  for (const cur of CURATED_ITEMS) {
-    const fact = factMap.get(cur.id);
-    if (!fact) {
-      console.warn(`Missing fact for ID: ${cur.id}`);
-      continue;
-    }
-
-    const source = fact.source in SOURCE_NAMES ? fact.source : "web";
-    const item = {
-      id: fact.id,
-      category_id: source,
-      category_name: SOURCE_NAMES[source] || fact.source_name,
-      signal_id: cur.signal_id,
-      signal_name: SIGNALS[cur.signal_id],
-      importance: cur.importance,
-      headline: cur.title_ko.slice(0, 160),
-      title_ko: cur.title_ko.slice(0, 160),
-      title_en: (cur.title_en || fact.title).slice(0, 200),
-      summary_ko: cur.summary_ko,
-      summary_en: cur.title_en,
-      body_ko: cur.body_ko,
-      body_en: fact.body ? fact.body.slice(0, 500) + "..." : "",
-      author_profile: fact.author,
-      publish_date: fact.publish_date,
-      tags: cur.tags,
-      url: fact.url,
-      sources: fact.cross_sources || [fact.source_name],
-      metrics: fact.metrics || {},
-      curated_by: "ldk-hub"
-    };
-
-    finalItems.push(item);
+// 검증 및 저장
+const results = [];
+for (const item of curatedItems) {
+  const fact = candidateMap.get(item.id);
+  if (!fact) {
+    console.error('Fact not found for id:', item.id);
+    process.exit(1);
   }
-
-  // 플랫폼 밸런스 부스트 적용
-  const byCategory = {};
-  for (const item of finalItems) {
-    if (!byCategory[item.category_id]) byCategory[item.category_id] = [];
-    byCategory[item.category_id].push(item);
-  }
-  for (const cat in byCategory) {
-    byCategory[cat].sort((a, b) => b.importance - a.importance);
-    byCategory[cat].slice(0, 3).forEach(item => {
-      item._boost = 1000;
-    });
-  }
-
-  const news = finalItems.sort((a, b) => {
-    const boostA = a._boost || 0;
-    const boostB = b._boost || 0;
-    return (b.importance + boostB) - (a.importance + boostA);
-  });
-  news.forEach(item => delete item._boost);
-
-  const signalCounts = {};
-  for (const n of news) signalCounts[n.signal_id] = (signalCounts[n.signal_id] || 0) + 1;
-
-  const today = new Date().toISOString().slice(0, 10);
-  const outputData = {
-    generated_at: new Date().toISOString(),
-    version: `v${today.replaceAll("-", ".")}`,
-    summary: buildSummary(news),
-    curated_by: "ldk-hub",
-    signal_counts: signalCounts,
-    news
+  const source = fact.source in { geeknews: 1, hackernews: 1, aitimes: 1, reddit: 1, github: 1, x: 1, threads: 1 } ? fact.source : "web";
+  const sourceNameMap = {
+    geeknews: "GeekNews",
+    hackernews: "Hacker News",
+    aitimes: "AI타임스",
+    reddit: "Reddit",
+    github: "GitHub",
+    x: "X (Twitter)",
+    threads: "Threads",
   };
-
-  fs.mkdirSync(path.dirname(LATEST_PATH), { recursive: true });
-  fs.writeFileSync(LATEST_PATH, JSON.stringify(outputData, null, 2));
-  console.log(`Saved ${news.length} items to ${LATEST_PATH}`);
-
-  // 아카이브 저장
-  fs.mkdirSync(ARCHIVE_DIR, { recursive: true });
-  fs.mkdirSync(DATA_ARCHIVE_DIR, { recursive: true });
-  fs.writeFileSync(path.join(ARCHIVE_DIR, `news_${today}.json`), JSON.stringify(outputData, null, 2));
-  fs.writeFileSync(path.join(DATA_ARCHIVE_DIR, `news_${today}.json`), JSON.stringify(outputData, null, 2));
-
-  // 인덱스 갱신
-  const indexFile = path.join(ARCHIVE_DIR, "news_index.json");
-  let index = { archives: [] };
-  if (fs.existsSync(indexFile)) {
-    try {
-      index = JSON.parse(fs.readFileSync(indexFile, "utf8"));
-      if (!index.archives) index.archives = [];
-    } catch (e) {
-      console.warn("news_index.json 파싱 오류:", e.message);
-    }
-  }
-  if (!index.archives.some(a => a.file === `news_${today}.json`)) {
-    index.archives.unshift({
-      file: `news_${today}.json`,
-      version: outputData.version,
-      generated_at: outputData.generated_at,
-    });
-    fs.writeFileSync(indexFile, JSON.stringify(index, null, 2));
-  }
-  console.log(`Updated news archives and index.`);
+  
+  const merged = {
+    id: fact.id,
+    category_id: source,
+    category_name: sourceNameMap[source] || fact.source_name,
+    signal_id: item.signal_id,
+    signal_name: SIGNALS[item.signal_id],
+    importance: item.importance,
+    headline: item.title_ko.slice(0, 160),
+    title_ko: item.title_ko.slice(0, 160),
+    title_en: item.title_en.slice(0, 200),
+    summary_ko: item.summary_ko,
+    summary_en: item.summary_en,
+    body_ko: item.body_ko,
+    body_en: item.body_en,
+    author_profile: fact.author,
+    publish_date: fact.publish_date,
+    tags: item.tags,
+    url: fact.url,
+    sources: fact.cross_sources || [fact.source_name],
+    metrics: fact.metrics || {},
+    curated_by: "ldk-hub"
+  };
+  results.push(merged);
 }
 
-runCuration();
+// 플랫폼 밸런스 부스트 적용
+const byCategory = {};
+for (const item of results) {
+  if (!byCategory[item.category_id]) byCategory[item.category_id] = [];
+  byCategory[item.category_id].push(item);
+}
+for (const cat in byCategory) {
+  byCategory[cat].sort((a, b) => b.importance - a.importance);
+  byCategory[cat].slice(0, 3).forEach(item => {
+    item._boost = 1000;
+  });
+}
+
+const news = results.sort((a, b) => {
+  const boostA = a._boost || 0;
+  const boostB = b._boost || 0;
+  return (b.importance + boostB) - (a.importance + boostA);
+});
+news.forEach(item => delete item._boost);
+
+const signalCounts = {};
+for (const n of news) {
+  signalCounts[n.signal_id] = (signalCounts[n.signal_id] || 0) + 1;
+}
+
+const today = new Date().toISOString().slice(0, 10);
+const breakdown = Object.keys(SIGNALS)
+  .filter(k => signalCounts[k])
+  .map(k => `${SIGNALS[k].split('·')[0]} ${signalCounts[k]}건`)
+  .join(' · ');
+
+const summaryText = `AI 기술 신호 ${news.length}건 — ${breakdown}. 최상위 이슈: 구글 안티그래비티 원격 제어 및 차세대 개발자 협업 프레임워크. ldk-hub에서 큐레이션 하였습니다.`;
+
+const latestData = {
+  generated_at: new Date().toISOString(),
+  version: `v${today.replaceAll('-', '.')}`,
+  summary: summaryText,
+  curated_by: "ldk-hub",
+  signal_counts: signalCounts,
+  news: news
+};
+
+fs.mkdirSync(path.dirname(LATEST_FILE), { recursive: true });
+fs.writeFileSync(LATEST_FILE, JSON.stringify(latestData, null, 2));
+console.log(`✅ 큐레이션 완료: ${news.length}건 -> ${LATEST_FILE}`);
+console.log(`   신호 분포: ${JSON.stringify(signalCounts)}`);
+
+fs.mkdirSync(ARCHIVE_DIR, { recursive: true });
+const archiveFile = path.join(ARCHIVE_DIR, `news_${today}.json`);
+fs.writeFileSync(archiveFile, JSON.stringify(latestData, null, 2));
+console.log(`   아카이브 저장: ${archiveFile}`);
+
+let index = { archives: [] };
+if (fs.existsSync(INDEX_FILE)) {
+  try {
+    index = JSON.parse(fs.readFileSync(INDEX_FILE, 'utf8'));
+    if (!index.archives) index.archives = [];
+  } catch (e) {
+    console.warn('news_index.json 파싱 오류:', e.message);
+  }
+}
+
+if (!index.archives.some(a => a.file === `news_${today}.json`)) {
+  index.archives.unshift({
+    file: `news_${today}.json`,
+    version: latestData.version,
+    generated_at: latestData.generated_at
+  });
+  fs.writeFileSync(INDEX_FILE, JSON.stringify(index, null, 2));
+  console.log(`   아카이브 인덱스 갱신: ${INDEX_FILE}`);
+}
