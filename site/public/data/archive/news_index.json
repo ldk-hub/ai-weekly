@@ -1,16 +1,133 @@
-[
-  {
-    "date": "2026-08-24",
-    "file": "news_2026-08-24.json",
-    "total_count": 17,
-    "signal_counts": {
-      "oss": 5,
-      "practice": 4,
-      "product": 1,
-      "model": 3,
-      "devtool": 4
+{
+  "updated_at": "2026-08-24T00:31:37.858Z",
+  "archives": [
+    {
+      "file": "news_2026-08-24.json",
+      "date": "2026-08-24",
+      "version": "v2026.08.24",
+      "generated_at": "2026-08-24T00:31:37.858Z",
+      "total_count": 17,
+      "headline": "Vercel Labs 'fx' — 유닉스 파이프 철학을 계승한 고속 경량 CLI 코딩 에이전트"
     },
-    "headline": "Vercel Labs 'fx' — 유닉스 파이프 철학을 계승한 고속 경량 CLI 코딩 에이전트",
-    "summary": "오늘의 주요 AI 기술 신호 17건을 정리했습니다. 최신 기술 동향과 오픈소스 소프트웨어 릴리즈를 다룹니다. ldk-hub에서 큐레이션 하였습니다."
-  }
-]
+    {
+      "file": "news_2026-08-23.json",
+      "date": "2026-08-23",
+      "version": "v2026.08.23",
+      "generated_at": "2026-08-23T07:17:18.847Z",
+      "total_count": 14,
+      "headline": "구글, 안티그래비티 IDE 모바일 원격 제어 출시... 장시간 에이전트 작업 실시간 모니터링 지원"
+    },
+    {
+      "file": "news_2026-08-21.json",
+      "date": "2026-08-21",
+      "version": "v2026.08.21",
+      "generated_at": "2026-08-21T01:08:51.143Z",
+      "total_count": 20,
+      "headline": "앤트로픽, '클로드 코워크' 웹·모바일 확장 출시… 구글 워크스페이스 연동 대폭 강화"
+    },
+    {
+      "file": "news_2026-08-20.json",
+      "date": "2026-08-20",
+      "version": "v2026.08.20",
+      "generated_at": "2026-08-20T00:44:20.279Z",
+      "total_count": 17,
+      "headline": "DeepSeek Harness — '모든 것이 플러그인'을 표방하는 딥시크의 공식 모듈형 에이전트 하네스"
+    },
+    {
+      "file": "news_2026-08-19.json",
+      "date": "2026-08-19",
+      "version": "v2026.08.19",
+      "generated_at": "2026-08-19T00:47:39.612Z",
+      "total_count": 18,
+      "headline": "Qwen-MM-Plugins — 모든 에이전트 하네스를 멀티모달 네이티브로 확장하는 공식 플러그인"
+    },
+    {
+      "file": "news_2026-08-18.json",
+      "date": "2026-08-18",
+      "version": "v2026.08.18",
+      "generated_at": "2026-08-18T00:12:52.161Z",
+      "total_count": 18,
+      "headline": "DeepSeek Harness — '모든 것이 플러그인'인 공식 오픈소스 에이전트 하네스"
+    },
+    {
+      "file": "news_2026-08-11.json",
+      "date": "2026-08-11",
+      "version": "v2026.08.11",
+      "generated_at": "2026-08-11T00:00:00Z",
+      "total_count": 12,
+      "headline": ""
+    },
+    {
+      "file": "news_2026-08-10.json",
+      "date": "2026-08-10",
+      "version": "v2026.08.10",
+      "generated_at": "2026-08-10T00:00:00Z",
+      "total_count": 12,
+      "headline": ""
+    },
+    {
+      "file": "news_2026-08-06.json",
+      "date": "2026-08-06",
+      "version": "1.0",
+      "generated_at": "2026-08-06T01:37:52.054Z",
+      "total_count": 16,
+      "headline": "late.sh - 개발자를 위한 아늑한 터미널 클럽하우스"
+    },
+    {
+      "file": "news_2026-08-05.json",
+      "date": "2026-08-05",
+      "version": "v2026.08.05",
+      "generated_at": "2026-08-05T02:49:53.091Z",
+      "total_count": 8,
+      "headline": "Ling-3.0-flash 가중치 공개 (MIT 라이선스, FP8 공식 지원)"
+    },
+    {
+      "file": "news_2026-08-04.json",
+      "date": "2026-08-04",
+      "version": "v2026.08.04",
+      "generated_at": "2026-08-04T00:34:30.559Z",
+      "total_count": 28,
+      "headline": ""
+    },
+    {
+      "file": "news_2026-08-03.json",
+      "date": "2026-08-03",
+      "version": "v2026.08.03",
+      "generated_at": "2026-08-03T13:45:00.000Z",
+      "total_count": 10,
+      "headline": "LLM 생성 코드의 인지 부채 방지법"
+    },
+    {
+      "file": "news_2026-07-28.json",
+      "date": "2026-07-28",
+      "version": "v2026.07.28",
+      "generated_at": "2026-07-28T14:36:00.000Z",
+      "total_count": 12,
+      "headline": "react-native-pure-chart 2.0.0 릴리즈"
+    },
+    {
+      "file": "news_2026-07-27.json",
+      "date": "2026-07-27",
+      "version": "v2026.07.27",
+      "generated_at": "2026-07-27T06:58:59.670Z",
+      "total_count": 13,
+      "headline": "[임시 번역] Multiway Turing Machines (2021 pre-ai)"
+    },
+    {
+      "file": "news_2026-07-23.json",
+      "date": "2026-07-23",
+      "version": "v2026.07.23",
+      "generated_at": "2026-07-23T06:47:31.657Z",
+      "total_count": 5,
+      "headline": "Qwen-Image-3.0 - 풍부한 콘텐츠, 사실적 디테일, 깊이 있는 지식"
+    },
+    {
+      "file": "news_2026-07-13.json",
+      "date": "2026-07-13",
+      "version": "v2026.07.13",
+      "generated_at": "2026-07-13T00:00:00Z",
+      "total_count": 2,
+      "headline": ""
+    }
+  ]
+}

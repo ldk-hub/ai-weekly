@@ -36,6 +36,14 @@ async function load(source) {
     try {
       const res = await fetch(url, { cache: "no-store" });
       STATE.data = await res.json();
+      if (isNewsPage && STATE.data) {
+        if (!STATE.data.generated_at) {
+          STATE.data.generated_at = STATE.data.updated_at || (STATE.data.curated_date ? `${STATE.data.curated_date}T00:00:00Z` : null);
+        }
+        if (!STATE.data.version && STATE.data.curated_date) {
+          STATE.data.version = `v${STATE.data.curated_date.replace(/-/g, ".")}`;
+        }
+      }
     } catch (e) {
       if (isNewsPage) STATE.data = { generated_at: null, news: [] };
       else STATE.data = { generated_at: null, rising: [], classic: [] };
@@ -60,18 +68,17 @@ async function loadArchives() {
     if (isNewsPage) url = "data/archive/news_index.json";
     const res = await fetch(url, { cache: "no-store" });
     const j = await res.json();
-    STATE.archives = j.archives || [];
+    STATE.archives = Array.isArray(j) ? j : (j.archives || []);
   } catch (e) {
     STATE.archives = [];
   }
   renderArchiveMenu();
 }
 
-// 스타보드는 매일 자동 수집(stars.yml), 플러그인은 매주 월요일(weekly-trends.yml) — 둘은 예고가 사실이다.
-// 뉴스는 고정 주기가 없어 예고하지 않는다 (renderUpdateBar 가 해당 블록을 숨김).
+// 스타보드는 매일 자동 수집(stars.yml), 뉴스는 데일리 파이프라인(매일 갱신), 플러그인은 매주 월요일(weekly-trends.yml)
 function nextUpdateDate(from) {
   const d = new Date(from);
-  if (isStarboardPage) {
+  if (isStarboardPage || isNewsPage) {
     d.setDate(d.getDate() + 1);
   } else {
     const day = d.getDay();
@@ -139,7 +146,8 @@ function dayLabel(d, lang) {
 }
 function renderUpdateBar() {
   const d = STATE.data || {};
-  const ts = d.generated_at ? new Date(d.generated_at) : null;
+  const rawTs = d.generated_at || d.updated_at || d.curated_date;
+  const ts = rawTs ? new Date(rawTs) : null;
   const lang = getLang();
   const updEl = document.getElementById("updated-at");
   const nxtEl = document.getElementById("next-at");
@@ -149,9 +157,9 @@ function renderUpdateBar() {
   const verEl = document.getElementById("version-pill");
   
   if (!updEl) return;
-  if (ts) {
+  if (ts && !isNaN(ts.getTime())) {
     updEl.textContent = `${fmtKFull(ts)} (${dayLabel(ts, lang)})`;
-    if (STATE.source === "latest" && !isNewsPage) {
+    if (STATE.source === "latest") {
       const nm = nextUpdateDate(ts);
       if (nxtEl) nxtEl.textContent = `${fmtKDate(nm)} (${dayLabel(nm, lang)})`;
       if (nxtContainer) nxtContainer.style.display = "";
@@ -163,10 +171,14 @@ function renderUpdateBar() {
   } else {
     updEl.textContent = "—";
     if (nxtEl) nxtEl.textContent = "—";
+    if (nxtContainer) nxtContainer.style.display = "none";
+    if (nxtSep) nxtSep.style.display = "none";
   }
   
   if (verEl) {
-    verEl.textContent = d.version || "";
+    const ver = d.version || (d.curated_date ? `v${d.curated_date.replace(/-/g, ".")}` : "");
+    verEl.textContent = ver;
+    verEl.style.display = ver ? "" : "none";
     if (STATE.source !== "latest") {
       verEl.classList.add("is-archive");
       verEl.title = lang === "en" ? "Viewing archive" : "아카이브 보기";
@@ -180,20 +192,23 @@ function renderUpdateBar() {
 function renderArchiveMenu() {
   const ul = document.getElementById("archive-menu");
   if (!ul) return;
-  // 아카이브가 없으면 버튼 자체를 감춘다 (열어도 "최신"만 있는 죽은 컨트롤이 된다)
   const wrap = ul.closest(".archive-wrap");
   if (wrap) wrap.style.display = STATE.archives.length ? "" : "none";
   const lang = getLang();
-  const latestLabel = lang === "en" ? "Latest week" : "최신 주차";
+  const latestLabel = isNewsPage
+    ? (lang === "en" ? "Latest issue" : "최신 뉴스")
+    : (lang === "en" ? "Latest week" : "최신 주차");
   const items = [
     `<li><button data-source="latest" class="${STATE.source === "latest" ? "is-active" : ""}">
        <span class="ar-ver">${latestLabel}</span>
      </button></li>`
   ];
   for (const a of STATE.archives) {
-    const dt = a.generated_at ? fmtKFull(new Date(a.generated_at)) : a.file;
+    const rawDt = a.generated_at || a.date;
+    const dt = rawDt ? fmtKFull(new Date(rawDt)) : a.file;
+    const ver = a.version || (a.date ? `v${a.date.replace(/-/g, ".")}` : a.file);
     items.push(`<li><button data-source="${escapeHTML(a.file)}" class="${STATE.source === a.file ? "is-active" : ""}">
-      <span class="ar-ver">${escapeHTML(a.version || a.file)}</span>
+      <span class="ar-ver">${escapeHTML(ver)}</span>
       <span class="ar-date">${dt}</span>
     </button></li>`);
   }
