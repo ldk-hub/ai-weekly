@@ -1,6 +1,24 @@
 {
-  "updated_at": "2026-08-25T05:56:17.121Z",
+  "updated_at": "2026-08-25T23:45:25.893Z",
   "archives": [
+    {
+      "file": "news_2026-08-26.json",
+      "date": "2026-08-26",
+      "version": "v2026.08.26",
+      "generated_at": "2026-08-25T23:45:25.894Z",
+      "total_count": 18,
+      "signal_counts": {
+        "model": 3,
+        "practice": 1,
+        "research": 3,
+        "policy": 2,
+        "product": 3,
+        "devtool": 5,
+        "oss": 1
+      },
+      "headline": "일론 머스크 “그록, 앤트로픽에 코딩 성능 뒤처져”…커서와 협력해 격차 극복 지시",
+      "summary": "오늘의 주요 AI 기술 신호 18건을 정리했습니다. 최신 연구 성과, 개발자 도구, 오픈소스 소프트웨어 릴리즈를 다룹니다. ldk-hub에서 큐레이션 하였습니다."
+    },
     {
       "file": "news_2026-08-25.json",
       "date": "2026-08-25",
