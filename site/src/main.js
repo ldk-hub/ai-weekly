@@ -625,10 +625,30 @@ function newsCardHTML(item, idx = 0) {
   } else if (item.category_id === 'youtube' || item.platform === 'YouTube') {
     avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(authorStr)}&background=FF0000&color=fff&bold=true`;
     platformIconHtml = `<span class="platform-dot" style="position:absolute; bottom:-4px; right:-4px; width:14px; height:14px; background:#FF0000; border-radius:50%; border:2px solid var(--card); display:flex; align-items:center; justify-content:center; color:#fff;"><svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.5 12 3.5 12 3.5s-7.505 0-9.377.55a3.016 3.016 0 0 0-2.122 2.136C0 8.086 0 12 0 12s0 3.914.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.55 9.376.55 9.376.55s7.505 0 9.377-.55a3.016 3.016 0 0 0 2.122-2.136C24 15.914 24 12 24 12s0-3.914-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></span>`;
+  } else if (item.category_id === 'bluesky' || item.platform === 'Bluesky') {
+    avatarUrl = `https://unavatar.io/bluesky/${encodeURIComponent(authorStr.replace(/^@/, ""))}`;
+    platformIconHtml = `<span class="platform-dot" style="position:absolute; bottom:-4px; right:-4px; width:14px; height:14px; background:#0085FF; border-radius:50%; border:2px solid var(--card); display:flex; align-items:center; justify-content:center; color:#fff;"><svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M5.77 3.39C8.34 5.32 11.1 9.23 12 11.33c.9-2.1 3.66-6.01 6.23-7.94C20.08 2 23 .95 23 4.28c0 .66-.38 5.59-.6 6.39-.78 2.78-3.62 3.49-6.14 3.06 4.41.75 5.53 3.24 3.11 5.73-4.6 4.73-6.6-1.19-7.12-2.7-.09-.28-.14-.41-.14-.3 0-.11-.05.02-.14.3-.51 1.51-2.52 7.43-7.11 2.7-2.42-2.49-1.3-4.98 3.1-5.73-2.51.43-5.35-.28-6.13-3.06C1.61 9.87 1.23 4.94 1.23 4.28c0-3.33 2.92-2.28 4.54-.89z"/></svg></span>`;
+  } else if (item.category_id === 'hfpapers' || item.platform === 'HF Daily Papers') {
+    avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(authorStr.replace(/^@/, ""))}&background=FFD21E&color=1F2937&bold=true`;
+    platformIconHtml = `<span class="platform-dot" style="position:absolute; bottom:-4px; right:-4px; width:14px; height:14px; background:#FFD21E; border-radius:50%; border:2px solid var(--card); display:flex; align-items:center; justify-content:center; font-size:9px;">🤗</span>`;
   } else if (item.category_id === 'hackernews' || item.platform === 'Hacker News') {
     avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(authorStr)}&background=FF6600&color=fff&bold=true`;
     platformIconHtml = `<span class="platform-dot" style="position:absolute; bottom:-4px; right:-4px; width:14px; height:14px; background:#FF6600; border-radius:50%; border:2px solid var(--card); display:flex; align-items:center; justify-content:center; color:#fff; font-size:9px; font-weight:bold;">Y</span>`;
   }
+
+  // 재등장·급상승 배지. 같은 리포가 며칠 뒤 다시 올라오는 건 막지 않되(별이 크게 늘면 다룰 가치가 있다),
+  // 신규 발표처럼 보이지 않게 화면에서 구분한다.
+  const badges = [];
+  if (item.is_update) {
+    const growth = Number(item.star_growth_pct);
+    const label = Number.isFinite(growth) ? `업데이트 · ★ +${Math.round(growth)}%` : "업데이트";
+    badges.push(`<span style="font-size:11px; font-weight:700; padding:2px 8px; border-radius:10px; background:var(--pill); color:var(--ink-2); letter-spacing:0.02em;">${label}</span>`);
+  }
+  const spd = Number(item.metrics && item.metrics.stars_per_day);
+  if (item.category_id === "github" && Number.isFinite(spd) && spd > 0) {
+    badges.push(`<span style="font-size:11px; font-weight:600; padding:2px 8px; border-radius:10px; background:var(--pill); color:var(--muted);" title="${lang === "en" ? "Average stars gained per day" : "생성 이후 하루평균 획득 star"}">★ ${spd.toLocaleString()}/day</span>`);
+  }
+  const badgeHtml = badges.length ? `<div style="display:flex; gap:6px; margin-top:6px; flex-wrap:wrap;">${badges.join("")}</div>` : "";
 
   const headHtml = `
     <div class="card-head" style="margin-bottom: 12px; padding-right: 60px;">
@@ -642,6 +662,7 @@ function newsCardHTML(item, idx = 0) {
           <span class="owner" style="color: var(--ink); font-weight: 600;">${authorStr}</span>
           ${dateStr ? `<span style="color: var(--muted);"> · ${dateStr}</span>` : ""}
         </div>
+        ${badgeHtml}
       </div>
     </div>
   `;

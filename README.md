@@ -65,13 +65,13 @@ collect_news.js ───────→ curate_news.js ───────→
       "category_name": "GeekNews",
       "headline": "AI 레드 에이전트, 깃허브 코파일럿 취약점 이용해 스노우플레이크 Jira 침해 시연",
       "title_ko": "AI 레드 에이전트, 깃허브 코파일럿 취약점 이용해 스노우플레이크 Jira 침해 시연",
-      "title_en": "AI-Generated GitHub Copilot Autofix Allowed Compromise of Snowflake's Jira",
       "summary_ko": "• Wiz Research의 자율 AI 보안 에이전트가 코파일럿 취약점을 발견했습니다.\n• 공개 리포지토리 이슈 조작으로 내부 접근 토큰을 탈취했습니다.\n• CI/CD와 결합된 AI 도구의 새로운 위협 모델을 실증했습니다.",
       "body_ko": "클라우드 보안 기업 Wiz의 연구팀이 자율 침투 에이전트를 통해 ... (5~10문장 해설)",
       "url": "https://news.hada.io/topic?id=32595",
       "publish_date": "2026-08-17T22:32:25.000Z",
       "sources": ["https://news.hada.io/topic?id=32595"],
       "curated_by": "ldk-hub"
+      // GitHub 리포가 star 급증으로 재등장한 경우에만 추가: "is_update": true, "prev_stars": 2949, "star_growth_pct": 2.9
     }
   ]
 }
