@@ -1,22 +1,21 @@
 {
-  "updated_at": "2026-08-25T00:05:44.984Z",
+  "updated_at": "2026-08-25T05:56:17.121Z",
   "archives": [
     {
       "file": "news_2026-08-25.json",
       "date": "2026-08-25",
       "version": "v2026.08.25",
-      "generated_at": "2026-08-25T00:05:44.986Z",
+      "generated_at": "2026-08-25T05:56:17.122Z",
       "total_count": 18,
       "signal_counts": {
-        "practice": 2,
-        "product": 2,
-        "policy": 1,
-        "research": 4,
-        "model": 2,
         "devtool": 6,
-        "oss": 1
+        "practice": 3,
+        "policy": 2,
+        "product": 3,
+        "oss": 1,
+        "research": 3
       },
-      "headline": "로컬 LLM 추론 엔진의 메모리 취약점을 통한 호스트 머신 탈취 위험성 보고",
+      "headline": "Apodex 1.1: 복합 작업을 자율 완수하는 에이전틱 지능 확장 연구 논문 공개",
       "summary": "오늘의 주요 AI 기술 신호 18건을 정리했습니다. 최신 연구 성과, 개발자 도구, 오픈소스 소프트웨어 릴리즈를 다룹니다. ldk-hub에서 큐레이션 하였습니다."
     },
     {
