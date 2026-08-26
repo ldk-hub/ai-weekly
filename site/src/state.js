@@ -8,11 +8,11 @@ export const isLoungePage = !!document.getElementById("lounge-container");
 // 비어 있으면 화면에 안내를 띄우고 위젯을 붙이지 않는다 (조용히 깨지지 않게).
 export const GISCUS = {
   repo: "ldk-hub/ai-weekly",
-  repoId: "",            // 예: "R_kgDO..."
-  loungeCategory: "라운지",
-  loungeCategoryId: "",  // 자유 대화 카테고리 — 예: "DIC_kwDO..."
-  newsCategory: "뉴스",
-  newsCategoryId: "",    // 뉴스 항목별 댓글 카테고리
+  repoId: "R_kgDOTXrViw",
+  loungeCategory: "General",
+  loungeCategoryId: "DIC_kwDOTXrVi84DENxe",
+  newsCategory: "General",
+  newsCategoryId: "DIC_kwDOTXrVi84DENxe",
 };
 export const isGiscusReady = () => !!(GISCUS.repoId && GISCUS.loungeCategoryId && GISCUS.newsCategoryId);
 
