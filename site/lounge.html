@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI위클리 — 라운지</title>
+<meta name="description" content="AI 뉴스와 Claude Code 도구를 두고 나누는 대화. 자유 대화 스레드와 사이트 전체 최근 댓글을 한곳에서 봅니다." />
+<meta name="theme-color" content="#fbfaf6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#161410" media="(prefers-color-scheme: dark)" />
+<script>try{const t=localStorage.getItem('aiw-theme');if(t){document.documentElement.dataset.theme=t;document.querySelectorAll('meta[name="theme-color"]').forEach(m=>{m.removeAttribute('media');m.content=t==='dark'?'#161410':'#fbfaf6';});}}catch(e){}</script>
+
+<link rel="canonical" href="https://ldk-hub.github.io/ai-weekly/lounge" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="AI위클리 — 라운지" />
+<meta property="og:description" content="AI 뉴스와 Claude Code 도구를 두고 나누는 대화. 자유 대화와 사이트 전체 최근 댓글을 한곳에서." />
+<meta property="og:url" content="https://ldk-hub.github.io/ai-weekly/lounge.html" />
+<meta property="og:image" content="https://ldk-hub.github.io/ai-weekly/og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="AI Weekly — 라운지" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="AI위클리 — 라운지" />
+<meta name="twitter:description" content="AI 뉴스와 Claude Code 도구를 두고 나누는 대화." />
+<meta name="twitter:image" content="https://ldk-hub.github.io/ai-weekly/og.png" />
+<meta property="og:locale" content="ko_KR" />
+
+<link rel="icon" type="image/svg+xml" href="claude-code.svg" />
+<link rel="alternate" type="application/rss+xml" title="AI위클리 — AI 뉴스 RSS" href="https://ldk-hub.github.io/ai-weekly/news-feed.xml" />
+<link rel="alternate" type="application/rss+xml" title="AI위클리 — 주간 플러그인 RSS" href="https://ldk-hub.github.io/ai-weekly/feed.xml" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=13" />
+
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YLKMDP5YKQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-YLKMDP5YKQ');
+</script>
+</head>
+
+<body>
+
+<div class="layout-wrapper">
+
+  <div class="header-container" role="banner">
+    <div class="hero-header">
+      <div class="hero-titles">
+        <h1 class="hero-h1" data-i18n-en-html="Where the <span class='hl-mint'>conversation</span><br>actually <span class='hl-lemon'>happens</span>." data-i18n-ko-html="읽고 끝내지 않고<br><span class='hl-mint'>이야기</span>를 <span class='hl-lemon'>남깁니다</span>.">읽고 끝내지 않고<br><span class="hl-mint">이야기</span>를 <span class="hl-lemon">남깁니다</span>.</h1>
+        <p class="hero-p" data-i18n-en-html="A free-form thread plus <strong class='hero-strong'>every recent comment</strong> left across the site." data-i18n-ko-html="자유 대화 스레드와 사이트 곳곳에 달린 <strong class='hero-strong'>최근 댓글</strong>을 한곳에 모았습니다.">자유 대화 스레드와 사이트 곳곳에 달린 <strong class="hero-strong">최근 댓글</strong>을 한곳에 모았습니다.</p>
+      </div>
+
+      <div class="hero-actions">
+        <div class="brand-actions">
+          <button class="theme-toggle" id="theme-toggle" aria-label="테마 전환" type="button">🌙 다크</button>
+          <button class="lang-toggle" id="lang-toggle" aria-label="언어 전환" type="button">
+            <span class="lang-opt" data-lang="en">EN</span>
+            <span class="lang-sep">/</span>
+            <span class="lang-opt" data-lang="ko">KO</span>
+          </button>
+          <a class="gh-btn" href="https://github.com/ldk-hub/ai-weekly" target="_blank" rel="noopener">GitHub</a>
+        </div>
+        <div class="hero-art-dots">
+          <img src="claude-avatar.svg" alt="Claude" width="72" height="72" />
+        </div>
+      </div>
+    </div>
+
+    <div class="update-bar" id="update-bar" role="status" aria-live="polite">
+      <div class="update-meta">
+        <span class="update-dot"></span>
+        <span class="update-text"><strong id="updated-at">—</strong> <span data-i18n-en="Updated" data-i18n-ko="갱신">갱신</span></span>
+        <span class="update-sep"></span>
+        <span class="version-pill" id="version-pill"></span>
+        <span class="update-sep"></span>
+        <span class="visit-counter" title="누적 방문자">
+          <span data-i18n-en="Visit" data-i18n-ko="방문">방문</span> <img src="https://visitor-badge.laobi.icu/badge?page_id=ldk-hub.aiweekly.lounge&left_text=visitors&left_color=%230E0E0E&right_color=%23D97757" alt="visitor counter" loading="lazy" width="52" height="16" />
+        </span>
+      </div>
+
+      <div class="update-actions-right">
+        <a class="archive-btn" href="https://github.com/ldk-hub/ai-weekly/discussions" target="_blank" rel="noopener">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 3.5h12v8H6l-3 2.5v-2.5H2z"></path></svg>
+          <span data-i18n-en="All discussions" data-i18n-ko="전체 스레드">전체 스레드</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="unified-nav-box" style="margin-bottom: 26px;">
+      <div class="unb-top">
+        <nav class="page-nav">
+          <a href="./" class="pn-link">
+            <span class="pn-icon">🧩</span><span data-i18n-en="Popular Plugins" data-i18n-ko="인기 플러그인">인기 플러그인</span>
+          </a>
+          <a href="news" class="pn-link">
+            <span class="pn-icon">📰</span><span data-i18n-en="AI News" data-i18n-ko="AI 뉴스">AI 뉴스</span>
+          </a>
+          <a href="starboard" class="pn-link">
+            <span class="pn-icon">📈</span><span data-i18n-en="Starboard" data-i18n-ko="스타보드">스타보드</span>
+          </a>
+          <a href="lounge" class="pn-link is-active">
+            <span class="pn-icon">💬</span><span data-i18n-en="Lounge" data-i18n-ko="라운지">라운지</span>
+          </a>
+        </nav>
+        <div class="unb-summary" id="page-summary">—</div>
+      </div>
+    </div>
+  </div>
+
+  <main id="lounge-container"><div style="text-align:center;padding:60px 0;color:var(--muted);font-size:15px;" data-i18n-en="Loading the lounge…" data-i18n-ko="라운지를 불러오는 중…">라운지를 불러오는 중…</div></main>
+
+  <footer class="site-footer">
+    <span>AI위클리 · Claude Code 주간 인덱스</span>
+    <span><a href="./">인기 플러그인</a> · <a href="news">AI 뉴스</a> · <a href="starboard">스타보드</a> · <a href="lounge">라운지</a></span>
+  </footer>
+
+</div>
+
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>

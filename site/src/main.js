@@ -1,9 +1,24 @@
-import { isNewsPage, isStarboardPage, STATE, CATEGORIES, NEWS_CATEGORIES, STUDY_CATEGORIES } from "./state.js";
+import { isNewsPage, isStarboardPage, isLoungePage, GISCUS, isGiscusReady, STATE, CATEGORIES, NEWS_CATEGORIES, STUDY_CATEGORIES } from "./state.js";
 
 
 async function load(source) {
   STATE.source = source || "latest";
-  
+
+  if (isLoungePage) {
+    // 대화 원본은 GitHub Discussions 다. 브라우저에서 직접 못 읽으므로(GraphQL 은 토큰 필수)
+    // collect_lounge.js 가 수집 시점에 떨궈둔 스냅샷을 읽는다 — 뉴스·스타보드와 같은 방식.
+    try {
+      const res = await fetch("data/lounge_latest.json", { cache: "no-store" });
+      STATE.data = await res.json();
+    } catch (e) {
+      STATE.data = { generated_at: null, threads: [], comments: [] };
+    }
+    renderUpdateBar();
+    renderPageSummary();
+    render();
+    return;
+  }
+
   if (isStarboardPage) {
     try {
       const [metaRes, ledgerRes] = await Promise.all([
@@ -58,7 +73,7 @@ async function load(source) {
 async function loadArchives() {
   // 스타보드는 과거 스냅샷 파일이 없다 (ledger 한 개가 전 이력을 담는다).
   // 삭제된 스터디 페이지의 study_index.json(빈 배열)을 읽던 잔재라 아예 건너뛴다.
-  if (isStarboardPage) {
+  if (isStarboardPage || isLoungePage) {
     STATE.archives = [];
     renderArchiveMenu();
     return;
@@ -106,6 +121,15 @@ function renderPageSummary() {
   let newCount = 0;
   const checkNew = (item) => (item.badges || []).some(b => b.includes("신상") || b.includes("7일") || b.includes("NEW"));
   
+  if (isLoungePage) {
+    const threads = STATE.data.threads || [];
+    const total = threads.reduce((n, t) => n + (t.comment_count || 0), 0);
+    el.textContent = lang === "en"
+      ? `${threads.length} threads · ${total} comments`
+      : `대화 ${threads.length}개 · 댓글 ${total}개`;
+    return;
+  }
+
   if (isNewsPage) {
     // "신규 N" 은 손으로 붙인 badges 에만 존재했다. 큐레이터는 badges 를 만들지 않고,
     // 애초에 피드의 모든 항목이 신규라 구분 자체가 무의미하므로 건수만 표시한다.
@@ -482,8 +506,127 @@ function closeModal() {
   document.body.classList.remove("modal-open");
 }
 
+/* ─── giscus (GitHub Discussions) ──────────────────────────────
+   라운지 자유 대화와 뉴스 항목별 댓글이 같은 위젯을 쓴다.
+   설정값이 비어 있으면 위젯을 붙이지 않고 안내를 띄운다 — 조용히 빈 상자를 남기지 않기 위함. */
+function giscusTheme() {
+  return getEffectiveTheme() === "dark" ? "dark" : "light";
+}
+
+// term 하나당 Discussion 하나. 뉴스 항목은 id 를, 라운지는 고정 문자열을 쓴다.
+function mountGiscus(container, { term, categoryId, reactions = true }) {
+  if (!container) return;
+  container.innerHTML = "";
+  const script = document.createElement("script");
+  script.src = "https://giscus.app/client.js";
+  script.async = true;
+  script.crossOrigin = "anonymous";
+  script.setAttribute("data-repo", GISCUS.repo);
+  script.setAttribute("data-repo-id", GISCUS.repoId);
+  script.setAttribute("data-category-id", categoryId);
+  script.setAttribute("data-mapping", "specific");
+  script.setAttribute("data-term", term);
+  script.setAttribute("data-strict", "1");
+  script.setAttribute("data-reactions-enabled", reactions ? "1" : "0");
+  script.setAttribute("data-emit-metadata", "0");
+  script.setAttribute("data-input-position", "top");
+  script.setAttribute("data-theme", giscusTheme());
+  script.setAttribute("data-lang", getLang() === "en" ? "en" : "ko");
+  script.setAttribute("data-loading", "lazy");
+  container.appendChild(script);
+}
+
+function giscusSetupNotice() {
+  const lang = getLang();
+  const steps = lang === "en"
+    ? ["Enable Discussions in repository settings",
+       "Install the giscus GitHub App on this repository",
+       "Get data-repo-id and data-category-id from giscus.app",
+       "Fill GISCUS in site/src/state.js"]
+    : ["리포 Settings 에서 Discussions 켜기",
+       "giscus GitHub App 을 이 리포에 설치",
+       "giscus.app 에서 data-repo-id · data-category-id 발급",
+       "site/src/state.js 의 GISCUS 값 채우기"];
+  return `
+    <div class="card" style="padding:24px; border:1px dashed var(--border);">
+      <strong style="display:block; margin-bottom:8px;">${lang === "en" ? "Comments are not connected yet" : "댓글이 아직 연결되지 않았습니다"}</strong>
+      <p style="margin:0 0 12px; color:var(--muted); font-size:14px; line-height:1.6;">
+        ${lang === "en"
+          ? "The lounge runs on GitHub Discussions. Four steps are left:"
+          : "라운지는 GitHub Discussions 위에서 동작합니다. 남은 준비는 네 단계입니다:"}
+      </p>
+      <ol style="margin:0; padding-left:20px; color:var(--muted); font-size:14px; line-height:1.8;">
+        ${steps.map((t) => `<li>${escapeHTML(t)}</li>`).join("")}
+      </ol>
+    </div>`;
+}
+
+// 테마·언어를 바꾸면 이미 떠 있는 iframe 에 postMessage 로 알려준다 (재로드 없이 반영)
+function syncGiscusFrames() {
+  document.querySelectorAll("iframe.giscus-frame").forEach((f) => {
+    f.contentWindow?.postMessage(
+      { giscus: { setConfig: { theme: giscusTheme(), lang: getLang() === "en" ? "en" : "ko" } } },
+      "https://giscus.app"
+    );
+  });
+}
+
+function renderLounge() {
+  const el = document.getElementById("lounge-container");
+  if (!el) return;
+  const lang = getLang();
+  const d = STATE.data || {};
+
+  if (!isGiscusReady()) {
+    el.innerHTML = giscusSetupNotice();
+    return;
+  }
+
+  const comments = d.comments || [];
+  const recent = comments.length
+    ? comments.map((c) => {
+        const when = c.created_at ? new Date(c.created_at) : null;
+        const stamp = when ? `${when.getMonth() + 1}/${when.getDate()}` : "";
+        return `
+          <li style="padding:14px 0; border-bottom:1px solid var(--border);">
+            <a href="${escapeHTML(c.url)}" target="_blank" rel="noopener" style="text-decoration:none; color:inherit; display:block;">
+              <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+                <img src="${escapeHTML(c.author_avatar || "")}" alt="" width="20" height="20" loading="lazy" style="border-radius:50%;" onerror="this.style.visibility='hidden'"/>
+                <span style="font-weight:600; font-size:13.5px;">${escapeHTML(c.author || "unknown")}</span>
+                <span style="color:var(--muted); font-size:12.5px;">${escapeHTML(c.thread_title || "")}</span>
+                <span style="color:var(--muted); font-size:12.5px; margin-left:auto;">${stamp}</span>
+              </div>
+              <div style="font-size:14px; line-height:1.6; color:var(--text); opacity:0.9;">${escapeHTML((c.body || "").slice(0, 180))}</div>
+            </a>
+          </li>`;
+      }).join("")
+    : `<li style="padding:24px 0; color:var(--muted); font-size:14px;">${lang === "en" ? "No comments yet — be the first." : "아직 댓글이 없습니다. 첫 이야기를 남겨보세요."}</li>`;
+
+  el.innerHTML = `
+    <section class="card" style="padding:24px; margin-bottom:24px;">
+      <h2 style="margin:0 0 4px; font-size:19px;">${lang === "en" ? "Lounge" : "자유 대화"}</h2>
+      <p style="margin:0 0 16px; color:var(--muted); font-size:14px;">${lang === "en" ? "Anything about AI tooling. GitHub sign-in required." : "AI 도구 이야기 무엇이든. GitHub 로그인이 필요합니다."}</p>
+      <div id="lounge-giscus"></div>
+    </section>
+
+    <section class="card" style="padding:24px;">
+      <h2 style="margin:0 0 4px; font-size:19px;">${lang === "en" ? "Recent comments across the site" : "사이트 전체 최근 댓글"}</h2>
+      <p style="margin:0 0 8px; color:var(--muted); font-size:14px;">${lang === "en" ? "Updated with the daily news run." : "데일리 뉴스 갱신 때 함께 수집됩니다."}</p>
+      <ul style="list-style:none; margin:0; padding:0;">${recent}</ul>
+    </section>`;
+
+  mountGiscus(document.getElementById("lounge-giscus"), {
+    term: "lounge",
+    categoryId: GISCUS.loungeCategoryId,
+  });
+}
+
 function render() {
   const d = STATE.data || {};
+  if (isLoungePage) {
+    renderLounge();
+    return;
+  }
   if (isNewsPage) {
     const el = document.getElementById("news-feed-container");
     if (!el) return;
@@ -699,13 +842,20 @@ function newsCardHTML(item, idx = 0) {
   const related = (item.related_articles && item.related_articles.length > 0) ? `<div style="margin-top:20px; font-size:14px; background:var(--pill); padding:16px; border-radius:12px;"><strong style="color:var(--ink-2); display:flex; align-items:center; gap:6px;">🔗 관련 기사</strong><ul style="margin-top:8px; padding-left:20px; color:var(--muted); list-style-type:circle;">${item.related_articles.map(r => `<li style="margin-bottom:6px;"><a href="${escapeHTML(r.url)}" target="_blank" rel="noopener" style="color:var(--muted); text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--muted)'">${escapeHTML(r.title)}</a></li>`).join("")}</ul></div>` : "";
 
   const sources = (item.sources || []).map(s => `<span class="src-chip">${escapeHTML(s)}</span>`).join("");
+  // 카드 18개에 giscus iframe 을 미리 다 띄우면 페이지가 무거워진다 — 눌렀을 때만 주입한다.
+  const commentBtn = isGiscusReady() ? `
+      <button type="button" class="repo-link" data-giscus-term="${safeId}" style="background:none; border:none; cursor:pointer; font:inherit; color:var(--accent);">
+        💬 ${lang === "en" ? "Comments" : "댓글"}
+      </button>` : "";
   const linkBtn = item.url ? `
-    <div class="card-foot" style="margin-top:24px; border-top:1px solid var(--border); padding-top:16px;">
+    <div class="card-foot" style="margin-top:24px; border-top:1px solid var(--border); padding-top:16px; display:flex; align-items:center; gap:16px;">
       <span class="meta-left"></span>
-      <a class="repo-link" href="${escapeHTML(item.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+      ${commentBtn}
+      <a class="repo-link" href="${escapeHTML(item.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="margin-left:auto;">
         원문 보기 <span class="arrow">→</span>
       </a>
     </div>
+    <div class="nc-comments" id="giscus-${safeId}" hidden style="margin-top:16px; border-top:1px solid var(--border); padding-top:16px;"></div>
   ` : "";
 
   return `
@@ -844,7 +994,7 @@ document.getElementById("grid")?.addEventListener("keydown", e => {
     openModal(e.target.dataset.id);
   }
 });
-document.getElementById("modal").addEventListener("click", e => {
+document.getElementById("modal")?.addEventListener("click", e => {
   if (e.target.dataset.close !== undefined) closeModal();
 });
 document.addEventListener("keydown", e => {
@@ -1115,6 +1265,7 @@ document.getElementById("lang-toggle")?.addEventListener("click", () => {
   renderCategoryFilter();
   renderThemeToggle();
   render();
+  syncGiscusFrames();
 });
 applyLang(getLang());
 
@@ -1150,6 +1301,7 @@ document.getElementById("theme-toggle")?.addEventListener("click", () => {
   document.documentElement.dataset.theme = next;
   try { localStorage.setItem('aiw-theme', next); } catch (e) {}
   renderThemeToggle();
+  syncGiscusFrames();
 });
 if (window.matchMedia) {
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
@@ -1160,6 +1312,26 @@ if (window.matchMedia) {
   });
 }
 renderThemeToggle();
+
+// 뉴스 카드의 댓글 버튼 — 카드는 innerHTML 로 매번 새로 그려지므로 위임으로 받는다.
+// giscus 는 한 번만 주입하고 이후엔 보이기/숨기기만 한다 (다시 붙이면 작성 중인 글이 날아간다).
+document.getElementById("news-feed-container")?.addEventListener("click", (e) => {
+  const btn = e.target.closest("[data-giscus-term]");
+  if (!btn) return;
+  e.stopPropagation();
+  const term = btn.dataset.giscusTerm;
+  const box = document.getElementById(`giscus-${term}`);
+  if (!box) return;
+  if (box.hidden) {
+    box.hidden = false;
+    if (!box.dataset.mounted) {
+      mountGiscus(box, { term, categoryId: GISCUS.newsCategoryId, reactions: false });
+      box.dataset.mounted = "1";
+    }
+  } else {
+    box.hidden = true;
+  }
+});
 
 loadArchives();
 load();

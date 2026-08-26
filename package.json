@@ -7,6 +7,7 @@
     "preview": "vite preview",
     "data:news": "node scripts/news/collect_news.js && node scripts/news/curate_news.js",
     "data:stars": "node scripts/stars/collect-stars.js",
+    "data:lounge": "node scripts/community/collect_lounge.js",
     "data:plugins": "node scripts/plugins/collect.js && node scripts/plugins/curate.js",
     "data:publish": "node scripts/plugins/publish-curated.js"
   },

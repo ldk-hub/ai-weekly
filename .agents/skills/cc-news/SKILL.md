@@ -147,10 +147,13 @@ node scripts/news/curate_news.js --validate                         # 배포 전
 `--validate` 통과 후에만:
 
 ```bash
-node scripts/core/generate-rss.js     # RSS 피드 갱신
+node scripts/core/generate-rss.js          # RSS 피드 갱신
+node scripts/community/collect_lounge.js   # 라운지 — Discussions 스냅샷 갱신
 git add site/public/data data/archive site/public/news-feed.xml site/public/sitemap.xml
 git commit -m "chore: update daily news $(date +%Y-%m-%d)"
 ```
+
+**라운지 수집(`collect_lounge.js`)**: giscus 스레드와 댓글을 `lounge_latest.json` 으로 떨군다. 라운지 화면은 정적이라 GitHub Discussions 를 직접 못 읽는다(GraphQL 은 토큰 필수). `GH_TOKEN` 이 없으면 exit 1 로 멈춰 기존 스냅샷을 보존한다. 뉴스 항목 댓글의 스레드 제목은 term(뉴스 id 해시)이라, 배포된 뉴스에서 `title_ko` 를 찾아 사람이 읽을 제목으로 바꿔 저장한다 — **뉴스 아카이브를 지우면 옛 스레드 제목이 해시로 되돌아간다.**
 
 `news_latest.json` + `archive/news_{날짜}.json` + `archive/news_index.json` 세 파일을 함께 커밋한다.
 **archive 커밋을 빠뜨리면 다음 날 크로스데이 중복 차단이 그만큼 눈이 먼다.**

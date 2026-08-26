@@ -12,7 +12,8 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, 'site/index.html'),
         news: resolve(__dirname, 'site/news.html'),
-        starboard: resolve(__dirname, 'site/starboard.html')
+        starboard: resolve(__dirname, 'site/starboard.html'),
+        lounge: resolve(__dirname, 'site/lounge.html')
       }
     }
   }
