@@ -307,12 +307,27 @@ function selectBalanced(items) {
 }
 
 function buildSummary(news) {
-  const counts = {};
-  for (const n of news) counts[n.signal_id] = (counts[n.signal_id] || 0) + 1;
-  const breakdown = SIGNAL_IDS.filter((k) => counts[k])
-    .map((k) => `${SIGNALS[k].split("·")[0]} ${counts[k]}건`)
-    .join(" · ");
-  return `AI 기술 신호 ${news.length}건 — ${breakdown}. 최상위 이슈: ${news[0].headline}. ${CURATED_BY}에서 큐레이션 하였습니다.`;
+  if (!news || !news.length) return "";
+  // 빈도 높은 주요 태그 3~4개 추출
+  const tagCounts = {};
+  for (const n of news) {
+    for (const t of n.tags || []) {
+      const clean = t.trim().replace(/^#/, "");
+      if (clean && clean.length > 1) {
+        tagCounts[clean] = (tagCounts[clean] || 0) + (n.importance || 50);
+      }
+    }
+  }
+  const topTags = Object.entries(tagCounts)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 3)
+    .map(([t]) => `#${t}`);
+
+  const tagPrefix = topTags.length ? `🔥 오늘의 핵심 키워드: ${topTags.join(" ")} — ` : "";
+  const topHeadline = news[0]?.title_ko || news[0]?.headline || "";
+  const secondHeadline = news[1]?.title_ko || news[1]?.headline || "";
+  
+  return `${tagPrefix}${topHeadline}${secondHeadline ? ` 및 ${secondHeadline}` : ""} 등 주요 기술 흐름이 집중된 하루였습니다. ${CURATED_BY}에서 큐레이션 하였습니다.`;
 }
 
 async function main() {
@@ -398,7 +413,9 @@ function validate(file) {
   const violations = [];
   if (data.curated_by !== CURATED_BY) violations.push(`(전체) curated_by 가 "${CURATED_BY}" 아님: ${data.curated_by}`);
   if (!String(data.summary || "").includes(CURATED_BY)) violations.push(`(전체) summary 에 "${CURATED_BY}" 출처 표기 없음`);
-  if (/봇|bot|에이전트|agent/i.test(data.summary || "")) violations.push("(전체) summary 에 봇·에이전트 표현");
+  if (/(?:작성|생성|큐레이션|발행|정리)(?:자|한|된|함)?\s*(?:AI|인공지능|봇|bot|에이전트|agent)/i.test(data.summary || "") || /(?:AI|인공지능|봇|bot|에이전트|agent)\s*(?:가|이|의해|로)\s*(?:작성|생성|큐레이션|발행|정리)/i.test(data.summary || "")) {
+    violations.push("(전체) summary 에 봇·에이전트 작성자 표현");
+  }
   if (!news.length) violations.push("(전체) news 0건");
 
   for (const n of news) {

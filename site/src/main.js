@@ -509,13 +509,17 @@ function render() {
 
       const lang = getLang();
       if (STATE.category === "all" && !STATE.query && d.summary) {
+        const formattedSummary = escapeHTML(d.summary)
+          .replace(/(#[a-zA-Z0-9가-힣_-]+)/g, '<span class="db-tag">$1</span>')
+          .replace(/(🔥\s*오늘의\s*핵심\s*(?:이슈|키워드):)/g, '<strong>$1</strong>');
+
         html += `
           <div class="daily-briefing-panel">
             <div class="db-header">
               <span class="db-title">💡 ${lang === "en" ? "AI Trend Summary" : "AI 트렌드 요약"}</span>
               <span class="db-meta">🕒 ${kstStr}${escapeHTML(srcMeta)}</span>
             </div>
-            <p class="db-summary">${escapeHTML(d.summary)}</p>
+            <p class="db-summary">${formattedSummary}</p>
             <div class="db-footer">
               ⚠️ ${lang === "en" ? "Financial/investment signals excluded. Model names and figures are verbatim and unverified." : "주식·투자 신호는 제외, 게시물 내 모델명·수치는 원문 그대로이며 교차 검증되지 않았습니다."}
             </div>

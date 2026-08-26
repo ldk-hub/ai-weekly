@@ -338,7 +338,7 @@ function buildPayload() {
     curated_by: CURATED_BY,
     total_count: news.length,
     signal_counts: signalCounts,
-    summary: `오늘의 주요 AI 기술 신호 ${news.length}건을 정리했습니다. 최신 연구 성과, 개발자 도구, 오픈소스 소프트웨어 릴리즈를 다룹니다. ${CURATED_BY}에서 큐레이션 하였습니다.`,
+    summary: `🔥 오늘의 핵심 이슈: #Grok코딩추격 #온디바이스MoE #우주GPU가속 #에이전틱OS — 엔터프라이즈 로컬 코딩 모델(Qwen/Granite)의 확장과 자율 에이전트 전용 OS·소프트웨어 팩토리 구축이 주도한 하루였습니다. ${CURATED_BY}에서 큐레이션 하였습니다.`,
     news: news,
   };
 
