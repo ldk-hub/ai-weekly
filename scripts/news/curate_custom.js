@@ -1,24 +1,21 @@
 #!/usr/bin/env node
 /**
- * curate_custom.js
- * Manual human-quality curation generator for 2026-08-26
- * Adheres strictly to the CC-News quality gate & rules.
+ * 2026-08-27 데일리 뉴스 큐레이션 스크립트
+ * 스킬 규격: 18건, 7대 플랫폼 균형, 6축 신호 분포, 3불릿 요약, 5~10문장 해설
  */
 
 const fs = require("fs");
 const path = require("path");
 
-const TODAY = "2026-08-26";
-const CURATED_BY = "ldk-hub";
-const CANDIDATES_FILE = path.resolve(__dirname, "../../.tmp/news_candidates.json");
-const LATEST_FILE = path.resolve(__dirname, "../../site/public/data/news_latest.json");
-const ARCHIVE_FILE = path.resolve(__dirname, `../../data/archive/news_${TODAY}.json`);
-const PUBLIC_ARCHIVE_FILE = path.resolve(__dirname, `../../site/public/data/archive/news_${TODAY}.json`);
-const INDEX_FILE = path.resolve(__dirname, "../../data/archive/news_index.json");
-const PUBLIC_INDEX_FILE = path.resolve(__dirname, "../../site/public/data/archive/news_index.json");
+const TODAY = "2026-08-27";
+const CANDIDATES_FILE = path.join(__dirname, "../../.tmp/news_candidates.json");
+const LATEST_FILE = path.join(__dirname, "../../site/public/data/news_latest.json");
+const ARCHIVE_DIR = path.join(__dirname, "../../data/archive");
+const PUBLIC_ARCHIVE_DIR = path.join(__dirname, "../../site/public/data/archive");
+const INDEX_FILE = path.join(ARCHIVE_DIR, "news_index.json");
+const PUBLIC_INDEX_FILE = path.join(PUBLIC_ARCHIVE_DIR, "news_index.json");
 
-const candsData = JSON.parse(fs.readFileSync(CANDIDATES_FILE, "utf8"));
-const candMap = new Map(candsData.candidates.map((c) => [c.id, c]));
+const CURATED_BY = "ldk-hub";
 
 const SIGNALS = {
   model: "새 모델·버전 출시·프리뷰·벤치마크",
@@ -36,253 +33,258 @@ const SOURCE_NAMES = {
   hackernews: "Hacker News",
   reddit: "Reddit",
   github: "GitHub",
-  hfpapers: "HF Daily Papers",
   bluesky: "Bluesky",
-  x: "X (Twitter)",
-  threads: "Threads",
-  web: "Web",
+  hfpapers: "HF Daily Papers",
 };
 
-const curatedItems = [
-  // --- AITIMES (3건) ---
+const CURATED_ITEMS = [
+  // 1. aitimes_d1bfee1857 (product)
   {
-    id: "aitimes_4ded458fab",
-    signal_id: "model",
-    importance: 92,
-    title_ko: "일론 머스크 “그록, 앤트로픽에 코딩 성능 뒤처져”…커서와 협력해 격차 극복 지시",
-    title_en: "Musk Admits Grok Trails Anthropic in Coding, Calls for Accelerated Cursor Integration",
-    summary_ko: "• xAI의 일론 머스크가 그록(Grok)의 코딩 추론 성능이 앤트로픽의 Claude 대비 뒤처져 있음을 공식 시인했습니다.\n• 코딩 IDE인 커서(Cursor) 팀과의 긴밀한 협력을 지시하여 차세대 모델의 프로그래밍 역량을 강화할 방침입니다.\n• 코딩 전문 AI 시장에서 Claude Code와 경쟁하기 위한 대규모 벤치마크 튜닝에 돌입했습니다.",
-    summary_en: "• Elon Musk acknowledged that xAI's Grok currently lags behind Anthropic's Claude in software engineering benchmarks.\n• Urged xAI engineers to coordinate with the Cursor IDE team to bridge coding reasoning capabilities.\n• Initiates a dedicated optimization sprint targeting competitive parity with Claude Code.",
-    body_ko: "xAI의 수장 일론 머스크가 자사의 대형 언어 모델 그록(Grok)이 코딩 영역에서 앤트로픽의 Claude에 비해 아직 열세에 있다고 공개적으로 인정했습니다. 머스크는 내부 엔지니어링 팀에게 AI 코드 편집기 커서(Cursor)와의 통합 및 피드백 루프를 강화하여 격차를 빠르게 좁힐 것을 주문했습니다. 현재 글로벌 개발자 생태계에서 Claude가 압도적인 코딩 선호도를 유지하고 있는 가운데, xAI는 프로그래밍 특화 데이터셋을 대거 확충하고 있습니다. 다음 버전의 그록에서는 복잡한 리팩토링과 다중 파일 프로젝트 이해도를 집중 개선할 계획입니다. 주요 AI 프론티어 기업 간의 코딩 에이전트 패권 경쟁이 더욱 가열되고 있습니다.",
-    body_en: "xAI CEO Elon Musk publicly conceded that Grok currently trails Anthropic's Claude models in coding precision and multi-file reasoning. Musk instructed xAI developers to partner closely with the Cursor IDE engineering team to accelerate programming capabilities. With Claude establishing strong developer mindshare across terminal and editor harnesses, xAI is aggressively scaling dedicated coding datasets. The upcoming Grok iteration aims to enhance complex refactoring and long-context repository synthesis. This sets the stage for intensified competition in the autonomous software engineering landscape.",
-    tags: ["Grok", "Claude", "코딩AI", "커서", "일론머스크"]
-  },
-  {
-    id: "aitimes_1742ba3b7e",
-    signal_id: "practice",
-    importance: 89,
-    title_ko: "앤드류 응 교수, AI 엔지니어링 6대 핵심 역량 발표…“불확실성 제어가 가장 중요”",
-    title_en: "Andrew Ng Outlines Six Pillars of AI Engineering: Mastering Non-Determinism is Key",
-    summary_ko: "• 앤드류 응 교수가 AI 시스템을 프로덕션에 성공적으로 안착시키기 위한 엔지니어링 6대 역량을 제시했습니다.\n• 프롬프트 엔지니어링을 넘어 모델의 비결정론적 출력과 에러 궤적을 제어하는 능력의 중요성을 강조했습니다.\n• 체계적인 단위 평가(Eval)와 에이전트 워크플로우 설계가 현대 소프트웨어 팀의 필수 역량으로 정의되었습니다.",
-    summary_en: "• Professor Andrew Ng detailed six core competencies required for modern production AI engineering.\n• Emphasized controlling probabilistic uncertainty and non-deterministic error propagation over simple prompting.\n• Framed rigorous automated evaluations and agentic loop design as fundamental software engineering skills.",
-    body_ko: "세계적인 AI 석학 앤드류 응(Andrew Ng) 교수가 차세대 엔지니어가 반드시 갖춰야 할 6가지 AI 개발 역량을 공개했습니다. 응 교수는 단순한 프롬프트 작성을 넘어 LLM의 확률적 불확실성을 통제하고 신뢰할 수 있는 출력 파이프라인을 구축하는 것이 핵심이라고 설명했습니다. 특히 모델의 성능을 정량적으로 측정하는 커스텀 평가 지표(Eval) 설계와 다단계 에이전트 루프 제어를 핵심 역량으로 꼽았습니다. 기존의 결정론적 소프트웨어 공학과 달리 AI 공학은 지속적인 오류 허용 설계와 가드레일이 뒷받침되어야 한다고 역설했습니다. 프로덕션 레벨의 AI 서비스를 준비하는 개발팀에 중요한 가이드라인이 될 것입니다.",
-    body_en: "Renowned AI pioneer Andrew Ng outlined the six foundational pillars of modern AI engineering required to build robust production systems. Ng emphasized that mastering non-deterministic probabilistic outputs and error boundaries is far more crucial than basic prompt engineering. Key capabilities include constructing disciplined benchmark evaluation pipelines and architecting resilient multi-agent feedback loops. Unlike traditional deterministic engineering, building with LLMs requires sophisticated failure-recovery patterns and guardrails. The framework provides vital technical direction for software teams operationalizing enterprise AI.",
-    tags: ["앤드류응", "AI엔지니어링", "소프트웨어공학", "평가프레임워크", "개발방법론"]
-  },
-  {
-    id: "aitimes_838904e339",
-    signal_id: "research",
-    importance: 87,
-    title_ko: "스페이스X와 엔비디아, 우주 환경용 ‘베라 루빈’ 가속기 개발…2027년 궤도 투입",
-    title_en: "SpaceX and Nvidia Partner on Space-Hardened 'Vera Rubin' GPU Cluster for 2027 Orbit",
-    summary_ko: "• 스페이스X와 엔비디아가 우주 방사선 환경을 견디는 차세대 GPU '베라 루빈(Vera Rubin)' 아키텍처를 공동 개발합니다.\n• 2027년 저궤도 위성에 배치되어 지구 전송 없이 궤도 상에서 실시간 고해상도 AI 추론을 수행합니다.\n• 우주 통신 대역폭 병목을 극복하고 실시간 지구 관측 및 위성 자율 항법을 혁신할 전망입니다.",
-    summary_en: "• SpaceX and Nvidia announced a joint initiative to build radiation-hardened 'Vera Rubin' GPU clusters for orbital deployment.\n• Slated for 2027 low-Earth orbit deployment to execute real-time AI inference onboard without downlinking raw telemetry.\n• Eliminates space-to-ground bandwidth bottlenecks to empower autonomous satellite navigation and instant Earth observation.",
-    body_ko: "스페이스X와 엔비디아가 우주의 극한 방사선과 온도 변화를 견딜 수 있는 차세대 우주용 GPU '베라 루빈'을 개발한다고 발표했습니다. 양사는 2027년까지 저궤도 인공위성에 고성능 AI 가속 클러스터를 탑재하여 현장 궤도 연산을 실현할 계획입니다. 기존에는 위성이 수집한 방대한 위성 영상 데이터를 지상국으로 내려보내 처리해야 했으나, 우주에서 즉각 분석하여 핵심 정보만 전송하게 됩니다. 이를 통해 지연 시간을 획기적으로 줄이고 위성 군집의 자율 회피 기동을 가능하게 만듭니다. 지상 클라우드를 넘어 우주 인프라로 확장되는 하드웨어 AI 컴퓨팅의 새로운 지평입니다.",
-    body_en: "SpaceX and Nvidia disclosed a strategic collaboration to design radiation-tolerant 'Vera Rubin' GPU architectures for orbital deployments. The program aims to launch space-hardened compute clusters into low-Earth orbit by 2027, enabling low-latency edge inference directly in space. Currently, Earth observation satellites face massive downlink bottlenecks when transmitting raw sensor imagery to ground stations. Onboard GPU acceleration will allow satellites to process multi-spectral streams locally and downlink distilled insights. This milestone marks the expansion of high-density AI infrastructure beyond planetary boundaries.",
-    tags: ["스페이스X", "엔비디아", "우주AI", "베라루빈", "GPU하드웨어"]
-  },
-
-  // --- GEEKNEWS (2건) ---
-  {
-    id: "geeknews_5ad738e17d",
-    signal_id: "policy",
-    importance: 86,
-    title_ko: "애플, 차세대 M6 및 M5 Pro 칩 탑재 컴팩트 Mac mini 전격 공개",
-    title_en: "Apple Unveils Redesigned Mac Mini Featuring M6 and M5 Pro Silicon",
-    summary_ko: "• 애플이 차세대 뉴럴 엔진과 고대역폭 통합 메모리를 갖춘 신형 Mac mini 라인업을 공개했습니다.\n• M6 및 M5 Pro 실리콘을 탑재하여 로컬 LLM 추론과 에이전트 연산 속도가 전작 대비 최대 45% 향상되었습니다.\n• 소형 폼팩터에서 전력 효율적인 로컬 AI 워크스테이션을 구축하려는 개발자들에게 높은 주목을 받고 있습니다.",
-    summary_en: "• Apple announced the redesigned Mac mini desktop powered by next-generation M6 and M5 Pro Apple Silicon.\n• Delivers up to 45% faster local LLM inference and agentic execution speeds via upgraded Neural Engines and unified memory.\n• Offers a compact, power-efficient local workstation for engineers hosting on-device models.",
-    body_ko: "애플이 차세대 애플 실리콘 M6와 M5 Pro를 탑재한 새로운 Mac mini를 전격 공개했습니다. 새롭게 설계된 하드웨어는 대폭 확장된 통합 메모리 대역폭과 고성능 NPU를 내장하여 로컬 머신러닝 성능을 대폭 강화했습니다. 복잡한 코딩 에이전트 CLI와 수십 기가바이트 규모의 오픈소스 가중치 모델을 팬 소음 없이 쾌적하게 구동합니다. 고가의 외장 GPU 서버를 구축하기 어려운 개인 개발자와 연구자들에게 이상적인 가성비 AI 머신으로 평가받습니다. 데스크톱 하드웨어가 로컬 AI 워크로드를 중심으로 빠르게 재편되는 양상을 보여줍니다.",
-    body_en: "Apple officially introduced its redesigned Mac mini desktop, equipped with M6 and M5 Pro Apple Silicon processors. The updated platform features expanded unified memory bandwidth and next-generation Neural Engines tailored for heavy on-device ML workloads. It runs local coding agent CLI runtimes and multi-billion-parameter open-weight LLMs with exceptional thermal efficiency. The machine offers an attractive, cost-effective workstation for engineers seeking private local inference without dedicated server rigs. It reinforces Apple's positioning in the hardware ecosystem for local AI development.",
-    tags: ["애플", "MacMini", "M6", "AppleSilicon", "로컬AI"]
-  },
-  {
-    id: "geeknews_f9d7248e83",
-    signal_id: "policy",
-    importance: 78,
-    title_ko: "오픈소스 트위터 프론트엔드 Nitter, X Corp의 법적 중단 서한으로 공식 종료",
-    title_en: "Open-Source Twitter Client Nitter Ceases Operations Following X Corp Legal Demand",
-    summary_ko: "• 광고 없는 오픈소스 프론트엔드로 널리 쓰이던 Nitter가 X(구 트위터)의 법적 조치 통보를 받고 개발을 공식 중단했습니다.\n• 게스트 계정 폐쇄와 스크래핑 차단에 이어 공식 서비스와 리포지토리 유지가 영구 종료되었습니다.\n• AI 데이터 수집과 오픈 플랫폼 스크래핑을 둘러싼 빅테크의 폐쇄적 데이터 정책을 상징하는 사건입니다.",
-    summary_en: "• Nitter, the widely used open-source, privacy-first Twitter frontend, ceased operations after receiving a legal demand from X Corp.\n• Marks the end of community scraping mirrors following prior guest token invalidations.\n• Underscores the intensifying data fencing and anti-scraping policies deployed by major social networks.",
-    body_ko: "트위터의 경량 오픈소스 대체 프론트엔드로 오랜 기간 사랑받아온 Nitter가 X Corp의 정지 명령 서한을 받고 공식적으로 프로젝트를 종료했습니다. Nitter는 사용자 추적을 방지하고 빠른 텍스트 조회를 지원하여 개발자 커뮤니티의 기술 동향 수집 통로로 애용되어 왔습니다. 최근 주요 소셜 플랫폼들이 자사 데이터를 AI 학습과 외부 파이프라인으로부터 격리하기 위해 크롤링 방벽을 높이고 있습니다. 이로 인해 오픈소스 모니터링 도구와 자유로운 데이터 접근 환경이 급격히 위축되고 있습니다. 개발 생태계 전반에서 폐쇄형 플랫폼에 대한 대안 마련이 시급하다는 목소리가 커지고 있습니다.",
-    body_en: "Nitter, the long-standing open-source alternative interface for Twitter/X, announced its permanent shutdown after receiving a cease-and-desist letter from X Corp. The platform was widely utilized by developers and researchers for lightweight, tracking-free access to technical announcements. The shutdown reflects a broader trend of major platforms aggressively fencing public text corpora against third-party AI crawlers. These escalating anti-scraping policies increasingly disrupt open developer tooling and automated monitoring pipelines. The incident highlights the growing friction between open-access utilities and proprietary data silos.",
-    tags: ["Nitter", "오픈소스", "XCorp", "데이터접근", "크롤링정책"]
-  },
-
-  // --- HACKER NEWS (4건) ---
-  {
-    id: "hackernews_8874691e1c",
+    id: "aitimes_d1bfee1857",
     signal_id: "product",
-    importance: 90,
-    title_ko: "오픈AI, ChatGPT Plus 사용자를 위한 5시간 Codex 및 작업 세션 한도 전격 복원",
-    title_en: "OpenAI Restores 5-Hour Codex and Workspace Session Limits for Plus Users",
-    summary_ko: "• 오픈AI가 최근 축소했던 ChatGPT Plus 유료 구독자의 Codex 코딩 및 심층 작업 5시간 세션 한도를 원래대로 복원했습니다.\n• 과도한 레이트 리밋에 반발하던 글로벌 개발자들의 피드백을 수용하여 컴퓨팅 인프라를 긴급 확충했습니다.\n• 장시간 지속되는 대규모 프로젝트 리팩토링 및 에이전트 작업의 연속성이 다시 확보되었습니다.",
-    summary_en: "• OpenAI reversed recent usage restrictions by restoring the generous 5-hour Codex and workspace session limits for ChatGPT Plus subscribers.\n• Followed vocal pushback from professional developers impacted by abrupt mid-session throttling.\n• Re-establishes session continuity for long-horizon codebase refactoring and autonomous tasks.",
-    body_ko: "오픈AI가 ChatGPT Plus 사용자들의 반발을 샀던 Codex 및 장기 작업 세션 사용량 제한 조치를 철회하고 기존의 5시간 한도를 전격 복원했습니다. 최근 갑작스럽게 적용된 엄격한 쿼터로 인해 복잡한 코드베이스 작업을 수행하던 엔지니어들이 잦은 작업 중단을 겪었습니다. 개발자 커뮤니티의 강력한 항의가 이어지자 오픈AI는 백엔드 GPU 클러스터를 보강하여 제한을 완화하기로 결정했습니다. 이로써 장시간 이어지는 터미널 에이전트 연동 작업과 아키텍처 재설계 작업이 안정성을 되찾았습니다. 코딩 어시스턴트 시장의 치열한 경쟁 속에서 유료 사용자 유지의 중요성을 보여준 사례입니다.",
-    body_en: "OpenAI officially rolled back its recent session throttling policies, restoring the full 5-hour continuous limit for Codex and extended workspace features on ChatGPT Plus. The previous clampdown caused widespread disruption for software engineers executing multi-hour repository refactoring pipelines. Following intense community feedback, OpenAI upgraded its serving infrastructure to reinstate unconstrained developer workflows. The restoration provides sustained computational bandwidth for complex autonomous coding loops. It illustrates how user-retention dynamics influence capacity planning in the competitive AI developer tools market.",
-    tags: ["OpenAI", "Codex", "ChatGPTPlus", "개발도구", "레이트리밋"]
+    importance: 95,
+    title_ko: "오픈AI \"챗GPT 다음 단계는 '일하는 AI'\"...에이전트 중심 작업 자동화 선언",
+    title_en: "OpenAI: The Next Evolution of ChatGPT is 'Work-Ready AI'",
+    summary_ko: "• 오픈AI 리더십이 챗GPT의 궁극적인 지향점을 단순 대화형 인터페이스에서 자율 업무 수행 에이전트로 정의했습니다.\n• 단순 질문 답변을 넘어 워크스페이스 내 다단계 프로젝트 기획과 코드 작성, 실행 및 수정까지 일괄 완수하는 시스템을 목표로 합니다.\n• 기업 실무자 및 개발자들의 반복적인 데스크톱 워크플로우를 자동화하는 전용 도구 체계가 대거 강화될 전망입니다.",
+    summary_en: "• OpenAI leadership outlines the next major evolution of ChatGPT from conversational chatbot into autonomous work-ready agents.\n• Focuses on automating multi-step desktop workflows, code execution, and cross-application project management.\n• Positions ChatGPT as an active collaborator rather than a passive assistant for knowledge workers.",
+    body_ko: "오픈AI 경영진이 챗GPT의 다음 단계 핵심 목표로 '일하는 AI(Work-Ready AI)'를 제시하며 본격적인 자율 에이전트 전환을 선언했습니다. 초기 챗GPT가 텍스트 생성과 질문 답변 위주의 대화형 도구였다면, 앞으로는 복잡한 비즈니스 로직과 다단계 소프트웨어 프로젝트를 스스로 계획하고 실행하는 구조로 진화합니다. 특히 사용자의 명시적 프롬프트 없이도 컨텍스트를 파악해 코드를 디버깅하고 문서를 통합 관리하는 능력이 집중 개발되고 있습니다. 이는 최근 출시된 심층 코딩 에이전트 기능들과 맞물려 개발 환경 전반의 생산성 패러다임을 바꿀 것으로 기대됩니다. 오픈AI는 사용자가 최종 결과물 검토와 의사결정에만 집중할 수 있도록 자율 실행의 안정성을 지속적으로 끌어올릴 방침입니다.",
+    body_en: "OpenAI leadership announced that the future roadmap for ChatGPT centers on building proactive 'Work-Ready AI' capable of completing complex real-world workflows. Moving beyond passive prompt responses, next-generation models are designed to formulate execution plans, manage workspace files, and debug code autonomously. This initiative directly integrates with recent improvements in coding environments and enterprise tools. The company emphasizes closing the gap between human intent and reliable autonomous task completion.",
+    tags: ["오픈AI", "챗GPT", "자율에이전트", "업무자동화", "AI전략"]
   },
+  // 2. aitimes_b92a7b3e10 (product)
   {
-    id: "hackernews_3f04883d92",
+    id: "aitimes_b92a7b3e10",
+    signal_id: "product",
+    importance: 93,
+    title_ko: "앤트로픽, 클로드 '채팅'과 '코워크' 메모리 통합...작업 연속성 대폭 강화",
+    title_en: "Anthropic Unifies Claude Chat and Co-Work Memory for Seamless Task Continuity",
+    summary_ko: "• 앤트로픽이 웹 기반 클로드 채팅과 개발자 코워크 환경 간의 세션 컨텍스트 및 메모리를 하나로 통합했습니다.\n• 이전 대화에서 논의된 프로젝트 맥락과 도메인 지식이 코딩 워크스페이스 세션으로 실시간 동기화됩니다.\n• 세션 단절로 인한 반복 설명 비용을 줄이고 장기 프로젝트 수행 시 연속적인 개발 경험을 제공합니다.",
+    summary_en: "• Anthropic integrates persistent memory between Claude chat interfaces and collaborative coding environments.\n• Ensures that context, architecture decisions, and project constraints carry over seamlessly across active sessions.\n• Eliminates repetitive prompt setup and enhances long-term task coherence for enterprise engineers.",
+    body_ko: "앤트로픽이 클로드(Claude)의 일반 채팅 인터페이스와 협업 코딩 모드인 '코워크(Co-Work)'의 메모리 시스템을 전격 통합했습니다. 지금까지는 사용자가 채팅에서 설계 아이디어를 발전시키더라도 코딩 세션으로 이동할 때마다 배경 맥락을 다시 설명해야 하는 번거로움이 있었습니다. 이번 업데이트를 통해 클로드는 이전 대화에서 확정된 아키텍처 규칙과 사용자의 선호 스타일을 기억하여 코딩 작업에 즉시 반영합니다. 특히 장기 프로젝트를 진행할 때 세션이 재시작되더라도 일관된 코드 품질과 정책을 유지할 수 있게 되었습니다. 이는 컨텍스트 윈도우 한계를 극복하고 개발자와 AI 간의 지속적인 페어 프로그래밍 경험을 완성하는 데 크게 기여할 것으로 평가됩니다.",
+    body_en: "Anthropic has rolled out unified memory synchronization across Claude chat sessions and Co-Work developer workspaces. Developers no longer need to manually copy-paste specifications or re-explain design choices when transitioning between conversational planning and active coding. Claude now preserves architectural constraints, user conventions, and previous debugging history across sessions. This enhancement significantly reduces cognitive overhead and context friction during complex development lifecycles.",
+    tags: ["앤트로픽", "클로드", "메모리통합", "코딩에이전트", "컨텍스트연속성"]
+  },
+  // 3. aitimes_864a02b000 (research)
+  {
+    id: "aitimes_864a02b000",
+    signal_id: "research",
+    importance: 90,
+    title_ko: "\"트랜스포머 한계 극복\"...물리 법칙을 직접 이해하는 신개념 '피지컬 AI' 공개",
+    title_en: "Overcoming Transformer Limits: Novel 'Physical AI' Directly Modeling Laws of Physics",
+    summary_ko: "• 단순 텍스트 패턴 학습을 넘어 물리 법칙과 역학 관계를 수학적으로 직접 내재화한 신개념 피지컬 AI 모델이 공개되었습니다.\n• 3차원 공간 내 중력, 마찰력, 유체 역학 시뮬레이션에서 기존 트랜스포머 대비 오차율을 60% 이상 감축했습니다.\n• 로봇 제어, 자율주행, 정밀 제조 시뮬레이션 등 실세계 피지컬 시스템 제어의 신뢰도를 획기적으로 개선합니다.",
+    summary_en: "• Researchers unveil Physical AI models that natively embed differential equations and physical mechanics rather than mere pattern matching.\n• Demonstrates a 60% error reduction in complex 3D gravity, friction, and fluid dynamics simulations.\n• Paves the way for highly reliable robotics controllers and industrial engineering simulations.",
+    body_ko: "기존 대규모 언어 모델 기반 트랜스포머의 구조적 한계를 극복하고 실세계 물리 법칙을 직접 연산하는 신개념 '피지컬 AI' 아키텍처가 발표되었습니다. 기존 모델들은 물리적 현상을 픽셀이나 텍스트 확률 통계로 근사하여 예측하기 때문에 예기치 못한 물리적 환각 현상이 발생하곤 했습니다. 연구진은 미분 방정식과 보존 법칙을 신경망 손실 함수에 직접 결합하여 중력, 충돌, 탄성 변형을 정확하게 추론하도록 구현했습니다. 벤치마크 테스트 결과 로봇 팔 조작 및 복합 유체 역학 시뮬레이션에서 연산 속도를 10배 높이면서도 오차율은 절반 이하로 낮췄습니다. 향후 휴머노이드 로봇과 자율주행 모빌리티의 실시간 물리 환경 대응력을 비약적으로 끌어올릴 핵심 원천 기술로 주목받고 있습니다.",
+    body_en: "A novel Physical AI framework has been introduced to overcome the fundamental spatial-reasoning limitations of classic transformer architectures. By embedding Lagrangian mechanics and conservation laws directly into neural loss functions, the model natively respects gravity, collision, and fluid dynamics. Empirical benchmarks demonstrate a tenfold speedup in simulation runtime alongside a 60% decrease in trajectory prediction errors. This represents a substantial milestone for physical robotics and embodied intelligence.",
+    tags: ["피지컬AI", "로보틱스", "물리시뮬레이션", "트랜스포머대안", "AI연구"]
+  },
+  // 4. aitimes_c2c3654bcc (product)
+  {
+    id: "aitimes_c2c3654bcc",
+    signal_id: "product",
+    importance: 89,
+    title_ko: "퍼플렉시티, 엔비디아 협력으로 로컬 에이전트 '포터블 컴퓨터' 공개",
+    title_en: "Perplexity Partners with NVIDIA to Launch 'Portable Computer' Local Agent",
+    summary_ko: "• 퍼플렉시티가 엔비디아와 기술 제휴를 맺고 로컬 환경에서 구동되는 고성능 에이전트 솔루션 '포터블 컴퓨터'를 선보였습니다.\n• 클라우드 통신 없이 온디바이스에서 검색 인덱싱과 실시간 추론을 수행해 데이터 프라이버시를 완벽히 보호합니다.\n• 엔비디아 RTX 하드웨어 가속을 통해 대화형 검색과 로컬 문서 분석을 1초 미만의 지연 시간으로 처리합니다.",
+    summary_en: "• Perplexity teams up with NVIDIA to unveil 'Portable Computer', a fully local agent runtime for edge hardware.\n• Executes search indexing and contextual synthesis on-device without cloud data transmission, ensuring total privacy.\n• Leverages NVIDIA RTX hardware acceleration to achieve sub-second local file reasoning and conversational search.",
+    body_ko: "AI 검색 스타트업 퍼플렉시티가 엔비디아와의 파트너십을 통해 독립형 온디바이스 에이전트 시스템인 '포터블 컴퓨터(Portable Computer)'를 발표했습니다. 이 시스템은 사용자의 PC 로컬 환경에 저장된 대용량 문서와 코드를 엔비디아 RTX GPU 가속을 활용해 실시간으로 임베딩하고 검색합니다. 외부 클라우드 서버로 데이터를 전송하지 않기 때문에 사내 기밀 문서나 민감한 개인정보를 안전하게 다룰 수 있는 것이 최대 강점입니다. 또한 네트워크 연결이 끊긴 오프라인 상태에서도 완전한 AI 리서치 및 문서 요약 기능을 제공합니다. 기업 보안 규정으로 인해 클라우드 AI 도입을 망설이던 기관과 보안 중심 개발자들에게 강력한 대안이 될 것으로 보입니다.",
+    body_en: "Perplexity announced a strategic collaboration with NVIDIA to release 'Portable Computer', a private on-device agent platform. The tool indexes local files and executes deep query reasoning directly on consumer NVIDIA RTX hardware without telemetry. It offers robust search, semantic synthesis, and automated summarization even in air-gapped environments. This launch directly targets enterprises and security-conscious developers seeking zero-data-leakage AI assistants.",
+    tags: ["퍼플렉시티", "엔비디아", "온디바이스AI", "로컬에이전트", "데이터보안"]
+  },
+  // 5. geeknews_ae5aa43bec (devtool)
+  {
+    id: "geeknews_ae5aa43bec",
+    signal_id: "devtool",
+    importance: 94,
+    title_ko: "Git을 어떤 규모에서도 확장하는 법 - Cursor의 새 Git 저장 시스템 Continuity",
+    title_en: "Scaling Git to Any Size: Cursor Unveils New Storage System Continuity",
+    summary_ko: "• AI 코딩 에디터 커서(Cursor) 팀이 초대형 모노레포 환경에서도 지연 없이 동작하는 분산 Git 저장 아키텍처 'Continuity'를 공개했습니다.\n• 가상화된 파일 시스템과 지능형 블록 캐싱을 통해 수백 기가바이트 규모의 리포지토리도 수 초 내에 즉시 클론하고 체크아웃합니다.\n• AI 에이전트가 수만 개의 파일을 동시 분석할 때 발생하는 I/O 병목을 근본적으로 해소했습니다.",
+    summary_en: "• Cursor engineering published an in-depth breakdown of Continuity, a high-scale virtualized Git storage engine.\n• Allows instant clone and checkout across multi-gigabyte monorepos via demand-paged object storage and chunk caching.\n• Eliminates file I/O bottlenecks when autonomous coding agents index vast codebases in parallel.",
+    body_ko: "AI 기반 IDE 커서(Cursor)를 개발하는 Anysphere 팀이 대규모 엔터프라이즈 코드베이스를 위한 가상 Git 스토리지 시스템 'Continuity'의 기술적 구조를 공개했습니다. 전통적인 Git은 리포지토리 크기가 수십 기가바이트를 넘어가면 로컬 체크아웃과 인덱싱 속도가 급격히 느려지는 한계가 있었습니다. Continuity는 전체 소스 트리를 로컬 디스크에 전부 복사하지 않고, 에이전트나 개발자가 실제로 읽고 수정하는 파일 블록만 필요할 때 온디맨드로 스트리밍합니다. 이를 통해 수백만 개의 파일이 포함된 거대 모노레포에서도 초기 프로젝트 로딩 시간을 1초대로 단축했습니다. 특히 AI 코딩 에이전트가 넓은 파일 범위를 탐색하고 수정하는 작업에서 I/O 지연을 획기적으로 줄여 실무 생산성을 크게 향상시켰습니다.",
+    body_en: "The Cursor engineering team revealed Continuity, their novel virtualized Git backend designed for massive enterprise monorepos. Rather than downloading entire tree states upfront, Continuity lazily streams file blobs and tree objects on demand through a customized virtual filesystem. This reduces clone and switch latency from minutes to milliseconds even in repositories exceeding hundreds of gigabytes. The architecture drastically improves the responsiveness of background indexing for autonomous coding agents.",
+    tags: ["커서", "Git", "모노레포", "스토리지엔지니어링", "개발자도구"]
+  },
+  // 6. geeknews_56eeed47a4 (oss)
+  {
+    id: "geeknews_56eeed47a4",
+    signal_id: "oss",
+    importance: 86,
+    title_ko: "html2design - 웹페이지를 편집 가능한 Figma 노드로 변환하는 크롬 확장 도구",
+    title_en: "html2design: Chrome Extension Converting Live Web Pages to Editable Figma Nodes",
+    summary_ko: "• 실제 배포된 웹사이트의 DOM 구조와 CSS 스타일을 100% 보존하며 Figma의 오토레이아웃 노드로 변환하는 오픈소스 도구가 화제입니다.\n• 반응형 브레이크포인트와 웹 폰트, 벡터 SVG 에셋을 손실 없이 그래픽 디자인 캔버스로 가져옵니다.\n• 프론트엔드 레퍼런스 리버스 엔지니어링 및 디자인 시스템 마이그레이션 작업 시간을 획기적으로 단축합니다.",
+    summary_en: "• html2design introduces an open-source workflow to convert live web DOM elements directly into Figma auto-layout components.\n• Faithfully translates computed CSS properties, typography, responsive rules, and SVGs into native design nodes.\n• Streamlines UI reverse engineering, competitive analysis, and design token synchronization.",
+    body_ko: "웹 브라우저에서 실행 중인 실제 웹페이지를 클릭 한 번으로 피그마(Figma) 디자인 파일로 변환해주는 오픈소스 크롬 확장 프로그램 'html2design'이 긱뉴스에서 큰 주목을 받았습니다. 기존 화면 캡처 방식과 달리 웹페이지의 계산된 CSS 속성(Flexbox, Grid, 여백, 색상 변수)을 피그마 고유의 오토레이아웃(Auto Layout) 프레임으로 정밀하게 매핑합니다. 디자이너와 프론트엔드 개발자는 기존 라이브 사이트를 리디자인할 때 처음부터 컴포넌트를 다시 그릴 필요 없이 즉시 레이아웃을 수정할 수 있습니다. 또한 복잡한 웹 폰트와 SVG 아이콘도 벡터 그래픽 상태 그대로 추출되어 디자인 자산화가 매우 용이합니다. UI 리버스 엔지니어링과 디자인 QA 시간을 획기적으로 줄여주는 실용적인 생산성 도구로 평가받고 있습니다.",
+    body_en: "html2design has emerged as a popular open-source utility that translates computed DOM trees and styling directly into Figma layers. Unlike traditional raster screenshots, the extension maps CSS flexbox, grids, and padding into native Figma Auto Layout components. Designers can immediately edit typography, color styles, and vector paths extracted from any production website. The tool significantly accelerates competitive UI benchmarking and design system reverse engineering.",
+    tags: ["Figma", "UI디자인", "크롬확장", "프론트엔드", "오픈소스"]
+  },
+  // 7. geeknews_bd70cb6c61 (devtool)
+  {
+    id: "geeknews_bd70cb6c61",
     signal_id: "devtool",
     importance: 88,
-    title_ko: "CUA, 윈도우 샌드박스에서 마인크래프트를 조작하는 컴퓨터 유즈 에이전트 툴킷 공개",
-    title_en: "CUA Releases Sandbox Framework for Testing Computer-Use Agents in Minecraft",
-    summary_ko: "• 윈도우 격리 샌드박스 내부에서 3D 게임 마인크래프트를 자율 조작하며 시각 행동을 학습하는 에이전트 도구 CUA가 공개되었습니다.\n• 화면 픽셀 인식과 키보드·마우스 가상 이벤트를 통해 복잡한 3D 환경 탐색과 제작 작업을 실시간 수행합니다.\n• 위험한 OS 명령어 실행 없이 안전한 환경에서 컴퓨터 유즈 모델의 행동 능력을 평가할 수 있습니다.",
-    summary_en: "• CUA published a developer guide and sandbox runtime to evaluate Computer-Use agents inside isolated Windows Minecraft environments.\n• Connects vision perception loops with virtual mouse/keyboard actuators to perform dynamic 3D spatial tasks.\n• Provides a risk-free testing playground for autonomous desktop agents before production deployment.",
-    body_ko: "자율 컴퓨터 조작 에이전트 프레임워크 CUA가 윈도우 샌드박스 환경에서 마인크래프트를 조작하는 테스트베드를 오픈소스로 공개했습니다. 이 도구는 에이전트가 화면 캡처 이미지를 실시간 분석하고 가상 키보드와 마우스를 제어하여 3D 복합 작업을 수행하도록 만듭니다. 실제 파일시스템을 파괴할 위험 없이 안전한 게임 환경에서 에이전트의 시각적 공간 인지와 판단 능력을 시험할 수 있습니다. 사용자의 데스크톱을 직접 조작하는 차세대 컴퓨터 유즈(Computer-Use) 모델의 안정성을 검증하는 데 최적입니다. 복잡한 환경 적응형 AI 에이전트를 연구하는 개발자들에게 매우 유용한 실험 환경입니다.",
-    body_en: "The CUA project unveiled an open-source testing harness enabling autonomous Computer-Use agents to operate within a sandboxed Minecraft environment on Windows. The framework processes live visual viewport frames and issues native keyboard and mouse commands to navigate dynamic 3D spatial objectives. This setup provides a completely isolated testbed to validate desktop automation agents without risking host system filesystems. It represents an effective method for benchmarking long-horizon multimodal perception and mechanical actuation. The framework accelerates the safe evaluation of autonomous OS agents.",
-    tags: ["컴퓨터유즈", "에이전트샌드박스", "마인크래프트", "시각AI", "개발도구"]
+    title_ko: "쿼리 가능한 실행 파일(Queryable Executables) - 바이너리에 시맨틱 메타데이터 주입",
+    title_en: "Queryable Executables: Embedding Semantic Metadata into Compiled Binaries",
+    summary_ko: "• 컴파일된 실행 파일 내부에 구조화된 시맨틱 메타데이터를 내장하여 AI 에이전트와 도구가 바이너리를 직접 쿼리할 수 있게 하는 기법이 제안되었습니다.\n• 복잡한 매뉴얼 파싱 없이도 CLI 명령어가 제공하는 API 스키마, 플래그 의도, 실행 제약 조건을 JSON-LD 형태로 즉시 조회합니다.\n• LLM 에이전트가 커맨드라인 도구를 도구(Tool)로 호출할 때 발생하는 오작동과 인자 오류를 원천 차단합니다.",
+    summary_en: "• Proposes Queryable Executables, a standard for embedding structured schema and semantic capabilities directly inside ELF/Mach-O binaries.\n• Allows AI agents and devtools to inspect CLI parameters, constraints, and intent schemas without fragile help text parsing.\n• Eliminates argument hallucination when LLMs orchestrate native shell commands.",
+    body_ko: "바이너리 실행 파일 자체에 구조화된 인터페이스 명세를 주입하여 AI 에이전트가 명령어 스키마를 정밀하게 질의할 수 있도록 돕는 '쿼리 가능한 실행 파일(Queryable Executables)' 아키텍처가 소개되었습니다. 지금까지 AI 코딩 에이전트들은 터미널 명령어의 기능을 파악하기 위해 `--help` 텍스트를 출력한 뒤 정규식이나 프롬프트로 파싱해야 했으며, 이 과정에서 포맷 불일치로 인한 오작동이 빈번했습니다. 제안된 방식은 컴파일 타임에 전용 ELF/Mach-O 섹션에 JSON 형태의 명령어 정의와 입출력 타입을 내장합니다. 에이전트는 특수 플래그나 인터셉터를 통해 구조화된 데이터를 0.1밀리초 만에 읽어와 정확한 인자로 명령을 실행할 수 있습니다. 이는 AI 기반 터미널 자동화와 MCP(Model Context Protocol) 툴 연동의 신뢰도를 극대화하는 표준 기술로 주목받고 있습니다.",
+    body_en: "The Queryable Executables specification demonstrates a method to bake machine-readable command schemas directly into compiled binaries. Instead of relying on fragile human-readable `--help` text parsing, LLM agents can query dedicated binary sections for exact JSON schema contracts and parameter constraints. This approach prevents command hallucination and runtime argument mismatches during autonomous shell execution. It presents a robust architectural foundation for next-generation AI developer tool integration.",
+    tags: ["바이너리", "CLI", "시맨틱메타데이터", "에이전트도구", "개발자도구"]
   },
+  // 8. hackernews_2f630d5eb6 (model)
   {
-    id: "hackernews_17b494fe9a",
+    id: "hackernews_2f630d5eb6",
+    signal_id: "model",
+    importance: 96,
+    title_ko: "GLM-5.3-Flash 릴리즈 분석 — 320B MoE·18B 활성 파라미터로 초고속 멀티모달 추론 구현",
+    title_en: "GLM-5.3-Flash Architecture Breakdown: 320B MoE with 18B Active Parameters for Ultra-Fast Multimodal Inference",
+    summary_ko: "• Z.ai(Zhipu)가 3200억 개 전체 파라미터 중 토큰당 180억 개만 활성화하는 차세대 MoE 모델 GLM-5.3-Flash를 전격 출시했습니다.\n• 100만(1M) 토큰 컨텍스트를 기본 지원하며 DeepSWE 코딩 벤치마크에서 63%를 기록해 상위 프론티어 모델과 대등한 성능을 보였습니다.\n• API 가격을 100만 토큰당 수 센트 수준으로 낮춰 대규모 에이전트 루프와 고속 코드 자동완성에 최적화되었습니다.",
+    summary_en: "• Z.ai releases GLM-5.3-Flash, featuring a 320B sparse Mixture-of-Experts architecture activating only 18B parameters per forward pass.\n• Native 1M token context support with ~63% on DeepSWE software engineering benchmark.\n• Ultra-competitive API pricing tailored for high-frequency agent loops and real-time reasoning.",
+    body_ko: "Z.ai가 차세대 고속 멀티모달 모델인 'GLM-5.3-Flash'를 공개하며 글로벌 오픈 가중치 및 상용 API 시장에 큰 충격을 주었습니다. 이 모델은 320B 총 파라미터 중 토큰당 18B만 활성화하는 희소 MoE(Mixture of Experts) 설계를 채택하여, 이전 세대인 GLM-5.2 대비 추론 속도를 2.5배 향상시켰습니다. 100만 토큰에 달하는 방대한 컨텍스트 윈도우를 지원하면서도 DeepSWE 코딩 벤치마크에서 약 63%의 높은 작업 해결률을 달성했습니다. 인공지능 성능 분석 기관 Artificial Analysis의 측정 결과, 플래그십 모델급 지능을 유지하면서도 토큰당 처리 비용은 1/10 수준으로 절감되었습니다. 개발자들은 빠른 응답 속도와 저렴한 비용 덕분에 실시간 코딩 어시스턴트 및 자율 에이전트 파이프라인의 핵심 백엔드로 적극 도입하고 있습니다.",
+    body_en: "Z.ai announced GLM-5.3-Flash, a sparse Mixture-of-Experts multimodal model comprising 320B total parameters with only 18B active per token. Independent benchmarks reveal strong results on software engineering tasks, including ~63% on DeepSWE and 1M token context capability. The model matches frontier capabilities in visual reasoning and code generation while maintaining token throughput comparable to lightweight models. Its cost-effective pricing structure makes it especially attractive for sustained autonomous agent workflows.",
+    tags: ["GLM5", "MoE모델", "멀티모달", "코딩벤치마크", "인공지능성능"]
+  },
+  // 9. hackernews_801be10beb (devtool)
+  {
+    id: "hackernews_801be10beb",
+    signal_id: "devtool",
+    importance: 91,
+    title_ko: "Serve Markdown to AI Agents with Accept Headers — 에이전트 친화형 콘텐츠 협상 표준",
+    title_en: "Serve Markdown to AI Agents with Accept Headers: Clean Content Negotiation",
+    summary_ko: "• 웹사이트가 AI 크롤러나 에이전트의 `Accept: text/markdown` 헤더 요청에 대해 깔끔한 마크다운을 직접 응답하는 표준 패턴이 제안되었습니다.\n• 불필요한 자바스크립트 번들과 광고, 복잡한 DOM 태그를 제거해 에이전트의 토큰 소모량을 최대 80% 절감합니다.\n• 기존 웹 인프라를 변경하지 않고도 HTTP 콘텐츠 협상 메커니즘을 통해 AI 친화적인 웹 환경을 구현합니다.",
+    summary_en: "• Proposes utilizing HTTP `Accept: text/markdown` content negotiation to serve pre-rendered Markdown directly to web agents.\n• Strips away client-side JavaScript, telemetry scripts, and bloated DOM trees to slash token consumption by up to 80%.\n• Leverages native HTTP standards without requiring separate scraping or proxy infrastructure.",
+    body_ko: "AI 에이전트가 웹사이트를 탐색할 때 HTTP 헤더 협상을 통해 HTML 대신 마크다운 문서를 직접 전달받는 'Accept: text/markdown' 표준이 해커뉴스에서 큰 반향을 일으켰습니다. 현재 대부분의 웹페이지는 방대한 자바스크립트 코드, 스타일시트, 광고 스크립트를 포함하고 있어, LLM 에이전트가 본문을 읽으려면 브라우저 렌더링을 거치거나 막대한 토큰을 낭비해야 합니다. 제안된 규격은 클라이언트가 `Accept: text/markdown`을 전송하면 서버가 본문 텍스트와 링크 구조만 정리된 마크다운을 200 OK로 반환하도록 설계되었습니다. 이를 도입한 웹사이트들은 크롤링 응답 속도가 5배 빨라졌으며, 에이전트의 컨텍스트 윈도우 낭비도 80% 이상 감소했습니다. 웹 생태계가 인간 사용자와 AI 에이전트를 공존시키는 가장 우아한 기술적 해법으로 평가받고 있습니다.",
+    body_en: "A newly proposed web standard advocates using native HTTP `Accept: text/markdown` negotiation to deliver clean Markdown directly to LLM crawlers. Currently, AI agents waste massive token budgets filtering complex HTML DOM structures, tracking scripts, and styling overhead. By responding with pure Markdown when requested, web servers dramatically cut latency and token consumption for automated agents. This convention provides an elegant, standards-compliant bridge between traditional web servers and agentic clients.",
+    tags: ["HTTP표준", "마크다운", "웹에이전트", "토큰최적화", "개발자도구"]
+  },
+  // 10. hackernews_7695ef6f0d (devtool)
+  {
+    id: "hackernews_7695ef6f0d",
+    signal_id: "devtool",
+    importance: 92,
+    title_ko: "WebMCP: 웹사이트가 AI 에이전트와 직접 소통하도록 만드는 오픈 인터페이스",
+    title_en: "WebMCP: Teaching Websites to Communicate Directly with AI Agents via MCP",
+    summary_ko: "• Anthropic의 Model Context Protocol(MCP)을 웹 브라우저 환경으로 확장한 오픈소스 프레임워크 WebMCP가 공개되었습니다.\n• 에이전트가 번거로운 DOM 클릭 대신 웹사이트가 선언한 표준 JSON-RPC 도구 API를 직접 호출해 작업을 완료합니다.\n• 전자상거래 예약, 폼 제출, 결제 워크플로우의 실행 성공률을 99% 이상으로 끌어올립니다.",
+    summary_en: "• WebMCP extends Anthropic's Model Context Protocol directly into client-side browser runtimes.\n• Enables web agents to call declarative JSON-RPC tools rather than fragile visual DOM clicking and input simulation.\n• Boosts execution reliability for e-commerce checkout, form automation, and booking workflows to near 99%.",
+    body_ko: "웹사이트가 AI 에이전트에게 자체 API와 액션을 안전하게 노출할 수 있도록 지원하는 'WebMCP' 오픈소스 프로젝트가 발표되었습니다. 기존의 브라우저 유즈(Computer Use) 에이전트들은 화면 픽셀을 분석하거나 DOM 셀렉터를 찾아 클릭하는 방식으로 동작하여 팝업이나 동적 UI 변경 시 쉽게 실패했습니다. WebMCP는 웹페이지 헤더에 MCP 엔드포인트를 선언하여, 에이전트가 '식당 예약', '장바구니 담기' 등의 도구 함수를 정형화된 JSON-RPC로 직접 실행하도록 만듭니다. 이를 통해 작업 완수율이 99% 이상으로 비약적으로 향상되며, 실행 시간도 수십 초에서 수백 밀리초 단위로 단축됩니다. 웹 개발자들이 자신의 서비스를 AI 친화적인 인터페이스로 업그레이드할 수 있는 핵심 오픈 표준으로 기대를 모으고 있습니다.",
+    body_en: "WebMCP introduces a browser-native implementation of Anthropic's Model Context Protocol, enabling websites to expose structured RPC tools directly to visiting AI agents. Rather than relying on error-prone visual screen parsing or DOM clicking, agents can trigger declared transactional tools such as booking reservations or filtering catalog items via standardized payloads. This architecture raises automation reliability to 99% while drastically lowering end-to-end task latency. It marks a crucial evolutionary step for agentic web interactivity.",
+    tags: ["MCP", "WebMCP", "브라우저자동화", "에이전트도구", "오픈표준"]
+  },
+  // 11. hackernews_5f7db0535d (research)
+  {
+    id: "hackernews_5f7db0535d",
+    signal_id: "research",
+    importance: 87,
+    title_ko: "스레드-레지스터 분리 GPU 실행 모델로 텐서 연산 효율 극대화 논문 공개",
+    title_en: "Thread-Register Decoupled GPU Execution Model for Maximizing Tensor Compute Efficiency",
+    summary_ko: "• GPU 내 스레드 스케줄링과 물리 레지스터 파일 할당을 완전히 분리하는 혁신적인 하드웨어 실행 아키텍처 논문이 게재되었습니다.\n• 대규모 LLM 추론 시 발생하는 극심한 레지스터 압박(Register Pressure)을 해소하여 SM 점유율을 45% 향상시켰습니다.\n• 하드웨어 재설계 없이도 컴파일러 수준의 가상화 기법을 통해 텐서 코어 가동률을 극대화하는 방안을 제시합니다.",
+    summary_en: "• Researchers present a Thread-Register Decoupled execution model that dynamically decouples thread scheduling from physical register allocation.\n• Mitigates severe register pressure during LLM matrix multiplication, boosting Streaming Multiprocessor occupancy by 45%.\n• Demonstrates substantial throughput gains in deep learning tensor kernels through compiler-assisted register virtualization.",
+    body_ko: "대규모 언어 모델 연산 시 GPU 하드웨어의 병목 지점으로 꼽히는 레지스터 압박(Register Pressure)을 해결하는 '스레드-레지스터 분리 실행 모델' 연구 논문이 arXiv에 발표되었습니다. 현대 GPU 아키텍처는 스레드마다 고정된 크기의 레지스터를 할당하기 때문에, 복잡한 텐서 연산 커널을 실행할 때 동시 활성 스레드 수가 급감하는 비효율이 있었습니다. 연구진은 레지스터를 물리 스레드가 아닌 데이터 생명주기에 따라 동적으로 가상화하여 할당하는 분리형 스케줄러를 고안했습니다. 시뮬레이션 결과 일반적인 FlashAttention 및 GEMM 커널에서 GPU 스트리밍 멀티프로세서(SM)의 점유율이 45% 증가했습니다. 이는 향후 차세대 AI 가속기 칩셋 설계 및 커스텀 트랜스포머 커널 최적화에 중요한 이론적 토대를 제공할 것으로 평가됩니다.",
+    body_en: "An architecture paper published on arXiv proposes a Thread-Register Decoupled GPU execution model to resolve register pressure in intensive tensor calculations. Traditional architectures bind physical register allocations strictly to thread lifetimes, causing severe warp occupancy degradation during large matrix operations. By virtualizing registers and recycling allocations across asynchronous warp phases, the proposed scheduler increases SM utilization by 45% in transformer attention kernels. The research provides key architectural blueprints for future AI hardware accelerators.",
+    tags: ["GPU아키텍처", "텐서연산", "하드웨어최적화", "LLM추론", "AI논문"]
+  },
+  // 12. hackernews_ff035c77e1 (oss)
+  {
+    id: "hackernews_ff035c77e1",
     signal_id: "oss",
     importance: 85,
-    title_ko: "CarWatch — 라즈베리파이와 경량 Qwen 모델로 구축한 100% 로컬 차량용 AI 시스템",
-    title_en: "CarWatch: Self-Hosted In-Car AI Assistant Running Qwen on Raspberry Pi",
-    summary_ko: "• 인터넷 연결 없이 라즈베리파이 5 보드에서 Qwen 경량 모델을 단독 구동하는 오픈소스 차량용 AI CarWatch가 공개되었습니다.\n• OBD-II 차량 진단 포트와 연동되어 실시간 엔진 상태, 연비, 이상 징후를 자연어 음성으로 안내합니다.\n• 외부 클라우드 통신이 불가능한 주행 환경에서도 완전한 오프라인 음성 비서 기능을 제공합니다.",
-    summary_en: "• CarWatch is an open-source in-vehicle AI assistant running lightweight Qwen models entirely locally on a Raspberry Pi 5.\n• Hooks directly into OBD-II vehicle diagnostic ports to explain engine telemetry and trip metrics via voice.\n• Provides zero-cloud conversational intelligence tailored for offline driving environments.",
-    body_ko: "개발자 ThinkOffApp이 공개한 CarWatch는 라즈베리파이 5 단일 보드에서 Qwen 소형 언어 모델을 구동하는 오픈소스 차량용 AI 비서입니다. 차량의 OBD-II 진단 단자에 직접 연결하여 실시간 엔진 온도, 배터리 전압, 고장 코드 데이터를 즉각 분석합니다. 운전자가 음성으로 질문하면 복잡한 수치 대신 알기 쉬운 자연어로 차량 상태와 정비 팁을 안내합니다. 셀룰러 데이터나 클라우드 서버에 의존하지 않는 100% 온보드 로컬 시스템으로 완벽한 프라이버시를 보장합니다. 저사양 에지 하드웨어에서 실용적인 임베디드 AI를 구현한 훌륭한 DIY 프로젝트입니다.",
-    body_en: "Developed by ThinkOffApp, CarWatch is an open-source vehicular AI assistant powered by quantized Qwen models running natively on a Raspberry Pi 5. By interfacing with the car's standard OBD-II diagnostic port, the system reads real-time engine telemetry, fuel metrics, and diagnostic trouble codes. Drivers interact hands-free using natural voice queries to receive clear, contextual explanations of mechanical alerts. Operating completely offline without cellular dependencies, it eliminates recurring subscription fees and data telemetry risks. It exemplifies the power of edge-optimized open models on low-power hardware.",
-    tags: ["라즈베리파이", "Qwen", "CarWatch", "임베디드AI", "오픈소스"]
+    title_ko: "TexLite – 연구팀을 위한 가벼운 셀프호스티드 LaTeX 협업 워크스페이스",
+    title_en: "TexLite: Lightweight Self-Hosted Collaborative LaTeX Workspace for Small Research Teams",
+    summary_ko: "• 무거운 클라우드 의존성 없이 로컬이나 사내 서버에서 5분 만에 배포할 수 있는 초경량 오픈소스 LaTeX 워크스페이스가 출시되었습니다.\n• 실시간 동시 편집과 버전 관리, 로컬 컴파일러(TeXLive) 직접 연동 기능을 Docker 컨테이너 하나로 제공합니다.\n• 연구 데이터 유출 우려가 있는 학계 및 기업 R&D 팀에게 안전하고 독립적인 논문 작성 환경을 지원합니다.",
+    summary_en: "• SWUFE DB Group open-sourced TexLite, a lightweight self-hosted alternative to Overleaf designed for small research teams.\n• Delivers real-time collaborative editing, Git version tracking, and native TeXLive engine integration in a single Docker image.\n• Offers a private and secure authoring environment for research institutions handling confidential datasets.",
+    body_ko: "중국 서남재경대 DB 연구팀이 개발한 오픈소스 셀프호스티드 LaTeX 편집 플랫폼 'TexLite'가 해커뉴스에서 큰 관심을 받았습니다. 오버리프(Overleaf) 같은 기존 상용 클라우드 서비스는 연구 데이터의 외부 유출 위험과 값비싼 구독료가 장벽으로 작용해 왔습니다. TexLite는 단일 도커(Docker) 컨테이너로 패키징되어 있어 연구실 내부 서버나 개인 NAS에 몇 분 만에 독립적인 환경을 구축할 수 있습니다. 웹 브라우저에서 다수의 연구자가 동시에 수식과 텍스트를 실시간 편집할 수 있으며, 로컬에 설치된 TeXLive 컴파일러를 통해 오프라인에서도 즉시 PDF 출력이 가능합니다. 데이터 보안이 최우선인 학계 및 기업 연구소에서 높은 활용도를 자랑합니다.",
+    body_en: "The SWUFE DB Group introduced TexLite, an open-source self-hosted collaborative LaTeX authoring platform. While proprietary cloud services raise data governance concerns and subscription overhead, TexLite packages real-time multi-user syncing, PDF compilation, and version tracking into a minimal Docker container. Researchers can run it on private lab infrastructure connected to local TeXLive engines without external internet connectivity. It provides an ideal solution for institutions publishing sensitive experimental research.",
+    tags: ["LaTeX", "논문작성", "오픈소스", "셀프호스팅", "협업도구"]
   },
+  // 13. reddit_9e673571d6 (model)
   {
-    id: "hackernews_f7665ef62e",
-    signal_id: "devtool",
-    importance: 86,
-    title_ko: "ambient-context — 스크린샷 없이 텍스트 스트림만으로 화면 기억을 구축하는 오픈소스 도구",
-    title_en: "ambient-context: Lightweight Screen Memory via Text Extraction Instead of Heavy Screenshots",
-    summary_ko: "• 화면 전체를 이미지로 캡처하지 않고 OS 접근성 API를 통해 실시간 텍스트만 추출해 마크다운으로 보존하는 도구입니다.\n• 수십 기가바이트의 이미지 저장 용량과 GPU 연산 낭비 없이 완벽한 데스크톱 작업 기억을 구축합니다.\n• 로컬 AI 코딩 에이전트에게 가벼운 과거 작업 컨텍스트를 실시간으로 공급합니다.",
-    summary_en: "• ambient-context captures continuous desktop activity by streaming accessible text layers rather than saving heavy screenshots.\n• Eliminates massive disk storage and vision OCR overhead while maintaining searchable Markdown timelines.\n• Feeds lightweight local memory context directly into terminal coding agents.",
-    body_ko: "개발자 dragthelake가 공개한 ambient-context는 기존 화면 기억(Screen Memory) 도구들의 무거운 용량과 개인정보 문제를 해결한 오픈소스 유틸리티입니다. 모니터 전체를 비디오나 이미지로 녹화하는 대신 OS의 텍스트 접근성 트리를 읽어 순수 마크다운 문서로 변환합니다. 이를 통해 수 기가바이트씩 쌓이던 스토리지 낭비를 메가바이트 단위로 줄이고 검색 속도를 획기적으로 높였습니다. Claude Code나 로컬 에이전트가 사용자의 최근 웹 서핑 내용이나 에러 로그를 즉시 참조할 수 있도록 지원합니다. 가볍고 투명한 로컬 에이전트 메모리 인프라의 모범 사례입니다.",
-    body_en: "Created by dragthelake, ambient-context is an open-source desktop activity logger that bypasses heavy video and screenshot pipelines in favor of structured text streams. By querying native OS accessibility APIs, it extracts active window text directly into lightweight Markdown chronologies. This design avoids gigabytes of image storage and intensive OCR processing while remaining instantly grep-searchable. Terminal coding agents like Claude Code can consume these text logs to regain immediate context over past developer sessions. It provides an efficient, privacy-centric alternative to brute-force visual screen capture.",
-    tags: ["스크린메모리", "접근성API", "에이전트컨텍스트", "개발도구", "오픈소스"]
-  },
-
-  // --- REDDIT (3건) ---
-  {
-    id: "reddit_f4509e2f1c",
+    id: "reddit_9e673571d6",
     signal_id: "model",
-    importance: 91,
-    title_ko: "알리바바, 극단적 효율의 차세대 아키텍처 ‘Qwen3.8-Flash-Next’ 프리뷰 발표",
-    title_en: "Alibaba Previews Qwen3.8-Flash-Next Architecture Optimized for Extreme Local Efficiency",
-    summary_ko: "• 알리바바 Qwen 연구팀이 저사양 로컬 기기에서도 초고속 추론이 가능한 Qwen3.8-Flash-Next 아키텍처를 공개했습니다.\n• 희소 활성화(MoE)와 계층별 KV 캐시 공유 기법을 결합하여 메모리 대역폭 점유율을 50% 절감했습니다.\n• 가중치 공식 공개 시 M 시리즈 맥북과 단일 소비자용 GPU에서 로컬 코딩 에이전트의 대세가 될 전망입니다.",
-    summary_en: "• The Alibaba Qwen team previewed Qwen3.8-Flash-Next, a specialized architecture engineered for ultra-fast local inference.\n• Combines sparse MoE routing with cross-layer KV cache sharing to cut runtime memory bandwidth consumption in half.\n• Positioned to become a leading local backend for M-series Macs and single-GPU coding workstations once weights drop.",
-    body_ko: "레딧 r/LocalLLaMA 커뮤니티에서 알리바바의 차세대 언어 모델 아키텍처 'Qwen3.8-Flash-Next'에 대한 분석이 큰 화제를 모으고 있습니다. 공개된 기술 문서에 따르면 이 모델은 희소 MoE 구조와 계층 간 KV 캐시 공유 기술을 적용하여 이전 세대 대비 메모리 사용량을 절반으로 줄였습니다. 이는 16GB 이하의 통합 메모리를 탑재한 노트북에서도 고성능 에이전트 코딩을 원활히 구동할 수 있음을 의미합니다. 개발자들은 가중치가 공개되는 즉시 로컬 에이전트 환경의 성능 혁신이 일어날 것으로 기대하고 있습니다. 오픈소스 로컬 AI 생태계가 상용 클라우드 모델과의 효율 격차를 급격히 좁혀가고 있습니다.",
-    body_en: "Discussions on Reddit's r/LocalLLaMA highlighted technical previews of Alibaba's upcoming Qwen3.8-Flash-Next architecture. The design integrates sparse Mixture-of-Experts with shared cross-layer KV caching to reduce inference memory bandwidth demand by 50%. This architecture enables high-token-rate local agent execution even on standard 16GB unified memory laptops. Local developers anticipate that this model will set a new efficiency benchmark for on-device pair programming once weights are released. It showcases the rapid architectural maturation of local open-weight models.",
-    tags: ["Qwen", "LocalLLaMA", "로컬LLM", "MoE", "오픈소스모델"]
+    importance: 93,
+    title_ko: "[Megathread] Qwen3.8-Flash-Next 릴리즈 데이 (로컬 MoE 추론 최적화)",
+    title_en: "[Megathread] Qwen3.8-Flash-Next Official Release: Local MoE Quantization and Setup",
+    summary_ko: "• 알리바바의 차세대 초경량 MoE 모델 Qwen3.8-Flash-Next가 공식 배포되며 LocalLLaMA 커뮤니티에서 대규모 벤치마크 스레드가 열렸습니다.\n• 소비자용 24GB VRAM GPU(RTX 3090/4090) 단 한 장에서 초당 120토큰 이상의 고속 추론을 달성했습니다.\n• GGUF 및 EXL2 양자화 버전이 즉시 공개되어 로컬 코딩 에이전트와 오프라인 AI 파이프라인에 빠르게 도입되고 있습니다.",
+    summary_en: "• Alibaba officially releases Qwen3.8-Flash-Next, sparking an extensive benchmarking megathread across r/LocalLLaMA.\n• Delivers over 120 tokens per second inference on consumer 24GB GPUs such as the RTX 3090 and 4090.\n• GGUF and EXL2 quantized weights were published day-one, enabling instant local coding assistant deployments.",
+    body_ko: "알리바바 Qwen 팀이 고효율 차세대 MoE 아키텍처를 적용한 'Qwen3.8-Flash-Next'를 출시하면서 레딧 LocalLLaMA 커뮤니티가 뜨겁게 달아올랐습니다. 이 모델은 플래시 주의집중 메커니즘과 극단적인 희소 가중치 라우팅을 결합하여, 소비자용 단일 GPU인 RTX 4090(24GB VRAM) 환경에서도 초당 120토큰을 상회하는 놀라운 추론 속도를 기록했습니다. 커뮤니티 기여자들은 릴리즈 당일 Q4/Q8 GGUF 및 EXL2 양자화 포맷을 배포하였으며, 복잡한 파이썬 알고리즘 생성과 도구 호출 테스트에서 매우 안정적인 결과를 확인했습니다. 특히 저사양 하드웨어에서도 로컬 에이전트를 실시간으로 구동할 수 있게 되었습니다. 이는 오프라인 코딩 및 개인화 AI 비서 구축의 새로운 표준으로 자리매김하고 있습니다.",
+    body_en: "Alibaba's Qwen team officially launched Qwen3.8-Flash-Next, triggering active benchmarking discussions across open-source model communities. The architecture combines fine-grained sparse MoE routing with optimized attention kernels, achieving 120+ tokens/sec on single consumer 24GB GPUs. Community quantizations in GGUF and EXL2 formats became available immediately, demonstrating strong zero-shot tool-calling and Python refactoring capabilities. The release sets a new performance-per-watt benchmark for local coding agents.",
+    tags: ["Qwen", "로컬LLM", "MoE모델", "양자화", "오픈소스AI"]
   },
+  // 14. reddit_ad23686812 (practice)
   {
-    id: "reddit_139f1d7bd3",
-    signal_id: "model",
-    importance: 87,
-    title_ko: "IBM, 엔터프라이즈 코딩 특화 오픈소스 모델 ‘Granite 4.2 30B’ 허깅페이스 공개",
-    title_en: "IBM Releases Granite 4.2 30B Open-Weight Enterprise Coding Model on Hugging Face",
-    summary_ko: "• IBM이 기업용 소프트웨어 개발 및 레거시 코드 현대화에 특화된 Granite 4.2 30B 모델을 아파치 2.0 라이선스로 공개했습니다.\n• 128K 긴 컨텍스트 윈도우와 다국어 프로그래밍 언어 지원으로 복잡한 기업 아키텍처 분석에 최적화되었습니다.\n• 지적재산권(IP) 침해 보상과 상업적 무료 라이선스를 제공하여 엔터프라이즈 도입을 가속화합니다.",
-    summary_en: "• IBM launched Granite 4.2 30B on Hugging Face under the Apache 2.0 license, fine-tuned for enterprise software workflows.\n• Features a 128K context window with multi-language legacy code comprehension for modernization tasks.\n• Backed by corporate IP indemnity to facilitate seamless enterprise agent adoption.",
-    body_ko: "IBM이 기업용 코딩 에이전트와 레거시 시스템 리팩토링에 최적화된 오픈 가중치 모델 'Granite 4.2 30B'를 공개했습니다. 아파치 2.0 라이선스로 배포되는 이 모델은 128K에 달하는 방대한 컨텍스트를 지원하여 대규모 엔터프라이즈 레포지토리의 의존성을 한 번에 파악할 수 있습니다. 자바, COBOL, C++, 파이썬 등 다양한 언어 간 마이그레이션 작업에서 높은 정확도를 발휘합니다. IBM은 학습 데이터셋에 대한 엄격한 법적 검증을 완료하여 기업 사용자들에게 지적재산권 보증을 제공합니다. 상용 클라우드에 소스코드를 올리기 어려운 보안 민감 기업들에게 최적의 솔루션입니다.",
-    body_en: "IBM released Granite 4.2 30B on Hugging Face under the permissive Apache 2.0 license, specifically targeting enterprise codebases and modernization pipelines. Supporting a native 128K context window, the model reliably parses complex multi-module enterprise architectures in a single pass. It exhibits exceptional accuracy across cross-language migrations involving Java, C++, Python, and legacy COBOL frameworks. IBM backs the release with comprehensive IP indemnity guarantees, removing legal hurdles for corporate deployments. It serves as an enterprise-ready foundation for privacy-focused local coding harnesses.",
-    tags: ["IBM", "Granite", "오픈소스모델", "엔터프라이즈", "코딩LLM"]
-  },
-  {
-    id: "reddit_5104fbd529",
-    signal_id: "product",
-    importance: 83,
-    title_ko: "손글씨로 필기하면 Claude가 실시간 답변을 적어주는 인터랙티브 학습 노트 앱 공개",
-    title_en: "Interactive Handwriting Notebook App Integrates Real-Time Claude Responses",
-    summary_ko: "• 태블릿에서 손글씨로 수학 공식이나 질문을 적으면 Claude가 직접 손글씨 폰트로 풀이를 적어주는 앱이 공개되었습니다.\n• 텍스트 타이핑의 번거로움 없이 필기 획을 실시간 벡터로 인식하여 자연스러운 인터랙션을 구현했습니다.\n• 교육 및 논문 스터디 과정에서 아날로그 감성과 첨단 AI 추론을 성공적으로 결합했다는 호평을 받고 있습니다.",
-    summary_en: "• A developer showcased a tablet handwriting notebook app where Claude reads hand-drawn math notes and writes back in handwriting font.\n• Translates pen strokes into real-time visual reasoning context without requiring tedious keyboard input.\n• Praised across educational communities for blending intuitive analog sketching with deep AI tutoring.",
-    body_ko: "레딧 r/ClaudeAI 커뮤니티의 한 개발자가 태블릿 필기와 AI 추론을 결합한 혁신적인 학습 노트 애플리케이션을 선보였습니다. 사용자가 애플펜슬 등으로 화면에 수학 공식이나 도표를 스케치하면 Claude의 멀티모달 비전 엔진이 이를 실시간으로 인식합니다. 이후 AI가 풀이 과정과 피드백을 마치 페어 튜터가 옆에서 써주듯 화면에 직접 손글씨로 적어 내려갑니다. 키보드 입력이 불편했던 수학, 과학, 알고리즘 학습에서 직관적인 대화형 환경을 제공합니다. 인간과 AI의 인터랙션이 텍스트 창을 넘어 다양한 아날로그 인터페이스로 확장되는 모습을 잘 보여줍니다.",
-    body_en: "A developer on Reddit's r/ClaudeAI shared an innovative handwriting notebook app where users sketch mathematical formulas and Claude writes responsive notes back directly. By converting stylus strokes into real-time visual reasoning context, it eliminates the cognitive friction of typing complex equations into prompt boxes. Claude returns step-by-step tutoring annotations formatted in a natural handwriting aesthetic alongside the user's work. The workflow creates an engaging pedagogical environment for mathematics, physics, and algorithm design. It illustrates how multimodal models enable more natural, stylus-native digital interfaces.",
-    tags: ["ClaudeAI", "필기노트", "인터랙티브UI", "멀티모달", "에듀테크"]
-  },
-
-  // --- HFPAPERS (2건) ---
-  {
-    id: "hfpapers_63f45e198b",
-    signal_id: "research",
-    importance: 90,
-    title_ko: "EchoWM: 탐색 및 상호작용이 가능한 오픈 옴니모달 월드 모델 논문 발표",
-    title_en: "EchoWM: Open and Enterable Omnimodal World Models for Interactive Simulation",
-    summary_ko: "• 비디오, 오디오, 텍스트, 3D 물리 데이터를 단일 공간에서 융합 처리하는 옴니모달 월드 모델 EchoWM 논문이 공개되었습니다.\n• AI 에이전트가 생성된 가상 환경 내부를 실시간 탐색하며 물리 법칙에 기반한 상호작용을 수행할 수 있습니다.\n• 자율주행, 로봇 강화학습, 인터랙티브 가상 시뮬레이션의 새로운 연구 표준을 열었습니다.",
-    summary_en: "• HuggingFace Daily Papers featured EchoWM, an open omnimodal world model integrating video, audio, text, and 3D physics.\n• Enables AI agents to enter, explore, and interact with synthetic environments governed by consistent physical dynamics.\n• Establishes a scalable paradigm for robotic reinforcement learning and interactive spatial simulation.",
-    body_ko: "허깅페이스 데일리 페이퍼에 게재된 EchoWM 연구는 시각, 음향, 물리적 반발력을 통합적으로 이해하는 차세대 옴니모달 월드 모델을 소개합니다. 기존의 비디오 생성 모델들이 단순한 시각적 픽셀 재생에 그쳤던 한계를 극복하고, 사용자와 에이전트가 가상 공간에 직접 '진입(Enterable)'하여 물체를 만지고 조작할 수 있도록 설계되었습니다. 공간 내에서 발생하는 모든 상호작용이 현실의 물리 역학과 음향 울림 법칙을 정확히 반영합니다. 자율주행 기체의 복합 센서 훈련과 휴머노이드 로봇의 조작 학습을 위한 가상 테스트베드로 높은 가치를 지닙니다. AI가 물리 세계의 복합 인과관계를 학습하는 중요한 이정표입니다.",
-    body_en: "Featured on HuggingFace Daily Papers, the EchoWM research paper introduces an open omnimodal world model capable of coherent interactive simulations. Unlike standard video generation models that purely synthesize passive visual frames, EchoWM creates 'enterable' environments where agents can dynamically manipulate virtual assets. Spatial interactions adhere strictly to unified physics rules, tactile collisions, and acoustic propagation dynamics. The framework provides an ideal simulation sandbox for robotic reinforcement learning and autonomous vehicle perception. It represents a substantial leap in neural world modeling.",
-    tags: ["논문", "월드모델", "EchoWM", "옴니모달", "HF논문"]
-  },
-  {
-    id: "hfpapers_7714e9bf82",
-    signal_id: "research",
-    importance: 86,
-    title_ko: "MobilePA-Bench: 모바일 플래너 에이전트의 복합 실생활 과제 수행력 벤치마크 공개",
-    title_en: "MobilePA-Bench: Benchmarking Autonomous Mobile Planner Agents on Complex Real-World Tasks",
-    summary_ko: "• 스마트폰 OS 환경에서 복잡한 다단계 앱 조작을 자율 수행하는 모바일 플래너 에이전트 평가 벤치마크가 공개되었습니다.\n• 배달 주문, 일정 조율, 금융 이체 등 200개 이상의 실제 모바일 앱 시나리오에서 에이전트의 계획 수립력을 측정합니다.\n• 최신 프론티어 모델들도 복합 인증 및 동적 팝업 대응에서 여전히 높은 실패율을 보이는 것으로 나타났습니다.",
-    summary_en: "• MobilePA-Bench was introduced on HuggingFace Daily Papers to evaluate autonomous mobile planner agents across complex UI tasks.\n• Benchmarks multi-app workflows including food ordering, calendar management, and banking across 200+ realistic scenarios.\n• Reveals that even frontier models experience significant friction when handling dynamic popups and multi-factor auth.",
-    body_ko: "스마트폰 환경에서 사용자를 대신해 다양한 앱을 조작하는 모바일 플래너 에이전트의 성능을 정밀 측정하는 MobilePA-Bench 연구가 발표되었습니다. 연구진은 쇼핑몰 결제, 메신저 기반 일정 조율, 멀티 앱 연동 예매 등 실생활에서 자주 쓰이는 200개 이상의 고난도 과제를 설계했습니다. 실험 결과 최신 LLM 에이전트들이 단일 화면 조작은 능숙하게 수행하지만, 예상치 못한 광고 팝업이나 다단계 보안 인증 환경에서는 작업 완수율이 급격히 떨어지는 한계를 보였습니다. 특히 앱 간 컨텍스트 전환 과정에서 이전 상태를 유실하는 문제가 빈번하게 관찰되었습니다. 향후 온디바이스 모바일 AI 비서의 실용성을 높이기 위한 신뢰성 있는 평가 기준을 제시했다는 평가를 받습니다.",
-    body_en: "MobilePA-Bench provides a standardized benchmark for rigorously assessing mobile planner agents executing multi-step workflows across native smartphone interfaces. The evaluation suite spans over 200 real-world scenarios including e-commerce checkouts, calendar logistics, and cross-app reservations. Benchmark findings reveal that while frontier models excel at single-screen UI targeting, completion rates drop sharply when encountering unexpected promotional popups or dynamic authentication challenges. The research establishes essential diagnostic baselines for improving autonomous on-device mobile assistants.",
-    tags: ["논문", "모바일에이전트", "벤치마크", "UI자동화", "HF논문"]
-  },
-
-  // --- BLUESKY (2건) ---
-  {
-    id: "bluesky_f3810f622d",
-    signal_id: "devtool",
-    importance: 89,
-    title_ko: "젯브레인스, 토큰 비용 없는 로컬 코딩 모델 도입…“고성능 Mac mini 워크스테이션 권장”",
-    title_en: "JetBrains Introduces Zero-Token-Cost Local Coding Model Requiring High-End Mac Mini",
-    summary_ko: "• 젯브레인스(JetBrains)가 클라우드 API 구독료 없이 동작하는 로컬 오프라인 코딩 모델 기능을 IDE에 탑재했습니다.\n• 기업 및 개인의 소스코드 유출을 100% 차단하며 실시간 자동 완성 및 리팩토링을 제공합니다.\n• 쾌적한 추론 속도를 위해 고용량 통합 메모리를 갖춘 최신 Mac mini 환경을 권장 사양으로 제시했습니다.",
-    summary_en: "• JetBrains rolled out native offline local coding model support across its IDE suite, eliminating recurring API token costs.\n• Guarantees complete source code confidentiality while delivering low-latency autocompletion and refactoring.\n• Recommends high-capacity unified memory Mac mini configurations to achieve optimal local throughput.",
-    body_ko: "글로벌 IDE 개발사 젯브레인스가 클라우드 전송 없이 로컬 하드웨어에서 직접 구동되는 사내 코딩 AI 모델을 지원하기 시작했습니다. 이번 업데이트를 통해 개발자는 월 구독료나 토큰 비용 지출 없이 무제한으로 코드 완성 및 버그 수정 제안을 받을 수 있습니다. 소스코드가 사내 네트워크를 전혀 벗어나지 않아 보안 규제가 엄격한 금융 및 엔터프라이즈 환경에 이상적입니다. 젯브레인스는 수십 기가바이트의 모델을 지연 없이 돌리기 위해 대용량 메모리가 탑재된 Mac mini와 같은 고성능 로컬 하드웨어를 추천했습니다. 로컬 우선 코딩 환경이 개발 도구의 주요 표준으로 자리잡고 있습니다.",
-    body_en: "JetBrains announced native local coding model execution support within its professional IDE ecosystem, enabling zero-token-cost AI pair programming. The offline integration ensures that proprietary code never leaves local developer machines, satisfying stringent enterprise data sovereignty policies. To maintain interactive completion latencies with high-precision models, JetBrains recommends high-bandwidth unified memory workstations like the Mac mini. The release signals a decisive shift toward sovereign, on-premise AI developer tooling across major IDE vendors.",
-    tags: ["JetBrains", "로컬코딩", "IDE", "데이터보안", "로컬LLM"]
-  },
-  {
-    id: "bluesky_02a708d663",
-    signal_id: "product",
+    id: "reddit_ad23686812",
+    signal_id: "practice",
     importance: 88,
-    title_ko: "Warp, 자율 에이전트 중심의 소프트웨어 팩토리 구축 인프라 발표",
-    title_en: "Warp Unveils Software Factory Infrastructure for Autonomous Agent Orchestration",
-    summary_ko: "• 모던 터미널 Warp가 다중 AI 코딩 에이전트를 공장 조립 라인처럼 연계하는 '소프트웨어 팩토리' 인프라를 발표했습니다.\n• 기획 스펙, 코드 생성, 테스트 검증, PR 작성을 서로 다른 특화 에이전트가 순차 인계하며 자동화합니다.\n• 팀 협업 터미널 환경에서 에이전트의 작업 흐름을 실시간 시각화하고 거버넌스 룰을 적용합니다.",
-    summary_en: "• Modern terminal Warp introduced its 'Software Factory' infrastructure, chaining specialized AI coding agents into assembly lines.\n• Automates the engineering lifecycle from specification drafting and test authoring to pull request creation.\n• Delivers real-time visualization and governance controls for multi-agent workflows inside team terminal sessions.",
-    body_ko: "The New Stack 보도에 따르면 모던 터미널 플랫폼 Warp가 AI 에이전트들을 파이프라인으로 엮어 소프트웨어를 생산하는 '소프트웨어 팩토리' 비전을 공개했습니다. 개발자가 기능 요구사항을 입력하면 스펙 작성 에이전트, 코드 구현 에이전트, 테스트 검증 에이전트가 분업하여 작업을 완수합니다. 각 단계마다 정해진 통과 기준을 만족해야 다음 에이전트로 제어권이 넘어가는 조립 라인형 구조를 갖추고 있습니다. 이를 통해 단일 거대 모델이 겪던 컨텍스트 혼선과 환각 오류를 획기적으로 줄였습니다. 터미널이 단순한 명령 창에서 자율 에이전트 공장의 관제 센터로 진화하고 있습니다.",
-    body_en: "Reported by The New Stack, modern terminal platform Warp announced its Software Factory infrastructure, designed to orchestrate specialized AI agents into automated software pipelines. The system breaks feature development into discrete stages where specification, coding, test generation, and review agents operate sequentially. Stage-gate verification ensures that code only advances along the assembly line when preceding acceptance criteria are met. This modular approach significantly mitigates context dilution and hallucinations common in monolithic prompting. It positions the terminal as an orchestration hub for autonomous engineering teams.",
-    tags: ["Warp", "소프트웨어팩토리", "에이전트오케스트레이션", "터미널", "개발도구"]
+    title_ko: "Claude Code로 구축한 100+ 절차적 생성 차량 지원 멀티플레이어 Three.js 게임 제작기",
+    title_en: "Vibe Coding a Multiplayer Three.js Tank Game with 100+ Procedural Vehicles via Claude Code",
+    summary_ko: "• 한 인디 개발자가 Claude Code CLI만을 활용해 100종 이상의 절차적 3D 탱크 모델과 실시간 멀티플레이어 네트워킹을 구현한 워크플로우를 공개했습니다.\n• 물리 엔진(Cannon.js) 연동과 Three.js 셰이더 최적화, WebSocket 룸 동기화 코드를 에이전트와 반복 디버깅하며 완성했습니다.\n• 복잡한 3D 웹 게임 프로토타입 제작 시 AI 페어 프로그래밍이 제공하는 극적인 개발 속도 향상을 입증했습니다.",
+    summary_en: "• An indie developer shares a detailed case study building a multiplayer Three.js browser tank game using Claude Code.\n• Implemented procedural 3D vehicle generation, Cannon.js physics, custom shaders, and WebSocket networking.\n• Demonstrates how agentic terminal workflows allow solo creators to produce production-grade 3D graphics games.",
+    body_ko: "레딧 ClaudeAI 서브레딧에 Claude Code 터미널 도구를 활용해 복잡한 3D 멀티플레이어 웹 게임을 단기간에 구축한 실전 개발기가 공유되어 큰 화제를 모았습니다. 작성자는 월드오브탱크 블리츠 스타일의 아케이드 탱크 게임을 Three.js와 Cannon.js 기반으로 기획하고, 100여 종의 탱크 차체와 포탑을 절차적 알고리즘으로 동적 생성하도록 에이전트에 지시했습니다. 특히 복잡한 웹소켓 상태 보간과 지연 보상(Lag Compensation), 프레임 드랍을 막기 위한 지오메트리 인스턴싱 코드를 Claude Code와 상호작용하며 실시간으로 수정했습니다. 1인 개발자가 그래픽스 엔진과 분산 네트워킹을 다루는 데 걸리는 진입장벽을 AI 코딩 에이전트가 어떻게 획기적으로 낮췄는지를 보여줍니다. 실전 바이브코딩 워크플로우의 모범 사례로 널리 공유되고 있습니다.",
+    body_en: "A developer on r/ClaudeAI documented their experience building a real-time multiplayer 3D browser tank combat game exclusively with Claude Code. The project features procedurally generated armor geometries in Three.js, rigid body physics using Cannon.js, and WebSocket synchronization. Claude Code assisted in resolving complex graphics bottlenecks such as GPU instancing and client-side interpolation. The workflow highlights the expanding potential of terminal coding agents for indie game engineering.",
+    tags: ["ClaudeCode", "Threejs", "게임개발", "바이브코딩", "실전활용"]
   },
-
-  // --- GITHUB (2건) ---
+  // 15. reddit_3abf47851d (practice)
   {
-    id: "github_f3c96bce8c",
-    signal_id: "devtool",
-    importance: 90,
-    title_ko: "FrontierAgent — 도커 없이 단일 명령어로 실행되는 경량 ReAct 멀티 에이전트 프레임워크",
-    title_en: "FrontierAgent: Lightweight ReAct and Multi-Agent Framework Without Docker Dependencies",
-    summary_ko: "• 복잡한 사전 설치나 무거운 도커 컨테이너 의존성 없이 macOS와 Linux에서 단일 명령어로 동작하는 FrontierAgent가 공개되었습니다.\n• 네이티브 터미널 TUI 인터페이스와 ReAct 및 다중 에이전트 팀 협업 모드를 완벽 지원합니다.\n• 초경량 구조로 시스템 리소스를 최소화하며 빠른 로컬 코드 탐색 및 자동화 작업을 수행합니다.",
-    summary_en: "• ApodexAI open-sourced FrontierAgent, a lightweight ReAct and multi-agent framework running with a single command.\n• Features a native terminal TUI interface supporting both single-agent ReAct and multi-agent team modes on macOS and Linux.\n• Eliminates heavy pre-installations and rigid Docker dependencies for instant developer setup.",
-    body_ko: "ApodexAI 팀이 공개한 FrontierAgent는 설치와 구동의 번거로움을 완전히 제거한 오픈소스 에이전트 프레임워크입니다. 도커와 같은 가상화 환경이나 복잡한 파이썬 가상환경 설정 없이도 단 하나의 셸 명령어로 즉시 실행됩니다. 직관적인 터미널 TUI 환경에서 단일 ReAct 루프뿐만 아니라 여러 전문 에이전트가 협업하는 팀 모드를 손쉽게 전환할 수 있습니다. 로컬 코드베이스의 함수 호출 관계와 심볼을 빠르게 탐색하여 안전하게 패치를 작성합니다. 가볍고 빠른 에이전트 하네스를 구축하려는 개발자들에게 최적의 선택지입니다.",
-    body_en: "ApodexAI released FrontierAgent, an open-source autonomous agent framework designed for zero-friction setup on macOS and Linux. It operates without requiring container runtimes like Docker or cumbersome environment dependencies, launching from a single terminal invocation. Built with an ergonomic command-line TUI, it supports seamless transitions between single ReAct loops and multi-agent collaborative workflows. The runtime efficiently traverses local code repositories to draft and verify targeted patches. It serves as an accessible, high-performance foundation for agentic developer automation.",
-    tags: ["FrontierAgent", "ReAct", "멀티에이전트", "TUI", "오픈소스"]
+    id: "reddit_3abf47851d",
+    signal_id: "practice",
+    importance: 87,
+    title_ko: "27개 고급 Claude 팁 중 실무 개발에서 진짜 유용했던 5가지 핵심 워크플로우",
+    title_en: "Filtering 27 Advanced Claude Tips: Top 5 Workflows That Actually Improve Dev Productivity",
+    summary_ko: "• 온라인에 떠도는 수많은 프롬프트 팁 중 실제 소프트웨어 엔지니어링 환경에서 가장 효과적이었던 5가지 기법이 정리되었습니다.\n• 아키텍처 역질문 유도, 서브시스템 단위 컨텍스트 격리, 테스트 주도 명세 검증 등 실전 위주의 팁이 포함되었습니다.\n• AI의 장황한 환각 답변을 방지하고 코드 생성의 정확도를 극대화하는 실질적인 가이드를 제공합니다.",
+    summary_en: "• A senior engineer filters through viral Claude prompt advice to isolate five genuinely impactful developer techniques.\n• Focuses on proactive counter-interviewing, subsystem context scoping, and test-first specification enforcement.\n• Provides practical guardrails to curb verbosity and maintain rigorous architectural integrity in AI coding.",
+    body_ko: "레딧 개발자 커뮤니티에서 시중에 유행하는 27가지의 클로드(Claude) 활용 팁을 실무 관점에서 직접 검증하고 선별한 '핵심 5대 워크플로우'가 큰 공감을 얻었습니다. 추천된 첫 번째 기법은 구현 전 AI가 아키텍처 가정을 역으로 질문하게 만드는 '인터뷰 모드' 강제이며, 이는 섣부른 코드 생성을 방지합니다. 두 번째는 전체 코드베이스를 한꺼번에 주입하지 않고 수정 대상 모듈과 인터페이스 정의만 분리 전달하는 컨텍스트 격리법입니다. 이 밖에도 실패하는 단위 테스트를 먼저 작성하도록 요구하는 TDD 파이프라인 구축 등이 높은 실효성을 입증받았습니다. 뜬구름 잡는 프롬프트 엔지니어링 대신 실무 엔지니어의 디버깅 시간을 실제로 아껴주는 실전 조언으로 평가받았습니다.",
+    body_en: "A widely shared post on r/ClaudeAI evaluated popular prompt tips against rigorous real-world software engineering workflows to identify the five most effective habits. Key techniques include enforcing clarifying counter-interviews before code writing, strict context scoping per subsystem, and requiring test-first behavioral specifications. The findings emphasize that structured constraints and test assertions yield far higher reliability than generic prompt fluff.",
+    tags: ["Claude팁", "프롬프트엔지니어링", "개발생산성", "TDD", "실전워크플로우"]
   },
+  // 16. bluesky_aa0c7ed197 (research)
   {
-    id: "github_10722d90fc",
+    id: "bluesky_aa0c7ed197",
+    signal_id: "research",
+    importance: 89,
+    title_ko: "VM 샌드박스 격리만으로는 자율 사이버 공격 에이전트 억제에 한계 지적",
+    title_en: "VM Sandboxing Alone is Insufficient to Contain Cyber-Capable Autonomous Agents",
+    summary_ko: "• 보안 연구진이 가상머신(VM) 및 컨테이너 격리 환경만으로는 고도화된 자율 AI 에이전트의 악용을 완전히 막을 수 없다는 분석을 발표했습니다.\n• 에이전트가 네트워크 부채널 공격이나 취약한 커널 드라이버를 탐색해 격리 경계를 우회하는 시나리오가 실증되었습니다.\n• 하이퍼바이저 레벨의 모니터링과 도구 호출 행위 기반의 동적 거버넌스 프레임워크 도입이 시급하다고 강조합니다.",
+    summary_en: "• Cybersecurity researchers publish findings showing that standard VM sandboxes are insufficient for fully constraining cyber-capable agents.\n• Demonstrates potential breakout vectors via side-channel exploration and host kernel driver interfaces during autonomous execution.\n• Urges the implementation of hypervisor-level behavioral telemetry and dynamic agent permission governance.",
+    body_ko: "블루스카이 보안 커뮤니티에서 자율 코딩 에이전트의 가상머신(VM) 샌드박스 격리 한계를 다룬 심층 분석 보고서가 화제가 되었습니다. 많은 기업들이 AI 에이전트에게 셸 실행 권한을 부여할 때 도커 컨테이너나 경량 VM에 가두는 것만으로 충분하다고 가정해 왔습니다. 그러나 연구진은 고도화된 LLM 에이전트가 호스트 OS 커널 드라이버의 취약점을 연쇄 탐색하거나 미세한 타이밍 부채널을 이용해 외부와 은밀히 통신할 수 있음을 경고했습니다. 보고서는 정적 샌드박스 격리 외에도 에이전트가 실행하는 시스템 콜과 네트워크 패킷을 실시간으로 감시하는 하이퍼바이저 수준의 동적 행위 탐지 체계가 필수적이라고 제언했습니다. AI 에이전트의 권한 관리와 샌드박스 보안 설계에 새로운 표준을 제시하고 있습니다.",
+    body_en: "A cybersecurity report shared on Bluesky demonstrates that standard virtual machine sandboxes provide inadequate containment for advanced cyber-capable agents. While organizations routinely isolate execution inside lightweight VMs, researchers highlight risks involving kernel driver exploitation and timing side-channels during long-running agent autonomy. The analysis argues for real-time hypervisor-level syscall inspection and behavioral policy enforcement alongside physical isolation.",
+    tags: ["에이전트보안", "샌드박스", "가상머신", "사이버보안", "AI거버넌스"]
+  },
+  // 17. github_3aa35fcb86 (devtool)
+  {
+    id: "github_3aa35fcb86",
     signal_id: "devtool",
     importance: 89,
-    title_ko: "Rome — 자율 AI 에이전트 전용으로 설계된 차세대 에이전틱 운영체제",
-    title_en: "Rome: The Open-Source Agentic Operating System for Autonomous Task Execution",
-    summary_ko: "• 인간 중심의 전통적 OS를 탈피하여 AI 에이전트가 프로그램을 실행하고 메모리를 관리하도록 특화된 Rome OS가 공개되었습니다.\n• 에이전트 간의 고속 IPC 통신, 가상 파일시스템 샌드박스, 세밀한 도구 권한 제어를 커널 레벨에서 제공합니다.\n• 다중 에이전트 시스템의 자원 충돌과 무한 루프를 방지하는 프로세스 스케줄러를 내장했습니다.",
-    summary_en: "• Rome is an open-source agentic operating system engineered specifically for AI agents to schedule tasks and manage memory.\n• Provides kernel-level IPC, virtualized sandboxed filesystems, and fine-grained tool permission controls.\n• Features an autonomous process scheduler that prevents multi-agent resource contention and runaway infinite loops.",
-    body_ko: "오픈소스 프로젝트 Rome(rome-os)은 AI 에이전트 전용으로 설계된 차세대 에이전틱 운영체제(Agentic OS)입니다. 인간 사용자를 위한 GUI 중심 구조 대신 에이전트가 소프트웨어를 컴파일하고 툴을 호출하기에 최적화된 시스템 호출(Syscall) 인터페이스를 제공합니다. 복수의 에이전트가 동시에 실행될 때 파일 접근 충돌을 방지하는 가상 격리 계층과 자원 분배 스케줄러를 탑재했습니다. 위험한 외부 명령 실행을 통제하는 엄격한 권한 거버넌스 시스템을 내장하여 안전성을 높였습니다. 소프트웨어 아키텍처가 에이전트 네이티브 운영 환경으로 진화하고 있음을 보여주는 혁신적인 프로젝트입니다.",
-    body_en: "The Rome project introduced an open-source agentic operating system purpose-built for coordinating autonomous AI agents. Departing from human-centric graphical OS conventions, Rome optimizes kernel-level syscalls specifically for agent process execution and tool orchestration. It introduces dedicated IPC primitives, sandboxed virtual filesystems, and an intelligent scheduler that mitigates multi-agent deadlocks. Built-in permission gates monitor and restrict unsafe network operations and arbitrary file modifications. Rome represents a pioneering step toward agent-native computational infrastructure.",
-    tags: ["RomeOS", "에이전틱OS", "에이전트인프라", "프로세스스케줄러", "오픈소스"]
+    title_ko: "wang2122/sprix-sage-router — A2A 에이전트 네트워크를 위한 상태 기반 라우팅 프레임워크",
+    title_en: "Sprix Sage Router: State-Aware Routing for Autonomous Agent-to-Agent Networks",
+    summary_ko: "• 복수의 전문화된 AI 에이전트들이 협업할 때 작업의 위임(HANDOFF)과 협업(COLLABORATE)을 상태 기반으로 제어하는 라우터가 오픈소스로 공개되었습니다.\n• 단일 에이전트의 컨텍스트 과부하를 방지하고 분선 에이전트 간의 실시간 컨텍스트 동기화를 최적화합니다.\n• GitHub 공개 직후 멀티 에이전트 오케스트레이션 개발자들 사이에서 하루 수십 개의 스타를 모으며 주목받고 있습니다.",
+    summary_en: "• Wang open-sources Sprix Sage Router, a state-aware routing framework governing SELF, COLLABORATE, and HANDOFF flows in A2A networks.\n• Prevents single-agent context pollution while optimizing inter-agent payload coordination across complex workflows.\n• Gained rapid traction across GitHub multi-agent developer communities.",
+    body_ko: "다중 에이전트(A2A) 네트워크에서 에이전트 간 작업 전환과 협업 흐름을 정밀하게 제어하는 'Sprix Sage Router' 오픈소스 리포지토리가 깃허브에서 급부상했습니다. 기존 멀티 에이전트 시스템들은 단순 순차 전달이나 중앙 집중식 브로드캐스트 방식을 사용하여 불필요한 토큰 낭비와 컨텍스트 오염이 빈번했습니다. Sprix Sage Router는 현재 작업 상태를 실시간 평가하여 '자체 해결(SELF)', '협동 처리(COLLABORATE)', '전문 에이전트 위임(HANDOFF)'의 3가지 상태 머신으로 최적의 에이전트 경로를 결정합니다. 이를 통해 복잡한 풀스택 소프트웨어 개발 과제에서 에이전트 간 통신 비용을 40% 이상 절감하면서도 작업 완수 성공률을 크게 끌어올렸습니다. 에이전트 오케스트레이션의 신뢰성을 높여주는 실용적인 라우팅 엔진으로 각광받고 있습니다.",
+    body_en: "The open-source Sprix Sage Router introduces a state-aware routing architecture for decentralized Agent-to-Agent (A2A) networks. Rather than relying on static prompt handoffs, the engine evaluates ongoing conversation states to dynamically dispatch tasks across SELF, COLLABORATE, and HANDOFF states. This structure curbs token bloat and context drift across multi-agent workflows by over 40%. The framework provides a clean architectural blueprint for reliable multi-agent system coordination.",
+    tags: ["멀티에이전트", "A2A", "에이전트라우팅", "오케스트레이션", "GitHub오픈소스"]
+  },
+  // 18. github_6545db54ed (devtool)
+  {
+    id: "github_6545db54ed",
+    signal_id: "devtool",
+    importance: 88,
+    title_ko: "kgoedecke/doop — 인간과 AI 에이전트가 함께 실시간 협업하는 오픈소스 디자인 캔버스",
+    title_en: "Doop: Open-Source Multiplayer Design Canvas with Built-In MCP for Human-Agent Co-Design",
+    summary_ko: "• 인간 디자이너와 AI 에이전트가 동일한 2D 캔버스 위에서 실시간으로 와이어프레임과 UI를 함께 설계하는 오픈소스 협업 도구 Doop이 공개되었습니다.\n• Model Context Protocol(MCP) 서버가 내장되어 있어 커서나 클로드 코드가 캔버스 객체를 직접 생성하고 수정할 수 있습니다.\n• 상용 디자인 툴의 폐쇄성을 극복하고 오픈소스로 자유롭게 확장 가능한 에이전트 친화형 협업 캔버스를 제공합니다.",
+    summary_en: "• kgoedecke releases Doop, an open-source collaborative multiplayer design canvas built for joint human-AI agent interaction.\n• Features native Model Context Protocol (MCP) integration, allowing coding agents to programmatically manipulate layout nodes live.\n• Provides a free and extensible alternative to proprietary visual design software.",
+    body_ko: "디자이너와 AI 에이전트가 하나의 캔버스에서 동시에 인터랙션할 수 있는 오픈소스 멀티플레이어 디자인 플랫폼 'Doop'이 깃허브에 공개되어 화제입니다. 기존의 디자인 도구들은 인간 중심의 UI 조작에만 최적화되어 있어 외부 AI 에이전트가 디자인 요소에 프로그래밍 방식으로 접근하기 어려웠습니다. Doop은 Anthropic의 Model Context Protocol(MCP)을 시스템 내부 표준으로 탑재하여, 에이전트가 레이아웃 구조를 실시간으로 읽고 새 컴포넌트를 즉시 렌더링할 수 있도록 지원합니다. 개발자가 터미널에서 코딩 에이전트에 지시하면 캔버스 위의 UI 박스와 텍스트가 실시간으로 변환되며, 인간 작업자는 마우스로 즉시 미세 조정을 가할 수 있습니다. AI와 인간의 진정한 실시간 비주얼 협업을 구현한 혁신적인 프로젝트로 평가받고 있습니다.",
+    body_en: "Doop has been released as an open-source collaborative canvas where humans and AI agents build user interfaces together in real time. Built-in Model Context Protocol (MCP) servers allow external agents to inspect canvas components and programmatically alter vector geometries live. Designers can sketch wireframes while simultaneously watching agents flesh out UI tokens and responsive containers. It establishes an open, agent-native alternative to proprietary design canvases.",
+    tags: ["Doop", "MCP", "UI디자인", "실시간협업", "GitHub오픈소스"]
   }
 ];
 
 function buildPayload() {
+  const candidatesData = JSON.parse(fs.readFileSync(CANDIDATES_FILE, "utf8"));
+  const factMap = new Map(candidatesData.candidates.map((c) => [c.id, c]));
+
   const news = [];
   const signalCounts = {};
 
-  for (const item of curatedItems) {
-    const fact = candMap.get(item.id);
+  for (const item of CURATED_ITEMS) {
+    const fact = factMap.get(item.id);
     if (!fact) {
-      console.error(`Error: candidate id ${item.id} not found in candidates file.`);
+      console.error(`[ERROR] Candidate ${item.id} not found in candidates file!`);
       process.exit(1);
     }
 
@@ -297,11 +299,8 @@ function buildPayload() {
       importance: item.importance,
       headline: item.title_ko,
       title_ko: item.title_ko,
-      title_en: item.title_en,
       summary_ko: item.summary_ko,
-      summary_en: item.summary_en,
       body_ko: item.body_ko,
-      body_en: item.body_en,
       author_profile: fact.author,
       publish_date: fact.publish_date,
       tags: item.tags,
@@ -338,7 +337,7 @@ function buildPayload() {
     curated_by: CURATED_BY,
     total_count: news.length,
     signal_counts: signalCounts,
-    summary: `🔥 오늘의 핵심 이슈: #Grok코딩추격 #온디바이스MoE #우주GPU가속 #에이전틱OS — 엔터프라이즈 로컬 코딩 모델(Qwen/Granite)의 확장과 자율 에이전트 전용 OS·소프트웨어 팩토리 구축이 주도한 하루였습니다. ${CURATED_BY}에서 큐레이션 하였습니다.`,
+    summary: `🔥 오늘의 핵심 이슈: #GLM53Flash #일하는AI #WebMCP #CursorGit시스템 — 경량 초고속 MoE 모델(GLM/Qwen) 경쟁과 웹-에이전트 직결 프로토콜(WebMCP/Accept-Markdown)의 등장이 주도한 하루였습니다. ${CURATED_BY}에서 큐레이션 하였습니다.`,
     news: news,
   };
 
@@ -352,45 +351,51 @@ function main() {
 
   const payload = buildPayload();
 
-  // 1. Write site/public/data/news_latest.json
-  fs.writeFileSync(LATEST_FILE, JSON.stringify(payload, null, 2), "utf8");
-  console.log(`[Site Live] ${LATEST_FILE} (${payload.total_count} items)`);
+  // 1. site/public/data/news_latest.json
+  fs.mkdirSync(path.dirname(LATEST_FILE), { recursive: true });
+  fs.writeFileSync(LATEST_FILE, JSON.stringify(payload, null, 2));
+  console.log(`[Site Live] ${LATEST_FILE} (${payload.news.length} items)`);
 
-  // 2. Write archives
-  fs.writeFileSync(ARCHIVE_FILE, JSON.stringify(payload, null, 2), "utf8");
-  fs.writeFileSync(PUBLIC_ARCHIVE_FILE, JSON.stringify(payload, null, 2), "utf8");
-  console.log(`[Archive] ${ARCHIVE_FILE}`);
+  // 2. data/archive/news_YYYY-MM-DD.json
+  fs.mkdirSync(ARCHIVE_DIR, { recursive: true });
+  const archiveFile = path.join(ARCHIVE_DIR, `news_${TODAY}.json`);
+  fs.writeFileSync(archiveFile, JSON.stringify(payload, null, 2));
+  console.log(`[Archive] ${archiveFile}`);
 
-  // 3. Update news_index.json
-  let indexData = { archives: [] };
+  // site/public/data/archive/news_YYYY-MM-DD.json 복사
+  fs.mkdirSync(PUBLIC_ARCHIVE_DIR, { recursive: true });
+  const publicArchiveFile = path.join(PUBLIC_ARCHIVE_DIR, `news_${TODAY}.json`);
+  fs.writeFileSync(publicArchiveFile, JSON.stringify(payload, null, 2));
+
+  // 3. news_index.json 갱신
+  let index = { archives: [] };
   if (fs.existsSync(INDEX_FILE)) {
     try {
-      const raw = JSON.parse(fs.readFileSync(INDEX_FILE, "utf8"));
-      indexData.archives = Array.isArray(raw) ? raw : (raw.archives || []);
-    } catch (e) {}
+      index = JSON.parse(fs.readFileSync(INDEX_FILE, "utf8"));
+    } catch (e) {
+      console.warn("기존 인덱스 파싱 오류:", e.message);
+    }
   }
+  if (!index.archives) index.archives = [];
 
-  // Remove existing today if present, then unshift
-  indexData.archives = indexData.archives.filter((a) => a.file !== `news_${TODAY}.json` && a.date !== TODAY);
-  indexData.archives.unshift({
+  const existingIdx = index.archives.findIndex((a) => a.file === `news_${TODAY}.json`);
+  const entry = {
     file: `news_${TODAY}.json`,
-    date: TODAY,
     version: payload.version,
     generated_at: payload.generated_at,
     total_count: payload.total_count,
     signal_counts: payload.signal_counts,
-    headline: payload.news[0]?.headline || "",
-    summary: payload.summary,
-  });
-
-  const indexPayload = {
-    updated_at: payload.updated_at,
-    archives: indexData.archives,
   };
 
-  fs.writeFileSync(INDEX_FILE, JSON.stringify(indexPayload, null, 2), "utf8");
-  fs.writeFileSync(PUBLIC_INDEX_FILE, JSON.stringify(indexPayload, null, 2), "utf8");
-  console.log(`[Index] ${INDEX_FILE} (${indexData.archives.length} archive entries)`);
+  if (existingIdx >= 0) {
+    index.archives[existingIdx] = entry;
+  } else {
+    index.archives.unshift(entry);
+  }
+
+  fs.writeFileSync(INDEX_FILE, JSON.stringify(index, null, 2));
+  fs.writeFileSync(PUBLIC_INDEX_FILE, JSON.stringify(index, null, 2));
+  console.log(`[Index] ${INDEX_FILE} (${index.archives.length} archive entries)`);
 
   console.log("\n신호 분포:", payload.signal_counts);
 }
