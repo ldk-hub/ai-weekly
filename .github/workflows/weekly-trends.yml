@@ -39,6 +39,9 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: node scripts/plugins/collect.js
 
+      - name: Scan install entry points (drop remote-payload droppers)
+        run: node scripts/plugins/scan-install-entry.js
+
       - name: Curate (Gemini free tier)
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}

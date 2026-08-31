@@ -27,33 +27,33 @@
   
     <g transform="translate(60, 290)">
       <rect x="0" y="0" width="347" height="280" rx="20" fill="#ffeca0" stroke="#0e0e0e" stroke-width="1.5"/>
-      <text x="24" y="40" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="2">#01 · AGENT</text>
-      <text x="24" y="92" font-size="28" font-weight="700" fill="#0e0e0e" letter-spacing="-0.5">oc — 웹사이트를 에이전트…</text>
-      <text x="24" y="138" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">수만 토큰의 HTML 파싱 대신 수백 토큰으로 웹을 탐색하는 AI …</text>
-      <text x="24" y="172" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85"></text>
+      <text x="24" y="40" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="2">#01 · MCP</text>
+      <text x="24" y="92" font-size="28" font-weight="700" fill="#0e0e0e" letter-spacing="-0.5">headcount - An …</text>
+      <text x="24" y="138" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">An agent organization for Claude Code…</text>
+      <text x="24" y="172" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">structured as a company — 15+ …</text>
 
       <g transform="translate(24, 220)">
-        <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">only-cli/oc</text>
-        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 413</text>
+        <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">cbrock84/headcount</text>
+        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 747</text>
       </g>
     </g>
     <g transform="translate(427, 290)">
       <rect x="0" y="0" width="347" height="280" rx="20" fill="#d8edd0" stroke="#0e0e0e" stroke-width="1.5"/>
-      <text x="24" y="40" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="2">#02 · SKILL</text>
-      <text x="24" y="92" font-size="28" font-weight="700" fill="#0e0e0e" letter-spacing="-0.5">genart-skill — …</text>
-      <text x="24" y="138" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">해시 시드 기반으로 100% 재현 가능한 생성 예술(Generati…</text>
-      <text x="24" y="172" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85"></text>
+      <text x="24" y="40" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="2">#02 · MCP</text>
+      <text x="24" y="92" font-size="28" font-weight="700" fill="#0e0e0e" letter-spacing="-0.5">harnessrouter -…</text>
+      <text x="24" y="138" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">HarnessRouter Community Edition: the …</text>
+      <text x="24" y="172" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">Apache-2.0 edition …</text>
 
       <g transform="translate(24, 220)">
-        <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">camilleroux/genart-skill</text>
-        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 104</text>
+        <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">HarnessRouter/harnessrouter</text>
+        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 647</text>
       </g>
     </g>
     <g transform="translate(794, 290)">
       <rect x="0" y="0" width="347" height="280" rx="20" fill="#ffd8bd" stroke="#0e0e0e" stroke-width="1.5"/>
       <text x="24" y="40" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="2">#03 · AGENT</text>
-      <text x="24" y="92" font-size="28" font-weight="700" fill="#0e0e0e" letter-spacing="-0.5">cumora — AI 에이전…</text>
-      <text x="24" y="138" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">Claude Code와 Codex를 팀원으로 초대해 함께 대화하고 …</text>
+      <text x="24" y="92" font-size="28" font-weight="700" fill="#0e0e0e" letter-spacing="-0.5">cumora - Where …</text>
+      <text x="24" y="138" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">Where agent teams gather. Cross-platf…</text>
       <text x="24" y="172" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85"></text>
 
       <g transform="translate(24, 220)">

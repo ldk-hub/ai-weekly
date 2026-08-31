@@ -95,6 +95,56 @@ buzz = min(100, sum(log(upvotes + comments + 1)) * 10)
 - 코드 한 글자도 없음 → 컷
 - 라이선스 불명 + stars 100 미만 → 컷
 
+## 발행 하한선 (stars >= 500)
+
+`stars < 500` 인 항목은 발행하지 않는다. rising·classic 무관.
+
+**적용 위치: `scoreVelocity` 를 호출한 *뒤*, 후보 선정 단계에서만 걸러낸다.**
+점수 산정 풀에서 미리 빼면 코호트 중앙값이 움직여 무관한 항목의 `velocity_score` 까지
+흔들린다 (`velocity_score = 33.3 * gr / med`).
+
+2026-08-31 산정 풀 214건 실측 — **영향은 작다**:
+
+| 배치 | 중앙값 | measured | velocity 100 포화 |
+|---|---|---|---|
+| 후(後)필터 (채택) | 2.084%/wk | 85 | 87건 |
+| 선(先)필터 | 2.020%/wk | 82 | 87건 |
+
+중앙값 −3.1%, 전 항목 점수 +3.2%, 포화 건수 불변. 20★ 미만 중 원장 실측분이 3건뿐이라
+크게 안 움직인다(`scoreVelocity` 는 `measured.length >= 5` 면 실측분만으로 중앙값을 낸다 —
+추정분인 신상을 빼도 중앙값은 안 변한다). **그래도 후필터로 두는 이유는 공짜이기 때문**:
+하한선 숫자를 나중에 조정할 때 임계(55/45)를 재역산할 의무가 생기지 않는다.
+
+이전 판에 적었던 "중앙값 7.251→5.395%/wk, 전 항목 34% 부풀어 임계 무효" 는 **오류**다 —
+선정된 후보 76건만으로 계산한 값이고, 후보 선정은 velocity 순이라 고성장 항목이
+과대표집된다. 산정 풀 전체로는 위 표가 정답.
+
+스크립트 경로 구현은 `collect.js` 의 `MIN_PUBLISH_STARS`, 불변식 테스트는
+`node scripts/plugins/publish-floor.test.js`.
+
+**500 의 근거** (2026-08-04~08-31 **rising** 발행 133건 백테스트):
+
+| 하한선 | rising 생존 | 컷 | 주당 rising | 377★ tokentab |
+|---|---|---|---|---|
+| 20 | 119/133 | 11% | 12~20 | 통과 |
+| 100 | 113/133 | 15% | 10~20 | 통과 |
+| 200 | 105/133 | 21% | 9~20 | 통과 |
+| **500** | **87/133** | **35%** | **7~20** | **컷** |
+| 1000 | 48/133 | 64% | 3~11 | 컷 |
+
+`classic` 은 문서상 이미 `stars >= 500` 요구라 87/87 무영향 — 비용은 전부 rising 이 낸다.
+500 은 tokentab 규모(377★)를 자르는 가장 싼 지점이고, 1000 은 두 배 비싸면서 그 건에 대해
+추가로 얻는 게 없다(최악 주 08-04 에는 급상승 카드가 3장만 남는다).
+
+**⚠ 이건 큐레이션 정책이지 악성코드 탐지가 아니다.** 별은 벌크로 살 수 있으므로 하한선은
+공격자에게 가격일 뿐이다 — 377개를 만든 쪽은 500개도 만든다. 그리고 이미 큰 리포가 나중에
+오염되는 경우(악성 커밋·의존성 하이재킹)에는 0의 보호를 준다. 실제 탐지는 아래 절이 한다.
+
+**나이·성장률로 자르려 하지 말 것.** `growth_rate ≥ 0.9` 는 `growthRate` 의 `min(1, …)`
+클램프 때문에 `리포 나이 ≤ 7일` 과 동의어이고, 그걸로 게이트를 만들면 발행량 13.2%를
+잃으면서(220건 중 29건, 최악 주 24%) 2,275★ 규모 프로젝트까지 자른다. 2026-08-31 에
+시도했다가 철회했다.
+
 ## 4) Recency (0~100)
 - 최근 커밋 n일 전: `100 * max(0, 1 - n/60)` (60일 이상 방치면 0)
 
@@ -124,6 +174,39 @@ buzz = min(100, sum(log(upvotes + comments + 1)) * 10)
 
 둘 다 해당하면 → Rising (신선도 우선)
 둘 다 아니면 → 후보 대기열 (`pending`)
+
+## 설치 진입점 코드 검사 (실제 악성 탐지) ⭐
+
+`node scripts/plugins/scan-install-entry.js` — `collect.js` 와 `curate.js` **사이**에서 돈다
+(`npm run data:plugins` 체인, CI 는 weekly-trends.yml 의 "Scan install entry points" 단계).
+후보의 "설치·임포트 시점에 실행되는" 파일을 raw.githubusercontent.com 에서 읽어 판정하고,
+걸린 후보는 `.tmp/candidates.json` 에서 제거한다. 리포트는 `.tmp/install-scan.json`.
+
+**왜 지표로는 안 되는가.** tokentab 은 stars 377·growth_rate 1·README 5.5KB·MIT 라이선스로
+모든 지표가 정상이었다. `tokentab/setup.py` 를 열어야만 드러났다. 지표는 인기를 재고
+안전을 재지 않는다.
+
+규칙 4개:
+
+| 규칙 | 내용 |
+|---|---|
+| `hardcoded_public_ip` | 코드에 박힌 공개 IPv4 리터럴. URL 접두사를 요구하지 않는다 — tokentab 은 IP 를 설정 딕셔너리에 두고 f-string 으로 URL 을 조립했다 |
+| `remote_fetch_exec` | 원격 fetch + in-process 동적 실행(`exec`/`eval`/`compile`/`new Function`)이 같은 파일 |
+| `opaque_decode_exec` | base64·zlib·pickle 디코드 결과를 동적 실행 |
+| `install_script_network` | `package.json` 의 pre/post-install 이 외부에서 코드를 받거나 인라인 실행 |
+
+**오탐 방어는 실측으로 좁혔다.** `subprocess`·`child_process` 는 동적 실행에서 제외했다
+(별 프로그램 실행은 정상 도구에 흔하다 — tokentab 이 쓴 건 in-process `exec(compile(...))`).
+`exec`/`eval`/`compile` 은 앞에 점이 없는 것만 본다(`re.compile`·`cursor.exec` 제외).
+IP 규칙은 매니페스트(`.toml`/`.json`/`.lock`/…)와 버전 문맥 줄에서 끄고, 사설·루프백·
+링크로컬·TEST-NET·멀티캐스트 대역을 뺀다 — 2026-08-31 실측 오탐: `hermes-agent` 의
+`pyproject.toml` 안 `1.2.0.1`·`2.0.13.4` 는 4자리 의존성 버전이었다.
+
+**2026-08-31 후보 76건 실측: 1건 컷(`damejan80/tokentab`), 오탐 0, 24초.**
+
+**한계 두 개, 알고 쓸 것:**
+- 관례 경로만 본다(`setup.py`·`{name}/__init__.py`·`package.json` 의 `main`/`bin`·`pyproject.toml` 의 `name` 파생 경로 등). 76건 중 **29건은 그 경로에 설치 진입점이 없어 판정 못 했다** — 대부분 마크다운 스킬 모음(`*-skills`, `awesome-agent-skills`)이라 실행되는 코드가 애초에 없다. 다만 중첩 패키지·monorepo 하위 경로는 놓친다. 놓친 사례가 생기면 tree API(1 req/repo)로 경로를 열거하는 쪽으로 올릴 것
+- **설치 진입점만 본다.** 스킬 `SKILL.md` 가 수동 실행을 지시하는 스크립트, 라이브러리 본문에 심은 로직, 나중에 들어오는 악성 커밋은 범위 밖이다
 
 ## 편향 방지
 - 한국어 README/블로그는 buzz 가중 +10 (영어 커뮤니티 규모 차 보정)

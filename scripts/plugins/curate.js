@@ -25,8 +25,9 @@ const PROMPT_RULES = `너는 Claude Code 생태계 주간 트렌드 큐레이터
 - status: "rising" = velocity_score 높음(성장률 급등) 또는 신생(created_days_ago ≤ 30) 또는 hn buzz 있음. "classic" = 이미 자리잡은 필수 레퍼런스(stars 높고 velocity_score 낮음).
 - rising 상한: skill 8, mcp 6, agent 4, harness 2. classic 상한: skill 6, mcp 4, agent 4, harness 2. 임계 미달이면 억지로 채우지 마라.
 - Claude Code/에이전트/MCP 생태계와 무관한 리포는 제외.
-- 각 항목의 한글 카피: title_ko ("이름 - 한줄설명"), catchphrase (한 줄 훅, 과장 금지, 숫자는 description 에 있는 것만), summary_ko (3~5문장), key_features (3개), use_case ("이럴 때" 1문장), install_hint (설치 힌트, 모르면 "README 참고"), tags (한글 3~5개).
-- 출력은 JSON 오브젝트 하나: {"rising":[...],"classic":[...]}. 각 항목 필드: id, category, status, trend_score, title_ko, catchphrase, summary_ko, key_features, use_case, install_hint, tags. id 는 반드시 후보 목록에 있는 것만 사용.`;
+- 각 항목의 한글 카피: title_ko ("이름 - 한줄설명"), catchphrase (한 줄 훅, 과장 금지, 숫자는 description 에 있는 것만), summary_ko (3~5문장), key_features (3개), use_case ("이럴 때" 1문장), tags (한글 3~5개).
+- **설치 명령을 만들어내지 마라.** 후보 데이터에 README 가 없으므로 대조할 원문이 없다. 설치 안내는 사이트가 하지 않고 GitHub 링크가 담당한다 (2026-08-31: 생성된 "npm i -g tokentab" 이 전혀 다른 패키지를 가리켰고, 실제 리포는 원격 페이로드 드로퍼였다).
+- 출력은 JSON 오브젝트 하나: {"rising":[...],"classic":[...]}. 각 항목 필드: id, category, status, trend_score, title_ko, catchphrase, summary_ko, key_features, use_case, tags. id 는 반드시 후보 목록에 있는 것만 사용.`;
 
 async function callGemini(candidates) {
   const rising = [];
@@ -58,7 +59,6 @@ async function callGemini(candidates) {
       summary_ko: c.description || "해당 프로젝트에 대한 자세한 설명이 제공되지 않았습니다.",
       key_features: ["자동화 기능 제공", "오픈소스 호환성", "손쉬운 설정"],
       use_case: "개발 프로세스를 간소화하고 싶을 때",
-      install_hint: "README.md 파일의 설치 가이드를 참조하세요.",
       tags: c.topics ? c.topics.slice(0, 4) : ["ai", "tool"]
     };
 
@@ -122,7 +122,6 @@ function groundTruthMerge(items, candMap, status) {
       summary_ko: String(item.summary_ko || "").slice(0, 600),
       key_features: (item.key_features || []).slice(0, 3).map(String),
       use_case: String(item.use_case || ""),
-      install_hint: String(item.install_hint || "README 참고"),
       badge: status === "rising" ? "🔥 Rising" : "⭐ Classic",
       badges: [status === "rising" ? "🔥 Rising" : "⭐ Classic"],
       tags: (item.tags || []).slice(0, 5).map(String),

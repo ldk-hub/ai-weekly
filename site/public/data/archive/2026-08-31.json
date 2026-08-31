@@ -775,7 +775,6 @@
         "터미널 대시보드 및 JSON 리포트 내보내기 지원"
       ],
       "use_case": "AI 코딩 에이전트를 장시간 사용하며 발생한 토큰 비용과 사용 패턴을 정확히 분석할 때",
-      "install_hint": "npm i -g tokentab 또는 npx tokentab",
       "badge": "🔥 Rising",
       "badges": [
         "🔥 Rising"

@@ -147,11 +147,28 @@ async function main() {
 
   // 성장률만으로 자르면 신상이 100점에 몰려 풀 전체를 차지하고 classic 후보가 0 이 된다
   // (2026-08-04 실측: 60/60 이 30일 내 신상, 최대 1,658★, classic 발행 0건)
+  // 발행 하한선 — scoreVelocity **뒤**에 적용한다. 위 `all` 풀에서 빼면 코호트 중앙값이
+  // 움직여 무관한 항목의 velocity_score 까지 흔들린다 (velocity_score = 33.3*gr/med).
+  // 2026-08-31 풀 214건 실측: 선필터 시 중앙값 2.084→2.020%/wk (-3.1%), 전 항목 점수 +3.2%,
+  // velocity 100 포화 건수는 87→87 로 불변. 영향 자체는 작지만, 후필터로 두면 하한선 숫자를
+  // 조정할 때 임계(55/45)를 재역산할 의무가 생기지 않는다.
+  //
+  // 500★ 근거 (2026-08-04~08-31 rising 발행 133건 백테스트):
+  //   20★ → 119 생존(11% 컷) / 500★ → 87 생존(35% 컷) / 1000★ → 48 생존(64% 컷)
+  // 500 은 377★ tokentab 드로퍼를 자르는 가장 싼 지점이다. 1000 은 두 배 비싸면서 그 건에
+  // 대해 추가로 얻는 게 없다. classic 은 문서상 이미 stars >= 500 요구라 무영향.
+  //
+  // ⚠ 이건 큐레이션 정책이지 악성코드 탐지가 아니다. 별은 벌크로 살 수 있으므로 하한선은
+  // 공격자에게 가격일 뿐이고, 이미 큰 리포가 나중에 오염되는 경우엔 0의 보호를 준다.
+  // 실제 탐지는 scripts/plugins/scan-install-entry.js (설치 진입점 코드 검사)가 담당한다.
+  const MIN_PUBLISH_STARS = 500;
+  const listed = all.filter((c) => c.stars >= MIN_PUBLISH_STARS);
+
   const pick = new Map();
   const take = (list, n) => list.slice(0, n).forEach((c) => pick.set(c.id, c));
-  const byVelocity = [...all].sort((a, b) => b.velocity_score - a.velocity_score || b.stars - a.stars);
-  const byStars = [...all].sort((a, b) => b.stars - a.stars);
-  take(all.filter((c) => prevStars[c.id] != null), 40); // 직전 주 등재분 = classic 연속성
+  const byVelocity = [...listed].sort((a, b) => b.velocity_score - a.velocity_score || b.stars - a.stars);
+  const byStars = [...listed].sort((a, b) => b.stars - a.stars);
+  take(listed.filter((c) => prevStars[c.id] != null), 40); // 직전 주 등재분 = classic 연속성
   take(byVelocity, 40); // rising 후보
   take(byStars, 20); // classic 후보 (성장률 낮아도 풀에 남긴다)
   const candidates = [...pick.values()].sort((a, b) => b.velocity_score - a.velocity_score);
@@ -166,7 +183,8 @@ async function main() {
     )
   );
   console.log(
-    `collected ${candidates.length}/${all.length} candidates ` +
+    `collected ${candidates.length}/${listed.length} candidates ` +
+      `(${all.length - listed.length} cut by ${MIN_PUBLISH_STARS}★ floor) ` +
       `(median growth ${(velMeta.median_growth_rate * 100).toFixed(2)}%/week, ` +
       `${velMeta.measured} measured) → ${OUT}`
   );

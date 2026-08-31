@@ -1,0 +1,1385 @@
+{
+  "generated": "2026-08-04",
+  "generated_at": "2026-08-04",
+  "version": "v2026.08.04",
+  "rising": [
+    {
+      "id": "DietrichGebert/ponytail",
+      "name": "ponytail",
+      "owner": "DietrichGebert",
+      "title_ko": "ponytail - Makes your AI agent think like",
+      "official_url": "https://github.com/DietrichGebert/ponytail",
+      "repo_url": "https://github.com/DietrichGebert/ponytail",
+      "category": "agent",
+      "score": 90,
+      "trend_score": 90,
+      "stars": 95235,
+      "velocity_7d": 8274,
+      "velocity_score": 100,
+      "growth_rate": 0.0869,
+      "v7d_estimated": false,
+      "source_count": 2,
+      "sources": [
+        "github",
+        "hn"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/DietrichGebert/ponytail",
+          "label": "최근 7일 +8,274 stars"
+        },
+        {
+          "source": "hn",
+          "url": "https://news.ycombinator.com/item?id=49094075",
+          "label": "HN 4p · Ponytail Skill for Claude Code: Does It Cut Tokens"
+        },
+        {
+          "source": "hn",
+          "url": "https://news.ycombinator.com/item?id=49094075",
+          "label": "HN 4p · Ponytail Skill for Claude Code: Does It Cut Tokens"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "Makes your AI agent think like the laziest senior dev in the room. The best code is the code you never wrote.",
+      "summary_ko": "Makes your AI agent think like the laziest senior dev in the room. The best code is the code you never wrote.",
+      "key_features": [
+        "자동화 기능 제공",
+        "오픈소스 호환성",
+        "손쉬운 설정"
+      ],
+      "use_case": "개발 프로세스를 간소화하고 싶을 때",
+      "install_hint": "README.md 파일의 설치 가이드를 참조하세요.",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "agent-skills",
+        "ai-agents",
+        "claude",
+        "claude-code"
+      ],
+      "thumbnail_url": "https://github.com/DietrichGebert.png"
+    },
+    {
+      "id": "0rangec3t/Black-cat",
+      "name": "Black-cat",
+      "owner": "0rangec3t",
+      "title_ko": "Black-cat - Claude Code RedTeam Skill — Hy",
+      "official_url": "https://github.com/0rangec3t/Black-cat",
+      "repo_url": "https://github.com/0rangec3t/Black-cat",
+      "category": "skill",
+      "score": 70,
+      "trend_score": 70,
+      "stars": 231,
+      "velocity_7d": 231,
+      "velocity_score": 100,
+      "growth_rate": 1,
+      "v7d_estimated": true,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/0rangec3t/Black-cat",
+          "label": "최근 7일 +231 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "Claude Code RedTeam Skill — Hypothesis-Driven Cognitive Architecture。一个假设-证据驱动的红队skill",
+      "summary_ko": "Claude Code RedTeam Skill — Hypothesis-Driven Cognitive Architecture。一个假设-证据驱动的红队skill",
+      "key_features": [
+        "자동화 기능 제공",
+        "오픈소스 호환성",
+        "손쉬운 설정"
+      ],
+      "use_case": "개발 프로세스를 간소화하고 싶을 때",
+      "install_hint": "README.md 파일의 설치 가이드를 참조하세요.",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "pentest",
+        "pentest-tools",
+        "red-team"
+      ],
+      "thumbnail_url": "https://github.com/0rangec3t.png"
+    },
+    {
+      "id": "risa-labs-inc/BossConsole",
+      "name": "BossConsole",
+      "owner": "risa-labs-inc",
+      "title_ko": "BossConsole - Open-source, multi-platform ha",
+      "official_url": "https://github.com/risa-labs-inc/BossConsole",
+      "repo_url": "https://github.com/risa-labs-inc/BossConsole",
+      "category": "mcp",
+      "score": 70,
+      "trend_score": 70,
+      "stars": 214,
+      "velocity_7d": 107,
+      "velocity_score": 100,
+      "growth_rate": 0.5,
+      "v7d_estimated": true,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/risa-labs-inc/BossConsole",
+          "label": "최근 7일 +107 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "Open-source, multi-platform harness for AI agents — a native, multi-threaded operator's console (JVM, not Electron) to r",
+      "summary_ko": "Open-source, multi-platform harness for AI agents — a native, multi-threaded operator's console (JVM, not Electron) to run Claude Code, Codex, Gemini or OpenCode with a real browser, terminal, editor, secrets & 100+ MCP tools. Built for enterprises, science & research.",
+      "key_features": [
+        "자동화 기능 제공",
+        "오픈소스 호환성",
+        "손쉬운 설정"
+      ],
+      "use_case": "개발 프로세스를 간소화하고 싶을 때",
+      "install_hint": "README.md 파일의 설치 가이드를 참조하세요.",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "agent-harness",
+        "ai-agents",
+        "browser",
+        "claude-code"
+      ],
+      "thumbnail_url": "https://github.com/risa-labs-inc.png"
+    },
+    {
+      "id": "makecindy/cindy",
+      "name": "cindy",
+      "owner": "makecindy",
+      "title_ko": "cindy - Consider it done. The open-sou",
+      "official_url": "https://github.com/makecindy/cindy",
+      "repo_url": "https://github.com/makecindy/cindy",
+      "category": "agent",
+      "score": 70,
+      "trend_score": 70,
+      "stars": 1660,
+      "velocity_7d": 894,
+      "velocity_score": 100,
+      "growth_rate": 0.5386,
+      "v7d_estimated": true,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/makecindy/cindy",
+          "label": "최근 7일 +894 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "Consider it done. The open-source AI agent that works out of the box · 想到，就能做到。开源、开箱即用的 AI Agent。",
+      "summary_ko": "Consider it done. The open-source AI agent that works out of the box · 想到，就能做到。开源、开箱即用的 AI Agent。",
+      "key_features": [
+        "자동화 기능 제공",
+        "오픈소스 호환성",
+        "손쉬운 설정"
+      ],
+      "use_case": "개발 프로세스를 간소화하고 싶을 때",
+      "install_hint": "README.md 파일의 설치 가이드를 참조하세요.",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "agent",
+        "ai-agent",
+        "ai-assistant",
+        "android"
+      ],
+      "thumbnail_url": "https://github.com/makecindy.png"
+    },
+    {
+      "id": "0xwilliamortiz/ponytail-improved",
+      "name": "ponytail-improved",
+      "owner": "0xwilliamortiz",
+      "title_ko": "ponytail-improved - Makes your AI agent think like",
+      "official_url": "https://github.com/0xwilliamortiz/ponytail-improved",
+      "repo_url": "https://github.com/0xwilliamortiz/ponytail-improved",
+      "category": "agent",
+      "score": 70,
+      "trend_score": 70,
+      "stars": 586,
+      "velocity_7d": 586,
+      "velocity_score": 100,
+      "growth_rate": 1,
+      "v7d_estimated": true,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/0xwilliamortiz/ponytail-improved",
+          "label": "최근 7일 +586 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "Makes your AI agent think like the laziest senior dev in the room. The best code is the code you never wrote.",
+      "summary_ko": "Makes your AI agent think like the laziest senior dev in the room. The best code is the code you never wrote.",
+      "key_features": [
+        "자동화 기능 제공",
+        "오픈소스 호환성",
+        "손쉬운 설정"
+      ],
+      "use_case": "개발 프로세스를 간소화하고 싶을 때",
+      "install_hint": "README.md 파일의 설치 가이드를 참조하세요.",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "agent-skills",
+        "claude-code",
+        "claude-code-plugin",
+        "claude-code-skill"
+      ],
+      "thumbnail_url": "https://github.com/0xwilliamortiz.png"
+    },
+    {
+      "id": "0xwilliamortiz/openclaude-improved",
+      "name": "openclaude-improved",
+      "owner": "0xwilliamortiz",
+      "title_ko": "openclaude-improved - runs anywhere. uses anything",
+      "official_url": "https://github.com/0xwilliamortiz/openclaude-improved",
+      "repo_url": "https://github.com/0xwilliamortiz/openclaude-improved",
+      "category": "mcp",
+      "score": 70,
+      "trend_score": 70,
+      "stars": 569,
+      "velocity_7d": 498,
+      "velocity_score": 100,
+      "growth_rate": 0.8752,
+      "v7d_estimated": true,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/0xwilliamortiz/openclaude-improved",
+          "label": "최근 7일 +498 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "runs anywhere. uses anything",
+      "summary_ko": "runs anywhere. uses anything",
+      "key_features": [
+        "자동화 기능 제공",
+        "오픈소스 호환성",
+        "손쉬운 설정"
+      ],
+      "use_case": "개발 프로세스를 간소화하고 싶을 때",
+      "install_hint": "README.md 파일의 설치 가이드를 참조하세요.",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "agentic-ai",
+        "ai",
+        "ai-agent",
+        "ai-coding"
+      ],
+      "thumbnail_url": "https://github.com/0xwilliamortiz.png"
+    },
+    {
+      "id": "0xwilliamortiz/andrej-karpathy-skills",
+      "name": "andrej-karpathy-skills",
+      "owner": "0xwilliamortiz",
+      "title_ko": "andrej-karpathy-skills - Behavioral guardrails for Clau",
+      "official_url": "https://github.com/0xwilliamortiz/andrej-karpathy-skills",
+      "repo_url": "https://github.com/0xwilliamortiz/andrej-karpathy-skills",
+      "category": "skill",
+      "score": 70,
+      "trend_score": 70,
+      "stars": 550,
+      "velocity_7d": 296,
+      "velocity_score": 100,
+      "growth_rate": 0.5382,
+      "v7d_estimated": true,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/0xwilliamortiz/andrej-karpathy-skills",
+          "label": "최근 7일 +296 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "Behavioral guardrails for Claude Code, distilled from Andrej Karpathy's field notes on where LLMs go wrong when they wri",
+      "summary_ko": "Behavioral guardrails for Claude Code, distilled from Andrej Karpathy's field notes on where LLMs go wrong when they write software.",
+      "key_features": [
+        "자동화 기능 제공",
+        "오픈소스 호환성",
+        "손쉬운 설정"
+      ],
+      "use_case": "개발 프로세스를 간소화하고 싶을 때",
+      "install_hint": "README.md 파일의 설치 가이드를 참조하세요.",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "andrej-karpathy",
+        "claude",
+        "claude-api",
+        "claude-code-plugin"
+      ],
+      "thumbnail_url": "https://github.com/0xwilliamortiz.png"
+    },
+    {
+      "id": "danilo-znamerovszkij/draw-your-font",
+      "name": "draw-your-font",
+      "owner": "danilo-znamerovszkij",
+      "title_ko": "draw-your-font - Turn a photo of your handwriti",
+      "official_url": "https://github.com/danilo-znamerovszkij/draw-your-font",
+      "repo_url": "https://github.com/danilo-znamerovszkij/draw-your-font",
+      "category": "skill",
+      "score": 70,
+      "trend_score": 70,
+      "stars": 550,
+      "velocity_7d": 296,
+      "velocity_score": 100,
+      "growth_rate": 0.5382,
+      "v7d_estimated": true,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/danilo-znamerovszkij/draw-your-font",
+          "label": "최근 7일 +296 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "Turn a photo of your handwriting into a real font (TTF/WOFF/WOFF2) - free, open source, no uploads. Node CLI + Claude Co",
+      "summary_ko": "Turn a photo of your handwriting into a real font (TTF/WOFF/WOFF2) - free, open source, no uploads. Node CLI + Claude Code skill.",
+      "key_features": [
+        "자동화 기능 제공",
+        "오픈소스 호환성",
+        "손쉬운 설정"
+      ],
+      "use_case": "개발 프로세스를 간소화하고 싶을 때",
+      "install_hint": "README.md 파일의 설치 가이드를 참조하세요.",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "claude-code",
+        "claude-skill",
+        "font",
+        "handwriting"
+      ],
+      "thumbnail_url": "https://github.com/danilo-znamerovszkij.png"
+    },
+    {
+      "id": "0xwilliamortiz/ratchet",
+      "name": "ratchet",
+      "owner": "0xwilliamortiz",
+      "title_ko": "ratchet - Your agent reads the rules. Th",
+      "official_url": "https://github.com/0xwilliamortiz/ratchet",
+      "repo_url": "https://github.com/0xwilliamortiz/ratchet",
+      "category": "agent",
+      "score": 70,
+      "trend_score": 70,
+      "stars": 426,
+      "velocity_7d": 426,
+      "velocity_score": 100,
+      "growth_rate": 1,
+      "v7d_estimated": true,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/0xwilliamortiz/ratchet",
+          "label": "최근 7일 +426 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "Your agent reads the rules. This checks whether it followed them.",
+      "summary_ko": "Your agent reads the rules. This checks whether it followed them.",
+      "key_features": [
+        "자동화 기능 제공",
+        "오픈소스 호환성",
+        "손쉬운 설정"
+      ],
+      "use_case": "개발 프로세스를 간소화하고 싶을 때",
+      "install_hint": "README.md 파일의 설치 가이드를 참조하세요.",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "ai-agents",
+        "claude-code",
+        "claude-code-plugin",
+        "claude-skills"
+      ],
+      "thumbnail_url": "https://github.com/0xwilliamortiz.png"
+    },
+    {
+      "id": "0xsline/OpenChatCut",
+      "name": "OpenChatCut",
+      "owner": "0xsline",
+      "title_ko": "OpenChatCut - Open-source, local-first conve",
+      "official_url": "https://github.com/0xsline/OpenChatCut",
+      "repo_url": "https://github.com/0xsline/OpenChatCut",
+      "category": "mcp",
+      "score": 70,
+      "trend_score": 70,
+      "stars": 785,
+      "velocity_7d": 154,
+      "velocity_score": 100,
+      "growth_rate": 0.1962,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/0xsline/OpenChatCut",
+          "label": "최근 7일 +154 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "Open-source, local-first conversational AI video editor with a professional multi-track timeline, Agent Skills, MCP inte",
+      "summary_ko": "Open-source, local-first conversational AI video editor with a professional multi-track timeline, Agent Skills, MCP integration, and Remotion rendering.",
+      "key_features": [
+        "자동화 기능 제공",
+        "오픈소스 호환성",
+        "손쉬운 설정"
+      ],
+      "use_case": "개발 프로세스를 간소화하고 싶을 때",
+      "install_hint": "README.md 파일의 설치 가이드를 참조하세요.",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "agent-skills",
+        "agentic-ai",
+        "ai-agent",
+        "ai-video-editor"
+      ],
+      "thumbnail_url": "https://github.com/0xsline.png"
+    },
+    {
+      "id": "agiwhitelist/auteur",
+      "name": "auteur",
+      "owner": "agiwhitelist",
+      "title_ko": "auteur - The Claude Code skill that dir",
+      "official_url": "https://github.com/agiwhitelist/auteur",
+      "repo_url": "https://github.com/agiwhitelist/auteur",
+      "category": "skill",
+      "score": 70,
+      "trend_score": 70,
+      "stars": 710,
+      "velocity_7d": 207,
+      "velocity_score": 100,
+      "growth_rate": 0.2915,
+      "v7d_estimated": true,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/agiwhitelist/auteur",
+          "label": "최근 7일 +207 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "The Claude Code skill that directs a website like a film. Commit-sheet, generated assets, build, and an executable anti-",
+      "summary_ko": "The Claude Code skill that directs a website like a film. Commit-sheet, generated assets, build, and an executable anti-slop linter that gates every ship.",
+      "key_features": [
+        "자동화 기능 제공",
+        "오픈소스 호환성",
+        "손쉬운 설정"
+      ],
+      "use_case": "개발 프로세스를 간소화하고 싶을 때",
+      "install_hint": "README.md 파일의 설치 가이드를 참조하세요.",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "anti-slop",
+        "claude-code",
+        "creative-coding",
+        "generative-art"
+      ],
+      "thumbnail_url": "https://github.com/agiwhitelist.png"
+    },
+    {
+      "id": "mikehasa/agentacct",
+      "name": "agentacct",
+      "owner": "mikehasa",
+      "title_ko": "agentacct - See what your coding agents di",
+      "official_url": "https://github.com/mikehasa/agentacct",
+      "repo_url": "https://github.com/mikehasa/agentacct",
+      "category": "mcp",
+      "score": 70,
+      "trend_score": 70,
+      "stars": 546,
+      "velocity_7d": 35,
+      "velocity_score": 100,
+      "growth_rate": 0.0641,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/mikehasa/agentacct",
+          "label": "최근 7일 +35 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "See what your coding agents did and what it cost. Breaks each task down into work steps — tools used, files changed, tes",
+      "summary_ko": "See what your coding agents did and what it cost. Breaks each task down into work steps — tools used, files changed, tests run, time and tokens spent. Local-first dashboard for Claude Code, Codex, OpenCode, and more. No login, no telemetry.",
+      "key_features": [
+        "자동화 기능 제공",
+        "오픈소스 호환성",
+        "손쉬운 설정"
+      ],
+      "use_case": "개발 프로세스를 간소화하고 싶을 때",
+      "install_hint": "README.md 파일의 설치 가이드를 참조하세요.",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "agent-observability",
+        "ai-agents",
+        "analytics",
+        "claude-code"
+      ],
+      "thumbnail_url": "https://github.com/mikehasa.png"
+    },
+    {
+      "id": "MemTensor/memmy-agent",
+      "name": "memmy-agent",
+      "owner": "MemTensor",
+      "title_ko": "memmy-agent - 🍙 A personal AI agent & local",
+      "official_url": "https://github.com/MemTensor/memmy-agent",
+      "repo_url": "https://github.com/MemTensor/memmy-agent",
+      "category": "mcp",
+      "score": 70,
+      "trend_score": 70,
+      "stars": 545,
+      "velocity_7d": 201,
+      "velocity_score": 100,
+      "growth_rate": 0.3688,
+      "v7d_estimated": true,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/MemTensor/memmy-agent",
+          "label": "최근 7일 +201 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "🍙 A personal AI agent & local memory hub for all AI agents like Claude Code, Codex, OpenClaw and Hermes Agent. Gives ev",
+      "summary_ko": "🍙 A personal AI agent & local memory hub for all AI agents like Claude Code, Codex, OpenClaw and Hermes Agent. Gives every AI one shared, fully controlled memory  and persistent context — all AI remember the same you.",
+      "key_features": [
+        "자동화 기능 제공",
+        "오픈소스 호환성",
+        "손쉬운 설정"
+      ],
+      "use_case": "개발 프로세스를 간소화하고 싶을 때",
+      "install_hint": "README.md 파일의 설치 가이드를 참조하세요.",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "agent",
+        "agentic-ai",
+        "ai",
+        "ai-agents"
+      ],
+      "thumbnail_url": "https://github.com/MemTensor.png"
+    },
+    {
+      "id": "vshulcz/deja-vu",
+      "name": "deja-vu",
+      "owner": "vshulcz",
+      "title_ko": "deja-vu - Your agents already solved thi",
+      "official_url": "https://github.com/vshulcz/deja-vu",
+      "repo_url": "https://github.com/vshulcz/deja-vu",
+      "category": "mcp",
+      "score": 70,
+      "trend_score": 70,
+      "stars": 512,
+      "velocity_7d": 171,
+      "velocity_score": 100,
+      "growth_rate": 0.334,
+      "v7d_estimated": true,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/vshulcz/deja-vu",
+          "label": "최근 7일 +171 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "Your agents already solved this. deja finds it — it indexes the sessions your coding agents already wrote to disk, month",
+      "summary_ko": "Your agents already solved this. deja finds it — it indexes the sessions your coding agents already wrote to disk, months of history from before you installed it, and recalls them automatically at session start across seventeen harnesses. 84.9% hit@1 on LongMemEval-S, no LLM, no embeddings. One zero-dep binary, fully local.",
+      "key_features": [
+        "자동화 기능 제공",
+        "오픈소스 호환성",
+        "손쉬운 설정"
+      ],
+      "use_case": "개발 프로세스를 간소화하고 싶을 때",
+      "install_hint": "README.md 파일의 설치 가이드를 참조하세요.",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "agent-memory",
+        "ai-memory",
+        "claude",
+        "claude-code"
+      ],
+      "thumbnail_url": "https://github.com/vshulcz.png"
+    },
+    {
+      "id": "theswerd/brainless",
+      "name": "brainless",
+      "owner": "theswerd",
+      "title_ko": "brainless - Claude Code, Codex, and Grok i",
+      "official_url": "https://github.com/theswerd/brainless",
+      "repo_url": "https://github.com/theswerd/brainless",
+      "category": "skill",
+      "score": 70,
+      "trend_score": 70,
+      "stars": 448,
+      "velocity_7d": 131,
+      "velocity_score": 100,
+      "growth_rate": 0.2924,
+      "v7d_estimated": true,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/theswerd/brainless",
+          "label": "최근 7일 +131 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "Claude Code, Codex, and Grok interfaces as shadcn components",
+      "summary_ko": "Claude Code, Codex, and Grok interfaces as shadcn components",
+      "key_features": [
+        "자동화 기능 제공",
+        "오픈소스 호환성",
+        "손쉬운 설정"
+      ],
+      "use_case": "개발 프로세스를 간소화하고 싶을 때",
+      "install_hint": "README.md 파일의 설치 가이드를 참조하세요.",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [],
+      "thumbnail_url": "https://github.com/theswerd.png"
+    },
+    {
+      "id": "drpwchen/lecture-to-notes",
+      "name": "lecture-to-notes",
+      "owner": "drpwchen",
+      "title_ko": "lecture-to-notes - Lecture recordings → structure",
+      "official_url": "https://github.com/drpwchen/lecture-to-notes",
+      "repo_url": "https://github.com/drpwchen/lecture-to-notes",
+      "category": "skill",
+      "score": 62.6,
+      "trend_score": 62.6,
+      "stars": 63,
+      "velocity_7d": 63,
+      "velocity_score": 100,
+      "growth_rate": 1,
+      "v7d_estimated": true,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/drpwchen/lecture-to-notes",
+          "label": "최근 7일 +63 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "Lecture recordings → structured grounded notes + a synced HTML viewer: video, timestamped transcript and curated summary",
+      "summary_ko": "Lecture recordings → structured grounded notes + a synced HTML viewer: video, timestamped transcript and curated summary on one page. Local GPU pipeline (Whisper ASR · slide extraction · OCR · VLM signals · capture-time alignment). Claude Code skill + plain CLI.",
+      "key_features": [
+        "자동화 기능 제공",
+        "오픈소스 호환성",
+        "손쉬운 설정"
+      ],
+      "use_case": "개발 프로세스를 간소화하고 싶을 때",
+      "install_hint": "README.md 파일의 설치 가이드를 참조하세요.",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "claude-code",
+        "faster-whisper",
+        "lecture-notes",
+        "note-taking"
+      ],
+      "thumbnail_url": "https://github.com/drpwchen.png"
+    },
+    {
+      "id": "allenloves/de-ai-tone",
+      "name": "de-ai-tone",
+      "owner": "allenloves",
+      "title_ko": "de-ai-tone - 去 AI 味：繁體中文寫作與翻譯的風格規範（Claude C",
+      "official_url": "https://github.com/allenloves/de-ai-tone",
+      "repo_url": "https://github.com/allenloves/de-ai-tone",
+      "category": "skill",
+      "score": 61.8,
+      "trend_score": 61.8,
+      "stars": 59,
+      "velocity_7d": 59,
+      "velocity_score": 100,
+      "growth_rate": 1,
+      "v7d_estimated": true,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/allenloves/de-ai-tone",
+          "label": "최근 7일 +59 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "去 AI 味：繁體中文寫作與翻譯的風格規範（Claude Code skill）",
+      "summary_ko": "去 AI 味：繁體中文寫作與翻譯的風格規範（Claude Code skill）",
+      "key_features": [
+        "자동화 기능 제공",
+        "오픈소스 호환성",
+        "손쉬운 설정"
+      ],
+      "use_case": "개발 프로세스를 간소화하고 싶을 때",
+      "install_hint": "README.md 파일의 설치 가이드를 참조하세요.",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [],
+      "thumbnail_url": "https://github.com/allenloves.png"
+    },
+    {
+      "id": "Alishahryar1/free-claude-code",
+      "name": "free-claude-code",
+      "owner": "Alishahryar1",
+      "title_ko": "free-claude-code - Use Claude Code, Codex and Pi ",
+      "official_url": "https://github.com/Alishahryar1/free-claude-code",
+      "repo_url": "https://github.com/Alishahryar1/free-claude-code",
+      "category": "skill",
+      "score": 60,
+      "trend_score": 60,
+      "stars": 44153,
+      "velocity_7d": 2954,
+      "velocity_score": 100,
+      "growth_rate": 0.0669,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/Alishahryar1/free-claude-code",
+          "label": "최근 7일 +2,954 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "Use Claude Code, Codex and Pi for free from your terminal, app, IDE, or phone like OpenClaw (voice supported)",
+      "summary_ko": "Use Claude Code, Codex and Pi for free from your terminal, app, IDE, or phone like OpenClaw (voice supported)",
+      "key_features": [
+        "자동화 기능 제공",
+        "오픈소스 호환성",
+        "손쉬운 설정"
+      ],
+      "use_case": "개발 프로세스를 간소화하고 싶을 때",
+      "install_hint": "README.md 파일의 설치 가이드를 참조하세요.",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [],
+      "thumbnail_url": "https://github.com/Alishahryar1.png"
+    },
+    {
+      "id": "dungnotnull/historical-cadastral-map-restoration-agent-skill",
+      "name": "historical-cadastral-map-restoration-agent-skill",
+      "owner": "dungnotnull",
+      "title_ko": "historical-cadastral-map-restoration-agent-skill - 🗺️📜 Historical Cadastral Ma",
+      "official_url": "https://github.com/dungnotnull/historical-cadastral-map-restoration-agent-skill",
+      "repo_url": "https://github.com/dungnotnull/historical-cadastral-map-restoration-agent-skill",
+      "category": "harness",
+      "score": 50.8,
+      "trend_score": 50.8,
+      "stars": 4,
+      "velocity_7d": 4,
+      "velocity_score": 100,
+      "growth_rate": 1,
+      "v7d_estimated": true,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/dungnotnull/historical-cadastral-map-restoration-agent-skill",
+          "label": "최근 7일 +4 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "🗺️📜 Historical Cadastral Map Restoration & GIS Digitization Engine | Production-grade Claude Code harness for historic",
+      "summary_ko": "🗺️📜 Historical Cadastral Map Restoration & GIS Digitization Engine | Production-grade Claude Code harness for historical cartography preservation & georeferencing. Features GCP transformation, IIIF integration..",
+      "key_features": [
+        "자동화 기능 제공",
+        "오픈소스 호환성",
+        "손쉬운 설정"
+      ],
+      "use_case": "개발 프로세스를 간소화하고 싶을 때",
+      "install_hint": "README.md 파일의 설치 가이드를 참조하세요.",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [],
+      "thumbnail_url": "https://github.com/dungnotnull.png"
+    }
+  ],
+  "classic": [
+    {
+      "id": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "name": "ui-ux-pro-max-skill",
+      "owner": "nextlevelbuilder",
+      "title_ko": "ui-ux-pro-max-skill - An AI SKILL that provide desig",
+      "official_url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "repo_url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "category": "skill",
+      "score": 39.323076085330044,
+      "trend_score": 39.323076085330044,
+      "stars": 113172,
+      "velocity_7d": 3297,
+      "velocity_score": 48.3,
+      "growth_rate": 0.0291,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+          "label": "최근 7일 +3,297 stars"
+        }
+      ],
+      "status": "classic",
+      "catchphrase": "An AI SKILL that provide design intelligence for building professional UI/UX multiple platforms",
+      "summary_ko": "An AI SKILL that provide design intelligence for building professional UI/UX multiple platforms",
+      "key_features": [
+        "자동화 기능 제공",
+        "오픈소스 호환성",
+        "손쉬운 설정"
+      ],
+      "use_case": "개발 프로세스를 간소화하고 싶을 때",
+      "install_hint": "README.md 파일의 설치 가이드를 참조하세요.",
+      "badge": "⭐ Classic",
+      "badges": [
+        "⭐ Classic"
+      ],
+      "tags": [
+        "ai-skills",
+        "antigravity",
+        "claude",
+        "claude-code"
+      ],
+      "thumbnail_url": "https://github.com/nextlevelbuilder.png"
+    },
+    {
+      "id": "farion1231/cc-switch",
+      "name": "cc-switch",
+      "owner": "farion1231",
+      "title_ko": "cc-switch - A cross-platform desktop All-i",
+      "official_url": "https://github.com/farion1231/cc-switch",
+      "repo_url": "https://github.com/farion1231/cc-switch",
+      "category": "mcp",
+      "score": 39.23183313287085,
+      "trend_score": 39.23183313287085,
+      "stars": 124090,
+      "velocity_7d": 3598,
+      "velocity_score": 48.1,
+      "growth_rate": 0.029,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/farion1231/cc-switch",
+          "label": "최근 7일 +3,598 stars"
+        }
+      ],
+      "status": "classic",
+      "catchphrase": "A cross-platform desktop All-in-One assistant for Claude Code, Codex, OpenCode, OpenClaw, Grok Build & Hermes Agent. Onl",
+      "summary_ko": "A cross-platform desktop All-in-One assistant for Claude Code, Codex, OpenCode, OpenClaw, Grok Build & Hermes Agent. Only official website: ccswitch.io",
+      "key_features": [
+        "자동화 기능 제공",
+        "오픈소스 호환성",
+        "손쉬운 설정"
+      ],
+      "use_case": "개발 프로세스를 간소화하고 싶을 때",
+      "install_hint": "README.md 파일의 설치 가이드를 참조하세요.",
+      "badge": "⭐ Classic",
+      "badges": [
+        "⭐ Classic"
+      ],
+      "tags": [
+        "ai-tools",
+        "claude-code",
+        "codex",
+        "desktop-app"
+      ],
+      "thumbnail_url": "https://github.com/farion1231.png"
+    },
+    {
+      "id": "JuliusBrussee/caveman",
+      "name": "caveman",
+      "owner": "JuliusBrussee",
+      "title_ko": "caveman - 🪨 why use many token when few",
+      "official_url": "https://github.com/JuliusBrussee/caveman",
+      "repo_url": "https://github.com/JuliusBrussee/caveman",
+      "category": "skill",
+      "score": 35.154479460986735,
+      "trend_score": 35.154479460986735,
+      "stars": 95589,
+      "velocity_7d": 2184,
+      "velocity_score": 37.9,
+      "growth_rate": 0.0228,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/JuliusBrussee/caveman",
+          "label": "최근 7일 +2,184 stars"
+        }
+      ],
+      "status": "classic",
+      "catchphrase": "🪨 why use many token when few token do trick — Claude Code skill that cuts 65% of tokens by talking like caveman",
+      "summary_ko": "🪨 why use many token when few token do trick — Claude Code skill that cuts 65% of tokens by talking like caveman",
+      "key_features": [
+        "자동화 기능 제공",
+        "오픈소스 호환성",
+        "손쉬운 설정"
+      ],
+      "use_case": "개발 프로세스를 간소화하고 싶을 때",
+      "install_hint": "README.md 파일의 설치 가이드를 참조하세요.",
+      "badge": "⭐ Classic",
+      "badges": [
+        "⭐ Classic"
+      ],
+      "tags": [
+        "ai",
+        "anthropic",
+        "caveman",
+        "claude"
+      ],
+      "thumbnail_url": "https://github.com/JuliusBrussee.png"
+    },
+    {
+      "id": "nexu-io/open-design",
+      "name": "open-design",
+      "owner": "nexu-io",
+      "title_ko": "open-design - 🎨 The open-source Claude Desi",
+      "official_url": "https://github.com/nexu-io/open-design",
+      "repo_url": "https://github.com/nexu-io/open-design",
+      "category": "agent",
+      "score": 33.68421389111152,
+      "trend_score": 33.68421389111152,
+      "stars": 83466,
+      "velocity_7d": 1722,
+      "velocity_score": 34.2,
+      "growth_rate": 0.0206,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/nexu-io/open-design",
+          "label": "최근 7일 +1,722 stars"
+        }
+      ],
+      "status": "classic",
+      "catchphrase": "🎨 The open-source Claude Design alternative. 🖥️ Local-first desktop app. 🖼️ Your coding agent becomes the design engi",
+      "summary_ko": "🎨 The open-source Claude Design alternative. 🖥️ Local-first desktop app. 🖼️ Your coding agent becomes the design engine: prototypes, landing pages, dashboards, slides, images & video — real files, HTML/PDF/PPTX/MP4 export. 🤖 Claude Code / Codex / Cursor / Gemini / OpenCode / Qwen & 20+ CLIs via BYOK.",
+      "key_features": [
+        "자동화 기능 제공",
+        "오픈소스 호환성",
+        "손쉬운 설정"
+      ],
+      "use_case": "개발 프로세스를 간소화하고 싶을 때",
+      "install_hint": "README.md 파일의 설치 가이드를 참조하세요.",
+      "badge": "⭐ Classic",
+      "badges": [
+        "⭐ Classic"
+      ],
+      "tags": [
+        "agent-skills",
+        "ai-agents",
+        "ai-design",
+        "byok"
+      ],
+      "thumbnail_url": "https://github.com/nexu-io.png"
+    },
+    {
+      "id": "rtk-ai/rtk",
+      "name": "rtk",
+      "owner": "rtk-ai",
+      "title_ko": "rtk - CLI proxy that reduces LLM tok",
+      "official_url": "https://github.com/rtk-ai/rtk",
+      "repo_url": "https://github.com/rtk-ai/rtk",
+      "category": "agent",
+      "score": 33.32,
+      "trend_score": 33.32,
+      "stars": 74594,
+      "velocity_7d": 1498,
+      "velocity_score": 33.3,
+      "growth_rate": 0.0201,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/rtk-ai/rtk",
+          "label": "최근 7일 +1,498 stars"
+        }
+      ],
+      "status": "classic",
+      "catchphrase": "CLI proxy that reduces LLM token consumption by 60-90% on common dev commands. Single Rust binary, zero dependencies",
+      "summary_ko": "CLI proxy that reduces LLM token consumption by 60-90% on common dev commands. Single Rust binary, zero dependencies",
+      "key_features": [
+        "자동화 기능 제공",
+        "오픈소스 호환성",
+        "손쉬운 설정"
+      ],
+      "use_case": "개발 프로세스를 간소화하고 싶을 때",
+      "install_hint": "README.md 파일의 설치 가이드를 참조하세요.",
+      "badge": "⭐ Classic",
+      "badges": [
+        "⭐ Classic"
+      ],
+      "tags": [
+        "agentic-coding",
+        "ai-coding",
+        "anthropic",
+        "claude-code"
+      ],
+      "thumbnail_url": "https://github.com/rtk-ai.png"
+    },
+    {
+      "id": "Egonex-AI/Understand-Anything",
+      "name": "Understand-Anything",
+      "owner": "Egonex-AI",
+      "title_ko": "Understand-Anything - Graphs that teach > graphs tha",
+      "official_url": "https://github.com/Egonex-AI/Understand-Anything",
+      "repo_url": "https://github.com/Egonex-AI/Understand-Anything",
+      "category": "agent",
+      "score": 32.47863909409158,
+      "trend_score": 32.47863909409158,
+      "stars": 77391,
+      "velocity_7d": 1456,
+      "velocity_score": 31.2,
+      "growth_rate": 0.0188,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/Egonex-AI/Understand-Anything",
+          "label": "최근 7일 +1,456 stars"
+        }
+      ],
+      "status": "classic",
+      "catchphrase": "Graphs that teach > graphs that impress. Turn any code into an interactive knowledge graph you can explore, search, and ",
+      "summary_ko": "Graphs that teach > graphs that impress. Turn any code into an interactive knowledge graph you can explore, search, and ask questions about. Works with Claude Code, Codex, Cursor, Copilot, Gemini CLI, and more.",
+      "key_features": [
+        "자동화 기능 제공",
+        "오픈소스 호환성",
+        "손쉬운 설정"
+      ],
+      "use_case": "개발 프로세스를 간소화하고 싶을 때",
+      "install_hint": "README.md 파일의 설치 가이드를 참조하세요.",
+      "badge": "⭐ Classic",
+      "badges": [
+        "⭐ Classic"
+      ],
+      "tags": [
+        "antigravity-skills",
+        "business-knowledge",
+        "claude-code",
+        "claude-skills"
+      ],
+      "thumbnail_url": "https://github.com/Egonex-AI.png"
+    },
+    {
+      "id": "shareAI-lab/learn-claude-code",
+      "name": "learn-claude-code",
+      "owner": "shareAI-lab",
+      "title_ko": "learn-claude-code - Bash is all you need -  A nano",
+      "official_url": "https://github.com/shareAI-lab/learn-claude-code",
+      "repo_url": "https://github.com/shareAI-lab/learn-claude-code",
+      "category": "agent",
+      "score": 29.71156585592781,
+      "trend_score": 29.71156585592781,
+      "stars": 73147,
+      "velocity_7d": 1071,
+      "velocity_score": 24.3,
+      "growth_rate": 0.0146,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/shareAI-lab/learn-claude-code",
+          "label": "최근 7일 +1,071 stars"
+        }
+      ],
+      "status": "classic",
+      "catchphrase": "Bash is all you need -  A nano claude code–like 「agent harness」, built from 0 to 1",
+      "summary_ko": "Bash is all you need -  A nano claude code–like 「agent harness」, built from 0 to 1",
+      "key_features": [
+        "자동화 기능 제공",
+        "오픈소스 호환성",
+        "손쉬운 설정"
+      ],
+      "use_case": "개발 프로세스를 간소화하고 싶을 때",
+      "install_hint": "README.md 파일의 설치 가이드를 참조하세요.",
+      "badge": "⭐ Classic",
+      "badges": [
+        "⭐ Classic"
+      ],
+      "tags": [
+        "agent",
+        "agent-development",
+        "ai-agent",
+        "claude"
+      ],
+      "thumbnail_url": "https://github.com/shareAI-lab.png"
+    },
+    {
+      "id": "affaan-m/ECC",
+      "name": "ECC",
+      "owner": "affaan-m",
+      "title_ko": "ECC - The agent harness performance ",
+      "official_url": "https://github.com/affaan-m/ECC",
+      "repo_url": "https://github.com/affaan-m/ECC",
+      "category": "mcp",
+      "score": 26.80584260048699,
+      "trend_score": 26.80584260048699,
+      "stars": 237406,
+      "velocity_7d": 2436,
+      "velocity_score": 17,
+      "growth_rate": 0.0103,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/affaan-m/ECC",
+          "label": "최근 7일 +2,436 stars"
+        }
+      ],
+      "status": "classic",
+      "catchphrase": "The agent harness performance optimization system. Skills, instincts, memory, security, and research-first development f",
+      "summary_ko": "The agent harness performance optimization system. Skills, instincts, memory, security, and research-first development for Claude Code, Codex, Opencode, Cursor and beyond.",
+      "key_features": [
+        "자동화 기능 제공",
+        "오픈소스 호환성",
+        "손쉬운 설정"
+      ],
+      "use_case": "개발 프로세스를 간소화하고 싶을 때",
+      "install_hint": "README.md 파일의 설치 가이드를 참조하세요.",
+      "badge": "⭐ Classic",
+      "badges": [
+        "⭐ Classic"
+      ],
+      "tags": [
+        "ai-agents",
+        "anthropic",
+        "claude",
+        "claude-code"
+      ],
+      "thumbnail_url": "https://github.com/affaan-m.png"
+    },
+    {
+      "id": "ComposioHQ/awesome-claude-skills",
+      "name": "awesome-claude-skills",
+      "owner": "ComposioHQ",
+      "title_ko": "awesome-claude-skills - A curated list of awesome Clau",
+      "official_url": "https://github.com/ComposioHQ/awesome-claude-skills",
+      "repo_url": "https://github.com/ComposioHQ/awesome-claude-skills",
+      "category": "mcp",
+      "score": 26.538733049776777,
+      "trend_score": 26.538733049776777,
+      "stars": 71717,
+      "velocity_7d": 707,
+      "velocity_score": 16.3,
+      "growth_rate": 0.0099,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/ComposioHQ/awesome-claude-skills",
+          "label": "최근 7일 +707 stars"
+        }
+      ],
+      "status": "classic",
+      "catchphrase": "A curated list of awesome Claude Skills, resources, and tools for customizing Claude AI workflows",
+      "summary_ko": "A curated list of awesome Claude Skills, resources, and tools for customizing Claude AI workflows",
+      "key_features": [
+        "자동화 기능 제공",
+        "오픈소스 호환성",
+        "손쉬운 설정"
+      ],
+      "use_case": "개발 프로세스를 간소화하고 싶을 때",
+      "install_hint": "README.md 파일의 설치 가이드를 참조하세요.",
+      "badge": "⭐ Classic",
+      "badges": [
+        "⭐ Classic"
+      ],
+      "tags": [
+        "agent-skills",
+        "ai-agents",
+        "antigravity",
+        "automation"
+      ],
+      "thumbnail_url": "https://github.com/ComposioHQ.png"
+    },
+    {
+      "id": "n8n-io/n8n",
+      "name": "n8n",
+      "owner": "n8n-io",
+      "title_ko": "n8n - Fair-code workflow automation ",
+      "official_url": "https://github.com/n8n-io/n8n",
+      "repo_url": "https://github.com/n8n-io/n8n",
+      "category": "mcp",
+      "score": 20,
+      "trend_score": 20,
+      "stars": 199260,
+      "velocity_7d": null,
+      "velocity_score": 0,
+      "growth_rate": 0,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [],
+      "status": "classic",
+      "catchphrase": "Fair-code workflow automation platform with native AI capabilities. Combine visual building with custom code, self-host ",
+      "summary_ko": "Fair-code workflow automation platform with native AI capabilities. Combine visual building with custom code, self-host or cloud, 400+ integrations.",
+      "key_features": [
+        "자동화 기능 제공",
+        "오픈소스 호환성",
+        "손쉬운 설정"
+      ],
+      "use_case": "개발 프로세스를 간소화하고 싶을 때",
+      "install_hint": "README.md 파일의 설치 가이드를 참조하세요.",
+      "badge": "⭐ Classic",
+      "badges": [
+        "⭐ Classic"
+      ],
+      "tags": [
+        "ai",
+        "apis",
+        "automation",
+        "cli"
+      ],
+      "thumbnail_url": "https://github.com/n8n-io.png"
+    }
+  ]
+}

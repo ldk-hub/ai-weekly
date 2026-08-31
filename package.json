@@ -9,8 +9,9 @@
     "data:stars": "node scripts/stars/collect-stars.js",
     "data:lounge": "node scripts/community/collect_lounge.js",
     "sync:obsidian": "node scripts/obsidian_export.js",
-    "data:plugins": "node scripts/plugins/collect.js && node scripts/plugins/curate.js",
-    "data:publish": "node scripts/plugins/publish-curated.js"
+    "data:plugins": "node scripts/plugins/collect.js && node scripts/plugins/scan-install-entry.js && node scripts/plugins/curate.js",
+    "data:publish": "node scripts/plugins/publish-curated.js",
+    "data:scan": "node scripts/plugins/scan-install-entry.js"
   },
   "devDependencies": {
     "sharp": "^0.35.1",
