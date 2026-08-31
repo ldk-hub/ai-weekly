@@ -1,8 +1,31 @@
 {
-  "generated_at": "2026-08-26T06:05:11.066Z",
-  "version": "v2026.08.26",
+  "generated_at": "2026-08-31T02:44:27.711Z",
+  "version": "v2026.08.31",
   "repo": "ldk-hub/ai-weekly",
-  "thread_total": 0,
-  "threads": [],
-  "comments": []
+  "thread_total": 1,
+  "threads": [
+    {
+      "number": 2,
+      "title": "오픈AI \"챗GPT 다음 단계는 '일하는 AI'\"...에이전트 중심 작업 자동화 선언",
+      "raw_title": "aitimes_d1bfee1857",
+      "url": "https://github.com/ldk-hub/ai-weekly/discussions/2",
+      "category": "General",
+      "author": "giscus",
+      "author_avatar": "https://avatars.githubusercontent.com/in/106117?v=4",
+      "created_at": "2026-08-27T05:00:17Z",
+      "updated_at": "2026-08-27T05:00:18Z",
+      "comment_count": 1
+    }
+  ],
+  "comments": [
+    {
+      "thread_number": 2,
+      "thread_title": "오픈AI \"챗GPT 다음 단계는 '일하는 AI'\"...에이전트 중심 작업 자동화 선언",
+      "url": "https://github.com/ldk-hub/ai-weekly/discussions/2#discussioncomment-18170928",
+      "author": "ldk-hub",
+      "author_avatar": "https://avatars.githubusercontent.com/u/12209348?u=ae69f5725be190ca29f15f919926e518e77e330a&v=4",
+      "created_at": "2026-08-27T05:00:18Z",
+      "body": "ㅋ"
+    }
+  ]
 }

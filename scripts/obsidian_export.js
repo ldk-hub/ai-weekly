@@ -24,7 +24,7 @@ function writeFile(filePath, content) {
 // 1. 메인 개요 (README.md)
 const README_CONTENT = `---
 title: AI위클리 (AI Weekly) — 프로젝트 총괄 대시보드
-date: 2026-08-27
+date: 2026-08-31
 type: project-hub
 tags: [ai-weekly, dashboard, architecture, automated-pipeline]
 status: active
@@ -50,7 +50,7 @@ graph TD
         A5[GitHub Search API] --> S
         A6[Bluesky Search] --> S
         A7[HF Daily Papers] --> S
-        A8[474개 OSS Repo Stars] --> S
+        A8[559개 OSS Repo Stars] --> S
     end
 
     subgraph "정밀 큐레이션 & 품질 게이트 (Phase 2)"
@@ -82,6 +82,7 @@ graph TD
 - [[04-giscus 라운지 및 커뮤니티 연동|💬 giscus 라운지 및 커뮤니티 연동 명세]]
 
 ### 📅 날짜별 작업 일지 (Work Logs)
+- [[2026-08-31 작업일지|📅 2026-08-31 작업일지 (주간 cc-trends, cc-star 559개 갱신, cc-news 20건 배포)]]
 - [[2026-08-27 작업일지|📅 2026-08-27 작업일지 (GLM-5.3-Flash 큐레이션, 474개 스타 갱신)]]
 - [[2026-08-26 작업일지|📅 2026-08-26 작업일지 (AI 트렌드 요약 #키워드 규격 혁신, AI 라운지 신규 구축)]]
 - [[2026-08-25 작업일지|📅 2026-08-25 작업일지 (주간 트렌드 큐레이션, 뉴스 파이프라인 최적화)]]
@@ -249,6 +250,60 @@ tags: [ai-weekly, lounge, giscus, github-discussions, community]
 
 // 3. 작업 일지들
 const LOGS = [
+  {
+    filename: "2026-08-31 작업일지.md",
+    title: "2026-08-31 작업일지 — 주간 트렌드 큐레이션, 559개 오픈소스 스타보드 최신화, 데일리 AI 뉴스 20건 배포",
+    date: "2026-08-31",
+    content: `---
+title: 2026-08-31 작업일지 — 주간 트렌드 큐레이션, 559개 오픈소스 스타보드 최신화, 데일리 AI 뉴스 20건 배포
+date: 2026-08-31
+type: work-log
+tags: [work-log, cc-star, cc-trends, cc-news, obsidian-sync]
+---
+
+# 📅 2026-08-31 작업일지
+
+## 1. 주요 파이프라인 수행 내역
+
+### 📈 1. 오픈소스 스타보드 (\`cc-star\`) 전수 갱신
+- **수행:** \`node scripts/stars/collect-stars.js\` 실행
+- **대상:** 559개 주요 AI/에이전트 오픈소스 리포지토리 전수 수집
+- **결과:**
+  - 성공률: **559 / 559 (100%)**
+  - 404 Gone 처리: 26개 리포지토리 상태 플래그 갱신
+  - 리네임 반영: 1개 리포지토리
+  - 원장 갱신: \`data/stars/stars_ledger.json\`, \`data/stars/stars_meta.json\` 및 프론트 미러링 완료
+
+### 🧩 2. 주간 플러그인 & 도구 트렌드 (\`cc-trends\`) 큐레이션
+- **수행:** \`collect.js\` 후보 수집 및 에이전트 직접 정밀 큐레이션
+- **선별:** Rising 18건 + Classic 11건 (총 29개 프로젝트)
+- **주요 등재 프로젝트:**
+  - 🔥 **Rising:** \`only-cli/oc\` (웹사이트를 에이전트 CLI로 변환), \`camilleroux/genart-skill\` (온체인 생성 예술), \`yetone/cumora\` (에이전트 협업 팀 챗), \`Leonxlnx/unlazy\` (뎁스 트리 안티-게으름 엔진), \`duty1g/x64dbg-mcp-server\` (역공학 디버깅 MCP), \`diegosouzapw/OmniRoute\` (350개 프로바이더 통합 게이트웨이) 등
+  - ⭐ **Classic:** \`Leonxlnx/taste-skill\`, \`Panniantong/Agent-Reach\`, \`nextlevelbuilder/ui-ux-pro-max-skill\`, \`Graphify-Labs/graphify\`, \`addyosmani/agent-skills\` 등
+- **산출물:** \`site/public/data/latest.json\`, \`data/archive/2026-08-31.json\`, RSS/OG 갱신 완료
+
+### 📰 3. 데일리 AI 기술 신호 (\`cc-news\`) 엄선 큐레이션
+- **수행:** 7대 매체 수집 → 20건 엄선 큐레이션 → \`--validate\` 게이트 통과
+- **신호 6축 분포:**
+  - \`model\` (1): 연속 확산 언어 모델(CDLM)의 부활
+  - \`product\` (2): 핫칩스 2026 AI 반도체 자동 설계, Academa STEM 강의 비디오 생성
+  - \`devtool\` (3): NVIDIA-labs OO Agents(NOOA), OpenTag 온콜 봇, Roomote PR 자동 배포 에이전트
+  - \`oss\` (4): codex-with-chatgpt, sepia 문체 복원 스킬, [업데이트] FrontierAgent TUI, agenttrail 시각화 캔버스
+  - \`research\` (3): Code as Worlds(물리 추론), ContextPilot(능동 컨텍스트 관리), LMSM(리눅스 보안 모듈 영감 가드레일)
+  - \`practice\` (4): Booking.com Weaviate 벡터 DB 선정기, AI 시대 데이터 계약 아키텍처, 우리은행 AI 에이전트 상담봇, Claude Code 커밋 Co-author 고찰
+  - \`policy\` (3): AI 데이터센터 폐열 냉각 97MW 확보, AI 검색 인용 조작 가상 싱크탱크 실태, llms.txt 미등록 패키지 보안 위협
+- **💡 AI 트렌드 요약:**
+  > **🔥 오늘의 핵심 키워드:** \`#컨텍스트관리\` \`#에이전트보안\` \`#확산언어모델\` — AI 에이전트의 장기 컨텍스트 최적화와 기업 내부망 보안 가드레일 연구가 가속화되고 있습니다. ldk-hub에서 큐레이션 하였습니다.
+- **품질 검증:** \`node scripts/news/curate_news.js --validate\` 100% 통과
+
+---
+
+## 2. 배포 및 동기화
+- RSS 피드 및 사이트맵 자동 생성 (\`generate-rss.js\`)
+- 라운지 커뮤니티 Discussions 스냅샷 갱신 (\`collect_lounge.js\`)
+- 옵시디언 볼트 문서화 동기화 (\`obsidian_export.js\`)
+`
+  },
   {
     filename: "2026-08-27 작업일지.md",
     title: "2026-08-27 작업일지 — 데일리 뉴스 큐레이션 및 474개 스타보드 갱신",
