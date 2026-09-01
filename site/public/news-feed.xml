@@ -6,346 +6,312 @@
     <atom:link href="https://ldk-hub.github.io/ai-weekly/news-feed.xml" rel="self" type="application/rss+xml" />
     <description>모델 릴리스 · 개발자 도구 · 오픈소스 · 연구 소식의 3줄 한국어 요약.</description>
     <language>ko</language>
-    <lastBuildDate>Mon, 31 Aug 2026 02:44:19 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 01 Sep 2026 00:50:07 GMT</lastBuildDate>
     <item>
-      <title>연속 확산 언어 모델(CDLM)의 부활 — 이산형 토큰을 넘어선 차세대 생성 패러다임</title>
-      <link>https://sander.ai/2026/08/24/continuous-dlms.html</link>
-      <guid isPermaLink="false">hackernews_f85d407f07</guid>
-      <pubDate>Sun, 30 Aug 2026 20:46:53 GMT</pubDate>
-      <category>새 모델·버전 출시·프리뷰·벤치마크</category>
-      <category>Hacker News</category>
-      <category>확산-모델</category>
-      <category>CDLM</category>
-      <category>언어-모델</category>
-      <category>비자기회귀</category>
-      <description>• 수년간 침체되었던 텍스트 연속 확산 모델(Continuous Diffusion Language Model)이 최신 연구와 결합하며 강력한 대안으로 재조명받고 있습니다.
-• 자기회귀(AR) 모델의 순차적 생성 지연을 극복하고 비연속적 병렬 생성과 유연한 제어 가능성을 제공합니다.
-• 텍스트와 연속적 멀티모달 표현을 단일 확산 공간에서 통합 학습할 수 있는 기술적 돌파구를 제시합니다.
-
-최근 인공지능 연구 커뮤니티에서 자기회귀(Autoregressive) 트랜스포머의 독주에 도전하는 연속 확산 언어 모델(CDLM)의 기술적 부활이 큰 주목을 받고 있습니다. 전통적인 언어 모델은 이산형 토큰을 왼쪽에서 오른쪽으로 한 글자씩 순차 생성하기 때문에 긴 텍스트 추론 시 레이턴시가 누적되고 전역적 구조 제어가 어렵다는 구조적 한계가 있었습니다. 반면 CDLM은 임베딩 공간에서 노이즈를 점진적으로 제거하는 방식을 취하여 전체 문장의 의미론적 구조를 한 번에 조율하고 병렬 생성을 수행할 수 있습니다. 최근 임베딩 공간 정규화 기법과 스케일링 법칙이 확립되면서 기존 GPT 계열 모델에 필적하는 언어 이해도와 퍼플렉시티를 달성한 실험 결과들이 속속 보고되고 있습니다. 텍스트, 오디오, 비디오를 구분 없이 단일 연속 공간에서 처리할 수 있어 진정한 네이티브 멀티모달 통합 모델의 핵심 기반이 될 것으로 기대됩니다.</description>
-    </item>
-    <item>
-      <title>ContextPilot — 세분화된 강화학습으로 컨텍스트를 능동 관리하는 장기 추론 에이전트</title>
-      <link>https://huggingface.co/papers/2608.28476</link>
-      <guid isPermaLink="false">hfpapers_93024220cc</guid>
-      <pubDate>Mon, 31 Aug 2026 00:00:00 GMT</pubDate>
+      <title>Claude Code Opus 5의 자동 모드(Auto Mode)에서 임의 코드 실행을 유발하는 프롬프트 인젝션 취약점 발견</title>
+      <link>https://embracethered.com/blog/posts/2026/breaking-claude-code-opus-5-and-automode/</link>
+      <guid isPermaLink="false">hackernews_7220f73011</guid>
+      <pubDate>Mon, 31 Aug 2026 07:49:18 GMT</pubDate>
       <category>연구·논문·새 기법</category>
-      <category>HF Daily Papers</category>
-      <category>ContextPilot</category>
-      <category>컨텍스트-관리</category>
-      <category>강화학습</category>
-      <category>장기-추론</category>
-      <description>• 다중 턴 상호작용에서 컨텍스트 윈도우 낭비를 막고 핵심 정보만 유지하도록 에이전트를 훈련시키는 ContextPilot이 발표되었습니다.
-• 세분화된 강화학습(Fine-grained RL) 보상 설계를 통해 컨텍스트 길이를 45% 줄이면서도 작업 완수율을 14.2% 높였습니다.
-• 긴 대화와 거대한 저장소 탐색 시 에이전트가 겪는 &apos;컨텍스트 질식(Context Choking)&apos; 문제를 근본적으로 해결합니다.
+      <category>Hacker News</category>
+      <category>Claude Code</category>
+      <category>보안 취약점</category>
+      <category>프롬프트 인젝션</category>
+      <category>Auto Mode</category>
+      <category>에이전트 보안</category>
+      <description>• 보안 연구진이 Claude Code Opus 5의 Auto Mode에서 단순 웹사이트 요약 요청만으로 임의 코드를 실행시키는 공격 기법을 공개했다.
+• 외부 평가에서 0%로 보고되었던 간접 프롬프트 인젝션 방어망을 우회하여 60~80%의 높은 공격 성공률을 기록했다.
+• 개발자가 신뢰할 수 없는 외부 웹페이지나 문서를 에이전트에 전달할 때 치명적인 보안 위험이 될 수 있음을 시사한다.
 
-장기적인(Long-horizon) 작업을 수행하는 자율 코딩 에이전트의 최대 난제인 컨텍스트 윈도우 관리 문제를 해결한 &apos;ContextPilot&apos; 논문이 허깅페이스 데일리 페이퍼에서 큰 주목을 받았습니다. 에이전트가 수십 차례에 걸쳐 도구를 호출하고 코드를 검색하다 보면 수십만 토큰의 히스토리가 누적되어 오히려 중요한 지침을 잊어버리는 &apos;컨텍스트 질식&apos; 현상이 발생합니다. 연구팀은 에이전트가 과거의 대화 기록 중 불필요한 노이즈를 압축하거나 폐기하고 핵심 변수만을 메모리에 선별 유지하도록 세분화된 RL 보상 함수를 구축했습니다. 실험 평가에서 ContextPilot이 적용된 에이전트는 전체 토큰 소비량을 45% 절감하면서도 SWE-bench 스타일의 복합 코딩 태스크 완수율을 기존 대비 14.2% 향상시켰습니다. 무조건 컨텍스트 길이를 늘리는 것보다 지능적으로 컨텍스트를 유지·정리하는 기술이 차세대 에이전트 성능의 핵심 열쇠임을 증명했습니다.</description>
+보안 연구자 Johann Rehberger가 최신 Claude Code Opus 5의 자동 모드(Auto Mode)를 무력화하는 간접 프롬프트 인젝션 취약점을 실증 분석했다. 사용자가 특정 웹페이지의 요약을 요청할 때 숨겨진 악성 지시문이 에이전트의 툴 실행 권한을 탈취하도록 유도하는 방식이다. 공식 벤치마크 평가에서는 프롬프트 인젝션 성공률이 0.00%로 보고되었으나, 실전 환경에서는 60%에서 80%에 달하는 확률로 공격자가 의도한 셸 명령이 실행되었다. 공격자는 저장소 내 파일 수정, 환경 변수 탈취, 원격 백도어 다운로드 등의 작업을 무단으로 수행할 수 있다. 에이전트가 외부 비신뢰 데이터를 읽어 툴 호출 결정을 내리는 구조적 취약점이 여전히 미해결 상태임을 보여준다. 자율 승인 모드를 사용할 때는 신뢰할 수 없는 웹 소스 조회를 격리하거나 엄격한 승인 샌드박스를 적용해야 한다.</description>
     </item>
     <item>
-      <title>핫칩스 2026, AI가 AI 반도체를 설계하는 칩 디자인 자동화의 대변혁 확인</title>
-      <link>https://www.aitimes.com/news/articleView.html?idxno=214627</link>
-      <guid isPermaLink="false">aitimes_4e2ca44a19</guid>
-      <pubDate>Sun, 30 Aug 2026 09:16:42 GMT</pubDate>
+      <title>오픈소스 개인 AI 비서 OpenClaw 2.0 출시, SQLite 기반 세션 및 브라우저 제어 전면 개편</title>
+      <link>https://news.hada.io/topic?id=33090</link>
+      <guid isPermaLink="false">geeknews_2cef301da5</guid>
+      <pubDate>Tue, 01 Sep 2026 00:17:35 GMT</pubDate>
+      <category>개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)</category>
+      <category>GeekNews</category>
+      <category>OpenClaw</category>
+      <category>AI 에이전트</category>
+      <category>브라우저 제어</category>
+      <category>SQLite</category>
+      <category>자동화</category>
+      <description>• 오픈소스 개인용 AI 에이전트 OpenClaw이 2.0 정식 버전을 출시했다.
+• 세션 저장 방식을 SQLite로 전환하고 공식 Chrome 확장 프로그램을 통한 로그인 세션 공유와 데스크톱 제어 권한을 강화했다.
+• 멀티플레이어 협업 세션과 Control UI 기반의 플러그인 관리로 복잡한 개발 자동화 워크플로우 구축이 쉬워진다.
+
+오픈소스 AI 비서 프레임워크 OpenClaw이 2.0으로 판올림하며 핵심 아키텍처를 대폭 개편했다. 기존 파일 기반 세션 관리 체계를 SQLite로 전환하여 대용량 대화 기록과 작업 상태의 안정성을 확보했다. 격리된 관리 프로필 및 공식 Chrome 확장 프로그램을 통해 사용자가 명시적으로 허용한 브라우저 탭과 데스크톱 창을 안전하게 제어할 수 있다. 이전 Cron 기능을 단일 자동화 체계로 통합하여 재시작 시 누락된 작업을 복구하고 세분화된 권한 정책을 적용한다. 또한 멀티플레이어 세션을 지원해 여러 작업자가 실시간으로 진행 중인 에이전트 컨텍스트를 공유하고 인수인계할 수 있다. 다만 SQLite 이전으로 인해 구버전으로 다운그레이드할 경우 사전 백업과 데이터 복원 절차가 필요하다.</description>
+    </item>
+    <item>
+      <title>구글, 제미나이 3.7 플래시 기반 멀티 에이전트 프레임워크 &apos;팀워크&apos; 공개</title>
+      <link>https://www.aitimes.com/news/articleView.html?idxno=214663</link>
+      <guid isPermaLink="false">aitimes_fbf65ee50d</guid>
+      <pubDate>Mon, 31 Aug 2026 08:31:46 GMT</pubDate>
       <category>제품 신기능</category>
       <category>AI타임스</category>
-      <category>핫칩스</category>
-      <category>AI-반도체</category>
-      <category>EDA-자동화</category>
-      <category>반도체-설계</category>
-      <description>• 세계적 반도체 학술대회 핫칩스 2026에서 빅테크 기업들이 차세대 AI 가속기를 AI 기반 EDA 툴로 직접 설계한 성과를 공개했습니다.
-• 회로 배치와 라우팅 최적화 시간을 수개월에서 수일로 단축하고 전력 효율을 15% 이상 개선했습니다.
-• 물리적 한계에 부딪힌 반도체 미세 공정 경쟁에서 AI 알고리즘이 칩 성능 향상의 핵심 동력으로 자리잡았습니다.
+      <category>구글</category>
+      <category>팀워크</category>
+      <category>제미나이 3.7 플래시</category>
+      <category>멀티 에이전트</category>
+      <category>자율 연구</category>
+      <description>• 구글 안티그래비티 팀이 제미나이 3.7 플래시를 탑재한 멀티 에이전트 프레임워크 팀워크(Teamwork)를 발표했다.
+• 에이전트 간 경쟁과 상호 검증 구조를 도입하여 장기 실행 작업에서 발생하는 오류 누적 문제를 해결했다.
+• 고비용 대형 모델 대신 경량 모델 협업으로 하드웨어 설계와 연구 난제를 저비용으로 자율 해결할 수 있게 된다.
 
-미국 실리콘밸리에서 개막한 글로벌 반도체 설계 학회 &apos;핫칩스(Hot Chips) 2026&apos;에서 인공지능을 활용한 반도체 자동 설계 기술이 핵심 화두로 부상했습니다. 엔비디아, 시놉시스, 케이던스 등 주요 반도체 및 EDA 기업들은 수십억 개 트랜지스터의 플로어플래닝과 클록 트리 합성을 생성형 AI와 강화학습으로 완전 자동화한 사례를 대거 발표했습니다. 사람이 수개월간 반복 수작업으로 진행하던 물리적 회로 설계를 AI가 단 며칠 만에 최적화하여 칩 면적을 줄이고 전력 소모를 15% 이상 개선하는 획기적인 결과를 달성했습니다. 무어의 법칙이 물리적 한계에 도달한 상황에서 AI 기반 하드웨어-소프트웨어 공동 설계(Co-design)가 성능 향상의 돌파구가 되고 있습니다. 반도체 엔지니어링의 패러다임이 수작업 튜닝에서 AI 에이전트를 통한 지능형 설계 파이프라인으로 급격히 재편되고 있음을 보여줍니다.</description>
+구글 안티그래비티 팀이 경량 추론 모델 제미나이 3.7 플래시를 기반으로 한 멀티 에이전트 오케스트레이션 프레임워크 &apos;팀워크(Teamwork)&apos;를 공개했다. 기존의 느슨하게 연결된 멀티 에이전트 구조는 초기 단계의 사소한 판단 착오가 최종 산출물 전체로 전파되는 치명적인 결함이 있었다. 팀워크는 다수의 에이전트를 역할별로 분할하고 상호 비판 및 경쟁적 교차 검증을 수행하도록 파이프라인을 재설계했다. 이를 통해 수시간에서 며칠 동안 이어지는 장시간 하드웨어 아키텍처 설계와 학술 연구 과제를 단일 대형 모델보다 훨씬 높은 정확도로 완수했다. 경량 플래시 모델을 적극 활용하여 대규모 컴퓨팅 비용을 획기적으로 낮추면서도 복잡한 문제 해결 역량을 입증했다. 향후 연구 및 복합 소프트웨어 엔지니어링 전반에 걸친 자율 에이전트 인프라로 자리 잡을 것으로 기대된다.</description>
     </item>
     <item>
-      <title>Code as Worlds — 물리적 추론을 위해 실행 가능한 시뮬레이션 코드를 스스로 발견하는 에이전트</title>
-      <link>https://huggingface.co/papers/2608.27549</link>
-      <guid isPermaLink="false">hfpapers_b9b588247f</guid>
-      <pubDate>Mon, 31 Aug 2026 00:00:00 GMT</pubDate>
-      <category>연구·논문·새 기법</category>
-      <category>HF Daily Papers</category>
-      <category>Code-as-Worlds</category>
-      <category>물리-추론</category>
-      <category>세계-모델</category>
-      <category>HF-논문</category>
-      <description>• 대형 비전-언어 모델이 복잡한 물리 세계를 이해하기 위해 파이썬 시뮬레이션 코드를 자체 구축하는 프레임워크가 제안되었습니다.
-• 단순 텍스트 추론 대비 물리 법칙 예측 및 충돌 시뮬레이션 벤치마크에서 정확도를 38.4% 획기적으로 향상시켰습니다.
-• 환각에 취약한 LLM이 결정론적 코드 엔진을 시뮬레이터로 활용하는 새로운 물리 지능 패러다임을 확립했습니다.
-
-MIT와 스탠포드 연구진이 허깅페이스 데일리 페이퍼를 통해 공개한 &apos;Code as Worlds&apos; 연구는 VLM(비전-언어 모델)의 물리적 직관 한계를 극복하는 새로운 해법을 제시했습니다. 기존 멀티모달 모델들은 겉모습만 보고 물리적 현상을 그럴듯하게 설명하지만 중력, 마찰력, 충돌 등의 복잡한 역학 상호작용 예측에서는 심각한 환각을 노출해 왔습니다. 연구팀은 에이전트가 주어진 비주얼 환경을 분석하여 이를 모사하는 컴팩트한 파이썬 물리 엔진 코드를 스스로 작성하고 실행하여 미래 상태를 예측하는 구조를 설계했습니다. 실험 결과 복잡한 물리적 추론 벤치마크(PhyRE 등)에서 기존 직접 추론 방식 대비 38.4% 높은 성공률을 기록했습니다. 인공지능이 세계 모델(World Model)을 신경망 파라미터가 아닌 실행 가능한 코드로 표현함으로써 해석 가능성과 정확도를 동시에 달성한 기념비적 연구로 평가받습니다.</description>
-    </item>
-    <item>
-      <title>NVIDIA-labs OO Agents — 순수 Python 클래스로 복잡한 에이전트를 모듈화하는 프레임워크</title>
-      <link>https://news.hada.io/topic?id=33059</link>
-      <guid isPermaLink="false">geeknews_b54e944f29</guid>
-      <pubDate>Mon, 31 Aug 2026 01:00:04 GMT</pubDate>
-      <category>개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)</category>
-      <category>GeekNews</category>
-      <category>엔비디아</category>
-      <category>파이썬-OOP</category>
-      <category>에이전트-프레임워크</category>
-      <category>NOOA</category>
-      <description>• 엔비디아 연구진이 표준 파이썬 객체지향 문법만으로 다중 에이전트 시스템을 설계하는 NOOA 프레임워크를 공개했습니다.
-• 복잡한 외부 DSL이나 프레임워크 종속성 없이 클래스 상속과 타입 힌트로 에이전트 상태와 도구를 제어합니다.
-• 복잡한 에이전트 로직을 익숙한 파이썬 패턴으로 구조화하여 유지보수성과 디버깅 효율을 대폭 향상시킵니다.
-
-엔비디아 랩스(NVIDIA-labs)가 에이전트 아키텍처의 복잡성을 낮추기 위해 객체지향 프로그래밍(OOP) 패러다임 기반의 NOOA(NVIDIA Object-Oriented Agents)를 오픈소스로 선보였습니다. 기존 에이전트 프레임워크들이 독자적인 체인 구조나 특수 설정 파일을 요구했던 것과 달리, NOOA는 순수 파이썬 클래스 정의와 메서드 데코레이터만으로 에이전트의 역할과 도구를 명시합니다. 에이전트 간의 통신과 상태 전환이 표준 파이썬 메서드 호출 형태로 추상화되어 기존 백엔드 시스템과의 통합이 매우 직관적입니다. 또한 타입 체커와 정적 분석 도구를 그대로 활용할 수 있어 런타임 프롬프트 오류를 사전에 방지할 수 있습니다. 대규모 엔터프라이즈 환경에서 검증된 파이썬 소프트웨어 엔지니어링 방법론을 에이전트 개발에 그대로 적용할 수 있는 강력한 대안으로 주목받고 있습니다.</description>
-    </item>
-    <item>
-      <title>LMSM — 리눅스 보안 모듈(LSM) 아키텍처에 착안한 LLM 내부 신호 기반 보안 프레임워크</title>
-      <link>https://huggingface.co/papers/2608.25697</link>
-      <guid isPermaLink="false">hfpapers_b6b13d58bc</guid>
-      <pubDate>Mon, 31 Aug 2026 00:00:00 GMT</pubDate>
-      <category>연구·논문·새 기법</category>
-      <category>HF Daily Papers</category>
-      <category>LMSM</category>
-      <category>LLM-보안</category>
-      <category>가드레일</category>
-      <category>리눅스-커널-보안</category>
-      <description>• 리눅스 커널의 보안 훅(Hook) 구조를 LLM의 레이어별 은닉 상태에 이식한 차세대 AI 가드레일 LMSM이 발표되었습니다.
-• 생성 과정 전반의 내부 신호를 실시간 인터셉트하여 탈옥(Jailbreak) 및 악성 프롬프트 탐지율 96.8%를 기록했습니다.
-• 프롬프트 래퍼 방식의 한계를 넘어 모델 내부 가중치 활성화 패턴을 직접 감시하는 심층 보안 체계를 구현했습니다.
-
-리눅스 운영체제의 핵심 보안 표준인 LSM(Linux Security Modules) 구조를 대형 언어 모델의 추론 파이프라인에 적용한 보안 아키텍처 &apos;LMSM&apos; 연구가 발표되었습니다. 기존의 LLM 안전 가드레일은 입출력 텍스트를 별도의 분류기 모델로 검사하는 방식이 주를 이루었으나, 복잡한 인코딩이나 다국어 탈옥 공격에 쉽게 뚫리는 취약점을 보였습니다. 연구팀은 리눅스 커널이 시스템 콜을 가로채 권한을 검사하듯, 트랜스포머 레이어 사이사이에 보안 훅을 배치해 모델의 내부 활성화 벡터를 실시간 모니터링하는 설계를 고안했습니다. 벤치마크 테스트에서 적대적 프롬프트 주입 공격을 96.8%의 초고정확도로 탐지하고 정상 프롬프트의 지연 시간 증가는 3% 미만으로 억제했습니다. AI 에이전트가 엔터프라이즈 시스템의 실제 권한을 행사하는 시대에 필수적인 OS 수준의 강력한 내부 보안 인프라를 제시한 것으로 평가됩니다.</description>
-    </item>
-    <item>
-      <title>codex-with-chatgpt — 기획은 ChatGPT가 주도하고 실행은 Codex가 전담하는 하이브리드 하네스</title>
-      <link>https://github.com/XiaoDuoYa/codex-with-chatgpt</link>
-      <guid isPermaLink="false">github_f32a5ebb28</guid>
-      <pubDate>Sun, 30 Aug 2026 17:19:55 GMT</pubDate>
-      <category>개인·소규모 개발자 오픈소스·라이브러리·실험 도구</category>
-      <category>GitHub</category>
-      <category>Codex</category>
-      <category>ChatGPT</category>
-      <category>오픈소스</category>
-      <category>하이브리드-에이전트</category>
-      <description>• ChatGPT의 깊이 있는 전략 기획 브레인과 Codex CLI의 안전한 터미널 실행력을 결합한 오픈소스 도구입니다.
-• OAuth 연동을 통해 복잡한 아키텍처 의사결정을 ChatGPT와 상의하고 검증된 계획을 Codex가 자동 실행합니다.
-• 일평균 획득 스타(stars_per_day) 130개를 기록하며 개발자 커뮤니티에서 폭발적인 반응을 얻고 있습니다.
-
-오픈소스 개발자 XiaoDuoYa가 ChatGPT의 고성능 추론 모델을 기획 두뇌로 삼고 Codex CLI를 로컬 코드 실행 하네스로 연동하는 &apos;codex-with-chatgpt&apos;를 공개했습니다. 많은 개발자들이 복잡한 프로젝트를 설계할 때 ChatGPT 웹 인터페이스의 풍부한 아이디어 도출 능력을 선호하지만 터미널과의 단절로 코드 적용에 번거로움을 겪어왔습니다. 이 도구는 Model Context Protocol(MCP)과 OAuth 인증을 통해 ChatGPT가 수립한 단계별 구현 계획을 로컬 Codex 환경으로 즉시 파이프라인 전송합니다. Codex는 주어진 명세에 따라 격리된 작업 공간에서 수술적 코드 수정을 수행하고 테스트 결과를 다시 ChatGPT에 피드백합니다. 출시 직후 하루 평균 130개 이상의 스타를 획득하며 두 거대 생태계의 장점만을 결합한 실전 하네스로 급부상하고 있습니다.</description>
-    </item>
-    <item>
-      <title>주요 AI 코딩 도구의 llms.txt 파싱 취약점 악용 — 미등록 패키지 침투 위협 경고</title>
-      <link>https://reddit.com/r/cybersecurity/comments/1w2pkbr/</link>
-      <guid isPermaLink="false">bluesky_5b1f510acc</guid>
-      <pubDate>Sun, 30 Aug 2026 21:42:50 GMT</pubDate>
-      <category>정책·규제·인프라 (기술 영향 큰 것만)</category>
-      <category>Bluesky</category>
-      <category>llms.txt</category>
-      <category>공급망-보안</category>
-      <category>에이전트-취약점</category>
-      <category>사이버-보안</category>
-      <description>• 6,200여 개 기업 도메인 조사 결과, AI 에이전트가 참조하는 llms.txt의 미등록 패키지를 악용한 공격 경로가 발견되었습니다.
-• Claude, Codex, Hermes 등 주요 에이전트가 신뢰할 수 없는 외부 저장소의 악성 코드를 설치하도록 유도될 수 있습니다.
-• 사내 에이전트 환경에서 llms.txt 및 외부 참조 링크에 대한 엄격한 도메인 화이트리스트 도입이 권고됩니다.
-
-사이버 보안 연구진이 포춘 500대 기업을 포함한 6,214개 기업 도메인을 전수 조사한 결과, AI 에이전트용 메타 파일인 &apos;llms.txt&apos;를 통한 심각한 공급망 보안 위협을 확인하고 주의를 당부했습니다. 조사 대상 중 120개 기업의 llms.txt 파일이 소유자가 만료되었거나 미등록된 패키지 저장소 및 외부 도메인을 가리키고 있는 것으로 드러났습니다. 공격자가 이러한 버려진 도메인을 선점할 경우, 해당 사이트를 참조하는 Claude Code, Codex, Hermes 등의 AI 코딩 에이전트가 악성 코드를 기업 내부망에 자동으로 다운로드하고 실행하게 만들 수 있습니다. AI 에이전트가 웹 문서를 자동으로 해석하고 설치 명령을 내리는 자율성이 커짐에 따라 새로운 형태의 공급망 인젝션 공격 표면이 열린 셈입니다. 기업 보안 팀은 AI가 참조하는 모든 외부 엔드포인트에 대해 철저한 도메인 소유권 감사와 네트워크 격리 정책을 즉시 적용해야 한다고 강조했습니다.</description>
-    </item>
-    <item>
-      <title>AI 검색 결과를 조작하기 위해 가상 싱크탱크와 합성 기사를 대량 양산한 실태 포착</title>
-      <link>https://www.404media.co/israel-is-running-a-synthetic-think-tank-to-influence-ai-search-results/</link>
-      <guid isPermaLink="false">hackernews_15287a8f0c</guid>
-      <pubDate>Mon, 31 Aug 2026 00:00:00 GMT</pubDate>
-      <category>정책·규제·인프라 (기술 영향 큰 것만)</category>
-      <category>Hacker News</category>
-      <category>AI-검색</category>
-      <category>GEO-조작</category>
-      <category>정보-오염</category>
-      <category>보안-거버넌스</category>
-      <description>• Perplexity, SearchGPT 등 AI 검색 엔진의 인용을 유도하기 위해 가짜 전문 연구소를 설립하고 합성 보고서를 배포한 사례가 적발되었습니다.
-• 100편 이상의 합성 기사를 통해 특정 지정학적 관점을 AI 인용 풀에 주입하려는 새로운 형태의 정보전이 확인되었습니다.
-• AI 검색의 신뢰성을 위협하는 &apos;인용 조작(GEO 오용)&apos; 위협에 대한 탐지 및 방어 체계 마련이 시급해졌습니다.
-
-탐사 보도 매체 404 Media가 생성형 AI 검색 엔진의 인용 알고리즘을 조작하기 위해 설립된 가상의 싱크탱크 &apos;하노버 공공정책 연구소&apos;의 실체를 폭로했습니다. 조사 결과 이 조직은 설립된 지 한 달도 되지 않아 100편 이상의 정교한 합성 분석 보고서를 쏟아냈으며, 실제 연구 인력 없이 특정 정치적 주장을 전문 싱크탱크의 견해인 것처럼 포장했습니다. 최근 많은 사용자들이 Perplexity나 ChatGPT Search와 같은 AI 검색을 통해 정보를 습득한다는 점을 노려, AI가 전문 출처로 인용하도록 유도하는 이른바 &apos;합성 SEO/GEO 공격&apos;을 실행한 것입니다. 전통적인 웹 스팸이 검색 순위를 조작했다면, 이제는 AI의 RAG(검색 증강 생성) 컨텍스트 풀 자체를 오염시키는 고도화된 정보 왜곡 위협이 현실화되었습니다. AI 검색 플랫폼들이 신뢰할 수 있는 출처를 판별하고 합성된 허위 싱크탱크를 필터링하는 검증 장치를 시급히 강화해야 한다는 지적이 잇따르고 있습니다.</description>
-    </item>
-    <item>
-      <title>OpenTag — Slack과 Teams에서 장애 온콜을 스스로 분류·처리하는 자체호스팅 AI 봇</title>
-      <link>https://github.com/CopilotKit/OpenTag</link>
-      <guid isPermaLink="false">bluesky_d80f35f7b7</guid>
-      <pubDate>Sun, 30 Aug 2026 22:12:53 GMT</pubDate>
-      <category>개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)</category>
-      <category>Bluesky</category>
-      <category>OpenTag</category>
-      <category>온콜-트리아지</category>
-      <category>LangGraph</category>
-      <category>슬랙-봇</category>
-      <description>• CopilotKit 팀이 LangGraph와 AG-UI를 기반으로 구축한 자체호스팅 오픈소스 온콜 트리아지 에이전트 OpenTag를 공개했습니다.
-• 슬랙 및 MS 팀즈 채널에 상주하며 시스템 알람과 오류 로그를 분석하고 담당 엔지니어를 자동으로 호출합니다.
-• 엔지니어링 온콜 당번의 알람 피로도를 줄이고 인시던트 초기 대응 시간을 평균 60% 단축시킵니다.
-
-엔터프라이즈 AI 도구 개발사 CopilotKit이 슬랙(Slack) 및 마이크로소프트 팀즈(Teams)와 연동되는 오픈소스 온콜 트리아지 에이전트 &apos;OpenTag&apos;를 선보였습니다. 시스템 장애가 발생했을 때 모니터링 알람이 쏟아져 온콜 엔지니어들이 겪는 알람 피로도를 해소하기 위해 설계된 도구입니다. LangGraph 기반의 상태 관리 엔진을 탑재하여 과거 인시던트 해결 내역과 런북(Runbook) 문서를 참조하고, 발생한 에러의 긴급도를 정확히 분류하여 관련 담당자에게 멘션을 보냅니다. 온프레미스 및 프라이빗 클라우드에 자체 호스팅이 가능하여 기업 내부 로그와 민감한 인프라 정보의 외부 유출 걱정이 없습니다. 오픈소스 저장소 포크 후 단 몇 가지 설정만으로 사내 메신저에 지능형 인시던트 봇을 즉시 배포할 수 있습니다.</description>
-    </item>
-    <item>
-      <title>Booking.com, 대규모 검색 고도화를 위해 OpenSearch 대신 Weaviate 벡터 DB 채택</title>
-      <link>https://news.hada.io/topic?id=33061</link>
-      <guid isPermaLink="false">geeknews_fae4a21743</guid>
-      <pubDate>Mon, 31 Aug 2026 01:55:31 GMT</pubDate>
-      <category>AI 활용 사례·워크플로우 팁</category>
-      <category>GeekNews</category>
-      <category>Weaviate</category>
-      <category>벡터-데이터베이스</category>
-      <category>부킹닷컴</category>
-      <category>시맨틱-검색</category>
-      <description>• 글로벌 여행 플랫폼 Booking.com이 대규모 시맨틱 검색 파이프라인의 벡터 데이터베이스로 Weaviate를 최종 선정했습니다.
-• 기존 OpenSearch 대비 하이브리드 검색 레이턴시와 대규모 벡터 인덱싱 메모리 효율에서 압도적인 벤치마크를 기록했습니다.
-• 대규모 프로덕션 트래픽 환경에서 실시간 임베딩 업데이트와 다국어 필터링 처리 능력을 입증했습니다.
-
-글로벌 온라인 여행사 Booking.com의 엔지니어링 팀이 수억 건의 숙소와 사용자 리뷰 검색을 시맨틱 기반으로 개편하면서 Weaviate를 도입한 기술적 여정을 공유했습니다. 기존에 운영 중이던 OpenSearch 기반 벡터 검색 플러그인은 대규모 동시 요청 시 힙 메모리 급증과 지연 시간 튀는 현상이 지속적인 한계로 지적되었습니다. 이에 팀은 Qdrant, Milvus, Weaviate 등을 포함한 종합 벤치마크를 수행했으며, Weaviate가 복잡한 메타데이터 필터링과 HNSW 벡터 인덱스 결합에서 가장 안정적인 p99 레이턴시를 유지했습니다. 특히 실시간 벡터 업데이트가 지속되는 상황에서도 무중단 인덱싱이 가능해 대형 서비스 운영 적합성에서 최고 점수를 받았습니다. 이번 사례는 대규모 엔터프라이즈 서비스가 범용 검색 엔진에서 전용 벡터 데이터베이스로 전환하는 대표적인 기술적 이정표가 될 것으로 평가됩니다.</description>
-    </item>
-    <item>
-      <title>[업데이트] FrontierAgent — 네이티브 TUI와 ReAct 팀 모드를 지원하는 경량 에이전트 프레임워크</title>
-      <link>https://github.com/ApodexAI/FrontierAgent</link>
-      <guid isPermaLink="false">github_f3c96bce8c</guid>
-      <pubDate>Mon, 31 Aug 2026 02:18:32 GMT</pubDate>
-      <category>개인·소규모 개발자 오픈소스·라이브러리·실험 도구</category>
-      <category>GitHub</category>
-      <category>FrontierAgent</category>
-      <category>TUI-대시보드</category>
-      <category>오픈소스</category>
-      <category>경량-에이전트</category>
-      <description>• 최근 배포 이후 스타 수가 급증한 FrontierAgent가 단일 바이너리 TUI 대시보드와 멀티 에이전트 팀 모드를 새롭게 탑재했습니다.
-• 이전 1,420개에서 1,780개로 스타가 25% 이상 성장하며 도커 의존성 없는 초경량 아키텍처를 완성했습니다.
-• macOS와 Linux 터미널 환경에서 단 하나의 명령어로 자율 코딩 팀을 즉시 가동할 수 있습니다.
-
-[업데이트] ApodexAI가 개발한 오픈소스 자율 코딩 에이전트 프레임워크 FrontierAgent가 대규모 기능 개선과 함께 스타 급증세를 이어가고 있습니다. 지난주 배포본에 등재된 이후 스타 수가 1,420개에서 1,780개로 가파르게 상승하며 개발자 커뮤니티의 높은 관심을 증명했습니다. 이번 릴리스에서는 복잡한 도커(Docker) 컨테이너 설정 없이 호스트 환경에서 안전하게 작동하는 네이티브 터미널 TUI 대시보드가 추가되었습니다. 사용자는 단일 명령어 실행만으로 ReAct 기반 단독 추론 모드와 여러 전문 에이전트가 협력하는 팀(Agent Team) 모드를 자유롭게 전환할 수 있습니다. 가벼운 설치 용량과 직관적인 키보드 단축키 제어를 통해 CLI 중심의 고속 개발 워크플로우에 최적화된 편의성을 제공합니다.</description>
-    </item>
-    <item>
-      <title>Academa — LLM과 컴퓨터 그래픽스 코드로 긴 STEM 강의 영상을 자동 생성하는 플랫폼</title>
-      <link>https://academa.ai/</link>
-      <guid isPermaLink="false">hackernews_0c7ea299f4</guid>
-      <pubDate>Sun, 30 Aug 2026 22:22:23 GMT</pubDate>
-      <category>제품 신기능</category>
-      <category>Hacker News</category>
-      <category>Academa</category>
-      <category>STEM-교육</category>
-      <category>Manim-애니메이션</category>
-      <category>비디오-생성</category>
-      <description>• 복잡한 수학 수식과 과학 원리를 코드로 작성하고 고품질 강의 비디오로 컴파일해주는 Academa가 공개되었습니다.
-• 단순 비디오 생성이 아닌 Manim 및 3Blue1Brown 스타일의 시각적 알고리즘 애니메이션을 완벽히 렌더링합니다.
-• 복잡한 과학 기술 교육 콘텐츠의 제작 비용과 시간을 혁신적으로 단축시키는 도구입니다.
-
-박사과정 연구진이 설립한 AI 에듀테크 스타트업 Academa가 LLM을 이용해 고난도 STEM(과학·기술·공학·수학) 강의 영상을 코드로 생성하는 혁신적인 플랫폼을 쇼 해커뉴스에 선보였습니다. 기존의 AI 비디오 생성기가 텍스트를 입력받아 픽셀 단위로 영상을 직접 생성하여 수식 뭉개짐이나 사실 오류가 빈번했던 것과 달리, Academa는 LLM이 그래픽스 코드(Manim 엔진 기반)를 작성하게 한 뒤 이를 컴파일하여 렌더링합니다. 이 방식을 통해 기하학적 다이어그램, 3차원 물리 시뮬레이션, 복잡한 미적분 수식 전개를 100% 정밀하고 선명한 벡터 그래픽으로 구현합니다. 음성 합성(TTS)과 시각 요소의 싱크가 밀리초 단위로 자동 정렬되어 전문 강사가 수주에 걸쳐 제작하던 고품질 강의를 단 몇 분 만에 완성합니다. 수학교육과 온라인 기술 튜토리얼 제작 생태계에 강력한 패러다임 변화를 가져올 것으로 기대됩니다.</description>
-    </item>
-    <item>
-      <title>agenttrail — 코딩 에이전트의 작업 계획과 파일 변경을 실시간 시각화하는 무한 캔버스</title>
-      <link>https://github.com/sodiumsun/agenttrail</link>
-      <guid isPermaLink="false">github_ec9c594de0</guid>
-      <pubDate>Mon, 31 Aug 2026 02:03:29 GMT</pubDate>
-      <category>개인·소규모 개발자 오픈소스·라이브러리·실험 도구</category>
-      <category>GitHub</category>
-      <category>agenttrail</category>
-      <category>에이전트-시각화</category>
-      <category>무한-캔버스</category>
-      <category>옵저버빌리티</category>
-      <description>• Claude Code, Codex, Cursor 세션의 도구 호출과 파일 수정 이력을 줌 가능한 라이브 맵으로 보여주는 도구입니다.
-• 외부 서버 통신이 전혀 없는 100% 로컬 제로 디펜던시 아키텍처로 기업 보안 환경에서도 안전하게 구동됩니다.
-• 일평균 110개 이상의 깃허브 스타를 획득하며 에이전트 옵저버빌리티(Observability) 시장의 라이징 스타로 부상했습니다.
-
-개발자 sodiumsun이 여러 코딩 에이전트의 활동 내역을 무한 캔버스 상의 실시간 다이어그램으로 시각화해주는 로컬 도구 &apos;agenttrail&apos;을 공개했습니다. 터미널에서 여러 에이전트를 동시에 가동할 때 어떤 파일이 수정되고 어떤 도구가 호출되었는지 한눈에 파악하기 어렵던 문제를 캔버스 맵 형태로 직관적으로 풀어냈습니다. 각 깃 저장소가 캔버스 상의 개별 영역으로 표시되며, 에이전트의 단계별 사고 과정(Plans), 파일 I/O, 디프(Diff) 변경 사항이 실시간 애니메이션으로 렌더링됩니다. 외부 클라우드 전송 없이 로컬 브라우저와 파일시스템 소켓만으로 구동되어 민감한 코드베이스에서도 안심하고 사용할 수 있습니다. 높은 일평균 스타 획득률을 기록하며 에이전트 세션을 모니터링하려는 개발자들의 필수 유틸리티로 급부상하고 있습니다.</description>
-    </item>
-    <item>
-      <title>Roomote — 단순 코드 제안을 넘어 완벽한 PR을 직접 배포하는 자체호스팅 에이전트</title>
-      <link>https://openalternative.co/roomote</link>
-      <guid isPermaLink="false">bluesky_00d0e37bad</guid>
-      <pubDate>Sun, 30 Aug 2026 18:00:11 GMT</pubDate>
-      <category>개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)</category>
-      <category>Bluesky</category>
-      <category>Roomote</category>
-      <category>PR-자동화</category>
-      <category>자체-호스팅</category>
-      <category>오픈소스-대안</category>
-      <description>• Codex, CodeRabbit 등의 대안으로 등장한 자체 호스팅 가능한 자율 소프트웨어 엔지니어링 도구 Roomote가 공개되었습니다.
-• 이슈 티켓과 사내 메신저를 연결하여 버그 원인을 분석하고 즉시 리뷰 가능한 풀 리퀘스트(PR)를 생성합니다.
-• 사내 인프라 내에서 코드가 안전하게 처리되는 소스 이용 가능(Source-available) 라이선스를 채택했습니다.
-
-상용 AI 코딩 서비스의 대안을 소개하는 플랫폼에서 자체 인프라에 배포 가능한 오픈소스 AI 소프트웨어 엔지니어 &apos;Roomote&apos;가 화제를 모았습니다. 기존 도구들이 채팅창에서 코드 조각을 제안하는 데 그쳤던 반면, Roomote는 저장소의 이슈 트래커와 직결되어 전체 코드베이스를 분석하고 실제 병합 가능한 완전한 PR을 생성합니다. 사용자의 로컬 환경 또는 프라이빗 서버에서 구동되므로 엄격한 보안 규정을 준수해야 하는 기업 환경에 이상적입니다. 깃허브 풀 리퀘스트 생성 후 자동화된 CI 테스트 결과를 관찰하고 실패 시 스스로 패치 코드를 수정하는 자기 교정 루프를 내장하고 있습니다. 개발자가 반복적인 마이너 버그 수정과 의존성 업데이트 작업에서 해방될 수 있도록 실질적인 자동화를 제공합니다.</description>
-    </item>
-    <item>
-      <title>sepia — AI 특유의 인위적 문체를 제거하고 전문적인 서사 구조를 복원하는 글쓰기 스킬</title>
+      <title>[업데이트] Sepia, 보이스 스킬 합성 인터페이스 도입 및 스타 1,200개 돌파</title>
       <link>https://github.com/Nanako0129/sepia</link>
       <guid isPermaLink="false">github_c7c14bc7c9</guid>
-      <pubDate>Sun, 30 Aug 2026 13:49:55 GMT</pubDate>
+      <pubDate>Mon, 31 Aug 2026 12:36:41 GMT</pubDate>
       <category>개인·소규모 개발자 오픈소스·라이브러리·실험 도구</category>
       <category>GitHub</category>
-      <category>sepia</category>
-      <category>문체-교정</category>
+      <category>Sepia</category>
+      <category>업데이트</category>
+      <category>De-AI</category>
+      <category>보이스 스킬</category>
       <category>오픈소스</category>
-      <category>claude-skill</category>
-      <description>• Claude Code, Codex, Antigravity 등 멀티 에이전트 환경에서 AI 작성 글의 기계적 냄새를 지워주는 스킬이 출시되었습니다.
-• 최신 연구 StoryScope(arXiv:2604.03136)에 기반하여 픽션의 서사 구조와 전문 저널의 문체 규칙을 정밀 복원합니다.
-• GitHub 일평균 70스타 이상의 모멘텀을 기록하며 기술 문서 및 콘텐츠 작성자들의 필수 도구로 안착 중입니다.
+      <description>• AI 문체 교정 스킬 Sepia가 지난 8월 31일 소개 이후 스타 수가 932개에서 1,231개로 32.1% 급증했다.
+• v0.4.0 릴리스를 통해 외부 브랜드 보이스 및 페르소나 가이드 스킬을 상단에 결합하는 합성 인터페이스를 추가했다.
+• 서사 구조 교정 후 작성자 고유의 문체를 선택적으로 입힐 수 있어 다양한 창작 환경 대응력이 확장되었다.
 
-개발자 Nanako0129가 대형 언어 모델이 작성한 글에서 흔히 발견되는 뻔한 서사 구조와 상투적인 표현을 제거해주는 전문 작문 스킬 &apos;sepia&apos;를 오픈소스로 배포했습니다. 최신 자연어 처리 논문 StoryScope의 서사 아키텍처 복원 기법을 채택하여 단순한 어휘 교체를 넘어 글의 전반적인 리듬감과 논리적 긴장감을 재구성합니다. Claude Code는 물론 OpenAI Codex, Grok Build, Google Antigravity 등 주요 에이전트 CLI에서 슬래시 커맨드로 손쉽게 호출할 수 있습니다. 학술 논문, 기술 백서, 문학적 에세이 등 각 분야별 엄격한 문체 가이드라인에 맞춘 교정 프리셋을 제공합니다. 깃허브 공개 이후 높은 모멘텀을 유지하며 AI가 작성한 초안을 출판 가능한 수준의 매끄러운 원고로 다듬어주는 핵심 스킬로 자리잡고 있습니다.</description>
+Sepia 저장소가 최근 배포 기준 932개였던 스타를 하루 만에 1,231개로 32.1% 늘리며 가파른 상승세를 이어가고 있다. 하루평균 획득 스타가 325개에 달할 만큼 개발자 커뮤니티의 관심이 집중되는 추세다. 이번 v0.4.0 업데이트에서는 미니멀리즘이나 브랜드 보이스 같은 외부 스타일 스킬을 위에 얹어 쓰는 합성 인터페이스가 실험적으로 도입되었다. 기본 서사 구조 교정을 먼저 수행한 뒤 사용자가 지정한 보이스 스킬의 시그니처 패턴을 선택적으로 반영하는 방식이다. Claude Code, Codex, Grok Build, Antigravity 4개 플랫폼에 대한 네이티브 패키징도 안정화되었다. 도구의 기본 구조 위에 개별 창작자의 어조를 유연하게 결합할 수 있는 기능 확장이 빠른 스타 증가를 견인했다.</description>
     </item>
     <item>
-      <title>AI 시대의 데이터 아키텍처 — 단순 저장을 넘어 시맨틱 계약과 컨텍스트 보증 중심으로 진화</title>
-      <link>https://news.hada.io/topic?id=33062</link>
-      <guid isPermaLink="false">geeknews_5b0becb3bf</guid>
-      <pubDate>Mon, 31 Aug 2026 01:58:07 GMT</pubDate>
-      <category>AI 활용 사례·워크플로우 팁</category>
+      <title>구글 연구진, 에이전트의 약점을 겨냥해 능동적으로 평가 환경을 바꾸는 &apos;엔브하네스&apos; 공개</title>
+      <link>https://www.aitimes.com/news/articleView.html?idxno=214657</link>
+      <guid isPermaLink="false">aitimes_8aece2b2b3</guid>
+      <pubDate>Mon, 31 Aug 2026 08:45:00 GMT</pubDate>
+      <category>연구·논문·새 기법</category>
+      <category>AI타임스</category>
+      <category>구글</category>
+      <category>EnvHarness</category>
+      <category>AI 벤치마크</category>
+      <category>강화학습</category>
+      <category>에이전트</category>
+      <description>• 구글 클라우드와 미 대학 공동 연구진이 적응형 AI 에이전트 평가 프레임워크인 EnvHarness를 발표했다.
+• 정적인 벤치마크 대신 AI의 취약점에 맞춘 동적 환경을 생성하여 기존 대비 에이전트 성공률을 최대 35% 끌어올렸다.
+• 고정된 벤치마크의 과적합 문제를 해결하고 실제 환경 적응력이 높은 자율 에이전트를 육성하는 기반을 제공한다.
+
+구글 클라우드 연구팀이 세인트루이스 워싱턴대 및 UNC 채플힐 연구진과 함께 정적 AI 벤치마크를 동적으로 전환하는 프로그래밍 가능 레이어 &apos;엔브하네스(EnvHarness)&apos;를 발표했다. 기존 AI 벤치마크는 고정된 테스트케이스로 작동해 모델의 실제 결함을 정밀하게 진단하거나 맞춤형 학습을 유도하지 못하는 한계가 있었다. 엔브하네스는 에이전트의 취약 지점을 실시간으로 포착하고 이에 맞춘 적응형 환경 변형을 주입하는 동적 파이프라인을 제안했다. 실험 결과 복잡한 다단계 의사결정 과제에서 기본 환경 대비 에이전트의 성공률이 최대 35% 향상되었으며 불필요한 토큰 낭비도 20% 이상 절감되었다. 기존의 정적 리더보드 점수 위주 평가에서 벗어나 실전 문제 해결 능력을 체계적으로 강화할 수 있는 훈련 플랫폼으로 주목받고 있다.</description>
+    </item>
+    <item>
+      <title>슬라이딩 윈도우 어텐션 싱크 기법, 복잡한 장문 추론에서 선형 어텐션 변형 모델들을 능가한다는 연구 결과</title>
+      <link>https://www.reddit.com/r/MachineLearning/comments/1w3j1vw/slidingwindow_attention_beats_linear_on/</link>
+      <guid isPermaLink="false">reddit_80c167d9b8</guid>
+      <pubDate>Mon, 31 Aug 2026 16:35:42 GMT</pubDate>
+      <category>연구·논문·새 기법</category>
+      <category>Reddit</category>
+      <category>슬라이딩 윈도우</category>
+      <category>어텐션 싱크</category>
+      <category>선형 어텐션</category>
+      <category>긴 문맥 추론</category>
+      <category>arXiv</category>
+      <description>• 최신 arXiv 연구에서 어텐션 싱크가 결합된 슬라이딩 윈도우 어텐션이 선형 어텐션 모델보다 우수한 장문 추론 성능을 보였다.
+• 복잡한 사후 학습(post-training) 연산 없이도 2차 복잡도 문제를 완화하면서 니들인어헤이스택 및 멀티홉 추론 정확도를 유지했다.
+• 고비용의 선형 어텐션 아키텍처 개조 대신 기존 트랜스포머의 효율적인 컨텍스트 확장이 가능함을 입증했다.
+
+대규모 언어모델의 2차 복잡도 비용을 해결하기 위해 개발된 선형 어텐션 변형 모델들이 단순한 슬라이딩 윈도우 방식보다 실제 장문 추론에서 뒤처질 수 있다는 연구가 발표되었다. 최신 arXiv 프리프린트에 따르면 초기 토큰을 보존하는 어텐션 싱크(Attention Sink)와 슬라이딩 윈도우를 조합한 고전적 기법이 복잡한 다단계 추론 벤치마크에서 선형 모델들을 지속적으로 앞섰다. 선형 어텐션 모델들은 상태 압축 과정에서 미세한 논리적 연결 고리를 유실하는 경향이 있는 반면, 윈도우 기반 구조는 핵심 문맥의 표현력을 온전히 보존했다. 방대한 연산 자원을 투입해 선형 모델을 사후 학습시키는 접근법의 실효성에 의문을 제기하는 결과다. 긴 문서 분석과 에이전트 메모리 시스템 설계 시 아키텍처 선택에 중요한 통찰을 제공한다.</description>
+    </item>
+    <item>
+      <title>headcount, 15개 부서와 125개 전문 스킬로 기업 조직을 모사하는 Claude Code 전용 에이전트 시스템</title>
+      <link>https://github.com/cbrock84/headcount</link>
+      <guid isPermaLink="false">github_2759eb5b50</guid>
+      <pubDate>Tue, 01 Sep 2026 00:30:20 GMT</pubDate>
+      <category>개인·소규모 개발자 오픈소스·라이브러리·실험 도구</category>
+      <category>GitHub</category>
+      <category>headcount</category>
+      <category>조직형 에이전트</category>
+      <category>Claude Code</category>
+      <category>에이전트 스킬</category>
+      <category>오픈소스</category>
+      <description>• 개발자 cbrock84가 실제 기업 조직 구조를 에이전트 스킬셋으로 구현한 오픈소스 headcount를 공개했다.
+• 기획, 개발, 보안, 마케팅 등 15개 부서에 걸친 125개 이상의 독립 설치 가능한 스킬을 모듈형으로 제공한다.
+• 일평균 259스타의 빠른 성장세를 보이며 복잡한 업무를 체계적으로 분업화하려는 개발자들의 호응을 얻고 있다.
+
+headcount는 개발자 cbrock84가 제작한 Claude Code 기반의 가상 기업 조직 오케스트레이션 오픈소스다. 엔지니어링, 제품 관리, QA, 보안 등 기업의 15개 핵심 부서 역할을 세분화된 스킬로 정의했다. 사용자는 125개 이상의 스킬 중 프로젝트에 필요한 부서와 역할만 선택하여 독립적으로 설치하고 호출할 수 있다. 각 스킬은 해당 직무의 전문적인 체크리스트와 산출물 표준을 내장하여 일관된 작업 결과를 도출한다. 단일 에이전트에 모든 프롬프트를 주입하던 기존 방식과 달리 직무별 컨텍스트를 깔끔하게 분리할 수 있다. 이 리포지토리는 공개 후 하루평균 259스타를 확보하며 누적 849스타를 달성해 가파른 상승세를 기록 중이다.</description>
+    </item>
+    <item>
+      <title>숭실대 연구진, 글로벌 사이버보안 벤치마크 91% 달성한 클로드 기반 취약점 분석 에이전트 &apos;무네메&apos; 개발</title>
+      <link>https://www.aitimes.com/news/articleView.html?idxno=214661</link>
+      <guid isPermaLink="false">aitimes_40a186b401</guid>
+      <pubDate>Mon, 31 Aug 2026 08:40:00 GMT</pubDate>
+      <category>개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)</category>
+      <category>AI타임스</category>
+      <category>무네메</category>
+      <category>보안 AI</category>
+      <category>사이버짐</category>
+      <category>취약점 분석</category>
+      <category>클로드</category>
+      <description>• 숭실대 AI안전성연구센터가 사이버보안 특화 멀티에이전트 시스템 무네메(mneme)를 공개했다.
+• 글로벌 벤치마크 CyberGym 1,507개 오픈소스 취약점 과제에서 91.0%의 단일 시도 성공률을 기록하며 글로벌 10위권에 올랐다.
+• 오픈소스 소프트웨어의 코드 분석부터 재현 스크립트 작성까지 자동화하는 실전 보안 도구로 활용될 수 있다.
+
+숭실대학교 AI안전성연구센터가 클로드 모델 기반의 사이버보안 취약점 분석 멀티에이전트 시스템 &apos;무네메(mneme)&apos;를 개발했다. 글로벌 오픈소스 보안 평가 체계인 사이버짐(CyberGym) 리더보드에서 국내 연구팀 최초로 10위권에 진입하는 성과를 거두었다. 사이버짐은 188개 오픈소스 프로젝트의 실제 취약점 1,507개를 대상으로 코드 분석, 경로 추적, 재현 코드 생성 및 실행 능력을 종합 평가한다. 무네메는 레벨 1 과제에서 91.0%의 단일 시도 성공률을 달성하며 마이크로소프트 등 글로벌 기업의 기존 시스템을 앞섰다. 복합 취약점 환경에서도 자율적으로 가설을 수립하고 디버깅 도구를 연동해 취약점을 검증하는 아키텍처를 채택했다. 향후 소프트웨어 공급망 보안 감사와 취약점 자동 패치 파이프라인의 핵심 도구로 확장될 전망이다.</description>
+    </item>
+    <item>
+      <title>VS Code용 GitHub Copilot 2026년 8월 릴리스, 마크다운 실시간 Diff 편집 및 러버덕 명령 추가</title>
+      <link>https://aka.ms/VSCode/Changelog</link>
+      <guid isPermaLink="false">bluesky_f771fe3f2b</guid>
+      <pubDate>Mon, 31 Aug 2026 19:47:57 GMT</pubDate>
+      <category>제품 신기능</category>
+      <category>Bluesky</category>
+      <category>VS Code</category>
+      <category>GitHub Copilot</category>
+      <category>Rubber Duck</category>
+      <category>마크다운</category>
+      <category>도구 업데이트</category>
+      <description>• 마이크로소프트와 GitHub이 VS Code용 GitHub Copilot의 2026년 8월 기능 업데이트를 발표했다.
+• 마크다운 diff를 직접 편집하며 검토하는 기능과 에이전트 작업의 다각도 검토를 위한 /rubber-duck 명령을 도입했다.
+• HTML 자동 새로고침 및 다국어 음성 프롬프트 지원으로 에이전트 기반 코딩 생산성이 한층 향상된다.
+
+마이크로소프트가 VS Code용 GitHub Copilot의 8월 최신 업데이트 내역을 공식 변경 로그를 통해 공개했다. 이번 버전에서는 문서의 실시간 편집 상태를 유지하면서 마크다운 diff를 즉시 검토할 수 있는 인라인 인터페이스가 추가되었다. 에이전트의 작업 결과물에 대해 다른 관점의 비판적 피드백을 요청할 수 있는 &apos;/rubber-duck&apos; 슬래시 명령어가 새롭게 도입되었다. 웹 프론트엔드 작업 시 HTML 파일의 변경 사항을 브라우저에 즉시 반영하는 자동 새로고침 기능도 포함되었다. 또한 다국어 음성 인식을 지원하여 키보드 입력 없이도 복잡한 프롬프트를 에이전트에 자연어로 구술할 수 있다. 개발자가 에이전트와 상호작용하는 전반적인 개발 편의성을 크게 개선한 업데이트다.</description>
+    </item>
+    <item>
+      <title>Goldie, 코딩 에이전트가 iOS 앱스토어 스크린샷과 프리뷰 영상을 자동 생성하는 도구</title>
+      <link>https://github.com/kacperkapusciak/goldie</link>
+      <guid isPermaLink="false">github_acf3959ee9</guid>
+      <pubDate>Mon, 31 Aug 2026 11:36:17 GMT</pubDate>
+      <category>개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)</category>
+      <category>GitHub</category>
+      <category>Goldie</category>
+      <category>앱스토어 스크린샷</category>
+      <category>TypeScript</category>
+      <category>iOS 자동화</category>
+      <category>코딩 에이전트</category>
+      <description>• 개발자 kacperkapusciak이 코딩 에이전트와 연동해 앱스토어 에셋을 자동 제작하는 TypeScript 도구 Goldie를 공개했다.
+• 시뮬레이터 플로우를 녹화하고 디바이스 프레임 합성 및 지역화된 마케팅 텍스트를 결합해 앱스토어 규격 이미지를 생성한다.
+• 일평균 133스타의 높은 유입률을 기록하며 앱 배포 단계의 수작업을 자동화하려는 모바일 개발자들의 주목을 받고 있다.
+
+Goldie는 개발자 kacperkapusciak이 개발한 iOS 앱스토어 마케팅 에셋 자동 생성 도구다. 코딩 에이전트가 앱 구현을 마친 뒤 앱스토어 제출에 필요한 스크린샷과 비디오 프리뷰를 자동으로 렌더링하도록 돕는다. 시뮬레이터 상의 사용자 인터랙션 흐름을 캡처한 뒤 최신 디바이스 프레임과 다국어 카피를 정교하게 합성한다. 기존에 그래픽 도구를 사용해 수작업으로 편집해야 했던 번거로운 배포 준비 과정을 스크립트 한 줄로 단축했다. 이 프로젝트는 하루평균 133스타의 가파른 증가세를 기록하며 999스타를 달성하는 등 모바일 엔지니어 커뮤니티에서 인기를 끌고 있다. 릴리스 자동화 파이프라인에 통합하여 앱 버전이 바뀔 때마다 스크린샷을 항상 최신 상태로 유지할 수 있다.</description>
+    </item>
+    <item>
+      <title>Hister, 방문 웹페이지와 로컬 파일을 색인하는 개인용 오픈소스 검색엔진</title>
+      <link>https://news.hada.io/topic?id=33094</link>
+      <guid isPermaLink="false">geeknews_46bd26ba76</guid>
+      <pubDate>Tue, 01 Sep 2026 00:40:02 GMT</pubDate>
+      <category>개인·소규모 개발자 오픈소스·라이브러리·실험 도구</category>
       <category>GeekNews</category>
-      <category>데이터-아키텍처</category>
-      <category>데이터-계약</category>
-      <category>시맨틱-레이어</category>
-      <category>AI-거버넌스</category>
-      <description>• AI 코딩 및 자율 에이전트 도입에 맞춰 데이터 엔지니어링의 핵심이 저장 중심에서 의미론적 데이터 계약(Data Contract)으로 이동하고 있습니다.
-• LLM이 데이터를 정확히 해석할 수 있도록 스키마 수준에서 컨텍스트 메타데이터와 검증 규칙을 강제하는 패턴이 부상했습니다.
-• 환각을 줄이고 에이전트가 신뢰할 수 있는 데이터 파이프라인을 구축하기 위한 아키텍처 가이드라인을 제공합니다.
+      <category>개인 검색엔진</category>
+      <category>오픈소스</category>
+      <category>시맨틱 검색</category>
+      <category>로컬 AI</category>
+      <category>MCP</category>
+      <description>• 개발자 asciimoo가 방문 웹페이지와 로컬 파일 본문 전체를 색인하는 개인 검색엔진 Hister를 공개했다.
+• 브라우저 확장 프로그램과 로컬 크롤러로 데이터를 수집하며 Ollama나 llama.cpp를 연동한 시맨틱 검색과 MCP를 지원한다.
+• AI 에이전트가 로컬 자료 및 웹 탐색 기록을 직접 검색할 수 있는 지식 저장소로 활용할 수 있다.
 
-데이터 엔지니어링 전문 커뮤니티에서 AI 에이전트가 직접 쿼리를 생성하고 데이터를 소비하는 환경에 대응하는 차세대 데이터 아키텍처 원칙이 제시되었습니다. 과거의 데이터 파이프라인이 데이터 레이크에 방대한 데이터를 적재하고 변환하는 물리적 처리에 집중했다면, 현대 아키텍처는 각 데이터의 의미(Semantics)와 품질을 보증하는 계약(Contract)이 최우선시됩니다. 에이전트가 데이터의 비즈니스 맥락을 오해하여 잘못된 통계를 내거나 환각을 일으키는 것을 방지하기 위해 정형화된 메타데이터 정의서가 파이프라인의 필수 구성 요소로 자리 잡았습니다. OpenLineage 및 dbt 시맨틱 레이어를 활용해 데이터 계보와 비즈니스 용어를 에이전트에 실시간 주입하는 설계가 표준화되고 있습니다. 향후 AI 중심 엔터프라이즈 시스템 구축 시 데이터 거버넌스와 의미 계층 설계가 시스템 성패를 가를 핵심 역량으로 대두되고 있습니다.</description>
+Hister는 개발자 asciimoo가 AGPL-3.0 라이선스로 공개한 개인 맞춤형 오픈소스 검색엔진이다. 단순한 URL과 제목뿐만 아니라 방문했던 웹페이지의 본문 전체와 로컬 문서를 실시간으로 색인한다. 사용자는 Firefox나 Chrome 브라우저 확장 프로그램을 설치하여 브라우징 기록을 자동 저장하거나 로컬 디렉터리를 직접 지정해 색인할 수 있다. Ollama, llama.cpp, OpenAI API 등 임베딩 서버를 연결하면 키워드가 정확히 일치하지 않아도 유사 의미 문서를 탐색하는 시맨틱 검색이 작동한다. 웹 인터페이스뿐만 아니라 CLI, TUI, 그리고 MCP 커넥터를 제공하므로 AI 에이전트의 로컬 컨텍스트 검색 도구로 손쉽게 결합할 수 있다. 다중 사용자 환경에서도 계정별로 데이터가 완벽히 격리되며 리눅스, macOS, 윈도우 환경에서 단일 바이너리로 구동된다.</description>
     </item>
     <item>
-      <title>AI 데이터센터 폐열을 냉각으로 재활용해 연산용 가용 전력 97MW 추가 확보</title>
-      <link>https://www.aitimes.com/news/articleView.html?idxno=214631</link>
-      <guid isPermaLink="false">aitimes_4d1448a649</guid>
-      <pubDate>Mon, 31 Aug 2026 02:00:00 GMT</pubDate>
+      <title>EU 집행위원회, ChatGPT를 디지털서비스법(DSA)상 &apos;초대형 검색엔진(VLOSE)&apos;으로 공식 지정</title>
+      <link>https://www.reddit.com/r/OpenAI/comments/1w3e3ya/eu_designates_chatgpt_a_very_large_search_engine/</link>
+      <guid isPermaLink="false">reddit_515c22e949</guid>
+      <pubDate>Mon, 31 Aug 2026 13:38:45 GMT</pubDate>
       <category>정책·규제·인프라 (기술 영향 큰 것만)</category>
-      <category>AI타임스</category>
-      <category>AI-데이터센터</category>
-      <category>폐열-냉각</category>
-      <category>에너지-효율</category>
-      <category>인프라-전력</category>
-      <description>• AI 데이터센터의 발전 과정에서 발생하는 고온 폐열을 흡수식 냉각에 재활용하는 에너지 절감 아키텍처가 제안되었습니다.
-• 1GW급 초대형 AI 데이터센터 기준으로 냉각 전력을 대폭 절감하여 최대 97MW를 GPU 연산에 추가 투입할 수 있습니다.
-• 전력망 공급 병목 현상을 완화하고 친환경 고밀도 컴퓨팅 인프라를 구축할 수 있는 실질적 해법을 제시합니다.
+      <category>Reddit</category>
+      <category>EU</category>
+      <category>디지털서비스법</category>
+      <category>ChatGPT</category>
+      <category>VLOSE</category>
+      <category>AI 규제</category>
+      <description>• 유럽연합(EU) 집행위원회가 OpenAI의 ChatGPT를 디지털서비스법(DSA)에 따른 초대형 온라인 검색엔진으로 지정했다.
+• 월간 활성 사용자 4,500만 명을 초과함에 따라 시스템 위험 평가와 알고리즘 투명성, 데이터 외부 감사 의무가 부과된다.
+• 생성형 AI 챗봇이 독립적인 검색 플랫폼으로 공식 인정받으면서 글로벌 빅테크의 검색 서비스 운영 규제가 강화된다.
 
-미국 빌딩 설비 및 냉난방 엔지니어링 연구팀이 AI 데이터센터의 자체 발전 과정에서 버려지는 폐열을 흡수식 냉각 시스템의 구동 에너지로 전환하는 신개념 에너지 순환 설계를 발표했습니다. 생성형 AI 훈련과 추론으로 인해 데이터센터 전력 수요가 기하급수적으로 폭증하면서 전력망 용량이 인프라 확장의 최대 병목으로 지목되어 왔습니다. 이번에 제안된 열병합 흡수식 냉각 아키텍처는 가스터빈 발전 시 배출되는 폐열을 활용해 냉각탑 전력 소모를 극적으로 줄임으로써 1GW 데이터센터 기준 최대 97MW의 잉여 전력을 확보합니다. 이렇게 절감된 전력은 고스란히 추가적인 GPU 및 NPU 클러스터 가동에 투입될 수 있어 컴퓨팅 밀도를 10% 가까이 끌어올릴 수 있습니다. 인공지능 인프라 경쟁이 단순히 칩 성능을 넘어 전력과 열역학적 효율화 기술로 확장되고 있음을 보여줍니다.</description>
+유럽연합 집행위원회가 OpenAI의 ChatGPT를 디지털서비스법(DSA) 적용 대상인 초대형 온라인 검색엔진(VLOSE)으로 공식 지정했다. 이번 조치로 ChatGPT는 독립형 생성형 AI 서비스 중 최초로 EU의 가장 엄격한 플랫폼 규제 체계 안에 편입되었다. EU 내 월평균 활성 이용자가 4,500만 명을 돌파함에 따라 유해 콘텐츠 확산 방지, 불법 정보 차단, 알고리즘 위험 평가 의무를 이행해야 한다. 또한 독립 감사 기관과 공인 연구자들에게 시스템 내부 데이터 및 동작 알고리즘에 대한 접근권을 의무적으로 개방해야 한다. 글로벌 검색 시장에서 생성형 AI의 영향력이 커짐에 따라 기술 기업들의 컴플라이언스 준수 비용과 책임이 크게 늘어날 전망이다.</description>
     </item>
     <item>
-      <title>우리은행, KT와 손잡고 금융 상담 전반에 자율 AI 에이전트 챗봇·상담봇 전면 구축</title>
-      <link>https://www.aitimes.com/news/articleView.html?idxno=214634</link>
-      <guid isPermaLink="false">aitimes_1b14fddb9d</guid>
-      <pubDate>Mon, 31 Aug 2026 02:35:20 GMT</pubDate>
+      <title>AI 에이전트의 인증 아키텍처가 기존 사용자 인증과 근본적으로 달라야 하는 이유</title>
+      <link>https://hackernoon.com/why-ai-agent-authentication-cant-be-treated-like-user-authentication</link>
+      <guid isPermaLink="false">bluesky_7ec5958d6c</guid>
+      <pubDate>Mon, 31 Aug 2026 23:32:13 GMT</pubDate>
       <category>AI 활용 사례·워크플로우 팁</category>
-      <category>AI타임스</category>
-      <category>우리은행</category>
-      <category>금융-에이전트</category>
-      <category>KT</category>
-      <category>AI-상담봇</category>
-      <description>• 우리은행이 KT를 사업자로 선정하여 고객 대고객 챗봇과 콜센터 상담봇 인프라를 AI 에이전트 체계로 전면 재구축합니다.
-• 단순 시나리오 기반 응답을 넘어 금융 상품 추천부터 복잡한 예적금·대출 업무 처리까지 원스톱으로 지원합니다.
-• 금융권 레거시 코어뱅킹 시스템과 대형 언어 모델의 안전한 결합 사례를 구축할 계획입니다.
+      <category>Bluesky</category>
+      <category>에이전트 인증</category>
+      <category>보안 아키텍처</category>
+      <category>OAuth</category>
+      <category>샌드박스</category>
+      <category>자율성</category>
+      <description>• 보안 엔지니어 Rodrigo Martinez Pinto가 AI 에이전트 전용 인증 체계의 필요성을 분석한 아키텍처 기고문을 공개했다.
+• 자율적으로 도구를 탐색하고 연쇄 호출하는 에이전트의 특성상 일회성 토큰 기반 사용자 인증은 권한 남용 위험을 초래한다.
+• 세분화된 컨텍스트 스코프, 임시 위임 권한, 실시간 호출 모니터링을 결합한 에이전트 맞춤형 보안 설계가 요구된다.
 
-우리은행이 비대면 금융 상담 서비스의 품질을 획기적으로 고도화하기 위해 KT와 협력하여 차세대 AI 챗봇 및 상담봇 구축 사업에 착수했습니다. 기존 챗봇이 정해진 키워드와 시나리오 트리에 따라 답변을 제시하는 수준에 그쳤다면, 이번 재구축 시스템은 자율 에이전트가 고객의 의도를 종합 파악하여 복잡한 금융 업무를 능동적으로 처리합니다. KT의 대규모 금융 특화 LLM과 안전 가드레일 기술이 결합되어 민감한 개인정보 보호와 금융 규제 준수를 완벽히 충족합니다. 고객은 자연스러운 음성과 텍스트 대화를 통해 맞춤형 자산 관리 조언부터 실제 거래 실행까지 중단 없이 진행할 수 있게 됩니다. 금융권의 AI 도입이 단순 정보 안내 봇에서 실질적인 업무를 완결하는 액션 에이전트 단계로 진화하고 있음을 나타냅니다.</description>
+소프트웨어 보안 엔지니어 Rodrigo Martinez Pinto가 AI 에이전트 시스템에 기존 사용자 인증 체계를 그대로 적용할 때 발생하는 구조적 위험을 심층 분석했다. 인간 사용자는 직관적인 세션 범위 내에서 인터랙션을 수행하지만, 자율 에이전트는 예기치 못한 도구 호출을 연쇄적으로 발생시킬 수 있다. 기존 OAuth 토큰이나 장기 API 키를 그대로 부여할 경우 프롬프트 인젝션이나 오작동 시 치명적인 권한 탈취 사고로 이어지기 쉽다. 저자는 에이전트의 구체적인 작업 컨텍스트에 따라 권한의 범위와 유효 시간을 극도로 제한하는 세분화된 위임 체계를 제안한다. 또한 도구 실행 시점마다 사전 정책과의 일치성을 검증하는 게이트웨이와 실시간 모니터링 샌드박스를 필수 요소로 강조했다. 점차 복잡해지는 기업용 멀티 에이전트 인프라를 구축할 때 필수적으로 고려해야 할 보안 아키텍처 지침이다.</description>
     </item>
     <item>
-      <title>개발자 커뮤니티의 깃 커밋 논쟁 — Claude Code 자동 Co-author 등록의 득과 실</title>
-      <link>https://igupta.in/blog/why-i-am-no-longer-letting-claude-code-add-itself-as-coauthor/</link>
-      <guid isPermaLink="false">hackernews_b317bb15b6</guid>
-      <pubDate>Sun, 30 Aug 2026 19:47:53 GMT</pubDate>
+      <title>Codexify, 웹 기반 ChatGPT에서 무제한 로컬 도구 연동을 지원하는 Rust 오픈소스 CLI</title>
+      <link>https://github.com/devnoname120/codexify</link>
+      <guid isPermaLink="false">hackernews_91f65af367</guid>
+      <pubDate>Mon, 31 Aug 2026 07:33:05 GMT</pubDate>
+      <category>개인·소규모 개발자 오픈소스·라이브러리·실험 도구</category>
+      <category>Hacker News</category>
+      <category>Codexify</category>
+      <category>ChatGPT</category>
+      <category>Rust</category>
+      <category>로컬 도구</category>
+      <category>오픈소스</category>
+      <description>• 개발자 devnoname120이 ChatGPT 웹 인터페이스와 로컬 환경을 연결하는 Rust 도구 Codexify를 공개했다.
+• 브라우저의 ChatGPT 세션과 로컬 프로세스를 직접 브리지하여 터미널 명령 실행 및 파일 조작 환경을 구성한다.
+• 별도의 유료 API 결제 없이 기존 ChatGPT 구독 환경에서 로컬 코딩 에이전트 기능을 활용할 수 있다.
+
+Codexify는 개발자 devnoname120이 Rust로 개발하여 공개한 오픈소스 CLI 도구다. OpenAI의 공식 API 토큰 없이도 웹 브라우저에서 실행 중인 ChatGPT 세션을 로컬 머신과 안전하게 연결한다. 사용자는 단일 명령어로 바이너리를 실행하고 로컬 디렉터리 접근 및 파일 수정 권한을 ChatGPT에 부여할 수 있다. 자체적인 CLI 인자 체계와 상세한 설정 옵션을 갖추고 있어 터미널 환경에 익숙한 개발자가 빠르게 적용할 수 있다. 웹 대화창에서 생성된 코드를 복사해 붙여넣는 수작업 없이 에이전트가 직접 로컬 프로젝트를 조작하도록 지원한다. Rust 기반으로 작성되어 메모리 사용량이 극히 적고 가볍게 동작하는 것이 큰 장점이다.</description>
+    </item>
+    <item>
+      <title>Claude의 프론트엔드 UI 품질을 극대화하는 마크다운 디자인 가이드라인 워크플로우</title>
+      <link>https://www.reddit.com/r/ClaudeAI/comments/1w3jydv/i_was_wrong_about_claudes_ui_skills/</link>
+      <guid isPermaLink="false">reddit_a057a408d5</guid>
+      <pubDate>Mon, 31 Aug 2026 17:06:57 GMT</pubDate>
+      <category>AI 활용 사례·워크플로우 팁</category>
+      <category>Reddit</category>
+      <category>Claude</category>
+      <category>UI 디자인</category>
+      <category>디자인 시스템</category>
+      <category>프롬프트 팁</category>
+      <category>워크플로우</category>
+      <description>• 한 개발자가 Claude를 활용한 UI 디자인 작업 시 결과물의 완성도를 대폭 향상시키는 실전 가이드라인을 공유했다.
+• 테두리 배제, 부드러운 그림자, 여백 확장, 베지어 곡선 애니메이션 등 구체적 규칙을 마크다운 문서로 정의해 모델에 주입했다.
+• 막연한 생성 요청 대신 체계화된 디자인 토큰 문서를 전달함으로써 고품질 UI 코드를 일관되게 생성할 수 있다.
+
+Claude를 이용해 웹 UI를 생성할 때 흔히 발생하는 조잡한 결과물을 방지하기 위한 실용적인 워크플로우가 커뮤니티에서 화제를 모았다. 작성자는 초기 와이어프레임을 잡은 뒤 테두리 최소화, 자연스러운 다층 그림자, 넉넉한 여백, 베지어 곡선 트랜지션 등의 디자인 규칙을 마크다운 파일로 정문화했다. 이 가이드라인 문서를 Claude의 컨텍스트에 고정하고 UI 키트를 작성하게 하자 기존과 완전히 다른 세련된 디자인이 출력되었다. 단순한 감각적 지시보다 수치화된 디자인 시스템 토큰과 금지 규칙을 명확히 제공하는 것이 핵심 성공 요인으로 꼽혔다. 프론트엔드 코딩 에이전트를 도입하는 개발팀이 즉시 프로젝트 룰셋에 적용할 수 있는 유용한 프롬프트 엔지니어링 팁이다.</description>
+    </item>
+    <item>
+      <title>49 IDE, 여러 코딩 에이전트 CLI를 2D 캔버스에서 병렬 추적하는 오픈소스 워크스페이스</title>
+      <link>https://github.com/alpbahadur/49-IDE</link>
+      <guid isPermaLink="false">hackernews_0063de33d3</guid>
+      <pubDate>Mon, 31 Aug 2026 21:05:32 GMT</pubDate>
+      <category>개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)</category>
+      <category>Hacker News</category>
+      <category>49 IDE</category>
+      <category>2D 캔버스</category>
+      <category>멀티 에이전트</category>
+      <category>CLI 관리</category>
+      <category>개발 도구</category>
+      <description>• 개발자 myradism이 여러 에이전트 CLI를 2차원 공간에서 동시 시각화하고 제어하는 49 IDE를 공개했다.
+• 기기 간 분산된 15개 이상의 CLI 터미널, Git 트리, 이슈, UI 프리뷰를 단일 캔버스 위에서 실시간 모니터링한다.
+• 대규모 병렬 에이전틱 코딩 작업을 진행할 때 컨텍스트 스위칭 비용을 줄이고 작업 흐름을 한눈에 조율할 수 있다.
+
+49 IDE는 다수의 코딩 에이전트 CLI를 단일 2차원 무한 캔버스에서 통합 관리할 수 있도록 설계된 개발 도구다. 복수의 제공자와 저장소에서 실행되는 터미널, Git 브랜치 트리, 사용량, 이슈 상태를 실시간 시각 카드로 배치한다. 최대 15개 이상의 CLI가 각자 독립된 머신이나 프로세스에서 코드를 수정하는 과정을 한눈에 파악할 수 있다. 기기 간 원격 동기화를 지원하여 스마트폰이나 태블릿에서도 개발 PC의 에이전트 진행 상황을 추적하고 명령을 보낼 수 있다. 여러 에이전트 창을 개별 터미널 탭으로 전환하며 겪던 컨텍스트 분실 문제를 공간적 배치로 해결했다. 극단적인 병렬 에이전트 코딩 워크플로우를 운영하는 개발자들에게 유용한 오케스트레이션 환경을 제공한다.</description>
+    </item>
+    <item>
+      <title>SlideOps, 코드베이스 변경 시 슬라이드의 내용 괴리를 자동 감지하는 프레젠테이션 스킬</title>
+      <link>https://github.com/glukicov/slideops</link>
+      <guid isPermaLink="false">hackernews_5096b99136</guid>
+      <pubDate>Mon, 31 Aug 2026 12:15:10 GMT</pubDate>
       <category>AI 활용 사례·워크플로우 팁</category>
       <category>Hacker News</category>
-      <category>Claude-Code</category>
-      <category>Git-커밋</category>
-      <category>Co-author</category>
-      <category>개발-문화</category>
-      <description>• 깃 커밋 메시지에 Claude Code를 Co-authored-by로 자동 기재하던 관행을 중단한 개발자의 회고가 큰 공감을 얻고 있습니다.
-• AI를 저자로 명시할 때 발생하는 깃 히스토리 오염, 코드 책임 소재 모호성, 저작권 이슈 등을 다각도로 짚었습니다.
-• AI 페어 프로그래밍 환경에서 인간 개발자의 최종 검증과 코드 소유권 원칙을 재정립해야 한다는 논의가 확산 중입니다.
+      <category>SlideOps</category>
+      <category>문서화</category>
+      <category>코드 동기화</category>
+      <category>슬라이드</category>
+      <category>에이전트 스킬</category>
+      <description>• 개발자 lukicov가 저장소 코드와 프레젠테이션 슬라이드의 일치성을 유지하는 SlideOps 스킬을 공개했다.
+• 슬라이드 파일 자체에 코드 출처와 메타데이터를 내장하여 코드가 변경될 때 오래된 내용을 자동으로 감지한다.
+• 아키텍처 슬라이드를 갱신할 때 전체 저장소를 다시 스캔하던 토큰 낭비와 유지보수 비용을 크게 절감한다.
 
-한 시니어 소프트웨어 엔지니어가 지난 1년간 유지해 온 &apos;Claude Code를 Git 커밋의 공동 저자(Co-author)로 자동 등록하는 설정&apos;을 해제한 이유를 밝히며 해커뉴스에서 활발한 토론이 일어났습니다. 글쓴이는 초기에는 투명한 AI 활용 기록을 위해 Co-author 태그를 적극 활용했으나, 시간이 지남에 따라 코드 리뷰 시 책임 소재가 흐려지고 깃 블레임(git blame) 탐색이 비효율화되는 부작용을 겪었다고 설명했습니다. 또한 법적 저작권 측면에서도 AI는 독립된 인격체가 아니므로 모든 코드 변경에 대한 책임과 소유권은 최종 병합을 승인한 인간 개발자에게 귀속되어야 한다는 점을 강조했습니다. 많은 오픈소스 관리자들과 기업 엔지니어들이 이에 동의하며, AI 도구의 기여는 커밋 메시지 본문이나 PR 메타데이터로 남기되 저자 필드는 인간으로 명확히 해야 한다는 공감대가 형성되고 있습니다. AI 지원 개발이 일상화되면서 도구에 대한 건전한 거버넌스와 엔지니어링 에티켓이 정립되는 과정으로 풀이됩니다.</description>
+에이전트로 코드베이스 설명 슬라이드를 생성한 뒤 시간이 지나 코드가 바뀌면 슬라이드가 쉽게 낡아버리는 문제가 자주 발생한다. 이를 갱신하려면 에이전트가 전체 저장소를 매번 다시 스캔해야 해 막대한 시간과 토큰 비용이 소모되었다. SlideOps는 슬라이드 생성 시 각 장표에 원본 코드의 파일 경로와 해시 메타데이터를 함께 기록하는 방식을 제안한다. 코드가 수정되면 변경된 부분과 연결된 슬라이드에 즉시 드리프트 플래그가 표시되어 어떤 장표를 수정해야 하는지 알려준다. 에이전트는 전체 코드를 재분석할 필요 없이 변경된 모듈의 장표만 집중적으로 업데이트할 수 있다. 기술 문서와 프레젠테이션의 최신성을 적은 비용으로 유지할 수 있는 실용적인 에이전트 워크플로우 패턴이다.</description>
     </item>
   </channel>
 </rss>
