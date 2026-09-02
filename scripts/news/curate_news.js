@@ -32,8 +32,7 @@ const VALIDATE = process.argv.includes("--validate");
 const CURATED_BY = "ldk-hub";
 const BODY_MIN_SENTENCES = 5;
 
-// 투자·재무 중심 기사 하드 룰. LLM 프롬프트만으로는 새는 게 확인돼(중국 VC 50조 기사) 코드로도 막는다
-const FINANCE_RE = /투자|펀딩|증시|주가|시총|기업\s*가치|밸류에이션|상장|IPO|funding|fundrais|raises?\s+\$|valuation|Series\s+[A-F]\b/i;
+const FINANCE_RE = /투자|펀딩|증시|주가|시총|기업\s*가치|밸류에이션|상장|IPO|\bfunding\b|\bfundrais|\braises?\s+\$|\bvaluation\b|Series\s+[A-F]\b/i;
 
 if (!API_KEY && !SELFCHECK && !VALIDATE) {
   console.error("GEMINI_API_KEY is required (mock 대체 없음 — 기존 데이터 보존을 위해 중단)");
