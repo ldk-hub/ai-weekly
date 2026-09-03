@@ -370,9 +370,33 @@ function cardHTML(item, idx) {
   const isFeatured = rank === 1;
   const st = stickerFor(item, idx);
 
-  const feats = (item.key_features || []).slice(0, 3).map(f =>
-    `<li>${escapeHTML(f)}</li>`
-  ).join("");
+  // 주간 증가 스타 또는 성장률 배지
+  const weeklyStars = item.weekly_stars ? `<span class="sb-hot-badge" style="font-size:11px; padding:1px 6px;">★ +${item.weekly_stars.toLocaleString()}/w</span>` : "";
+
+  // 기능 3개 - 불릿 아이콘과 첫머리 키워드 볼드 처리
+  const feats = (item.key_features || []).slice(0, 3).map(f => {
+    const trimmed = f.trim();
+    const words = trimmed.split(" ");
+    let highlighted = "";
+    if (words.length >= 3) {
+      highlighted = `<strong>${escapeHTML(words.slice(0, 2).join(" "))}</strong> ${escapeHTML(words.slice(2).join(" "))}`;
+    } else {
+      highlighted = `<strong>${escapeHTML(trimmed)}</strong>`;
+    }
+    return `<li><span class="feat-bullet">✓</span><span class="feat-text">${highlighted}</span></li>`;
+  }).join("");
+
+  // 간편 설치 명령어 칩
+  const cmd = item.install_hint || (item.category === "MCP" ? `claude mcp add ${item.id}` : `/install ${item.id}`);
+  const escapedCmd = escapeHTML(cmd).replace(/'/g, "\'");
+  const cliChip = `
+    <div class="cli-copy-chip" onclick="event.stopPropagation(); navigator.clipboard.writeText('${escapedCmd}'); const el=this.querySelector('.cli-action'); el.innerText='✓ 복사됨!'; setTimeout(()=>el.innerText='복사', 1500);" title="클릭하여 설치 명령어 복사">
+      <span class="cli-icon">❯</span>
+      <span class="cli-cmd">${escapeHTML(cmd)}</span>
+      <span class="cli-action">복사</span>
+    </div>
+  `;
+
   return `
     <article class="card" data-id="${safeId}" tabindex="0" role="button" aria-label="${escapeHTML(item.title_ko || item.id)} 상세 보기">
       <div class="sticker ${st.color}">
@@ -382,13 +406,17 @@ function cardHTML(item, idx) {
       <div class="card-head">
         <img class="avatar" src="${escapeHTML(avatar)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'"/>
         <div class="head-meta">
-          <div class="category-label">${escapeHTML(item.category || "")}</div>
+          <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+            <span class="category-label">${escapeHTML(item.category || "")}</span>
+            ${weeklyStars}
+          </div>
           <div class="repo-id">${formatRepoId(item.id)}</div>
         </div>
       </div>
       <h3>${escapeHTML(item.title_ko || item.id)}</h3>
       ${item.catchphrase ? `<p class="catch">${escapeHTML(item.catchphrase)}</p>` : ""}
       ${feats ? `<ul class="features">${feats}</ul>` : ""}
+      ${cliChip}
       ${sourcesLine(item)}
       <div class="card-foot">
         <span class="meta-left"><span class="stars-line">★ ${formatStars(item.stars)}</span></span>
@@ -621,6 +649,26 @@ function renderLounge() {
     : `<li style="padding:24px 0; color:var(--muted); font-size:14px;">${lang === "en" ? "No comments yet — be the first." : "아직 댓글이 없습니다. 첫 이야기를 남겨보세요."}</li>`;
 
   el.innerHTML = `
+    <div class="lounge-guide-box">
+      <div class="lounge-guide-title">
+        <span>💡 ${lang === "en" ? "Suggested Discussion Topics" : "추천 토론 및 질문 주제"}</span>
+      </div>
+      <div class="lounge-topic-chips">
+        <a class="lounge-topic-chip" href="https://github.com/ldk-hub/ai-weekly/discussions/new?category=q-a" target="_blank" rel="noopener">
+          <span>❓ ${lang === "en" ? "Ask Claude Code Question" : "Claude Code 질문하기"}</span>
+        </a>
+        <a class="lounge-topic-chip" href="https://github.com/ldk-hub/ai-weekly/discussions/new?category=general" target="_blank" rel="noopener">
+          <span>✨ ${lang === "en" ? "Agent Workflow Tips" : "실무 에이전트 팁 공유"}</span>
+        </a>
+        <a class="lounge-topic-chip" href="https://github.com/ldk-hub/ai-weekly/discussions/new?category=ideas" target="_blank" rel="noopener">
+          <span>📦 ${lang === "en" ? "Recommend New Tool" : "새로운 오픈소스 추천"}</span>
+        </a>
+        <a class="lounge-topic-chip" href="https://github.com/ldk-hub/ai-weekly/discussions/new?category=ideas" target="_blank" rel="noopener">
+          <span>🚀 ${lang === "en" ? "Site Feedback & Ideas" : "AI위클리 피드백 및 제안"}</span>
+        </a>
+      </div>
+    </div>
+
     <section class="card" style="padding:24px; margin-bottom:24px;">
       <h2 style="margin:0 0 4px; font-size:19px;">${lang === "en" ? "Lounge" : "자유 대화"}</h2>
       <p style="margin:0 0 16px; color:var(--muted); font-size:14px;">${lang === "en" ? "Anything about AI tooling. GitHub sign-in required." : "AI 도구 이야기 무엇이든. GitHub 로그인이 필요합니다."}</p>
@@ -670,7 +718,8 @@ function render() {
 
       const lang = getLang();
       if (STATE.category === "all" && !STATE.query && d.summary) {
-        const formattedSummary = escapeHTML(d.summary)
+        const cleanedSummary = d.summary.replace(/\s*ldk-hub에서\s*큐레이션\s*하였습니다\.?/g, "").replace(/\s*\(ldk-hub에서\s*큐레이션\s*하였습니다\.?\)/g, "").trim();
+        const formattedSummary = escapeHTML(cleanedSummary)
           .replace(/(#[a-zA-Z0-9가-힣_-]+)/g, '<span class="db-tag">$1</span>')
           .replace(/(🔥\s*오늘의\s*핵심\s*(?:이슈|키워드):)/g, '<strong>$1</strong>');
 
@@ -845,10 +894,24 @@ function newsCardHTML(item, idx = 0) {
           <span class="category-label" style="text-transform: uppercase;">${escapeHTML(item.category_name || "NEWS")}</span>
           ${signalBadgeHtml}
         </div>
-        <div class="repo-id" style="font-size: 13px; margin-top: 3px;">
-          <span class="owner" style="color: var(--ink); font-weight: 600;">${authorStr}</span>
-          ${dateStr ? `<span style="color: var(--muted);"> · ${dateStr}</span>` : ""}
-        </div>
+        ${(() => {
+          const rawAuthor = (item.author_profile || item.author || "").trim();
+          const cat = (item.category_name || "").trim().toLowerCase();
+          const plat = (item.platform || "").trim().toLowerCase();
+          const isDup = !rawAuthor ||
+            rawAuthor.toLowerCase() === "unknown" ||
+            rawAuthor.toLowerCase() === cat ||
+            rawAuthor.toLowerCase() === plat ||
+            rawAuthor.toLowerCase() === "aitimes" ||
+            rawAuthor === "AI타임스";
+          
+          const authorSpan = isDup ? "" : `<span class="owner" style="color: var(--ink); font-weight: 600;">${escapeHTML(rawAuthor)}</span>`;
+          const sep = (authorSpan && dateStr) ? `<span style="color: var(--muted);"> · </span>` : "";
+          const dateSpan = dateStr ? `<span style="color: var(--muted);">${dateStr}</span>` : "";
+          
+          if (!authorSpan && !dateSpan) return "";
+          return `<div class="repo-id" style="font-size: 13px; margin-top: 3px;">${authorSpan}${sep}${dateSpan}</div>`;
+        })()}
         ${badgeHtml}
       </div>
     </div>
@@ -895,7 +958,6 @@ function newsCardHTML(item, idx = 0) {
 
   const related = (item.related_articles && item.related_articles.length > 0) ? `<div style="margin-top:16px; font-size:13.5px; background:var(--pill); padding:14px; border-radius:12px;"><strong style="color:var(--ink-2); display:flex; align-items:center; gap:6px;">🔗 관련 기사</strong><ul style="margin-top:8px; padding-left:18px; color:var(--muted); list-style-type:circle;">${item.related_articles.map(r => `<li style="margin-bottom:4px;"><a href="${escapeHTML(r.url)}" target="_blank" rel="noopener" style="color:var(--muted); text-decoration:none;">${escapeHTML(r.title)}</a></li>`).join("")}</ul></div>` : "";
 
-  const sources = (item.sources || []).map(s => `<span class="src-chip">${escapeHTML(s)}</span>`).join("");
   const commentBtn = isGiscusReady() ? `
       <button type="button" class="repo-link" data-giscus-term="${safeId}" style="background:none; border:none; cursor:pointer; font:inherit; color:var(--accent);">
         💬 ${lang === "en" ? "Comments" : "댓글"}
@@ -923,7 +985,6 @@ function newsCardHTML(item, idx = 0) {
       ${bodyKo}
       ${tags}
       ${related}
-      ${sources ? `<div class="src-line" style="margin-top:16px; flex-wrap:wrap; gap:6px;">${sources}</div>` : ""}
       ${linkBtn}
     </article>
   `;
@@ -1580,50 +1641,60 @@ function starboardCardHTML(item, idx) {
     return `${x},${y}`;
   }).join(" ");
   
-  // 관측이 2개면 어떤 리포든 min→max 를 잇는 같은 대각선이 나온다 (추세 정보 0).
-  // 실제로 109개 중 58개가 관측 2회라, 그 경우엔 그래프 대신 사유를 밝힌다.
   const svg = item.sparklineData.length >= 3
-    ? `<svg class="sb-sparkline" width="100%" height="${height}" viewBox="-2 -10 ${width + 4} ${height+20}" preserveAspectRatio="none" style="margin-top:auto; padding-top:16px;">
+    ? `<svg class="sb-sparkline" width="100%" height="${height}" viewBox="-2 -10 ${width + 4} ${height+20}" preserveAspectRatio="none" style="margin-top:auto; padding-top:12px;">
     <polyline fill="none" stroke="${velocityColor}" stroke-width="3" points="${points}" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>`
-    : `<div class="sb-nochart">${lang === "en"
+    : `<div class="sb-nochart" style="margin-top:auto; padding-top:12px;">${lang === "en"
         ? `${item.sparklineData.length} observations — trend chart needs 3+`
         : `관측 ${item.sparklineData.length}회 · 추이 그래프는 3회부터`}</div>`;
   
   const avatar = (item.meta && item.meta.owner_avatar) ? item.meta.owner_avatar : `https://github.com/${ownerName}.png?size=80`;
-  const desc = (item.meta && item.meta.desc_ko) ? item.meta.desc_ko : ((item.meta && item.meta.description) ? item.meta.description : "");
-  
-  const chartComment = desc;
-  
+  const descKo = (item.meta && item.meta.desc_ko) ? item.meta.desc_ko : "";
+  const descEn = (item.meta && item.meta.description) ? item.meta.description : "";
+  const langTag = (item.meta && item.meta.language) ? `<span class="sb-tech-badge">🏷️ ${escapeHTML(item.meta.language)}</span>` : "";
+
+  // 핫 모멘텀 배지
+  const isHot = item.velocity >= 300;
+  const velocityBadge = isHot 
+    ? `<span class="sb-hot-badge">🔥 ${sign}${item.velocity.toLocaleString()}/wk</span>`
+    : `<span style="color:${velocityColor}; font-weight:700; font-size: 14px; background:var(--surface); padding:2px 8px; border-radius:12px; display:inline-block;">${sign}${item.velocity.toLocaleString()}/wk</span>`;
+
+  // 설명부: 한국어가 있으면 한국어 우선 박스, 없으면 영문
+  const descHtml = descKo
+    ? `<div class="sb-desc-ko" title="${escapeHTML(descEn)}">${escapeHTML(descKo)}</div>`
+    : (descEn ? `<div style="font-size:13px; color:var(--muted); line-height:1.45; margin:8px 0; max-height:40px; overflow:hidden;">${escapeHTML(descEn)}</div>` : "");
+
   return `
-    <article class="card" style="padding: 24px 22px 0; overflow:hidden;">
+    <article class="card" style="padding: 22px 20px 0; overflow:hidden; display:flex; flex-direction:column;">
       <div class="sticker ${stColor}">
         <strong>#${String(rank).padStart(2, '0')}</strong>
         ${escapeHTML(stBottom)}
       </div>
       
-      <div class="card-head" style="margin-bottom:12px;">
+      <div class="card-head" style="margin-bottom:10px;">
         <img class="avatar" src="${escapeHTML(avatar)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'"/>
         <div class="head-meta">
-          <div class="repo-id" style="font-size: 15px;">${escapeHTML(ownerName)} /</div>
-          <h3 style="margin:0; font-size: 20px; word-break:break-all;">${escapeHTML(repoName)}</h3>
+          <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+            <span class="repo-id" style="font-size: 13.5px;">${escapeHTML(ownerName)} /</span>
+            ${langTag}
+          </div>
+          <h3 style="margin:2px 0 0; font-size: 19px; word-break:break-all; line-height:1.3;">${escapeHTML(repoName)}</h3>
         </div>
       </div>
       
-
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-        <div style="display:flex; align-items:center; gap:8px;">
-          <span class="stars-line" style="font-size:16px; font-weight:600;">★ ${item.currentStars.toLocaleString()}</span>
-          <span style="color:${velocityColor}; font-weight:700; font-size: 15px; background:var(--surface); padding:2px 8px; border-radius:12px; display:inline-block;">${sign}${item.velocity.toLocaleString()}/wk</span>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+          <span class="stars-line" style="font-size:15.5px; font-weight:700;">★ ${item.currentStars.toLocaleString()}</span>
+          ${velocityBadge}
         </div>
         <span class="sb-badge ${badgeClass}" style="margin:0;">${badgeLabel}</span>
       </div>
+
+      ${descHtml}
       
-      <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:8px; padding: 0 4px;">
-        <div style="font-size:13.5px; color:var(--muted); line-height:1.4; max-width:65%;">
-          ${chartComment}
-        </div>
-        <a class="repo-link" href="https://github.com/${escapeHTML(item.id)}" target="_blank" rel="noopener" style="margin:0;">
+      <div style="display:flex; justify-content:flex-end; margin-top:auto; padding-top:6px;">
+        <a class="repo-link" href="https://github.com/${escapeHTML(item.id)}" target="_blank" rel="noopener" style="margin:0; font-size:13px; font-weight:600;">
           GITHUB <span class="arrow">→</span>
         </a>
       </div>

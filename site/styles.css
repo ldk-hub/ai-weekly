@@ -2097,3 +2097,180 @@ html[data-theme="dark"] .news-details .deep-dive-content {
   border: 1px solid rgba(217, 119, 87, 0.2);
 }
 
+/* ============ 인기 플러그인 탭 가독성 개선 ============ */
+.card .features {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.card .features li {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--pill);
+  padding: 7px 12px;
+  border-radius: 9px;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+.card:hover .features li {
+  border-color: rgba(0, 0, 0, 0.05);
+}
+html[data-theme="dark"] .card:hover .features li {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+.card .features .feat-bullet {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgba(217, 119, 87, 0.15);
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 800;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.card .features .feat-text {
+  flex: 1;
+}
+.card .features .feat-text strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+/* 플러그인 원클릭 CLI 칩 */
+.cli-copy-chip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 6px 10px;
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 12px;
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+}
+html[data-theme="dark"] .cli-copy-chip {
+  background: rgba(255, 255, 255, 0.04);
+}
+.cli-copy-chip:hover {
+  background: rgba(217, 119, 87, 0.08);
+  border-color: var(--accent);
+}
+.cli-copy-chip .cli-icon {
+  color: var(--accent);
+  font-weight: 700;
+}
+.cli-copy-chip .cli-cmd {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cli-copy-chip .cli-action {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+/* ============ 스타보드 탭 가독성 개선 ============ */
+.sb-desc-ko {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink);
+  font-weight: 500;
+  margin: 10px 0 6px 0;
+  padding: 8px 10px;
+  background: var(--pill);
+  border-radius: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.sb-tech-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 1px 7px;
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--ink-2);
+  border: 1px solid var(--border);
+}
+.sb-hot-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #e0533c;
+  background: rgba(224, 83, 60, 0.1);
+  padding: 2px 8px;
+  border-radius: 12px;
+  letter-spacing: -0.02em;
+}
+
+/* ============ 라운지 탭 가독성 개선 ============ */
+.lounge-guide-box {
+  margin-bottom: 20px;
+  padding: 16px 18px;
+  background: var(--pill);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.lounge-guide-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.lounge-topic-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.lounge-topic-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+.lounge-topic-chip:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+

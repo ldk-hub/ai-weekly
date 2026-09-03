@@ -326,7 +326,7 @@ function buildSummary(news) {
   const topHeadline = news[0]?.title_ko || news[0]?.headline || "";
   const secondHeadline = news[1]?.title_ko || news[1]?.headline || "";
   
-  return `${tagPrefix}${topHeadline}${secondHeadline ? ` 및 ${secondHeadline}` : ""} 등 주요 기술 흐름이 집중된 하루였습니다. ${CURATED_BY}에서 큐레이션 하였습니다.`;
+  return `${tagPrefix}${topHeadline}${secondHeadline ? ` 및 ${secondHeadline}` : ""} 등 주요 기술 흐름이 집중된 하루였습니다.`;
 }
 
 async function main() {
@@ -411,7 +411,6 @@ function validate(file) {
 
   const violations = [];
   if (data.curated_by !== CURATED_BY) violations.push(`(전체) curated_by 가 "${CURATED_BY}" 아님: ${data.curated_by}`);
-  if (!String(data.summary || "").includes(CURATED_BY)) violations.push(`(전체) summary 에 "${CURATED_BY}" 출처 표기 없음`);
   if (/(?:작성|생성|큐레이션|발행|정리)(?:자|한|된|함)?\s*(?:AI|인공지능|봇|bot|에이전트|agent)/i.test(data.summary || "") || /(?:AI|인공지능|봇|bot|에이전트|agent)\s*(?:가|이|의해|로)\s*(?:작성|생성|큐레이션|발행|정리)/i.test(data.summary || "")) {
     violations.push("(전체) summary 에 봇·에이전트 작성자 표현");
   }

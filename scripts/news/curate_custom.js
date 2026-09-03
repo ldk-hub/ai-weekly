@@ -270,7 +270,7 @@ processedNews.forEach(n => {
 });
 
 const headline = processedNews[0].title_ko;
-const summary = "🔥 오늘의 핵심 이슈: #추론비용역설 #에이전틱비디오 #SRE자율에이전트 #MCP도구발견 — 앤트로픽 Fable 5.1의 실측 비용 역설과 메타의 멀티모달 모델 공세, 프로덕션 자율 운영 에이전트와 도구 생태계 고도화가 두드러진 하루였습니다. ldk-hub에서 큐레이션 하였습니다.";
+const summary = "🔥 오늘의 핵심 이슈: #추론비용역설 #에이전틱비디오 #SRE자율에이전트 #MCP도구발견 — 앤트로픽 Fable 5.1의 실측 비용 역설과 메타의 멀티모달 모델 공세, 프로덕션 자율 운영 에이전트와 도구 생태계 고도화가 두드러진 하루였습니다.";
 
 const latestData = {
   version: VERSION,
