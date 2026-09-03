@@ -1,6 +1,13 @@
 {
   "archives": [
     {
+      "file": "2026-08-31.json",
+      "version": "v2026.08.31",
+      "generated_at": "2026-08-31",
+      "rising_count": 0,
+      "classic_count": 0
+    },
+    {
       "file": "2026-08-25.json",
       "version": "v2026.08.25",
       "generated_at": "2026-08-25",
@@ -34,6 +41,13 @@
       "generated_at": "2026-08-06",
       "rising_count": 18,
       "classic_count": 13
+    },
+    {
+      "file": "2026-08-04.json",
+      "version": "v2026.08.04",
+      "generated_at": "2026-08-04",
+      "rising_count": 0,
+      "classic_count": 0
     },
     {
       "file": "2026-08-03.json",
@@ -79,70 +93,70 @@
     },
     {
       "file": "2026-06-15.json",
-      "version": "v2026.06.08",
-      "generated_at": "2026-06-08",
+      "version": "v2026.06.15",
+      "generated_at": "2026-06-15",
       "rising_count": 20,
       "classic_count": 15
     },
     {
       "file": "2026-06-08.json",
-      "version": "2026-06-08",
-      "generated_at": null,
+      "version": "v2026.06.08",
+      "generated_at": "2026-06-08",
       "rising_count": 10,
       "classic_count": 12
     },
     {
       "file": "2026-06-01.json",
-      "version": "2026-W22",
+      "version": "v2026.06.01",
       "generated_at": "2026-05-25T00:23:09Z",
       "rising_count": 9,
       "classic_count": 14
     },
     {
       "file": "2026-05-25.json",
-      "version": "2026-W22",
+      "version": "v2026.05.25",
       "generated_at": "2026-05-25T00:23:09Z",
       "rising_count": 9,
       "classic_count": 14
     },
     {
       "file": "2026-05-18.json",
-      "version": "2026-W21",
+      "version": "v2026.05.18",
       "generated_at": "2026-05-18T15:30:00Z",
       "rising_count": 7,
       "classic_count": 13
     },
     {
       "file": "2026-05-11.json",
-      "version": "2026-W19",
+      "version": "v2026.05.11",
       "generated_at": "2026-05-04T16:00:00Z",
       "rising_count": 10,
       "classic_count": 7
     },
     {
       "file": "2026-05-04.json",
-      "version": "2026-W19",
+      "version": "v2026.05.04",
       "generated_at": "2026-05-04T16:00:00Z",
       "rising_count": 1,
       "classic_count": 16
     },
     {
       "file": "2026-04-27.json",
-      "version": "2026-W18",
+      "version": "v2026.04.27",
       "generated_at": "2026-04-27T15:00:00Z",
       "rising_count": 12,
       "classic_count": 12
     },
     {
       "file": "2026-04-20.json",
-      "version": "2026-W17",
+      "version": "v2026.04.20",
       "generated_at": "2026-04-20T00:22:46Z",
       "rising_count": 12,
       "classic_count": 12
     },
     {
       "file": "2026-04-13.json",
-      "version": "2026-W16",
+      "version": "v2026.04.13",
       "generated_at": "2026-04-13T16:51:30Z",
       "rising_count": 12,
       "classic_count": 12

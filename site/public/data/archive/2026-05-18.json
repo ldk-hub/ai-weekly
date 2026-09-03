@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-05-18T15:30:00Z",
-  "version": "2026-W21",
+  "version": "v2026.05.18",
   "rising": [
     {
       "id": "anthropics/claude-code",
@@ -250,7 +250,7 @@
       "official_url": "https://github.com/coleam00/claude-memory-compiler",
       "stars": 950,
       "category": "skill",
-      "trend_score": 31.0,
+      "trend_score": 31,
       "badges": [
         "🔥 Rising",
         "🆕 New"
@@ -330,7 +330,7 @@
       "official_url": "https://github.com/thedotmack/claude-mem",
       "stars": 77500,
       "category": "skill",
-      "trend_score": 66.0,
+      "trend_score": 66,
       "badges": [
         "⭐ 50K+",
         "📈 Trending"
@@ -407,7 +407,7 @@
       "official_url": "https://github.com/ComposioHQ/awesome-claude-skills",
       "stars": 60500,
       "category": "skill",
-      "trend_score": 65.0,
+      "trend_score": 65,
       "badges": [
         "⭐ 50K+",
         "🏆 awesome",
@@ -446,7 +446,7 @@
       "official_url": "https://github.com/shareAI-lab/learn-claude-code",
       "stars": 61000,
       "category": "harness",
-      "trend_score": 65.0,
+      "trend_score": 65,
       "badges": [
         "⭐ 50K+",
         "📈 Trending"
@@ -716,7 +716,7 @@
       "official_url": "https://github.com/anthropics/skills",
       "stars": 134000,
       "category": "skill",
-      "trend_score": 64.0,
+      "trend_score": 64,
       "badges": [
         "⭐ 100K+",
         "🏢 Official",

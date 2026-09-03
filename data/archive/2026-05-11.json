@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-05-04T16:00:00Z",
-  "version": "2026-W19",
+  "version": "v2026.05.11",
   "rising": [
     {
       "id": "mvanhorn/last30days-skill",
@@ -460,7 +460,7 @@
       "official_url": "https://github.com/thedotmack/claude-mem",
       "stars": 71536,
       "category": "skill",
-      "trend_score": 64.0,
+      "trend_score": 64,
       "badges": [
         "🏛️ Classic",
         "⭐ 50K+"

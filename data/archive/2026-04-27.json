@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-04-27T15:00:00Z",
-  "version": "2026-W18",
+  "version": "v2026.04.27",
   "rising": [
     {
       "id": "JuliusBrussee/caveman",
@@ -212,7 +212,7 @@
       "official_url": "https://github.com/kyegomez/OpenMythos",
       "stars": 10646,
       "category": "framework",
-      "trend_score": 42.0,
+      "trend_score": 42,
       "badges": [
         "🔥 Rising",
         "📈 Trending",
@@ -243,7 +243,7 @@
       "official_url": "https://github.com/browser-use/browser-harness",
       "stars": 7165,
       "category": "harness",
-      "trend_score": 38.0,
+      "trend_score": 38,
       "badges": [
         "🔥 Rising",
         "📈 Trending",
@@ -397,7 +397,7 @@
       "official_url": "https://github.com/anthropics/claude-code",
       "stars": 118168,
       "category": "agent",
-      "trend_score": 85.0,
+      "trend_score": 85,
       "badges": [
         "🏛️ Classic",
         "⭐ 100K+",

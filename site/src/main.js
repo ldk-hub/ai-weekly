@@ -200,7 +200,10 @@ function renderUpdateBar() {
   }
   
   if (verEl) {
-    const ver = d.version || (d.curated_date ? `v${d.curated_date.replace(/-/g, ".")}` : "");
+    let ver = d.version || (d.curated_date ? `v${d.curated_date.replace(/-/g, ".")}` : "");
+    if (ver && /^\d{4}\.\d{2}\.\d{2}$/.test(ver)) {
+      ver = `v${ver}`;
+    }
     verEl.textContent = ver;
     verEl.style.display = ver ? "" : "none";
     if (STATE.source !== "latest") {
@@ -229,8 +232,23 @@ function renderArchiveMenu() {
   ];
   for (const a of STATE.archives) {
     const rawDt = a.generated_at || a.date;
-    const dt = rawDt ? fmtKFull(new Date(rawDt)) : a.file;
-    const ver = a.version || (a.date ? `v${a.date.replace(/-/g, ".")}` : a.file);
+    let dt = a.file;
+    if (rawDt) {
+      const m = String(rawDt).match(/^(\d{4})-(\d{2})-(\d{2})/);
+      if (m) {
+        dt = `${m[1]}.${m[2]}.${m[3]}`;
+      } else {
+        const dObj = new Date(rawDt);
+        if (!isNaN(dObj.getTime())) dt = fmtKFull(dObj);
+      }
+    }
+    let ver = a.version;
+    if (!ver) {
+      const dm = a.file.match(/(\d{4})-(\d{2})-(\d{2})/);
+      ver = dm ? `v${dm[1]}.${dm[2]}.${dm[3]}` : a.file;
+    } else if (/^\d{4}\.\d{2}\.\d{2}$/.test(ver)) {
+      ver = `v${ver}`;
+    }
     items.push(`<li><button data-source="${escapeHTML(a.file)}" class="${STATE.source === a.file ? "is-active" : ""}">
       <span class="ar-ver">${escapeHTML(ver)}</span>
       <span class="ar-date">${dt}</span>

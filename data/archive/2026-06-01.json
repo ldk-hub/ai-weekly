@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-05-25T00:23:09Z",
-  "version": "2026-W22",
+  "version": "v2026.06.01",
   "rising": [
     {
       "id": "anthropics/claude-code",
@@ -441,7 +441,7 @@
       "stars": 142102,
       "star_velocity_7d": 6000,
       "category": "skill",
-      "trend_score": 61.0,
+      "trend_score": 61,
       "badges": [
         "🔥 Rising",
         "⭐ 100K+",
@@ -592,7 +592,7 @@
       "stars": 62184,
       "star_velocity_7d": 1100,
       "category": "skill",
-      "trend_score": 63.0,
+      "trend_score": 63,
       "badges": [
         "⭐ Classic",
         "⭐ 50K+",
@@ -641,7 +641,7 @@
       "stars": 79215,
       "star_velocity_7d": 400,
       "category": "skill",
-      "trend_score": 63.0,
+      "trend_score": 63,
       "badges": [
         "⭐ Classic",
         "⭐ 50K+"

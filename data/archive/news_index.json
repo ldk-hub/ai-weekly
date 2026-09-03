@@ -1,18 +1,74 @@
 {
-  "updated_at": "2026-08-26T00:08:22.514Z",
+  "updated_at": "2026-09-03T00:51:20.835Z",
   "archives": [
     {
+      "file": "news_2026-09-03.json",
+      "date": "2026-09-03",
+      "version": "v2026.09.03",
+      "generated_at": "2026-09-03T00:51:20.830Z",
+      "total_count": 18,
+      "signal_counts": {
+        "model": 2,
+        "product": 2,
+        "research": 3,
+        "practice": 4,
+        "devtool": 4,
+        "oss": 3
+      },
+      "headline": "캐시 가격 75% 인하에도 비용 20% 상승…앤트로픽 Claude Fable 5.1의 '토큰 역설'"
+    },
+    {
       "file": "news_2026-09-02.json",
-      "version": "2.0.0",
-      "generated_at": "2026-09-02T00:00:12.641Z"
+      "date": "2026-09-02",
+      "version": "v2026.09.02",
+      "generated_at": "2026-09-02T00:00:12.641Z",
+      "total_count": 18,
+      "signal_counts": {
+        "model": 2,
+        "devtool": 4,
+        "research": 3,
+        "product": 2,
+        "practice": 3,
+        "oss": 4
+      },
+      "headline": "앤트로픽, 장기 추론 능력과 비용 효율성을 강화한 Claude Fable 5.1 및 Mythos 5.1 공개"
     },
     {
       "file": "news_2026-09-01.json",
+      "date": "2026-09-01",
       "version": "v2026.09.01",
-      "generated_at": "2026-09-01T00:49:49.858Z"
+      "generated_at": "2026-09-01T00:50:07.234Z",
+      "total_count": 17,
+      "signal_counts": {
+        "research": 3,
+        "devtool": 4,
+        "product": 2,
+        "oss": 4,
+        "policy": 1,
+        "practice": 3
+      },
+      "headline": "Claude Code Opus 5의 자동 모드(Auto Mode)에서 임의 코드 실행을 유발하는 프롬프트 인젝션 취약점 발견"
+    },
+    {
+      "file": "news_2026-08-31.json",
+      "date": "2026-08-31",
+      "version": "v2026.08.31",
+      "generated_at": "2026-08-31T02:44:19.726Z",
+      "total_count": 20,
+      "signal_counts": {
+        "model": 1,
+        "research": 3,
+        "product": 2,
+        "devtool": 3,
+        "oss": 4,
+        "policy": 3,
+        "practice": 4
+      },
+      "headline": "연속 확산 언어 모델(CDLM)의 부활 — 이산형 토큰을 넘어선 차세대 생성 패러다임"
     },
     {
       "file": "news_2026-08-27.json",
+      "date": "2026-08-27",
       "version": "v2026.08.27",
       "generated_at": "2026-08-27T00:24:28.585Z",
       "total_count": 18,
@@ -23,7 +79,8 @@
         "oss": 2,
         "model": 2,
         "practice": 2
-      }
+      },
+      "headline": "GLM-5.3-Flash 릴리즈 분석 — 320B MoE·18B 활성 파라미터로 초고속 멀티모달 추론 구현"
     },
     {
       "file": "news_2026-08-26.json",
@@ -40,8 +97,7 @@
         "devtool": 5,
         "oss": 1
       },
-      "headline": "일론 머스크 “그록, 앤트로픽에 코딩 성능 뒤처져”…커서와 협력해 격차 극복 지시",
-      "summary": "🔥 오늘의 핵심 이슈: #Grok코딩추격 #온디바이스MoE #우주GPU가속 #에이전틱OS — 엔터프라이즈 로컬 코딩 모델(Qwen/Granite)의 확장과 자율 에이전트 전용 OS·소프트웨어 팩토리 구축이 주도한 하루였습니다. ldk-hub에서 큐레이션 하였습니다."
+      "headline": "일론 머스크 “그록, 앤트로픽에 코딩 성능 뒤처져”…커서와 협력해 격차 극복 지시"
     },
     {
       "file": "news_2026-08-25.json",
@@ -57,8 +113,7 @@
         "oss": 1,
         "research": 3
       },
-      "headline": "Apodex 1.1: 복합 작업을 자율 완수하는 에이전틱 지능 확장 연구 논문 공개",
-      "summary": "오늘의 주요 AI 기술 신호 18건을 정리했습니다. 최신 연구 성과, 개발자 도구, 오픈소스 소프트웨어 릴리즈를 다룹니다. ldk-hub에서 큐레이션 하였습니다."
+      "headline": "Apodex 1.1: 복합 작업을 자율 완수하는 에이전틱 지능 확장 연구 논문 공개"
     },
     {
       "file": "news_2026-08-24.json",
@@ -66,6 +121,13 @@
       "version": "v2026.08.24",
       "generated_at": "2026-08-24T00:31:37.858Z",
       "total_count": 17,
+      "signal_counts": {
+        "oss": 5,
+        "practice": 4,
+        "product": 1,
+        "model": 3,
+        "devtool": 4
+      },
       "headline": "Vercel Labs 'fx' — 유닉스 파이프 철학을 계승한 고속 경량 CLI 코딩 에이전트"
     },
     {
@@ -74,6 +136,13 @@
       "version": "v2026.08.23",
       "generated_at": "2026-08-23T07:17:18.847Z",
       "total_count": 14,
+      "signal_counts": {
+        "product": 1,
+        "oss": 5,
+        "research": 3,
+        "devtool": 3,
+        "practice": 2
+      },
       "headline": "구글, 안티그래비티 IDE 모바일 원격 제어 출시... 장시간 에이전트 작업 실시간 모니터링 지원"
     },
     {
@@ -82,6 +151,15 @@
       "version": "v2026.08.21",
       "generated_at": "2026-08-21T01:08:51.143Z",
       "total_count": 20,
+      "signal_counts": {
+        "product": 2,
+        "oss": 8,
+        "research": 1,
+        "model": 3,
+        "practice": 4,
+        "devtool": 1,
+        "policy": 1
+      },
       "headline": "앤트로픽, '클로드 코워크' 웹·모바일 확장 출시… 구글 워크스페이스 연동 대폭 강화"
     },
     {
@@ -90,6 +168,13 @@
       "version": "v2026.08.20",
       "generated_at": "2026-08-20T00:44:20.279Z",
       "total_count": 17,
+      "signal_counts": {
+        "oss": 7,
+        "product": 2,
+        "devtool": 3,
+        "research": 1,
+        "practice": 4
+      },
       "headline": "DeepSeek Harness — '모든 것이 플러그인'을 표방하는 딥시크의 공식 모듈형 에이전트 하네스"
     },
     {
@@ -98,6 +183,15 @@
       "version": "v2026.08.19",
       "generated_at": "2026-08-19T00:47:39.612Z",
       "total_count": 18,
+      "signal_counts": {
+        "oss": 6,
+        "practice": 3,
+        "product": 1,
+        "model": 3,
+        "research": 1,
+        "devtool": 3,
+        "policy": 1
+      },
       "headline": "Qwen-MM-Plugins — 모든 에이전트 하네스를 멀티모달 네이티브로 확장하는 공식 플러그인"
     },
     {
@@ -106,6 +200,14 @@
       "version": "v2026.08.18",
       "generated_at": "2026-08-18T00:12:52.161Z",
       "total_count": 18,
+      "signal_counts": {
+        "oss": 5,
+        "devtool": 3,
+        "product": 5,
+        "practice": 3,
+        "model": 1,
+        "research": 1
+      },
       "headline": "DeepSeek Harness — '모든 것이 플러그인'인 공식 오픈소스 에이전트 하네스"
     },
     {
@@ -114,7 +216,16 @@
       "version": "v2026.08.11",
       "generated_at": "2026-08-11T00:00:00Z",
       "total_count": 12,
-      "headline": ""
+      "signal_counts": {
+        "policy": 3,
+        "practice": 2,
+        "oss": 2,
+        "model": 0,
+        "product": 2,
+        "devtool": 2,
+        "research": 1
+      },
+      "headline": "Hanami - Rails를 대체하는 Ruby 프레임워크"
     },
     {
       "file": "news_2026-08-10.json",
@@ -122,14 +233,26 @@
       "version": "v2026.08.10",
       "generated_at": "2026-08-10T00:00:00Z",
       "total_count": 12,
-      "headline": ""
+      "signal_counts": {
+        "policy": 2,
+        "practice": 3,
+        "oss": 2,
+        "model": 1,
+        "product": 1,
+        "devtool": 2,
+        "research": 1
+      },
+      "headline": "Amazon 새 데이터센터, 미국에서 가장 오염이 심한 발전소를 갖출 예정"
     },
     {
       "file": "news_2026-08-06.json",
       "date": "2026-08-06",
-      "version": "1.0",
+      "version": "v2026.08.06",
       "generated_at": "2026-08-06T01:37:52.054Z",
       "total_count": 16,
+      "signal_counts": {
+        "oss": 16
+      },
       "headline": "late.sh - 개발자를 위한 아늑한 터미널 클럽하우스"
     },
     {
@@ -138,6 +261,14 @@
       "version": "v2026.08.05",
       "generated_at": "2026-08-05T02:49:53.091Z",
       "total_count": 8,
+      "signal_counts": {
+        "model": 1,
+        "devtool": 1,
+        "oss": 1,
+        "policy": 2,
+        "practice": 2,
+        "product": 1
+      },
       "headline": "Ling-3.0-flash 가중치 공개 (MIT 라이선스, FP8 공식 지원)"
     },
     {
@@ -146,7 +277,15 @@
       "version": "v2026.08.04",
       "generated_at": "2026-08-04T00:34:30.559Z",
       "total_count": 28,
-      "headline": ""
+      "signal_counts": {
+        "model": 2,
+        "practice": 8,
+        "product": 1,
+        "oss": 7,
+        "devtool": 9,
+        "research": 1
+      },
+      "headline": "엔비디아, '코스모스3 4스텝' 증류 모델 출시"
     },
     {
       "file": "news_2026-08-03.json",
@@ -154,6 +293,12 @@
       "version": "v2026.08.03",
       "generated_at": "2026-08-03T13:45:00.000Z",
       "total_count": 10,
+      "signal_counts": {
+        "industry": 4,
+        "product": 3,
+        "devtool": 1,
+        "oss": 2
+      },
       "headline": "LLM 생성 코드의 인지 부채 방지법"
     },
     {
@@ -186,7 +331,7 @@
       "version": "v2026.07.13",
       "generated_at": "2026-07-13T00:00:00Z",
       "total_count": 2,
-      "headline": ""
+      "headline": "Llama 3 8B 로컬 구동 가이드 화제"
     }
   ]
 }
