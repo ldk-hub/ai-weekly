@@ -815,6 +815,25 @@ function newsCardHTML(item, idx = 0) {
   }
   const badgeHtml = badges.length ? `<div style="display:flex; gap:6px; margin-top:6px; flex-wrap:wrap;">${badges.join("")}</div>` : "";
 
+  // 신호축 뱃지 아이콘
+  const signalIcons = {
+    model: "🚀",
+    product: "✨",
+    devtool: "🛠️",
+    oss: "📦",
+    research: "🔬",
+    practice: "💡",
+    policy: "🏛️"
+  };
+  const sigIcon = signalIcons[item.signal_id] || "📌";
+  const sigLabel = item.signal_id === "model" ? "새 모델" :
+                   item.signal_id === "product" ? "제품 신기능" :
+                   item.signal_id === "devtool" ? "개발 도구" :
+                   item.signal_id === "oss" ? "오픈소스" :
+                   item.signal_id === "research" ? "연구·논문" :
+                   item.signal_id === "practice" ? "실무 활용" : "기술 신호";
+  const signalBadgeHtml = `<span class="signal-badge" title="${escapeHTML(item.signal_name || '')}">${sigIcon} ${sigLabel}</span>`;
+
   const headHtml = `
     <div class="card-head" style="margin-bottom: 12px; padding-right: 60px;">
       <div class="avatar-wrapper" style="position:relative; display:inline-block; line-height:0;">
@@ -822,8 +841,11 @@ function newsCardHTML(item, idx = 0) {
         ${platformIconHtml}
       </div>
       <div class="head-meta">
-        <div class="category-label" style="text-transform: uppercase;">${escapeHTML(item.category_name || "NEWS")}</div>
-        <div class="repo-id" style="font-size: 13px; margin-top: 2px;">
+        <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+          <span class="category-label" style="text-transform: uppercase;">${escapeHTML(item.category_name || "NEWS")}</span>
+          ${signalBadgeHtml}
+        </div>
+        <div class="repo-id" style="font-size: 13px; margin-top: 3px;">
           <span class="owner" style="color: var(--ink); font-weight: 600;">${authorStr}</span>
           ${dateStr ? `<span style="color: var(--muted);"> · ${dateStr}</span>` : ""}
         </div>
@@ -833,43 +855,56 @@ function newsCardHTML(item, idx = 0) {
   `;
 
   const title = escapeHTML(item.headline || item.title_ko || "");
-  const summary = item.summary_ko ? `<p class="nc-summary" style="margin-top:12px; font-size:15px; line-height:1.6; color:var(--text); opacity:0.9;">${escapeHTML(item.summary_ko)}</p>` : "";
   
+  // 3대 핵심 요약 박스 (Key Takeaways) 포맷팅
+  let summaryHtml = "";
+  if (item.summary_ko) {
+    const rawLines = item.summary_ko.split("\n").map(l => l.trim()).filter(Boolean);
+    const bulletsHtml = rawLines.map((l, i) => {
+      let clean = l.replace(/^[•\-\*]\s*/, "");
+      // **키워드**를 <strong class="bullet-keyword">로 파싱
+      let parsed = escapeHTML(clean).replace(/\*\*(.*?)\*\*/g, '<strong class="bullet-keyword">$1</strong>');
+      return `
+        <li class="takeaway-item">
+          <span class="takeaway-bullet">${i + 1}</span>
+          <span class="takeaway-text">${parsed}</span>
+        </li>
+      `;
+    }).join("");
+    summaryHtml = `
+      <div class="takeaways-box">
+        <ul class="takeaways-list">
+          ${bulletsHtml}
+        </ul>
+      </div>
+    `;
+  }
+  
+  // 본문 심층 분석 (네이티브 아코디언으로 기본 접힘 처리하여 카드 컴팩트화)
   const bodyKo = item.body_ko ? `
-    <div class="news-body-wrapper" style="position:relative; margin-top:16px; font-size:14.5px; line-height:1.7; color:var(--text); opacity:0.85;">
-      <div class="news-body-content" style="max-height:120px; overflow:hidden; transition: max-height 0.4s ease; white-space:pre-wrap;">${escapeHTML(item.body_ko)}</div>
-      <div class="news-body-fade" style="position:absolute; bottom:0; left:0; right:0; height:60px; background:linear-gradient(to bottom, transparent, var(--card)); transition:opacity 0.4s ease; pointer-events:none;"></div>
-    </div>
-    <button type="button" style="display:block; width:100%; text-align:center; padding:12px 0; margin-top:4px; font-size:13.5px; font-weight:600; color:var(--accent); background:none; border:none; cursor:pointer; outline:none;" onclick="
-      const wrap = this.previousElementSibling.querySelector('.news-body-content');
-      const fade = this.previousElementSibling.querySelector('.news-body-fade');
-      if(wrap.style.maxHeight !== 'none') {
-        wrap.style.maxHeight = 'none';
-        fade.style.opacity = '0';
-        this.innerHTML = '접기 ↑';
-      } else {
-        wrap.style.maxHeight = '120px';
-        fade.style.opacity = '1';
-        this.innerHTML = '본문 펼쳐 읽기 ↓';
-      }
-    ">본문 펼쳐 읽기 ↓</button>
+    <details class="news-details">
+      <summary>
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6l4 4 4-4"/></svg>
+        <span>${lang === "en" ? "Deep Dive & Background" : "심층 분석 및 기술 배경 보기"}</span>
+      </summary>
+      <div class="deep-dive-content">${escapeHTML(item.body_ko)}</div>
+    </details>
   ` : "";
   
-  const tags = (item.tags && item.tags.length > 0) ? `<div style="margin-top:16px; display:flex; flex-wrap:wrap; gap:8px;">${item.tags.map(t => `<span style="font-size:12.5px; padding:4px 10px; border-radius:12px; background:var(--pill); color:var(--ink-2); font-weight:500;">#${escapeHTML(t)}</span>`).join("")}</div>` : "";
+  const tags = (item.tags && item.tags.length > 0) ? `<div style="margin-top:14px; display:flex; flex-wrap:wrap; gap:6px;">${item.tags.map(t => `<span style="font-size:12px; padding:3px 9px; border-radius:10px; background:var(--pill); color:var(--ink-2); font-weight:500;">#${escapeHTML(t)}</span>`).join("")}</div>` : "";
 
-  const related = (item.related_articles && item.related_articles.length > 0) ? `<div style="margin-top:20px; font-size:14px; background:var(--pill); padding:16px; border-radius:12px;"><strong style="color:var(--ink-2); display:flex; align-items:center; gap:6px;">🔗 관련 기사</strong><ul style="margin-top:8px; padding-left:20px; color:var(--muted); list-style-type:circle;">${item.related_articles.map(r => `<li style="margin-bottom:6px;"><a href="${escapeHTML(r.url)}" target="_blank" rel="noopener" style="color:var(--muted); text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--muted)'">${escapeHTML(r.title)}</a></li>`).join("")}</ul></div>` : "";
+  const related = (item.related_articles && item.related_articles.length > 0) ? `<div style="margin-top:16px; font-size:13.5px; background:var(--pill); padding:14px; border-radius:12px;"><strong style="color:var(--ink-2); display:flex; align-items:center; gap:6px;">🔗 관련 기사</strong><ul style="margin-top:8px; padding-left:18px; color:var(--muted); list-style-type:circle;">${item.related_articles.map(r => `<li style="margin-bottom:4px;"><a href="${escapeHTML(r.url)}" target="_blank" rel="noopener" style="color:var(--muted); text-decoration:none;">${escapeHTML(r.title)}</a></li>`).join("")}</ul></div>` : "";
 
   const sources = (item.sources || []).map(s => `<span class="src-chip">${escapeHTML(s)}</span>`).join("");
-  // 카드 18개에 giscus iframe 을 미리 다 띄우면 페이지가 무거워진다 — 눌렀을 때만 주입한다.
   const commentBtn = isGiscusReady() ? `
       <button type="button" class="repo-link" data-giscus-term="${safeId}" style="background:none; border:none; cursor:pointer; font:inherit; color:var(--accent);">
         💬 ${lang === "en" ? "Comments" : "댓글"}
       </button>` : "";
   const linkBtn = item.url ? `
-    <div class="card-foot" style="margin-top:24px; border-top:1px solid var(--border); padding-top:16px; display:flex; align-items:center; gap:16px;">
+    <div class="card-foot" style="margin-top:18px; border-top:1px solid var(--border); padding-top:14px; display:flex; align-items:center; gap:16px;">
       <span class="meta-left"></span>
       ${commentBtn}
-      <a class="repo-link" href="${escapeHTML(item.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="margin-left:auto;">
+      <a class="repo-link" href="${escapeHTML(item.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="margin-left:auto; font-weight:600;">
         원문 보기 <span class="arrow">→</span>
       </a>
     </div>
@@ -877,18 +912,18 @@ function newsCardHTML(item, idx = 0) {
   ` : "";
 
   return `
-    <article class="card news-card" data-id="${safeId}" data-platform="${item.category_id || 'news'}" style="position:relative; padding:24px; box-shadow:0 4px 12px rgba(0,0,0,0.05); border-radius:16px;">
+    <article class="card news-card" data-id="${safeId}" data-platform="${item.category_id || 'news'}" style="position:relative; padding:20px; box-shadow:0 2px 10px rgba(0,0,0,0.04); border-radius:14px;">
       ${sticker}
       ${cover}
       ${headHtml}
       <a href="${item.url ? escapeHTML(item.url) : '#'}" target="_blank" rel="noopener" style="text-decoration:none; color:inherit; display:block;">
-        <h3 style="margin-top:0; margin-bottom:12px; line-height:1.45; font-size:20px;">${title}</h3>
+        <h3 style="margin-top:0; margin-bottom:10px; line-height:1.42; font-size:18.5px; font-weight:700;">${title}</h3>
       </a>
-      ${summary}
+      ${summaryHtml}
       ${bodyKo}
       ${tags}
       ${related}
-      ${sources ? `<div class="src-line" style="margin-top:20px; flex-wrap:wrap; gap:8px;">${sources}</div>` : ""}
+      ${sources ? `<div class="src-line" style="margin-top:16px; flex-wrap:wrap; gap:6px;">${sources}</div>` : ""}
       ${linkBtn}
     </article>
   `;

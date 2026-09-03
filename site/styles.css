@@ -1981,3 +1981,119 @@ footer a:hover, footer .foot-link:hover { color: var(--accent); border-bottom-co
   .data-tabs-wrap { margin-top: 12px; }
   main { padding-top: 12px; }
 }
+
+/* ============ 뉴스 카드 핵심 요약(Takeaways) & 심층 분석 아코디언 ============ */
+.takeaways-box {
+  margin: 14px 0 16px 0;
+  padding: 14px 16px;
+  background: var(--pill);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.card:hover .takeaways-box {
+  border-color: rgba(217, 119, 87, 0.3);
+}
+.takeaways-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.takeaway-item {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--text);
+}
+.takeaway-bullet {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+  line-height: 1;
+  margin-top: 2px;
+}
+.takeaway-text {
+  flex: 1;
+}
+.takeaway-text strong,
+.takeaway-text .bullet-keyword {
+  color: var(--ink);
+  font-weight: 700;
+  background: rgba(217, 119, 87, 0.1);
+  padding: 1px 6px;
+  border-radius: 6px;
+  margin-right: 4px;
+}
+
+/* 뉴스 상세 해설 아코디언 */
+.news-details {
+  margin: 14px 0;
+  border-top: 1px dashed var(--border);
+  padding-top: 10px;
+}
+.news-details summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  user-select: none;
+  list-style: none;
+  padding: 4px 0;
+  transition: color 0.15s;
+}
+.news-details summary::-webkit-details-marker {
+  display: none;
+}
+.news-details summary:hover {
+  color: var(--ink);
+  text-decoration: underline;
+}
+.news-details[open] summary {
+  color: var(--ink-2);
+}
+.news-details .deep-dive-content {
+  margin-top: 10px;
+  padding: 14px 16px;
+  background: rgba(0, 0, 0, 0.02);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 10px 10px 0;
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--text);
+  white-space: pre-wrap;
+  opacity: 0.95;
+}
+html[data-theme="dark"] .news-details .deep-dive-content {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* 신호축 뱃지 */
+.signal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 8px;
+  background: var(--pill);
+  color: var(--accent);
+  border: 1px solid rgba(217, 119, 87, 0.2);
+}
+
