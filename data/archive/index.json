@@ -1,11 +1,18 @@
 {
   "archives": [
     {
+      "file": "2026-09-03.json",
+      "version": "v2026.09.03",
+      "generated_at": "2026-09-03",
+      "rising_count": 19,
+      "classic_count": 16
+    },
+    {
       "file": "2026-08-31.json",
       "version": "v2026.08.31",
       "generated_at": "2026-08-31",
-      "rising_count": 0,
-      "classic_count": 0
+      "rising_count": 19,
+      "classic_count": 16
     },
     {
       "file": "2026-08-25.json",
@@ -46,8 +53,8 @@
       "file": "2026-08-04.json",
       "version": "v2026.08.04",
       "generated_at": "2026-08-04",
-      "rising_count": 0,
-      "classic_count": 0
+      "rising_count": 19,
+      "classic_count": 10
     },
     {
       "file": "2026-08-03.json",
@@ -101,7 +108,7 @@
     {
       "file": "2026-06-08.json",
       "version": "v2026.06.08",
-      "generated_at": "2026-06-08",
+      "generated_at": null,
       "rising_count": 10,
       "classic_count": 12
     },
