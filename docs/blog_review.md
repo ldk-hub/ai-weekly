@@ -21,9 +21,6 @@ Hacker News, GeekNews, Reddit, X, Threads... 정보의 출처는 넘쳐나는데
 ---
 
 ## 🚀 한눈에 보는 4대 탭 UX 개편 하이라이트
-
-<img src="images/news_tab.png" alt="개편된 AI 뉴스 화면" width="100%" style="border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);" />
-
 AI위클리는 사용자가 사이트에 접속했을 때 1초의 피로도 없이 직관적인 인사이트를 얻어갈 수 있도록 **4개 핵심 탭의 정보 계층을 전면 재설계**했습니다.
 
 ---

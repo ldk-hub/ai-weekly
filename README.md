@@ -15,11 +15,6 @@
 ![Auto Updated](https://img.shields.io/badge/Updated-Daily%20&%20Weekly-22c55e?style=flat-square)
 ![License](https://img.shields.io/badge/License-MIT-0e0e0e?style=flat-square)
 ![Vite + Static](https://img.shields.io/badge/Stack-Vite%20%7C%20Vanilla%20JS%20%7C%20Node.js-blue?style=flat-square)
-
-<br>
-
-<img src="docs/images/news_tab.png" alt="AI위클리 데일리 뉴스 화면" width="100%" style="border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);" />
-
 </div>
 
 ---
