@@ -731,6 +731,110 @@ const CURATED_KNOWLEDGE = {
     ],
     use_case: "차단이 심한 최신 웹사이트나 동적 SPA 페이지의 데이터를 에이전트가 수집할 때",
     tags: ["web-scraping", "anti-bot-bypass", "data-extraction", "python"]
+  },
+  "boyang-hu/website-rebuild-skill": {
+    category: "skill",
+    title_ko: "website-rebuild-skill — 웹사이트를 복제하고 압축 코드를 복원 검증하는 에이전트 스킬",
+    catchphrase: "대상 사이트의 읽기 전용 미러링부터 난독화 코드 복원 및 자동 diff 검수까지 수행",
+    summary_ko: "웹사이트를 정밀하게 클론하고 재구축하는 Claude Code 에이전트 스킬입니다. 대상 웹사이트의 정적 에셋과 구조를 안전하게 캡처한 뒤, 번들링 및 난독화된 자바스크립트/CSS를 가독성 높은 코드로 단계별 복원합니다. 최종 빌드 결과물을 원본과 시각적·구조적 diff로 자동 비교하여 무결성을 검증합니다.",
+    key_features: [
+      "대상 웹사이트 읽기 전용 미러링 및 구조화 아카이빙",
+      "난독화·압축된 프론트엔드 코드의 점진적 가독성 복원",
+      "자동 diff 엔진을 통한 원본 대비 결과물 오차 검증"
+    ],
+    use_case: "레거시 웹사이트를 최신 스택으로 리빌딩하거나 UI 프로토타입을 역공학할 때",
+    tags: ["website-rebuild", "agent-skill", "reverse-engineering", "claude-code"]
+  },
+  "s0xDk/refactoring-ui-skill": {
+    category: "skill",
+    title_ko: "refactoring-ui-skill — Refactoring UI 디자인 시스템 규칙을 코딩 에이전트에 주입하는 스킬",
+    catchphrase: "간격·타이포·색상·그림자 제약 스케일과 시각적 위계를 코딩 에이전트에 체계적으로 적용",
+    summary_ko: "Adam Wathan과 Steve Schoger의 명저 Refactoring UI의 실전 디자인 법칙들을 코딩 에이전트가 준수하도록 만든 스킬입니다. 임의의 픽셀 값 대신 엄격한 간격 및 서체 스케일을 강제하고, 폰트 굵기와 색상 대비를 통한 정보 위계 설계, 자연스러운 빛 시뮬레이션을 통한 깊이감 표현을 프론트엔드 코드에 자동으로 반영합니다.",
+    key_features: [
+      "체계적인 간격·타이포그래피·색상 팔레트 토큰 제약 적용",
+      "배경 및 텍스트 대비를 극대화하는 시각적 계층 구조 형성",
+      "복잡한 CSS 유틸리티 남용 방지 및 깔끔한 UI 리팩토링"
+    ],
+    use_case: "엔지니어가 직접 만드는 웹 프론트엔드의 디자인 완성도를 프로 디자이너 수준으로 끌어올릴 때",
+    tags: ["refactoring-ui", "design-system", "claude-skills", "ui-ux"]
+  },
+  "Appllama/appllama-skills": {
+    category: "skill",
+    title_ko: "appllama-skills — 인기 모바일 앱의 검증된 패턴을 네이티브 화면 코드로 변환하는 스킬",
+    catchphrase: "글로벌 톱 매출 앱들의 UX 패턴을 네이티브 모바일 스크린으로 즉시 제작",
+    summary_ko: "단순 리서치에 그치지 않고 글로벌 매출 상위 모바일 앱들의 실전 디자인 및 인터랙션 패턴을 네이티브 모바일 코드로 구현해주는 에이전트 스킬셋입니다. 온보딩, 결제 구독 화면, 인터랙티브 피드 등 전환율이 검증된 UI 패턴을 Flutter 및 React Native 코드로 빠르게 생성합니다.",
+    key_features: [
+      "글로벌 톱 그로싱 앱들의 검증된 인터랙션 패턴 데이터셋 내장",
+      "Flutter 및 React Native 네이티브 품질 스크린 즉시 생성",
+      "온보딩 및 결제 화면 등 핵심 비즈니스 컴포넌트 특화"
+    ],
+    use_case: "모바일 앱 MVP 개발 시 검증된 고전환율 UI/UX 화면을 빠르게 구현하고 싶을 때",
+    tags: ["mobile-ui", "app-patterns", "native-screens", "agent-skill"]
+  },
+  "Vincentwei1021/video-talkcraft": {
+    category: "skill",
+    title_ko: "video-talkcraft — 음성 해설 싱크와 모션 레시피를 결합한 설명 영상 제작 스튜디오 스킬",
+    catchphrase: "Claude Code를 설명 영상 모션 디자인 스튜디오로 변환하는 Remotion 기반 스킬",
+    summary_ko: "Claude Code와 Codex를 단어 단위 음성 싱크가 완벽한 모션 그래픽 비디오 스튜디오로 탈바꿈시키는 스킬입니다. 78개의 사전 정의된 모션 레시피 카드와 슬라이드쇼 느낌을 탈피한 유기적 카메라 워크 시스템을 제공하며, Remotion 렌더링 엔진과 결합해 고품질 기술 해설 영상을 자동 생성합니다.",
+    key_features: [
+      "단어 단위(Word-level) 음성 내레이션과 모션 그래픽 정밀 싱크",
+      "78가지 전문 모션 레시피 카드 및 동적 카메라 무빙 시스템",
+      "React 기반 Remotion 프레임워크를 활용한 프로그래머블 렌더링"
+    ],
+    use_case: "기술 문서나 제품 릴리스 노트를 유튜브/쇼츠용 모션 설명 영상으로 자동 변환할 때",
+    tags: ["video-generation", "remotion", "motion-design", "claude-skills"]
+  },
+  "vinzdg/codenotch": {
+    category: "skill",
+    title_ko: "codenotch — 맥북 노치에 코딩 에이전트 사용량과 상태를 띄우는 미니멀 유틸리티",
+    catchphrase: "Claude Code, Cursor, Codex, Antigravity 사용량과 작업 진행도를 화면 상단에 상시 고정",
+    summary_ko: "맥북 화면 상단의 노치 영역에 작은 블랙 바를 고정하여 다양한 AI 코딩 에이전트의 사용량 한도 소진율과 현재 작업 상태를 실시간 표시하는 Swift 기반 macOS 앱입니다. 터미널 창을 전환하지 않고도 에이전트가 작업 중인지, 사용자 입력을 기다리는지 직관적으로 확인할 수 있습니다.",
+    key_features: [
+      "맥북 상단 노치 영역에 완벽히 통합되는 미니멀 UI",
+      "Claude Code, Cursor, Codex, Antigravity 등 다중 에이전트 한도 추적",
+      "호버 툴팁을 통한 즉각적인 세부 지표 확인 및 초경량 자원 소모"
+    ],
+    use_case: "여러 AI 코딩 도구를 동시에 사용하면서 토큰 소진 상태와 작업 완료를 실시간 모니터링할 때",
+    tags: ["macos-app", "notch-monitor", "usage-limits", "swift"]
+  },
+  "soumatheusgomes/vibe-coding-toolkit": {
+    category: "skill",
+    title_ko: "vibe-coding-toolkit — 프로덕션 검증을 마친 Claude Code 플러그인 및 오케스트레이션 툴킷",
+    catchphrase: "서브에이전트 조율, 품질 게이트, 복사 가능한 실전 프롬프트를 묶은 프로덕션 툴킷",
+    summary_ko: "실제 프로덕션 소프트웨어 개발 현장에서 수개월간 검증된 Claude Code 플러그인, 서브에이전트 오케스트레이션 패턴, 자동 품질 게이트 및 즉시 복사 가능한 프롬프트 모음집입니다. 바이브 코딩(Vibe Coding)의 빠른 프로토타이핑 장점과 엄격한 코드 품질 검증을 동시에 달성하도록 설계되었습니다.",
+    key_features: [
+      "독립적 서브에이전트 병렬 실행 및 역할 분담 워크플로우",
+      "코드 배포 전 린트·테스트·보안을 강제하는 자동 품질 게이트",
+      "실전에서 반복 검증된 도메인별 최적화 프롬프트 템플릿"
+    ],
+    use_case: "AI 에이전트를 실무 엔지니어링 파이프라인에 체계적이고 신뢰성 있게 안착시킬 때",
+    tags: ["vibe-coding", "subagent-orchestration", "quality-gates", "claude-plugins"]
+  },
+  "ChromeDevTools/chrome-devtools-mcp": {
+    category: "mcp",
+    title_ko: "chrome-devtools-mcp — 브라우저 자동화와 검사를 지원하는 공식 Chrome DevTools MCP 서버",
+    catchphrase: "AI 코딩 에이전트에게 실제 브라우저 렌더링 검사, 콘솔 디버깅, 성능 프로파일링 권한 부여",
+    summary_ko: "Google Chrome 개발자 도구의 강력한 브라우저 디버깅 및 자동화 기능을 Model Context Protocol(MCP)을 통해 에이전트에게 제공하는 공식 서버입니다. DOM 조작, 스크린샷 캡처, 네트워크 요청 추적, 콘솔 로그 조회, 웹 바이탈(LCP 등) 및 접근성(a11y) 감사를 에이전트가 직접 수행할 수 있습니다.",
+    key_features: [
+      "헤드리스 및 헤드풀 Chrome 브라우저 실시간 제어",
+      "콘솔 로그, 네트워크 트래픽, 힙 스냅샷 정밀 분석",
+      "Lighthouse 성능 감사 및 웹 접근성 자동 검증"
+    ],
+    use_case: "코딩 에이전트가 웹 애플리케이션의 UI 버그를 직접 브라우저에서 재현하고 디버깅할 때",
+    tags: ["chrome-devtools", "mcp-server", "browser-automation", "debugging"]
+  },
+  "headroomlabs-ai/headroom": {
+    category: "mcp",
+    title_ko: "headroom — 에이전트 도구 출력과 로그를 최대 95% 압축하는 지능형 토큰 세이버",
+    catchphrase: "도구 실행 결과, 대용량 로그, RAG 청크를 의미 손실 없이 압축하여 토큰 비용과 지연 시간 절감",
+    summary_ko: "AI 에이전트가 대용량 도구 출력, 빌드 로그, JSON 데이터, RAG 검색 결과를 LLM 컨텍스트로 전달하기 전에 토큰을 획기적으로 압축해주는 라이브러리이자 MCP 프록시 서버입니다. JSON 데이터의 경우 60~95%, 일반 텍스트는 20% 이상의 토큰을 절감하면서도 동일한 정답 품질을 유지합니다.",
+    key_features: [
+      "JSON 및 구조화 데이터 대상 60~95% 극적 압축 달성",
+      "코딩 에이전트 도구 실행 출력 대상 평균 20% 토큰 절감",
+      "라이브러리, 프록시 서버, MCP 서버의 3대 구동 모드 제공"
+    ],
+    use_case: "대규모 코드베이스 검색이나 긴 로그 분석 시 LLM 컨텍스트 윈도우 초과와 비용을 방지할 때",
+    tags: ["token-compression", "context-optimization", "mcp-server", "llm-proxy"]
   }
 };
 

@@ -24,7 +24,7 @@ function writeFile(filePath, content) {
 // 1. 메인 개요 (README.md)
 const README_CONTENT = `---
 title: AI위클리 (AI Weekly) — 프로젝트 총괄 대시보드
-date: 2026-08-31
+date: 2026-09-07
 type: project-hub
 tags: [ai-weekly, dashboard, architecture, automated-pipeline]
 status: active
@@ -50,7 +50,7 @@ graph TD
         A5[GitHub Search API] --> S
         A6[Bluesky Search] --> S
         A7[HF Daily Papers] --> S
-        A8[559개 OSS Repo Stars] --> S
+        A8[561개 OSS Repo Stars] --> S
     end
 
     subgraph "정밀 큐레이션 & 품질 게이트 (Phase 2)"
@@ -82,6 +82,8 @@ graph TD
 - [[04-giscus 라운지 및 커뮤니티 연동|💬 giscus 라운지 및 커뮤니티 연동 명세]]
 
 ### 📅 날짜별 작업 일지 (Work Logs)
+- [[2026-09-07 작업일지|📅 2026-09-07 작업일지 (주간 cc-weekly: 스타보드 561개, 트렌드 35건, 뉴스 15건, 진입점 보안 스캔 완수)]]
+- [[2026-09-03 작업일지|📅 2026-09-03 작업일지 (아카이브 날짜/버전 일관성 전수 정비 및 평일 데일리 파이프라인 완수)]]
 - [[2026-08-31 작업일지|📅 2026-08-31 작업일지 (주간 cc-trends, cc-star 559개 갱신, cc-news 20건 배포)]]
 - [[2026-08-27 작업일지|📅 2026-08-27 작업일지 (GLM-5.3-Flash 큐레이션, 474개 스타 갱신)]]
 - [[2026-08-26 작업일지|📅 2026-08-26 작업일지 (AI 트렌드 요약 #키워드 규격 혁신, AI 라운지 신규 구축)]]
@@ -250,6 +252,61 @@ tags: [ai-weekly, lounge, giscus, github-discussions, community]
 
 // 3. 작업 일지들
 const LOGS = [
+  {
+    filename: "2026-09-07 작업일지.md",
+    title: "2026-09-07 작업일지 — 주간 종합 파이프라인(cc-weekly) 완수 (스타보드 561개 100% 최신화, 트렌드 35건 큐레이션 및 보안 스캔, 뉴스 15건 배포)",
+    date: "2026-09-07",
+    content: `---
+title: 2026-09-07 작업일지 — 주간 종합 파이프라인(cc-weekly) 완수 (스타보드 561개 100% 최신화, 트렌드 35건 큐레이션 및 보안 스캔, 뉴스 15건 배포)
+date: 2026-09-07
+type: work-log
+tags: [work-log, cc-weekly, cc-star, cc-news, cc-trends, security-scan, obsidian-sync]
+---
+
+# 📅 2026-09-07 작업일지
+
+## 1. 주요 작업 내용
+
+### 📈 1. CC-Star (오픈소스 스타보드 원장 최신화)
+- **대상 및 성과:** 총 561개 주요 오픈소스 리포지토리 전수 추적 (API 호출 성공률 100%)
+- **주요 변동 사항:**
+  - 404 Gone: 32건 정상 식별 및 플래그 처리
+  - Rename: 0건
+  - Suspect: 67건 (변동 감지)
+- **주간 스타 급상승 Top 5:**
+  1. \`mattpocock/skills\`: +9,124 (254,495★)
+  2. \`DietrichGebert/ponytail\`: +7,503 (129,310★)
+  3. \`affaan-m/ECC\`: +4,873 (251,278★)
+  4. \`blader/humanizer\`: +3,698 (44,212★)
+  5. \`stablyai/orca\`: +2,644 (62,765★)
+- 원장(\`stars_ledger.json\`) 및 메타(\`stars_meta.json\`) 원자적 갱신 및 사이트 퍼블릭 미러링 완료
+
+### 📰 2. CC-News (데일리 AI 기술 신호 24시간 정밀 큐레이션)
+- **수집:** 7개 지정 매체 중 6개 매체에서 총 112건 후보 수집 (\`HF Daily Papers\`는 월요일 오전 UTC 생성 전으로 \`[MISSING]\` 처리)
+  - GeekNews 5건, AI타임스 5건, Hacker News 9건, GitHub 50건, Reddit 36건, Bluesky 7건
+  - 최근 7일 기배포 URL 중복 2건 차단, \`is_update\` 1건 유지
+- **정밀 큐레이션 (15건 선별 배포):**
+  - 신호축 분포: \`devtool\` 4건, \`oss\` 4건, \`model\` 2건, \`research\` 2건, \`product\` 1건, \`policy\` 1건, \`practice\` 1건
+  - 핵심 이슈: 마이크로소프트 윈도우 11 프로젝트 제니스(30B 로컬 실행), 구글 리리아 3.5 API, 오픈AI 에이전트 위키 사건 정렬 실패 기준
+  - 업데이트 항목: \`2akouwu/reverify\` (최근 7일 스타 65% 급증, 583★→962★)
+  - 3불릿 볼드 키워드(\`• **키워드**: \`), 5~10문장 심층 해설, 사실 필드 100% 일치 규격 엄수
+  - \`curate_news.js --validate\` 43개 검증 항목 무결성 100% 통과
+
+### 🔥 3. CC-Trends (Claude Code 생태계 주간 트렌드 큐레이션 및 보안 검사)
+- **광역 수집:** GitHub 10대 쿼리 + HN 4대 쿼리 수집 (58건 유효 후보 도출)
+- **진입점 보안 스캔 (\`scan-install-entry.js\`):**
+  - 58건 전수 검사 결과, 악성 원격 페이로드 로더/드로퍼 1건 적발 및 즉각 차단
+  - 차단 대상: \`damejan80/tokentab\` (1160★) — \`setup.py\` 내 미인증 공개 IP(91.92.47.134) 및 \`remote_fetch_exec\` 탐지
+- **주간 큐레이션 (35건 선별):**
+  - Rising 19건, Classic 16건 엄선 (\`site/public/data/latest.json\` 및 아카이브 \`2026-09-07.json\` 배포)
+  - 신규 등록 리포 8건 한글 카피 지식 베이스 확장 (\`website-rebuild-skill\`, \`refactoring-ui-skill\`, \`appllama-skills\`, \`video-talkcraft\`, \`codenotch\`, \`vibe-coding-toolkit\`, \`chrome-devtools-mcp\`, \`headroom\`)
+
+### 📦 4. 배포 리소스 및 빌드 검증
+- RSS 피드(\`feed.xml\`, \`news-feed.xml\`), sitemap.xml, OG 이미지(\`og.svg\`, \`og.png\`), 아카이브 인덱스 최신화
+- 라운지 스냅샷 갱신 완료
+- Vite 프로덕션 멀티페이지 정적 빌드(\`npm run build\`) 149ms 무결성 통과 (에러 0건)
+`
+  },
   {
     filename: "2026-09-03 작업일지.md",
     title: "2026-09-03 작업일지 — 아카이브 날짜/버전 일관성 전수 정비 및 평일 데일리 파이프라인(cc-daily) 완수",

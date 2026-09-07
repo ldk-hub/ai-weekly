@@ -16,7 +16,7 @@
   <!-- Version pill (right side) -->
   <g transform="translate(940, 64)">
     <rect x="0" y="0" width="200" height="36" rx="18" fill="#f2efe5"/>
-    <text x="100" y="23" font-size="13" font-weight="600" fill="#0e0e0e" text-anchor="middle">📅 2026.09.03 · v2026.09.03</text>
+    <text x="100" y="23" font-size="13" font-weight="600" fill="#0e0e0e" text-anchor="middle">📅 2026.09.07 · v2026.09.07</text>
   </g>
 
   <!-- Main title -->
@@ -27,38 +27,38 @@
   
     <g transform="translate(60, 290)">
       <rect x="0" y="0" width="347" height="280" rx="20" fill="#ffeca0" stroke="#0e0e0e" stroke-width="1.5"/>
-      <text x="24" y="40" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="2">#01 · SKILL</text>
+      <text x="24" y="40" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="2">#01 · HARNESS</text>
+      <text x="24" y="92" font-size="28" font-weight="700" fill="#0e0e0e" letter-spacing="-0.5">ECC — Claude Co…</text>
+      <text x="24" y="138" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">스킬 로딩 속도 향상, 직관적 프롬프트 라우팅, 에이전트 반응성을 …</text>
+      <text x="24" y="172" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">직관적 프롬프트 라우팅, 에이전트 반응성을 최적화하는 도구</text>
+
+      <g transform="translate(24, 220)">
+        <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">affaan-m/ECC</text>
+        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 251k</text>
+      </g>
+    </g>
+    <g transform="translate(427, 290)">
+      <rect x="0" y="0" width="347" height="280" rx="20" fill="#d8edd0" stroke="#0e0e0e" stroke-width="1.5"/>
+      <text x="24" y="40" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="2">#02 · SKILL</text>
+      <text x="24" y="92" font-size="28" font-weight="700" fill="#0e0e0e" letter-spacing="-0.5">unlazy — AI 에이전…</text>
+      <text x="24" y="138" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">Depth Tree 기법으로 TODO 생략 및 불성실한 코드 작성을…</text>
+      <text x="24" y="172" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85"></text>
+
+      <g transform="translate(24, 220)">
+        <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">Leonxlnx/unlazy</text>
+        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 3.1k</text>
+      </g>
+    </g>
+    <g transform="translate(794, 290)">
+      <rect x="0" y="0" width="347" height="280" rx="20" fill="#ffd8bd" stroke="#0e0e0e" stroke-width="1.5"/>
+      <text x="24" y="40" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="2">#03 · SKILL</text>
       <text x="24" y="92" font-size="28" font-weight="700" fill="#0e0e0e" letter-spacing="-0.5">sepia — AI 특유의 …</text>
       <text x="24" y="138" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">과장된 수식어와 판에 박힌 어조를 걷어내고 담백한 필력을 완성하는 …</text>
       <text x="24" y="172" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85"></text>
 
       <g transform="translate(24, 220)">
         <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">Nanako0129/sepia</text>
-        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 1.6k</text>
-      </g>
-    </g>
-    <g transform="translate(427, 290)">
-      <rect x="0" y="0" width="347" height="280" rx="20" fill="#d8edd0" stroke="#0e0e0e" stroke-width="1.5"/>
-      <text x="24" y="40" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="2">#02 · AGENT</text>
-      <text x="24" y="92" font-size="28" font-weight="700" fill="#0e0e0e" letter-spacing="-0.5">headcount — 기업 …</text>
-      <text x="24" y="138" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">15개 이상의 부서와 125개 이상의 독립 스킬로 가상 회사를 구축…</text>
-      <text x="24" y="172" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85"></text>
-
-      <g transform="translate(24, 220)">
-        <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">cbrock84/headcount</text>
-        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 1.1k</text>
-      </g>
-    </g>
-    <g transform="translate(794, 290)">
-      <rect x="0" y="0" width="347" height="280" rx="20" fill="#ffd8bd" stroke="#0e0e0e" stroke-width="1.5"/>
-      <text x="24" y="40" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="2">#03 · AGENT</text>
-      <text x="24" y="92" font-size="28" font-weight="700" fill="#0e0e0e" letter-spacing="-0.5">cumora — AI 에이전…</text>
-      <text x="24" y="138" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">AI 에이전트를 동등한 팀원으로 초대하여 실시간 협업과 태스크를 수…</text>
-      <text x="24" y="172" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85"></text>
-
-      <g transform="translate(24, 220)">
-        <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">yetone/cumora</text>
-        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 3.4k</text>
+        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 2.3k</text>
       </g>
     </g>
 
