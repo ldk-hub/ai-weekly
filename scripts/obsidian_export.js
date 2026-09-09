@@ -24,7 +24,7 @@ function writeFile(filePath, content) {
 // 1. 메인 개요 (README.md)
 const README_CONTENT = `---
 title: AI위클리 (AI Weekly) — 프로젝트 총괄 대시보드
-date: 2026-09-08
+date: 2026-09-09
 type: project-hub
 tags: [ai-weekly, dashboard, architecture, automated-pipeline]
 status: active
@@ -82,6 +82,7 @@ graph TD
 - [[04-giscus 라운지 및 커뮤니티 연동|💬 giscus 라운지 및 커뮤니티 연동 명세]]
 
 ### 📅 날짜별 작업 일지 (Work Logs)
+- [[2026-09-09 작업일지|📅 2026-09-09 작업일지 (평일 cc-daily: 스타보드 561개 최신화, 데일리 AI 뉴스 15건 배포, 7대 매체 100% 수집)]]
 - [[2026-09-08 작업일지|📅 2026-09-08 작업일지 (평일 cc-daily: 스타보드 561개 최신화, 데일리 AI 뉴스 15건 배포, 7대 매체 100% 수집)]]
 - [[2026-09-07 작업일지|📅 2026-09-07 작업일지 (주간 cc-weekly: 스타보드 561개, 트렌드 35건, 뉴스 15건, 진입점 보안 스캔 완수)]]
 - [[2026-09-03 작업일지|📅 2026-09-03 작업일지 (아카이브 날짜/버전 일관성 전수 정비 및 평일 데일리 파이프라인 완수)]]
@@ -253,6 +254,46 @@ tags: [ai-weekly, lounge, giscus, github-discussions, community]
 
 // 3. 작업 일지들
 const LOGS = [
+  {
+    filename: "2026-09-09 작업일지.md",
+    title: "2026-09-09 작업일지 — 평일 데일리 파이프라인(cc-daily) 완수 (스타보드 561개 최신화, 데일리 AI 뉴스 15건 큐레이션 및 전 매체 수집 100%)",
+    date: "2026-09-09",
+    content: `---
+title: 2026-09-09 작업일지 — 평일 데일리 파이프라인(cc-daily) 완수 (스타보드 561개 최신화, 데일리 AI 뉴스 15건 큐레이션 및 전 매체 수집 100%)
+date: 2026-09-09
+type: work-log
+tags: [work-log, cc-daily, cc-star, cc-news, obsidian-sync]
+---
+
+# 📅 2026-09-09 작업일지
+
+## 1. 주요 작업 내용
+
+### 📈 1. CC-Star (오픈소스 스타보드 원장 최신화)
+- **수집 대상:** 561개 오픈소스 리포지토리 전수 추적 완료 (API 호출 성공률 100%)
+- **상태 변화:** 404 Gone: 33건, Rename: 0건, Suspect: 66건 감지
+- **원장 및 메타:** \`stars_ledger.json\`, \`stars_meta.json\` 원자적 갱신 및 사이트 퍼블릭 미러링 완료
+
+### 📰 2. CC-News (24시간 AI 기술 신호 수집 및 정밀 큐레이션)
+- **수집:** 7대 전 매체 100% 성공 (총 116건 수집, \`[MISSING]\` 0건)
+  - GeekNews 5건, AI타임스 5건, Hacker News 18건, GitHub 50건, Reddit 27건, HF Daily Papers 3건, Bluesky 8건
+  - 최근 7일 기배포 URL 중복 1건 차단, \`is_update\` 2건 유지
+- **정밀 큐레이션 (15건 선별 배포):**
+  - 신호축 분포: \`model\` 3건, \`devtool\` 3건, \`oss\` 3건, \`product\` 2건, \`research\` 2건, \`practice\` 1건, \`policy\` 1건
+  - 핵심 이슈:
+    - \`[practice]\` 맥북 프로에서 SSD 스트리밍으로 2.8조 파라미터 Kimi K3 가동 (초당 3.8토큰 달성)
+    - \`[policy]\` 오픈AI, '에르되시-레니 수학 난제 해결' 모델 표절 공방 (원저자 증명 무단 학습 논란)
+    - \`[model]\` 딥시크, 네이티브 멀티모달 'DeepSeek-VL2 Flash (v4.1)' 오픈소스 베타 공개
+    - \`[devtool]\` Meta의 \`llama-stack-provider-hybrid\` (클라우드/온디바이스 하이브리드 추론 엔진)
+    - \`[업데이트]\` \`vinzdg/codenotch\` (코드베이스 다이어그램 시각화 도구, 7일간 스타 62.3% 급증, 687★→1,115★로 1,000★ 돌파)
+  - 3불릿 볼드 키워드(\`• **키워드**: \`), 5~10문장 심층 해설, 사실 필드 100% 일치 규격 엄수
+  - \`curate_news.js --validate\` 43개 검증 항목 무결성 100% 통과
+
+### 📦 3. 배포 리소스 및 빌드 검증
+- RSS 피드(\`feed.xml\`, \`news-feed.xml\`), sitemap.xml, 라운지 스냅샷 최신화
+- Vite 프로덕션 멀티페이지 정적 빌드(\`npm run build\`) 155ms 무결성 통과 (에러 0건)
+`
+  },
   {
     filename: "2026-09-08 작업일지.md",
     title: "2026-09-08 작업일지 — 평일 데일리 파이프라인(cc-daily) 완수 (스타보드 561개 최신화, 데일리 AI 뉴스 15건 큐레이션 및 전 매체 수집 100%)",
