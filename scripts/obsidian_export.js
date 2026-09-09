@@ -24,7 +24,7 @@ function writeFile(filePath, content) {
 // 1. 메인 개요 (README.md)
 const README_CONTENT = `---
 title: AI위클리 (AI Weekly) — 프로젝트 총괄 대시보드
-date: 2026-09-09
+date: 2026-09-10
 type: project-hub
 tags: [ai-weekly, dashboard, architecture, automated-pipeline]
 status: active
@@ -82,6 +82,7 @@ graph TD
 - [[04-giscus 라운지 및 커뮤니티 연동|💬 giscus 라운지 및 커뮤니티 연동 명세]]
 
 ### 📅 날짜별 작업 일지 (Work Logs)
+- [[2026-09-10 작업일지|📅 2026-09-10 작업일지 (평일 cc-daily: 스타보드 561개 최신화, 데일리 AI 뉴스 15건 배포, 7대 매체 100% 수집)]]
 - [[2026-09-09 작업일지|📅 2026-09-09 작업일지 (평일 cc-daily: 스타보드 561개 최신화, 데일리 AI 뉴스 15건 배포, 7대 매체 100% 수집)]]
 - [[2026-09-08 작업일지|📅 2026-09-08 작업일지 (평일 cc-daily: 스타보드 561개 최신화, 데일리 AI 뉴스 15건 배포, 7대 매체 100% 수집)]]
 - [[2026-09-07 작업일지|📅 2026-09-07 작업일지 (주간 cc-weekly: 스타보드 561개, 트렌드 35건, 뉴스 15건, 진입점 보안 스캔 완수)]]
@@ -254,6 +255,48 @@ tags: [ai-weekly, lounge, giscus, github-discussions, community]
 
 // 3. 작업 일지들
 const LOGS = [
+  {
+    filename: "2026-09-10 작업일지.md",
+    title: "2026-09-10 작업일지 — 평일 데일리 파이프라인(cc-daily) 완수 (스타보드 561개 최신화, 데일리 AI 뉴스 15건 큐레이션 및 전 매체 수집 100%)",
+    date: "2026-09-10",
+    content: `---
+title: 2026-09-10 작업일지 — 평일 데일리 파이프라인(cc-daily) 완수 (스타보드 561개 최신화, 데일리 AI 뉴스 15건 큐레이션 및 전 매체 수집 100%)
+date: 2026-09-10
+type: work-log
+tags: [work-log, cc-daily, cc-star, cc-news, obsidian-sync]
+---
+
+# 📅 2026-09-10 작업일지
+
+## 1. 주요 작업 내용
+
+### 📈 1. CC-Star (오픈소스 스타보드 원장 최신화)
+- **수집 대상:** 561개 오픈소스 리포지토리 전수 추적 완료 (API 호출 성공률 100%)
+- **상태 변화:** 404 Gone: 34건, Rename: 0건, Suspect: 65건 감지
+- **원장 및 메타:** \`stars_ledger.json\`, \`stars_meta.json\` 원자적 갱신 및 사이트 퍼블릭 미러링 완료
+
+### 📰 2. CC-News (24시간 AI 기술 신호 수집 및 정밀 큐레이션)
+- **수집:** 7대 전 매체 100% 성공 (총 122건 수집, \`[MISSING]\` 0건)
+  - GeekNews 5건, AI타임스 5건, Hacker News 22건, GitHub 50건, Reddit 19건, HF Daily Papers 12건, Bluesky 9건
+  - 최근 7일 기배포 URL 중복 6건 차단, \`is_update\` 2건 유지
+- **정밀 큐레이션 (15건 선별 배포):**
+  - 신호축 분포: \`devtool\` 3건, \`product\` 3건, \`model\` 2건, \`research\` 2건, \`practice\` 2건, \`oss\` 2건, \`policy\` 1건
+  - 핵심 이슈:
+    - \`[research]\` 세바스찬 라슈카 분석: GPT-6 아스트라 루프형 트랜스포머 및 잠재 추론(Hidden CoT) 구조
+    - \`[policy]\` 클로드 유료 계정 세션/토큰 탈취 '인포스틸러' 급증 및 앤트로픽 강제 무효화 조치
+    - \`[model]\` NeoHorse-1: 라우팅 하네스 기반 에이전틱 사후 학습을 통한 재귀적 자기 개선(RSI) 오픈 모델
+    - \`[product]\` 애플 iPhone 18 Pro 공개: 2나노 A20 Pro와 32코어 뉴럴 엔진으로 온디바이스 에이전트 가속
+    - \`[practice]\` 스포티파이 엔지니어링의 Spotify Method: Claude Code 토큰 사용량 및 비용 90% 절감 기법
+    - \`[업데이트]\` \`XiaoDuoYa/codex-with-chatgpt\` (7일간 스타 65.7% 폭증, 2,273★→3,766★)
+    - \`[업데이트]\` \`okf-memory/okf-agent-memory\` (Google OKF v0.2 표준, 7일간 스타 48.9% 증가, 348★→518★로 500★ 돌파)
+  - 3불릿 볼드 키워드(\`• **키워드**: \`), 5~10문장 심층 해설, 사실 필드 100% 일치 규격 엄수
+  - \`curate_news.js --validate\` 43개 검증 항목 무결성 100% 통과
+
+### 📦 3. 배포 리소스 및 빌드 검증
+- RSS 피드(\`feed.xml\`, \`news-feed.xml\`), sitemap.xml, 라운지 스냅샷 최신화
+- Vite 프로덕션 멀티페이지 정적 빌드(\`npm run build\`) 141ms 무결성 통과 (에러 0건)
+`
+  },
   {
     filename: "2026-09-09 작업일지.md",
     title: "2026-09-09 작업일지 — 평일 데일리 파이프라인(cc-daily) 완수 (스타보드 561개 최신화, 데일리 AI 뉴스 15건 큐레이션 및 전 매체 수집 100%)",
