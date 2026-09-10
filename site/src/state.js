@@ -16,11 +16,28 @@ export const GISCUS = {
 };
 export const isGiscusReady = () => !!(GISCUS.repoId && GISCUS.loungeCategoryId && GISCUS.newsCategoryId);
 
+export function loadBookmarks() {
+  try {
+    return new Set(JSON.parse(localStorage.getItem("aiw-news-bookmarks") || "[]"));
+  } catch (e) {
+    return new Set();
+  }
+}
+export function saveBookmarks(set) {
+  try {
+    localStorage.setItem("aiw-news-bookmarks", JSON.stringify([...set]));
+  } catch (e) {}
+}
+
 export const STATE = {
   data: null,
   tab: isStarboardPage ? "heavy" : "rising",
   query: "",
   category: "all",
+  signal: "all",
+  bookmarksOnly: false,
+  bookmarks: loadBookmarks(),
+  allExpanded: false,
   source: "latest",
   archives: [],
   lounge: null,
@@ -53,4 +70,15 @@ export const STUDY_CATEGORIES = [
   { id: "article", emoji: "📝", label_ko: "아티클/블로그", label_en: "Articles" },
   { id: "video",   emoji: "🎥", label_ko: "강의/영상",     label_en: "Videos" },
   { id: "docs",    emoji: "📚", label_ko: "공식 문서",     label_en: "Docs" },
+];
+
+export const NEWS_SIGNALS = [
+  { id: "all",      emoji: "🌐", label_ko: "모든 신호",   label_en: "All Signals" },
+  { id: "model",    emoji: "🚀", label_ko: "새 모델",     label_en: "Models" },
+  { id: "product",  emoji: "✨", label_ko: "제품 신기능", label_en: "Products" },
+  { id: "devtool",  emoji: "🛠️", label_ko: "개발 도구",   label_en: "Dev Tools" },
+  { id: "oss",      emoji: "📦", label_ko: "오픈소스",    label_en: "Open Source" },
+  { id: "research", emoji: "🔬", label_ko: "연구·논문",   label_en: "Research" },
+  { id: "practice", emoji: "💡", label_ko: "실무 팁",     label_en: "Practices" },
+  { id: "policy",   emoji: "🏛️", label_ko: "정책·규제",   label_en: "Policy" },
 ];

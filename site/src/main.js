@@ -1,4 +1,4 @@
-import { isNewsPage, isStarboardPage, isLoungePage, GISCUS, isGiscusReady, STATE, CATEGORIES, NEWS_CATEGORIES, STUDY_CATEGORIES } from "./state.js";
+import { isNewsPage, isStarboardPage, isLoungePage, GISCUS, isGiscusReady, STATE, CATEGORIES, NEWS_CATEGORIES, NEWS_SIGNALS, STUDY_CATEGORIES, saveBookmarks } from "./state.js";
 
 
 async function load(source) {
@@ -275,6 +275,35 @@ function renderCategoryFilter() {
         <span class="cat-count">${count}</span>
       </button>`;
     }).join("");
+
+    const sigWrap = document.getElementById("signal-chip-bar");
+    if (sigWrap) {
+      const filteredByCat = STATE.category === "all" ? list : list.filter(x => x.category_id === STATE.category);
+      const signalChipsHtml = NEWS_SIGNALS.map(s => {
+        const count = s.id === "all" ? filteredByCat.length : filteredByCat.filter(x => x.signal_id === s.id).length;
+        if (s.id !== "all" && count === 0) return "";
+        const label = lang === "en" ? s.label_en : s.label_ko;
+        const active = (!STATE.bookmarksOnly && STATE.signal === s.id) ? "is-active" : "";
+        return `<button class="signal-chip ${active}" data-signal="${s.id}" type="button">
+          <span>${s.emoji}</span>
+          <span>${label}</span>
+          <span class="count-badge">${count}</span>
+        </button>`;
+      }).join("");
+
+      const bmCount = list.filter(x => STATE.bookmarks.has(x.id)).length;
+      const bmActive = STATE.bookmarksOnly ? "is-active" : "";
+      const bmLabel = lang === "en" ? "북마크" : "북마크";
+      const bmChipHtml = `
+        <button class="signal-chip bookmark-chip ${bmActive}" id="bookmark-filter-chip" type="button" title="${lang === "en" ? "View bookmarked articles" : "저장한 뉴스 모아보기"}">
+          <span>⭐</span>
+          <span>${bmLabel}</span>
+          <span class="count-badge">${bmCount}</span>
+        </button>
+      `;
+
+      sigWrap.innerHTML = signalChipsHtml + bmChipHtml;
+    }
   } else if (isStarboardPage) {
     const list = (STATE.data?.items || []);
     wrap.innerHTML = STUDY_CATEGORIES.map(c => {
@@ -701,10 +730,27 @@ function render() {
     if (STATE.category !== "all") {
       list = list.filter(x => x.category_id === STATE.category);
     }
+    if (STATE.signal !== "all") {
+      list = list.filter(x => x.signal_id === STATE.signal);
+    }
+    if (STATE.bookmarksOnly) {
+      list = list.filter(x => STATE.bookmarks.has(x.id));
+    }
     list = list.filter(matchesNews);
 
     if (list.length === 0) {
-      el.innerHTML = `<div style="text-align:center;padding:60px 0;color:var(--muted);font-size:15px;">뉴스 데이터가 없습니다. 검색어를 변경해보세요.</div>`;
+      const lang = getLang();
+      const noDataMsg = STATE.bookmarksOnly 
+        ? (lang === "en" ? "No bookmarked news yet. Click the star icon on any card to bookmark." : "저장된 북마크 뉴스가 없습니다. 관심 있는 카드의 별(⭐) 아이콘을 눌러보세요.")
+        : (lang === "en" ? "No news matches the filters. Try changing keywords or filters." : "조건에 일치하는 뉴스가 없습니다. 필터나 검색어를 변경해보세요.");
+      el.innerHTML = `
+        <div style="text-align:center;padding:60px 0;color:var(--muted);font-size:15px;">
+          ${noDataMsg}
+          <div style="margin-top:14px;">
+            <button type="button" id="clear-filters-empty-btn" class="expand-toggle-btn" style="margin:0 auto;">${lang === "en" ? "Reset all filters" : "전체 필터 초기화"}</button>
+          </div>
+        </div>
+      `;
     } else {
       let html = "";
       
@@ -717,7 +763,7 @@ function render() {
       const srcMeta = srcNames.length ? ` · 📡 ${srcNames.join(" · ")}` : "";
 
       const lang = getLang();
-      if (STATE.category === "all" && !STATE.query && d.summary) {
+      if (STATE.category === "all" && STATE.signal === "all" && !STATE.bookmarksOnly && !STATE.query && d.summary) {
         const cleanedSummary = d.summary.replace(/\s*ldk-hub에서\s*큐레이션\s*하였습니다\.?/g, "").replace(/\s*\(ldk-hub에서\s*큐레이션\s*하였습니다\.?\)/g, "").trim();
         const formattedSummary = escapeHTML(cleanedSummary)
           .replace(/(#[a-zA-Z0-9가-힣_-]+)/g, '<span class="db-tag">$1</span>')
@@ -739,12 +785,33 @@ function render() {
         html += `
           <div class="daily-briefing-panel is-compact">
             <div class="db-header" style="margin-bottom:0;">
-              <span class="db-title">💡 ${lang === "en" ? "Search Results" : "검색 결과"}</span>
+              <span class="db-title">💡 ${lang === "en" ? "Filtered News Results" : "필터링된 뉴스 결과"}</span>
               <span class="db-meta">🕒 ${kstStr}</span>
             </div>
           </div>
         `;
       }
+
+      // 피드 액션 바: 결과 건수 및 심층 해설 일괄 토글
+      const expandText = STATE.allExpanded 
+        ? (lang === "en" ? "Fold all deep dives" : "심층 해설 모두 접기")
+        : (lang === "en" ? "Expand all deep dives" : "심층 해설 모두 펼치기");
+      const expandIcon = STATE.allExpanded ? "▲" : "▼";
+      const hasActiveFilters = STATE.category !== "all" || STATE.signal !== "all" || STATE.bookmarksOnly || !!STATE.query;
+
+      html += `
+        <div class="feed-actions-bar">
+          <div class="feed-results-count">
+            ${lang === "en" ? "Showing" : "총"} <strong>${list.length}</strong>${lang === "en" ? " articles" : "개의 뉴스"}
+            ${hasActiveFilters ? `<button type="button" id="clear-filters-btn" style="background:none; border:none; color:var(--accent); cursor:pointer; font-size:12px; margin-left:8px; text-decoration:underline; font-weight:600;">${lang === "en" ? "Reset filters" : "필터 초기화"}</button>` : ""}
+          </div>
+          <button type="button" class="expand-toggle-btn" id="expand-toggle-btn" title="${expandText}">
+            <span>📖</span>
+            <span>${expandText}</span>
+            <span style="font-size:10px;">${expandIcon}</span>
+          </button>
+        </div>
+      `;
       
       const gridClass = STATE.viewMode === 'list' ? 'grid list-view' : 'grid';
       const gridStyle = STATE.viewMode === 'list' 
@@ -883,16 +950,29 @@ function newsCardHTML(item, idx = 0) {
                    item.signal_id === "practice" ? "실무 활용" : "기술 신호";
   const signalBadgeHtml = `<span class="signal-badge" title="${escapeHTML(item.signal_name || '')}">${sigIcon} ${sigLabel}</span>`;
 
+  // 북마크 버튼
+  const isBookmarked = STATE.bookmarks && STATE.bookmarks.has(item.id);
+  const bookmarkIcon = isBookmarked ? "⭐" : "☆";
+  const bookmarkTitle = isBookmarked 
+    ? (lang === "en" ? "Remove from bookmarks" : "북마크 해제") 
+    : (lang === "en" ? "Add to bookmarks" : "북마크 저장");
+  const bookmarkBtn = `
+    <button type="button" class="card-icon-btn ${isBookmarked ? 'is-bookmarked' : ''}" data-action="bookmark" data-id="${safeId}" title="${bookmarkTitle}" style="font-size:15px; margin-left:auto; padding:2px 6px;">
+      <span>${bookmarkIcon}</span>
+    </button>
+  `;
+
   const headHtml = `
     <div class="card-head" style="margin-bottom: 12px; padding-right: 60px;">
       <div class="avatar-wrapper" style="position:relative; display:inline-block; line-height:0;">
         <img class="avatar" src="${avatarUrl}" alt="" loading="lazy" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(authorStr)}&background=F4F4F5&color=3F3F46&bold=true'"/>
         ${platformIconHtml}
       </div>
-      <div class="head-meta">
-        <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+      <div class="head-meta" style="flex:1;">
+        <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; width:100%;">
           <span class="category-label" style="text-transform: uppercase;">${escapeHTML(item.category_name || "NEWS")}</span>
           ${signalBadgeHtml}
+          ${bookmarkBtn}
         </div>
         ${(() => {
           const rawAuthor = (item.author_profile || item.author || "").trim();
@@ -943,9 +1023,10 @@ function newsCardHTML(item, idx = 0) {
     `;
   }
   
-  // 본문 심층 분석 (네이티브 아코디언으로 기본 접힘 처리하여 카드 컴팩트화)
+  // 본문 심층 분석 (네이티브 아코디언으로 기본 접힘 처리, allExpanded 상태 반영)
+  const isOpen = STATE.allExpanded ? "open" : "";
   const bodyKo = item.body_ko ? `
-    <details class="news-details">
+    <details class="news-details" ${isOpen}>
       <summary>
         <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6l4 4 4-4"/></svg>
         <span>${lang === "en" ? "Deep Dive & Background" : "심층 분석 및 기술 배경 보기"}</span>
@@ -958,13 +1039,19 @@ function newsCardHTML(item, idx = 0) {
 
   const related = (item.related_articles && item.related_articles.length > 0) ? `<div style="margin-top:16px; font-size:13.5px; background:var(--pill); padding:14px; border-radius:12px;"><strong style="color:var(--ink-2); display:flex; align-items:center; gap:6px;">🔗 관련 기사</strong><ul style="margin-top:8px; padding-left:18px; color:var(--muted); list-style-type:circle;">${item.related_articles.map(r => `<li style="margin-bottom:4px;"><a href="${escapeHTML(r.url)}" target="_blank" rel="noopener" style="color:var(--muted); text-decoration:none;">${escapeHTML(r.title)}</a></li>`).join("")}</ul></div>` : "";
 
+  const copyBtn = `
+    <button type="button" class="card-icon-btn" data-action="copy-summary" data-id="${safeId}" title="${lang === 'en' ? 'Copy title, summary & link' : '기사 요약과 원문 링크 복사'}" style="font-size:12px; font-weight:600;">
+      <span>📋</span> <span>${lang === 'en' ? 'Copy' : '요약 복사'}</span>
+    </button>
+  `;
+
   const commentBtn = isGiscusReady() ? `
       <button type="button" class="repo-link" data-giscus-term="${safeId}" style="background:none; border:none; cursor:pointer; font:inherit; color:var(--accent);">
         💬 ${lang === "en" ? "Comments" : "댓글"}
       </button>` : "";
   const linkBtn = item.url ? `
-    <div class="card-foot" style="margin-top:18px; border-top:1px solid var(--border); padding-top:14px; display:flex; align-items:center; gap:16px;">
-      <span class="meta-left"></span>
+    <div class="card-foot" style="margin-top:18px; border-top:1px solid var(--border); padding-top:14px; display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+      ${copyBtn}
       ${commentBtn}
       <a class="repo-link" href="${escapeHTML(item.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="margin-left:auto; font-weight:600;">
         원문 보기 <span class="arrow">→</span>
@@ -1073,6 +1160,20 @@ document.getElementById("cat-filter")?.addEventListener("click", e => {
   const btn = e.target.closest(".cat-chip");
   if (!btn) return;
   STATE.category = btn.dataset.cat;
+  render();
+});
+
+document.getElementById("signal-chip-bar")?.addEventListener("click", e => {
+  const bmBtn = e.target.closest("#bookmark-filter-chip");
+  if (bmBtn) {
+    STATE.bookmarksOnly = !STATE.bookmarksOnly;
+    render();
+    return;
+  }
+  const btn = e.target.closest(".signal-chip");
+  if (!btn) return;
+  STATE.bookmarksOnly = false;
+  STATE.signal = btn.dataset.signal;
   render();
 });
 
@@ -1427,9 +1528,142 @@ if (window.matchMedia) {
 }
 renderThemeToggle();
 
-// 뉴스 카드의 댓글 버튼 — 카드는 innerHTML 로 매번 새로 그려지므로 위임으로 받는다.
-// giscus 는 한 번만 주입하고 이후엔 보이기/숨기기만 한다 (다시 붙이면 작성 중인 글이 날아간다).
+// 토스트 알림 함수
+function showToast(msg) {
+  let toast = document.getElementById("toast-notice");
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.id = "toast-notice";
+    toast.className = "toast-notice";
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.classList.add("is-visible");
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => {
+    toast.classList.remove("is-visible");
+  }, 2200);
+}
+
+// 플로팅 탑스크롤 버튼 초기화
+function initFloatingTopButton() {
+  let btn = document.getElementById("floating-top-btn");
+  if (!btn) {
+    btn = document.createElement("button");
+    btn.id = "floating-top-btn";
+    btn.className = "floating-top-btn";
+    btn.setAttribute("aria-label", "맨 위로 이동");
+    btn.setAttribute("title", "맨 위로 이동");
+    btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>`;
+    btn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+    document.body.appendChild(btn);
+  }
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 280) {
+      btn.classList.add("is-visible");
+    } else {
+      btn.classList.remove("is-visible");
+    }
+  }, { passive: true });
+}
+
+// 키보드 단축키 (/ 검색 포커스, Esc 초기화)
+document.addEventListener("keydown", (e) => {
+  const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : "";
+  const isTyping = activeTag === "input" || activeTag === "textarea";
+
+  if (e.key === "/" && !isTyping) {
+    const search = document.getElementById("search");
+    if (search) {
+      e.preventDefault();
+      search.focus();
+      search.select();
+    }
+  } else if (e.key === "Escape") {
+    const search = document.getElementById("search");
+    if (document.activeElement === search || STATE.query) {
+      if (search) {
+        search.value = "";
+        search.blur();
+      }
+      if (STATE.query) {
+        STATE.query = "";
+        render();
+      }
+    }
+  }
+});
+
+// 뉴스 피드 이벤트 위임 (댓글, 북마크, 요약 복사, 일괄 펼침, 필터 초기화)
 document.getElementById("news-feed-container")?.addEventListener("click", (e) => {
+  // 1. 북마크 버튼
+  const bmBtn = e.target.closest('[data-action="bookmark"]');
+  if (bmBtn) {
+    e.stopPropagation();
+    e.preventDefault();
+    const id = bmBtn.dataset.id;
+    if (!STATE.bookmarks) STATE.bookmarks = new Set();
+    if (STATE.bookmarks.has(id)) {
+      STATE.bookmarks.delete(id);
+      showToast("북마크에서 제거되었습니다.");
+    } else {
+      STATE.bookmarks.add(id);
+      showToast("⭐ 북마크에 저장되었습니다.");
+    }
+    saveBookmarks(STATE.bookmarks);
+    render();
+    return;
+  }
+
+  // 2. 기사 요약 및 원문 링크 복사 버튼
+  const copyBtn = e.target.closest('[data-action="copy-summary"]');
+  if (copyBtn) {
+    e.stopPropagation();
+    e.preventDefault();
+    const id = copyBtn.dataset.id;
+    const item = (STATE.data?.news || []).find(x => x.id === id);
+    if (item) {
+      const title = item.title_ko || item.headline || "";
+      const summary = item.summary_ko ? item.summary_ko.replace(/\*\*/g, "") : "";
+      const copyText = `📰 [AI Weekly] ${title}\n\n${summary}\n\n🔗 원문 링크: ${item.url || ""}`;
+      navigator.clipboard.writeText(copyText).then(() => {
+        showToast("📋 기사 요약과 원문 링크가 복사되었습니다!");
+      }).catch(() => {
+        showToast("클립보드 복사에 실패했습니다.");
+      });
+    }
+    return;
+  }
+
+  // 3. 심층 해설 일괄 펼치기 / 접기 버튼
+  const expandBtn = e.target.closest("#expand-toggle-btn");
+  if (expandBtn) {
+    e.stopPropagation();
+    STATE.allExpanded = !STATE.allExpanded;
+    document.querySelectorAll("#news-feed-container details.news-details").forEach(d => {
+      d.open = STATE.allExpanded;
+    });
+    render();
+    return;
+  }
+
+  // 4. 필터 초기화 버튼
+  const clearBtn = e.target.closest("#clear-filters-btn, #clear-filters-empty-btn");
+  if (clearBtn) {
+    e.stopPropagation();
+    STATE.category = "all";
+    STATE.signal = "all";
+    STATE.bookmarksOnly = false;
+    STATE.query = "";
+    const search = document.getElementById("search");
+    if (search) search.value = "";
+    render();
+    return;
+  }
+
+  // 5. 댓글 버튼 (giscus)
   const btn = e.target.closest("[data-giscus-term]");
   if (!btn) return;
   e.stopPropagation();
@@ -1446,6 +1680,8 @@ document.getElementById("news-feed-container")?.addEventListener("click", (e) =>
     box.hidden = true;
   }
 });
+
+initFloatingTopButton();
 
 loadArchives();
 load();
