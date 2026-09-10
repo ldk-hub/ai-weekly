@@ -1,4 +1,4 @@
-import { isNewsPage, isStarboardPage, isLoungePage, GISCUS, isGiscusReady, STATE, CATEGORIES, NEWS_CATEGORIES, NEWS_SIGNALS, STUDY_CATEGORIES, saveBookmarks } from "./state.js";
+import { isNewsPage, isStarboardPage, isLoungePage, GISCUS, isGiscusReady, STATE, CATEGORIES, NEWS_CATEGORIES, NEWS_SIGNALS, STUDY_CATEGORIES, saveBookmarks, savePluginBookmarks } from "./state.js";
 
 
 async function load(source) {
@@ -319,17 +319,29 @@ function renderCategoryFilter() {
     }).join("");
   } else {
     const list = (STATE.data?.[STATE.tab] || []);
-    wrap.innerHTML = CATEGORIES.map(c => {
+    const categoryChips = CATEGORIES.map(c => {
       const count = c.id === "all" ? list.length : list.filter(x => x.category === c.id).length;
       if (c.id !== "all" && count === 0) return "";
       const label = lang === "en" ? c.label_en : c.label_ko;
-      const active = STATE.category === c.id ? "is-active" : "";
+      const active = (STATE.category === c.id && !STATE.pluginBookmarksOnly) ? "is-active" : "";
       return `<button class="cat-chip ${active}" data-cat="${c.id}" type="button">
         <span class="cat-emoji">${c.emoji}</span>
         <span>${label}</span>
         <span class="cat-count">${count}</span>
       </button>`;
     }).join("");
+
+    const bmCount = list.filter(it => STATE.pluginBookmarks.has(it.id)).length;
+    const bmActive = STATE.pluginBookmarksOnly ? "is-active" : "";
+    const bmLabel = lang === "en" ? "Saved" : "찜한 도구";
+    const bmChip = `
+      <button class="cat-chip bookmark-chip ${bmActive}" id="plugin-bookmark-filter-chip" type="button" style="margin-left:4px;">
+        <span>⭐</span>
+        <span>${bmLabel}</span>
+        <span class="cat-count">${bmCount}</span>
+      </button>
+    `;
+    wrap.innerHTML = categoryChips + bmChip;
   }
 }
 
@@ -398,6 +410,15 @@ function cardHTML(item, idx) {
   const rankStr = String(rank).padStart(2, "0");
   const isFeatured = rank === 1;
   const st = stickerFor(item, idx);
+  const lang = getLang();
+
+  // 찜(북마크) 여부 및 버튼
+  const isBookmarked = STATE.pluginBookmarks.has(item.id);
+  const bookmarkBtn = `
+    <button type="button" class="card-plugin-bookmark-btn ${isBookmarked ? "is-bookmarked" : ""}" data-plugin-bookmark="${safeId}" title="${isBookmarked ? (lang === "en" ? "Remove bookmark" : "찜 해제") : (lang === "en" ? "Bookmark" : "도구 찜하기")}" aria-label="${isBookmarked ? "찜 해제" : "도구 찜하기"}">
+      ${isBookmarked ? "★" : "☆"}
+    </button>
+  `;
 
   // 주간 증가 스타 또는 성장률 배지
   const weeklyStars = item.weekly_stars ? `<span class="sb-hot-badge" style="font-size:11px; padding:1px 6px;">★ +${item.weekly_stars.toLocaleString()}/w</span>` : "";
@@ -415,6 +436,14 @@ function cardHTML(item, idx) {
     return `<li><span class="feat-bullet">✓</span><span class="feat-text">${highlighted}</span></li>`;
   }).join("");
 
+  // 이런 분께 추천 (use_case) 하이라이트 박스
+  const useCaseBox = item.use_case ? `
+    <div class="card-usecase-box">
+      <span class="usecase-icon">💡</span>
+      <span class="usecase-text"><strong class="usecase-label">${lang === "en" ? "Recommended:" : "이런 분께 추천:"}</strong>${escapeHTML(item.use_case)}</span>
+    </div>
+  ` : "";
+
   // 간편 설치 명령어 칩
   const cmd = item.install_hint || (item.category === "MCP" ? `claude mcp add ${item.id}` : `/install ${item.id}`);
   const escapedCmd = escapeHTML(cmd).replace(/'/g, "\'");
@@ -428,6 +457,7 @@ function cardHTML(item, idx) {
 
   return `
     <article class="card" data-id="${safeId}" tabindex="0" role="button" aria-label="${escapeHTML(item.title_ko || item.id)} 상세 보기">
+      ${bookmarkBtn}
       <div class="sticker ${st.color}">
         <strong>${escapeHTML(st.top)}</strong>
         ${escapeHTML(st.bottom)}
@@ -444,14 +474,20 @@ function cardHTML(item, idx) {
       </div>
       <h3>${escapeHTML(item.title_ko || item.id)}</h3>
       ${item.catchphrase ? `<p class="catch">${escapeHTML(item.catchphrase)}</p>` : ""}
+      ${useCaseBox}
       ${feats ? `<ul class="features">${feats}</ul>` : ""}
       ${cliChip}
       ${sourcesLine(item)}
       <div class="card-foot">
         <span class="meta-left"><span class="stars-line">★ ${formatStars(item.stars)}</span></span>
-        <a class="repo-link" href="${escapeHTML(item.official_url || "#")}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
-          GITHUB <span class="arrow">→</span>
-        </a>
+        <div style="display:flex; align-items:center; gap:6px;">
+          <button type="button" class="copy-plugin-info-btn" data-copy-plugin="${safeId}" title="${lang === "en" ? "Copy tool briefing" : "도구 브리핑 복사"}">
+            <span>📋</span> <span>${lang === "en" ? "Copy" : "정보 복사"}</span>
+          </button>
+          <a class="repo-link" href="${escapeHTML(item.official_url || "#")}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+            GITHUB <span class="arrow">→</span>
+          </a>
+        </div>
       </div>
     </article>
   `;
@@ -827,20 +863,50 @@ function render() {
   } else {
     const base = d[STATE.tab] || [];
     const list = base
+      .filter(it => !STATE.pluginBookmarksOnly || STATE.pluginBookmarks.has(it.id))
       .filter(it => STATE.category === "all" || it.category === STATE.category)
       .filter(matches);
     const el = document.getElementById("grid");
     if (!el) return;
     updateTabCounts();
     renderCategoryFilter();
+    const lang = getLang();
+    const hasActiveFilters = STATE.category !== "all" || STATE.pluginBookmarksOnly || !!STATE.query;
+
     if (list.length === 0) {
-      const lang = getLang();
-      const msg = lang === "en"
-        ? "No matches. Try a different category or clear the search."
-        : "조건에 맞는 항목이 없어요. 카테고리·검색어를 바꿔보세요.";
-      el.innerHTML = `<div class="empty">${msg}</div>`;
+      let msg;
+      if (STATE.pluginBookmarksOnly) {
+        msg = lang === "en"
+          ? "No saved tools in this tab. Click ★ on any card to save it."
+          : "이 탭에서 찜한 도구가 없습니다. 카드의 ★ 버튼을 눌러 관심 도구를 저장해보세요.";
+      } else {
+        msg = lang === "en"
+          ? "No matches. Try a different category or clear the search."
+          : "조건에 맞는 항목이 없어요. 카테고리·검색어를 바꿔보세요.";
+      }
+      el.innerHTML = `
+        <div style="grid-column: 1 / -1; width: 100%;">
+          ${hasActiveFilters ? `
+            <div class="feed-actions-bar" style="margin-bottom:14px;">
+              <div class="feed-results-count">
+                ${lang === "en" ? "Showing" : "총"} <strong>0</strong>${lang === "en" ? " tools" : "개의 도구"}
+                <button type="button" id="clear-plugin-filters-btn" style="background:none; border:none; color:var(--accent); cursor:pointer; font-size:12px; margin-left:8px; text-decoration:underline; font-weight:600;">${lang === "en" ? "Reset filters" : "필터 초기화"}</button>
+              </div>
+            </div>
+          ` : ""}
+          <div class="empty">${msg}</div>
+        </div>
+      `;
     } else {
-      el.innerHTML = list.map((it, i) => cardHTML(it, i)).join("");
+      const headerBar = hasActiveFilters ? `
+        <div class="feed-actions-bar" style="grid-column: 1 / -1; width: 100%; margin-bottom: 8px;">
+          <div class="feed-results-count">
+            ${lang === "en" ? "Showing" : "총"} <strong>${list.length}</strong>${lang === "en" ? " tools" : "개의 도구"}
+            <button type="button" id="clear-plugin-filters-btn" style="background:none; border:none; color:var(--accent); cursor:pointer; font-size:12px; margin-left:8px; text-decoration:underline; font-weight:600;">${lang === "en" ? "Reset filters" : "필터 초기화"}</button>
+          </div>
+        </div>
+      ` : "";
+      el.innerHTML = headerBar + list.map((it, i) => cardHTML(it, i)).join("");
     }
   }
 }
@@ -1152,13 +1218,21 @@ document.querySelectorAll(".tab, .cat-chip[data-tab]").forEach(btn => {
     btn.setAttribute("aria-selected", "true");
     STATE.tab = btn.dataset.tab;
     STATE.category = "all";
+    STATE.pluginBookmarksOnly = false;
     render();
   });
 });
 
 document.getElementById("cat-filter")?.addEventListener("click", e => {
+  const bmBtn = e.target.closest("#plugin-bookmark-filter-chip");
+  if (bmBtn) {
+    STATE.pluginBookmarksOnly = !STATE.pluginBookmarksOnly;
+    render();
+    return;
+  }
   const btn = e.target.closest(".cat-chip");
   if (!btn) return;
+  STATE.pluginBookmarksOnly = false;
   STATE.category = btn.dataset.cat;
   render();
 });
@@ -1200,8 +1274,63 @@ document.addEventListener("click", e => {
 });
 
 document.getElementById("grid")?.addEventListener("click", e => {
+  const clearBtn = e.target.closest("#clear-plugin-filters-btn");
+  if (clearBtn) {
+    STATE.category = "all";
+    STATE.pluginBookmarksOnly = false;
+    STATE.query = "";
+    const s = document.getElementById("search");
+    if (s) s.value = "";
+    render();
+    return;
+  }
+
+  const bmBtn = e.target.closest("[data-plugin-bookmark]");
+  if (bmBtn) {
+    e.stopPropagation();
+    const id = bmBtn.dataset.pluginBookmark;
+    const lang = getLang();
+    if (STATE.pluginBookmarks.has(id)) {
+      STATE.pluginBookmarks.delete(id);
+      showToast(lang === "en" ? "Removed from saved tools" : "찜 목록에서 제외되었습니다");
+    } else {
+      STATE.pluginBookmarks.add(id);
+      showToast(lang === "en" ? "Saved to your tools ⭐" : "관심 도구로 찜했습니다 ⭐");
+    }
+    savePluginBookmarks(STATE.pluginBookmarks);
+    render();
+    return;
+  }
+
+  const copyBtn = e.target.closest("[data-copy-plugin]");
+  if (copyBtn) {
+    e.stopPropagation();
+    const id = copyBtn.dataset.copyPlugin;
+    const hit = findItem(id);
+    const lang = getLang();
+    if (hit && hit.item) {
+      const it = hit.item;
+      const cmd = it.install_hint || (it.category === "MCP" ? `claude mcp add ${it.id}` : `/install ${it.id}`);
+      const lines = [
+        `[Claude Code 도구] ${it.title_ko || it.id} (${it.id})`,
+        it.catchphrase ? `💡 ${it.catchphrase}` : "",
+        it.use_case ? `🎯 추천: ${it.use_case}` : "",
+        `💻 설치: ${cmd}`,
+        `🔗 ${it.official_url || it.repo_url || `https://github.com/${it.id}`}`
+      ].filter(Boolean);
+      navigator.clipboard.writeText(lines.join("\n")).then(() => {
+        showToast(lang === "en" ? "Tool briefing copied to clipboard!" : "도구 브리핑이 복사되었습니다!");
+      }).catch(() => {
+        showToast(lang === "en" ? "Failed to copy" : "복사에 실패했습니다");
+      });
+    }
+    return;
+  }
+
   const card = e.target.closest(".card");
-  if (card) openModal(card.dataset.id);
+  if (card && !e.target.closest("button") && !e.target.closest("a") && !e.target.closest(".cli-copy-chip")) {
+    openModal(card.dataset.id);
+  }
 });
 document.getElementById("grid")?.addEventListener("keydown", e => {
   if ((e.key === "Enter" || e.key === " ") && e.target.classList.contains("card")) {

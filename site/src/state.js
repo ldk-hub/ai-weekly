@@ -29,6 +29,19 @@ export function saveBookmarks(set) {
   } catch (e) {}
 }
 
+export function loadPluginBookmarks() {
+  try {
+    return new Set(JSON.parse(localStorage.getItem("aiw-plugin-bookmarks") || "[]"));
+  } catch (e) {
+    return new Set();
+  }
+}
+export function savePluginBookmarks(set) {
+  try {
+    localStorage.setItem("aiw-plugin-bookmarks", JSON.stringify([...set]));
+  } catch (e) {}
+}
+
 export const STATE = {
   data: null,
   tab: isStarboardPage ? "heavy" : "rising",
@@ -37,6 +50,8 @@ export const STATE = {
   signal: "all",
   bookmarksOnly: false,
   bookmarks: loadBookmarks(),
+  pluginBookmarksOnly: false,
+  pluginBookmarks: loadPluginBookmarks(),
   allExpanded: false,
   source: "latest",
   archives: [],
