@@ -24,7 +24,7 @@ function writeFile(filePath, content) {
 // 1. 메인 개요 (README.md)
 const README_CONTENT = `---
 title: AI위클리 (AI Weekly) — 프로젝트 총괄 대시보드
-date: 2026-09-10
+date: 2026-09-14
 type: project-hub
 tags: [ai-weekly, dashboard, architecture, automated-pipeline]
 status: active
@@ -255,6 +255,75 @@ tags: [ai-weekly, lounge, giscus, github-discussions, community]
 
 // 3. 작업 일지들
 const LOGS = [
+  {
+    filename: "2026-09-14 작업일지.md",
+    title: "2026-09-14 작업일지 — 주간 종합 파이프라인(cc-weekly) 완수 (스타보드 564개 100% 최신화, 트렌드 32건 선별·보안 스캔, 데일리 뉴스 18건 큐레이션 배포)",
+    date: "2026-09-14",
+    content: `---
+title: 2026-09-14 작업일지 — 주간 종합 파이프라인(cc-weekly) 완수 (스타보드 564개 100% 최신화, 트렌드 32건 선별·보안 스캔, 데일리 뉴스 18건 큐레이션 배포)
+date: 2026-09-14
+type: work-log
+tags: [work-log, cc-weekly, cc-star, cc-news, cc-trends, security-scan, obsidian-sync]
+---
+
+# 📅 2026-09-14 작업일지
+
+## 1. 주요 작업 내용
+
+### 📈 1. CC-Star (오픈소스 스타보드 원장 최신화)
+- **수집 대상:** 569개 오픈소스 리포지토리 전수 추적 완료 (API 호출 성공률 100%)
+- **상태 변화:** 404 Gone: 36건, Rename: 2건, Suspect: 61건 감지
+- **주간 스타 급상승 Top 5 (최근 7일 실측):**
+  1. \`ayghri/i-have-adhd\`: +17,085 (44,299★)
+  2. \`DietrichGebert/ponytail\`: +9,367 (137,294★)
+  3. \`mattpocock/skills\`: +8,645 (261,247★)
+  4. \`affaan-m/ECC\`: +7,864 (257,741★)
+  5. \`stablyai/orca\`: +5,558 (67,790★)
+- **원장 및 메타:** \`stars_ledger.json\`, \`stars_meta.json\` 원자적 갱신 및 사이트 퍼블릭 미러링 완료
+
+### 📰 2. CC-News (데일리 AI 기술 신호 24시간 정밀 큐레이션)
+- **수집:** 7개 지정 매체 중 6개 매체에서 총 115건 후보 수집 (\`HF Daily Papers\`는 주말/월요일 새벽 휴간으로 \`[MISSING]\` 처리)
+  - GeekNews 5건, AI타임스 5건, Hacker News 21건, GitHub 50건, Reddit 26건, Bluesky 8건
+  - 최근 7일 기배포 URL 중복 2건 차단, \`is_update\` 1건 유지
+- **정밀 큐레이션 (18건 선별 배포):**
+  - 신호축 분포: \`research\` 4건, \`devtool\` 4건, \`practice\` 3건, \`oss\` 3건, \`model\` 2건, \`product\` 1건, \`policy\` 1건
+  - 핵심 이슈:
+    - \`[practice]\` Claude Fable 5.1, 370년간 미해결이던 역사적 암호문 '사이프럴 디스티치' 자율 해독
+    - \`[practice]\` 마틴 파울러, 에이전트형 AI 도입을 위한 데이터 계약 및 엔지니어링 가이드 제시
+    - \`[practice]\` 오픈AI, 차세대 코딩 모델 'GPT-6 아스트라'를 위한 스킬 및 프롬프트 재설계 원칙 발표
+    - \`[research]\` 성체 초파리 뇌 16만 개 신경망 커넥톰 시뮬레이션 공개…게임 구동부터 로봇 제어까지 실험 확산
+    - \`[product]\` 구글, AI 코딩 경쟁력 강화를 위해 스타트업 '메카나이즈' 핵심 인력 15억 달러 규모 흡수
+    - \`[devtool]\` Docket — 코딩 에이전트의 구현 과정과 테스트 증적을 커밋 단위로 기록하는 감사 도구
+    - \`[research]\` Recurrent Looped Transformer — 시퀀스 길이에 따라 디코더 추론 깊이가 동적으로 확장되는 아키텍처
+    - \`[oss]\` ZLUDA + ROCm 기반 윈도우 환경 AMD GPU를 위한 재현 가능한 CUDA 호환 스택 오픈소스 공개
+    - \`[research]\` 코딩 에이전트의 잠재적 프로그래밍 지평 분석 논문
+    - \`[policy]\` 안노 타카히로의 실리콘밸리 AGI 최전선 르포 — 연구자 15인이 증언한 에이전트 패권 경쟁
+    - \`[model]\` DeepSeek-V4.1-Flash 발표 — KV 캐시 메모리 요구량을 극적으로 압축하는 혁신 기법 도입
+    - \`[research]\` 82만 파라미터 극소형 언어모델로 라즈베리파이 Pico(RP2040)용 드로잉 바이트코드 생성 성공
+    - \`[devtool]\` Claude Code 메모리 확장 도구 'claude-mem', 파워쉘 자격증명 무단 접근으로 보안 백신에 탐지
+    - \`[model]\` 오픈AI의 신규 음성 모델 'GPT-Live-1' 실전 테스트
+    - \`[업데이트]\` \`vinzdg/codenotch\` (Claude Code·Cursor·Codex·Antigravity 사용량 한도 모니터링 앱, 1,115★→1,545★로 38.6% 급증)
+    - \`[oss]\` \`Vincentwei1021/anything2explainer\` (Remotion 모션 그래픽 해설 영상 제작 에이전트 스킬, 1,164★)
+    - \`[devtool]\` \`Qiuner/birdview\` (AI 코딩 전 아키텍처 맵 사전 구축 도구)
+    - \`[oss]\` \`xiaYuTian11/maskit\` (로컬 프라이버시 데이터 비식별화 게이트웨이)
+  - 3불릿 볼드 키워드(\`• **키워드**: \`), 5~10문장 심층 해설, 사실 필드 100% 일치 규격 엄수
+  - \`curate_news.js --validate\` 규격 검증 100% 통과
+
+### 🔥 3. CC-Trends (Claude Code 생태계 주간 트렌드 큐레이션 및 보안 검사)
+- **광역 수집:** GitHub 10대 쿼리 + HN 4대 쿼리 수집 (60건 유효 후보 도출)
+- **진입점 보안 스캔 (\`scan-install-entry.js\`):**
+  - 60건 전수 검사 결과, 악성 원격 페이로드 로더/드로퍼 1건 적발 및 즉각 차단
+  - 차단 대상: \`crwdla/tokentab\` (832★) — \`setup.py\` 내 미인증 공개 IP(172.233.51.81) 및 \`remote_fetch_exec\` 탐지
+- **주간 큐레이션 (32건 선별):**
+  - Rising 16건, Classic 16건 엄선 (\`site/public/data/latest.json\` 및 아카이브 \`2026-09-14.json\` 배포)
+  - 신규 등록 리포 8건 한글 카피 지식 베이스 정밀 큐레이션 완수 (\`anything2explainer\`, \`ai-coding-welfare\`, \`gongwen-gbt9704-skill\`, \`reelbench-skills\`, \`artemis\`, \`zeron\`, \`agent-memory\`, \`career-ops\`)
+
+### 📦 4. 배포 리소스 및 빌드 검증
+- RSS 피드(\`feed.xml\`, \`news-feed.xml\`), sitemap.xml, OG 이미지(\`og.svg\`, \`og.png\`), 아카이브 인덱스(\`index.json\`) 최신화
+- 라운지 스냅샷(\`lounge_latest.json\`) 갱신 완료
+- Vite 프로덕션 멀티페이지 정적 빌드(\`npm run build\`) 144ms 무결성 통과 (에러 0건)
+`
+  },
   {
     filename: "2026-09-10 작업일지.md",
     title: "2026-09-10 작업일지 — 평일 데일리 파이프라인(cc-daily) 완수 (스타보드 561개 최신화, 데일리 AI 뉴스 15건 큐레이션 및 전 매체 수집 100%)",
