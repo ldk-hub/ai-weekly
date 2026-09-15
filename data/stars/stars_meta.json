@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-15T00:04:15.561Z",
+  "generated_at": "2026-09-15T01:01:29.048Z",
   "repos": {
     "santifer/career-ops": {
       "pushed_at": "2026-08-31T21:40:42Z",
@@ -22,7 +22,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/19957?v=4"
     },
     "JuliusBrussee/caveman": {
-      "pushed_at": "2026-09-15T00:01:45Z",
+      "pushed_at": "2026-09-15T00:58:18Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -125,7 +125,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/144026857?v=4"
     },
     "openclaw/openclaw": {
-      "pushed_at": "2026-09-15T00:04:07Z",
+      "pushed_at": "2026-09-15T01:00:39Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -145,7 +145,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/182288589?v=4"
     },
     "anthropics/claude-code": {
-      "pushed_at": "2026-09-14T22:12:53Z",
+      "pushed_at": "2026-09-15T00:42:25Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -178,7 +178,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/21162426?v=4"
     },
     "hesreallyhim/awesome-claude-code": {
-      "pushed_at": "2026-09-14T21:08:13Z",
+      "pushed_at": "2026-09-15T00:28:24Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -413,7 +413,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/254743058?v=4"
     },
     "mvanhorn/last30days-skill": {
-      "pushed_at": "2026-09-14T22:04:19Z",
+      "pushed_at": "2026-09-15T00:58:29Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -473,7 +473,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/272961631?v=4"
     },
     "NousResearch/hermes-agent": {
-      "pushed_at": "2026-09-15T00:01:27Z",
+      "pushed_at": "2026-09-15T01:00:42Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -513,7 +513,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/56956555?v=4"
     },
     "different-ai/openwork": {
-      "pushed_at": "2026-09-14T23:49:43Z",
+      "pushed_at": "2026-09-15T00:54:14Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -523,7 +523,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/118544361?v=4"
     },
     "anomalyco/opencode": {
-      "pushed_at": "2026-09-14T23:56:07Z",
+      "pushed_at": "2026-09-15T00:52:09Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -693,7 +693,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/70333750?v=4"
     },
     "Piebald-AI/claude-code-system-prompts": {
-      "pushed_at": "2026-09-14T22:06:38Z",
+      "pushed_at": "2026-09-15T00:56:23Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -736,7 +736,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/110953?v=4"
     },
     "colbymchenry/codegraph": {
-      "pushed_at": "2026-09-14T23:55:01Z",
+      "pushed_at": "2026-09-15T00:11:35Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -746,7 +746,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/18431132?v=4"
     },
     "ruvnet/ruflo": {
-      "pushed_at": "2026-09-15T00:03:59Z",
+      "pushed_at": "2026-09-15T00:55:22Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -826,7 +826,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/1672?v=4"
     },
     "can1357/oh-my-pi": {
-      "pushed_at": "2026-09-15T00:02:29Z",
+      "pushed_at": "2026-09-15T00:52:07Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -876,7 +876,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/254743058?v=4"
     },
     "Frisher1/ClaudeCode-Workflow-Lab": {
-      "pushed_at": "2026-09-14T21:26:25Z",
+      "pushed_at": "2026-09-15T00:15:11Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -906,7 +906,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/73925474?v=4"
     },
     "Sakshxm1/hermes-agency-orchestrator": {
-      "pushed_at": "2026-09-14T21:23:35Z",
+      "pushed_at": "2026-09-15T00:12:58Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -926,7 +926,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/250073733?v=4"
     },
     "headroomlabs-ai/headroom": {
-      "pushed_at": "2026-09-14T20:28:33Z",
+      "pushed_at": "2026-09-15T00:59:00Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -1016,7 +1016,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/42000006?v=4"
     },
     "Wei-Shaw/sub2api": {
-      "pushed_at": "2026-09-14T17:55:54Z",
+      "pushed_at": "2026-09-15T01:00:24Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -1076,7 +1076,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/3288457?v=4"
     },
     "router-for-me/CLIProxyAPI": {
-      "pushed_at": "2026-09-14T19:43:18Z",
+      "pushed_at": "2026-09-15T00:35:47Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -1306,7 +1306,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/8461727?v=4"
     },
     "risa-labs-inc/BossConsole": {
-      "pushed_at": "2026-09-14T22:37:17Z",
+      "pushed_at": "2026-09-15T00:47:09Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -1459,7 +1459,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/54015474?v=4"
     },
     "gakonst/nanocodex": {
-      "pushed_at": "2026-09-14T23:58:30Z",
+      "pushed_at": "2026-09-15T00:49:09Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -1477,7 +1477,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/236323912?v=4"
     },
     "omnigent-ai/omnigent": {
-      "pushed_at": "2026-09-15T00:00:18Z",
+      "pushed_at": "2026-09-15T00:54:55Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -1486,7 +1486,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/292215228?v=4"
     },
     "UiPath/coder_eval": {
-      "pushed_at": "2026-09-14T23:59:20Z",
+      "pushed_at": "2026-09-15T00:08:18Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -1710,7 +1710,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/53492577?v=4"
     },
     "CodySwannGT/lisa": {
-      "pushed_at": "2026-09-14T23:52:17Z",
+      "pushed_at": "2026-09-15T00:59:06Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -1729,7 +1729,7 @@
       "suspect": "stars_dropped:0→0"
     },
     "reyamira/models": {
-      "pushed_at": "2026-09-14T21:48:13Z",
+      "pushed_at": "2026-09-15T00:49:10Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -1803,7 +1803,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/24411116?v=4"
     },
     "bennyjo/phil": {
-      "pushed_at": "2026-09-14T23:52:16Z",
+      "pushed_at": "2026-09-15T00:37:20Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -1875,7 +1875,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/259178917?v=4"
     },
     "promptfoo/promptfoo": {
-      "pushed_at": "2026-09-15T00:00:19Z",
+      "pushed_at": "2026-09-15T01:00:54Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -1884,7 +1884,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/137907881?v=4"
     },
     "linny006/awesome-agent-skills": {
-      "pushed_at": "2026-09-15T00:00:34Z",
+      "pushed_at": "2026-09-15T01:00:29Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -1921,7 +1921,7 @@
       "suspect": "stars_dropped:3→2"
     },
     "linny006/trending-claude-skills": {
-      "pushed_at": "2026-09-15T00:00:13Z",
+      "pushed_at": "2026-09-15T01:00:12Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -2405,7 +2405,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/58106472?v=4"
     },
     "naodeng/awesome-qa-skills": {
-      "pushed_at": "2026-09-14T14:41:10Z",
+      "pushed_at": "2026-09-15T00:55:29Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -3342,7 +3342,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/272675989?v=4"
     },
     "HarnessRouter/harnessrouter": {
-      "pushed_at": "2026-09-14T23:56:39Z",
+      "pushed_at": "2026-09-15T00:55:02Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -3729,7 +3729,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/257219176?v=4"
     },
     "kunickiaj/codemem": {
-      "pushed_at": "2026-09-15T00:02:11Z",
+      "pushed_at": "2026-09-15T00:59:08Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -3756,7 +3756,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/25251577?v=4"
     },
     "phnx-labs/agi-cli": {
-      "pushed_at": "2026-09-14T23:31:25Z",
+      "pushed_at": "2026-09-15T00:36:18Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -3765,7 +3765,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/277445004?v=4"
     },
     "linny006/claude-code-plugin-tracker": {
-      "pushed_at": "2026-09-15T00:00:24Z",
+      "pushed_at": "2026-09-15T01:00:20Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -3774,7 +3774,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/50977156?v=4"
     },
     "stablyai/orca": {
-      "pushed_at": "2026-09-15T00:03:49Z",
+      "pushed_at": "2026-09-15T01:00:53Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -3783,7 +3783,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/127256420?v=4"
     },
     "vm0-ai/vm0": {
-      "pushed_at": "2026-09-15T00:03:11Z",
+      "pushed_at": "2026-09-15T01:01:38Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -3996,7 +3996,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/201908908?v=4"
     },
     "tomevault-io/claude-code-plugins": {
-      "pushed_at": "2026-09-14T23:33:31Z",
+      "pushed_at": "2026-09-15T00:38:00Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -4064,7 +4064,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/29732954?v=4"
     },
     "youdie006/swapdex": {
-      "pushed_at": "2026-09-14T20:15:57Z",
+      "pushed_at": "2026-09-15T00:36:05Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -4120,7 +4120,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/244203?v=4"
     },
     "KCNyu/clawock": {
-      "pushed_at": "2026-09-15T00:02:07Z",
+      "pushed_at": "2026-09-15T00:40:16Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -4129,7 +4129,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/45508369?v=4"
     },
     "Aquaticat/Monochromatic": {
-      "pushed_at": "2026-09-15T00:03:09Z",
+      "pushed_at": "2026-09-15T00:59:59Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -4138,7 +4138,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/66041952?v=4"
     },
     "chnlich/charlie-bot": {
-      "pushed_at": "2026-09-14T23:57:59Z",
+      "pushed_at": "2026-09-15T00:58:27Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -4244,7 +4244,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/163601952?v=4"
     },
     "BarganConstantin/ccdeck": {
-      "pushed_at": "2026-09-14T23:58:51Z",
+      "pushed_at": "2026-09-15T00:49:51Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -4302,7 +4302,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/301957225?v=4"
     },
     "evanchakrin/agent-mission-control": {
-      "pushed_at": "2026-09-02T21:36:25Z",
+      "pushed_at": "2026-09-15T00:09:59Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -4359,7 +4359,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/30751755?v=4"
     },
     "xbim08/awesome-claude-code-plugins": {
-      "pushed_at": "2026-09-14T22:24:06Z",
+      "pushed_at": "2026-09-15T00:39:34Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -4451,7 +4451,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/124531104?v=4"
     },
     "manaflow-ai/cmux": {
-      "pushed_at": "2026-09-15T00:02:14Z",
+      "pushed_at": "2026-09-15T00:38:51Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -4469,7 +4469,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/279501698?v=4"
     },
     "24bsc244-svg/pdlc-forge": {
-      "pushed_at": "2026-09-14T21:16:00Z",
+      "pushed_at": "2026-09-15T00:07:43Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -4478,7 +4478,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/252689068?v=4"
     },
     "lenamonj/jeffy-loop": {
-      "pushed_at": "2026-09-14T19:11:36Z",
+      "pushed_at": "2026-09-15T00:49:40Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -4552,7 +4552,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/158560013?v=4"
     },
     "the911fund/skill-of-skills": {
-      "pushed_at": "2026-09-14T21:25:03Z",
+      "pushed_at": "2026-09-15T00:25:03Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -4607,7 +4607,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/73511861?v=4"
     },
     "777genius/agent-teams-ai": {
-      "pushed_at": "2026-09-15T00:03:02Z",
+      "pushed_at": "2026-09-15T00:24:46Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -4721,7 +4721,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/7233018?v=4"
     },
     "sleep2agi/agent-network": {
-      "pushed_at": "2026-09-14T22:18:54Z",
+      "pushed_at": "2026-09-15T00:53:42Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -5184,7 +5184,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/319538230?v=4"
     },
     "7xuanlu/wenlan": {
-      "pushed_at": "2026-09-14T23:30:59Z",
+      "pushed_at": "2026-09-15T00:32:04Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -5294,7 +5294,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/1235810?v=4"
     },
     "gilvangonzalez/technical-founding-gtm-toolkit": {
-      "pushed_at": "2026-09-14T22:48:33Z",
+      "pushed_at": "2026-09-15T01:01:22Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
@@ -5359,7 +5359,7 @@
       "aliases": [
         "santifer/career-ops"
       ],
-      "pushed_at": "2026-09-15T00:04:15Z",
+      "pushed_at": "2026-09-15T00:37:56Z",
       "archived": false,
       "checked_at": "2026-09-15",
       "gone": false,
