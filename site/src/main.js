@@ -36,7 +36,7 @@ async function load(source) {
       // Process data into leagues
       processStarboardData();
     } catch (e) {
-      STATE.data = { meta: {}, ledger: {}, generated_at: null, heavy: [], lightheavy: [], middle: [], welter: [], light: [], feather: [], bantam: [], fly: [] };
+      STATE.data = { meta: {}, ledger: {}, generated_at: null, heavy: [], middle: [], light: [] };
     }
   } else {
     let url;
@@ -138,7 +138,7 @@ function renderPageSummary() {
     el.textContent = lang === "en" ? `Collected ${total} news` : `${total}건 수집`;
   } else if (isStarboardPage) {
     const d = STATE.data || {};
-    total = (d.heavy?.length || 0) + (d.lightheavy?.length || 0) + (d.middle?.length || 0) + (d.welter?.length || 0) + (d.light?.length || 0) + (d.feather?.length || 0) + (d.bantam?.length || 0) + (d.fly?.length || 0);
+    total = (d.heavy?.length || 0) + (d.middle?.length || 0) + (d.light?.length || 0);
     if (lang === "en") {
       el.textContent = `Tracking ${total} repositories`;
     } else {
@@ -1909,14 +1909,9 @@ function processStarboardData() {
   // Sort by velocity desc, then currentStars desc
   processed.sort((a, b) => b.velocity - a.velocity || b.currentStars - a.currentStars);
   
-  STATE.data.heavy = processed.filter(r => r.currentStars >= 100000);
-  STATE.data.lightheavy = processed.filter(r => r.currentStars >= 50000 && r.currentStars < 100000);
-  STATE.data.middle = processed.filter(r => r.currentStars >= 20000 && r.currentStars < 50000);
-  STATE.data.welter = processed.filter(r => r.currentStars >= 10000 && r.currentStars < 20000);
-  STATE.data.light = processed.filter(r => r.currentStars >= 5000 && r.currentStars < 10000);
-  STATE.data.feather = processed.filter(r => r.currentStars >= 2000 && r.currentStars < 5000);
-  STATE.data.bantam = processed.filter(r => r.currentStars >= 500 && r.currentStars < 2000);
-  STATE.data.fly = processed.filter(r => r.currentStars < 500);
+  STATE.data.heavy = processed.filter(r => r.currentStars >= 10000);
+  STATE.data.middle = processed.filter(r => r.currentStars >= 1000 && r.currentStars < 10000);
+  STATE.data.light = processed.filter(r => r.currentStars < 1000);
 }
 
 function renderStarboard() {
@@ -1926,7 +1921,7 @@ function renderStarboard() {
   const list = STATE.data[STATE.tab] || [];
   
   // Update counts
-  const tabs = ['heavy', 'lightheavy', 'middle', 'welter', 'light', 'feather', 'bantam', 'fly'];
+  const tabs = ['heavy', 'middle', 'light'];
   for (const tab of tabs) {
     const btn = document.getElementById(tab + "-count");
     if (btn) btn.textContent = (STATE.data[tab] || []).length;
