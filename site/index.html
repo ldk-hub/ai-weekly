@@ -30,7 +30,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=15" />
+<link rel="stylesheet" href="styles.css?v=22" />
 
 <!-- Google Analytics 4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-YLKMDP5YKQ"></script>
@@ -49,6 +49,32 @@
 <div class="layout-wrapper">
 
   <div class="header-container" role="banner">
+    <div class="top-bar">
+          <nav class="page-nav">
+            <a href="./" class="pn-link is-active">
+              <span data-i18n-en="Popular Plugins" data-i18n-ko="인기 플러그인">인기 플러그인</span>
+            </a>
+            <a href="news" class="pn-link">
+              <span data-i18n-en="AI News" data-i18n-ko="AI 뉴스">AI 뉴스</span>
+            </a>
+            <a href="starboard" class="pn-link">
+              <span data-i18n-en="Starboard" data-i18n-ko="스타보드">스타보드</span>
+            </a>
+            <a href="lounge" class="pn-link">
+              <span data-i18n-en="Lounge" data-i18n-ko="라운지">라운지</span>
+            </a>
+          </nav>
+          <div class="brand-actions">
+            <button class="theme-toggle" id="theme-toggle" aria-label="테마 전환" type="button">🌙 다크</button>
+            <button class="lang-toggle" id="lang-toggle" aria-label="언어 전환" type="button">
+              <span class="lang-opt" data-lang="en">EN</span>
+              <span class="lang-sep">/</span>
+              <span class="lang-opt" data-lang="ko">KO</span>
+            </button>
+            <a class="gh-btn" href="https://github.com/ldk-hub/ai-weekly" target="_blank" rel="noopener">GitHub</a>
+          </div>
+    </div>
+
     <div class="hero-header">
       <div class="hero-titles">
         <h1 class="hero-h1" data-i18n-en-html="What's <span class=&quot;hl-mint&quot;>rising</span> in Claude Code this week,<br/>and what's already <span class=&quot;hl-lemon&quot;>here to stay</span>." data-i18n-ko-html="이번 주 Claude Code에서<br />뭐가 <span class=&quot;hl-mint&quot;>뜨고</span>, 뭐가 이미 <span class=&quot;hl-lemon&quot;>자리잡았나</span>.">이번 주 Claude Code에서<br />뭐가 <span class="hl-mint">뜨고</span>, 뭐가 이미 <span class="hl-lemon">자리잡았나</span>.</h1>
@@ -56,15 +82,6 @@
       </div>
 
       <div class="hero-actions">
-        <div class="brand-actions">
-          <button class="theme-toggle" id="theme-toggle" aria-label="테마 전환" type="button">🌙 다크</button>
-          <button class="lang-toggle" id="lang-toggle" aria-label="언어 전환" type="button">
-            <span class="lang-opt" data-lang="en">EN</span>
-            <span class="lang-sep">/</span>
-            <span class="lang-opt" data-lang="ko">KO</span>
-          </button>
-          <a class="gh-btn" href="https://github.com/ldk-hub/ai-weekly" target="_blank" rel="noopener">GitHub</a>
-        </div>
         <div class="hero-art-dots">
           <img src="claude-avatar.svg" alt="Claude" width="72" height="72" />
         </div>
@@ -79,6 +96,8 @@
         <span class="update-text" id="next-at-container"><span data-i18n-en="Next" data-i18n-ko="다음">다음</span> <strong id="next-at" style="font-weight:inherit">—</strong></span>
         <span class="update-sep" id="version-sep"></span>
         <span class="version-pill" id="version-pill"></span>
+        <span class="update-sep"></span>
+        <span class="update-text unb-summary" id="page-summary">—</span>
       </div>
 
       <div class="update-actions-right">
@@ -108,23 +127,6 @@
     </div>
 
     <div class="unified-nav-box">
-      <div class="unb-top">
-        <nav class="page-nav">
-          <a href="./" class="pn-link is-active">
-            <span class="pn-icon">🧩</span><span data-i18n-en="Popular Plugins" data-i18n-ko="인기 플러그인">인기 플러그인</span>
-          </a>
-          <a href="news" class="pn-link">
-            <span class="pn-icon">📰</span><span data-i18n-en="AI News" data-i18n-ko="AI 뉴스">AI 뉴스</span>
-          </a>
-          <a href="starboard" class="pn-link">
-            <span class="pn-icon">📈</span><span data-i18n-en="Starboard" data-i18n-ko="스타보드">스타보드</span>
-          </a>
-          <a href="lounge" class="pn-link">
-            <span class="pn-icon">💬</span><span data-i18n-en="Lounge" data-i18n-ko="라운지">라운지</span>
-          </a>
-        </nav>
-        <div class="unb-summary" id="page-summary">—</div>
-      </div>
       
       <div class="unb-bottom">
         <nav class="cat-filter" id="cat-filter" role="tablist" aria-label="Category filter"></nav>

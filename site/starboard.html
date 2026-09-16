@@ -30,7 +30,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=15" />
+<link rel="stylesheet" href="styles.css?v=22" />
 
 <!-- Google Analytics 4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-YLKMDP5YKQ"></script>
@@ -49,6 +49,32 @@
 <div class="layout-wrapper">
 
   <div class="header-container" role="banner">
+    <div class="top-bar">
+          <nav class="page-nav">
+            <a href="./" class="pn-link">
+              <span data-i18n-en="Popular Plugins" data-i18n-ko="인기 플러그인">인기 플러그인</span>
+            </a>
+            <a href="news" class="pn-link">
+              <span data-i18n-en="AI News" data-i18n-ko="AI 뉴스">AI 뉴스</span>
+            </a>
+            <a href="starboard" class="pn-link is-active">
+              <span data-i18n-en="Starboard" data-i18n-ko="스타보드">스타보드</span>
+            </a>
+            <a href="lounge" class="pn-link">
+              <span data-i18n-en="Lounge" data-i18n-ko="라운지">라운지</span>
+            </a>
+          </nav>
+          <div class="brand-actions">
+            <button class="theme-toggle" id="theme-toggle" aria-label="테마 전환" type="button">🌙 다크</button>
+            <button class="lang-toggle" id="lang-toggle" aria-label="언어 전환" type="button">
+              <span class="lang-opt" data-lang="en">EN</span>
+              <span class="lang-sep">/</span>
+              <span class="lang-opt" data-lang="ko">KO</span>
+            </button>
+            <a class="gh-btn" href="https://github.com/ldk-hub/ai-weekly" target="_blank" rel="noopener">GitHub</a>
+          </div>
+    </div>
+
     <div class="hero-header">
       <div class="hero-titles">
         <h1 class="hero-h1" data-i18n-en-html="Tracking the <span class='hl-mint'>growth</span> of<br>top GitHub <span class='hl-lemon'>repositories</span>." data-i18n-ko-html="가장 빠르게 <span class='hl-mint'>성장하는</span><br>리포지토리 <span class='hl-lemon'>순위표</span>.">가장 빠르게 <span class="hl-mint">성장하는</span><br>리포지토리 <span class="hl-lemon">순위표</span>.</h1>
@@ -56,15 +82,6 @@
       </div>
 
       <div class="hero-actions">
-        <div class="brand-actions">
-          <button class="theme-toggle" id="theme-toggle" aria-label="테마 전환" type="button">🌙 다크</button>
-          <button class="lang-toggle" id="lang-toggle" aria-label="언어 전환" type="button">
-            <span class="lang-opt" data-lang="en">EN</span>
-            <span class="lang-sep">/</span>
-            <span class="lang-opt" data-lang="ko">KO</span>
-          </button>
-          <a class="gh-btn" href="https://github.com/ldk-hub/ai-weekly" target="_blank" rel="noopener">GitHub</a>
-        </div>
         <div class="hero-art-dots">
           <img src="claude-avatar.svg" alt="Claude" width="72" height="72" />
         </div>
@@ -79,6 +96,8 @@
         <span class="update-text" id="next-at-container"><span data-i18n-en="Next" data-i18n-ko="다음">다음</span> <strong id="next-at" style="font-weight:inherit">—</strong></span>
         <span class="update-sep" id="version-sep"></span>
         <span class="version-pill" id="version-pill"></span>
+        <span class="update-sep"></span>
+        <span class="update-text unb-summary" id="page-summary">—</span>
       </div>
 
       <div class="update-actions-right">
@@ -108,53 +127,35 @@
     </div>
 
     <div class="unified-nav-box">
-      <div class="unb-top">
-        <nav class="page-nav">
-          <a href="./" class="pn-link">
-            <span class="pn-icon">🧩</span><span data-i18n-en="Popular Plugins" data-i18n-ko="인기 플러그인">인기 플러그인</span>
-          </a>
-          <a href="news" class="pn-link">
-            <span class="pn-icon">📰</span><span data-i18n-en="AI News" data-i18n-ko="AI 뉴스">AI 뉴스</span>
-          </a>
-          <a href="starboard" class="pn-link is-active">
-            <span class="pn-icon">📈</span><span data-i18n-en="Starboard" data-i18n-ko="스타보드">스타보드</span>
-          </a>
-          <a href="lounge" class="pn-link">
-            <span class="pn-icon">💬</span><span data-i18n-en="Lounge" data-i18n-ko="라운지">라운지</span>
-          </a>
-        </nav>
-        <div class="unb-summary" id="page-summary">—</div>
-      </div>
       
       <div class="unb-bottom sb-controls">
         <nav class="cat-filter" role="tablist" aria-label="리그 선택">
-          <button class="cat-chip active" data-tab="heavy" role="tab" aria-selected="true">
+          <button class="cat-chip active" data-tab="heavy" role="tab" aria-selected="true" title="스타 100k+">
             🥊 <span data-i18n-en="Heavyweight" data-i18n-ko="헤비급">헤비급</span> <span class="tab-count" id="heavy-count">0</span>
           </button>
-          <button class="cat-chip" data-tab="lightheavy" role="tab" aria-selected="false">
+          <button class="cat-chip" data-tab="lightheavy" role="tab" aria-selected="false" title="스타 50k+">
             🥊 <span data-i18n-en="Light Heavy" data-i18n-ko="라이트헤비급">라이트헤비급</span> <span class="tab-count" id="lightheavy-count">0</span>
           </button>
-          <button class="cat-chip" data-tab="middle" role="tab" aria-selected="false">
+          <button class="cat-chip" data-tab="middle" role="tab" aria-selected="false" title="스타 20k+">
             🥋 <span data-i18n-en="Middleweight" data-i18n-ko="미들급">미들급</span> <span class="tab-count" id="middle-count">0</span>
           </button>
-          <button class="cat-chip" data-tab="welter" role="tab" aria-selected="false">
+          <button class="cat-chip" data-tab="welter" role="tab" aria-selected="false" title="스타 10k+">
             🥋 <span data-i18n-en="Welterweight" data-i18n-ko="웰터급">웰터급</span> <span class="tab-count" id="welter-count">0</span>
           </button>
-          <button class="cat-chip" data-tab="light" role="tab" aria-selected="false">
+          <button class="cat-chip" data-tab="light" role="tab" aria-selected="false" title="스타 5k+">
             🪶 <span data-i18n-en="Lightweight" data-i18n-ko="라이트급">라이트급</span> <span class="tab-count" id="light-count">0</span>
           </button>
-          <button class="cat-chip" data-tab="feather" role="tab" aria-selected="false">
+          <button class="cat-chip" data-tab="feather" role="tab" aria-selected="false" title="스타 2k+">
             🪶 <span data-i18n-en="Featherweight" data-i18n-ko="페더급">페더급</span> <span class="tab-count" id="feather-count">0</span>
           </button>
-          <button class="cat-chip" data-tab="bantam" role="tab" aria-selected="false">
+          <button class="cat-chip" data-tab="bantam" role="tab" aria-selected="false" title="스타 500+">
             🪶 <span data-i18n-en="Bantamweight" data-i18n-ko="밴텀급">밴텀급</span> <span class="tab-count" id="bantam-count">0</span>
           </button>
-          <button class="cat-chip" data-tab="fly" role="tab" aria-selected="false">
+          <button class="cat-chip" data-tab="fly" role="tab" aria-selected="false" title="스타 500 미만">
             🪶 <span data-i18n-en="Flyweight" data-i18n-ko="플라이급">플라이급</span> <span class="tab-count" id="fly-count">0</span>
           </button>
         </nav>
         <div class="filter-right">
-          <span class="sb-league-hint" data-i18n-en="Heavy 100k+ · L-Heavy 50k+ · Middle 20k+ · Welter 10k+ · Light 5k+ · Feather 2k+ · Bantam 500+ · Fly < 500" data-i18n-ko="헤비급 100k+ · 라이트헤비급 50k+ · 미들급 20k+ · 웰터급 10k+ · 라이트급 5k+ · 페더급 2k+ · 밴텀급 500+ · 플라이급 500미만">헤비급 100k+ · 라이트헤비급 50k+ · 미들급 20k+ · 웰터급 10k+ · 라이트급 5k+ · 페더급 2k+ · 밴텀급 500+ · 플라이급 500미만</span>
           <button class="view-toggle" id="view-toggle" aria-label="뷰 모드 전환" type="button" title="리스트 보기">
             <span class="vt-icon" id="vt-icon">☷</span>
           </button>

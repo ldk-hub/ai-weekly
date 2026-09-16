@@ -263,17 +263,18 @@ function renderCategoryFilter() {
   
   if (isNewsPage) {
     const list = (STATE.data?.news || []);
-    wrap.innerHTML = NEWS_CATEGORIES.map(c => {
+    const opts = NEWS_CATEGORIES.map(c => {
       const count = c.id === "all" ? list.length : list.filter(x => x.category_id === c.id).length;
       if (c.id !== "all" && count === 0) return "";
       const label = lang === "en" ? c.label_en : c.label_ko;
-      const active = STATE.category === c.id ? "is-active" : "";
-      return `<button class="cat-chip ${active}" data-cat="${c.id}" type="button">
-        <span class="cat-emoji">${c.emoji}</span>
-        <span>${label}</span>
-        <span class="cat-count">${count}</span>
-      </button>`;
+      const sel = STATE.category === c.id ? " selected" : "";
+      return `<option value="${c.id}"${sel}>${escapeHTML(label)} (${count})</option>`;
     }).join("");
+    wrap.innerHTML = `
+      <label class="src-select-wrap">
+        <span class="src-select-label">${lang === "en" ? "Source" : "매체"}</span>
+        <select id="news-source-select" aria-label="${lang === "en" ? "Filter by source" : "매체로 거르기"}">${opts}</select>
+      </label>`;
 
     const sigWrap = document.getElementById("signal-chip-bar");
     if (sigWrap) {
@@ -292,9 +293,9 @@ function renderCategoryFilter() {
 
       const bmCount = list.filter(x => STATE.bookmarks.has(x.id)).length;
       const bmActive = STATE.bookmarksOnly ? "is-active" : "";
-      const bmLabel = lang === "en" ? "북마크" : "북마크";
+      const bmLabel = lang === "en" ? "Saved" : "저장";
       const bmChipHtml = `
-        <button class="signal-chip bookmark-chip ${bmActive}" id="bookmark-filter-chip" type="button" title="${lang === "en" ? "View bookmarked articles" : "저장한 뉴스 모아보기"}">
+        <button class="signal-chip bookmark-chip ${bmActive}" id="bookmark-filter-chip" type="button" title="${lang === "en" ? "View saved articles" : "저장한 뉴스 모아보기"}">
           <span>⭐</span>
           <span>${bmLabel}</span>
           <span class="count-badge">${bmCount}</span>
@@ -332,7 +333,7 @@ function renderCategoryFilter() {
 
     const bmCount = list.filter(it => STATE.pluginBookmarks.has(it.id)).length;
     const bmActive = STATE.pluginBookmarksOnly ? "is-active" : "";
-    const bmLabel = lang === "en" ? "Saved" : "찜한 도구";
+    const bmLabel = lang === "en" ? "Saved" : "저장";
     const bmChip = `
       <button class="cat-chip bookmark-chip ${bmActive}" id="plugin-bookmark-filter-chip" type="button" style="margin-left:4px;">
         <span>⭐</span>
@@ -383,23 +384,26 @@ function formatRepoId(id) {
   return `<span class="owner">${escapeHTML(owner)}</span><span class="slash">/</span>${escapeHTML(repo)}`;
 }
 
-const STICKER_FALLBACKS = ["s-mint", "s-lemon", "s-sky", "s-pink", "s-peach", "s-lilac"];
+/*
+ * 순위 표시는 세 가지뿐이다: NEW · #01 TOP · #02/#03.
+ * 예전엔 색 7가지와 라벨 7가지(대세·화제·급상승·PICK·한국어…)를 썼는데 범례가 없어
+ * 독자가 서로의 차이를 알 수 없었다. 4위 이하는 아무 표시도 하지 않는다.
+ * 데이터의 rank 를 쓴다 — 화면 index 로 계산하면 필터·검색만 해도 순위가 뒤바뀐다.
+ */
 function stickerFor(item, idx) {
-  // 데이터에 저장된 rank 를 쓴다. 화면 index 로 계산하면 카테고리 필터·검색만 해도
-  // 다른 리포가 "#01 TOP" 을 달게 되어 존재하지 않는 순위를 표시한다.
   const rank = item.rank ?? idx + 1;
-  const isRising = (item.badges || []).some(b => b.includes("Rising"));
-  const isNew = (item.badges || []).some(b => b.includes("신상") || b.includes("7일"));
-  const isKor = (item.badges || []).some(b => b.includes("한국어"));
-  const lang = getLang();
+  const isNew = (item.badges || []).some(b => b.includes("신상") || b.includes("7일") || b.includes("NEW"));
+  if (isNew) return { cls: "is-new", label: getLang() === "en" ? "NEW" : "신상" };
+  if (rank === 1) return { cls: "is-top", label: "#01" };
+  if (rank <= 3) return { cls: "is-hot", label: "#0" + rank };
+  return null;
+}
 
-  if (isNew) return { color: "s-mint", top: "NEW", bottom: lang === "en" ? "NEW" : "신상" };
-  if (isRising && rank === 1) return { color: "s-coral", top: "#01", bottom: "TOP" };
-  if (isRising && rank <= 3) return { color: "s-lemon", top: "#0" + rank, bottom: lang === "en" ? "HOT" : "급상승" };
-  if (rank === 1) return { color: "s-lemon", top: "#01", bottom: lang === "en" ? "TREND" : "대세" };
-  if (isKor) return { color: "s-sky", top: "KR", bottom: lang === "en" ? "KOR" : "한국어" };
-  if (isRising) return { color: "s-pink", top: "HOT", bottom: "화제" };
-  return { color: STICKER_FALLBACKS[idx % STICKER_FALLBACKS.length], top: "#" + String(rank).padStart(2,"0"), bottom: "PICK" };
+// 한국어 지원은 순위 자리가 아니라 카테고리 옆 칩으로 표시한다.
+function korChip(item) {
+  const isKor = (item.badges || []).some(b => b.includes("한국어"));
+  if (!isKor) return "";
+  return `<span class="kor-chip" title="${getLang() === "en" ? "Korean support" : "한국어 지원"}">KR</span>`;
 }
 
 // title_ko 는 "repo명 — 설명" 형식이다. repo명은 바로 위 repo-id 줄에 이미 있다.
@@ -414,22 +418,21 @@ function stripRepoPrefix(title, name) {
 function cardHTML(item, idx) {
   const safeId = escapeHTML(item.id || "");
   const avatar = item.thumbnail_url || `https://github.com/${(item.id || "").split("/")[0]}.png?size=80`;
-  const rank = item.rank ?? idx + 1;
-  const rankStr = String(rank).padStart(2, "0");
-  const isFeatured = rank === 1;
   const st = stickerFor(item, idx);
   const lang = getLang();
 
-  // 찜(북마크) 여부 및 버튼
   const isBookmarked = STATE.pluginBookmarks.has(item.id);
+  const saveLabel = isBookmarked
+    ? (lang === "en" ? "Remove from saved" : "저장 해제")
+    : (lang === "en" ? "Save" : "저장하기");
   const bookmarkBtn = `
-    <button type="button" class="card-plugin-bookmark-btn ${isBookmarked ? "is-bookmarked" : ""}" data-plugin-bookmark="${safeId}" title="${isBookmarked ? (lang === "en" ? "Remove bookmark" : "찜 해제") : (lang === "en" ? "Bookmark" : "도구 찜하기")}" aria-label="${isBookmarked ? "찜 해제" : "도구 찜하기"}">
+    <button type="button" class="card-plugin-bookmark-btn ${isBookmarked ? "is-bookmarked" : ""}" data-plugin-bookmark="${safeId}" title="${saveLabel}" aria-label="${saveLabel}">
       ${isBookmarked ? "★" : "☆"}
     </button>
   `;
 
   // 주간 증가 스타 또는 성장률 배지
-  const weeklyStars = item.weekly_stars ? `<span class="sb-hot-badge" style="font-size:11px; padding:1px 6px;">★ +${item.weekly_stars.toLocaleString()}/w</span>` : "";
+  const weeklyStars = item.weekly_stars ? `<span class="sb-hot-badge" style="font-size:12px; padding:1px 6px;">★ +${item.weekly_stars.toLocaleString()}/w</span>` : "";
 
   // 기능 3개. 앞 두 단어를 굵게 하던 처리는 뺐다 — 의미와 무관하게 조사에서 잘렸다.
   const feats = (item.key_features || []).slice(0, 3).map(f =>
@@ -457,23 +460,21 @@ function cardHTML(item, idx) {
   ` : "";
 
   return `
-    <article class="card" data-id="${safeId}" tabindex="0" role="button" aria-label="${escapeHTML(item.title_ko || item.id)} 상세 보기">
+    <article class="card" data-id="${safeId}">
       ${bookmarkBtn}
-      <div class="sticker ${st.color}">
-        <strong>${escapeHTML(st.top)}</strong>
-        ${escapeHTML(st.bottom)}
-      </div>
+      ${st ? `<span class="rank-pill ${st.cls}">${escapeHTML(st.label)}</span>` : ""}
       <div class="card-head">
         <img class="avatar" src="${escapeHTML(avatar)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'"/>
         <div class="head-meta">
           <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
             <span class="category-label">${escapeHTML(item.category || "")}</span>
+            ${korChip(item)}
             ${weeklyStars}
           </div>
           <div class="repo-id">${formatRepoId(item.id)}</div>
         </div>
       </div>
-      <h3>${escapeHTML(stripRepoPrefix(item.title_ko, item.name) || item.id)}</h3>
+      <h3 class="card-title" data-open="${safeId}" tabindex="0" role="button">${escapeHTML(stripRepoPrefix(item.title_ko, item.name) || item.id)}</h3>
       ${useCaseBox}
       ${feats ? `<ul class="features">${feats}</ul>` : ""}
       ${cliChip}
@@ -715,9 +716,9 @@ function renderLounge() {
             <a href="${escapeHTML(c.url)}" target="_blank" rel="noopener" style="text-decoration:none; color:inherit; display:block;">
               <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
                 <img src="${escapeHTML(c.author_avatar || "")}" alt="" width="20" height="20" loading="lazy" style="border-radius:50%;" onerror="this.style.visibility='hidden'"/>
-                <span style="font-weight:600; font-size:13.5px;">${escapeHTML(c.author || "unknown")}</span>
-                <span style="color:var(--muted); font-size:12.5px;">${escapeHTML(c.thread_title || "")}</span>
-                <span style="color:var(--muted); font-size:12.5px; margin-left:auto;">${stamp}</span>
+                <span style="font-weight:600; font-size:13px;">${escapeHTML(c.author || "unknown")}</span>
+                <span style="color:var(--muted); font-size:12px;">${escapeHTML(c.thread_title || "")}</span>
+                <span style="color:var(--muted); font-size:12px; margin-left:auto;">${stamp}</span>
               </div>
               <div style="font-size:14px; line-height:1.6; color:var(--text); opacity:0.9;">${escapeHTML((c.body || "").slice(0, 180))}</div>
             </a>
@@ -747,13 +748,13 @@ function renderLounge() {
     </div>
 
     <section class="card" style="padding:24px; margin-bottom:24px;">
-      <h2 style="margin:0 0 4px; font-size:19px;">${lang === "en" ? "Lounge" : "자유 대화"}</h2>
+      <h2 style="margin:0 0 4px; font-size:18px;">${lang === "en" ? "Lounge" : "자유 대화"}</h2>
       <p style="margin:0 0 16px; color:var(--muted); font-size:14px;">${lang === "en" ? "Anything about AI tooling. GitHub sign-in required." : "AI 도구 이야기 무엇이든. GitHub 로그인이 필요합니다."}</p>
       <div id="lounge-giscus"></div>
     </section>
 
     <section class="card" style="padding:24px;">
-      <h2 style="margin:0 0 4px; font-size:19px;">${lang === "en" ? "Recent comments across the site" : "사이트 전체 최근 댓글"}</h2>
+      <h2 style="margin:0 0 4px; font-size:18px;">${lang === "en" ? "Recent comments across the site" : "사이트 전체 최근 댓글"}</h2>
       <p style="margin:0 0 8px; color:var(--muted); font-size:14px;">${lang === "en" ? "Updated with the daily news run." : "데일리 뉴스 갱신 때 함께 수집됩니다."}</p>
       <ul style="list-style:none; margin:0; padding:0;">${recent}</ul>
     </section>`;
@@ -789,10 +790,10 @@ function render() {
     if (list.length === 0) {
       const lang = getLang();
       const noDataMsg = STATE.bookmarksOnly 
-        ? (lang === "en" ? "No bookmarked news yet. Click the star icon on any card to bookmark." : "저장된 북마크 뉴스가 없습니다. 관심 있는 카드의 별(⭐) 아이콘을 눌러보세요.")
+        ? (lang === "en" ? "Nothing saved yet. Tap the star on any card to save it." : "저장한 뉴스가 없습니다. 카드의 별(☆)을 눌러 저장해보세요.")
         : (lang === "en" ? "No news matches the filters. Try changing keywords or filters." : "조건에 일치하는 뉴스가 없습니다. 필터나 검색어를 변경해보세요.");
       el.innerHTML = `
-        <div style="text-align:center;padding:60px 0;color:var(--muted);font-size:15px;">
+        <div style="text-align:center;padding:60px 0;color:var(--muted);font-size:16px;">
           ${noDataMsg}
           <div style="margin-top:14px;">
             <button type="button" id="clear-filters-empty-btn" class="expand-toggle-btn" style="margin:0 auto;">${lang === "en" ? "Reset all filters" : "전체 필터 초기화"}</button>
@@ -814,7 +815,9 @@ function render() {
       if (STATE.category === "all" && STATE.signal === "all" && !STATE.bookmarksOnly && !STATE.query && d.summary) {
         const cleanedSummary = d.summary.replace(/\s*ldk-hub에서\s*큐레이션\s*하였습니다\.?/g, "").replace(/\s*\(ldk-hub에서\s*큐레이션\s*하였습니다\.?\)/g, "").trim();
         const formattedSummary = escapeHTML(cleanedSummary)
-          .replace(/(#[a-zA-Z0-9가-힣_-]+)/g, '<span class="db-tag">$1</span>')
+          // 점을 포함한 버전 태그(#Gemini3.8Live)가 "#Gemini3" + ".8Live" 로 쪼개지던 것.
+          // 끝에 붙은 마침표는 태그에 넣지 않는다.
+          .replace(/(#[\w가-힣-]+(?:\.[\w가-힣-]+)*)/g, '<span class="db-tag">$1</span>')
           .replace(/(🔥\s*오늘의\s*핵심\s*(?:이슈|키워드):)/g, '<strong>$1</strong>');
 
         html += `
@@ -856,7 +859,7 @@ function render() {
           <button type="button" class="expand-toggle-btn" id="expand-toggle-btn" title="${expandText}">
             <span>📖</span>
             <span>${expandText}</span>
-            <span style="font-size:10px;">${expandIcon}</span>
+            <span style="font-size:12px;">${expandIcon}</span>
           </button>
         </div>
       `;
@@ -890,7 +893,7 @@ function render() {
       if (STATE.pluginBookmarksOnly) {
         msg = lang === "en"
           ? "No saved tools in this tab. Click ★ on any card to save it."
-          : "이 탭에서 찜한 도구가 없습니다. 카드의 ★ 버튼을 눌러 관심 도구를 저장해보세요.";
+          : "이 탭에서 저장한 도구가 없습니다. 카드의 별(☆)을 눌러 저장해보세요.";
       } else {
         msg = lang === "en"
           ? "No matches. Try a different category or clear the search."
@@ -939,7 +942,6 @@ function newsCardHTML(item, idx = 0) {
   
   // importance(0~100) 는 큐레이터 내부 점수다. 정렬에만 쓰고 화면에는 내보내지 않는다 —
   // 독자가 93과 88 중 무엇을 먼저 읽을지 정하는 근거가 되지 못한다.
-  const sticker = "";
 
   // 멀티미디어 커버 이미지
   const cover = (item.multimedia && item.multimedia.length > 0) 
@@ -991,47 +993,39 @@ function newsCardHTML(item, idx = 0) {
   if (item.is_update) {
     const growth = Number(item.star_growth_pct);
     const label = Number.isFinite(growth) ? `업데이트 · ★ +${Math.round(growth)}%` : "업데이트";
-    badges.push(`<span style="font-size:11px; font-weight:700; padding:2px 8px; border-radius:10px; background:var(--pill); color:var(--ink-2); letter-spacing:0.02em;">${label}</span>`);
+    badges.push(`<span style="font-size:12px; font-weight:700; padding:2px 8px; border-radius:10px; background:var(--pill); color:var(--ink-2); letter-spacing:0.02em;">${label}</span>`);
   }
   const spd = Number(item.metrics && item.metrics.stars_per_day);
   if (item.category_id === "github" && Number.isFinite(spd) && spd > 0) {
-    badges.push(`<span style="font-size:11px; font-weight:600; padding:2px 8px; border-radius:10px; background:var(--pill); color:var(--muted);" title="${lang === "en" ? "Average stars gained per day" : "생성 이후 하루평균 획득 star"}">★ ${spd.toLocaleString()}/day</span>`);
+    badges.push(`<span style="font-size:12px; font-weight:600; padding:2px 8px; border-radius:10px; background:var(--pill); color:var(--muted);" title="${lang === "en" ? "Average stars gained per day" : "생성 이후 하루평균 획득 star"}">★ ${spd.toLocaleString()}/day</span>`);
   }
   const badgeHtml = badges.length ? `<div style="display:flex; gap:6px; margin-top:6px; flex-wrap:wrap;">${badges.join("")}</div>` : "";
 
-  // 신호축 뱃지 아이콘
-  const signalIcons = {
-    model: "🚀",
-    product: "✨",
-    devtool: "🛠️",
-    oss: "📦",
-    research: "🔬",
-    practice: "💡",
-    policy: "🏛️"
-  };
-  const sigIcon = signalIcons[item.signal_id] || "📌";
-  const sigLabel = item.signal_id === "model" ? "새 모델" :
-                   item.signal_id === "product" ? "제품 신기능" :
-                   item.signal_id === "devtool" ? "개발 도구" :
-                   item.signal_id === "oss" ? "오픈소스" :
-                   item.signal_id === "research" ? "연구·논문" :
-                   item.signal_id === "practice" ? "실무 활용" : "기술 신호";
+  // 신호 배지는 필터 칩과 같은 표를 본다(NEWS_SIGNALS). 예전엔 카드에 별도 매핑이 있어
+  // policy 분기가 빠져 "정책·규제" 기사가 카드에서는 "기술 신호"로 찍혔다.
+  const sig = NEWS_SIGNALS.find(x => x.id === item.signal_id);
+  const sigIcon = sig ? sig.emoji : "📌";
+  const sigLabel = sig
+    ? (lang === "en" ? sig.label_en : sig.label_ko)
+    : (lang === "en" ? "Signal" : "기술 신호");
   const signalBadgeHtml = `<span class="signal-badge" title="${escapeHTML(item.signal_name || '')}">${sigIcon} ${sigLabel}</span>`;
 
-  // 북마크 버튼
   const isBookmarked = STATE.bookmarks && STATE.bookmarks.has(item.id);
-  const bookmarkIcon = isBookmarked ? "⭐" : "☆";
-  const bookmarkTitle = isBookmarked 
-    ? (lang === "en" ? "Remove from bookmarks" : "북마크 해제") 
-    : (lang === "en" ? "Add to bookmarks" : "북마크 저장");
+  const bookmarkIcon = isBookmarked ? "★" : "☆";
+  const bookmarkTitle = isBookmarked
+    ? (lang === "en" ? "Remove from saved" : "저장 해제")
+    : (lang === "en" ? "Save" : "저장하기");
+  // 별은 카드 우측 상단 모서리에 고정한다. 예전엔 카테고리·신호 배지와 같은 줄에
+  // margin-left:auto 로 떠 있어 배지 개수에 따라 위치가 흔들렸다.
   const bookmarkBtn = `
-    <button type="button" class="card-icon-btn ${isBookmarked ? 'is-bookmarked' : ''}" data-action="bookmark" data-id="${safeId}" title="${bookmarkTitle}" style="font-size:15px; margin-left:auto; padding:2px 6px;">
-      <span>${bookmarkIcon}</span>
+    <button type="button" class="news-save-btn ${isBookmarked ? 'is-bookmarked' : ''}" data-action="bookmark" data-id="${safeId}" title="${bookmarkTitle}" aria-label="${bookmarkTitle}">
+      ${bookmarkIcon}
     </button>
   `;
 
   const headHtml = `
-    <div class="card-head" style="margin-bottom: 12px; padding-right: 60px;">
+    ${bookmarkBtn}
+    <div class="card-head" style="margin-bottom: 12px; padding-right: 34px;">
       <div class="avatar-wrapper" style="position:relative; display:inline-block; line-height:0;">
         <img class="avatar" src="${avatarUrl}" alt="" loading="lazy" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(authorStr)}&background=F4F4F5&color=3F3F46&bold=true'"/>
         ${platformIconHtml}
@@ -1040,7 +1034,6 @@ function newsCardHTML(item, idx = 0) {
         <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; width:100%;">
           <span class="category-label" style="text-transform: uppercase;">${escapeHTML(item.category_name || "NEWS")}</span>
           ${signalBadgeHtml}
-          ${bookmarkBtn}
         </div>
         ${(() => {
           const rawAuthor = (item.author_profile || item.author || "").trim();
@@ -1106,7 +1099,7 @@ function newsCardHTML(item, idx = 0) {
   // 태그 줄은 뺐다 — 클릭해도 필터가 걸리지 않아 링크가 아닌 장식이었다.
   const tags = "";
 
-  const related = (item.related_articles && item.related_articles.length > 0) ? `<div style="margin-top:16px; font-size:13.5px; background:var(--pill); padding:14px; border-radius:12px;"><strong style="color:var(--ink-2); display:flex; align-items:center; gap:6px;">🔗 관련 기사</strong><ul style="margin-top:8px; padding-left:18px; color:var(--muted); list-style-type:circle;">${item.related_articles.map(r => `<li style="margin-bottom:4px;"><a href="${escapeHTML(r.url)}" target="_blank" rel="noopener" style="color:var(--muted); text-decoration:none;">${escapeHTML(r.title)}</a></li>`).join("")}</ul></div>` : "";
+  const related = (item.related_articles && item.related_articles.length > 0) ? `<div style="margin-top:16px; font-size:13px; background:var(--pill); padding:14px; border-radius:12px;"><strong style="color:var(--ink-2); display:flex; align-items:center; gap:6px;">🔗 관련 기사</strong><ul style="margin-top:8px; padding-left:18px; color:var(--muted); list-style-type:circle;">${item.related_articles.map(r => `<li style="margin-bottom:4px;"><a href="${escapeHTML(r.url)}" target="_blank" rel="noopener" style="color:var(--muted); text-decoration:none;">${escapeHTML(r.title)}</a></li>`).join("")}</ul></div>` : "";
 
   const copyBtn = `
     <button type="button" class="card-icon-btn" data-action="copy-summary" data-id="${safeId}" title="${lang === 'en' ? 'Copy title, summary & link' : '기사 요약과 원문 링크 복사'}" style="font-size:12px; font-weight:600;">
@@ -1131,11 +1124,10 @@ function newsCardHTML(item, idx = 0) {
 
   return `
     <article class="card news-card" data-id="${safeId}" data-platform="${item.category_id || 'news'}" style="position:relative; padding:20px; box-shadow:0 2px 10px rgba(0,0,0,0.04); border-radius:14px;">
-      ${sticker}
       ${cover}
       ${headHtml}
       <a href="${item.url ? escapeHTML(item.url) : '#'}" target="_blank" rel="noopener" style="text-decoration:none; color:inherit; display:block;">
-        <h3 style="margin-top:0; margin-bottom:10px; line-height:1.42; font-size:18.5px; font-weight:700;">${title}</h3>
+        <h3 style="margin-top:0; margin-bottom:10px; line-height:1.42; font-size:18px; font-weight:700;">${title}</h3>
       </a>
       ${summaryHtml}
       ${bodyKo}
@@ -1185,7 +1177,7 @@ function studyCardHTML(item, idx) {
         </div>
       </div>
       <h3 style="margin-top:0; margin-bottom:12px; line-height:1.45; font-size:20px;">${title}</h3>
-      ${summary ? `<p style="margin-top:12px; font-size:15px; line-height:1.6; color:var(--text); opacity:0.9;">${summary}</p>` : ""}
+      ${summary ? `<p style="margin-top:12px; font-size:16px; line-height:1.6; color:var(--text); opacity:0.9;">${summary}</p>` : ""}
       ${tags ? `<div style="margin-top:16px; display:flex; flex-wrap:wrap; gap:8px;">${tags}</div>` : ""}
       ${linkBtn}
     </article>
@@ -1226,6 +1218,12 @@ document.querySelectorAll(".tab, .cat-chip[data-tab]").forEach(btn => {
   });
 });
 
+document.getElementById("cat-filter")?.addEventListener("change", e => {
+  const sel = e.target.closest("#news-source-select");
+  if (!sel) return;
+  STATE.category = sel.value;
+  render();
+});
 document.getElementById("cat-filter")?.addEventListener("click", e => {
   const bmBtn = e.target.closest("#plugin-bookmark-filter-chip");
   if (bmBtn) {
@@ -1295,10 +1293,10 @@ document.getElementById("grid")?.addEventListener("click", e => {
     const lang = getLang();
     if (STATE.pluginBookmarks.has(id)) {
       STATE.pluginBookmarks.delete(id);
-      showToast(lang === "en" ? "Removed from saved tools" : "찜 목록에서 제외되었습니다");
+      showToast(lang === "en" ? "Removed from saved" : "저장 목록에서 뺐습니다");
     } else {
       STATE.pluginBookmarks.add(id);
-      showToast(lang === "en" ? "Saved to your tools ⭐" : "관심 도구로 찜했습니다 ⭐");
+      showToast(lang === "en" ? "Saved ★" : "저장했습니다 ★");
     }
     savePluginBookmarks(STATE.pluginBookmarks);
     render();
@@ -1312,15 +1310,16 @@ document.getElementById("grid")?.addEventListener("click", e => {
     return;
   }
 
-  const card = e.target.closest(".card");
-  if (card && !e.target.closest("button") && !e.target.closest("a") && !e.target.closest(".cli-copy-chip")) {
-    openModal(card.dataset.id);
-  }
+  // 상세는 제목을 눌러야 열린다. 예전엔 카드 전체가 클릭 영역이라
+  // 추천 박스나 기능 줄의 글자를 읽으려 눌러도 모달이 떴다.
+  const title = e.target.closest("[data-open]");
+  if (title) openModal(title.dataset.open);
 });
 document.getElementById("grid")?.addEventListener("keydown", e => {
-  if ((e.key === "Enter" || e.key === " ") && e.target.classList.contains("card")) {
+  const title = e.target.closest("[data-open]");
+  if (title && (e.key === "Enter" || e.key === " ")) {
     e.preventDefault();
-    openModal(e.target.dataset.id);
+    openModal(title.dataset.open);
   }
 });
 // 브리핑 복사는 카드에서 모달로 옮겼다. 두 곳 모두에서 같은 텍스트가 나와야 한다.
@@ -1735,9 +1734,9 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-// 뉴스 피드 이벤트 위임 (댓글, 북마크, 요약 복사, 일괄 펼침, 필터 초기화)
+// 뉴스 피드 이벤트 위임 (댓글, 저장, 요약 복사, 일괄 펼침, 필터 초기화)
 document.getElementById("news-feed-container")?.addEventListener("click", (e) => {
-  // 1. 북마크 버튼
+  // 1. 저장 버튼
   const bmBtn = e.target.closest('[data-action="bookmark"]');
   if (bmBtn) {
     e.stopPropagation();
@@ -1746,10 +1745,10 @@ document.getElementById("news-feed-container")?.addEventListener("click", (e) =>
     if (!STATE.bookmarks) STATE.bookmarks = new Set();
     if (STATE.bookmarks.has(id)) {
       STATE.bookmarks.delete(id);
-      showToast("북마크에서 제거되었습니다.");
+      showToast(getLang() === "en" ? "Removed from saved" : "저장 목록에서 뺐습니다");
     } else {
       STATE.bookmarks.add(id);
-      showToast("⭐ 북마크에 저장되었습니다.");
+      showToast(getLang() === "en" ? "Saved ★" : "저장했습니다 ★");
     }
     saveBookmarks(STATE.bookmarks);
     render();
@@ -1934,7 +1933,7 @@ function renderStarboard() {
   }
   
   if (list.length === 0) {
-    el.innerHTML = `<div style="text-align:center;padding:60px 0;color:var(--muted);font-size:15px;">이 리그에는 아직 등록된 리포지토리가 없습니다.</div>`;
+    el.innerHTML = `<div style="text-align:center;padding:60px 0;color:var(--muted);font-size:16px;">이 리그에는 아직 등록된 리포지토리가 없습니다.</div>`;
     return;
   }
   
@@ -1970,14 +1969,10 @@ function starboardCardHTML(item, idx) {
   const sign = item.velocity > 0 ? "+" : "";
   const velocityColor = item.velocity > 0 ? "var(--mint)" : (item.velocity < 0 ? "var(--coral)" : "var(--muted)");
   
-  let stColor = "s-gray";
-  let stBottom = "PICK";
-  if (rank === 1) { stColor = "s-coral"; stBottom = "TOP"; }
-  else if (rank <= 3) { stColor = "s-lemon"; stBottom = lang === "en" ? "HOT" : "급상승"; }
-  else {
-    const STICKER_FALLBACKS = ["s-mint", "s-sky", "s-lavender", "s-pink"];
-    stColor = STICKER_FALLBACKS[idx % STICKER_FALLBACKS.length];
-  }
+  // 인기 플러그인 카드와 같은 규칙: 1위·2~3위만 표시하고 나머지는 표시하지 않는다.
+  const rankPill = rank === 1
+    ? `<span class="rank-pill is-top">#01</span>`
+    : (rank <= 3 ? `<span class="rank-pill is-hot">#0${rank}</span>` : "");
   
   const width = 300;
   const height = 80;
@@ -2017,25 +2012,22 @@ function starboardCardHTML(item, idx) {
 
   return `
     <article class="card" style="padding: 22px 20px 0; overflow:hidden; display:flex; flex-direction:column;">
-      <div class="sticker ${stColor}">
-        <strong>#${String(rank).padStart(2, '0')}</strong>
-        ${escapeHTML(stBottom)}
-      </div>
+      ${rankPill}
       
       <div class="card-head" style="margin-bottom:10px;">
         <img class="avatar" src="${escapeHTML(avatar)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'"/>
         <div class="head-meta">
           <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
-            <span class="repo-id" style="font-size: 13.5px;">${escapeHTML(ownerName)} /</span>
+            <span class="repo-id" style="font-size: 13px;">${escapeHTML(ownerName)} /</span>
             ${langTag}
           </div>
-          <h3 style="margin:2px 0 0; font-size: 19px; word-break:break-all; line-height:1.3;">${escapeHTML(repoName)}</h3>
+          <h3 style="margin:2px 0 0; font-size: 18px; word-break:break-all; line-height:1.3;">${escapeHTML(repoName)}</h3>
         </div>
       </div>
       
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
         <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-          <span class="stars-line" style="font-size:15.5px; font-weight:700;">★ ${item.currentStars.toLocaleString()}</span>
+          <span class="stars-line" style="font-size:16px; font-weight:700;">★ ${item.currentStars.toLocaleString()}</span>
           ${velocityBadge}
         </div>
         <span class="sb-badge ${badgeClass}" style="margin:0;">${badgeLabel}</span>
