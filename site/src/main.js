@@ -179,6 +179,7 @@ function renderUpdateBar() {
   const nxtContainer = document.getElementById("next-at-container");
   const nxtSep = document.getElementById("next-at-sep");
   const verEl = document.getElementById("version-pill");
+  const verSep = document.getElementById("version-sep");
   
   if (!updEl) return;
   if (ts && !isNaN(ts.getTime())) {
@@ -204,15 +205,13 @@ function renderUpdateBar() {
     if (ver && /^\d{4}\.\d{2}\.\d{2}$/.test(ver)) {
       ver = `v${ver}`;
     }
+    // 최신 회차에서 버전 필은 바로 왼쪽 "갱신" 날짜와 같은 값이다. 아카이브를 볼 때만 표시한다.
+    const showVer = !!ver && STATE.source !== "latest";
     verEl.textContent = ver;
-    verEl.style.display = ver ? "" : "none";
-    if (STATE.source !== "latest") {
-      verEl.classList.add("is-archive");
-      verEl.title = lang === "en" ? "Viewing archive" : "아카이브 보기";
-    } else {
-      verEl.classList.remove("is-archive");
-      verEl.title = "";
-    }
+    verEl.style.display = showVer ? "" : "none";
+    verEl.classList.toggle("is-archive", showVer);
+    verEl.title = showVer ? (lang === "en" ? "Viewing archive" : "아카이브 보기") : "";
+    if (verSep) verSep.style.display = showVer ? "" : "none";
   }
 }
 
@@ -403,6 +402,15 @@ function stickerFor(item, idx) {
   return { color: STICKER_FALLBACKS[idx % STICKER_FALLBACKS.length], top: "#" + String(rank).padStart(2,"0"), bottom: "PICK" };
 }
 
+// title_ko 는 "repo명 — 설명" 형식이다. repo명은 바로 위 repo-id 줄에 이미 있다.
+function stripRepoPrefix(title, name) {
+  const t = (title || "").trim();
+  if (!t || !name) return t;
+  if (t.slice(0, name.length).toLowerCase() !== name.toLowerCase()) return t;
+  const rest = t.slice(name.length).replace(/^\s*[—–\-:·]\s*/, "").trim();
+  return rest || t;
+}
+
 function cardHTML(item, idx) {
   const safeId = escapeHTML(item.id || "");
   const avatar = item.thumbnail_url || `https://github.com/${(item.id || "").split("/")[0]}.png?size=80`;
@@ -423,18 +431,10 @@ function cardHTML(item, idx) {
   // 주간 증가 스타 또는 성장률 배지
   const weeklyStars = item.weekly_stars ? `<span class="sb-hot-badge" style="font-size:11px; padding:1px 6px;">★ +${item.weekly_stars.toLocaleString()}/w</span>` : "";
 
-  // 기능 3개 - 불릿 아이콘과 첫머리 키워드 볼드 처리
-  const feats = (item.key_features || []).slice(0, 3).map(f => {
-    const trimmed = f.trim();
-    const words = trimmed.split(" ");
-    let highlighted = "";
-    if (words.length >= 3) {
-      highlighted = `<strong>${escapeHTML(words.slice(0, 2).join(" "))}</strong> ${escapeHTML(words.slice(2).join(" "))}`;
-    } else {
-      highlighted = `<strong>${escapeHTML(trimmed)}</strong>`;
-    }
-    return `<li><span class="feat-bullet">✓</span><span class="feat-text">${highlighted}</span></li>`;
-  }).join("");
+  // 기능 3개. 앞 두 단어를 굵게 하던 처리는 뺐다 — 의미와 무관하게 조사에서 잘렸다.
+  const feats = (item.key_features || []).slice(0, 3).map(f =>
+    `<li><span class="feat-bullet">✓</span><span class="feat-text">${escapeHTML(f.trim())}</span></li>`
+  ).join("");
 
   // 이런 분께 추천 (use_case) 하이라이트 박스
   const useCaseBox = item.use_case ? `
@@ -444,16 +444,17 @@ function cardHTML(item, idx) {
     </div>
   ` : "";
 
-  // 간편 설치 명령어 칩
-  const cmd = item.install_hint || (item.category === "MCP" ? `claude mcp add ${item.id}` : `/install ${item.id}`);
-  const escapedCmd = escapeHTML(cmd).replace(/'/g, "\'");
-  const cliChip = `
+  // 설치 명령 칩은 큐레이터가 실제 install_hint 를 준 항목에만 붙인다.
+  // 폴백 `/install owner/repo` 는 대부분 실행되지 않는 명령이라 복사 버튼과 함께 내보내면 안 된다.
+  const cmd = item.install_hint || "";
+  const escapedCmd = escapeHTML(cmd).replace(/'/g, "\\'");
+  const cliChip = cmd ? `
     <div class="cli-copy-chip" onclick="event.stopPropagation(); navigator.clipboard.writeText('${escapedCmd}'); const el=this.querySelector('.cli-action'); el.innerText='✓ 복사됨!'; setTimeout(()=>el.innerText='복사', 1500);" title="클릭하여 설치 명령어 복사">
       <span class="cli-icon">❯</span>
       <span class="cli-cmd">${escapeHTML(cmd)}</span>
       <span class="cli-action">복사</span>
     </div>
-  `;
+  ` : "";
 
   return `
     <article class="card" data-id="${safeId}" tabindex="0" role="button" aria-label="${escapeHTML(item.title_ko || item.id)} 상세 보기">
@@ -472,22 +473,15 @@ function cardHTML(item, idx) {
           <div class="repo-id">${formatRepoId(item.id)}</div>
         </div>
       </div>
-      <h3>${escapeHTML(item.title_ko || item.id)}</h3>
-      ${item.catchphrase ? `<p class="catch">${escapeHTML(item.catchphrase)}</p>` : ""}
+      <h3>${escapeHTML(stripRepoPrefix(item.title_ko, item.name) || item.id)}</h3>
       ${useCaseBox}
       ${feats ? `<ul class="features">${feats}</ul>` : ""}
       ${cliChip}
-      ${sourcesLine(item)}
       <div class="card-foot">
         <span class="meta-left"><span class="stars-line">★ ${formatStars(item.stars)}</span></span>
-        <div style="display:flex; align-items:center; gap:6px;">
-          <button type="button" class="copy-plugin-info-btn" data-copy-plugin="${safeId}" title="${lang === "en" ? "Copy tool briefing" : "도구 브리핑 복사"}">
-            <span>📋</span> <span>${lang === "en" ? "Copy" : "정보 복사"}</span>
-          </button>
-          <a class="repo-link" href="${escapeHTML(item.official_url || "#")}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
-            GITHUB <span class="arrow">→</span>
-          </a>
-        </div>
+        <a class="repo-link" href="${escapeHTML(item.official_url || "#")}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+          GITHUB <span class="arrow">→</span>
+        </a>
       </div>
     </article>
   `;
@@ -509,25 +503,42 @@ function sourcesLine(item) {
   return `<div class="src-line">${chips}${scoreEl}</div>`;
 }
 
+/*
+ * 모달은 카드에 없는 것만 담는다.
+ *   카드: 카테고리 · repo · 제목 · 이럴 때 · 기능 3줄 · ★ · GitHub
+ *   모달: + 긴 설명(summary_ko) · 검증 점수 · 수집 출처와 근거 링크 · 태그 · 브리핑 복사
+ * 카드와 겹치는 기능·용례도 남긴다 — 모달만 읽어도 판단이 서야 한다. 대신 간결한 형태로.
+ * 캐치프레이즈와 badges 는 뺐다: 제목·순위 줄과 같은 말이다.
+ */
 function modalHTML(item, tab, rank) {
+  const safeId = escapeHTML(item.id || "");
   const avatar = item.thumbnail_url || `https://github.com/${(item.id || "").split("/")[0]}.png?size=80`;
+  const lang = getLang();
+  const tabLabel = tab === "rising"
+    ? (lang === "en" ? "Trending" : "이번 주 뜨는")
+    : (lang === "en" ? "Classic" : "이미 유명한");
+  const rankStr = String(rank).padStart(2, "0");
+
+  const score = item.trend_score;
+  const scorePill = (score != null)
+    ? `<span class="m-score-pill" title="${lang === "en" ? "velocity · buzz · quality · recency" : "velocity · buzz · quality · recency 종합"}">
+         ${lang === "en" ? "Score" : "검증"} <strong>${score}</strong><span class="m-score-max">/100</span>
+       </span>`
+    : "";
+
+  const feats = (item.key_features || []).map(f =>
+    `<li>${escapeHTML(f.trim())}</li>`
+  ).join("");
+
   const tags = (item.tags || []).map(t =>
     `<span class="m-tag">${escapeHTML(t)}</span>`
   ).join("");
-  const feats = (item.key_features || []).map(f =>
-    `<li>${escapeHTML(f)}</li>`
-  ).join("");
-  const badges = (item.badges || []).map(b => {
-    let cls = "";
-    if (b.includes("Rising")) cls = "b-rising";
-    else if (b.includes("Classic")) cls = "b-classic";
-    return `<span class="m-badge ${cls}">${escapeHTML(b)}</span>`;
-  }).join("");
-  const lang = getLang();
-  const tabLabel = tab === "rising" 
-    ? (lang === "en" ? "Trending" : "이번 주 뜨는") 
-    : (lang === "en" ? "Classic" : "이미 유명한");
-  const rankStr = String(rank).padStart(2, "0");
+
+  const installBlock = item.install_hint
+    ? `<div class="m-section"><div class="m-label">${lang === "en" ? "Install" : "설치"}</div>
+         <div class="m-install">${escapeHTML(item.install_hint)}</div>
+       </div>`
+    : "";
 
   return `
     <div class="m-rank">
@@ -541,18 +552,20 @@ function modalHTML(item, tab, rank) {
         <div class="m-category">${escapeHTML(item.category || "")}</div>
         <div class="m-repo">${formatRepoId(item.id)}</div>
       </div>
-      <div class="m-stars">★ ${formatStars(item.stars)}</div>
+      <div class="m-stars">★ ${Number(item.stars || 0).toLocaleString()}</div>
+      ${scorePill}
     </div>
-    <h2>${escapeHTML(item.title_ko || item.id)}</h2>
-    ${item.catchphrase ? `<p class="m-catch">${escapeHTML(item.catchphrase)}</p>` : ""}
+    <h2>${escapeHTML(stripRepoPrefix(item.title_ko, item.name) || item.id)}</h2>
+    ${item.summary_ko ? `<p class="m-summary">${escapeHTML(item.summary_ko)}</p>` : ""}
+    ${feats ? `<div class="m-section"><div class="m-label">${lang === "en" ? "Key features" : "핵심 기능"}</div><ul class="m-features">${feats}</ul></div>` : ""}
+    ${item.use_case ? `<div class="m-usecase"><span class="m-usecase-icon">💡</span><span><strong>${lang === "en" ? "Good for:" : "이럴 때:"}</strong> ${escapeHTML(item.use_case)}</span></div>` : ""}
+    ${installBlock}
     ${modalSourcesSection(item)}
-    ${badges ? `<div class="m-badges">${badges}</div>` : ""}
-    ${item.summary_ko ? `<div class="m-section"><div class="m-label">어떤 프로젝트인가</div><p class="m-summary">${escapeHTML(item.summary_ko)}</p></div>` : ""}
-    ${feats ? `<div class="m-section"><div class="m-label">${lang === "en" ? "Key Features" : "핵심 기능"}</div><ul class="m-features">${feats}</ul></div>` : ""}
-    ${item.use_case ? `<div class="m-section"><div class="m-label">${lang === "en" ? "Use Cases" : "이럴 때 쓰면 좋아요"}</div><div class="m-usecase">${escapeHTML(item.use_case)}</div></div>` : ""}
-    ${item.install_hint ? `<div class="m-section"><div class="m-label">${lang === "en" ? "Getting Started" : "설치 · 시작하기"}</div><div class="m-install">${escapeHTML(item.install_hint)}</div></div>` : ""}
-    ${tags ? `<div class="m-section"><div class="m-label">${lang === "en" ? "Tags" : "태그"}</div><div class="m-tags">${tags}</div></div>` : ""}
+    ${tags ? `<div class="m-tags">${tags}</div>` : ""}
     <div class="m-cta-row">
+      <button type="button" class="m-cta-ghost" data-copy-plugin="${safeId}">
+        📋 ${lang === "en" ? "Copy briefing" : "정보 복사"}
+      </button>
       <a class="m-cta" href="${escapeHTML(item.official_url || "#")}" target="_blank" rel="noopener">
         ${lang === "en" ? "Open in GitHub →" : "GitHub에서 열기 →"}
       </a>
@@ -560,34 +573,33 @@ function modalHTML(item, tab, rank) {
   `;
 }
 
+// 근거는 "어디서 봤고 무슨 수치였나" 한 줄씩이면 된다. 점수는 헤더 필로 올렸다.
 function modalSourcesSection(item) {
   const srcs = (item.sources || []);
   const evi = (item.evidence || []);
-  const score = item.trend_score;
-  if (!srcs.length && !evi.length && score == null) return "";
+  if (!srcs.length && !evi.length) return "";
+  const lang = getLang();
 
-  let html = `<div class="m-section"><div class="m-label">${getLang() === "en" ? "Sources & Score" : "출처 · 검증"}</div>`;
-  if (score != null) {
-    const scoreText = getLang() === "en" ? "Validation Score" : "검증 점수";
-    const scoreFormula = getLang() === "en" ? "velocity · buzz · quality · recency" : "velocity · buzz · quality · recency 종합";
-    html += `<div class="m-score-box">${scoreText} <strong>${score}</strong> / 100<span class="m-score-formula">${scoreFormula}</span></div>`;
-  }
-  if (srcs.length) {
-    const chips = srcs.map(s => `<span class="src-chip">${escapeHTML(SOURCE_LABEL[s] || s)}</span>`).join("");
-    html += `<div class="m-src-row"><span class="m-src-label">수집 출처</span><div class="m-src-chips">${chips}</div></div>`;
-  }
-  if (evi.length) {
-    html += `<ul class="m-evidence">`;
-    for (const e of evi) {
-      const label = escapeHTML(e.label || e.source || "");
-      const src = escapeHTML(SOURCE_LABEL[e.source] || e.source || "");
-      const url = e.url || "";
-      html += `<li><span class="src-chip">${src}</span> ${url ? `<a href="${escapeHTML(url)}" target="_blank" rel="noopener">${label} ↗</a>` : label}</li>`;
-    }
-    html += `</ul>`;
-  }
-  html += `</div>`;
-  return html;
+  // 근거 항목이 있으면 그 안에 출처가 이미 칩으로 들어간다. 출처 칩 줄은 근거가 없을 때만 쓴다.
+  const body = evi.length
+    ? `<ul class="m-evidence">` + evi.map(e => {
+        const label = escapeHTML(e.label || e.source || "");
+        const src = escapeHTML(SOURCE_LABEL[e.source] || e.source || "");
+        const url = e.url || "";
+        return `<li><span class="src-chip">${src}</span>${url
+          ? `<a href="${escapeHTML(url)}" target="_blank" rel="noopener">${label} ↗</a>`
+          : `<span>${label}</span>`}</li>`;
+      }).join("") + `</ul>`
+    : `<div class="m-src-chips">${srcs.map(s => `<span class="src-chip">${escapeHTML(SOURCE_LABEL[s] || s)}</span>`).join("")}</div>`;
+
+  // velocity_7d 가 추정값이면 그렇다고 밝힌다 — 실측과 섞이면 안 된다.
+  const estNote = item.v7d_estimated
+    ? `<p class="m-evidence-note">${lang === "en"
+        ? "Weekly delta is estimated when the ledger has no baseline for this repo."
+        : "주간 증가분은 원장 기준선이 없는 리포에서 추정값이다."}</p>`
+    : "";
+
+  return `<div class="m-section"><div class="m-label">${lang === "en" ? "Evidence" : "근거"}</div>${body}${estNote}</div>`;
 }
 
 function findItem(id) {
@@ -925,20 +937,10 @@ function newsCardHTML(item, idx = 0) {
   const safeId = escapeHTML(item.id || "");
   const lang = getLang();
   
-  // 스티커는 큐레이터가 매긴 importance(0~100)만 근거로 한다.
-  // 예전엔 화면 index 로 "#01 TOP" 을 붙였는데, 정렬·필터가 바뀌면 아무 기사나 1위가 됐다.
-  let sticker = "";
-  const importance = Number(item.importance);
-  if (Number.isFinite(importance) && importance > 0) {
-    const stColor = importance >= 80 ? "s-coral" : importance >= 60 ? "s-lemon" : "s-gray";
-    sticker = `
-      <div class="sticker ${stColor}" title="${lang === "en" ? "Curation importance score" : "큐레이션 중요도 점수"}">
-        <strong>${Math.round(importance)}</strong>
-        ${lang === "en" ? "SCORE" : "중요도"}
-      </div>
-    `;
-  }
-  
+  // importance(0~100) 는 큐레이터 내부 점수다. 정렬에만 쓰고 화면에는 내보내지 않는다 —
+  // 독자가 93과 88 중 무엇을 먼저 읽을지 정하는 근거가 되지 못한다.
+  const sticker = "";
+
   // 멀티미디어 커버 이미지
   const cover = (item.multimedia && item.multimedia.length > 0) 
     ? `<div style="margin:-24px -24px 16px -24px; border-radius:16px 16px 0 0; overflow:hidden;"><img src="${escapeHTML(item.multimedia[0])}" loading="lazy" style="width:100%; height:320px; object-fit:cover;" alt=""/></div>` 
@@ -1101,7 +1103,8 @@ function newsCardHTML(item, idx = 0) {
     </details>
   ` : "";
   
-  const tags = (item.tags && item.tags.length > 0) ? `<div style="margin-top:14px; display:flex; flex-wrap:wrap; gap:6px;">${item.tags.map(t => `<span style="font-size:12px; padding:3px 9px; border-radius:10px; background:var(--pill); color:var(--ink-2); font-weight:500;">#${escapeHTML(t)}</span>`).join("")}</div>` : "";
+  // 태그 줄은 뺐다 — 클릭해도 필터가 걸리지 않아 링크가 아닌 장식이었다.
+  const tags = "";
 
   const related = (item.related_articles && item.related_articles.length > 0) ? `<div style="margin-top:16px; font-size:13.5px; background:var(--pill); padding:14px; border-radius:12px;"><strong style="color:var(--ink-2); display:flex; align-items:center; gap:6px;">🔗 관련 기사</strong><ul style="margin-top:8px; padding-left:18px; color:var(--muted); list-style-type:circle;">${item.related_articles.map(r => `<li style="margin-bottom:4px;"><a href="${escapeHTML(r.url)}" target="_blank" rel="noopener" style="color:var(--muted); text-decoration:none;">${escapeHTML(r.title)}</a></li>`).join("")}</ul></div>` : "";
 
@@ -1305,25 +1308,7 @@ document.getElementById("grid")?.addEventListener("click", e => {
   const copyBtn = e.target.closest("[data-copy-plugin]");
   if (copyBtn) {
     e.stopPropagation();
-    const id = copyBtn.dataset.copyPlugin;
-    const hit = findItem(id);
-    const lang = getLang();
-    if (hit && hit.item) {
-      const it = hit.item;
-      const cmd = it.install_hint || (it.category === "MCP" ? `claude mcp add ${it.id}` : `/install ${it.id}`);
-      const lines = [
-        `[Claude Code 도구] ${it.title_ko || it.id} (${it.id})`,
-        it.catchphrase ? `💡 ${it.catchphrase}` : "",
-        it.use_case ? `🎯 추천: ${it.use_case}` : "",
-        `💻 설치: ${cmd}`,
-        `🔗 ${it.official_url || it.repo_url || `https://github.com/${it.id}`}`
-      ].filter(Boolean);
-      navigator.clipboard.writeText(lines.join("\n")).then(() => {
-        showToast(lang === "en" ? "Tool briefing copied to clipboard!" : "도구 브리핑이 복사되었습니다!");
-      }).catch(() => {
-        showToast(lang === "en" ? "Failed to copy" : "복사에 실패했습니다");
-      });
-    }
+    copyPluginBriefing(copyBtn.dataset.copyPlugin);
     return;
   }
 
@@ -1338,7 +1323,32 @@ document.getElementById("grid")?.addEventListener("keydown", e => {
     openModal(e.target.dataset.id);
   }
 });
+// 브리핑 복사는 카드에서 모달로 옮겼다. 두 곳 모두에서 같은 텍스트가 나와야 한다.
+function copyPluginBriefing(id) {
+  const hit = findItem(id);
+  const lang = getLang();
+  if (!hit || !hit.item) return;
+  const it = hit.item;
+  const lines = [
+    `[Claude Code 도구] ${it.title_ko || it.id} (${it.id})`,
+    it.catchphrase ? `💡 ${it.catchphrase}` : "",
+    it.use_case ? `🎯 추천: ${it.use_case}` : "",
+    it.install_hint ? `💻 설치: ${it.install_hint}` : "",
+    `🔗 ${it.official_url || it.repo_url || `https://github.com/${it.id}`}`
+  ].filter(Boolean);
+  navigator.clipboard.writeText(lines.join("\n")).then(() => {
+    showToast(lang === "en" ? "Tool briefing copied to clipboard!" : "도구 브리핑이 복사되었습니다!");
+  }).catch(() => {
+    showToast(lang === "en" ? "Failed to copy" : "복사에 실패했습니다");
+  });
+}
+
 document.getElementById("modal")?.addEventListener("click", e => {
+  const copyBtn = e.target.closest("[data-copy-plugin]");
+  if (copyBtn) {
+    copyPluginBriefing(copyBtn.dataset.copyPlugin);
+    return;
+  }
   if (e.target.dataset.close !== undefined) closeModal();
 });
 document.addEventListener("keydown", e => {
@@ -1834,31 +1844,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Daily Visitor Badge
-  const visitCounter = document.querySelector(".visit-counter");
-  if (visitCounter) {
-    const img = visitCounter.querySelector("img");
-    const label = visitCounter.querySelector("span");
-    if (img && img.src.includes("visitor-badge.laobi.icu")) {
-      const d = new Date();
-      const tzOffset = d.getTimezoneOffset() * 60000;
-      const localISOTime = (new Date(d - tzOffset)).toISOString().split('T')[0];
-      const url = new URL(img.src);
-      let pageId = url.searchParams.get("page_id");
-      if (pageId && !pageId.includes(localISOTime)) {
-        url.searchParams.set("page_id", `${pageId}.${localISOTime}`);
-        url.searchParams.set("left_text", "today");
-        img.src = url.toString();
-      }
-    }
-    if (label) {
-      label.setAttribute("data-i18n-en", "Today");
-      label.setAttribute("data-i18n-ko", "오늘");
-      const lang = typeof getLang === 'function' ? getLang() : 'ko';
-      label.textContent = lang === "en" ? "Today" : "오늘";
-    }
-    visitCounter.title = "오늘 방문자";
-  }
 });
 
 function processStarboardData() {

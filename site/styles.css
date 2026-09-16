@@ -293,20 +293,6 @@ html[data-theme="dark"] .update-sep { background: var(--border-hover); }
   color: #7A756C;
   font-variant-numeric: tabular-nums;
 }
-.visit-counter {
-  font-size: 12px;
-  color: #7A756C;
-  font-variant-numeric: tabular-nums;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-.visit-counter img {
-  height: 16px;
-  width: auto;
-  border-radius: 3px;
-}
-
 .update-actions-right {
   margin-left: auto;
   display: flex;
@@ -753,18 +739,6 @@ main {
   overflow: hidden;
   min-height: calc(1.35em * 2);
 }
-.catch {
-  font-size: 13.5px;
-  font-weight: 500;
-  color: var(--ink-2);
-  line-height: 1.5;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  min-height: calc(1.5em * 2);
-}
-
 .features {
   list-style: none; padding: 0;
   display: flex; flex-direction: column; gap: 5px;
@@ -821,41 +795,6 @@ main {
 }
 
 /* modal source/evidence */
-.m-score-box {
-  padding: 16px 18px;
-  background: var(--ink);
-  color: var(--card);
-  border-radius: 12px;
-  font-size: 14px;
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-bottom: 14px;
-}
-.m-score-box strong {
-  font-size: 22px;
-  font-weight: 800;
-  font-variant-numeric: tabular-nums;
-  color: var(--accent);
-}
-.m-score-formula {
-  font-size: 11.5px;
-  color: var(--soft);
-  margin-left: auto;
-}
-.m-src-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 14px;
-}
-.m-src-label {
-  font-size: 12px;
-  color: var(--muted);
-  font-weight: 600;
-}
 .m-src-chips { display: flex; gap: 5px; flex-wrap: wrap; }
 .m-evidence {
   list-style: none;
@@ -867,12 +806,18 @@ main {
 .m-evidence li {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 12px 14px;
+  gap: 9px;
+  padding: 9px 12px;
   background: var(--pill);
-  border-radius: 10px;
-  font-size: 13.5px;
+  border-radius: 9px;
+  font-size: 13px;
   color: var(--ink-2);
+  line-height: 1.5;
+}
+.m-evidence-note {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--muted);
   line-height: 1.5;
 }
 .m-evidence a {
@@ -951,20 +896,20 @@ main {
   position: relative;
   background: var(--card);
   border-radius: 20px;
-  max-width: 920px; width: 100%;
+  max-width: 720px; width: 100%;
   box-shadow: 0 30px 80px rgba(0,0,0,0.14);
   animation: slideup-m .28s cubic-bezier(.2,.8,.2,1);
   z-index: 1;
 }
 .modal-close {
   position: absolute;
-  top: 22px; right: 22px;
+  top: 16px; right: 16px;
   background: var(--pill);
   border: none;
   color: var(--ink);
-  font-size: 14px;
+  font-size: 13px;
   cursor: pointer;
-  width: 36px; height: 36px;
+  width: 32px; height: 32px;
   border-radius: 50%;
   line-height: 1;
   transition: all .15s;
@@ -972,7 +917,7 @@ main {
 }
 .modal-close:hover { background: var(--ink); color: var(--card); }
 
-.modal-body { padding: 56px 64px 60px; }
+.modal-body { padding: 34px 38px 30px; }
 .m-rank {
   display: inline-flex;
   align-items: center;
@@ -980,20 +925,21 @@ main {
   font-size: 12px;
   color: var(--muted);
   font-weight: 500;
-  margin-bottom: 14px;
+  margin-bottom: 10px;
 }
 .m-rank .accent { color: var(--accent); font-weight: 700; }
 .m-rank .dot-sep { color: var(--soft); }
 
 .m-head {
-  display: flex; align-items: center; gap: 16px;
-  margin-bottom: 26px;
-  padding-bottom: 24px;
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 18px;
+  padding-bottom: 16px;
   border-bottom: 1px solid var(--pill);
+  flex-wrap: wrap;
 }
 .m-avatar {
-  width: 52px; height: 52px;
-  border-radius: 12px;
+  width: 42px; height: 42px;
+  border-radius: 10px;
   background: var(--pill);
   object-fit: cover;
 }
@@ -1022,48 +968,37 @@ main {
 }
 
 .modal-body h2 {
-  font-size: 32px;
+  font-size: 24px;
   font-weight: 700;
-  letter-spacing: -0.028em;
-  line-height: 1.3;
-  margin-bottom: 18px;
-  color: var(--ink);
-  max-width: 720px;
-}
-.m-catch {
-  font-size: 18px;
-  color: var(--ink-2);
-  line-height: 1.7;
+  letter-spacing: -0.03em;
+  line-height: 1.38;
   margin-bottom: 14px;
-  padding-left: 18px;
-  border-left: 3px solid var(--accent);
-  max-width: 720px;
-  font-weight: 500;
+  color: var(--ink);
 }
-.m-badges {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  margin: 18px 0 32px;
-}
-.m-badge {
-  font-size: 11.5px;
-  font-weight: 600;
+/* 검증 점수는 전용 박스에서 헤더 필로 내려왔다 — 숫자 하나에 한 블록을 쓸 이유가 없다 */
+.m-score-pill {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
   padding: 4px 11px;
   border-radius: 100px;
-  background: var(--pill);
-  color: var(--ink-2);
-}
-.m-badge.b-rising { background: var(--ink); color: var(--card); }
-.m-badge.b-classic { background: var(--accent); color: var(--card); }
-
-.m-section { margin-bottom: 40px; }
-.m-section:last-of-type { margin-bottom: 28px; }
-.m-section .m-label {
-  font-size: 13px;
+  background: var(--ink);
+  color: var(--card);
+  font-size: 12px;
   font-weight: 600;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  cursor: help;
+}
+.m-score-pill strong { font-size: 14px; font-weight: 800; color: var(--accent); }
+.m-score-max { opacity: 0.55; font-size: 11px; }
+.m-section { margin-bottom: 22px; }
+.m-section:last-of-type { margin-bottom: 18px; }
+.m-section .m-label {
+  font-size: 12.5px;
+  font-weight: 700;
   color: var(--ink);
-  margin-bottom: 16px;
+  margin-bottom: 10px;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -1075,25 +1010,25 @@ main {
   border-radius: 2px;
 }
 .m-summary {
-  font-size: 16.5px;
+  font-size: 15.5px;
   color: var(--ink-2);
-  line-height: 2;
-  max-width: 720px;
+  line-height: 1.8;
   font-weight: 400;
   word-break: keep-all;
+  margin-bottom: 22px;
 }
 .m-features {
   list-style: none; padding: 0;
   counter-reset: feat;
-  display: flex; flex-direction: column; gap: 10px;
+  display: flex; flex-direction: column; gap: 6px;
 }
 .m-features li {
-  padding: 20px 22px 20px 60px;
+  padding: 10px 14px 10px 40px;
   background: var(--pill);
-  border-radius: 14px;
-  font-size: 15.5px;
+  border-radius: 10px;
+  font-size: 14px;
   color: var(--ink-2);
-  line-height: 1.75;
+  line-height: 1.6;
   position: relative;
   font-weight: 400;
   word-break: keep-all;
@@ -1102,39 +1037,45 @@ main {
   counter-increment: feat;
   content: counter(feat, decimal-leading-zero);
   position: absolute;
-  left: 22px; top: 20px;
-  font-size: 14px;
+  left: 14px; top: 10px;
+  font-size: 12.5px;
   color: var(--accent);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
 .m-usecase {
-  padding: 22px 24px;
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  padding: 12px 15px;
+  margin-bottom: 22px;
   background: var(--hl-lemon);
-  border-radius: 14px;
-  font-size: 16px;
+  border-radius: 11px;
+  font-size: 14px;
   color: var(--ink);
-  line-height: 1.85;
+  line-height: 1.6;
   word-break: keep-all;
-  font-weight: 500;
+  font-weight: 400;
 }
+.m-usecase strong { font-weight: 700; }
+.m-usecase-icon { flex-shrink: 0; line-height: 1.6; }
 .m-install {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 13.5px;
-  padding: 18px 20px;
+  font-size: 13px;
+  padding: 11px 14px;
   background: var(--ink);
   color: var(--card);
-  border-radius: 14px;
+  border-radius: 10px;
   overflow-x: auto;
   white-space: nowrap;
   font-weight: 500;
   line-height: 1.6;
 }
-.m-tags { display: flex; gap: 7px; flex-wrap: wrap; }
+.m-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
 .m-tag {
-  font-size: 12.5px;
+  font-size: 12px;
   color: var(--muted);
-  padding: 5px 12px;
+  padding: 3px 10px;
   background: var(--pill);
   border-radius: 100px;
 }
@@ -1142,26 +1083,43 @@ main {
 
 .m-cta-row {
   display: flex;
-  gap: 10px;
+  gap: 9px;
   flex-wrap: wrap;
-  margin-top: 12px;
-  padding-top: 20px;
+  align-items: center;
+  margin-top: 4px;
+  padding-top: 16px;
   border-top: 1px solid var(--pill);
 }
 .m-cta {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 14px 22px;
+  padding: 11px 20px;
   background: var(--ink);
   color: var(--card);
   border-radius: 100px;
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 600;
   text-decoration: none;
   transition: background .15s;
 }
 .m-cta:hover { background: var(--accent); }
+.m-cta-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  border-radius: 100px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color .15s, border-color .15s;
+}
+.m-cta-ghost:hover { color: var(--ink); border-color: var(--border-hover); }
 
 body.modal-open { overflow: hidden; }
 
@@ -1504,15 +1462,22 @@ footer a:hover, footer .foot-link:hover { color: var(--accent); border-bottom-co
   .grid .card:nth-child(1) h3 { font-size: 22px; }
   .card h3 { font-size: 19px; }
   
-  .modal { padding: 20px 12px; }
-  .modal-body { padding: 36px 20px; }
-  .modal-body h2 { font-size: 24px; line-height: 1.35; }
-  .m-catch { font-size: 15px; padding-left: 14px; line-height: 1.65; }
-  .m-summary { font-size: 14.5px; line-height: 1.8; }
-  .m-features li { font-size: 14px; padding: 16px 16px 16px 48px; line-height: 1.65; }
-  .m-features li::before { left: 16px; top: 16px; }
-  .m-usecase { font-size: 14.5px; padding: 16px 18px; line-height: 1.7; }
-  .m-section { margin-bottom: 32px; }
+  .modal { padding: 16px 10px; }
+  .modal-body { padding: 26px 18px 22px; }
+  .modal-body h2 { font-size: 20px; line-height: 1.4; }
+  .m-summary { font-size: 14.5px; line-height: 1.75; }
+  .m-features li { font-size: 13.5px; padding: 9px 12px 9px 36px; line-height: 1.6; }
+  .m-features li::before { left: 12px; top: 9px; }
+  .m-usecase { font-size: 13.5px; padding: 11px 13px; line-height: 1.6; }
+  .m-section { margin-bottom: 20px; }
+  /* 좁은 폭에서 ★·검증 필이 repo 경로를 눌러 글자 단위로 쪼개던 것 — min-width 로 둘을 다음 줄로 내린다 */
+  .m-head { gap: 10px; row-gap: 10px; }
+  .m-avatar { width: 36px; height: 36px; }
+  .m-meta { flex: 1 1 auto; min-width: 150px; }
+  .m-stars, .m-score-pill { flex: 0 0 auto; }
+  .m-stars { font-size: 15px; }
+  .m-cta-row { gap: 8px; }
+  .m-cta, .m-cta-ghost { flex: 1 1 auto; justify-content: center; }
   
   footer {
     padding: 32px 16px 40px;
@@ -1524,8 +1489,6 @@ footer a:hover, footer .foot-link:hover { color: var(--accent); border-bottom-co
   /* --- 갱신바: nowrap flex 가 마지막 자식(방문자 뱃지)을 뷰포트 밖으로 밀어내던 것 --- */
   .update-meta { flex-wrap: wrap; row-gap: 6px; column-gap: 14px; }
   .update-meta .update-sep { display: none; }
-  .visit-counter { flex-shrink: 0; }
-  .visit-counter img { max-width: 100%; }
 
   /* --- 주차 드롭다운: 앵커가 왼쪽으로 옮겨졌는데 right:0 이 남아 화면 밖으로 열리던 것 --- */
   .archive-menu {
