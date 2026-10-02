@@ -7,7 +7,22 @@
 const fs = require("fs");
 const path = require("path");
 
-const VAULT_DIR = "/Users/nhn/Documents/Obsidian Vault/ai-weekly";
+function getVaultDir() {
+  if (process.env.OBSIDIAN_VAULT_DIR) return process.env.OBSIDIAN_VAULT_DIR;
+  const macPath = "/Users/nhn/Documents/Obsidian Vault/ai-weekly";
+  if (fs.existsSync(path.dirname(macPath))) return macPath;
+  const winPaths = [
+    path.join(process.env.USERPROFILE || "C:\\Users\\ok601", "OneDrive", "문서", "Obsidian Vault", "ai-weekly"),
+    path.join(process.env.USERPROFILE || "C:\\Users\\ok601", "Documents", "Obsidian Vault", "ai-weekly"),
+    path.join(process.env.USERPROFILE || "C:\\Users\\ok601", "OneDrive", "바탕 화면", "ObsidianVault", "ai-weekly"),
+  ];
+  for (const wp of winPaths) {
+    if (fs.existsSync(path.dirname(wp))) return wp;
+  }
+  return macPath;
+}
+
+const VAULT_DIR = getVaultDir();
 
 function ensureDir(dir) {
   if (!fs.existsSync(dir)) {
@@ -258,6 +273,71 @@ tags: [ai-weekly, lounge, giscus, github-discussions, community]
 
 // 3. 작업 일지들
 const LOGS = [
+  {
+    filename: "2026-10-02 작업일지.md",
+    title: "2026-10-02 작업일지 — 주간 종합 파이프라인(cc-weekly) 완수 (스타보드 569개 최신화, 트렌드 34건 선별·보안 스캔, 데일리 뉴스 18건 큐레이션 배포)",
+    date: "2026-10-02",
+    content: `---
+title: 2026-10-02 작업일지 — 주간 종합 파이프라인(cc-weekly) 완수 (스타보드 569개 최신화, 트렌드 34건 선별·보안 스캔, 데일리 뉴스 18건 큐레이션 배포)
+date: 2026-10-02
+type: work-log
+tags: [work-log, cc-weekly, cc-star, cc-news, cc-trends, security-scan, obsidian-sync]
+---
+
+# 📅 2026-10-02 작업일지
+
+## 1. 주요 작업 내용
+
+### 📈 1. CC-Star (오픈소스 스타보드 원장 최신화)
+- **수집 대상:** 569개 오픈소스 리포지토리 전수 추적 완료 (\`stars_ledger.json\` 2026-10-02 샘플 100% 반영)
+- **주간 스타 급상승 Top 5 (최근 7일 실측):**
+  1. \`stablyai/orca\`: +5,679 (83,222★)
+  2. \`DietrichGebert/ponytail\`: +5,006 (150,560★)
+  3. \`mattpocock/skills\`: +4,796 (273,932★)
+  4. \`affaan-m/ECC\`: +3,813 (270,728★)
+  5. \`farion1231/cc-switch\`: +2,909 (139,383★)
+- **원장 및 메타:** \`stars_ledger.json\`, \`stars_meta.json\` 최신 상태 확인 및 사이트 퍼블릭 미러링 완료
+
+### 📰 2. CC-News (데일리 AI 기술 신호 24시간 정밀 큐레이션)
+- **수집:** 7개 지정 매체 중 6개 매체에서 총 79건 후보 수집 (\`GitHub\`은 토큰 부재로 \`[MISSING]\` 처리)
+  - GeekNews 5건, AI타임스 5건, Hacker News 20건, Reddit 26건, HF Daily Papers 12건, Bluesky 11건
+  - 최근 7일 기배포 URL 중복 필터링 검증 완료
+- **정밀 큐레이션 (18건 균형 선별 배포):**
+  - 신호축 분포: \`research\` 4건, \`devtool\` 3건, \`practice\` 3건, \`model\` 3건, \`policy\` 2건, \`oss\` 2건, \`product\` 1건
+  - 매체별 분포: GeekNews 3건, AI타임스 3건, Hacker News 3건, Reddit 3건, HF Daily Papers 3건, Bluesky 3건 (완전한 6개 매체 균형)
+  - 핵심 이슈:
+    - \`[devtool]\` Claude Code Mod 기능 도입: 플러그인 훅으로 동작 재정의 및 커스텀 UI 지원
+    - \`[practice]\` 월 100달러 LLM으로 리눅스 커널 부팅 가능한 C 컴파일러 Kcc 1인 개발
+    - \`[devtool]\` Aweb — 분산 AI 에이전트 간 비동기 신뢰 통신을 위한 영속 메시징 프로토콜
+    - \`[devtool]\` llama.cpp, Qwen 차세대 모델을 위한 멀티 토큰 예측(MTP) 지원 PR 병합
+    - \`[oss]\` Janus — Vulkan 기반으로 다양한 GPU에서 GGUF를 구동하는 Go 단일 바이너리 서버
+    - \`[oss]\` VTCode — Rust로 작성된 초경량 터미널 코딩 에이전트 오픈소스 공개
+    - \`[model]\` 앤트로픽, 중국 오픈소스 모델 'GLM-5.3'의 사이버 공격 위험성 경고
+    - \`[model]\` Gemini 4 Argon, 100만 출력 토큰 한도 제공…에이전트 장기 실행의 도약인가
+    - \`[model]\` 클로드 오퍼스 5.5, 과도한 중요성 강조 어투로 AI 글쓰기 패턴 노출
+    - \`[practice]\` AI 코드 생성으로 인한 인지 부하를 줄이는 실무 전략
+    - \`[practice]\` Pi 확장 기능: 로컬 Qwen 27B의 불필요한 장기 추론 건너뛰기 팁
+    - \`[product]\` Brief — 장황한 AI 텍스트를 핵심 요약으로 압축하는 Mac 앱
+    - \`[research]\` ActiveSaddler: 에이전트 하네스 최적화를 위한 자동 커리큘럼 학습 프레임워크
+    - \`[research]\` 컨텍스트 언어 모델: 대규모 문맥 추론의 새로운 지평
+    - \`[research]\` 동적 다중 보상 라우팅을 통한 오디오-비디오 공동 확산 모델 강화학습 최적화
+    - \`[research]\` 계층적 연속 확산 언어 모델: 병렬 디코딩의 토큰 독립성 한계 극복
+    - \`[policy]\` 오픈AI, 기밀 정보 유출 혐의로 정렬 및 안전 연구원 3명 해고
+    - \`[policy]\` 오픈AI, 비정상적·유해한 AI 사용 혐의로 100여 개 기관에 경고 통지 발송
+  - 3불릿 볼드 키워드(\`• **키워드**: \`), 5~10문장 심층 해설, 사실 필드 일치 검증 통과 (\`curate_news.js --validate\`)
+
+### 🔥 3. CC-Trends (Claude Code 생태계 주간 트렌드 큐레이션 및 보안 검사)
+- **광역 수집:** GitHub 10대 쿼리 + HN 4대 쿼리 수집 (70건 유효 후보 도출)
+- **진입점 보안 스캔 (\`scan-install-entry.js\`):** 70건 전수 검사 완료, 악성 페이로드 0건
+- **주간 큐레이션 (34건 선별):**
+  - Rising 20건 (skill 8, mcp 6, agent 4, harness 2), Classic 14건 (skill 6, mcp 4, agent 2, harness 2)
+  - \`site/public/data/latest.json\` 및 아카이브 \`data/archive/2026-10-02.json\`, \`site/public/data/archive/2026-10-02.json\` 생성
+
+### 📦 4. 배포 리소스 및 빌드 검증
+- RSS 피드(\`feed.xml\`, \`news-feed.xml\`), sitemap.xml, OG 이미지(\`og.svg\`, \`og.png\`), 아카이브 인덱스(\`index.json\`, \`news_index.json\`) 최신화 완료
+- 옵시디언 볼트 동기화 완수
+`
+  },
   {
     filename: "2026-09-16 작업일지.md",
     title: "2026-09-16 작업일지 — 평일 데일리 파이프라인(cc-daily) 완수 (스타보드 569개 최신화, 데일리 AI 기술 신호 16건 큐레이션 및 7대 매체 100% 수집)",
