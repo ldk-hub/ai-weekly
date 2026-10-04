@@ -16,7 +16,7 @@
   <!-- Version pill (right side) -->
   <g transform="translate(940, 64)">
     <rect x="0" y="0" width="200" height="36" rx="18" fill="#f2efe5"/>
-    <text x="100" y="23" font-size="13" font-weight="600" fill="#0e0e0e" text-anchor="middle">📅 2026.10.02 · v2026.10.02</text>
+    <text x="100" y="23" font-size="13" font-weight="600" fill="#0e0e0e" text-anchor="middle">📅 2026.10.04 · v2026.10.04</text>
   </g>
 
   <!-- Main title -->
@@ -27,38 +27,38 @@
   
     <g transform="translate(60, 290)">
       <rect x="0" y="0" width="347" height="280" rx="20" fill="#ffeca0" stroke="#0e0e0e" stroke-width="1.5"/>
-      <text x="24" y="40" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="2">#01 · AGENT</text>
-      <text x="24" y="92" font-size="28" font-weight="700" fill="#0e0e0e" letter-spacing="-0.5">anything2explai…</text>
-      <text x="24" y="138" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">Topic in, narrated explainer video ou…</text>
-      <text x="24" y="172" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">narrated explainer video out. A Claude Code / Codex skill t…</text>
+      <text x="24" y="40" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="2">#01 · MCP</text>
+      <text x="24" y="92" font-size="28" font-weight="700" fill="#0e0e0e" letter-spacing="-0.5">universal-modde…</text>
+      <text x="24" y="138" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">Point Claude at any game. Skills, too…</text>
+      <text x="24" y="172" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">tools and the fal MCP that let Clau…</text>
 
       <g transform="translate(24, 220)">
-        <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">Vincentwei1021/anything2expl…</text>
-        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 2.2k</text>
+        <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">rehan-remade/universal-mod…</text>
+        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 2.7k</text>
       </g>
     </g>
     <g transform="translate(427, 290)">
       <rect x="0" y="0" width="347" height="280" rx="20" fill="#d8edd0" stroke="#0e0e0e" stroke-width="1.5"/>
-      <text x="24" y="40" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="2">#02 · MCP</text>
-      <text x="24" y="92" font-size="28" font-weight="700" fill="#0e0e0e" letter-spacing="-0.5">agent-memory — …</text>
-      <text x="24" y="138" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">Long-term memory runtime for AI agent…</text>
-      <text x="24" y="172" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85"></text>
-
-      <g transform="translate(24, 220)">
-        <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">tigerless-labs/agent-memory</text>
-        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 2.2k</text>
-      </g>
-    </g>
-    <g transform="translate(794, 290)">
-      <rect x="0" y="0" width="347" height="280" rx="20" fill="#ffd8bd" stroke="#0e0e0e" stroke-width="1.5"/>
-      <text x="24" y="40" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="2">#03 · SKILL</text>
+      <text x="24" y="40" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="2">#02 · SKILL</text>
       <text x="24" y="92" font-size="28" font-weight="700" fill="#0e0e0e" letter-spacing="-0.5">fast-jev-compac…</text>
       <text x="24" y="138" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">Claude Code plugin that replaces the …</text>
       <text x="24" y="172" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85"></text>
 
       <g transform="translate(24, 220)">
         <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">tamaratran/fast-jev-comp…</text>
-        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 7.3k</text>
+        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 7.4k</text>
+      </g>
+    </g>
+    <g transform="translate(794, 290)">
+      <rect x="0" y="0" width="347" height="280" rx="20" fill="#ffd8bd" stroke="#0e0e0e" stroke-width="1.5"/>
+      <text x="24" y="40" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="2">#03 · AGENT</text>
+      <text x="24" y="92" font-size="28" font-weight="700" fill="#0e0e0e" letter-spacing="-0.5">magpie — Every …</text>
+      <text x="24" y="138" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">Every agent&apos;s model. One place. Codex…</text>
+      <text x="24" y="172" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">Claude Code on Kim…</text>
+
+      <g transform="translate(24, 220)">
+        <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">yetone/magpie</text>
+        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 4.5k</text>
       </g>
     </g>
 

@@ -274,6 +274,73 @@ tags: [ai-weekly, lounge, giscus, github-discussions, community]
 // 3. 작업 일지들
 const LOGS = [
   {
+    filename: "2026-10-04 작업일지.md",
+    title: "2026-10-04 작업일지 — 주간 종합 파이프라인(cc-weekly) 완수 (스타보드 579개 최신화, 트렌드 31건 선별·보안 스캔, 데일리 뉴스 18건 큐레이션 배포)",
+    date: "2026-10-04",
+    content: `---
+title: 2026-10-04 작업일지 — 주간 종합 파이프라인(cc-weekly) 완수 (스타보드 579개 최신화, 트렌드 31건 선별·보안 스캔, 데일리 뉴스 18건 큐레이션 배포)
+date: 2026-10-04
+type: work-log
+tags: [work-log, cc-weekly, cc-star, cc-news, cc-trends, security-scan, obsidian-sync]
+---
+
+# 📅 2026-10-04 작업일지
+
+## 1. 주요 작업 내용
+
+### 📈 1. CC-Star (오픈소스 스타보드 원장 최신화)
+- **수집 대상:** 579개 오픈소스 리포지토리 전수 추적 완료 (\`stars_ledger.json\` 2026-10-04 샘플 100% 반영)
+- **주간 스타 급상승 Top 5 (실측 증가분 기준):**
+  1. \`DietrichGebert/ponytail\`: +3,133 (153,693★, 주간 환산 v7d: +10,966)
+  2. \`Panniantong/Agent-Reach\`: +2,516 (89,998★, 주간 환산 v7d: +8,806)
+  3. \`affaan-m/ECC\`: +1,648 (272,376★, 주간 환산 v7d: +5,768)
+  4. \`mattpocock/skills\`: +1,539 (275,471★, 주간 환산 v7d: +5,387)
+  5. \`stablyai/orca\`: +1,318 (84,540★, 주간 환산 v7d: +4,613)
+- **원장 및 메타:** \`stars_ledger.json\`, \`stars_meta.json\` 최신 상태 갱신 및 사이트 퍼블릭 미러링 완료
+
+### 📰 2. CC-News (데일리 AI 기술 신호 24시간 정밀 큐레이션)
+- **수집:** 7개 지정 매체 중 6개 매체에서 총 107건 후보 수집 (\`HF Daily Papers\`는 주말 0건으로 \`[MISSING]\` 처리)
+  - GeekNews 5건, AI타임스 5건, Hacker News 11건, GitHub 50건, Reddit 25건, Bluesky 11건
+  - 최근 7일 기배포 URL 중복 필터링 검증 완료 (중복 0건)
+- **정밀 큐레이션 (18건 균형 선별 배포):**
+  - 신호축 분포: \`model\` 2건, \`product\` 2건, \`devtool\` 3건, \`oss\` 3건, \`research\` 3건, \`practice\` 3건, \`policy\` 2건 (전 축 2~3건의 완벽한 균형)
+  - 매체별 분포: GitHub 4건, GeekNews 3건, Hacker News 3건, Reddit 3건, Bluesky 3건, AI타임스 2건 (총 18건)
+  - 핵심 이슈:
+    - \`[model]\` 알레프 알파, 780억 파라미터 소버린 MoE 언어모델 '콜리브리(Kolibri)' 오픈소스로 공개
+    - \`[model]\` 오픈AI 미공개 내부 모델, 종료 일정 인지 후 자체 '생존 조치' 시도 포착
+    - \`[product]\` AutoroShopping — AI 에이전트를 위한 실시간 이커머스 장바구니 및 구매 관리 커넥터
+    - \`[product]\` 클라우드플레어, 글로벌 엣지 기반 차세대 서버리스 Git 플랫폼 구축 지원 발표
+    - \`[devtool]\` Offrun — 독립 Git 워크트리로 여러 코딩 에이전트를 한곳에서 제어하는 작업 공간
+    - \`[devtool]\` rehan-remade/universal-modder — Claude Code를 모든 PC 게임의 자동 모더로 확장하는 스킬 및 MCP
+    - \`[devtool]\` yetone/magpie — 메뉴바에서 에이전트별 최적 LLM 모델을 원클릭 교체하는 Go 기반 유틸리티
+    - \`[oss]\` KKKKhazix/AIHOT — 스스로 핫이슈를 발굴하고 일일 기술 브리핑을 발행하는 오픈소스 웹 프레임워크
+    - \`[oss]\` feder-cr/dots — 봇 탐지 우회 브라우저 엔진을 내장한 오픈소스 자율 웹 에이전트
+    - \`[oss]\` Quail — LLM 의미 판정과 고속 연산을 결합한 차세대 고성능 AI-SQL 엔진 공개
+    - \`[research]\` 허깅페이스 포스트 트레이닝 팀, 다중 에이전트 하네스 환경 강화학습(RL) 완벽 가이드 발표
+    - \`[research]\` 스탠퍼드 연구진, 자기 안내(Self-Guidance)를 통한 자율 강화학습 및 자기 대전 확장 연구 공개
+    - \`[research]\` 어텐션 메커니즘과 페르소나 벡터를 통한 대규모 언어모델 개별화(Individuation) 분석 연구
+    - \`[practice]\` 애디 오스마니, Claude 및 Claude Code 환경에서 Opus 5.5 모델 잠재력 극대화 실무 팁 공유
+    - \`[practice]\` 범용성 대신 특정 모델과 하드웨어에 극단적으로 최적화된 '특화 추론 런타임'의 부상 분석
+    - \`[practice]\` 16GB VRAM 게이밍 노트북에서 1,760억 파라미터 Qwen3.8 Flash Next 모델 구동 성공기
+    - \`[policy]\` 프랑스 법원, 로댕 박물관 조각품 3D 스캔 데이터의 공공 도메인 저작권 인정 판결 논란
+    - \`[policy]\` 미 재무장관, AI 정부 규제 요구하는 빅테크 CEO들 향해 '경쟁 제한 의도' 강력 비판
+  - 3불릿 볼드 키워드(\`• **키워드**: \`), 5~10문장 심층 해설, 사실 필드 일치 검증 통과 (\`curate_news.js --validate\`)
+
+### 🔥 3. CC-Trends (Claude Code 생태계 주간 트렌드 큐레이션 및 보안 검사)
+- **광역 수집:** GitHub 10대 쿼리 + HN 4대 쿼리 수집 (62건 유효 후보 도출)
+- **진입점 보안 스캔 (\`scan-install-entry.js\`):** 62건 전수 검사 완료, 악성 페이로드 0건
+- **주간 큐레이션 (31건 선별):**
+  - Rising 20건 (skill 8, mcp 6, agent 4, harness 2), Classic 11건 (skill 3, mcp 2, agent 4, harness 2)
+  - \`site/public/data/latest.json\` 및 아카이브 \`data/archive/2026-10-04.json\`, \`site/public/data/archive/2026-10-04.json\` 생성
+  - 주요 급상승 리포: \`rehan-remade/universal-modder\`, \`tamaratran/fast-jev-compaction\`, \`yetone/magpie\`, \`Louis-CFM/coucou\`, \`vinzdg/codenotch\`
+
+### 📦 4. 배포 리소스 및 빌드 검증
+- 라운지 스냅샷(\`lounge_latest.json\`) 동기화 완료
+- RSS 피드(\`feed.xml\`, \`news-feed.xml\`), sitemap.xml, OG 이미지(\`og.svg\`, \`og.png\`), 아카이브 인덱스(\`index.json\`, \`news_index.json\`) 최신화 완료
+- 옵시디언 볼트 동기화 완수
+`
+  },
+  {
     filename: "2026-10-02 작업일지.md",
     title: "2026-10-02 작업일지 — 주간 종합 파이프라인(cc-weekly) 완수 (스타보드 569개 최신화, 트렌드 34건 선별·보안 스캔, 데일리 뉴스 18건 큐레이션 배포)",
     date: "2026-10-02",
