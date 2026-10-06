@@ -97,6 +97,9 @@ graph TD
 - [[04-giscus 라운지 및 커뮤니티 연동|💬 giscus 라운지 및 커뮤니티 연동 명세]]
 
 ### 📅 날짜별 작업 일지 (Work Logs)
+- [[2026-10-06 작업일지|📅 2026-10-06 작업일지 (주간 cc-weekly: 스타보드 584개 최신화, 트렌드 35건 선별·보안 스캔, 데일리 뉴스 18건 큐레이션 배포)]]
+- [[2026-10-04 작업일지|📅 2026-10-04 작업일지 (주간 cc-weekly: 스타보드 579개 최신화, 트렌드 31건 선별·보안 스캔, 데일리 뉴스 18건 큐레이션 배포)]]
+- [[2026-10-02 작업일지|📅 2026-10-02 작업일지 (주간 cc-weekly: 스타보드 576개 최신화, 트렌드 35건 선별, 데일리 뉴스 18건 큐레이션 배포)]]
 - [[2026-09-16 작업일지|📅 2026-09-16 작업일지 (평일 cc-daily: 스타보드 569개 최신화, 데일리 AI 뉴스 16건 배포, 7대 매체 100% 수집)]]
 - [[2026-09-15 작업일지|📅 2026-09-15 작업일지 (평일 cc-daily: 스타보드 569개 최신화, 데일리 AI 뉴스 16건 배포, 7대 매체 100% 수집)]]
 - [[2026-09-14 작업일지|📅 2026-09-14 작업일지 (주간 cc-weekly: 스타보드 564개 100% 최신화, 트렌드 32건 선별·보안 스캔, 데일리 뉴스 18건 큐레이션 배포)]]
@@ -273,6 +276,80 @@ tags: [ai-weekly, lounge, giscus, github-discussions, community]
 
 // 3. 작업 일지들
 const LOGS = [
+  {
+    filename: "2026-10-06 작업일지.md",
+    title: "2026-10-06 작업일지 — 주간 종합 파이프라인(cc-weekly) 완수 (스타보드 584개 최신화, 트렌드 35건 선별·보안 스캔, 데일리 뉴스 18건 큐레이션 배포)",
+    date: "2026-10-06",
+    content: `---
+title: 2026-10-06 작업일지 — 주간 종합 파이프라인(cc-weekly) 완수 (스타보드 584개 최신화, 트렌드 35건 선별·보안 스캔, 데일리 뉴스 18건 큐레이션 배포)
+date: 2026-10-06
+type: work-log
+tags: [work-log, cc-weekly, cc-star, cc-news, cc-trends, security-scan, obsidian-sync]
+---
+
+# 📅 2026-10-06 작업일지
+
+## 1. 주요 작업 내용
+
+### 📈 1. CC-Star (오픈소스 스타보드 원장 최신화)
+- **수집 대상:** 584개 오픈소스 리포지토리 전수 추적 완료 (\`stars_ledger.json\` 2026-10-06 샘플 100% 반영)
+- **주간 스타 급상승 Top 5 (실측 증가분 기준):**
+  1. \`DietrichGebert/ponytail\`: +9,049 (155,988★)
+  2. \`mattpocock/skills\`: +6,391 (277,097★)
+  3. \`stablyai/orca\`: +6,232 (85,856★)
+  4. \`Panniantong/Agent-Reach\`: +6,087 (91,884★)
+  5. \`affaan-m/ECC\`: +5,224 (273,657★)
+- **원장 및 메타:** \`stars_ledger.json\`, \`stars_meta.json\` 최신 상태 갱신 및 사이트 퍼블릭 미러링 완료
+
+### 📰 2. CC-News (데일리 AI 기술 신호 24시간 정밀 큐레이션)
+- **수집:** 7개 지정 매체 중 6개 매체에서 총 102건 후보 수집 (\`HF Daily Papers\`는 API 400으로 \`[MISSING]\` 처리)
+  - GeekNews 5건, AI타임스 5건, Hacker News 11건, GitHub 50건, Reddit 26건, Bluesky 5건
+  - 최근 7일 기배포 URL 중복 2건 필터링 완료, \`rehan-remade/universal-modder\`는 +43.4% 스타 급성장으로 \`[업데이트]\` 유지
+- **정밀 큐레이션 (18건 균형 선별 배포):**
+  - 신호축 분포: \`devtool\` 4건, \`oss\` 4건, \`model\` 3건, \`product\` 1건, \`research\` 2건, \`practice\` 2건, \`policy\` 2건 (전 축 4건 이내 균형)
+  - 매체별 분포: GeekNews 3건, AI타임스 3건, Hacker News 3건, Reddit 3건, Bluesky 3건, GitHub 3건 (전 매체 3건 완벽 균형)
+  - 핵심 이슈:
+    - \`[devtool]\` OpenRig — Claude Code와 Codex를 팀으로 묶어 실행하는 멀티 에이전트 오케스트레이터
+    - \`[devtool]\` 에이전트 간 통신(A2A) 프로토콜로서의 MCP, 치명적인 구조적 보안 취약점 노출 (Ars Technica)
+    - \`[devtool]\` CopilotKit/OpenDots — 텍스트, 음성 통화, 슬랙을 자유롭게 넘나드는 상시 가동 AI 동료 (일평균 580★ 급증)
+    - \`[devtool]\` Louis-CFM/coucou — 맥북 노치와 아이폰 잠금화면에서 코딩 에이전트를 승인·감시하는 위젯
+    - \`[model]\` 뉴럴링크, 5만 시간 뇌 신경 데이터 사전학습… BCI 파운데이션 모델 공개
+    - \`[model]\` Qwen 27B는 어떻게 GPT-4o를 능가했나 — 모델 파라미터 효율성의 비밀 (LocalLLaMA)
+    - \`[model]\` Reflection AI, DeepSeek·Qwen에 맞설 미국산 오픈 가중치 대형 모델 출시 예고
+    - \`[product]\` 앤트로픽, '음성 인터뷰어' 가동… 사용자 심층 인터뷰 및 음성 학습 결합
+    - \`[oss]\` Gitframes — AI 에이전트가 코드로 구동하는 오픈소스 모션 그래픽 및 3D 합성 엔진
+    - \`[oss]\` TinyDecide — 1000만 파라미터(6MB)로 브라우저와 엣지에서 도는 초경량 의사결정 모델
+    - \`[oss]\` OpenHands, GitHub 9만 스타 돌파 — 자율 코딩 에이전트의 강력한 오픈소스 대안
+    - \`[oss]\` [업데이트] universal-modder — 게임 역공학 및 자동 모딩 에이전트 스킬셋 (스타 43.4% 급증)
+    - \`[research]\` 자율 AI 에이전트(Opus 5.5), 상온 자성 반도체 후보 물질 2종 최초 발견
+    - \`[research]\` 클로드, 3개월간 논문 36편 작성… 새로운 'AI 과학 연구법' 조명 (하버드대 슈워츠 교수)
+    - \`[practice]\` Claude가 그러는데 — 동료 간 기술 질문에서 LLM 대리 인용이 초래하는 신뢰 붕괴
+    - \`[practice]\` OpenAI 사내 코딩 에이전트 사용량, 매달 2배씩 폭발적 증가 추세 (Epoch AI)
+    - \`[policy]\` 앤트로픽, 클로드에 기록된 일기 내용 경찰에 신고… 중범죄 기소 논란
+    - \`[policy]\` ChatGPT, 가짜 뉴요커 만화 생성에 실제 만화가 서명까지 위조 논란
+- **품질 게이트 검증:** \`curate_news.js --validate\` 18건 전수 100% 통과
+
+### 🔥 3. CC-Trends (Claude Code 주간 트렌드 큐레이션 & 아카이빙)
+- **광역 수집 및 진입점 보안 스캔:**
+  - GitHub 및 커뮤니티에서 153개 후보 발굴 (500★ 기준선 적용 후 63건 대상 선정)
+  - 63건 대상 설치 진입점 정밀 검사 완료 (\`scan-install-entry.js\`, 악성 원격 드로퍼 0건)
+- **트렌드 선별 (총 35건):**
+  - Rising (20건): skill 8건, mcp 6건, agent 4건, harness 2건
+  - Classic (15건): skill 6건, mcp 3건, agent 4건, harness 2건
+  - 급상승 Top 5:
+    1. \`stablyai/orca\` (agent): 병렬 코딩 에이전트 통합 지휘 ADE (85,860★, v7d: +5,929)
+    2. \`rehan-remade/universal-modder\` (mcp): 게임 역공학 및 자동 모딩 툴셋 (3,852★, v7d: +4,494)
+    3. \`yetone/magpie\` (agent): 에이전트별 최적 모델 실시간 교체 (5,141★, v7d: +2,093)
+    4. \`Louis-CFM/coucou\` (agent): 맥북 노치 및 모바일 에이전트 원격 제어 (3,693★, v7d: +1,547)
+    5. \`dzhng/jevgrep\` (agent): 코드 동작 기반 자연어 시맨틱 검색 CLI (2,308★, v7d: +378)
+- **아카이브 및 배포 자산 생성:**
+  - \`site/public/data/latest.json\` 및 아카이브 \`data/archive/2026-10-06.json\`, \`site/public/data/archive/2026-10-06.json\` 생성
+  - \`build-archive-index.js\`, \`generate-rss.js\` (feed.xml, news-feed.xml), \`generate-og.js\` (og.png, og.svg), \`sitemap.xml\` 최신화 완료
+
+### 💬 4. 커뮤니티 라운지 동기화
+- GitHub Discussions 연동 스냅샷 최신화 (\`lounge_latest.json\`)
+`
+  },
   {
     filename: "2026-10-04 작업일지.md",
     title: "2026-10-04 작업일지 — 주간 종합 파이프라인(cc-weekly) 완수 (스타보드 579개 최신화, 트렌드 31건 선별·보안 스캔, 데일리 뉴스 18건 큐레이션 배포)",
