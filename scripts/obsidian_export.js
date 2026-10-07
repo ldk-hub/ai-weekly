@@ -97,6 +97,7 @@ graph TD
 - [[04-giscus 라운지 및 커뮤니티 연동|💬 giscus 라운지 및 커뮤니티 연동 명세]]
 
 ### 📅 날짜별 작업 일지 (Work Logs)
+- [[2026-10-08 작업일지|📅 2026-10-08 작업일지 (평일 cc-daily: 스타보드 586개 갱신, 7개 매체 데일리 뉴스 18건 정밀 큐레이션 및 배포)]]
 - [[2026-10-06 작업일지|📅 2026-10-06 작업일지 (주간 cc-weekly: 스타보드 584개 최신화, 트렌드 35건 선별·보안 스캔, 데일리 뉴스 18건 큐레이션 배포)]]
 - [[2026-10-04 작업일지|📅 2026-10-04 작업일지 (주간 cc-weekly: 스타보드 579개 최신화, 트렌드 31건 선별·보안 스캔, 데일리 뉴스 18건 큐레이션 배포)]]
 - [[2026-10-02 작업일지|📅 2026-10-02 작업일지 (주간 cc-weekly: 스타보드 576개 최신화, 트렌드 35건 선별, 데일리 뉴스 18건 큐레이션 배포)]]
@@ -276,6 +277,57 @@ tags: [ai-weekly, lounge, giscus, github-discussions, community]
 
 // 3. 작업 일지들
 const LOGS = [
+  {
+    filename: "2026-10-08 작업일지.md",
+    title: "2026-10-08 작업일지 — 평일 정기 파이프라인(cc-daily) 완수 (스타보드 586개 갱신, 7개 매체 데일리 뉴스 18건 정밀 큐레이션 및 배포)",
+    date: "2026-10-08",
+    content: `---
+title: 2026-10-08 작업일지 — 평일 정기 파이프라인(cc-daily) 완수 (스타보드 586개 갱신, 7개 매체 데일리 뉴스 18건 정밀 큐레이션 및 배포)
+date: 2026-10-08
+type: work-log
+tags: [work-log, cc-daily, cc-star, cc-news, quality-gate, obsidian-sync]
+---
+
+# 📅 2026-10-08 작업일지
+
+## 1. 주요 작업 내용
+
+### 📈 1. CC-Star (오픈소스 스타보드 원장 최신화)
+- **수집 대상:** 586개 오픈소스 리포지토리 전수 추적 완료 (\`stars_meta.json\`, \`stars_ledger.json\` 2026-10-08 샘플 반영)
+- **수집 결과:**
+  - 성공: 586건 (100%)
+  - 404 제외: 41건
+  - 의심 드롭 플래그: 55건
+
+### 📰 2. CC-News (데일리 AI 기술 신호 큐레이션 및 배포)
+- **수집 결과 (24시간 창):** 총 134건 후보 확보
+  - GeekNews: 5건
+  - AI타임스: 5건
+  - Hacker News: 31건
+  - GitHub: 50건
+  - Reddit: 25건
+  - HF Daily Papers: 12건
+  - Bluesky: 6건
+  - 누락 매체([MISSING]): 0건 (7개 매체 전원 수집 성공)
+- **중복 차단 및 업데이트 필터:** 최근 7일 배포본 3개(53개 URL) 대비 중복 4건 차단, \`rehan-remade/universal-modder\`는 스타 급증(+34.7%)으로 \`[업데이트]\` 유지
+- **선별 및 큐레이션:** 기술 신호 규격 6축(+policy)에 맞춘 18건 최종 큐레이션
+  - \`model\` (2건): 앤트로픽 클로드 하이쿠 5.5 (비용 90% 인하), 구글 온디바이스 멀티모달 임베딩젬마 2
+  - \`product\` (3건): 위키피디아 3D 미술관, NanoMuse 크로스 플랫폼 개인 비서, 오픈AI Decisions API
+  - \`devtool\` (3건): Gooo 실험적 언어, Docker Agent CLI 플러그인, Pinrail 에이전트 승인 인박스
+  - \`oss\` (4건): [업데이트] universal-modder, invisible_playwright_mcp, answer-me-with-html, leviathan
+  - \`policy\` (1건): 메타 및 마이크로소프트 사내 클로드 사용 제한 및 자체 도구 전환
+  - \`practice\` (3건): NASA TESS Claude Code 분석 사례, CLAUDE.md 규칙 열람률 실측(0/69), Git 히스토리 유출 방지 및 홈랩 격리
+  - \`research\` (2건): SafeActBench (도구 사용 에이전트 실패 메커니즘), EVISKILL (증거 기반 스킬 진화)
+- **품질 게이트:** \`node scripts/news/curate_news.js --validate\` 100% 통과 (엄격한 3불릿 / 5~10문장 / 메타 원본 일치)
+
+### 🚀 3. 리소스 갱신 및 배포 준비
+- **RSS & 사이트맵:** \`site/public/feed.xml\`, \`site/public/news-feed.xml\`, \`site/public/sitemap.xml\` 자동 갱신
+- **AI 라운지:** \`site/public/data/lounge_latest.json\` 최신 스냅샷 갱신
+
+### 📚 4. 옵시디언 볼트 동기화
+- 로컬 옵시디언 볼트(\`/Users/nhn/Documents/Obsidian Vault/ai-weekly\`)에 당일 작업 이력 및 대시보드 동기화 완료 (\`npm run sync:obsidian\`)
+`
+  },
   {
     filename: "2026-10-06 작업일지.md",
     title: "2026-10-06 작업일지 — 주간 종합 파이프라인(cc-weekly) 완수 (스타보드 584개 최신화, 트렌드 35건 선별·보안 스캔, 데일리 뉴스 18건 큐레이션 배포)",
