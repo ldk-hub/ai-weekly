@@ -125,7 +125,8 @@ async function fetchRepo(id, token) {
       'Authorization': `Bearer ${token}`,
       'Accept': 'application/vnd.github.v3+json',
       'User-Agent': 'ai-weekly-stars-collector'
-    }
+    },
+    signal: AbortSignal.timeout(10000)
   });
   if (res.status === 404) return { status: 404 };
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -195,8 +196,13 @@ async function main() {
   }
   
   let attempts = 0;
+  let chunkIdx = 0;
   
   for (const chunk of chunks) {
+    chunkIdx++;
+    if (chunkIdx % 10 === 0 || chunkIdx === chunks.length) {
+      console.log(`[STARS] Progress: chunk ${chunkIdx}/${chunks.length} (${attempts}/${population.length} repos)`);
+    }
     await Promise.all(chunk.map(async id => {
       attempts++;
       try {
