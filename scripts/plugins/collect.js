@@ -7,10 +7,19 @@ const path = require("path");
 const ROOT = path.join(__dirname, "..", "..");
 const OUT = path.join(ROOT, ".tmp", "candidates.json");
 const { load: loadLedger, velocity, scoreVelocity } = require("../stars/build-stars-ledger");
-const GH_TOKEN = process.env.GH_TOKEN || process.env.GITHUB_TOKEN;
+const { execSync } = require("child_process");
+function getGhToken() {
+  if (process.env.GH_TOKEN) return process.env.GH_TOKEN;
+  if (process.env.GITHUB_TOKEN) return process.env.GITHUB_TOKEN;
+  try {
+    const token = execSync('gh auth token --hostname github.com', { encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] }).trim();
+    if (token) return token;
+  } catch(e) {}
+  return null;
+}
+const GH_TOKEN = getGhToken();
 if (!GH_TOKEN) {
-  console.error("GH_TOKEN (or GITHUB_TOKEN) is required");
-  
+  console.warn("GH_TOKEN not found, unauthenticated GitHub Search may be rate limited");
 }
 
 const WEEK_AGO = new Date(Date.now() - 7 * 24 * 3600 * 1000);

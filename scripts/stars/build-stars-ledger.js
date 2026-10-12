@@ -85,15 +85,30 @@ function addObservation(ledger, rawPath, date) {
   return n;
 }
 
-/** 오늘 이전의 가장 최근 표본을 기준선으로 7일 정규화 델타를 낸다. */
+/** 오늘 이전 표본 중 7일 전(일주일 전)에 가장 가까운 표본을 기준선으로 삼아 7일 정규화 델타를 낸다. */
 function velocity(ledger, repoId, starsNow, today) {
   const samples = (ledger[repoId] || []).filter((s) => s.date < today);
   if (!samples.length) return { v7d: null, reason: "no_baseline" };
-  const base = samples[samples.length - 1];
-  const days = Math.round(
-    (Date.parse(`${today}T00:00:00Z`) - Date.parse(`${base.date}T00:00:00Z`)) / 86400000
-  );
-  if (days <= 0) return { v7d: null, reason: "bad_interval" };
+
+  const todayMs = Date.parse(`${today}T00:00:00Z`);
+  let best = null;
+  let minDiff = Infinity;
+
+  for (const s of samples) {
+    const sMs = Date.parse(`${s.date}T00:00:00Z`);
+    const days = Math.round((todayMs - sMs) / 86400000);
+    if (days > 0) {
+      const diffFrom7 = Math.abs(days - 7);
+      if (diffFrom7 < minDiff) {
+        minDiff = diffFrom7;
+        best = { sample: s, days };
+      }
+    }
+  }
+
+  if (!best) return { v7d: null, reason: "bad_interval" };
+  const base = best.sample;
+  const days = best.days;
   const delta = starsNow - base.stars;
   return {
     v7d: Math.round((delta * 7) / days),

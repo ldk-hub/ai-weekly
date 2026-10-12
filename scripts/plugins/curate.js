@@ -838,6 +838,32 @@ const CURATED_KNOWLEDGE = {
   }
 };
 
+// 확장 지식 베이스 병합
+try {
+  const ext = require("./curated-knowledge-ext");
+  Object.assign(CURATED_KNOWLEDGE, ext);
+} catch (e) {
+  console.warn("curated-knowledge-ext load skipped:", e.message);
+}
+
+function extractSmartFeatures(c, cat) {
+  const desc = (c.description || "").trim();
+  const topics = (c.topics || []).slice(0, 3);
+  
+  let f1 = desc ? `${desc.slice(0, 50)}...` : `${c.name} 고유 개발 기능`;
+  let f2 = "";
+  if (cat === "mcp") f2 = "Model Context Protocol(MCP) 표준 인터페이스 지원";
+  else if (cat === "harness") f2 = "코딩 에이전트 다중 런타임 및 세션 오케스트레이션";
+  else if (cat === "agent") f2 = "자율 추론 및 작업 단계별 도구 실행 자동화";
+  else f2 = "Claude Code 전용 워크플로우 및 환경 최적화";
+
+  let f3 = topics.length > 0
+    ? `${topics.join(", ")} 기반 생태계 연동`
+    : "로컬 환경 경량 실행 및 생산성 향상";
+
+  return [f1, f2, f3];
+}
+
 async function callGemini(candidates) {
   if (API_KEY) {
     try {
@@ -896,11 +922,11 @@ async function callGemini(candidates) {
       category: cat,
       status: status,
       trend_score: score,
-      title_ko: known?.title_ko || `${c.name} — ${c.description ? c.description.slice(0, 40) : "유용한 도구"}`,
-      catchphrase: known?.catchphrase || (c.description || "생산성을 극대화하는 오픈소스 AI 도구"),
-      summary_ko: known?.summary_ko || (c.description || "해당 프로젝트에 대한 설명이 제공되지 않았습니다."),
-      key_features: known?.key_features || ["주요 개발 워크플로우 자동화", "오픈소스 에코시스템 호환성", "간편한 설정 및 유연한 통합"],
-      use_case: known?.use_case || "개발 생산성과 협업 효율성을 높이고 싶을 때",
+      title_ko: known?.title_ko || `${c.name} — ${c.description ? c.description.slice(0, 50) : "개발 도구"}`,
+      catchphrase: known?.catchphrase || (c.description || `${c.name} 오픈소스 프로젝트`),
+      summary_ko: known?.summary_ko || (c.description || `${c.name} 프로젝트에 대한 오픈소스 도구입니다.`),
+      key_features: known?.key_features || extractSmartFeatures(c, cat),
+      use_case: known?.use_case || `${c.name}의 기능을 프로젝트 개발 환경에 도입하고 싶을 때`,
       tags: known?.tags || (c.topics ? c.topics.slice(0, 4) : ["ai", "tool"])
     };
 
@@ -908,8 +934,8 @@ async function callGemini(candidates) {
     else classic.push(item);
   }
 
-  rising.sort((a, b) => b.trend_score - a.trend_score);
-  classic.sort((a, b) => b.trend_score - a.trend_score);
+  rising.sort((a, b) => (b.trend_score - a.trend_score) || (b.velocity_score - a.velocity_score) || (b.stars - a.stars));
+  classic.sort((a, b) => (b.trend_score - a.trend_score) || (b.velocity_score - a.velocity_score) || (b.stars - a.stars));
 
   return { rising, classic };
 }
@@ -970,7 +996,12 @@ function groundTruthMerge(items, candMap, status) {
       thumbnail_url: `https://github.com/${fact.owner}.png`,
     });
   }
-  return out.sort((a, b) => b.trend_score - a.trend_score);
+  return out.sort((a, b) =>
+    (b.trend_score - a.trend_score) ||
+    (b.velocity_score - a.velocity_score) ||
+    ((b.velocity_7d || 0) - (a.velocity_7d || 0)) ||
+    (b.stars - a.stars)
+  );
 }
 
 async function main() {

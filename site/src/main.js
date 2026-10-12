@@ -1865,15 +1865,30 @@ function processStarboardData() {
     const latestDate = latestEntry.date;
     const currentStars = latestEntry.stars;
     
-    // Calculate 7-day velocity (normalized)
+    // Calculate 7-day velocity (normalized to ~7 days baseline)
     let velocity = 0;
     const samplesBeforeLatest = history.filter(h => h.date < latestDate);
     if (samplesBeforeLatest.length > 0) {
-      const base = samplesBeforeLatest[samplesBeforeLatest.length - 1];
-      const days = Math.round((new Date(latestDate) - new Date(base.date)) / 86400000);
-      if (days > 0) {
-        const delta = currentStars - base.stars;
-        velocity = Math.round((delta * 7) / days);
+      const latestMs = new Date(latestDate).getTime();
+      let bestSample = null;
+      let minDiff = Infinity;
+      let bestDays = 0;
+
+      for (const s of samplesBeforeLatest) {
+        const days = Math.round((latestMs - new Date(s.date).getTime()) / 86400000);
+        if (days > 0) {
+          const diffFrom7 = Math.abs(days - 7);
+          if (diffFrom7 < minDiff) {
+            minDiff = diffFrom7;
+            bestSample = s;
+            bestDays = days;
+          }
+        }
+      }
+
+      if (bestSample && bestDays > 0) {
+        const delta = currentStars - bestSample.stars;
+        velocity = Math.round((delta * 7) / bestDays);
       }
     }
     
