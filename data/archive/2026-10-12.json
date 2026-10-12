@@ -1,0 +1,1611 @@
+{
+  "generated": "2026-10-12",
+  "generated_at": "2026-10-12",
+  "version": "v2026.10.12",
+  "rising": [
+    {
+      "id": "stablyai/orca",
+      "name": "orca",
+      "owner": "stablyai",
+      "title_ko": "orca — 수십 개의 병렬 코딩 에이전트를 통합 지휘하는 차세대 에이전트 ADE",
+      "official_url": "https://github.com/stablyai/orca",
+      "repo_url": "https://github.com/stablyai/orca",
+      "category": "agent",
+      "score": 90,
+      "trend_score": 90,
+      "stars": 89762,
+      "velocity_7d": 105,
+      "velocity_score": 100,
+      "growth_rate": 0.0012,
+      "v7d_estimated": false,
+      "source_count": 2,
+      "sources": [
+        "github",
+        "hn"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/stablyai/orca",
+          "label": "최근 7일 +105 stars"
+        },
+        {
+          "source": "hn",
+          "url": "https://news.ycombinator.com/item?id=49970078",
+          "label": "HN 8p · Orcah Studio: A local-first video agent that can search your videos"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "독립된 환경에서 여러 AI 에이전트를 동시에 실행하고 결과를 오케스트레이션하는 환경",
+      "summary_ko": "단일 에이전트의 한계를 넘어 여러 개의 코딩 에이전트를 병렬로 띄워 대규모 리팩토링, 테스트 작성, 기능 구현을 동시에 진행할 수 있는 에이전트 개발 환경(ADE)입니다. 작업 간의 충돌을 방지하고 각각의 진행 상황을 한눈에 모니터링할 수 있습니다.",
+      "key_features": [
+        "다중 에이전트 병렬 실행 및 워크스페이스 격리",
+        "실시간 진행 상황 모니터링 및 결과 병합 파이프라인",
+        "다양한 LLM 백엔드 및 코딩 도구 지원"
+      ],
+      "use_case": "방대한 규모의 기능 개발이나 전역 리팩토링을 여러 에이전트에게 분산 처리시킬 때",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "agent-ade",
+        "parallel-agents",
+        "orchestration",
+        "developer-environment"
+      ],
+      "thumbnail_url": "https://github.com/stablyai.png"
+    },
+    {
+      "id": "yetone/magpie",
+      "name": "magpie",
+      "owner": "yetone",
+      "title_ko": "magpie — Every agent's model. One place. Codex on",
+      "official_url": "https://github.com/yetone/magpie",
+      "repo_url": "https://github.com/yetone/magpie",
+      "category": "agent",
+      "score": 70,
+      "trend_score": 70,
+      "stars": 9179,
+      "velocity_7d": 105,
+      "velocity_score": 100,
+      "growth_rate": 0.0114,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/yetone/magpie",
+          "label": "최근 7일 +105 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "Every agent's model. One place. Codex on DeepSeek, Claude Code on Kimi, from the menu bar.",
+      "summary_ko": "Every agent's model. One place. Codex on DeepSeek, Claude Code on Kimi, from the menu bar.",
+      "key_features": [
+        "주요 개발 워크플로우 자동화",
+        "오픈소스 에코시스템 호환성",
+        "간편한 설정 및 유연한 통합"
+      ],
+      "use_case": "개발 생산성과 협업 효율성을 높이고 싶을 때",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "claude-code",
+        "codex",
+        "deepseek",
+        "gemini-cli"
+      ],
+      "thumbnail_url": "https://github.com/yetone.png"
+    },
+    {
+      "id": "rehan-remade/universal-modder",
+      "name": "universal-modder",
+      "owner": "rehan-remade",
+      "title_ko": "universal-modder — Point Claude at any game. Skills, tools ",
+      "official_url": "https://github.com/rehan-remade/universal-modder",
+      "repo_url": "https://github.com/rehan-remade/universal-modder",
+      "category": "mcp",
+      "score": 70,
+      "trend_score": 70,
+      "stars": 6669,
+      "velocity_7d": 35,
+      "velocity_score": 100,
+      "growth_rate": 0.0052,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/rehan-remade/universal-modder",
+          "label": "최근 7일 +35 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "Point Claude at any game. Skills, tools and the fal MCP that let Claude Code mod almost any PC game you own: recon, reverse engineering, fal-generated",
+      "summary_ko": "Point Claude at any game. Skills, tools and the fal MCP that let Claude Code mod almost any PC game you own: recon, reverse engineering, fal-generated art/3D/audio, in-game testing, showcase videos.",
+      "key_features": [
+        "주요 개발 워크플로우 자동화",
+        "오픈소스 에코시스템 호환성",
+        "간편한 설정 및 유연한 통합"
+      ],
+      "use_case": "개발 생산성과 협업 효율성을 높이고 싶을 때",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "age-of-empires",
+        "claude-code",
+        "claude-code-plugin",
+        "fal"
+      ],
+      "thumbnail_url": "https://github.com/rehan-remade.png"
+    },
+    {
+      "id": "Louis-CFM/coucou",
+      "name": "coucou",
+      "owner": "Louis-CFM",
+      "title_ko": "coucou — A tiny friend in your Mac's notch and on",
+      "official_url": "https://github.com/Louis-CFM/coucou",
+      "repo_url": "https://github.com/Louis-CFM/coucou",
+      "category": "agent",
+      "score": 70,
+      "trend_score": 70,
+      "stars": 4834,
+      "velocity_7d": 35,
+      "velocity_score": 100,
+      "growth_rate": 0.0072,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/Louis-CFM/coucou",
+          "label": "최근 7일 +35 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "A tiny friend in your Mac's notch and on your iPhone that keeps an eye on your AI coding agents: Claude Code, Codex, Cursor, Gemini CLI, Antigravity a",
+      "summary_ko": "A tiny friend in your Mac's notch and on your iPhone that keeps an eye on your AI coding agents: Claude Code, Codex, Cursor, Gemini CLI, Antigravity and more. Approve from the notch or your Lock Screen.",
+      "key_features": [
+        "주요 개발 워크플로우 자동화",
+        "오픈소스 에코시스템 호환성",
+        "간편한 설정 및 유연한 통합"
+      ],
+      "use_case": "개발 생산성과 협업 효율성을 높이고 싶을 때",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "ai-agents",
+        "anthropic",
+        "antigravity",
+        "claude"
+      ],
+      "thumbnail_url": "https://github.com/Louis-CFM.png"
+    },
+    {
+      "id": "nykooi1/vibe-wise",
+      "name": "vibe-wise",
+      "owner": "nykooi1",
+      "title_ko": "vibe-wise — A Claude Code / Codex plugin that helps ",
+      "official_url": "https://github.com/nykooi1/vibe-wise",
+      "repo_url": "https://github.com/nykooi1/vibe-wise",
+      "category": "skill",
+      "score": 70,
+      "trend_score": 70,
+      "stars": 3418,
+      "velocity_7d": 7,
+      "velocity_score": 100,
+      "growth_rate": 0.002,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/nykooi1/vibe-wise",
+          "label": "최근 7일 +7 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "A Claude Code / Codex plugin that helps you learn how to build while AI writes the code.",
+      "summary_ko": "A Claude Code / Codex plugin that helps you learn how to build while AI writes the code.",
+      "key_features": [
+        "주요 개발 워크플로우 자동화",
+        "오픈소스 에코시스템 호환성",
+        "간편한 설정 및 유연한 통합"
+      ],
+      "use_case": "개발 생산성과 협업 효율성을 높이고 싶을 때",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [],
+      "thumbnail_url": "https://github.com/nykooi1.png"
+    },
+    {
+      "id": "dzhng/jevgrep",
+      "name": "jevgrep",
+      "owner": "dzhng",
+      "title_ko": "jevgrep — Find code by asking what it does. A CLI ",
+      "official_url": "https://github.com/dzhng/jevgrep",
+      "repo_url": "https://github.com/dzhng/jevgrep",
+      "category": "agent",
+      "score": 70,
+      "trend_score": 70,
+      "stars": 2588,
+      "velocity_7d": 7,
+      "velocity_score": 100,
+      "growth_rate": 0.0027,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/dzhng/jevgrep",
+          "label": "최근 7일 +7 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "Find code by asking what it does. A CLI for coding agents that uses Jev to discover relevant files and source context.",
+      "summary_ko": "Find code by asking what it does. A CLI for coding agents that uses Jev to discover relevant files and source context.",
+      "key_features": [
+        "주요 개발 워크플로우 자동화",
+        "오픈소스 에코시스템 호환성",
+        "간편한 설정 및 유연한 통합"
+      ],
+      "use_case": "개발 생산성과 협업 효율성을 높이고 싶을 때",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "ai-sdk",
+        "claude-code",
+        "cli",
+        "code-search"
+      ],
+      "thumbnail_url": "https://github.com/dzhng.png"
+    },
+    {
+      "id": "JohnHeibel/PDoomVideo",
+      "name": "PDoomVideo",
+      "owner": "JohnHeibel",
+      "title_ko": "PDoomVideo — Source code for the Claude Opus 5.5 musi",
+      "official_url": "https://github.com/JohnHeibel/PDoomVideo",
+      "repo_url": "https://github.com/JohnHeibel/PDoomVideo",
+      "category": "skill",
+      "score": 70,
+      "trend_score": 70,
+      "stars": 2025,
+      "velocity_7d": 7,
+      "velocity_score": 100,
+      "growth_rate": 0.0035,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/JohnHeibel/PDoomVideo",
+          "label": "최근 7일 +7 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "Source code for the Claude Opus 5.5 music video for I'm Upping My P(doom)",
+      "summary_ko": "Source code for the Claude Opus 5.5 music video for I'm Upping My P(doom)",
+      "key_features": [
+        "주요 개발 워크플로우 자동화",
+        "오픈소스 에코시스템 호환성",
+        "간편한 설정 및 유연한 통합"
+      ],
+      "use_case": "개발 생산성과 협업 효율성을 높이고 싶을 때",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [],
+      "thumbnail_url": "https://github.com/JohnHeibel.png"
+    },
+    {
+      "id": "ardeyouxipianyi/workbuddy2api-hub",
+      "name": "workbuddy2api-hub",
+      "owner": "ardeyouxipianyi",
+      "title_ko": "workbuddy2api-hub — WorkBuddy 国际国内多账号反代网关，支持 Codex / Claude ",
+      "official_url": "https://github.com/ardeyouxipianyi/workbuddy2api-hub",
+      "repo_url": "https://github.com/ardeyouxipianyi/workbuddy2api-hub",
+      "category": "harness",
+      "score": 70,
+      "trend_score": 70,
+      "stars": 965,
+      "velocity_7d": 14,
+      "velocity_score": 100,
+      "growth_rate": 0.0145,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/ardeyouxipianyi/workbuddy2api-hub",
+          "label": "최근 7일 +14 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "WorkBuddy 国际国内多账号反代网关，支持 Codex / Claude Code / DSH与标准 OpenAI 客户端。",
+      "summary_ko": "WorkBuddy 国际国内多账号反代网关，支持 Codex / Claude Code / DSH与标准 OpenAI 客户端。",
+      "key_features": [
+        "주요 개발 워크플로우 자동화",
+        "오픈소스 에코시스템 호환성",
+        "간편한 설정 및 유연한 통합"
+      ],
+      "use_case": "개발 생산성과 협업 효율성을 높이고 싶을 때",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "api-gateway",
+        "claude-code",
+        "codebuddy",
+        "codex"
+      ],
+      "thumbnail_url": "https://github.com/ardeyouxipianyi.png"
+    },
+    {
+      "id": "amontlabs/lcu",
+      "name": "lcu",
+      "owner": "amontlabs",
+      "title_ko": "lcu — Codex computer use, decoupled from the a",
+      "official_url": "https://github.com/amontlabs/lcu",
+      "repo_url": "https://github.com/amontlabs/lcu",
+      "category": "mcp",
+      "score": 70,
+      "trend_score": 70,
+      "stars": 897,
+      "velocity_7d": 330,
+      "velocity_score": 100,
+      "growth_rate": 0.3679,
+      "v7d_estimated": true,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/amontlabs/lcu",
+          "label": "최근 7일 +330 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "Codex computer use, decoupled from the app, for usage inside any harness.",
+      "summary_ko": "Codex computer use, decoupled from the app, for usage inside any harness.",
+      "key_features": [
+        "주요 개발 워크플로우 자동화",
+        "오픈소스 에코시스템 호환성",
+        "간편한 설정 및 유연한 통합"
+      ],
+      "use_case": "개발 생산성과 협업 효율성을 높이고 싶을 때",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "accessibility",
+        "agent-skills",
+        "browser-automation",
+        "claude-code"
+      ],
+      "thumbnail_url": "https://github.com/amontlabs.png"
+    },
+    {
+      "id": "Vincentwei1021/mg-styles-15",
+      "name": "mg-styles-15",
+      "owner": "Vincentwei1021",
+      "title_ko": "mg-styles-15 — 15 motion design styles, each made by Cl",
+      "official_url": "https://github.com/Vincentwei1021/mg-styles-15",
+      "repo_url": "https://github.com/Vincentwei1021/mg-styles-15",
+      "category": "skill",
+      "score": 70,
+      "trend_score": 70,
+      "stars": 666,
+      "velocity_7d": 466,
+      "velocity_score": 100,
+      "growth_rate": 0.6997,
+      "v7d_estimated": true,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/Vincentwei1021/mg-styles-15",
+          "label": "최근 7일 +466 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "15 motion design styles, each made by Claude Opus 5.5 writing code from one prompt: watch the films, copy the prompts, read the full source.",
+      "summary_ko": "15 motion design styles, each made by Claude Opus 5.5 writing code from one prompt: watch the films, copy the prompts, read the full source.",
+      "key_features": [
+        "주요 개발 워크플로우 자동화",
+        "오픈소스 에코시스템 호환성",
+        "간편한 설정 및 유연한 통합"
+      ],
+      "use_case": "개발 생산성과 협업 효율성을 높이고 싶을 때",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [],
+      "thumbnail_url": "https://github.com/Vincentwei1021.png"
+    },
+    {
+      "id": "wshobson/agents",
+      "name": "agents",
+      "owner": "wshobson",
+      "title_ko": "agents — Multi-harness agentic plugin marketplace",
+      "official_url": "https://github.com/wshobson/agents",
+      "repo_url": "https://github.com/wshobson/agents",
+      "category": "mcp",
+      "score": 67,
+      "trend_score": 67,
+      "stars": 40416,
+      "velocity_7d": 14,
+      "velocity_score": 41.4,
+      "growth_rate": 0.0003,
+      "v7d_estimated": false,
+      "source_count": 2,
+      "sources": [
+        "github",
+        "hn"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/wshobson/agents",
+          "label": "최근 7일 +14 stars"
+        },
+        {
+          "source": "hn",
+          "url": "https://news.ycombinator.com/item?id=50038883",
+          "label": "HN 15p · Show HN: Littleguys – Claude Code, Codex and OpenClaw agents in your menu bar"
+        },
+        {
+          "source": "hn",
+          "url": "https://news.ycombinator.com/item?id=49999407",
+          "label": "HN 2p · How I use Claude Code subagents to make my Claude Pro limits last longer"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "Multi-harness agentic plugin marketplace for Claude Code, Codex, Cursor, OpenCode, GitHub Copilot, Google Antigravity, and Pi",
+      "summary_ko": "Multi-harness agentic plugin marketplace for Claude Code, Codex, Cursor, OpenCode, GitHub Copilot, Google Antigravity, and Pi",
+      "key_features": [
+        "주요 개발 워크플로우 자동화",
+        "오픈소스 에코시스템 호환성",
+        "간편한 설정 및 유연한 통합"
+      ],
+      "use_case": "개발 생산성과 협업 효율성을 높이고 싶을 때",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "agent-skills",
+        "agentic-ai",
+        "ai-agents",
+        "anthropic"
+      ],
+      "thumbnail_url": "https://github.com/wshobson.png"
+    },
+    {
+      "id": "Alishahryar1/free-claude-code",
+      "name": "free-claude-code",
+      "owner": "Alishahryar1",
+      "title_ko": "free-claude-code — 무료 AI 모델 풀을 활용하여 Claude Code와 Codex를 사용하는 방법",
+      "official_url": "https://github.com/Alishahryar1/free-claude-code",
+      "repo_url": "https://github.com/Alishahryar1/free-claude-code",
+      "category": "harness",
+      "score": 60,
+      "trend_score": 60,
+      "stars": 58073,
+      "velocity_7d": 77,
+      "velocity_score": 100,
+      "growth_rate": 0.0013,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/Alishahryar1/free-claude-code",
+          "label": "최근 7일 +77 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "오픈소스 및 프리티어 LLM 엔드포인트를 연결해 비용 없이 코딩 에이전트를 구동",
+      "summary_ko": "Claude Code, Codex, Pi, OpenCode 등 강력한 터미널 코딩 에이전트를 무료 오픈소스 LLM 공급자 및 공용 API 엔드포인트와 연동하여 비용 부담 없이 활용할 수 있도록 돕는 오픈 가이드 및 라우팅 설정 도구입니다.",
+      "key_features": [
+        "주요 무료 LLM 제공업체 설정 템플릿 제공",
+        "Claude Code 및 Codex 환경 호환 프록시 구성 가이드",
+        "토큰 비용 없는 로컬 및 오픈소스 모델 연동"
+      ],
+      "use_case": "유료 구독 없이 무료 오픈 모델로 터미널 코딩 에이전트 환경을 구축하고 싶을 때",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "free-ai",
+        "claude-code",
+        "open-models",
+        "cost-saving"
+      ],
+      "thumbnail_url": "https://github.com/Alishahryar1.png"
+    },
+    {
+      "id": "Vincentwei1021/video-shotcraft",
+      "name": "video-shotcraft",
+      "owner": "Vincentwei1021",
+      "title_ko": "video-shotcraft — Claude Code 기반 시네마틱 제품 비디오 제작 스킬",
+      "official_url": "https://github.com/Vincentwei1021/video-shotcraft",
+      "repo_url": "https://github.com/Vincentwei1021/video-shotcraft",
+      "category": "skill",
+      "score": 50,
+      "trend_score": 50,
+      "stars": 11302,
+      "velocity_7d": 7,
+      "velocity_score": 74,
+      "growth_rate": 0.0006,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/Vincentwei1021/video-shotcraft",
+          "label": "최근 7일 +7 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "스토리보드 기획, 카메라 샷 분할, 영상 생성 프롬프트를 자동화하는 비디오 워크플로우",
+      "summary_ko": "Claude Code 및 Codex 환경에서 상업용 수준의 시네마틱 제품 비디오 제작을 돕는 영상 제작 전문 스킬입니다. 제품의 특성을 분석하여 카메라 앵글, 조명, 트랜지션, 샷 리스트를 정교하게 분할하고 Sora, Kling, Runway 등 최신 비디오 AI용 프롬프트를 자동으로 최적화합니다.",
+      "key_features": [
+        "전문 영상 연출 기법에 맞춘 샷 리스트 및 스토리보드 자동 생성",
+        "카메라 무브먼트와 조명 연출을 정밀 제어하는 프롬프트 최적화",
+        "비디오 AI 도구들과의 매끄러운 파이프라인 연동"
+      ],
+      "use_case": "AI 제품 홍보 영상이나 쇼츠/릴스용 영상 기획을 에이전트와 함께 빠르게 완성할 때",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "video-generation",
+        "shotcraft",
+        "claude-skills",
+        "cinematic-prompt"
+      ],
+      "thumbnail_url": "https://github.com/Vincentwei1021.png"
+    },
+    {
+      "id": "morluto/rea",
+      "name": "rea",
+      "owner": "morluto",
+      "title_ko": "rea — Reverse engineer anything with agents, f",
+      "official_url": "https://github.com/morluto/rea",
+      "repo_url": "https://github.com/morluto/rea",
+      "category": "mcp",
+      "score": 50,
+      "trend_score": 50,
+      "stars": 103684,
+      "velocity_7d": null,
+      "velocity_score": 0,
+      "growth_rate": 0,
+      "v7d_estimated": false,
+      "source_count": 2,
+      "sources": [
+        "github",
+        "hn"
+      ],
+      "evidence": [
+        {
+          "source": "hn",
+          "url": "https://news.ycombinator.com/item?id=49981905",
+          "label": "HN 269p · Claude Code’s suggested message feature: I think the real customer is the model"
+        },
+        {
+          "source": "hn",
+          "url": "https://news.ycombinator.com/item?id=50033782",
+          "label": "HN 2p · Claude Code and Codex break on different MCP features"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "Reverse engineer anything with agents, from app behavior down to native binaries.",
+      "summary_ko": "Reverse engineer anything with agents, from app behavior down to native binaries.",
+      "key_features": [
+        "주요 개발 워크플로우 자동화",
+        "오픈소스 에코시스템 호환성",
+        "간편한 설정 및 유연한 통합"
+      ],
+      "use_case": "개발 생산성과 협업 효율성을 높이고 싶을 때",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "agent-skills",
+        "ai-agents",
+        "binary-analysis",
+        "claude-code"
+      ],
+      "thumbnail_url": "https://github.com/morluto.png"
+    },
+    {
+      "id": "Panniantong/Agent-Reach",
+      "name": "Agent-Reach",
+      "owner": "Panniantong",
+      "title_ko": "Agent-Reach — 트위터, 레딧, 유튜브, 깃허브를 API 비용 없이 검색하는 웹 리치 도구",
+      "official_url": "https://github.com/Panniantong/Agent-Reach",
+      "repo_url": "https://github.com/Panniantong/Agent-Reach",
+      "category": "mcp",
+      "score": 48,
+      "trend_score": 48,
+      "stars": 96016,
+      "velocity_7d": 56,
+      "velocity_score": 69.7,
+      "growth_rate": 0.0006,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/Panniantong/Agent-Reach",
+          "label": "최근 7일 +56 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "단 하나의 CLI로 인터넷 전역의 정보를 에이전트에게 실시간 공급하는 통합 도구",
+      "summary_ko": "AI 에이전트가 트위터(X), 레딧, 유튜브, 깃허브, 빌리빌리, 샤오홍슈 등 글로벌 플랫폼의 공개 콘텐츠를 별도 유료 API 없이 실시간 검색하고 읽을 수 있도록 지원하는 웹 정보 수집 MCP/CLI 도구입니다.",
+      "key_features": [
+        "트위터·레딧·유튜브·깃허브 등 주요 플랫폼 통합 조회",
+        "유료 API 키 없이 공개 웹 데이터 즉시 검색",
+        "에이전트가 이해하기 쉬운 구조화된 마크다운 변환"
+      ],
+      "use_case": "에이전트가 외부 최신 웹 정보나 소셜 미디어 트렌드를 직접 검색하고 분석할 때",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "web-search",
+        "social-intelligence",
+        "mcp-tool",
+        "open-data"
+      ],
+      "thumbnail_url": "https://github.com/Panniantong.png"
+    },
+    {
+      "id": "tamaratran/fast-jev-compaction",
+      "name": "fast-jev-compaction",
+      "owner": "tamaratran",
+      "title_ko": "fast-jev-compaction — Claude Code plugin that replaces the com",
+      "official_url": "https://github.com/tamaratran/fast-jev-compaction",
+      "repo_url": "https://github.com/tamaratran/fast-jev-compaction",
+      "category": "skill",
+      "score": 30,
+      "trend_score": 30,
+      "stars": 7583,
+      "velocity_7d": 0,
+      "velocity_score": 0,
+      "growth_rate": 0,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [],
+      "status": "rising",
+      "catchphrase": "Claude Code plugin that replaces the compaction summary with Jev decisions: every tool call and result is scored in one fast request, stale ones are d",
+      "summary_ko": "Claude Code plugin that replaces the compaction summary with Jev decisions: every tool call and result is scored in one fast request, stale ones are dropped or truncated, everything kept stays verbatim.",
+      "key_features": [
+        "주요 개발 워크플로우 자동화",
+        "오픈소스 에코시스템 호환성",
+        "간편한 설정 및 유연한 통합"
+      ],
+      "use_case": "개발 생산성과 협업 효율성을 높이고 싶을 때",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [],
+      "thumbnail_url": "https://github.com/tamaratran.png"
+    },
+    {
+      "id": "echris6/motion-video-kit",
+      "name": "motion-video-kit",
+      "owner": "echris6",
+      "title_ko": "motion-video-kit — Claude Code skill kit for premium AI-ass",
+      "official_url": "https://github.com/echris6/motion-video-kit",
+      "repo_url": "https://github.com/echris6/motion-video-kit",
+      "category": "skill",
+      "score": 30,
+      "trend_score": 30,
+      "stars": 1086,
+      "velocity_7d": 0,
+      "velocity_score": 0,
+      "growth_rate": 0,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [],
+      "status": "rising",
+      "catchphrase": "Claude Code skill kit for premium AI-assisted business videos: independent critic loop, motion principles from 28 launch films, quality bar, sound des",
+      "summary_ko": "Claude Code skill kit for premium AI-assisted business videos: independent critic loop, motion principles from 28 launch films, quality bar, sound design, business offers, Three.js patterns, scripts",
+      "key_features": [
+        "주요 개발 워크플로우 자동화",
+        "오픈소스 에코시스템 호환성",
+        "간편한 설정 및 유연한 통합"
+      ],
+      "use_case": "개발 생산성과 협업 효율성을 높이고 싶을 때",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [],
+      "thumbnail_url": "https://github.com/echris6.png"
+    },
+    {
+      "id": "Edwardxlai/easyread",
+      "name": "easyread",
+      "owner": "Edwardxlai",
+      "title_ko": "easyread — 把英文论文读成舒服的中文：本地 PDF 论文翻译、原文对照、边读边问 AI、文献",
+      "official_url": "https://github.com/Edwardxlai/easyread",
+      "repo_url": "https://github.com/Edwardxlai/easyread",
+      "category": "skill",
+      "score": 30,
+      "trend_score": 30,
+      "stars": 895,
+      "velocity_7d": -7,
+      "velocity_score": 0,
+      "growth_rate": 0,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [],
+      "status": "rising",
+      "catchphrase": "把英文论文读成舒服的中文：本地 PDF 论文翻译、原文对照、边读边问 AI、文献管理。Read English papers in comfortable Chinese.",
+      "summary_ko": "把英文论文读成舒服的中文：本地 PDF 论文翻译、原文对照、边读边问 AI、文献管理。Read English papers in comfortable Chinese.",
+      "key_features": [
+        "주요 개발 워크플로우 자동화",
+        "오픈소스 에코시스템 호환성",
+        "간편한 설정 및 유연한 통합"
+      ],
+      "use_case": "개발 생산성과 협업 효율성을 높이고 싶을 때",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "academic",
+        "arxiv",
+        "chinese",
+        "claude-code"
+      ],
+      "thumbnail_url": "https://github.com/Edwardxlai.png"
+    },
+    {
+      "id": "AgentSystemLabs/agent-office",
+      "name": "agent-office",
+      "owner": "AgentSystemLabs",
+      "title_ko": "agent-office — A cartoon 3D office where your team hire",
+      "official_url": "https://github.com/AgentSystemLabs/agent-office",
+      "repo_url": "https://github.com/AgentSystemLabs/agent-office",
+      "category": "skill",
+      "score": 30,
+      "trend_score": 30,
+      "stars": 715,
+      "velocity_7d": 0,
+      "velocity_score": 0,
+      "growth_rate": 0,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [],
+      "status": "rising",
+      "catchphrase": "A cartoon 3D office where your team hires Claude Code workers at desks, shares live terminals, talks over voice, and tracks GitHub issues and PRs.",
+      "summary_ko": "A cartoon 3D office where your team hires Claude Code workers at desks, shares live terminals, talks over voice, and tracks GitHub issues and PRs.",
+      "key_features": [
+        "주요 개발 워크플로우 자동화",
+        "오픈소스 에코시스템 호환성",
+        "간편한 설정 및 유연한 통합"
+      ],
+      "use_case": "개발 생산성과 협업 효율성을 높이고 싶을 때",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [],
+      "thumbnail_url": "https://github.com/AgentSystemLabs.png"
+    }
+  ],
+  "classic": [
+    {
+      "id": "wanshuiyin/Auto-claude-code-research-in-sleep",
+      "name": "Auto-claude-code-research-in-sleep",
+      "owner": "wanshuiyin",
+      "title_ko": "Auto-claude-code-research-in-sleep — 수면 중에도 에이전트가 스스로 연구를 지속하는 ARIS 스킬",
+      "official_url": "https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep",
+      "repo_url": "https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep",
+      "category": "skill",
+      "score": 39,
+      "trend_score": 39,
+      "stars": 17269,
+      "velocity_7d": 7,
+      "velocity_score": 48.4,
+      "growth_rate": 0.0004,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep",
+          "label": "최근 7일 +7 stars"
+        }
+      ],
+      "status": "classic",
+      "catchphrase": "순수 마크다운 기반으로 밤샘 자율 리서치 및 문서화를 수행하는 경량 스킬",
+      "summary_ko": "개발자가 잠든 밤 사이에도 AI 에이전트가 지정된 주제나 코드베이스에 대한 심층 리서치, 가설 검증, 실험 기록, 기술 문서 정리를 자율적으로 수행하는 ARIS(Auto-Research-In-Sleep) 스킬셋입니다. 가벼운 순수 마크다운 방식으로 동작합니다.",
+      "key_features": [
+        "순수 마크다운 기반의 가벼운 자율 리서치 루프",
+        "장시간 무인 실행 및 단계별 진행 보고서 자동 생성",
+        "에이전트 스스로 하위 질문을 생성하고 탐색하는 재귀적 조사"
+      ],
+      "use_case": "퇴근 후나 취침 시간에 에이전트에게 방대한 기술 조사와 문서 작성을 맡겨둘 때",
+      "badge": "⭐ Classic",
+      "badges": [
+        "⭐ Classic"
+      ],
+      "tags": [
+        "aris",
+        "sleep-research",
+        "claude-skills",
+        "autonomous-study"
+      ],
+      "thumbnail_url": "https://github.com/wanshuiyin.png"
+    },
+    {
+      "id": "addyosmani/agent-skills",
+      "name": "agent-skills",
+      "owner": "addyosmani",
+      "title_ko": "agent-skills — 프로덕션 레벨의 완성도를 보장하는 구글 엔지니어의 에이전트 스킬셋",
+      "official_url": "https://github.com/addyosmani/agent-skills",
+      "repo_url": "https://github.com/addyosmani/agent-skills",
+      "category": "skill",
+      "score": 39,
+      "trend_score": 39,
+      "stars": 105024,
+      "velocity_7d": 42,
+      "velocity_score": 47.8,
+      "growth_rate": 0.0004,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/addyosmani/agent-skills",
+          "label": "최근 7일 +42 stars"
+        }
+      ],
+      "status": "classic",
+      "catchphrase": "Addy Osmani가 공개한 상용 서비스 수준의 안정적인 소프트웨어 엔지니어링 스킬",
+      "summary_ko": "Google 엔지니어링 리더 Addy Osmani가 설계한 실무 프로덕션용 AI 코딩 에이전트 스킬 라이브러리입니다. 코드 리팩토링, 성능 프로파일링, 자동화된 테스트 커버리지 확보 등 현업 개발 기준에 부합하는 엄격한 엔지니어링 모범 사례를 에이전트에 이식합니다.",
+      "key_features": [
+        "상용 소프트웨어 개발 기준의 엄격한 엔지니어링 가이드라인",
+        "웹 성능 최적화, 코드 스플리팅, 접근성 자동 검증",
+        "견고한 유닛 및 통합 테스트 코드 생성 패턴 내장"
+      ],
+      "use_case": "에이전트가 작성하는 코드를 엔터프라이즈 수준의 높은 완성도와 품질로 유지할 때",
+      "badge": "⭐ Classic",
+      "badges": [
+        "⭐ Classic"
+      ],
+      "tags": [
+        "production-grade",
+        "engineering-skills",
+        "claude-skills",
+        "best-practices"
+      ],
+      "thumbnail_url": "https://github.com/addyosmani.png"
+    },
+    {
+      "id": "router-for-me/CLIProxyAPI",
+      "name": "CLIProxyAPI",
+      "owner": "router-for-me",
+      "title_ko": "CLIProxyAPI — 다양한 터미널 AI 도구를 표준 OpenAI/Anthropic API로 변환하는 프록시",
+      "official_url": "https://github.com/router-for-me/CLIProxyAPI",
+      "repo_url": "https://github.com/router-for-me/CLIProxyAPI",
+      "category": "mcp",
+      "score": 38,
+      "trend_score": 38,
+      "stars": 54856,
+      "velocity_7d": 21,
+      "velocity_score": 45.7,
+      "growth_rate": 0.0004,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/router-for-me/CLIProxyAPI",
+          "label": "최근 7일 +21 stars"
+        }
+      ],
+      "status": "classic",
+      "catchphrase": "Antigravity, Codex, Claude Code를 단일 API 엔드포인트로 래핑하는 개발자 도구",
+      "summary_ko": "Antigravity, Codex, Claude Code, Grok 등 다양한 CLI 기반 AI 코딩 도구들을 표준 OpenAI 및 Anthropic 호환 API 엔드포인트로 래핑해주는 프록시 서버입니다. 기존의 서드파티 IDE나 확장 프로그램에서 터미널 기반 도구들의 성능을 API 형태로 호출할 수 있게 해줍니다.",
+      "key_features": [
+        "표준 OpenAI/Anthropic API 호환 규격 완벽 제공",
+        "다양한 터미널 CLI 에이전트의 백엔드 통합 프록시화",
+        "스트리밍 응답 및 세션 컨텍스트 안정적 유지"
+      ],
+      "use_case": "터미널 전용 코딩 에이전트 기능을 REST API 형태로 다른 애플리케이션에 연동할 때",
+      "badge": "⭐ Classic",
+      "badges": [
+        "⭐ Classic"
+      ],
+      "tags": [
+        "cli-proxy",
+        "api-wrapper",
+        "openai-proxy",
+        "claude-code"
+      ],
+      "thumbnail_url": "https://github.com/router-for-me.png"
+    },
+    {
+      "id": "ayghri/i-have-adhd",
+      "name": "i-have-adhd",
+      "owner": "ayghri",
+      "title_ko": "i-have-adhd — 장황한 설명을 생략하고 핵심 결론만 바로 보여주는 ADHD 친화 스킬",
+      "official_url": "https://github.com/ayghri/i-have-adhd",
+      "repo_url": "https://github.com/ayghri/i-have-adhd",
+      "category": "skill",
+      "score": 38,
+      "trend_score": 38,
+      "stars": 56481,
+      "velocity_7d": 21,
+      "velocity_score": 44.4,
+      "growth_rate": 0.0004,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/ayghri/i-have-adhd",
+          "label": "최근 7일 +21 stars"
+        }
+      ],
+      "status": "classic",
+      "catchphrase": "에이전트가 답변을 서두에 묻어두지 않고 즉시 실행 가능한 결론부터 제시하도록 유도",
+      "summary_ko": "AI 코딩 에이전트가 긴 서론과 부가 설명 속에 핵심 코드를 파묻지 않도록 제어하는 Claude Code 스킬입니다. 사용자의 주의력을 분산시키지 않고 한눈에 파악할 수 있는 요점 정리, 명확한 다음 단계 지침, 시각적 구분을 제공합니다.",
+      "key_features": [
+        "핵심 요점 및 실행 명령어 최상단 강제 배치",
+        "불필요한 부연 설명 및 장황한 텍스트 필터링",
+        "명확하고 구조화된 체크리스트 형태의 출력"
+      ],
+      "use_case": "긴 설명 읽을 시간 없이 바로 실행할 수 있는 코드와 해결책만 빠르게 보고 싶을 때",
+      "badge": "⭐ Classic",
+      "badges": [
+        "⭐ Classic"
+      ],
+      "tags": [
+        "adhd-friendly",
+        "concise-output",
+        "claude-skills",
+        "productivity"
+      ],
+      "thumbnail_url": "https://github.com/ayghri.png"
+    },
+    {
+      "id": "thedotmack/claude-mem",
+      "name": "claude-mem",
+      "owner": "thedotmack",
+      "title_ko": "claude-mem — 세션이 바뀌어도 작업 맥락을 기억하는 에이전트 영구 메모리 MCP",
+      "official_url": "https://github.com/thedotmack/claude-mem",
+      "repo_url": "https://github.com/thedotmack/claude-mem",
+      "category": "mcp",
+      "score": 37,
+      "trend_score": 37,
+      "stars": 99734,
+      "velocity_7d": 35,
+      "velocity_score": 41.9,
+      "growth_rate": 0.0004,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/thedotmack/claude-mem",
+          "label": "최근 7일 +35 stars"
+        }
+      ],
+      "status": "classic",
+      "catchphrase": "이전 세션의 대화, 결정 사항, 프로젝트 히스토리를 캡처하여 연속성을 보장하는 메모리",
+      "summary_ko": "Claude Code 세션이 종료되거나 새로 시작되어도 이전의 작업 내역, 해결했던 이슈, 아키텍처 결정 사항을 잊지 않고 기억하도록 지원하는 영구 메모리 MCP 서버입니다. 매번 컨텍스트를 다시 설명할 필요 없이 이전 작업의 연속선상에서 곧바로 개발을 이어갈 수 있습니다.",
+      "key_features": [
+        "세션 간 자동 맥락 저장 및 관련 지식 인덱싱",
+        "프로젝트별 핵심 결정 사항 및 트러블슈팅 이력 관리",
+        "MCP 기반의 간편한 연동 및 지연 없는 질의"
+      ],
+      "use_case": "새 세션을 시작할 때마다 프로젝트 배경을 다시 설명하는 번거로움을 없애고 싶을 때",
+      "badge": "⭐ Classic",
+      "badges": [
+        "⭐ Classic"
+      ],
+      "tags": [
+        "persistent-memory",
+        "mcp-server",
+        "context-management",
+        "claude-code"
+      ],
+      "thumbnail_url": "https://github.com/thedotmack.png"
+    },
+    {
+      "id": "nexu-io/open-design",
+      "name": "open-design",
+      "owner": "nexu-io",
+      "title_ko": "open-design — 로컬 우선 데스크톱 환경의 오픈소스 Claude Design 대안",
+      "official_url": "https://github.com/nexu-io/open-design",
+      "repo_url": "https://github.com/nexu-io/open-design",
+      "category": "mcp",
+      "score": 37,
+      "trend_score": 37,
+      "stars": 100568,
+      "velocity_7d": 35,
+      "velocity_score": 41.6,
+      "growth_rate": 0.0003,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/nexu-io/open-design",
+          "label": "최근 7일 +35 stars"
+        }
+      ],
+      "status": "classic",
+      "catchphrase": "코딩 에이전트를 전문 디자이너로 만들어주는 오픈소스 비주얼 디자인 플러그인",
+      "summary_ko": "DeepSeek Harness 및 Claude Code 사용자를 위한 로컬 우선(Local-first) 오픈소스 디자인 에디터입니다. 코딩 에이전트가 직접 UI 캔버스에 벡터 컴포넌트와 화면 레이아웃을 그리고 실시간으로 코드로 추출할 수 있는 차세대 디자인 환경을 제공합니다.",
+      "key_features": [
+        "로컬 퍼스트 데스크톱 기반의 지연 없는 디자인 캔버스",
+        "에이전트와의 실시간 UI/UX 양방향 코드 생성 및 동기화",
+        "Claude Design 스타일의 직관적인 컴포넌트 워크플로우"
+      ],
+      "use_case": "에이전트와 함께 웹 앱의 시각 디자인과 코드를 동시에 로컬에서 작업할 때",
+      "badge": "⭐ Classic",
+      "badges": [
+        "⭐ Classic"
+      ],
+      "tags": [
+        "open-design",
+        "claude-design-alternative",
+        "mcp-tool",
+        "ui-ux"
+      ],
+      "thumbnail_url": "https://github.com/nexu-io.png"
+    },
+    {
+      "id": "Graphify-Labs/graphify",
+      "name": "graphify",
+      "owner": "Graphify-Labs",
+      "title_ko": "graphify — 모든 코드베이스와 문서를 탐색 가능한 지식 그래프로 변환하는 도구",
+      "official_url": "https://github.com/Graphify-Labs/graphify",
+      "repo_url": "https://github.com/Graphify-Labs/graphify",
+      "category": "agent",
+      "score": 36,
+      "trend_score": 36,
+      "stars": 125559,
+      "velocity_7d": 42,
+      "velocity_score": 40,
+      "growth_rate": 0.0003,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/Graphify-Labs/graphify",
+          "label": "최근 7일 +42 stars"
+        }
+      ],
+      "status": "classic",
+      "catchphrase": "코드, DB 스키마, 기술 문서, PDF를 연결하여 영구적 코드 지능을 제공하는 그래프 엔진",
+      "summary_ko": "방대한 코드베이스와 설정 파일, SQL 스키마, 기술 문서를 유기적으로 연결된 지식 그래프로 변환해주는 지능형 분석 도구입니다. 커뮤니티 탐지 및 중심 노드 분석을 통해 복잡한 프로젝트의 아키텍처와 호출 관계를 직관적으로 탐색할 수 있습니다.",
+      "key_features": [
+        "코드베이스 및 문서의 자동 지식 그래프 모델링",
+        "심볼 관계·의존성 경로·아키텍처 영향도 실시간 질의",
+        "에이전트 세션 간 지식 유지 및 영구 컨텍스트 제공"
+      ],
+      "use_case": "처음 접하는 복잡한 대형 코드베이스의 구조와 데이터 흐름을 빠르게 파악할 때",
+      "badge": "⭐ Classic",
+      "badges": [
+        "⭐ Classic"
+      ],
+      "tags": [
+        "knowledge-graph",
+        "code-intelligence",
+        "architecture",
+        "graphify"
+      ],
+      "thumbnail_url": "https://github.com/Graphify-Labs.png"
+    },
+    {
+      "id": "DietrichGebert/ponytail",
+      "name": "ponytail",
+      "owner": "DietrichGebert",
+      "title_ko": "ponytail — 노련한 시니어 개발자의 사고방식을 주입하는 에이전트 사고 스킬",
+      "official_url": "https://github.com/DietrichGebert/ponytail",
+      "repo_url": "https://github.com/DietrichGebert/ponytail",
+      "category": "skill",
+      "score": 35,
+      "trend_score": 35,
+      "stars": 161109,
+      "velocity_7d": 49,
+      "velocity_score": 36.3,
+      "growth_rate": 0.0003,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/DietrichGebert/ponytail",
+          "label": "최근 7일 +49 stars"
+        }
+      ],
+      "status": "classic",
+      "catchphrase": "과도한 엔지니어링을 차단하고 가장 단순하고 우아한 해법을 찾도록 유도하는 스킬",
+      "summary_ko": "AI 에이전트가 필요 이상으로 복잡한 아키텍처를 도입하거나 무리한 리팩토링을 감행하지 않도록, 가장 단순하고 유지보수가 쉬운 방향으로 사고하게 만드는 Claude Code 스킬입니다. 불필요한 의존성 추가를 막고 최소한의 수술적 코드 변경으로 버그를 해결하도록 유도합니다.",
+      "key_features": [
+        "오버엔지니어링 및 투기적 추상화 방지 프레임워크",
+        "최소 변경(수술적 패치) 우선 원칙 강제",
+        "기존 코드베이스 스타일 및 컨벤션 엄격 준수"
+      ],
+      "use_case": "에이전트가 코드를 불필요하게 복잡하게 만들지 않고 가장 직관적으로 해결하길 원할 때",
+      "badge": "⭐ Classic",
+      "badges": [
+        "⭐ Classic"
+      ],
+      "tags": [
+        "senior-mindset",
+        "simplicity",
+        "claude-skills",
+        "best-practices"
+      ],
+      "thumbnail_url": "https://github.com/DietrichGebert.png"
+    },
+    {
+      "id": "affaan-m/ECC",
+      "name": "ECC",
+      "owner": "affaan-m",
+      "title_ko": "ECC — Claude Code 및 하네스의 성능과 직관을 극대화하는 최적화 시스템",
+      "official_url": "https://github.com/affaan-m/ECC",
+      "repo_url": "https://github.com/affaan-m/ECC",
+      "category": "harness",
+      "score": 33,
+      "trend_score": 33,
+      "stars": 277221,
+      "velocity_7d": 77,
+      "velocity_score": 33.2,
+      "growth_rate": 0.0003,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/affaan-m/ECC",
+          "label": "최근 7일 +77 stars"
+        }
+      ],
+      "status": "classic",
+      "catchphrase": "스킬 로딩 속도 향상, 직관적 프롬프트 라우팅, 에이전트 반응성을 최적화하는 도구",
+      "summary_ko": "Claude Code 및 다양한 에이전트 하네스의 실행 성능을 최상으로 끌어올리는 최적화 프레임워크입니다. 불필요한 스킬 로딩 오버헤드를 줄이고 상황에 맞는 직관(instincts)을 빠르게 주입하여 에이전트의 응답 지연 시간과 판단 오류를 최소화합니다.",
+      "key_features": [
+        "에이전트 스킬 로딩 및 메모리 소비 최적화",
+        "상황별 직관적 프롬프트 자동 라우팅 시스템",
+        "하네스 실행 속도 및 반응성 비약적 향상"
+      ],
+      "use_case": "에이전트의 스킬 실행 속도를 높이고 불필요한 지연 시간을 단축하고 싶을 때",
+      "badge": "⭐ Classic",
+      "badges": [
+        "⭐ Classic"
+      ],
+      "tags": [
+        "harness-optimization",
+        "agent-performance",
+        "claude-code",
+        "instincts"
+      ],
+      "thumbnail_url": "https://github.com/affaan-m.png"
+    },
+    {
+      "id": "Leonxlnx/taste-skill",
+      "name": "taste-skill",
+      "owner": "Leonxlnx",
+      "title_ko": "taste-skill — AI 에이전트에 감각적인 미적 취향과 품질 기준을 부여하는 스킬",
+      "official_url": "https://github.com/Leonxlnx/taste-skill",
+      "repo_url": "https://github.com/Leonxlnx/taste-skill",
+      "category": "skill",
+      "score": 31,
+      "trend_score": 31,
+      "stars": 94748,
+      "velocity_7d": 21,
+      "velocity_score": 26.5,
+      "growth_rate": 0.0002,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/Leonxlnx/taste-skill",
+          "label": "최근 7일 +21 stars"
+        }
+      ],
+      "status": "classic",
+      "catchphrase": "조잡한 UI와 비효율적인 구현을 방지하고 품격 있는 디자인과 코드를 생성하는 스킬",
+      "summary_ko": "AI가 흔히 범하는 투박하고 촌스러운 디자인 결정, 부자연스러운 여백, 레거시 패턴 작성을 차단하고 높은 수준의 미적 완성도를 유지하도록 강제하는 스킬입니다. 현대적인 타이포그래피, 세련된 컬러 조합, 미니멀한 UI 구조를 자연스럽게 구현하도록 돕습니다.",
+      "key_features": [
+        "모던 디자인 트렌드 및 시각적 위계 질서 가이드라인 적용",
+        "저품질 레이아웃 및 낡은 스타일 생성 차단",
+        "개발과 디자인 전반의 프리미엄 품질 기준 강제"
+      ],
+      "use_case": "AI가 만들어내는 결과물의 디자인 퀄리티와 코드 세련미를 한 단계 끌어올리고 싶을 때",
+      "badge": "⭐ Classic",
+      "badges": [
+        "⭐ Classic"
+      ],
+      "tags": [
+        "design-taste",
+        "aesthetic-guidelines",
+        "claude-skills",
+        "frontend"
+      ],
+      "thumbnail_url": "https://github.com/Leonxlnx.png"
+    },
+    {
+      "id": "garrytan/gstack",
+      "name": "gstack",
+      "owner": "garrytan",
+      "title_ko": "gstack — Y Combinator 대표 Garry Tan의 23가지 Claude Code 개발 환경 셋업",
+      "official_url": "https://github.com/garrytan/gstack",
+      "repo_url": "https://github.com/garrytan/gstack",
+      "category": "skill",
+      "score": 27,
+      "trend_score": 27,
+      "stars": 136006,
+      "velocity_7d": 21,
+      "velocity_score": 18.4,
+      "growth_rate": 0.0002,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/garrytan/gstack",
+          "label": "최근 7일 +21 stars"
+        }
+      ],
+      "status": "classic",
+      "catchphrase": "CEO, 디자이너, 엔지니어링 매니저, QA 역할을 수행하는 23개의 검증된 풀스택 도구 모음",
+      "summary_ko": "YC CEO Garry Tan이 실제 프로덕션 개발에서 사용하는 Claude Code 도구 모음입니다. 기획(CEO), UI/UX 디자인, 백엔드 아키텍처, 릴리즈 관리, QA 테스트까지 소프트웨어 개발의 전 단계를 아우르는 23가지 도구가 완벽하게 사전 구성되어 있습니다.",
+      "key_features": [
+        "Garry Tan의 실전 프로덕션 Claude Code 구성 100% 재현",
+        "기획·디자인·엔지니어링·QA 4대 영역 맞춤 툴셋 제공",
+        "빠른 스타트업 MVP 개발 및 제품 출시에 최적화"
+      ],
+      "use_case": "실리콘밸리 최고 수준의 검증된 풀스택 Claude Code 개발 파이프라인을 그대로 도입할 때",
+      "badge": "⭐ Classic",
+      "badges": [
+        "⭐ Classic"
+      ],
+      "tags": [
+        "garry-tan",
+        "gstack",
+        "claude-skills",
+        "startup-stack"
+      ],
+      "thumbnail_url": "https://github.com/garrytan.png"
+    },
+    {
+      "id": "NousResearch/hermes-agent",
+      "name": "hermes-agent",
+      "owner": "NousResearch",
+      "title_ko": "hermes-agent — 사용자의 워크플로우에 맞춰 자가 적응하고 성장하는 오픈 에이전트",
+      "official_url": "https://github.com/NousResearch/hermes-agent",
+      "repo_url": "https://github.com/NousResearch/hermes-agent",
+      "category": "agent",
+      "score": 27,
+      "trend_score": 27,
+      "stars": 252807,
+      "velocity_7d": 35,
+      "velocity_score": 16.5,
+      "growth_rate": 0.0001,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/NousResearch/hermes-agent",
+          "label": "최근 7일 +35 stars"
+        }
+      ],
+      "status": "classic",
+      "catchphrase": "도구 활용과 복합 추론 능력을 갖추고 도메인에 맞게 지속 진화하는 AI 에이전트",
+      "summary_ko": "Nous Research에서 개발한 오픈소스 자율 에이전트 프레임워크입니다. 다양한 도구를 유연하게 연동하고 실패 시 스스로 전략을 수정하는 고급 추론 루프를 갖추고 있습니다. 로컬 모델부터 최상위 클라우드 LLM까지 폭넓게 구동되며 사용자 맞춤형 워크플로우에 최적화됩니다.",
+      "key_features": [
+        "고급 함수 호출 및 다단계 도구 체이닝 추론",
+        "오픈 가중치 모델과 독점 LLM 모두를 지원하는 유연성",
+        "개발자의 특화된 작업 방식에 맞춘 자가 적응 기능"
+      ],
+      "use_case": "폐쇄형 상용 에이전트 대신 자유롭게 커스텀 가능한 강력한 오픈 에이전트를 구축할 때",
+      "badge": "⭐ Classic",
+      "badges": [
+        "⭐ Classic"
+      ],
+      "tags": [
+        "hermes",
+        "autonomous-agent",
+        "open-source",
+        "reasoning"
+      ],
+      "thumbnail_url": "https://github.com/NousResearch.png"
+    },
+    {
+      "id": "farion1231/cc-switch",
+      "name": "cc-switch",
+      "owner": "farion1231",
+      "title_ko": "cc-switch — 여러 AI 코딩 도구의 설정을 원클릭 전환하는 올인원 매니저",
+      "official_url": "https://github.com/farion1231/cc-switch",
+      "repo_url": "https://github.com/farion1231/cc-switch",
+      "category": "mcp",
+      "score": 22,
+      "trend_score": 22,
+      "stars": 142794,
+      "velocity_7d": 7,
+      "velocity_score": 5.9,
+      "growth_rate": 0,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/farion1231/cc-switch",
+          "label": "최근 7일 +7 stars"
+        }
+      ],
+      "status": "classic",
+      "catchphrase": "크로스 플랫폼 데스크톱 GUI로 AI 코딩 어시스턴트의 프로필과 프롬프트 설정을 간편 관리",
+      "summary_ko": "Claude Code, Codex, Cursor, Cline 등 다양한 AI 코딩 도구의 프롬프트 프로필, API 키, MCP 서버 구성을 하나의 GUI 환경에서 원클릭으로 전환할 수 있는 크로스 플랫폼 데스크톱 유틸리티입니다.",
+      "key_features": [
+        "다중 AI 코딩 도구 설정 및 프로필 원클릭 전환",
+        "프로젝트별 커스텀 프롬프트 및 MCP 서버 프리셋 관리",
+        "직관적이고 깔끔한 크로스 플랫폼 데스크톱 UI"
+      ],
+      "use_case": "여러 AI 코딩 어시스턴트 환경을 프로젝트마다 빠르게 스위칭하며 작업할 때",
+      "badge": "⭐ Classic",
+      "badges": [
+        "⭐ Classic"
+      ],
+      "tags": [
+        "cc-switch",
+        "profile-manager",
+        "claude-code",
+        "desktop-utility"
+      ],
+      "thumbnail_url": "https://github.com/farion1231.png"
+    },
+    {
+      "id": "n8n-io/n8n",
+      "name": "n8n",
+      "owner": "n8n-io",
+      "title_ko": "n8n — 네이티브 AI 기능을 탑재한 강력한 오픈소스 워크플로우 자동화 플랫폼",
+      "official_url": "https://github.com/n8n-io/n8n",
+      "repo_url": "https://github.com/n8n-io/n8n",
+      "category": "harness",
+      "score": 22,
+      "trend_score": 22,
+      "stars": 207020,
+      "velocity_7d": 7,
+      "velocity_score": 4,
+      "growth_rate": 0,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/n8n-io/n8n",
+          "label": "최근 7일 +7 stars"
+        }
+      ],
+      "status": "classic",
+      "catchphrase": "수백 가지 서비스와 LLM 에이전트를 연결하여 복잡한 비즈니스 로직을 시각적으로 자동화",
+      "summary_ko": "전 세계 수만 개의 기업에서 활용 중인 오픈소스 노코드/로우코드 워크플로우 자동화 플랫폼입니다. 네이티브 AI 노드와 랑체인(LangChain) 연동을 통해 다양한 LLM, 벡터 DB, 외부 SaaS API를 결합한 지능형 자동화 파이프라인을 시각적으로 손쉽게 구축할 수 있습니다.",
+      "key_features": [
+        "400개 이상의 서비스 노드 및 커스텀 JS/Python 스크립트 실행",
+        "네이티브 AI 에이전트, 벡터 메모리, LLM 라우팅 노드 지원",
+        "완전한 셀프 호스팅 및 온프레미스 보안 환경 제공"
+      ],
+      "use_case": "다양한 외부 SaaS 서비스와 AI 모델을 엮어 엔드투엔드 비즈니스 자동화를 구축할 때",
+      "badge": "⭐ Classic",
+      "badges": [
+        "⭐ Classic"
+      ],
+      "tags": [
+        "workflow-automation",
+        "n8n",
+        "ai-integration",
+        "open-source"
+      ],
+      "thumbnail_url": "https://github.com/n8n-io.png"
+    },
+    {
+      "id": "Egonex-AI/Understand-Anything",
+      "name": "Understand-Anything",
+      "owner": "Egonex-AI",
+      "title_ko": "Understand-Anything — 복잡한 코드를 직관적인 인터랙티브 학습 다이어그램으로 변환",
+      "official_url": "https://github.com/Egonex-AI/Understand-Anything",
+      "repo_url": "https://github.com/Egonex-AI/Understand-Anything",
+      "category": "agent",
+      "score": 20,
+      "trend_score": 20,
+      "stars": 85918,
+      "velocity_7d": 0,
+      "velocity_score": 0,
+      "growth_rate": 0,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [],
+      "status": "classic",
+      "catchphrase": "단순히 멋진 그래프가 아닌, 실제로 이해하고 배울 수 있는 코드 멘탈 모델 제공",
+      "summary_ko": "이해하기 어려운 복잡한 레거시 코드베이스나 알고리즘을 사용자가 단계별로 탐색하며 배울 수 있는 인터랙티브 학습 다이어그램으로 변환해주는 지능형 분석 도구입니다. 코드의 실행 흐름과 핵심 개념을 시각적으로 명쾌하게 풀어냅니다.",
+      "key_features": [
+        "복잡한 코드 구조의 인터랙티브 개념 다이어그램 생성",
+        "단계별 실행 흐름 및 데이터 변환 과정 시각화",
+        "초심자부터 전문가까지 수준별 개념 설명 지원"
+      ],
+      "use_case": "이해하기 난해한 라이브러리나 대규모 시스템의 내부 동작 원리를 빠르게 학습할 때",
+      "badge": "⭐ Classic",
+      "badges": [
+        "⭐ Classic"
+      ],
+      "tags": [
+        "code-visualization",
+        "learning-tool",
+        "mental-model",
+        "architecture"
+      ],
+      "thumbnail_url": "https://github.com/Egonex-AI.png"
+    },
+    {
+      "id": "career-ops-hq/career-ops",
+      "name": "career-ops",
+      "owner": "career-ops-hq",
+      "title_ko": "career-ops — Open-source AI job search agent and job ",
+      "official_url": "https://github.com/career-ops-hq/career-ops",
+      "repo_url": "https://github.com/career-ops-hq/career-ops",
+      "category": "agent",
+      "score": 20,
+      "trend_score": 20,
+      "stars": 74066,
+      "velocity_7d": -7,
+      "velocity_score": 0,
+      "growth_rate": 0,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [],
+      "status": "classic",
+      "catchphrase": "Open-source AI job search agent and job finder: scan job boards, score each job 1-5 against your CV before you apply, tailor an ATS-friendly resume an",
+      "summary_ko": "Open-source AI job search agent and job finder: scan job boards, score each job 1-5 against your CV before you apply, tailor an ATS-friendly resume and cover letter, get interview prep and a job application tracker. It helps you fill in each application; you press Submit. Runs locally in your AI coding CLI (Claude Code, Codex, OpenCode and more).",
+      "key_features": [
+        "주요 개발 워크플로우 자동화",
+        "오픈소스 에코시스템 호환성",
+        "간편한 설정 및 유연한 통합"
+      ],
+      "use_case": "개발 생산성과 협업 효율성을 높이고 싶을 때",
+      "badge": "⭐ Classic",
+      "badges": [
+        "⭐ Classic"
+      ],
+      "tags": [
+        "agent-skills",
+        "ai-agent",
+        "ai-job-search",
+        "ats"
+      ],
+      "thumbnail_url": "https://github.com/career-ops-hq.png"
+    }
+  ]
+}
