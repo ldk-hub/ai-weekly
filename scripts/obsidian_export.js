@@ -97,7 +97,7 @@ graph TD
 - [[04-giscus 라운지 및 커뮤니티 연동|💬 giscus 라운지 및 커뮤니티 연동 명세]]
 
 ### 📅 날짜별 작업 일지 (Work Logs)
-- [[2026-10-12 작업일지|📅 2026-10-12 작업일지 (평일 cc-daily: 스타보드 586개 갱신, 6개 매체 데일리 뉴스 18건 균형 큐레이션 및 배포)]]
+- [[2026-10-12 작업일지|📅 2026-10-12 작업일지 (주간 cc-weekly: 스타보드 592개 최신화, 트렌드 33건 선별·순위 반영·보안 스캔, 데일리 뉴스 18건 큐레이션 배포)]]
 - [[2026-10-08 작업일지|📅 2026-10-08 작업일지 (평일 cc-daily: 스타보드 586개 갱신, 7개 매체 데일리 뉴스 18건 정밀 큐레이션 및 배포)]]
 - [[2026-10-06 작업일지|📅 2026-10-06 작업일지 (주간 cc-weekly: 스타보드 584개 최신화, 트렌드 35건 선별·보안 스캔, 데일리 뉴스 18건 큐레이션 배포)]]
 - [[2026-10-04 작업일지|📅 2026-10-04 작업일지 (주간 cc-weekly: 스타보드 579개 최신화, 트렌드 31건 선별·보안 스캔, 데일리 뉴스 18건 큐레이션 배포)]]
@@ -295,37 +295,34 @@ tags: [work-log, cc-daily, cc-star, cc-news, quality-gate, obsidian-sync]
 ## 1. 주요 작업 내용
 
 ### 📈 1. CC-Star (오픈소스 스타보드 원장 최신화)
-- **수집 대상:** 586개 오픈소스 리포지토리 전수 추적 완료 (\`stars_meta.json\`, \`stars_ledger.json\` 최신 갱신)
+- **수집 대상:** 592개 오픈소스 리포지토리 전수 추적 완료 (\`stars_meta.json\`, \`stars_ledger.json\` 최신 갱신)
 - **수집 결과:**
-  - 대상: 586건
-  - 성공: 544건 (93%)
+  - 대상: 592건
+  - 성공: 592건 (100%)
   - 404 제외: 41건
-  - 이름 변경: 1건
-  - 의심 드롭 플래그: 45건
+  - 의심 드롭 플래그: 54건
 
 ### 📰 2. CC-News (데일리 AI 기술 신호 큐레이션 및 배포)
-- **수집 결과 (24시간 창):** 총 93건 유효 후보 확보
+- **수집 결과 (24시간 창):** 총 110건 유효 후보 확보
   - GeekNews: 5건
   - AI타임스: 5건
-  - Hacker News: 19건
+  - Hacker News: 10건
   - GitHub: 50건
-  - Reddit: 6건
-  - Bluesky: 8건
-  - HF Daily Papers: 0건 (\`[MISSING]\` — API 빈 응답)
-- **중복 차단 및 업데이트 필터:** 최근 7일 배포본 4개(52개 URL) 대비 중복 2건 차단, 업데이트 3건 식별
-- **선별 및 큐레이션:** 6개 매체에서 3건씩 균형 선별한 총 18건 최종 큐레이션
-  - \`model\` (1건): GPT-6.1 Sol 프론트엔드 웹 디자인 코드 품질 퇴행 논란 및 스타일 고착화 비판
-  - \`product\` (3건): 앤트로픽 클로드 스타트업 지원 잠정 중단, rociiu/talorys 서버리스 개인 에이전트, ChatGPT Pro 월 100달러 역량 축소 논란
-  - \`devtool\` (4건): 부품 데이터시트 인용 PartsPlan MCP, DuckDB v2.0 CLI 에이전트 모드, 에디터-에이전트 연결 ACP 프로토콜, Littleguys 메뉴바 에이전트 모니터링
-  - \`oss\` (4건): Hanok-LLM 한국어 파인튜닝 파이프라인, Veda 러스트 에이전트 네이티브 OS, wheresryan22/anatomy 3D 기계 분해도 스킬, mhtsec/ARTEX AI 자율 침투 테스트 프레임워크
-  - \`research\` (1건): 사카나 AI MASS 다중 에이전트 자기 감독 및 재귀적 자체 개선 기법
-  - \`practice\` (4건): 안드레이 카파시의 LLM 활용 체감 격차 분석, 앤트로픽 보리스 체르니의 동료형 프롬프트 원칙, 5000억 토큰 투입 FPS 게임 역컴파일 실증, 백만 토큰당 가격의 맹점과 모델 라우팅 논쟁
-  - \`policy\` (1건): 앤트로픽 모델 내부 평가 실시간 인터넷 접속 차단 조치
+  - Reddit: 26건
+  - Bluesky: 2건
+  - HF Daily Papers: 12건
+  - X: 0건 (\`[MISSING]\` — 쿠키 미설정)
+- **선별 및 큐레이션:** 6개 매체에서 균형 선별한 총 18건 최종 큐레이션 배포
 - **품질 게이트:** \`node scripts/news/curate_news.js --validate\` 18건 전수 100% 통과 (3불릿 • **키워드**: / 5~10문장 심층 해설 / 메타 일치)
 
-### 🚀 3. 리소스 갱신 및 배포 준비
-- **RSS & 사이트맵:** \`site/public/feed.xml\`, \`site/public/news-feed.xml\`, \`site/public/sitemap.xml\` 자동 갱신
-- **AI 라운지:** \`site/public/data/lounge_latest.json\` 최신 스냅샷 갱신
+### 🔥 3. CC-Trends (주간 트렌드 모니터링 큐레이션 및 발행)
+- **후보 수집:** 59개 후보 리포지토리 수집 완료 (\`candidates.json\`, 500★ 하한선 적용)
+- **진입점 보안 스캔:** \`scan-install-entry.js\` 59건 전수 검사 (악성코드/드로퍼 0건 컷 통과)
+- **선별 및 순위 변동:** 총 33건 발행 (Rising 20건, Classic 13건)
+  - **Rising Top 5:** \`stablyai/orca\` (1위), \`yetone/magpie\` (2위, ▲1), \`rehan-remade/universal-modder\` (3위, ▼1), \`nykooi1/vibe-wise\` (4위, ▲3), \`QingYunA/answer-me-with-html\` (5위, 🆕 신규 진입)
+  - **신규 진입:** \`QingYunA/answer-me-with-html\`, \`Oldcircle/geo-sleuth\`, \`Vincentwei1021/mg-styles-15\`, \`amontlabs/lcu\`, \`devswha/herdr-web-ui\`, \`farion1231/cc-switch\` (총 6건)
+  - **중복 문구 제거:** Generic 플레이스홀더 텍스트 완전 제거 및 고유 기능 카피 반영
+- **발행 및 리소스:** \`latest.json\`, 주간 아카이브(\`2026-10-12.json\`), 아카이브 인덱스(31개), OG 이미지(\`og.svg\`, \`og.png\`), RSS/Sitemap 동기화 완료
 
 ### 🛡️ 4. X & Reddit 환경 통합 및 시스템 정합성 강화
 - **프론트엔드 카테고리:** \`site/src/state.js\`에 \`x\` 매체 칩(\`𝕏 X\`) 추가 및 8대 수집 매체 동기화
