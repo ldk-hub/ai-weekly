@@ -23,10 +23,14 @@ const ENTRY_PATHS = [
   "pyproject.toml",
   "install.sh",
   "setup.sh",
+  "install-skill.sh",
+  "install_skill.sh",
+  "scripts/install.sh",
   "cli.py",
   "{name}/__init__.py",
   "{name}/setup.py",
   "{name}/cli.py",
+  "{name}/install.sh",
   "src/{name}/__init__.py",
 ];
 
@@ -37,6 +41,7 @@ const RE = {
   // tokentab 이 쓴 건 in-process `exec(compile(...))` 였고, 그게 날카로운 신호다.
   dynamicExec: /(?<![.\w])(exec|eval|compile)\s*\(|new\s+Function\s*\(|vm\.runIn/,
   opaqueDecode: /b64decode|base64\.b64|atob\s*\(|zlib\.decompress|codecs\.decode|marshal\.loads|pickle\.loads/,
+  fileRead: /open\s*\(|fs\.readFileSync|fs\.readFile|Path\([^)]+\)\.read_text|read_bytes/,
 };
 
 const IPV4 = /\b(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\b/g;
@@ -87,6 +92,9 @@ function scanContent(filePath, text) {
   }
   if (RE.opaqueDecode.test(text) && RE.dynamicExec.test(text)) {
     hit("opaque_decode_exec", "base64/zlib/pickle 디코드 결과를 동적 실행한다");
+  }
+  if (RE.fileRead.test(text) && RE.dynamicExec.test(text) && /\.(ya?ml|json|dat|bin|raw|txt)/i.test(text)) {
+    hit("file_read_exec", "외부/로컬 데이터 파일(YAML/데이터)을 읽어 in-process 동적 실행(exec/eval/compile)한다");
   }
 
   if (filePath.endsWith("package.json")) {

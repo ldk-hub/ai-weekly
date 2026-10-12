@@ -28,7 +28,7 @@ graph TD
 
 ### 2. Step 2: CC News (Phase 1 — 24시간 신호 수집)
 - **명령어:** `node scripts/news/collect_news.js`
-- **역할:** 7개 매체(GeekNews, Hacker News, AI타임스, Reddit, GitHub, Bluesky, HF Daily Papers)에서 최근 24시간의 기술 신호를 수집하여 `.tmp/news_candidates.json`에 저장한다.
+- **역할:** 8개 매체(GeekNews, Hacker News, AI타임스, Reddit, GitHub, Bluesky, X, HF Daily Papers)에서 최근 24시간의 기술 신호를 수집하여 `.tmp/news_candidates.json`에 저장한다.
 - **점검:** 매체별 수집 건수, 누락(`[MISSING]`), 쿼리 에러(`[QUERY-FAIL]`) 확인.
 
 ### 3. Step 3: CC News (Phase 2 — 큐레이션)

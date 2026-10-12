@@ -84,7 +84,7 @@ trend-analyzer 가 병합 책임을 진다 — **어느 쪽이든 커뮤니티 �
 ### stars 원장에 관측 기록 (velocity 기준선)
 수집 직후 실행 — 발행 여부와 무관하게 **46건 전부**를 기록한다:
 ```bash
-node scripts/build-stars-ledger.js --add _workspace/01_github_raw.json <오늘>
+node scripts/stars/build-stars-ledger.js --add _workspace/01_github_raw.json <오늘>
 ```
 `stars_gained_7d` 를 아카이브 파일명 기준으로 직접 계산하지 말 것. 파일명 규약이
 주마다 오갔고(`2026-07-20.json` 내용은 `v2026.07.13`) 그 탓에 2026-07-27 런의

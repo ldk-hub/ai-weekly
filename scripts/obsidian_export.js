@@ -143,12 +143,12 @@ tags: [ai-weekly, cc-news, pipeline, specification, hard-rules]
 # 📰 cc-news 데일리 뉴스 파이프라인 명세
 
 ## 1. 개요
-- **목적:** 지난 24시간 동안 발생한 AI 기술 신호를 7개 매체에서 수집하여, 원문 단순 스크랩이 아닌 **한국어로 깊이 있게 재작성된 고품질 요약과 해설**로 배포.
+- **목적:** 지난 24시간 동안 발생한 AI 기술 신호를 8개 매체에서 수집하여, 원문 단순 스크랩이 아닌 **한국어로 깊이 있게 재작성된 고품질 요약과 해설**로 배포.
 - **실행 주기:** 매일 오전 (09:00 KST 기준)
 
 ---
 
-## 2. 7대 고정 수집 매체
+## 2. 8대 고정 수집 매체
 
 | 매체 | 수집 방식 | 특징 및 규칙 |
 |---|---|---|
@@ -158,6 +158,7 @@ tags: [ai-weekly, cc-news, pipeline, specification, hard-rules]
 | **Reddit** | 5대 서브레딧 Top RSS | \`r/LocalLLaMA\`, \`r/ClaudeAI\`, \`r/OpenAI\` 등 |
 | **GitHub** | Search API (최근 7/10/14일) | 일일 평균 스타 획득량(\`stars_per_day\`) 기준 랭킹 |
 | **Bluesky** | Search API (\`searchPosts\`) | 링크 카드가 포함된 글만 채택하여 원문 발굴 창구로 활용 |
+| **X** | Agent-Reach (\`twitter-cli\`) | 링크 포함 트윗만 채택하여 원문 발굴 창구로 활용 |
 | **HF Daily Papers** | Hugging Face API | 연구 논문 전용 (21일 이내 원문만 허용) |
 
 ---
@@ -326,7 +327,13 @@ tags: [work-log, cc-daily, cc-star, cc-news, quality-gate, obsidian-sync]
 - **RSS & 사이트맵:** \`site/public/feed.xml\`, \`site/public/news-feed.xml\`, \`site/public/sitemap.xml\` 자동 갱신
 - **AI 라운지:** \`site/public/data/lounge_latest.json\` 최신 스냅샷 갱신
 
-### 📚 4. 옵시디언 볼트 동기화
+### 🛡️ 4. X & Reddit 환경 통합 및 시스템 정합성 강화
+- **프론트엔드 카테고리:** \`site/src/state.js\`에 \`x\` 매체 칩(\`𝕏 X\`) 추가 및 8대 수집 매체 동기화
+- **트렌드 파이프라인 연동:** \`scripts/plugins/collect.js\` 및 \`curate.js\`에 X/Reddit 언급을 \`sources\`와 \`evidence\`로 연결, \`curate.test.js\` 테스트 슈트 100% 통과
+- **보안 스캐너 보강:** \`scripts/plugins/scan-install-entry.js\`에 \`install-skill.sh\` 경로 및 로컬 파일 간접 실행(\`file_read_exec\`) 탐지 규칙 추가
+- **문서 및 경로 동기화:** \`.claude/agents/*.md\`, \`.claude/skills/cc-trends/skill.md\`, \`README.md\` 내 스크립트 서브디렉토리 이동 경로 일괄 정비
+
+### 📚 5. 옵시디언 볼트 동기화
 - 로컬 옵시디언 볼트(\`/Users/nhn/Documents/Obsidian Vault/ai-weekly\`)에 당일 작업 이력 및 대시보드 동기화 완료 (\`npm run sync:obsidian\`)
 `
   },

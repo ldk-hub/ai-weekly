@@ -37,6 +37,7 @@ const SOURCE_NAMES = {
   reddit: "Reddit",
   github: "GitHub",
   bluesky: "Bluesky",
+  x: "X",
   hfpapers: "HF Daily Papers",
 };
 

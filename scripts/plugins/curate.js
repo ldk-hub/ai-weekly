@@ -966,7 +966,18 @@ function groundTruthMerge(items, candMap, status) {
     for (const hn of (fact.hn || []).slice(0, 2)) {
       evidence.push({ source: "hn", url: hn.url, label: `HN ${hn.points}p · ${hn.title}` });
     }
-    const sources = ["github", ...(fact.hn?.length ? ["hn"] : [])];
+    for (const xItem of (fact.x || []).slice(0, 2)) {
+      evidence.push({ source: "x", url: xItem.url, label: `X 언급 · ${xItem.title}` });
+    }
+    for (const rdtItem of (fact.reddit || []).slice(0, 2)) {
+      evidence.push({ source: "reddit", url: rdtItem.url, label: `Reddit 언급 · ${rdtItem.title}` });
+    }
+    const sources = [
+      "github",
+      ...(fact.hn?.length ? ["hn"] : []),
+      ...(fact.x?.length ? ["x"] : []),
+      ...(fact.reddit?.length ? ["reddit"] : []),
+    ];
     out.push({
       id: fact.id,
       name: fact.name,
@@ -990,6 +1001,7 @@ function groundTruthMerge(items, candMap, status) {
       summary_ko: String(item.summary_ko || "").slice(0, 600),
       key_features: (item.key_features || []).slice(0, 3).map(String),
       use_case: String(item.use_case || ""),
+      install_hint: "README 참고",
       badge: status === "rising" ? "🔥 Rising" : "⭐ Classic",
       badges: [status === "rising" ? "🔥 Rising" : "⭐ Classic"],
       tags: (item.tags || []).slice(0, 5).map(String),
@@ -1003,6 +1015,290 @@ function groundTruthMerge(items, candMap, status) {
     (b.stars - a.stars)
   );
 }
+
+// ── 테스트 및 알고리즘 검증 함수군 ─────────────────────────────────────
+const MAX_PER_OWNER = 2;
+
+function normalizeName(name) {
+  return (name || "")
+    .toLowerCase()
+    .replace(/[_-]?(improved|v\d+|fork|plus|pro|official|ext|plugin|extension)$/i, "")
+    .replace(/[^a-z0-9]/g, "");
+}
+
+function readmeSimilarity(a, b) {
+  if (!Array.isArray(a) || !Array.isArray(b) || a.length === 0 || b.length === 0) return 0;
+  const len = Math.max(a.length, b.length);
+  let match = 0;
+  for (let i = 0; i < Math.min(a.length, b.length); i++) {
+    if (a[i] === b[i]) match++;
+  }
+  return match / len;
+}
+
+function qualityScore(c) {
+  if ((c.readme_len ?? 0) < 200) return { score: 0, reason: "README 길이 미달 (<200자)" };
+  if (Array.isArray(c.root_names) && c.root_names.length === 1 && c.root_names[0] === "README.md") {
+    return { score: 0, reason: "README 외 파일 없음" };
+  }
+  if (!c.license && (c.stars || 0) < 100) {
+    return { score: 0, reason: "라이선스 부재 및 저스타 (<100★)" };
+  }
+
+  let pts = 0;
+  if ((c.readme_len || 0) >= 1000) pts += 20;
+  else if ((c.readme_len || 0) >= 500) pts += 10;
+  
+  if ((c.readme_sections || 0) >= 3) pts += 20;
+  if (c.readme_install) pts += 20;
+  if ((c.readme_examples || 0) >= 1) pts += 20;
+  if (c.readme_media) pts += 20;
+
+  return { score: pts };
+}
+
+function recencyScore(c) {
+  const days = c.pushed_days_ago ?? 60;
+  if (days >= 60) return 0;
+  if (days <= 0) return 100;
+  return Math.round(100 - (days / 60) * 100);
+}
+
+function buzzScore(c) {
+  let mentions = c.mentions || [];
+  if (!mentions.length) {
+    if (c.hn && c.hn.length) mentions = c.hn.map(h => ({ platform: "hn", points: h.points || 0, comments: h.comments || 0 }));
+    if (c.x && c.x.length) mentions.push(...c.x.map(x => ({ platform: "x", points: (x.likes || 0) + (x.retweets || 0), comments: 0 })));
+    if (c.reddit && c.reddit.length) mentions.push(...c.reddit.map(r => ({ platform: "reddit", points: r.points || 0, comments: r.comments || 0 })));
+  }
+  if (!mentions.length) return 0;
+
+  let raw = 0;
+  const platforms = new Set();
+  for (const m of mentions) {
+    if (m.platform) platforms.add(m.platform);
+    const eng = (m.points || 0) + (m.comments || 0) * 2;
+    if (eng > 0) {
+      raw += Math.log10(eng + 1) * 15;
+    }
+  }
+
+  let bonus = 0;
+  if (platforms.size >= 3) bonus = 15;
+  else if (platforms.size === 2) bonus = 10;
+
+  return Math.min(100, Math.round(raw + bonus));
+}
+
+function toItem(c) {
+  const badges = [];
+  if (c.status === "rising") badges.push("🔥 Rising");
+  else badges.push("⭐ Classic");
+  if (c.created_days_ago != null && c.created_days_ago <= 30) {
+    badges.push("🆕 신상");
+  }
+
+  const sources = c.sources || ["github"];
+  const evidence = c.evidence || [];
+
+  return {
+    id: c.id,
+    name: c.name,
+    owner: c.owner,
+    title_ko: c.title_ko || c.name,
+    official_url: c.url || c.official_url || `https://github.com/${c.id}`,
+    repo_url: c.repo_url || c.url || `https://github.com/${c.id}`,
+    category: c.category || "skill",
+    score: c.score ?? c.trend_score ?? 0,
+    trend_score: c.trend_score ?? c.score ?? 0,
+    stars: c.stars ?? 0,
+    velocity_7d: c.velocity_7d ?? c.v7d ?? 0,
+    velocity_score: c.velocity_score ?? null,
+    growth_rate: c.growth_rate ?? null,
+    v7d_estimated: c.v7d_estimated === true,
+    source_count: sources.length,
+    sources,
+    evidence,
+    status: c.status || "rising",
+    catchphrase: c.catchphrase || c.description || "",
+    summary_ko: c.summary_ko || c.description || "",
+    key_features: c.key_features || ["주요 개발 워크플로우 자동화", "오픈소스 에코시스템 호환성", "간편한 설정 및 유연한 통합"],
+    use_case: c.use_case || "개발 환경에서 AI 에이전트를 도입하고 싶을 때",
+    install_hint: c.install_hint || "README 참고",
+    badge: badges[0],
+    badges,
+    tags: c.tags || (c.topics ? c.topics.slice(0, 5) : ["ai", "tool"]),
+    thumbnail_url: c.thumbnail_url || `https://github.com/${c.owner}.png`,
+  };
+}
+
+function curate(candidates) {
+  const pending = [];
+  const valid = [];
+
+  // 1. 파생 이름 검사 (동일 계열 원본 채택 및 단독 파생 이름 보류)
+  const nameMap = new Map();
+  for (const c of candidates) {
+    const norm = normalizeName(c.name);
+    if (!nameMap.has(norm)) nameMap.set(norm, []);
+    nameMap.get(norm).push(c);
+  }
+
+  const nameDropIds = new Set();
+  for (const [norm, group] of nameMap.entries()) {
+    if (group.length > 1) {
+      group.sort((a, b) => b.stars - a.stars);
+      for (let i = 1; i < group.length; i++) {
+        nameDropIds.add(group[i].id);
+        pending.push({ id: group[i].id, reason: "원본 채택 (파생 리포)" });
+      }
+    } else {
+      const c = group[0];
+      const hasSuffix = /[_-]?(improved|v\d+|fork|plus|pro|official|ext|plugin|extension)$/i.test(c.name);
+      if (hasSuffix) {
+        nameDropIds.add(c.id);
+        pending.push({ id: c.id, reason: "파생 이름 (수동 검토 필요)" });
+      }
+    }
+  }
+
+  // 2. description 중복 검사 (파생 이름 통과분 중 README/description 재업로드 검사)
+  const descGroups = new Map();
+  for (const c of candidates) {
+    if (nameDropIds.has(c.id)) continue;
+    const d = (c.description || "").trim();
+    if (d.length > 20) {
+      if (!descGroups.has(d)) descGroups.set(d, []);
+      descGroups.get(d).push(c);
+    }
+  }
+  const descDropIds = new Set();
+  for (const group of descGroups.values()) {
+    if (group.length > 1) {
+      group.sort((a, b) => b.stars - a.stars);
+      for (let i = 1; i < group.length; i++) {
+        descDropIds.add(group[i].id);
+        pending.push({ id: group[i].id, reason: "description 완전 동일 (사본)" });
+      }
+    }
+  }
+
+  // 3. 점수 산정 및 품질 컷
+  for (const c of candidates) {
+    if (descDropIds.has(c.id) || nameDropIds.has(c.id)) continue;
+
+    const q = qualityScore(c);
+    if (q.score === 0) {
+      pending.push({ id: c.id, reason: q.reason || "품질 점수 0점" });
+      continue;
+    }
+
+    const r = recencyScore(c);
+    const b = buzzScore(c);
+    const v = c.velocity_score ?? 0;
+    const score = Math.round(0.4 * v + 0.3 * b + 0.2 * q.score + 0.1 * r);
+
+    // 출처 계산
+    let sources = ["github"];
+    if (c.mentions && c.mentions.length) {
+      for (const m of c.mentions) {
+        if (m.platform && !sources.includes(m.platform)) sources.push(m.platform);
+      }
+    } else {
+      if (c.hn && c.hn.length) sources.push("hn");
+      if (c.x && c.x.length) sources.push("x");
+      if (c.reddit && c.reddit.length) sources.push("reddit");
+    }
+    const isSingleSource = sources.length === 1;
+
+    // 분류
+    const isClassicEligible = (c.stars >= 500) && ((c.created_days_ago ?? 0) >= 60) && ((c.pushed_days_ago ?? 0) <= 30);
+    const isNew = (c.created_days_ago != null && c.created_days_ago <= 30);
+
+    let status = null;
+    let lowConfidence = false;
+
+    if (isNew) {
+      if (isSingleSource) {
+        if (v >= 90) {
+          status = "rising";
+          lowConfidence = true;
+        } else if (v >= 70 || score >= 70) {
+          pending.push({ id: c.id, reason: "단일출처 + score<70" });
+          continue;
+        } else {
+          pending.push({ id: c.id, reason: "임계치 미달" });
+          continue;
+        }
+      } else {
+        if (score >= 50 || v >= 50) {
+          status = "rising";
+          lowConfidence = false;
+        } else {
+          pending.push({ id: c.id, reason: "임계치 미달" });
+          continue;
+        }
+      }
+    } else if (v >= 90 || score >= 75) {
+      status = "rising";
+      if (isSingleSource) lowConfidence = true;
+    } else if (isClassicEligible) {
+      status = "classic";
+    } else {
+      pending.push({ id: c.id, reason: "임계치 미달" });
+      continue;
+    }
+
+    valid.push({
+      ...c,
+      score,
+      trend_score: score,
+      status,
+      sources,
+      source_count: sources.length,
+      low_confidence: lowConfidence,
+      quality_score: q.score,
+      recency_score: r,
+      buzz_score: b,
+    });
+  }
+
+  // 4. owner 상한 필터링 (rising 에만 적용 또는 전체 적용)
+  const ownerCounts = new Map();
+  const rising = [];
+  const classic = [];
+
+  for (const item of valid) {
+    if (item.status === "rising") {
+      const cnt = ownerCounts.get(item.owner) || 0;
+      if (cnt >= MAX_PER_OWNER) {
+        pending.push({ id: item.id, reason: `owner 상한 (${MAX_PER_OWNER}건 초과)` });
+        continue;
+      }
+      ownerCounts.set(item.owner, cnt + 1);
+      rising.push(item);
+    } else {
+      classic.push(item);
+    }
+  }
+
+  rising.sort((a, b) => b.score - a.score || b.stars - a.stars);
+  classic.sort((a, b) => b.stars - a.stars);
+
+  return { rising, classic, pending };
+}
+
+module.exports = {
+  curate,
+  toItem,
+  readmeSimilarity,
+  qualityScore,
+  buzzScore,
+  recencyScore,
+  normalizeName,
+  MAX_PER_OWNER,
+  groundTruthMerge,
+};
 
 async function main() {
   const { candidates } = JSON.parse(fs.readFileSync(CANDIDATES, "utf8"));
@@ -1045,7 +1341,9 @@ async function main() {
   console.log(`curated rising=${rising.length} classic=${classic.length} → latest.json + archive/${today}.json`);
 }
 
-main().catch((e) => {
-  console.error(e.message);
-  process.exit(1);
-});
+if (require.main === module) {
+  main().catch((e) => {
+    console.error(e.message);
+    process.exit(1);
+  });
+}

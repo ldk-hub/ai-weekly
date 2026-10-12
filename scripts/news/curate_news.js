@@ -51,8 +51,8 @@ const SIGNALS = {
 };
 const SIGNAL_IDS = Object.keys(SIGNALS);
 
-// 수집 매체 7종. 여기 없는 값은 collect 단계에서 이미 버려진다.
-// x·threads 는 상시 0건이라 목록에서 내렸다 — 과거 아카이브에는 남아 있으므로 프론트의 해당 아이콘 분기는 유지한다.
+// 수집 매체 8종. 여기 없는 값은 collect 단계에서 이미 버려진다.
+// threads 는 여전히 0건이라 목록에 없다 — 과거 아카이브에는 남아 있으므로 프론트의 해당 아이콘 분기는 유지한다.
 const SOURCE_NAMES = {
   geeknews: "GeekNews",
   hackernews: "Hacker News",
@@ -60,6 +60,7 @@ const SOURCE_NAMES = {
   reddit: "Reddit",
   github: "GitHub",
   bluesky: "Bluesky",
+  x: "X",
   hfpapers: "HF Daily Papers",
 };
 
@@ -91,7 +92,7 @@ ${SIGNAL_IDS.map((k) => `  - ${k}: ${SIGNALS[k]}`).join("\n")}
   - research 항목은 body_ko 에 "제안 기법 / 실험 결과 수치 / 기존 방법 대비 차이"를 반드시 포함.
   - HF Daily Papers 출처는 초록(abstract)만 주어진다. 초록에 없는 실험 수치를 지어내지 말고, 초록이 밝힌 범위 안에서만 쓴다.
     publish_date 는 "HF 가 오늘 데일리 목록에 올린 시각" 이고 metrics.paper_published_at 이 원 논문 발행일이다 — 둘을 혼동해 "오늘 공개된 논문" 이라 쓰지 말 것.
-  - Bluesky 출처는 **글 자체가 아니라 그 글이 공유한 원문 링크**가 후보다. 게시글 문구는 발견 경로일 뿐이니
+  - Bluesky·X 출처는 **글 자체가 아니라 그 글이 공유한 원문 링크**가 후보다. 게시글 문구는 발견 경로일 뿐이니
     요약은 링크된 원문 내용으로 쓰고, "누가 트윗했다" 식으로 쓰지 않는다.
   - 본문에 없는 수치·기능·인용은 만들어내지 말 것. 근거가 없으면 그 문장을 쓰지 않는다.
 

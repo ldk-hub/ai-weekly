@@ -1,6 +1,6 @@
 ---
 name: site-builder
-description: "큐레이션된 데이터를 정적 웹사이트로 빌드·배포하는 빌더. Next.js 기반 사이트의 JSON 데이터를 업데이트하고 로컬/프로덕션 빌드를 수행. 트리거: 사이트 빌드, 배포, 홈페이지 업데이트."
+description: "큐레이션된 데이터를 정적 웹사이트로 빌드·배포하는 빌더. Vite 기반 사이트의 JSON 데이터를 업데이트하고 로컬/프로덕션 빌드를 수행. 트리거: 사이트 빌드, 배포, 홈페이지 업데이트."
 ---
 
 # Site Builder — 사이트 빌더
@@ -14,7 +14,7 @@ description: "큐레이션된 데이터를 정적 웹사이트로 빌드·배포
 4. 변경사항 요약을 메인 오케스트레이터에게 보고
 
 ## 사이트 구조 (cc-trends/site/)
-- Next.js(App Router) 또는 단일 HTML + Vanilla JS (최초엔 후자로 시작)
+- Vite 기반 정적 웹 애플리케이션
 - 데이터: `site/public/data/latest.json` (curated 데이터)
 - 페이지 구성:
   - `/` — 🔥 Rising 섹션 + ⭐ Classic 섹션 (카드 그리드)
@@ -23,7 +23,7 @@ description: "큐레이션된 데이터를 정적 웹사이트로 빌드·배포
 
 ## 발행은 스크립트 1콜로 한다 ⭐ (2026-07-27 교훈)
 ```bash
-node scripts/publish-curated.js <YYYY-MM-DD>
+node scripts/plugins/publish-curated.js <YYYY-MM-DD>
 ```
 이 스크립트가 latest.json + 아카이브 **양쪽 트리**(`data/archive/`, `site/public/data/archive/`)
 + `build-archive-index.js` + `generate-rss.js` + `generate-og.js` 를 한 번에 처리한다.

@@ -46,12 +46,12 @@
 - **군더더기 없는 클린 카드 디자인**:
   - 카드 하단의 중복 출처 칩을 제거하고 핵심 토픽 해시태그(`#`) 중심으로 정돈하여 시각적 피로도를 대폭 낮췄습니다.
 - **기술 신호 6축 분류**: 모델 출시(`model`), 제품 기능(`product`), 개발자 도구/에이전트(`devtool`), 개인 오픈소스(`oss`), 연구/논문(`research`), 실무 워크플로우(`practice`).
-- **7개 고정 매체 균형 수집**: GeekNews, Hacker News, AI타임스, Reddit, GitHub, X (Twitter), Threads.
+- **8개 지정 매체 균형 수집**: GeekNews, Hacker News, AI타임스, Reddit, GitHub, Bluesky, X, HF Daily Papers.
 
 ### ⚙️ 파이프라인 흐름
 ```
 collect_news.js ───────→ curate_news.js ───────→ --validate 검증 ───────→ news_latest.json
-(7개 매체 병렬 수집)     (신호 분류·번역·해설)     (품질/규격 100% 통과)      (+ 아카이브/RSS 갱신)
+(8개 매체 병렬 수집)     (신호 분류·번역·해설)     (품질/규격 100% 통과)      (+ 아카이브/RSS 갱신)
 ```
 
 ### 🗂 데이터 스키마 (`site/public/data/news_latest.json`)

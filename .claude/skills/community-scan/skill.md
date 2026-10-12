@@ -36,6 +36,16 @@ github-scout 결과(`_workspace/01_github_raw.json`)를 받아, **각 후보 리
 브라우저 위장 UA 를 datacenter IP 에서 더 세게 막는다. 연타로 403 을 받고 "차단됐다"
 결론 내리지 말 것 — 20초 쉬고 다시 보라.
 
+#### 주 경로 0 — Agent-Reach `rdt` (부계정 로그인 검색, engagement 포함, 2026-10-12~)
+
+```bash
+node scripts/core/agent_reach.js reddit "claude code skill" -t week -n 25
+node scripts/core/agent_reach.js reddit "mcp" -r ClaudeAI -t week -n 25
+```
+전역 키워드 검색이 되고 `score`/`num_comments` 를 준다. `rdt` 를 직접 부르지 말 것(본계정 쿠키 자동 추출 위험) —
+규칙·간격·rate limit 대응은 `community-scout.md` 의 "공통 — X·Reddit 은 Agent-Reach 경유" 절이 SSOT.
+쿠키 없음·만료·rate_limited 면 아래 A·B 로 폴백하고 `02c.failures` 에 남긴다.
+
 #### 주 경로 A — reddit.com RSS (엔드포인트 안정, engagement 없음)
 
 `scripts/news/collect_news.js` 의 `fetchRedditSub` 가 이 방식이고 실제로 돈다
@@ -66,8 +76,8 @@ curl -sS "$BASE?subreddit=ClaudeAI&query=skill&after=$AFTER&limit=100\
 요약: `query` 단독 불가(`subreddit` 동반 필수) · `after` 는 epoch · 후보당 키워드 검색은
 429 나므로 **서브레딧 전량 수집 후 로컬 정규식 매칭**이 안전하다.
 
-**순서:** A(RSS) 로 커버리지 확보 → B(arctic-shift) 로 engagement·검색 보강 →
-둘 다 죽었을 때만 SERP. A 나 B 가 죽으면 `02c.failures` 에 남긴다 — 조용히 SERP 로 내려가지 말 것.
+**순서:** 0(rdt) 로 검색·engagement 확보 → 실패 시 A(RSS) 로 커버리지 → B(arctic-shift) 로 engagement·검색 보강 →
+셋 다 죽었을 때만 SERP. A 나 B 가 죽으면 `02c.failures` 에 남긴다 — 조용히 SERP 로 내려가지 말 것.
 
 **최소 15건**
 
@@ -91,8 +101,15 @@ https://dev.to/search?q=anthropic+skill
 ```
 **최소 15건**
 
-### X (Twitter) — Google 우회
-직접 API 차단되어 있음.
+### X (Twitter) — Agent-Reach `twitter` (부계정 쿠키, 2026-10-12~)
+```bash
+node scripts/core/agent_reach.js x "claude code skill" --since {LAST_WEEK} -n 20
+node scripts/core/agent_reach.js x "claude agent OR mcp" --since {LAST_WEEK} -n 20
+node scripts/core/agent_reach.js x "from:AnthropicAI claude" --since {LAST_WEEK}
+node scripts/core/agent_reach.js x "from:alexalbert__" --since {LAST_WEEK}
+node scripts/core/agent_reach.js x "claude code plugin" --since {LAST_WEEK} -n 20
+```
+`twitter` 를 직접 부르지 말 것 — 규칙은 `community-scout.md` 의 공통 절. 쿠키 없음·만료·rate_limited 면 폴백:
 ```
 Google: site:x.com "claude code" skill after:{LAST_WEEK}
 Google: site:x.com "claude" (agent OR mcp) after:{LAST_WEEK}
@@ -149,16 +166,20 @@ https://github.com/anthropics/claude-code/releases
 
 ## Phase B 쿼리 템플릿
 
-github-scout이 제출한 각 candidate 리포에 대해 아래 7개 쿼리 실행:
+github-scout이 제출한 각 candidate 리포에 대해 Agent-Reach 2회 + 검색 쿼리 5개 실행:
 
 ```python
 for repo_id in github_candidates:
     owner, name = repo_id.split("/")
+    # Reddit·X 는 Agent-Reach 로그인 검색 (간격 Reddit 2초·X 4초, LAST_MONTH = 30일 전 YYYY-MM-DD).
+    # 실패 시 site:reddit.com·site:x.com 쿼리로 폴백
+    agent_reach = [
+        f'node scripts/core/agent_reach.js reddit "{name}" -t month -n 25',
+        f'node scripts/core/agent_reach.js x "{name}" --since {LAST_MONTH} -n 20',
+    ]
     queries = [
-        f'site:reddit.com "{repo_id}"',
         f'site:news.ycombinator.com "{repo_id}"',
         f'site:dev.to "{repo_id}"',
-        f'site:x.com "{repo_id}"',
         f'site:news.hada.io "{repo_id}"',
         f'site:velog.io "{repo_id}"',
         f'"{name}" claude code',   # repo 이름만으로 한 번 더
@@ -227,6 +248,7 @@ for repo_id in github_candidates:
 | 상황 | 대응 |
 |---|---|
 | Reddit 403/429 | 차단 아니라 스로틀. 봇 UA + 순차 + 서브당 20초로 재시도 → 그래도 실패면 arctic-shift. SERP 는 최후 |
-| X 직접 접근 불가 | Google `site:x.com` 사용 |
+| Agent-Reach `쿠키 없음`·`not_authenticated` | 부계정 쿠키 미등록·만료. 폴백(X=Google `site:x.com`, Reddit=A·B)으로 가고 `failures` 에 기록 |
+| Agent-Reach `rate_limited`·429 | 그 소스 즉시 중단, 남은 쿼리는 폴백. 연타 재시도 금지(부계정 정지 위험) |
 | HN Algolia 응답 없음 | `news.ycombinator.com/from?site=...` 시도 |
 | 어떤 소스도 0건 | `02c_coverage_report.json`에 명시 → analyzer가 단일출처 강등 강하게 적용 |

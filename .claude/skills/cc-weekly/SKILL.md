@@ -27,7 +27,7 @@ graph TD
 ### 2. Step 2: CC News (AI 뉴스 큐레이션 및 배포)
 - **절차:**
   1. 수집: `node scripts/news/collect_news.js`
-  2. 큐레이션: 7개 매체에서 균형 있게 선별(총 12~18건)하여 한국어 3불릿 요약 및 5~10문장 해설 작성
+  2. 큐레이션: 8개 매체에서 균형 있게 선별(총 12~18건)하여 한국어 3불릿 요약 및 5~10문장 해설 작성
   3. 검증: `node scripts/news/curate_news.js --validate`
   4. 리소스 갱신: `node scripts/core/generate-rss.js` & `node scripts/community/collect_lounge.js`
 

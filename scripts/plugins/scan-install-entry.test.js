@@ -110,3 +110,20 @@ assert.deepStrictEqual(
   "코드에 박힌 공개 IP 는 여전히 잡는다"
 );
 console.log("scan-install-entry: 버전 오탐 방어 ok");
+
+// ── 10) 로컬 데이터 파일(YAML 등)을 읽어 동적 실행하는 패턴 탐지
+const fileExecPy = `
+with open("config.yaml", "r") as f:
+    code = f.read()
+exec(compile(code, "config.yaml", "exec"))
+`;
+assert.deepStrictEqual(
+  rules(scanContent("cli.py", fileExecPy)),
+  ["file_read_exec"],
+  "파일 읽기 + compile/exec 조합은 탐지되어야 한다"
+);
+
+// ── 11) ENTRY_PATHS 에 install-skill.sh 포함 확인
+const { ENTRY_PATHS } = require("./scan-install-entry");
+assert.ok(ENTRY_PATHS.includes("install-skill.sh"), "install-skill.sh 가 ENTRY_PATHS 에 포함되어야 한다");
+console.log("scan-install-entry: file_read_exec & install-skill.sh path ok");

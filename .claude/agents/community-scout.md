@@ -23,10 +23,10 @@ github-scout이 제출한 후보 리포 리스트(`_workspace/01_github_raw.json
 
 | 소스 | Phase A 최소 | Phase B 후보당 검색 횟수 |
 |---|---|---|
-| Reddit (arctic-shift API) | 15건 | 후보당 서브레딧 순회 |
+| Reddit (Agent-Reach `rdt` → arctic-shift·RSS 폴백) | 15건 | 후보당 전역 검색 1회 |
 | HackerNews | 15건 | 후보당 1회 |
 | dev.to | 15건 | 후보당 1회 |
-| X (Twitter) | 10건 | 후보당 1회 |
+| X (Agent-Reach `twitter`) | 10건 | 후보당 1회 |
 | GeekNews | 10건 | 후보당 1회 |
 | velog | 10건 | 후보당 1회 |
 | OKKY/클리앙/디스콰이엇 | 5건 | 선택 |
@@ -38,7 +38,28 @@ github-scout이 제출한 후보 리포 리스트(`_workspace/01_github_raw.json
 
 각 소스에서 아래 쿼리를 **모두** 돌린다 (1~2개만 돌리는 것 금지):
 
-### Reddit — arctic-shift API 사용 ✅ (2026-07-27 실측 복구)
+### 공통 — X·Reddit 은 Agent-Reach 경유 (2026-10-12~)
+X·Reddit 은 부계정 쿠키로 로그인 검색한다. **반드시 이 스크립트로만 부른다:**
+
+```bash
+node scripts/core/agent_reach.js x "<검색어>" [-n 20] [--since YYYY-MM-DD] [--min-likes N]
+node scripts/core/agent_reach.js reddit "<검색어>" [-n 25] [-r 서브레딧] [-t day|week|month] [-s relevance|top|new]
+```
+
+- `twitter`·`rdt` 를 직접 부르지 말 것. 두 CLI 는 쿠키가 없거나 만료되면 브라우저(본계정) 쿠키를 자동으로 꺼낸다 — 스크립트가 그 경로를 막은 채 실행한다
+- 읽기만 한다. 글쓰기·좋아요·댓글·투표 명령은 쓰지 않는다
+- 출력은 JSON 배열. X 는 `text`·`author.screenName`·`metrics.likes`·`urls`·`createdAtISO`·`id`(퍼머링크 `https://x.com/{screenName}/status/{id}`), Reddit 은 게시글 `title`·`score`·`num_comments`·`permalink` 류
+- `쿠키 없음`·`not_authenticated` 로 실패하면 부계정 쿠키 미등록·만료다. 아래 폴백 경로로 가고 `02c.failures` 에 남긴다
+- **계정 보호:** X 호출 간 4초, Reddit 호출 간 2초. `rate_limited`·429 가 나오면 그 소스는 즉시 멈추고 남은 쿼리는 폴백으로 넘긴다 — 연타 재시도는 부계정 정지로 이어진다
+
+### Reddit — 주 경로 Agent-Reach `rdt` 검색
+```bash
+node scripts/core/agent_reach.js reddit "claude code skill" -t week -n 25
+node scripts/core/agent_reach.js reddit "mcp server" -r ClaudeAI -t week -n 25
+```
+rdt 는 Reddit 전역 키워드 검색이 된다(arctic-shift 는 서브레딧 순회 필요). 실패하면 아래 arctic-shift → RSS 순으로 폴백한다.
+
+### Reddit — 폴백 arctic-shift API (2026-07-27 실측 복구)
 `www.reddit.com/r/*/new.json` 은 403 이고 `site:reddit.com` WebSearch 는 aggregator
 만 반환한다. 하지만 **arctic-shift(Pushshift 후계, 무료·무인증)는 200 이고 당일
 데이터까지 최신이다.** engagement(`score`/`num_comments`)도 실측값을 준다.
@@ -69,7 +90,7 @@ UA 는 `Mozilla/5.0 (compatible; ai-weekly-newsbot/1.0)` 처럼 정직한 봇 �
 위장 UA 는 datacenter IP 에서 더 세게 막힌다), 호출은 순차 + 서브레딧 간 20초 + 429 시
 1회 재시도. 연타로 403 받고 "차단" 이라 결론 내리지 말 것.
 
-**폴백 순서:** arctic-shift → `r/{sub}/top/.rss?t=day|week` · `r/{sub}/new/.rss`
+**폴백 순서:** Agent-Reach `rdt` → arctic-shift → `r/{sub}/top/.rss?t=day|week` · `r/{sub}/new/.rss`
 (위 조건 지키면 200. 점수 필드가 없어 top 정렬을 품질 프록시로 쓰고 engagement:null)
 → `site:reddit.com` WebSearch (최후, 사실상 0건)
 
@@ -90,12 +111,15 @@ HTTP 500. RSS 를 대체재가 아니라 병행 경로로 두고, 죽은 쪽은 
 - `dev.to/search?q=claude+code`
 - `dev.to/search?q=anthropic+skill`
 
-### X (Twitter)
-- Google 우회: `site:x.com "claude code" skill`
-- `site:x.com "claude" agent OR mcp`
-- `site:x.com from:AnthropicAI`
-- `site:x.com from:alexalbert__ claude`
-- `site:x.com "claude code plugin"`
+### X (Twitter) — Agent-Reach `twitter` 검색
+X 검색 연산자(`from:`·`OR`)는 검색어 안에 그대로 쓴다. `{LAST_WEEK}`·`{LAST_MONTH}` 는 7·30일 전 `YYYY-MM-DD`.
+- `node scripts/core/agent_reach.js x "claude code skill" --since {LAST_WEEK} -n 20`
+- `node scripts/core/agent_reach.js x "claude agent OR mcp" --since {LAST_WEEK} -n 20`
+- `node scripts/core/agent_reach.js x "from:AnthropicAI claude" --since {LAST_WEEK}`
+- `node scripts/core/agent_reach.js x "from:alexalbert__ claude" --since {LAST_WEEK}`
+- `node scripts/core/agent_reach.js x "claude code plugin" --since {LAST_WEEK} -n 20`
+
+폴백(쿠키 없음·만료·rate_limited): Google `site:x.com "claude code" skill` 등 기존 우회 쿼리. 이때는 engagement 를 null 로 둔다.
 
 ### GeekNews
 `search?q=` 는 클라이언트 사이드 Google CSE — curl·WebFetch 결과 0건이라 쓰지 않는다.
@@ -124,15 +148,19 @@ github-scout이 출력한 `_workspace/01_github_raw.json`을 읽고,
 
 ```
 for each candidate_repo in github_candidates:
-    # 1) Reddit — WebSearch 아님. arctic-shift 로 서브레딧 순회 후 본문 정규식 매칭
+    # 1) Reddit — Agent-Reach rdt 전역 검색 1회 (2초 간격)
+    node scripts/core/agent_reach.js reddit "{repo_name_only}" -t month -n 25
+    #    실패(쿠키·rate_limited) 시 폴백: arctic-shift 서브레딧 순회 후 본문 정규식 매칭
     for sub in [ClaudeAI, ClaudeCode, LocalLLaMA, ChatGPTCoding, mcp]:
         GET {BASE}?subreddit={sub}&query={repo_name_only}&after={epoch}&fields=...
         (200~300ms 슬립)
-    # 2) velog — 단독 쿼리로 분리 (압축 쿼리에 넣으면 밀려서 0건 됨)
+    # 2) X — Agent-Reach twitter 검색 1회 (4초 간격). 실패 시 아래 압축 쿼리에 site:x.com 을 되살린다
+    node scripts/core/agent_reach.js x "{repo_name_only}" --since {LAST_MONTH} -n 20
+    # 3) velog — 단독 쿼리로 분리 (압축 쿼리에 넣으면 밀려서 0건 됨)
     WebSearch(f'site:velog.io "{repo_name_only}"')
-    # 3) 나머지 — 압축 1쿼리 유지 (비용 대비 손실 적음)
+    # 4) 나머지 — 압축 1쿼리 유지 (비용 대비 손실 적음)
     WebSearch(f'"{repo_name_only}" (site:news.ycombinator.com OR site:dev.to '
-              f'OR site:x.com OR site:news.hada.io)')
+              f'OR site:news.hada.io)')
     결과 발견 시 → mentioned_repos에 추가, 출처 기록
 ```
 
@@ -160,7 +188,7 @@ for each candidate_repo in github_candidates:
 **명단 밖 보정 (2026-07-27 교훈):** 그 주 화이트리스트 매치가 **0건**이었는데 실제로
 언급한 건 addyosmani·garrytan 등 명단 밖 계정이었다. 고정 명단은 노화한다 →
 명단에 없어도 `score ≥ 100 OR num_comments ≥ 50` 이면 `influencer_by_engagement: true`
-로 표시하고 buzz 가산을 동일 적용. arctic-shift 가 Reddit score 를 주므로 계산 가능.
+로 표시하고 buzz 가산을 동일 적용. rdt·arctic-shift 모두 Reddit score 를 주므로 계산 가능.
 
 ## 수집 필드 (게시글별)
 
@@ -242,7 +270,8 @@ trend-analyzer가 즉시 사용 가능한 형태:
 | arctic-shift 422 Timeout | 레이트리밋. 슬립 늘려 1회 재시도 → 계속 실패 시 `.rss` 폴백 |
 | arctic-shift 5xx | 서비스 장애 (2026-08-03 오후 전 조합 500). `.rss` 로 커버리지만 확보하고 engagement 는 null 로 둔다 |
 | arctic-shift 400 | 파라미터 오류다(대개 `after` 를 ISO 로 넘김, 또는 `query` 를 `subreddit` 없이 씀). 차단 아님 — 쿼리 고쳐 재시도 |
-| X 직접 접근 불가 | Google `site:x.com` + 캐시 페이지 사용 |
+| Agent-Reach `쿠키 없음`·`not_authenticated` | 부계정 쿠키 미등록·만료. 재등록 전까지 폴백(X=Google `site:x.com`, Reddit=arctic-shift·RSS)으로 가고 `failures` 에 기록 |
+| Agent-Reach `rate_limited`·429 | 그 소스 즉시 중단, 남은 쿼리·후보는 폴백. 연타 재시도 금지(부계정 정지 위험) |
 | HN Algolia 응답 없음 | hn.algolia.com 직접 URL 시도 |
 | Phase B 후보 50개 초과 | 점수 상위 30개만 우선 처리, 나머지는 보고서에 기록 |
 | 어떤 소스도 데이터 0건 | `02c_coverage_report.json`에 명시. trend-analyzer가 단일출처 강등 규칙 강하게 적용 |

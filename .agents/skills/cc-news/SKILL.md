@@ -1,13 +1,13 @@
 ---
 name: cc-news
-description: "지난 24시간의 AI 기술 신호(모델 출시·제품 기능·개발자 도구·개인 오픈소스·연구·활용 워크플로우)를 7개 매체에서 수집해 한국어로 재작성 요약하고 정적 사이트에 배포하는 데일리 파이프라인. 매체: GeekNews, Hacker News, AI타임스, Reddit, GitHub, Bluesky, HF Daily Papers. 트리거: cc-news, 데일리뉴스 업데이트"
+description: "지난 24시간의 AI 기술 신호(모델 출시·제품 기능·개발자 도구·개인 오픈소스·연구·활용 워크플로우)를 8개 매체에서 수집해 한국어로 재작성 요약하고 정적 사이트에 배포하는 데일리 파이프라인. 매체: GeekNews, Hacker News, AI타임스, Reddit, GitHub, Bluesky, X, HF Daily Papers. 트리거: cc-news, 데일리뉴스 업데이트"
 ---
 
 # CC News — 데일리 AI 기술 신호 파이프라인
 
 **목적:** 지난 24시간 동안 발생한 **AI 기술 신호**를 빠짐없이 모아, 원문 스크랩이 아니라 **읽고 이해한 내용을 한국어로 재작성한 요약**으로 배포한다.
 
-## 수집 매체 (7종 고정)
+## 수집 매체 (8종 고정)
 
 | 매체 | 구현 | 비고 |
 |---|---|---|
@@ -17,13 +17,14 @@ description: "지난 24시간의 AI 기술 신호(모델 출시·제품 기능·
 | Reddit | `r/<sub>/top/.rss?t=day` × 5서브 | 무인증 200, IP throttle 있음 |
 | GitHub | Search API 3쿼리 (생성 7·10·14일 창) | `GH_TOKEN` 필요. 랭킹은 절대 star 가 아니라 하루평균 star |
 | Bluesky | `api.bsky.app` searchPosts 4쿼리 | 무인증. **링크 카드를 단 글만** 채택 — 링크 발굴 창구로 쓴다 |
+| X | Agent-Reach `twitter-cli` 검색 4쿼리 (`scripts/core/agent_reach.js`) | 부계정 쿠키 필요(`agent-reach configure twitter-cookies`). Bluesky 와 같은 링크 발굴 방식, 좋아요 50 이상 |
 | HF Daily Papers | `huggingface.co/api/daily_papers?date=` | 무인증. `research` 축 전용. 원 논문 21일 초과분 폐기 |
 
-**X·Threads 는 2026-08-25 목록에서 내렸다.** `last30days` 가 두 매체를 7일 연속 0건으로 반환해 문서상 약속만 남고 실물이 없었다. 소셜 축은 Bluesky 직접 수집이 대신한다. 과거 아카이브에는 X·Threads 항목이 남아 있으므로 **프론트의 해당 플랫폼 아이콘 분기는 지우지 않는다.**
+**X 는 2026-10-12 Agent-Reach(twitter-cli) 경유로 복귀했다.** 2026-08-25 에 `last30days` 가 X·Threads 를 7일 연속 0건으로 반환해 내렸는데, 원인은 도구가 아니라 X 자격증명 미설정이었다. Threads 는 여전히 없다. 과거 아카이브에 Threads 항목이 남아 있으므로 **프론트의 해당 플랫폼 아이콘 분기는 지우지 않는다.**
 
-**매체 추가 조건은 하나 — 일 단위로 신규 항목이 나올 것.** 과거 Simon Willison·네이버 D2·Anthropic News·arXiv 를 넣었다가, 발행 주기가 24시간보다 길어 창 안에 글이 없자 **창 밖 과거 기사를 끌어와 오늘치로 배포**하는 회귀가 발생했다(2026-08-03, 8건). 그 회귀의 원인이던 창 밖 보충(floor-fill)은 제거됐고 크로스데이 차단이 들어갔으므로, 저빈도 매체는 이제 그날 0건이 될 뿐 과거 기사를 끌어오지 못한다. 그래도 목록은 위 7종으로 유지하고, 늘릴 때는 매일 갱신되는지부터 실측한다. 목록 밖 매체는 `last30days` 결과에서도 버린다.
+**매체 추가 조건은 하나 — 일 단위로 신규 항목이 나올 것.** 과거 Simon Willison·네이버 D2·Anthropic News·arXiv 를 넣었다가, 발행 주기가 24시간보다 길어 창 안에 글이 없자 **창 밖 과거 기사를 끌어와 오늘치로 배포**하는 회귀가 발생했다(2026-08-03, 8건). 그 회귀의 원인이던 창 밖 보충(floor-fill)은 제거됐고 크로스데이 차단이 들어갔으므로, 저빈도 매체는 이제 그날 0건이 될 뿐 과거 기사를 끌어오지 못한다. 그래도 목록은 위 8종으로 유지하고, 늘릴 때는 매일 갱신되는지부터 실측한다.
 
-`last30days` 경유 수집(`fetchSocial`)은 X·Threads 를 내린 뒤로 Reddit·Hacker News·GitHub 만 보탠다 — 셋 다 직접 수집이 더 촘촘하므로 **이 경로는 사실상 중복이다.** 180초 파이썬 서브프로세스를 유지할 값이 있는지 재검토 대상.
+**X 는 `twitter` CLI 를 직접 부르지 말고 `scripts/core/agent_reach.js` 를 거친다.** twitter-cli·rdt-cli 는 쿠키가 없거나 만료되면 브라우저(본계정) 쿠키를 자동으로 꺼낸다. 이 스크립트는 그 경로를 막은 채(PATH 에서 uv 제외, tool venv 에서 browser-cookie3 제거) 실행한다. 쿠키가 만료되면 `[x] ... not_authenticated` 로 실패하고 `[MISSING] X` 로 보고된다 — 부계정 쿠키를 다시 등록한다.
 
 ## 무엇을 수집하는가 (기술 신호 6축)
 
@@ -91,21 +92,22 @@ node scripts/news/curate_news.js --validate                         # 배포 전
 
 ### Phase 1 — 수집 (`scripts/news/collect_news.js`, LLM 없음)
 
-결정적 수집만 담당. 7매체를 병렬로 훑고 → 본문 확보 → 중복 제거 → `.tmp/news_candidates.json`.
+결정적 수집만 담당. 8매체를 병렬로 훑고 → 본문 확보 → 중복 제거 → `.tmp/news_candidates.json`.
 
 - **시간창**: 최근 24시간 (`NEWS_WINDOW_HOURS`). 창 밖 보충 없음
-- **매체당 목표**: RSS 5건(`NEWS_FEED_PER_SOURCE`), Reddit 서브당 8건, GitHub 상한 50건, HF Daily Papers·Bluesky 각 12건
+- **매체당 목표**: RSS 5건(`NEWS_FEED_PER_SOURCE`), Reddit 서브당 8건, GitHub 상한 50건, HF Daily Papers·Bluesky·X 각 12건
 - **HF Daily Papers**: 오늘 UTC 날짜의 목록만 부른다. 응답의 `publishedAt` 은 arXiv 원 발행일(수 주 전일 수 있다)이므로 신호 시각은 **HF 가 오늘 목록에 올린 시각**으로 잡고, 원 발행일이 `NEWS_HF_PAPER_MAX_AGE_DAYS`(21일)를 넘으면 재조명으로 보고 버린다. 원 발행일은 `metrics.paper_published_at` 에 남는다
 - **Bluesky**: `sort=latest` + `since` 로 24시간 창을 직접 건다. **`sort=top` 은 전체 기간 인기글을 주므로 쓰지 않는다.** 인기 상위가 농담·감상평이라 좋아요만으로는 뉴스가 안 걸린다(실측 like≥10 상위 10건 전부 잡담) — **링크 카드(`embed.external`)를 단 글만** 남기고, 후보 URL 은 bsky 퍼머링크가 아니라 **공유된 원문 링크**로 잡는다(본문 보강·교차 중복이 그대로 동작). 발견 출처는 `metrics.bluesky_url`. 무인증 IP rate limit 이 있어 순차 + 6초 간격 + 403 재시도(`NEWS_BSKY_DELAY_MS`·`NEWS_BSKY_ATTEMPTS`·`NEWS_BSKY_MIN_LIKES`)
+- **X**: Bluesky 와 같은 4쿼리를 `searchX` 로 `--since <창 시작일> --has links --exclude retweets --exclude replies --min-likes 50`(`NEWS_X_MIN_LIKES`) 조건으로 부르고, `createdAtISO` 로 24시간 창을 다시 자른다(`--since` 는 날짜 단위). 후보 URL 은 트윗이 아니라 **공유된 원문 링크**, 발견 출처는 `metrics.x_url`. 쿼리 간 4초(`NEWS_X_DELAY_MS`), 건너뛰기 `NEWS_SKIP_X=1`
 - **추적 파라미터 제거**: 소셜 경유 링크의 `utm_*`·`link_source`·`taid`·`fbclid` 등을 저장 URL 에서 떼어낸다. 남겨두면 같은 기사가 매체마다 다른 URL 이 돼 중복 판정이 샌다. 단축 URL(`bit.ly` 등)은 최종 목적지로 펼쳐 저장한다
 - **본문 확보**: 400자 미만이면 원문 HTML fetch + cheerio 추출(최대 6000자). GitHub 은 README. 로그인 벽 도메인(X·Threads 등)은 fetch 생략
 - **중복 제거(같은 실행 내)**: URL·제목 정규화. 같은 이슈를 여러 매체가 다루면 본문 긴 쪽을 남기고 `cross_sources` 에 누적 (= 화제성 근거)
 - **중복 제거(날짜 간)**: `loadRecentlyPublished()` 가 최근 7일 `archive/news_*.json` 의 URL 을 읽어 `dropRepeats()` 로 후보에서 뺀다. archive 는 커밋돼 있어 CI 체크아웃에서도 동작한다. 실측(2026-08-18~25) 고유 URL 104건 중 재등장 11건, 그중 10건이 GitHub 이었다
 - **GitHub 랭킹**: `ghMomentum()` = 하루평균 획득 star. 직전 배포본과 비교 가능하면 실측 증가분, 아니면 생성 이후 평균. 절대 star 정렬은 창 안의 노장 리포를 매일 상위에 고정시켜 재등장의 직접 원인이었다
 - **네트워크 타임아웃**: 모든 fetch 12초 상한(`NEWS_NET_TIMEOUT_MS`). 전역 `fetch` 는 기본 타임아웃이 없어 없으면 한 호스트가 `Promise.all` 을 영구 대기시킨다
-- **동기 실행 금지**: `last30days` 호출은 반드시 `execFileAsync`. `execFileSync` 면 파이썬이 끝날 때까지 이벤트 루프가 멈춰 **다른 매체 전부가 타임아웃 abort** 된다 (실측: geeknews 전량 0건)
+- **동기 실행 금지**: 서브프로세스(twitter-cli) 호출은 반드시 비동기(`agent_reach.js` 의 `execFileAsync`). `execFileSync` 면 서브프로세스가 끝날 때까지 이벤트 루프가 멈춰 **다른 매체 전부가 타임아웃 abort** 된다 (실측: geeknews 전량 0건)
 - **게이트**: 본문 120자 미만 폐기, 수집 0건이면 exit 1 (기존 데이터 보존)
-- **`[MISSING]` 보고**: 7매체 중 최종 0건인 매체를 이름으로 찍고 `missing_sources` 에 기록한다 — 조용한 누락 금지
+- **`[MISSING]` 보고**: 8매체 중 최종 0건인 매체를 이름으로 찍고 `missing_sources` 에 기록한다 — 조용한 누락 금지
 - **`[QUERY-FAIL]` 보고**: 수집 쿼리 실패를 `source_errors` 에 기록한다. 과거 GitHub 4번째 쿼리가 HTTP 422 로 상시 실패했는데 `console.warn` 만 찍혀 몇 주간 축 하나가 죽은 채 돌았다
 
 ### Phase 2 — 큐레이션
@@ -176,7 +178,7 @@ git commit -m "chore: update daily news $(date +%Y-%m-%d)"
 
 - **Reddit**: `.json` 엔드포인트는 비인증 403 이지만 `top/.rss?t=day` 는 무인증 200. IP throttle 이 강해 순차 + 서브 간 20초 지연 + 최대 3회 backoff 재시도로 수집한다(`NEWS_REDDIT_DELAY_MS`, `NEWS_REDDIT_ATTEMPTS`, `NEWS_REDDIT_PER_SUB`, `NEWS_SKIP_REDDIT=1`). RSS 에 점수 필드가 없어 "당일 top 정렬"을 품질 프록시로 쓴다. **전량 0건이면 throttle 이지 정상이 아니다**
 - **GitHub**: `GH_TOKEN`/`GITHUB_TOKEN`/`gh auth token` 중 하나 필요. 없으면 `oss` 신호 전량 누락
-- **`fetchSocial`(last30days)**: 출처 라벨은 last30days 의 `source` 가 아니라 **링크 호스트**로 판정한다 (라벨 어긋남이 잦음). X·Threads 제거 후 남은 기여는 Reddit·HN·GitHub 중복분뿐이다
+- **X**: 쿠키 스크래핑이라 부계정이 정지되거나 쿠키(`~/.agent-reach/config.yaml`)가 만료되면 0건이 된다. `[MISSING] X` 가 뜨면 쿠키부터 다시 등록한다. 본계정 쿠키로 바뀌지 않도록 반드시 `agent_reach.js` 를 통해서만 부른다
 - **importance 하한**: `NEWS_MIN_IMPORTANCE`(40) 는 실질적으로 아무것도 거르지 못한다 — 실측 208건 중 40 미만 0건, 중앙값 85. 실제 선별은 `selectBalanced()` 의 매체·축 쿼터가 한다. 하한값을 만지는 것으로 품질을 조절하려 하지 말 것
 - **`research` 축**: HF Daily Papers 가 담당한다. arXiv 직접 수집은 여전히 붙이지 않는다 (발행량·주기가 24시간 창과 안 맞는다)
 - **본문이 껍데기인 페이지**: `article`/`main` 컨테이너가 없고 본문을 JS 로 그리는 사이트는 원문 fetch 가 구독 폼·푸터만 긁어온다 (실측 `thenewstack.io` — `article` 0자, `body` 34,000자가 전부 구독 폼). 길이 게이트(120자)는 통과하므로 **큐레이션 단계에서 "본문이 사실상 제목 반복" 으로 걸러야 한다.** 제목 단어로 껍데기를 판별하려는 휴리스틱은 실패했다(제목 단어가 껍데기 덤프에도 존재). 미해결 상태로 두고 보고 대상으로 삼는다

@@ -111,6 +111,8 @@ async function main() {
     pushed_at: r.pushed_at,
     language: r.language,
     hn: [],
+    x: [],
+    reddit: [],
   });
 
   for (const { q, sort } of GH_QUERIES) {
@@ -147,6 +149,58 @@ async function main() {
           });
         }
       }
+    }
+  }
+
+  // X / Reddit buzz 매칭: Agent-Reach (twitter-cli / rdt-cli) 가용 시 evidence 로 보강
+  let agentReach = null;
+  try {
+    agentReach = require("../core/agent_reach");
+  } catch (e) {}
+
+  if (agentReach) {
+    const SOCIAL_QUERIES = ["claude code", "mcp server", "claude skill"];
+    try {
+      for (const q of SOCIAL_QUERIES) {
+        const tweets = await agentReach.searchX(q, { max: 15 });
+        for (const t of tweets || []) {
+          const text = `${t.text || ""} ${(t.urls || []).join(" ")}`.toLowerCase();
+          for (const repo of repos.values()) {
+            if (text.includes(repo.id.toLowerCase()) || text.includes(repo.name.toLowerCase())) {
+              repo.x.push({
+                title: (t.text || "").slice(0, 100),
+                url: t.url || `https://x.com/i/web/status/${t.id}`,
+                author: t.author || "",
+                likes: t.likes || 0,
+                retweets: t.retweets || 0,
+              });
+            }
+          }
+        }
+      }
+    } catch (e) {
+      console.warn("[collect] X buzz skipped:", e.message);
+    }
+
+    try {
+      for (const q of SOCIAL_QUERIES) {
+        const posts = await agentReach.searchReddit(q, { limit: 15 });
+        for (const p of posts || []) {
+          const text = `${p.title || ""} ${p.url || ""} ${p.selftext || ""}`.toLowerCase();
+          for (const repo of repos.values()) {
+            if (text.includes(repo.id.toLowerCase()) || text.includes(repo.name.toLowerCase())) {
+              repo.reddit.push({
+                title: p.title || "",
+                url: p.url || `https://reddit.com${p.permalink}`,
+                points: p.score || 0,
+                comments: p.num_comments || 0,
+              });
+            }
+          }
+        }
+      }
+    } catch (e) {
+      console.warn("[collect] Reddit buzz skipped:", e.message);
     }
   }
 

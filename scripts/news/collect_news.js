@@ -8,10 +8,8 @@ const crypto = require("crypto");
 const Parser = require("rss-parser");
 const cheerio = require("cheerio");
 const moment = require("moment-timezone");
-const { execFile, execFileSync } = require("child_process");
-const { promisify } = require("util");
-
-const execFileAsync = promisify(execFile);
+const { execFileSync } = require("child_process");
+const { searchX } = require("../core/agent_reach");
 
 const ROOT = path.join(__dirname, "..", "..");
 const OUT = path.join(ROOT, ".tmp", "news_candidates.json");
@@ -24,7 +22,6 @@ const NOW_KST = moment().tz("Asia/Seoul");
 
 const UA = "Mozilla/5.0 (compatible; ai-weekly-newsbot/1.0)";
 const NET_TIMEOUT_MS = Number(process.env.NEWS_NET_TIMEOUT_MS || 12000);
-const SOCIAL_TIMEOUT_MS = Number(process.env.NEWS_SOCIAL_TIMEOUT_MS || 180000);
 const BODY_MIN_CHARS = 400;
 const BODY_MAX_CHARS = 6000;
 const BODY_FETCH_TIMEOUT_MS = 8000;
@@ -271,9 +268,8 @@ async function enrichBodies(candidates) {
 }
 
 // ── 소스별 수집 ───────────────────────────────────────────────────────
-// 수집 매체 7종: GeekNews · Hacker News · AI타임스 · Reddit · GitHub · Bluesky · HF Daily Papers.
-// X·Threads 는 목록에서 내렸다 — last30days 가 두 매체를 상시 0건으로 반환해(2026-08-18~25 실측 7일 연속)
-// "7매체" 라는 문서상 약속만 남고 실물이 없었다. 소셜 축은 Bluesky 직접 수집이 대신한다.
+// 수집 매체 8종: GeekNews · Hacker News · AI타임스 · Reddit · GitHub · Bluesky · X · HF Daily Papers.
+// X 는 2026-08-25 last30days 상시 0건으로 내렸다가 2026-10-12 Agent-Reach(twitter-cli) 경유로 복귀했다. Threads 는 없다.
 // 목록 밖 피드를 함부로 늘리지 않는다 — 발행 주기가 24시간보다 길면 창 안에 글이 없어 창 밖 과거 기사를 끌어오게 된다
 // (2026-08-03 회귀 지점). 추가 조건은 하나: **일 단위로 신규 항목이 나오는 매체만.**
 const FEED_PER_SOURCE = Number(process.env.NEWS_FEED_PER_SOURCE || 5);
@@ -283,10 +279,10 @@ const CURATED_FEEDS = [
   { source: "aitimes", name: "AI타임스", url: "https://www.aitimes.com/rss/allArticle.xml", lang: "ko" },
 ];
 
-// 지정 7매체. 최종 건수가 0인 소스는 main 에서 [MISSING] 으로 보고한다 — 조용한 누락 금지
+// 지정 8매체. 최종 건수가 0인 소스는 main 에서 [MISSING] 으로 보고한다 — 조용한 누락 금지
 const REQUIRED_SOURCES = {
   geeknews: "GeekNews", hackernews: "Hacker News", aitimes: "AI타임스",
-  reddit: "Reddit", github: "GitHub", bluesky: "Bluesky", hfpapers: "HF Daily Papers",
+  reddit: "Reddit", github: "GitHub", bluesky: "Bluesky", x: "X", hfpapers: "HF Daily Papers",
 };
 
 function normalizeFeedItems(feed) {
@@ -565,7 +561,7 @@ async function fetchHuggingFacePapers() {
   return out;
 }
 
-// ①②③⑥ Bluesky — X·Threads 가 last30days 에서 상시 0건이라 직접 수집하는 소셜 축
+// ①②③⑥ Bluesky — 무인증으로 직접 수집하는 소셜 축 (X 도 같은 링크 발굴 방식을 쓴다)
 // 인용/농담이 인기 상위를 차지하는 매체라 "좋아요 상위" 만으로는 뉴스가 안 잡힌다(실측: like>=10 상위 10건이 전부 잡담).
 // 링크 카드를 단 글만 남기면 발표·블로그·릴리스 공유가 걸러져 나온다 — 이 매체는 **링크 발굴 창구**로 쓴다.
 // 후보 url 은 그래서 bsky 퍼머링크가 아니라 공유된 원문 링크다. 본문 보강(enrichBodies)과
@@ -589,6 +585,16 @@ async function resolveShortUrl(url) {
   } finally {
     clearTimeout(timer);
   }
+}
+
+async function resolveShortLinks(candidates) {
+  await pMap(candidates, BODY_FETCH_CONCURRENCY, async (c) => {
+    const resolved = await resolveShortUrl(c.url);
+    if (resolved !== c.url) {
+      c.url = resolved;
+      c.id = `${c.source}_${sha(normalizeUrl(resolved))}`; // id 는 url 파생이라 함께 갱신해야 한다
+    }
+  });
 }
 const BSKY_MIN_LIKES = Number(process.env.NEWS_BSKY_MIN_LIKES || 3);
 const BSKY_DELAY_MS = Number(process.env.NEWS_BSKY_DELAY_MS || 6000);
@@ -655,99 +661,68 @@ async function fetchBluesky() {
       }));
     }
   }
-  await pMap(out, BODY_FETCH_CONCURRENCY, async (c) => {
-    const resolved = await resolveShortUrl(c.url);
-    if (resolved !== c.url) {
-      c.url = resolved;
-      c.id = `bluesky_${sha(normalizeUrl(resolved))}`; // id 는 url 파생이라 함께 갱신해야 한다
-    }
-  });
+  await resolveShortLinks(out);
   console.log(`[bluesky] ${scanned}건 훑어 링크+좋아요${BSKY_MIN_LIKES} 이상 ${out.length}건`);
   return out;
 }
 
-// ①②⑥ 소셜 보조 — last30days 스킬 경유 (X·Threads 제거 후 Reddit·HN·GitHub 중복분만 보탠다)
-async function fetchSocial() {
-  const skill = path.join(ROOT, ".agents", "skills", "last30days", "scripts", "last30days.py");
-  if (!fs.existsSync(skill)) {
-    console.warn("[social] last30days 스킬 없음 — 건너뜀");
+// ①②③⑥ X — Agent-Reach(twitter-cli) 경유, 부계정 쿠키 필요. Bluesky 와 같은 링크 발굴 창구로 쓴다:
+// 링크를 단 글만 남기고 후보 url 은 트윗이 아니라 공유된 원문 링크, 발견 출처는 metrics.x_url 로 남긴다.
+// 서브프로세스는 searchX 안에서 비동기로 돈다 — 동기 실행은 Promise.all 의 다른 소스 타임아웃을 일제히 발화시킨다.
+const X_MIN_LIKES = Number(process.env.NEWS_X_MIN_LIKES || 50);
+const X_DELAY_MS = Number(process.env.NEWS_X_DELAY_MS || 4000);
+const X_HOSTS = ["x.com", "twitter.com"];
+
+async function fetchX() {
+  if (process.env.NEWS_SKIP_X === "1") {
+    console.warn("[x] NEWS_SKIP_X=1 — 건너뜀");
     return [];
   }
-  // 반드시 비동기로 실행한다. execFileSync 는 이벤트 루프를 파이썬이 끝날 때까지 블록해서
-  // 같은 Promise.all 안의 다른 소스들의 fetch 타임아웃을 일제히 발화시킨다 (전량 abort 원인).
-  let raw;
-  try {
-    const { stdout } = await execFileAsync(
-      "python3",
-      [skill, "AI model release OR LLM OR AI agent OR developer tool", "--days", "1", "--emit=json"],
-      { encoding: "utf8", maxBuffer: 10 * 1024 * 1024, timeout: SOCIAL_TIMEOUT_MS }
-    );
-    raw = stdout;
-  } catch (e) {
-    raw = e.stdout || "";
-    if (!raw) {
-      console.warn("[social] last30days 실행 실패:", e.message);
-      return [];
-    }
-  }
-
-  let data;
-  try {
-    const m = raw.match(/\{[\s\S]*\}/);
-    data = JSON.parse(m ? m[0] : raw);
-  } catch (e) {
-    console.warn("[social] JSON 파싱 실패:", e.message);
-    return [];
-  }
-
-  // 지정 매체만 남긴다. last30days 는 YouTube·web 등도 섞어 반환하는데 그대로 통과시키면
-  // 목록 밖 매체가 하루치 상당량을 차지한다 (실측 youtube 9건).
-  // X·Threads 를 목록에서 내린 뒤로 이 경로가 보태는 건 Reddit·HN·GitHub 뿐이고 그 셋은 직접 수집이 더 촘촘하다.
-  const PLATFORM = {
-    reddit: ["reddit", "Reddit"],
-    hackernews: ["hackernews", "Hacker News"],
-    github: ["github", "GitHub"],
-  };
-
+  const seen = new Set();
   const out = [];
-  let offlist = 0;
-  for (const item of data.results || []) {
-    const url = item.best_url || item.url;
-    if (!url) continue; // 원문 링크 없는 항목은 폐기 (링크 검증 원칙)
-    // 링크 호스트가 곧 출처 — last30days 의 source 라벨이 링크와 어긋나는 사례가 많아 URL 을 신뢰
-    let host = "";
-    try { host = new URL(url).host.replace(/^www\./, ""); } catch { /* noop */ }
-    const hostKey = host.includes("reddit") ? "reddit"
-      : host.includes("ycombinator") ? "hackernews"
-      : host.includes("github.com") ? "github"
-      : null;
-    const rawSource = String(item.source || (item.sources || [])[0] || "").toLowerCase();
-    const platform = PLATFORM[hostKey] || PLATFORM[rawSource];
-    if (!platform) {
-      offlist++;
+  let scanned = 0;
+  for (const [idx, q] of BSKY_QUERIES.entries()) {
+    if (idx > 0) await sleep(X_DELAY_MS);
+    let tweets;
+    try {
+      tweets = await searchX(q, {
+        since: SINCE_DATE, minLikes: X_MIN_LIKES, max: 40, has: ["links"], exclude: ["retweets", "replies"],
+      });
+    } catch (e) {
+      console.warn(`[x] "${q}" 실패:`, e.message);
+      if (e.message.includes("쿠키 없음")) break; // 설정 전이면 남은 쿼리도 같은 이유로 실패한다
       continue;
     }
-    const [source, sourceName] = platform;
-
-    const published = item.published_at || item.date;
-    if (published && !inWindow(published, "social")) continue; // --days 1 을 신뢰하지 않는다
-
-    let body = item.content || item.summary || item.snippet || "";
-    if (!body && Array.isArray(item.evidence)) {
-      body = item.evidence.map((e) => e.label || e.text || "").filter(Boolean).join("\n");
+    for (const t of tweets || []) {
+      scanned++;
+      if (!inWindow(t.createdAtISO, "x")) continue; // --since 는 날짜 단위라 창을 다시 자른다
+      const link = (t.urls || []).find((u) => {
+        try { return !X_HOSTS.includes(new URL(u).host.replace(/^www\./, "")); } catch { return false; }
+      });
+      if (!link || seen.has(link)) continue;
+      seen.add(link);
+      const handle = (t.author && t.author.screenName) || "";
+      const m = t.metrics || {};
+      out.push(makeCandidate({
+        source: "x",
+        sourceName: "X",
+        url: link,
+        title: String(t.text || "").split("\n")[0].slice(0, 120),
+        author: handle ? `@${handle}` : "X",
+        publishDate: t.createdAtISO,
+        body: t.text || "",
+        metrics: {
+          likes: m.likes || 0,
+          reposts: m.retweets || 0,
+          replies: m.replies || 0,
+          views: m.views || 0,
+          x_url: `https://x.com/${handle || "i"}/status/${t.id}`,
+        },
+      }));
     }
-    out.push(makeCandidate({
-      source,
-      sourceName,
-      url,
-      title: item.topic || item.title || String(body).slice(0, 80),
-      author: item.author || (item.voices || [])[0] || sourceName,
-      publishDate: published || Date.now(),
-      body,
-      metrics: { engagement: item.engagement ?? null },
-    }));
   }
-  if (offlist) console.log(`[social] 지정 매체 밖 ${offlist}건 제외`);
+  await resolveShortLinks(out);
+  console.log(`[x] ${scanned}건 훑어 링크+좋아요${X_MIN_LIKES} 이상 ${out.length}건`);
   return out;
 }
 
@@ -784,6 +759,7 @@ const SOURCE_CAPS = {
   github: Number(process.env.NEWS_CAP_GITHUB || 50),
   hfpapers: Number(process.env.NEWS_CAP_HFPAPERS || 12),
   bluesky: Number(process.env.NEWS_CAP_BLUESKY || 12),
+  x: Number(process.env.NEWS_CAP_X || 12),
 };
 // 절대 star 로 정렬하면 창 안의 노장 리포가 매일 상위에 고정된다 (재등장의 직접 원인).
 // "지금 뜨고 있는가" = 하루평균 star 획득량. 직전 배포본과 비교 가능하면 실측 증가분을 쓰고,
@@ -799,9 +775,10 @@ function ghMomentum(c) {
 
 const SOURCE_RANK = {
   github: (a, b) => ghMomentum(b) - ghMomentum(a),
-  // 두 매체 모두 자체 인기 지표를 품질 프록시로 쓴다 (HF upvote, Bluesky 좋아요)
+  // 세 매체 모두 자체 인기 지표를 품질 프록시로 쓴다 (HF upvote, Bluesky·X 좋아요)
   hfpapers: (a, b) => (b.metrics.upvotes || 0) - (a.metrics.upvotes || 0),
   bluesky: (a, b) => (b.metrics.likes || 0) - (a.metrics.likes || 0),
+  x: (a, b) => (b.metrics.likes || 0) - (a.metrics.likes || 0),
 };
 
 function capPerSource(candidates) {
@@ -827,7 +804,7 @@ async function main() {
   console.log(`뉴스 수집 시작 — 최근 ${WINDOW_HOURS}시간 (KST ${NOW_KST.format()})`);
   console.log("==========================================");
 
-  const labels = [...CURATED_FEEDS.map((f) => f.source), "hackernews", "github", "reddit", "hfpapers", "bluesky", "social"];
+  const labels = [...CURATED_FEEDS.map((f) => f.source), "hackernews", "github", "reddit", "hfpapers", "bluesky", "x"];
   const groups = await Promise.all([
     ...CURATED_FEEDS.map((f) => fetchCuratedFeed(f)),
     fetchHackerNews(),
@@ -835,7 +812,7 @@ async function main() {
     fetchReddit(),
     fetchHuggingFacePapers(),
     fetchBluesky(),
-    fetchSocial(),
+    fetchX(),
   ]);
   groups.forEach((g, i) => console.log(`[${labels[i]}] ${g.length}건`));
 

@@ -67,7 +67,7 @@ export const CATEGORIES = [
   { id: "mcp",     emoji: "🔌", label_ko: "MCP",      label_en: "MCP" },
 ];
 
-// cc-news 수집 매체 7종과 1:1 로 맞춘다 — 여기 없는 매체는 칩 자체가 안 생겨 필터로 못 고른다
+// cc-news 수집 매체 8종과 1:1 로 맞춘다 — 여기 없는 매체는 칩 자체가 안 생겨 필터로 못 고른다
 export const NEWS_CATEGORIES = [
   { id: "all",       emoji: "✨", label_ko: "전체",         label_en: "All" },
   { id: "geeknews",  emoji: "🤓", label_ko: "GeekNews",     label_en: "GeekNews" },
@@ -76,6 +76,7 @@ export const NEWS_CATEGORIES = [
   { id: "reddit",    emoji: "👽", label_ko: "Reddit",       label_en: "Reddit" },
   { id: "github",    emoji: "🐙", label_ko: "GitHub",       label_en: "GitHub" },
   { id: "bluesky",   emoji: "🦋", label_ko: "Bluesky",      label_en: "Bluesky" },
+  { id: "x",         emoji: "𝕏",  label_ko: "X",            label_en: "X" },
   { id: "hfpapers",  emoji: "🤗", label_ko: "HF Daily Papers", label_en: "HF Daily Papers" },
 ];
 
