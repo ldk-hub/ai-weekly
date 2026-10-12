@@ -97,6 +97,7 @@ graph TD
 - [[04-giscus 라운지 및 커뮤니티 연동|💬 giscus 라운지 및 커뮤니티 연동 명세]]
 
 ### 📅 날짜별 작업 일지 (Work Logs)
+- [[2026-10-12 작업일지|📅 2026-10-12 작업일지 (평일 cc-daily: 스타보드 586개 갱신, 6개 매체 데일리 뉴스 18건 균형 큐레이션 및 배포)]]
 - [[2026-10-08 작업일지|📅 2026-10-08 작업일지 (평일 cc-daily: 스타보드 586개 갱신, 7개 매체 데일리 뉴스 18건 정밀 큐레이션 및 배포)]]
 - [[2026-10-06 작업일지|📅 2026-10-06 작업일지 (주간 cc-weekly: 스타보드 584개 최신화, 트렌드 35건 선별·보안 스캔, 데일리 뉴스 18건 큐레이션 배포)]]
 - [[2026-10-04 작업일지|📅 2026-10-04 작업일지 (주간 cc-weekly: 스타보드 579개 최신화, 트렌드 31건 선별·보안 스캔, 데일리 뉴스 18건 큐레이션 배포)]]
@@ -277,6 +278,58 @@ tags: [ai-weekly, lounge, giscus, github-discussions, community]
 
 // 3. 작업 일지들
 const LOGS = [
+  {
+    filename: "2026-10-12 작업일지.md",
+    title: "2026-10-12 작업일지 — 평일 정기 파이프라인(cc-daily) 완수 (스타보드 586개 갱신, 데일리 뉴스 18건 정밀 큐레이션 및 배포)",
+    date: "2026-10-12",
+    content: `---
+title: 2026-10-12 작업일지 — 평일 정기 파이프라인(cc-daily) 완수 (스타보드 586개 갱신, 데일리 뉴스 18건 정밀 큐레이션 및 배포)
+date: 2026-10-12
+type: work-log
+tags: [work-log, cc-daily, cc-star, cc-news, quality-gate, obsidian-sync]
+---
+
+# 📅 2026-10-12 작업일지
+
+## 1. 주요 작업 내용
+
+### 📈 1. CC-Star (오픈소스 스타보드 원장 최신화)
+- **수집 대상:** 586개 오픈소스 리포지토리 전수 추적 완료 (\`stars_meta.json\`, \`stars_ledger.json\` 최신 갱신)
+- **수집 결과:**
+  - 대상: 586건
+  - 성공: 544건 (93%)
+  - 404 제외: 41건
+  - 이름 변경: 1건
+  - 의심 드롭 플래그: 45건
+
+### 📰 2. CC-News (데일리 AI 기술 신호 큐레이션 및 배포)
+- **수집 결과 (24시간 창):** 총 93건 유효 후보 확보
+  - GeekNews: 5건
+  - AI타임스: 5건
+  - Hacker News: 19건
+  - GitHub: 50건
+  - Reddit: 6건
+  - Bluesky: 8건
+  - HF Daily Papers: 0건 (\`[MISSING]\` — API 빈 응답)
+- **중복 차단 및 업데이트 필터:** 최근 7일 배포본 4개(52개 URL) 대비 중복 2건 차단, 업데이트 3건 식별
+- **선별 및 큐레이션:** 6개 매체에서 3건씩 균형 선별한 총 18건 최종 큐레이션
+  - \`model\` (1건): GPT-6.1 Sol 프론트엔드 웹 디자인 코드 품질 퇴행 논란 및 스타일 고착화 비판
+  - \`product\` (3건): 앤트로픽 클로드 스타트업 지원 잠정 중단, rociiu/talorys 서버리스 개인 에이전트, ChatGPT Pro 월 100달러 역량 축소 논란
+  - \`devtool\` (4건): 부품 데이터시트 인용 PartsPlan MCP, DuckDB v2.0 CLI 에이전트 모드, 에디터-에이전트 연결 ACP 프로토콜, Littleguys 메뉴바 에이전트 모니터링
+  - \`oss\` (4건): Hanok-LLM 한국어 파인튜닝 파이프라인, Veda 러스트 에이전트 네이티브 OS, wheresryan22/anatomy 3D 기계 분해도 스킬, mhtsec/ARTEX AI 자율 침투 테스트 프레임워크
+  - \`research\` (1건): 사카나 AI MASS 다중 에이전트 자기 감독 및 재귀적 자체 개선 기법
+  - \`practice\` (4건): 안드레이 카파시의 LLM 활용 체감 격차 분석, 앤트로픽 보리스 체르니의 동료형 프롬프트 원칙, 5000억 토큰 투입 FPS 게임 역컴파일 실증, 백만 토큰당 가격의 맹점과 모델 라우팅 논쟁
+  - \`policy\` (1건): 앤트로픽 모델 내부 평가 실시간 인터넷 접속 차단 조치
+- **품질 게이트:** \`node scripts/news/curate_news.js --validate\` 18건 전수 100% 통과 (3불릿 • **키워드**: / 5~10문장 심층 해설 / 메타 일치)
+
+### 🚀 3. 리소스 갱신 및 배포 준비
+- **RSS & 사이트맵:** \`site/public/feed.xml\`, \`site/public/news-feed.xml\`, \`site/public/sitemap.xml\` 자동 갱신
+- **AI 라운지:** \`site/public/data/lounge_latest.json\` 최신 스냅샷 갱신
+
+### 📚 4. 옵시디언 볼트 동기화
+- 로컬 옵시디언 볼트(\`/Users/nhn/Documents/Obsidian Vault/ai-weekly\`)에 당일 작업 이력 및 대시보드 동기화 완료 (\`npm run sync:obsidian\`)
+`
+  },
   {
     filename: "2026-10-08 작업일지.md",
     title: "2026-10-08 작업일지 — 평일 정기 파이프라인(cc-daily) 완수 (스타보드 586개 갱신, 7개 매체 데일리 뉴스 18건 정밀 큐레이션 및 배포)",
