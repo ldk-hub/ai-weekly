@@ -193,8 +193,13 @@ async function pMap(items, limit, fn) {
 function ghToken() {
   if (process.env.GH_TOKEN) return process.env.GH_TOKEN;
   if (process.env.GITHUB_TOKEN) return process.env.GITHUB_TOKEN;
+  const paths = [process.env.PATH || "", "/usr/local/bin", "/opt/homebrew/bin"].filter(Boolean).join(":");
   try {
-    return execFileSync("gh", ["auth", "token"], { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim();
+    return execFileSync("gh", ["auth", "token"], {
+      env: { ...process.env, PATH: paths },
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"],
+    }).trim();
   } catch {
     return null;
   }
@@ -513,13 +518,25 @@ async function fetchReddit() {
 const HF_PAPER_MAX_AGE_DAYS = Number(process.env.NEWS_HF_PAPER_MAX_AGE_DAYS || 21);
 
 async function fetchHuggingFacePapers() {
-  const listDate = new Date().toISOString().slice(0, 10); // HF 데일리 목록은 UTC 날짜 단위
+  let listDate = new Date().toISOString().slice(0, 10); // HF 데일리 목록은 UTC 날짜 단위
   let list;
   try {
     list = await getJson(`https://huggingface.co/api/daily_papers?date=${listDate}&limit=50`);
   } catch (e) {
-    console.warn(`[hfpapers] ${listDate} 목록 조회 실패:`, e.message);
-    return [];
+    if (e.status === 400) {
+      const prevDate = new Date(Date.now() - 864e5).toISOString().slice(0, 10);
+      try {
+        list = await getJson(`https://huggingface.co/api/daily_papers?date=${prevDate}&limit=50`);
+        console.log(`[hfpapers] ${listDate} 목록 미생성으로 직전일(${prevDate}) 데일리 목록 수집`);
+        listDate = prevDate;
+      } catch (e2) {
+        console.warn(`[hfpapers] ${listDate} 및 ${prevDate} 목록 조회 실패:`, e2.message);
+        return [];
+      }
+    } else {
+      console.warn(`[hfpapers] ${listDate} 목록 조회 실패:`, e.message);
+      return [];
+    }
   }
   if (!Array.isArray(list)) {
     console.warn(`[hfpapers] 예상 밖 응답 형태 — 건너뜀`);

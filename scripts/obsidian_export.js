@@ -97,6 +97,7 @@ graph TD
 - [[04-giscus 라운지 및 커뮤니티 연동|💬 giscus 라운지 및 커뮤니티 연동 명세]]
 
 ### 📅 날짜별 작업 일지 (Work Logs)
+- [[2026-10-13 작업일지|📅 2026-10-13 작업일지 (평일 cc-daily: 스타보드 593개 최신화, HF 데일리 fallback 및 checkSuspect 결함 개선, 데일리 뉴스 17건 큐레이션 및 배포)]]
 - [[2026-10-12 작업일지|📅 2026-10-12 작업일지 (주간 cc-weekly: 스타보드 592개 최신화, 트렌드 33건 선별·순위 반영·보안 스캔, 데일리 뉴스 18건 큐레이션 배포)]]
 - [[2026-10-08 작업일지|📅 2026-10-08 작업일지 (평일 cc-daily: 스타보드 586개 갱신, 7개 매체 데일리 뉴스 18건 정밀 큐레이션 및 배포)]]
 - [[2026-10-06 작업일지|📅 2026-10-06 작업일지 (주간 cc-weekly: 스타보드 584개 최신화, 트렌드 35건 선별·보안 스캔, 데일리 뉴스 18건 큐레이션 배포)]]
@@ -279,6 +280,57 @@ tags: [ai-weekly, lounge, giscus, github-discussions, community]
 
 // 3. 작업 일지들
 const LOGS = [
+  {
+    filename: "2026-10-13 작업일지.md",
+    title: "2026-10-13 작업일지 — 평일 정기 파이프라인(cc-daily) 완수 (스타보드 593개 갱신, HF 데일리 fallback 및 checkSuspect 결함 개선, 데일리 뉴스 17건 큐레이션 및 배포)",
+    date: "2026-10-13",
+    content: `---
+title: 2026-10-13 작업일지 — 평일 정기 파이프라인(cc-daily) 완수 (스타보드 593개 갱신, HF 데일리 fallback 및 checkSuspect 결함 개선, 데일리 뉴스 17건 큐레이션 및 배포)
+date: 2026-10-13
+type: work-log
+tags: [work-log, cc-daily, cc-star, cc-news, quality-gate, obsidian-sync]
+---
+
+# 📅 2026-10-13 작업일지
+
+## 1. 주요 작업 내용
+
+### 🛠️ 1. 전역 시스템 검토 및 오류 개선 (Bug Fixes & Refactoring)
+- **PATH 환경 변수 안정성 강화:** 비대화형 서브셸 환경에서 \`gh\` CLI 경로(\`/opt/homebrew/bin\`, \`/usr/local/bin\`) 누락으로 인한 토큰 조회 실패를 방지하도록 \`collect-stars.js\`, \`collect_news.js\`, \`collect_lounge.js\`의 \`ghToken()\` 함수 보강
+- **HF Daily Papers UTC 00시 400 에러 처리:** 당일 큐레이션 목록이 아직 마감되지 않아 발생하는 HTTP 400 응답 시 직전일(최근 마감일)로 자동 fallback 수집하도록 개선 (연구 신호 12건 온전 복구)
+- **스타보드 checkSuspect False Positive 제거:** \`prevStars\`가 0인 신생 리포지토리에서 \`0 <= 0\` 조건으로 인해 발생하던 54건의 거짓 의심(\`stars_dropped:0→0\`) 경고 조건문 교정 (\`prevStars > 0\` 가드 추가)
+- **요약문 볼트 키워드 규격 일치화:** \`curate_news.js\`의 프롬프트와 품질 게이트(\`qualityIssues\`)에 \`• **키워드**: 설명...\` 형식을 명시하고, 불릿 과단축 및 원문 복붙 판정 정규식 최적화
+- **아카이브 디렉토리 동시 저장:** \`site/public/data/archive/\`와 \`data/archive/\` 양쪽에 \`news_2026-10-13.json\`과 \`news_index.json\`을 동기화 기록하도록 개선
+
+### 📈 2. CC-Star (오픈소스 스타보드 원장 최신화)
+- **수집 대상:** 593개 오픈소스 리포지토리 전수 추적 완료 (\`stars_meta.json\`, \`stars_ledger.json\` 최신 갱신)
+- **수집 결과:**
+  - 대상: 593건
+  - 성공: 593건 (100%)
+  - 404 Gone: 41건
+  - 이름 변경(Rename): 2건
+  - 의심 드롭 플래그: 0건 (결함 수정 후)
+
+### 📰 3. CC-News (데일리 AI 기술 신호 큐레이션 및 배포)
+- **수집 결과 (24시간 창):** 총 129건 유효 후보 확보
+  - GeekNews: 5건
+  - AI타임스: 5건
+  - Hacker News: 23건
+  - GitHub: 50건
+  - Reddit: 26건
+  - HF Daily Papers: 12건 (수정 후 정상 수집)
+  - Bluesky: 8건
+  - X: 0건 (\`[MISSING]\` — 부계정 쿠키 미설정)
+- **선별 및 큐레이션:** 7개 매체에서 균형 선별한 총 17건 최종 큐레이션 배포
+  - 신호축 분포: model 2, product 2, devtool 3, oss 3, research 2, practice 4, policy 1 (모든 축 상한 4건 이하)
+  - 핵심 이슈 요약: \`🔥 오늘의 핵심 이슈: #프런티어모델경쟁 #코딩에이전트실무 #피지컬AI인프라 — 메타의 뮤즈 원더 발표와 리누스 토발즈의 클로드 코드 커널 작업 속에서 대형 모델 추론 최적화와 에이전트 런타임 신뢰성 확보가 집중 조명된 하루였습니다.\`
+- **품질 게이트:** \`node scripts/news/curate_news.js --validate\` 17건 전수 100% 통과 (3불릿 • **키워드**: / 5~10문장 심층 해설 / 메타 일치 / is_update 재등장 표식)
+
+### 🚀 4. 리소스 갱신 및 옵시디언 동기화
+- **배포 리소스 최신화:** RSS 피드(\`feed.xml\`, \`news-feed.xml\`), 사이트맵(\`sitemap.xml\`), 라운지 Discussions(\`lounge_latest.json\`) 갱신
+- **옵시디언 볼트 동기화:** 로컬 옵시디언 볼트(\`/Users/nhn/Documents/Obsidian Vault/ai-weekly\`)에 2026-10-13 작업일지 및 대시보드 완벽 동기화 완료
+`
+  },
   {
     filename: "2026-10-12 작업일지.md",
     title: "2026-10-12 작업일지 — 평일 정기 파이프라인(cc-daily) 완수 (스타보드 586개 갱신, 데일리 뉴스 18건 정밀 큐레이션 및 배포)",

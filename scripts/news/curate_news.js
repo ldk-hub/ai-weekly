@@ -79,7 +79,7 @@ ${SIGNAL_IDS.map((k) => `  - ${k}: ${SIGNALS[k]}`).join("\n")}
 
 [3] 번역·요약 — **스크랩 금지, 반드시 재작성한다:**
   - title_ko: 한국어 제목. 원문이 영어면 번역, 한국어면 다듬기. "[임시 번역]" 같은 접두사 절대 금지.
-  - summary_ko: 정확히 3개의 불릿("• "로 시작, 줄바꿈 구분). 각 불릿은 완결된 한국어 문장.
+  - summary_ko: 정확히 3개의 불릿("• "로 시작, 줄바꿈 구분). 각 불릿 앞머리에 반드시 2~4단어 핵심 키워드를 볼드 강조("• **키워드**: 설명...") 형식으로 작성. 완결된 한국어 문장.
       1번째=무엇이 일어났나, 2번째=기술적으로 무엇이 새로운가(수치·모델명·벤치마크 등 구체값), 3번째=개발자에게 왜 중요한가.
       원문 문장을 잘라 붙이지 말고 이해한 내용을 새 문장으로 쓸 것.
   - body_ko: 한국어 해설 **5문장 이상 10문장 이하**. 배경·동작 방식·한계·비교 대상을 담는다. 원문 본문 통째 복사 금지. (5문장 미만은 자동 폐기된다)
@@ -174,12 +174,13 @@ function qualityIssues(item, fact) {
 
   const bullets = summaryKo.split("\n").map((s) => s.trim()).filter(Boolean);
   if (bullets.length < 3) issues.push(`summary_ko 불릿 ${bullets.length}개`);
-  if (bullets.some((b) => b.replace(/^[•\-\d.\s]+/, "").length < 15)) issues.push("summary_ko 불릿 과단축");
+  if (bullets.some((b) => b.replace(/^[•\-\d.\s]+(\*\*[^*]+?\*\*:\s*)?/, "").length < 15)) issues.push("summary_ko 불릿 과단축");
+  if (bullets.some((b) => !/^•\s*\*\*[^*]+?\*\*:\s*/.test(b))) issues.push("summary_ko 각 불릿이 `• **키워드**: ` 형식으로 시작하지 않음");
 
   // 원문 스크랩 탐지: 요약 문장이 원문 본문에 그대로 들어있으면 재작성이 아니다
   const flatBody = (fact.body || "").replace(/\s+/g, " ");
   const isCopy = bullets.some((b) => {
-    const core = b.replace(/^[•\-\d.\s]+/, "").replace(/\s+/g, " ").slice(0, 40);
+    const core = b.replace(/^[•\-\d.\s]+(\*\*[^*]+?\*\*:\s*)?/, "").replace(/\s+/g, " ").slice(0, 40);
     return core.length >= 20 && flatBody.includes(core);
   });
   if (isCopy) issues.push("summary_ko 원문 복붙");
@@ -374,29 +375,34 @@ async function main() {
   console.log(`\n✅ 큐레이션 완료: ${news.length}건 → ${LATEST}`);
   console.log(`   신호 분포: ${JSON.stringify(signalCounts)}`);
 
-  const archiveDir = path.join(path.dirname(LATEST), "archive");
-  fs.mkdirSync(archiveDir, { recursive: true });
-  fs.writeFileSync(path.join(archiveDir, `news_${today}.json`), JSON.stringify(latest, null, 2));
+  const archiveDirs = [
+    path.join(path.dirname(LATEST), "archive"),
+    path.join(ROOT, "data", "archive"),
+  ];
+  for (const archiveDir of archiveDirs) {
+    fs.mkdirSync(archiveDir, { recursive: true });
+    fs.writeFileSync(path.join(archiveDir, `news_${today}.json`), JSON.stringify(latest, null, 2));
 
-  const indexFile = path.join(archiveDir, "news_index.json");
-  let index = { archives: [] };
-  if (fs.existsSync(indexFile)) {
-    try {
-      index = JSON.parse(fs.readFileSync(indexFile, "utf8"));
-      if (!index.archives) index.archives = [];
-    } catch (e) {
-      console.warn("news_index.json 파싱 오류:", e.message);
+    const indexFile = path.join(archiveDir, "news_index.json");
+    let index = { archives: [] };
+    if (fs.existsSync(indexFile)) {
+      try {
+        index = JSON.parse(fs.readFileSync(indexFile, "utf8"));
+        if (!index.archives) index.archives = [];
+      } catch (e) {
+        console.warn(`${path.basename(indexFile)} 파싱 오류:`, e.message);
+      }
+    }
+    if (!index.archives.some((a) => a.file === `news_${today}.json`)) {
+      index.archives.unshift({
+        file: `news_${today}.json`,
+        version: latest.version,
+        generated_at: latest.generated_at,
+      });
+      fs.writeFileSync(indexFile, JSON.stringify(index, null, 2));
     }
   }
-  if (!index.archives.some((a) => a.file === `news_${today}.json`)) {
-    index.archives.unshift({
-      file: `news_${today}.json`,
-      version: latest.version,
-      generated_at: latest.generated_at,
-    });
-    fs.writeFileSync(indexFile, JSON.stringify(index, null, 2));
-  }
-  console.log(`   아카이브: archive/news_${today}.json`);
+  console.log(`   아카이브: archive/news_${today}.json (site/public & data 동기화)`);
 }
 
 // Gemini 없이 사람·에이전트가 news_latest.json 을 직접 쓴 경우에도 같은 게이트를 통과해야 배포한다
@@ -466,7 +472,7 @@ function selfcheck() {
   const good = {
     id: "hn_x", signal_id: "model", importance: 80,
     title_ko: "앤트로픽, 컨텍스트 100만 토큰의 Claude Opus 5 공개",
-    summary_ko: "• 앤트로픽이 새 플래그십 모델 Claude Opus 5를 정식 공개했다.\n• 컨텍스트 창이 100만 토큰으로 늘고 에이전트형 코딩 벤치마크 점수가 올랐다.\n• 장문 리포지터리 전체를 한 번에 다루는 코딩 에이전트 구성이 쉬워진다.",
+    summary_ko: "• **모델 출시**: 앤트로픽이 새 플래그십 모델 Claude Opus 5를 정식 공개했다.\n• **성능 향상**: 컨텍스트 창이 100만 토큰으로 늘고 에이전트형 코딩 벤치마크 점수가 올랐다.\n• **실무 영향**: 장문 리포지터리 전체를 한 번에 다루는 코딩 에이전트 구성이 쉬워진다.",
     body_ko: "앤트로픽이 플래그십 모델 계열을 갱신했다. 이번 버전은 컨텍스트 한도를 100만 토큰으로 넓혔다. 에이전트형 코딩 과제에서 이전 세대보다 높은 점수를 기록했다. 기존에는 파일 단위로 잘라 넣어야 했던 대형 저장소를 한 번에 올릴 수 있게 됐다. 코드베이스 전체 탐색이 필요한 작업의 구성이 그만큼 단순해진다. 다만 가격과 지연 시간은 별도 확인이 필요하다.",
     tags: ["모델 출시", "컨텍스트", "코딩 에이전트"],
   };
@@ -475,8 +481,9 @@ function selfcheck() {
   const cases = [
     ["미번역", { ...good, title_ko: "Anthropic ships Claude Opus 5" }, "title_ko 미번역"],
     ["플레이스홀더", { ...good, title_ko: "[임시 번역] 어쩌고 저쩌고 한국어 제목" }, "플레이스홀더 잔존"],
-    ["불릿 부족", { ...good, summary_ko: "• 앤트로픽이 새 모델을 공개했다." }, "summary_ko 불릿 1개"],
-    ["원문 복붙", { ...good, summary_ko: `• Anthropic released Claude Opus 5 with a 1M token context window\n• 두 번째 불릿 문장은 충분히 길게 작성한다.\n• 세 번째 불릿 문장도 충분히 길게 작성한다.` }, null],
+    ["불릿 부족", { ...good, summary_ko: "• **모델 출시**: 앤트로픽이 새 모델을 공개했다." }, "summary_ko 불릿 1개"],
+    ["불릿 키워드 누락", { ...good, summary_ko: "• 앤트로픽이 새 모델을 공개했다.\n• **성능 향상**: 점수가 올랐다.\n• **실무 영향**: 작업이 쉬워진다." }, "summary_ko 각 불릿이 `• **키워드**: ` 형식으로 시작하지 않음"],
+    ["원문 복붙", { ...good, summary_ko: `• **원문 복사**: Anthropic released Claude Opus 5 with a 1M token context window\n• **두번째 불릿**: 두 번째 불릿 문장은 충분히 길게 작성한다.\n• **세번째 불릿**: 세 번째 불릿 문장도 충분히 길게 작성한다.` }, null],
     ["signal 불명", { ...good, signal_id: "unknown" }, "signal_id 불명(unknown)"],
     ["body 과단축", { ...good, body_ko: "짧게 두 문장만 쓴 해설이다. 규격은 다섯 문장이다." }, "body_ko 2문장 (규격 5~10)"],
     ["투자 기사", { ...good, title_ko: "중국 VC, 3년 한파 깨고 50조 투자 총력전" }, "투자·재무 중심 기사(하드 룰)"],

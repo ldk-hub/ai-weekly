@@ -23,8 +23,13 @@ const BODY_MAX = 400;
 function ghToken() {
   if (process.env.GH_TOKEN) return process.env.GH_TOKEN;
   if (process.env.GITHUB_TOKEN) return process.env.GITHUB_TOKEN;
+  const paths = [process.env.PATH || "", "/usr/local/bin", "/opt/homebrew/bin"].filter(Boolean).join(":");
   try {
-    return execFileSync("gh", ["auth", "token"], { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim();
+    return execFileSync("gh", ["auth", "token"], {
+      env: { ...process.env, PATH: paths },
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"],
+    }).trim();
   } catch {
     return null;
   }

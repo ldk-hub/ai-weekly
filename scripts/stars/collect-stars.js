@@ -30,7 +30,7 @@ function checkSuspect(samples, newStars) {
   if (!samples || samples.length === 0) return null;
   const sorted = [...samples].sort((a, b) => a.date.localeCompare(b.date));
   const prevStars = sorted[sorted.length - 1].stars;
-  if (newStars <= prevStars * 0.7) {
+  if (prevStars > 0 && newStars <= prevStars * 0.7) {
     return `stars_dropped:${prevStars}→${newStars}`;
   }
   return null;
@@ -111,8 +111,13 @@ function selfCheck() {
 function getToken() {
   if (process.env.GH_TOKEN) return process.env.GH_TOKEN;
   if (process.env.GITHUB_TOKEN) return process.env.GITHUB_TOKEN;
+  const paths = [process.env.PATH || "", "/usr/local/bin", "/opt/homebrew/bin"].filter(Boolean).join(":");
   try {
-    const token = execSync('gh auth token --hostname github.com', { encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] }).trim();
+    const token = execSync('gh auth token --hostname github.com', {
+      env: { ...process.env, PATH: paths },
+      encoding: 'utf8',
+      stdio: ['pipe', 'pipe', 'ignore']
+    }).trim();
     if (token) return token;
   } catch(e) {}
   console.error("Error: No GitHub token found. Provide GH_TOKEN, GITHUB_TOKEN, or use `gh auth`");
