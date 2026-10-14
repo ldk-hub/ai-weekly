@@ -281,6 +281,70 @@ tags: [ai-weekly, lounge, giscus, github-discussions, community]
 // 3. 작업 일지들
 const LOGS = [
   {
+    filename: "2026-10-14 작업일지.md",
+    title: "2026-10-14 작업일지 — 주간 종합 파이프라인(cc-weekly) 완수 (스타보드 593개 전수 갱신, 트렌드 33건 큐레이션·보안 스캔 통과, 데일리 뉴스 18건 큐레이션·게이트 통과, 옵시디언 동기화)",
+    date: "2026-10-14",
+    content: `---
+title: 2026-10-14 작업일지 — 주간 종합 파이프라인(cc-weekly) 완수 (스타보드 593개 전수 갱신, 트렌드 33건 큐레이션·보안 스캔 통과, 데일리 뉴스 18건 큐레이션·게이트 통과, 옵시디언 동기화)
+date: 2026-10-14
+type: work-log
+tags: [work-log, cc-weekly, cc-star, cc-trends, cc-news, quality-gate, obsidian-sync]
+---
+
+# 📅 2026-10-14 작업일지
+
+## 1. 주요 작업 내용
+
+### ⚙️ 1. Antigravity 2.0 시니어 솔루션 아키텍트 글로벌 지침 반영
+- **글로벌 규칙 등록:** \`~/.gemini/config/rules/20-solution-architect.md\` 신규 등록 (\`trigger: always_on\`)
+- **주요 전제:** Java 17+, Spring Boot 3.x, JPA, PostgreSQL, Redis, MSA 및 대규모 트래픽 인프라 환경
+- **추론 및 출력 규격:** Plan-Execute-Validate-Format 4단계 추론 워크플로우 및 3단 출력 포맷(핵심 요약, 상세 분석 및 본문, 최종 정리) 표준화
+
+### 📈 2. CC-Star (오픈소스 스타보드 원장 최신화)
+- **수집 대상:** 593개 오픈소스 리포지토리 전수 추적 완료 (\`stars_meta.json\`, \`stars_ledger.json\` 최신 갱신)
+- **수집 결과:**
+  - 대상: 593건
+  - 성공: 593건 (100%)
+  - 404 Gone: 41건
+  - 이름 변경(Rename): 2건
+  - 의심 드롭 플래그: 3건 (안전 보호 완료)
+
+### 🚀 3. CC-Trends (Claude Code 트렌드 갱신 및 보안 스캔)
+- **후보 수집:** GitHub 쿼리 및 HN/커뮤니티 수집 결과 72건 유효 후보 확보
+- **진입점 보안 스캔:** \`scan-install-entry.js\` 실행, 72건 전수 검사 통과 (위험 드로퍼 0건)
+- **트렌드 큐레이션:** Rising 20건, Classic 13건 (총 33건) 한글 큐레이션 및 스코어링 반영
+  - 주요 Rising: \`QingYunA/answer-me-with-html\` (score 100), \`diegosouzapw/OmniRoute\` 등
+- **인덱스 및 아카이브:** \`latest.json\`, \`archive/2026-10-14.json\`, \`archive/index.json\` 갱신 완료
+- **OG 이미지 생성:** \`generate-og.js\` 실행 (\`site/public/og.svg\`, \`site/public/og.png\` 갱신)
+
+### 📰 4. CC-News (데일리 AI 기술 신호 큐레이션 및 배포)
+- **수집 결과 (24시간 창):** 총 122건 유효 후보 확보
+  - GeekNews: 5건
+  - AI타임스: 5건
+  - Hacker News: 19건
+  - GitHub: 50건
+  - Reddit: 21건
+  - HF Daily Papers: 12건
+  - Bluesky: 10건
+  - X: 0건 (쿠키 미설정으로 누락)
+- **큐레이션 선별 및 품질 검증:** 7개 매체에서 균형 있게 18건 선별 완료 (\`--validate\` 게이트 무결성 100% 통과)
+  - \`model\`: 3건 (구글 제미나이 4 아르곤, 앤트로픽 차세대 모델 테스트, LiquidAI LFM2.5)
+  - \`product\`: 2건 (Consus, Pulse Local)
+  - \`devtool\`: 4건 (anatomy [업데이트], solid-glass, fx, 해커뉴스 봇 폭격)
+  - \`oss\`: 3건 (Spotatui, talorys, Flama)
+  - \`research\`: 3건 (MS 코드 비디오 모델, Thinking Inertia, AgentSWE)
+  - \`practice\`: 2건 (AI 코딩 생산성 역설, Gentoo uv-build 자제 호소)
+  - \`policy\`: 1건 (리눅스 재단 AI 에이전트 스킬 검증 표준)
+- **배포 및 아카이브:** \`news_latest.json\`, \`archive/news_2026-10-14.json\`, \`archive/news_index.json\` 동시 기록 완료
+
+### 💬 5. 리소스 및 커뮤니티 라운지 동기화
+- **피드 갱신:** \`generate-rss.js\` 실행 (\`feed.xml\`, \`news-feed.xml\`, \`sitemap.xml\` 최신화)
+- **라운지 스냅샷:** \`collect_lounge.js\` 실행 (\`lounge_latest.json\` 최신 스냅샷 갱신)
+- **옵시디언 볼트:** \`npm run sync:obsidian\` 실행으로 전체 아키텍처 및 작업일지 동기화 완료
+`
+  },
+
+  {
     filename: "2026-10-13 작업일지.md",
     title: "2026-10-13 작업일지 — 평일 정기 파이프라인(cc-daily) 완수 (스타보드 593개 갱신, HF 데일리 fallback 및 checkSuspect 결함 개선, 데일리 뉴스 17건 큐레이션 및 배포)",
     date: "2026-10-13",

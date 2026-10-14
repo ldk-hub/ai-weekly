@@ -2,6 +2,22 @@
   "updated_at": "2026-09-03T01:49:27.860Z",
   "archives": [
     {
+      "file": "news_2026-10-14.json",
+      "date": "2026-10-14",
+      "version": "v2026.10.14",
+      "generated_at": "2026-10-14T00:36:07.568Z",
+      "total_count": 18,
+      "signal_counts": {
+        "model": 3,
+        "research": 3,
+        "practice": 2,
+        "devtool": 4,
+        "product": 2,
+        "oss": 3,
+        "policy": 1
+      }
+    },
+    {
       "file": "news_2026-10-13.json",
       "version": "v2026.10.13",
       "generated_at": "2026-10-13T00:54:26.780Z"
