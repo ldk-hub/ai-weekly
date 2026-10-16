@@ -7,17 +7,8 @@ const path = require("path");
 const ROOT = path.join(__dirname, "..", "..");
 const OUT = path.join(ROOT, ".tmp", "candidates.json");
 const { load: loadLedger, velocity, scoreVelocity } = require("../stars/build-stars-ledger");
-const { execSync } = require("child_process");
-function getGhToken() {
-  if (process.env.GH_TOKEN) return process.env.GH_TOKEN;
-  if (process.env.GITHUB_TOKEN) return process.env.GITHUB_TOKEN;
-  try {
-    const token = execSync('gh auth token --hostname github.com', { encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] }).trim();
-    if (token) return token;
-  } catch(e) {}
-  return null;
-}
-const GH_TOKEN = getGhToken();
+const { resolveGitHubToken } = require("../core/github-token");
+const GH_TOKEN = resolveGitHubToken();
 if (!GH_TOKEN) {
   console.warn("GH_TOKEN not found, unauthenticated GitHub Search may be rate limited");
 }

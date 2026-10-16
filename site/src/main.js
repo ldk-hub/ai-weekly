@@ -1,4 +1,4 @@
-import { isNewsPage, isStarboardPage, isLoungePage, GISCUS, isGiscusReady, STATE, CATEGORIES, NEWS_CATEGORIES, NEWS_SIGNALS, STUDY_CATEGORIES, saveBookmarks, savePluginBookmarks } from "./state.js";
+import { isNewsPage, isStarboardPage, isLoungePage, GISCUS, isGiscusReady, STATE, CATEGORIES, NEWS_CATEGORIES, NEWS_SIGNALS, saveBookmarks, savePluginBookmarks } from "./state.js";
 
 
 async function load(source) {
@@ -304,20 +304,7 @@ function renderCategoryFilter() {
 
       sigWrap.innerHTML = signalChipsHtml + bmChipHtml;
     }
-  } else if (isStarboardPage) {
-    const list = (STATE.data?.items || []);
-    wrap.innerHTML = STUDY_CATEGORIES.map(c => {
-      const count = c.id === "all" ? list.length : list.filter(x => x.type === c.id).length;
-      if (c.id !== "all" && count === 0) return "";
-      const label = lang === "en" ? c.label_en : c.label_ko;
-      const active = STATE.category === c.id ? "is-active" : "";
-      return `<button class="cat-chip ${active}" data-cat="${c.id}" type="button">
-        <span class="cat-emoji">${c.emoji}</span>
-        <span>${label}</span>
-        <span class="cat-count">${count}</span>
-      </button>`;
-    }).join("");
-  } else {
+  } else if (!isStarboardPage) {
     const list = (STATE.data?.[STATE.tab] || []);
     const categoryChips = CATEGORIES.map(c => {
       const count = c.id === "all" ? list.length : list.filter(x => x.category === c.id).length;
@@ -357,7 +344,7 @@ function matches(item) {
   if (!STATE.query) return true;
   const q = STATE.query.toLowerCase();
   const hay = [
-    item.title_ko, item.catchphrase, item.summary_ko,
+    item.title_ko, item.description_en || "", item.catchphrase, item.summary_ko,
     item.id, (item.tags || []).join(" "),
     (item.key_features || []).join(" "),
   ].join(" ").toLowerCase();
@@ -451,13 +438,20 @@ function cardHTML(item, idx) {
   // 폴백 `/install owner/repo` 는 대부분 실행되지 않는 명령이라 복사 버튼과 함께 내보내면 안 된다.
   const cmd = item.install_hint || "";
   const escapedCmd = escapeHTML(cmd).replace(/'/g, "\\'");
+  const copyTxt = lang === "en" ? "Copy" : "복사";
+  const copiedTxt = lang === "en" ? "✓ Copied!" : "✓ 복사됨!";
+  const copyTitle = lang === "en" ? "Click to copy install command" : "클릭하여 설치 명령어 복사";
   const cliChip = cmd ? `
-    <div class="cli-copy-chip" onclick="event.stopPropagation(); navigator.clipboard.writeText('${escapedCmd}'); const el=this.querySelector('.cli-action'); el.innerText='✓ 복사됨!'; setTimeout(()=>el.innerText='복사', 1500);" title="클릭하여 설치 명령어 복사">
+    <div class="cli-copy-chip" onclick="event.stopPropagation(); navigator.clipboard.writeText('${escapedCmd}'); const el=this.querySelector('.cli-action'); el.innerText='${copiedTxt}'; setTimeout(()=>el.innerText='${copyTxt}', 1500);" title="${copyTitle}">
       <span class="cli-icon">❯</span>
       <span class="cli-cmd">${escapeHTML(cmd)}</span>
-      <span class="cli-action">복사</span>
+      <span class="cli-action">${copyTxt}</span>
     </div>
   ` : "";
+
+  const displayTitle = (lang === "en" && item.description_en)
+    ? item.description_en
+    : (stripRepoPrefix(item.title_ko, item.name) || item.id);
 
   return `
     <article class="card" data-id="${safeId}">
@@ -474,7 +468,7 @@ function cardHTML(item, idx) {
           <div class="repo-id">${formatRepoId(item.id)}</div>
         </div>
       </div>
-      <h3 class="card-title" data-open="${safeId}" tabindex="0" role="button">${escapeHTML(stripRepoPrefix(item.title_ko, item.name) || item.id)}</h3>
+      <h3 class="card-title" data-open="${safeId}" tabindex="0" role="button">${escapeHTML(displayTitle)}</h3>
       ${useCaseBox}
       ${feats ? `<ul class="features">${feats}</ul>` : ""}
       ${cliChip}
@@ -541,6 +535,10 @@ function modalHTML(item, tab, rank) {
        </div>`
     : "";
 
+  const modalTitle = (lang === "en" && item.description_en)
+    ? item.description_en
+    : (stripRepoPrefix(item.title_ko, item.name) || item.id);
+
   return `
     <div class="m-rank">
       <span class="accent">${tabLabel}</span>
@@ -556,7 +554,7 @@ function modalHTML(item, tab, rank) {
       <div class="m-stars">★ ${Number(item.stars || 0).toLocaleString()}</div>
       ${scorePill}
     </div>
-    <h2>${escapeHTML(stripRepoPrefix(item.title_ko, item.name) || item.id)}</h2>
+    <h2>${escapeHTML(modalTitle)}</h2>
     ${item.summary_ko ? `<p class="m-summary">${escapeHTML(item.summary_ko)}</p>` : ""}
     ${feats ? `<div class="m-section"><div class="m-label">${lang === "en" ? "Key features" : "핵심 기능"}</div><ul class="m-features">${feats}</ul></div>` : ""}
     ${item.use_case ? `<div class="m-usecase"><span class="m-usecase-icon">💡</span><span><strong>${lang === "en" ? "Good for:" : "이럴 때:"}</strong> ${escapeHTML(item.use_case)}</span></div>` : ""}
@@ -930,7 +928,7 @@ function matchesNews(item) {
   if (!STATE.query) return true;
   const q = STATE.query.toLowerCase();
   const hay = [
-    item.headline, item.title_ko, item.summary_ko, item.body_ko, item.author,
+    item.headline, item.title_ko, item.title_en || "", item.summary_ko, item.body_ko, item.author,
     (item.tags || []).join(" "), (item.sources || []).join(" "), item.category_name
   ].join(" ").toLowerCase();
   return hay.includes(q);
@@ -992,7 +990,8 @@ function newsCardHTML(item, idx = 0) {
   const badges = [];
   if (item.is_update) {
     const growth = Number(item.star_growth_pct);
-    const label = Number.isFinite(growth) ? `업데이트 · ★ +${Math.round(growth)}%` : "업데이트";
+    const updWord = lang === "en" ? "Updated" : "업데이트";
+    const label = Number.isFinite(growth) ? `${updWord} · ★ +${Math.round(growth)}%` : updWord;
     badges.push(`<span style="font-size:12px; font-weight:700; padding:2px 8px; border-radius:10px; background:var(--pill); color:var(--ink-2); letter-spacing:0.02em;">${label}</span>`);
   }
   const spd = Number(item.metrics && item.metrics.stars_per_day);
@@ -1015,8 +1014,6 @@ function newsCardHTML(item, idx = 0) {
   const bookmarkTitle = isBookmarked
     ? (lang === "en" ? "Remove from saved" : "저장 해제")
     : (lang === "en" ? "Save" : "저장하기");
-  // 별은 카드 우측 상단 모서리에 고정한다. 예전엔 카테고리·신호 배지와 같은 줄에
-  // margin-left:auto 로 떠 있어 배지 개수에 따라 위치가 흔들렸다.
   const bookmarkBtn = `
     <button type="button" class="news-save-btn ${isBookmarked ? 'is-bookmarked' : ''}" data-action="bookmark" data-id="${safeId}" title="${bookmarkTitle}" aria-label="${bookmarkTitle}">
       ${bookmarkIcon}
@@ -1058,7 +1055,11 @@ function newsCardHTML(item, idx = 0) {
     </div>
   `;
 
-  const title = escapeHTML(item.headline || item.title_ko || "");
+  const hasEnTitle = item.title_en && /[A-Za-z]{4,}/.test(item.title_en);
+  const rawTitle = (lang === "en" && hasEnTitle)
+    ? item.title_en
+    : (item.headline || item.title_ko || item.title_en || "");
+  const title = escapeHTML(rawTitle);
   
   // 3대 핵심 요약 박스 (Key Takeaways) 포맷팅
   let summaryHtml = "";
@@ -1096,10 +1097,9 @@ function newsCardHTML(item, idx = 0) {
     </details>
   ` : "";
   
-  // 태그 줄은 뺐다 — 클릭해도 필터가 걸리지 않아 링크가 아닌 장식이었다.
   const tags = "";
 
-  const related = (item.related_articles && item.related_articles.length > 0) ? `<div style="margin-top:16px; font-size:13px; background:var(--pill); padding:14px; border-radius:12px;"><strong style="color:var(--ink-2); display:flex; align-items:center; gap:6px;">🔗 관련 기사</strong><ul style="margin-top:8px; padding-left:18px; color:var(--muted); list-style-type:circle;">${item.related_articles.map(r => `<li style="margin-bottom:4px;"><a href="${escapeHTML(r.url)}" target="_blank" rel="noopener" style="color:var(--muted); text-decoration:none;">${escapeHTML(r.title)}</a></li>`).join("")}</ul></div>` : "";
+  const related = (item.related_articles && item.related_articles.length > 0) ? `<div style="margin-top:16px; font-size:13px; background:var(--pill); padding:14px; border-radius:12px;"><strong style="color:var(--ink-2); display:flex; align-items:center; gap:6px;">🔗 ${lang === "en" ? "Related Articles" : "관련 기사"}</strong><ul style="margin-top:8px; padding-left:18px; color:var(--muted); list-style-type:circle;">${item.related_articles.map(r => `<li style="margin-bottom:4px;"><a href="${escapeHTML(r.url)}" target="_blank" rel="noopener" style="color:var(--muted); text-decoration:none;">${escapeHTML(r.title)}</a></li>`).join("")}</ul></div>` : "";
 
   const copyBtn = `
     <button type="button" class="card-icon-btn" data-action="copy-summary" data-id="${safeId}" title="${lang === 'en' ? 'Copy title, summary & link' : '기사 요약과 원문 링크 복사'}" style="font-size:12px; font-weight:600;">
@@ -1116,7 +1116,7 @@ function newsCardHTML(item, idx = 0) {
       ${copyBtn}
       ${commentBtn}
       <a class="repo-link" href="${escapeHTML(item.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="margin-left:auto; font-weight:600;">
-        원문 보기 <span class="arrow">→</span>
+        ${lang === "en" ? "Read Source" : "원문 보기"} <span class="arrow">→</span>
       </a>
     </div>
     <div class="nc-comments" id="giscus-${safeId}" hidden style="margin-top:16px; border-top:1px solid var(--border); padding-top:16px;"></div>
@@ -1133,52 +1133,6 @@ function newsCardHTML(item, idx = 0) {
       ${bodyKo}
       ${tags}
       ${related}
-      ${linkBtn}
-    </article>
-  `;
-}
-
-function matchesStudy(item) {
-  if (!STATE.query) return true;
-  const q = STATE.query.toLowerCase();
-  const hay = [
-    item.title, item.summary, item.type,
-    (item.tags || []).join(" ")
-  ].join(" ").toLowerCase();
-  return hay.includes(q);
-}
-
-function studyCardHTML(item, idx) {
-  const safeId = escapeHTML(item.id || "");
-  const title = escapeHTML(item.title || "");
-  const summary = escapeHTML(item.summary || "");
-  const time = escapeHTML(item.estimated_time || "");
-  const tags = (item.tags || []).map(t => `<span class="src-chip" style="background:var(--pill); border:none; padding:4px 8px; font-size:12px;">#${escapeHTML(t)}</span>`).join("");
-  const linkBtn = item.url ? `
-    <div class="card-foot" style="margin-top:24px; border-top:1px solid var(--border); padding-top:16px;">
-      <span class="meta-left" style="color:var(--muted); font-size:13px; font-weight:500;">⏱️ ${time}</span>
-      <a class="repo-link" href="${escapeHTML(item.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
-        자료 보기 <span class="arrow">→</span>
-      </a>
-    </div>
-  ` : "";
-
-  let categoryLabel = item.type;
-  const catObj = STUDY_CATEGORIES.find(c => c.id === item.type);
-  if (catObj) {
-    categoryLabel = getLang() === "en" ? catObj.label_en : catObj.label_ko;
-  }
-
-  return `
-    <article class="card study-card" data-id="${safeId}" style="position:relative; padding:24px; box-shadow:0 4px 12px rgba(0,0,0,0.05); border-radius:16px; cursor:pointer;" onclick="window.open('${escapeHTML(item.url)}', '_blank')">
-      <div class="card-head" style="margin-bottom: 12px;">
-        <div class="head-meta" style="margin-left: 0;">
-          <div class="category-label" style="text-transform: uppercase;">${escapeHTML(categoryLabel || "")}</div>
-        </div>
-      </div>
-      <h3 style="margin-top:0; margin-bottom:12px; line-height:1.45; font-size:20px;">${title}</h3>
-      ${summary ? `<p style="margin-top:12px; font-size:16px; line-height:1.6; color:var(--text); opacity:0.9;">${summary}</p>` : ""}
-      ${tags ? `<div style="margin-top:16px; display:flex; flex-wrap:wrap; gap:8px;">${tags}</div>` : ""}
       ${linkBtn}
     </article>
   `;
@@ -1929,11 +1883,26 @@ function processStarboardData() {
   STATE.data.light = processed.filter(r => r.currentStars < 1000);
 }
 
+function matchesStarboard(item) {
+  if (!STATE.query) return true;
+  const q = STATE.query.toLowerCase();
+  const hay = [
+    item.id,
+    item.meta?.description || "",
+    item.meta?.desc_ko || "",
+    item.meta?.language || "",
+    (item.meta?.topics || []).join(" ")
+  ].join(" ").toLowerCase();
+  return hay.includes(q);
+}
+
 function renderStarboard() {
   const el = document.getElementById("starboard-container");
   if (!el) return;
+  const lang = getLang();
   
-  const list = STATE.data[STATE.tab] || [];
+  const baseList = STATE.data[STATE.tab] || [];
+  const list = baseList.filter(matchesStarboard);
   
   // Update counts
   const tabs = ['heavy', 'middle', 'light'];
@@ -1942,21 +1911,51 @@ function renderStarboard() {
     if (btn) btn.textContent = (STATE.data[tab] || []).length;
   }
   
+  const hasQuery = !!STATE.query;
   if (list.length === 0) {
-    el.innerHTML = `<div style="text-align:center;padding:60px 0;color:var(--muted);font-size:16px;">이 리그에는 아직 등록된 리포지토리가 없습니다.</div>`;
+    const emptyMsg = hasQuery
+      ? (lang === "en" ? "No repositories match your search." : "검색어와 일치하는 리포지토리가 없습니다.")
+      : (lang === "en" ? "No repositories in this league yet." : "이 리그에는 아직 등록된 리포지토리가 없습니다.");
+    el.innerHTML = `
+      <div style="text-align:center;padding:60px 0;color:var(--muted);font-size:16px;">
+        ${emptyMsg}
+        ${hasQuery ? `<div style="margin-top:14px;"><button type="button" id="clear-starboard-filters-btn" class="expand-toggle-btn" style="margin:0 auto;">${lang === "en" ? "Clear search" : "검색 초기화"}</button></div>` : ""}
+      </div>
+    `;
     return;
   }
   
   const gridClass = STATE.viewMode === 'list' ? 'grid list-view' : 'grid';
   const gridStyle = STATE.viewMode === 'list' 
-    ? 'display:flex;flex-direction:column;gap:12px;' 
+    ? 'display:flex;flex-direction:column;gap:10px;' 
     : 'display:grid;grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr));gap:24px;';
     
-  let html = `<div class="${gridClass}" style="${gridStyle}">`;
+  let html = "";
+  if (hasQuery) {
+    html += `
+      <div class="feed-actions-bar" style="margin-bottom:12px;">
+        <div class="feed-results-count">
+          ${lang === "en" ? "Showing" : "검색 결과"} <strong>${list.length}</strong>${lang === "en" ? " repositories" : "개 리포지토리"}
+          <button type="button" id="clear-starboard-filters-btn" style="background:none; border:none; color:var(--accent); cursor:pointer; font-size:12px; margin-left:8px; text-decoration:underline; font-weight:600;">${lang === "en" ? "Clear search" : "검색 초기화"}</button>
+        </div>
+      </div>
+    `;
+  }
+  html += `<div class="${gridClass}" style="${gridStyle}">`;
   html += list.map((item, idx) => starboardCardHTML(item, idx)).join("");
   html += `</div>`;
   el.innerHTML = html;
 }
+
+document.getElementById("starboard-container")?.addEventListener("click", (e) => {
+  const clearBtn = e.target.closest("#clear-starboard-filters-btn");
+  if (clearBtn) {
+    STATE.query = "";
+    const s = document.getElementById("search");
+    if (s) s.value = "";
+    renderStarboard();
+  }
+});
 
 function starboardCardHTML(item, idx) {
   const rank = idx + 1;
@@ -2015,13 +2014,14 @@ function starboardCardHTML(item, idx) {
     ? `<span class="sb-hot-badge">🔥 ${sign}${item.velocity.toLocaleString()}/wk</span>`
     : `<span style="color:${velocityColor}; font-weight:700; font-size: 14px; background:var(--surface); padding:2px 8px; border-radius:12px; display:inline-block;">${sign}${item.velocity.toLocaleString()}/wk</span>`;
 
-  // 설명부: 한국어가 있으면 한국어 우선 박스, 없으면 영문
-  const descHtml = descKo
+  // 설명부: EN 모드에서는 영문 원본(descEn)을 우선 노출, KO 모드에서는 한국어(descKo) 우선 노출
+  const useKoBox = lang === "en" ? (!descEn && !!descKo) : !!descKo;
+  const descHtml = useKoBox
     ? `<div class="sb-desc-ko" title="${escapeHTML(descEn)}">${escapeHTML(descKo)}</div>`
-    : (descEn ? `<div style="font-size:13px; color:var(--muted); line-height:1.45; margin:8px 0; max-height:40px; overflow:hidden;">${escapeHTML(descEn)}</div>` : "");
+    : (descEn ? `<div class="sb-desc-en" title="${escapeHTML(descKo || descEn)}" style="font-size:13px; color:var(--muted); line-height:1.45; margin:8px 0; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">${escapeHTML(descEn)}</div>` : "");
 
   return `
-    <article class="card" style="padding: 22px 20px 0; overflow:hidden; display:flex; flex-direction:column;">
+    <article class="card star-card" style="padding: 22px 20px 0; overflow:hidden; display:flex; flex-direction:column;">
       ${rankPill}
       
       <div class="card-head" style="margin-bottom:10px;">
@@ -2035,7 +2035,7 @@ function starboardCardHTML(item, idx) {
         </div>
       </div>
       
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+      <div class="sb-stats-row" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
         <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
           <span class="stars-line" style="font-size:16px; font-weight:700;">★ ${item.currentStars.toLocaleString()}</span>
           ${velocityBadge}
@@ -2045,7 +2045,7 @@ function starboardCardHTML(item, idx) {
 
       ${descHtml}
       
-      <div style="display:flex; justify-content:flex-end; margin-top:auto; padding-top:6px;">
+      <div class="sb-foot-row" style="display:flex; justify-content:flex-end; margin-top:auto; padding-top:6px;">
         <a class="repo-link" href="https://github.com/${escapeHTML(item.id)}" target="_blank" rel="noopener" style="margin:0; font-size:13px; font-weight:600;">
           GITHUB <span class="arrow">→</span>
         </a>

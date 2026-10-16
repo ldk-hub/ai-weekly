@@ -50,104 +50,102 @@
 
   <div class="header-container" role="banner">
     <div class="top-bar">
-          <nav class="page-nav">
-            <a href="./" class="pn-link is-active">
-              <span data-i18n-en="Popular Plugins" data-i18n-ko="인기 플러그인">인기 플러그인</span>
-            </a>
-            <a href="news" class="pn-link">
-              <span data-i18n-en="AI News" data-i18n-ko="AI 뉴스">AI 뉴스</span>
-            </a>
-            <a href="starboard" class="pn-link">
-              <span data-i18n-en="Starboard" data-i18n-ko="스타보드">스타보드</span>
-            </a>
-            <a href="lounge" class="pn-link">
-              <span data-i18n-en="Lounge" data-i18n-ko="라운지">라운지</span>
-            </a>
-          </nav>
-          <div class="brand-actions">
-            <button class="theme-toggle" id="theme-toggle" aria-label="테마 전환" type="button">🌙 다크</button>
-            <button class="lang-toggle" id="lang-toggle" aria-label="언어 전환" type="button">
-              <span class="lang-opt" data-lang="en">EN</span>
-              <span class="lang-sep">/</span>
-              <span class="lang-opt" data-lang="ko">KO</span>
-            </button>
-            <a class="gh-btn" href="https://github.com/ldk-hub/ai-weekly" target="_blank" rel="noopener">GitHub</a>
-          </div>
+      <a href="./" class="brand-logo" aria-label="AI위클리 홈">
+        <img src="claude-avatar.svg" alt="" width="28" height="28" />
+        <span class="brand-name" data-i18n-en="AI Weekly" data-i18n-ko="AI위클리">AI위클리</span>
+      </a>
+      <nav class="page-nav" aria-label="주요 메뉴">
+        <a href="./" class="pn-link is-active">
+          <span data-i18n-en="Popular Plugins" data-i18n-ko="인기 플러그인">인기 플러그인</span>
+        </a>
+        <a href="news" class="pn-link">
+          <span data-i18n-en="AI News" data-i18n-ko="AI 뉴스">AI 뉴스</span>
+        </a>
+        <a href="starboard" class="pn-link">
+          <span data-i18n-en="Starboard" data-i18n-ko="스타보드">스타보드</span>
+        </a>
+        <a href="lounge" class="pn-link">
+          <span data-i18n-en="Lounge" data-i18n-ko="라운지">라운지</span>
+        </a>
+      </nav>
+      <div class="brand-actions">
+        <button class="theme-toggle" id="theme-toggle" aria-label="테마 전환" type="button">🌙 다크</button>
+        <button class="lang-toggle" id="lang-toggle" aria-label="언어 전환" type="button">
+          <span class="lang-opt" data-lang="en">EN</span>
+          <span class="lang-sep">/</span>
+          <span class="lang-opt" data-lang="ko">KO</span>
+        </button>
+        <a class="gh-btn" href="https://github.com/ldk-hub/ai-weekly" target="_blank" rel="noopener">GitHub</a>
+      </div>
     </div>
 
-    <div class="hero-header">
+    <div class="compact-subbar">
       <div class="hero-titles">
-        <h1 class="hero-h1" data-i18n-en-html="What's <span class=&quot;hl-mint&quot;>rising</span> in Claude Code this week,<br/>and what's already <span class=&quot;hl-lemon&quot;>here to stay</span>." data-i18n-ko-html="이번 주 Claude Code에서<br />뭐가 <span class=&quot;hl-mint&quot;>뜨고</span>, 뭐가 이미 <span class=&quot;hl-lemon&quot;>자리잡았나</span>.">이번 주 Claude Code에서<br />뭐가 <span class="hl-mint">뜨고</span>, 뭐가 이미 <span class="hl-lemon">자리잡았나</span>.</h1>
-        <p class="hero-p" data-i18n-en-html="A weekly index of <strong class=&quot;hero-strong&quot;>agents · skills · harnesses · MCP</strong> collected from GitHub and developer communities." data-i18n-ko-html="GitHub과 개발자 커뮤니티에서 매주 수집한 <strong class=&quot;hero-strong&quot;>에이전트 · 스킬 · 하네스 · MCP</strong> 주간 인덱스.">GitHub과 개발자 커뮤니티에서 매주 수집한 <strong class="hero-strong">에이전트 · 스킬 · 하네스 · MCP</strong> 주간 인덱스.</p>
+        <h1 class="hero-h1" data-i18n-en-html="What's <span class=&quot;hl-mint&quot;>rising</span> in Claude Code this week, and what's <span class=&quot;hl-lemon&quot;>here to stay</span>." data-i18n-ko-html="이번 주 Claude Code에서 뭐가 <span class=&quot;hl-mint&quot;>뜨고</span>, 뭐가 이미 <span class=&quot;hl-lemon&quot;>자리잡았나</span>.">이번 주 Claude Code에서 뭐가 <span class="hl-mint">뜨고</span>, 뭐가 이미 <span class="hl-lemon">자리잡았나</span>.</h1>
+        <p class="hero-p" data-i18n-en-html="Weekly index of <strong class=&quot;hero-strong&quot;>agents · skills · harnesses · MCP</strong>" data-i18n-ko-html="GitHub·커뮤니티 기반 <strong class=&quot;hero-strong&quot;>에이전트 · 스킬 · 하네스 · MCP</strong> 주간 인덱스">GitHub·커뮤니티 기반 <strong class="hero-strong">에이전트 · 스킬 · 하네스 · MCP</strong> 주간 인덱스</p>
       </div>
 
-      <div class="hero-actions">
-        <div class="hero-art-dots">
-          <img src="claude-avatar.svg" alt="Claude" width="72" height="72" />
-        </div>
-      </div>
-    </div>
-
-    <div class="update-bar" id="update-bar" role="status" aria-live="polite">
-      <div class="update-meta">
-        <span class="update-dot"></span>
-        <span class="update-text"><strong id="updated-at">—</strong> <span data-i18n-en="Updated" data-i18n-ko="갱신">갱신</span></span>
-        <span class="update-sep" id="next-at-sep"></span>
-        <span class="update-text" id="next-at-container"><span data-i18n-en="Next" data-i18n-ko="다음">다음</span> <strong id="next-at" style="font-weight:inherit">—</strong></span>
-        <span class="update-sep" id="version-sep"></span>
-        <span class="version-pill" id="version-pill"></span>
-        <span class="update-sep"></span>
-        <span class="update-text unb-summary" id="page-summary">—</span>
-      </div>
-
-      <div class="update-actions-right">
-        <div class="archive-wrap">
-          <button class="archive-btn" id="archive-btn" type="button" aria-haspopup="listbox" aria-expanded="false">
-            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="3" width="12" height="11" rx="2"></rect><path d="M2 6.5h12M5.5 2v2M10.5 2v2"></path></svg>
-            <span data-i18n-en="Past weeks" data-i18n-ko="지난 주차">지난 주차</span>
-            <svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg>
-          </button>
-          <ul class="archive-menu" id="archive-menu" role="listbox" hidden></ul>
+      <div class="update-bar" id="update-bar" role="status" aria-live="polite">
+        <div class="update-meta">
+          <span class="update-dot"></span>
+          <span class="update-text"><strong id="updated-at">—</strong> <span data-i18n-en="Updated" data-i18n-ko="갱신">갱신</span></span>
+          <span class="update-sep" id="next-at-sep"></span>
+          <span class="update-text" id="next-at-container"><span data-i18n-en="Next" data-i18n-ko="다음">다음</span> <strong id="next-at" style="font-weight:inherit">—</strong></span>
+          <span class="update-sep" id="version-sep"></span>
+          <span class="version-pill" id="version-pill"></span>
+          <span class="update-sep"></span>
+          <span class="update-text unb-summary" id="page-summary">—</span>
         </div>
 
-        <div class="subscribe-wrapper" id="subscribe-wrapper">
-          <button class="subscribe-btn-open" id="subscribe-open" type="button">
-            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1.5" y="3.5" width="13" height="9" rx="2"></rect><path d="m2 4.5 6 4 6-4"></path></svg>
-            <span data-i18n-en="Subscribe" data-i18n-ko="구독">구독</span>
-          </button>
-          <form class="subscribe-form" id="subscribe-form" style="display:none" action="https://rlaalstn.substack.com/api/v1/free?nojs=true" method="post" target="_blank">
-            <input type="hidden" name="first_url" value="https://ldk-hub.github.io/ai-weekly/" />
-            <input type="hidden" name="source" value="subscribe_widget" />
-            <input type="email" name="email" required placeholder="이메일 주소" data-i18n-en-placeholder="your@email.com" data-i18n-ko-placeholder="이메일 주소" aria-label="이메일 구독" />
-            <button type="submit" class="subscribe-submit" data-i18n-en="Subscribe" data-i18n-ko="구독하기">구독하기</button>
-            <button type="button" class="subscribe-close" id="subscribe-close">×</button>
-          </form>
+        <div class="update-actions-right">
+          <div class="archive-wrap">
+            <button class="archive-btn" id="archive-btn" type="button" aria-haspopup="listbox" aria-expanded="false">
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="3" width="12" height="11" rx="2"></rect><path d="M2 6.5h12M5.5 2v2M10.5 2v2"></path></svg>
+              <span data-i18n-en="Past weeks" data-i18n-ko="지난 주차">지난 주차</span>
+              <svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg>
+            </button>
+            <ul class="archive-menu" id="archive-menu" role="listbox" hidden></ul>
+          </div>
+
+          <div class="subscribe-wrapper" id="subscribe-wrapper">
+            <button class="subscribe-btn-open" id="subscribe-open" type="button">
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1.5" y="3.5" width="13" height="9" rx="2"></rect><path d="m2 4.5 6 4 6-4"></path></svg>
+              <span data-i18n-en="Subscribe" data-i18n-ko="구독">구독</span>
+            </button>
+            <form class="subscribe-form" id="subscribe-form" style="display:none" action="https://rlaalstn.substack.com/api/v1/free?nojs=true" method="post" target="_blank">
+              <input type="hidden" name="first_url" value="https://ldk-hub.github.io/ai-weekly/" />
+              <input type="hidden" name="source" value="subscribe_widget" />
+              <input type="email" name="email" required placeholder="이메일 주소" data-i18n-en-placeholder="your@email.com" data-i18n-ko-placeholder="이메일 주소" aria-label="이메일 구독" />
+              <button type="submit" class="subscribe-submit" data-i18n-en="Subscribe" data-i18n-ko="구독하기">구독하기</button>
+              <button type="button" class="subscribe-close" id="subscribe-close">×</button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
 
     <div class="unified-nav-box">
-      
       <div class="unb-bottom">
+        <div class="data-tabs-wrap">
+          <div class="tabs" role="tablist">
+            <button class="tab active" data-tab="rising" role="tab" aria-selected="true">
+              🔥 <span data-i18n-en="Rising" data-i18n-ko="이번 주 뜨는">이번 주 뜨는</span> <span class="tab-count" id="rising-count">0</span>
+            </button>
+            <button class="tab" data-tab="classic" role="tab" aria-selected="false">
+              ⭐ <span data-i18n-en="Classic" data-i18n-ko="이미 유명한">이미 유명한</span> <span class="tab-count" id="classic-count">0</span>
+            </button>
+          </div>
+        </div>
         <nav class="cat-filter" id="cat-filter" role="tablist" aria-label="Category filter"></nav>
-        <div class="unb-search-wrap">
-          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="#A7A199" stroke-width="1.7"><circle cx="7" cy="7" r="4.5"></circle><path d="m10.5 10.5 3 3"></path></svg>
-          <input type="search" id="search" placeholder="플러그인 검색" data-i18n-en-placeholder="Search projects, repos, tags" data-i18n-ko-placeholder="플러그인 검색" aria-label="검색" />
-          <kbd class="kbd-hint">/</kbd>
+        <div class="filter-right">
+          <div class="unb-search-wrap">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="#A7A199" stroke-width="1.7"><circle cx="7" cy="7" r="4.5"></circle><path d="m10.5 10.5 3 3"></path></svg>
+            <input type="search" id="search" placeholder="플러그인 검색 (/)" data-i18n-en-placeholder="Search plugins, repos, tags (/)" data-i18n-ko-placeholder="플러그인 검색 (/)" aria-label="검색" />
+            <kbd class="kbd-hint">/</kbd>
+          </div>
+          <button class="ctrl-link" id="open-criteria-top" data-i18n-en="Criteria ▾" data-i18n-ko="순위 기준 ▾">순위 기준 ▾</button>
         </div>
       </div>
-    </div>
-
-    <div class="data-tabs-wrap">
-      <div class="tabs" role="tablist">
-        <button class="tab active" data-tab="rising" role="tab" aria-selected="true">
-          🔥 <span data-i18n-en="Rising this week" data-i18n-ko="이번 주 뜨는">이번 주 뜨는</span> <span class="tab-count" id="rising-count">0</span>
-        </button>
-        <button class="tab" data-tab="classic" role="tab" aria-selected="false">
-          ⭐ <span data-i18n-en="Already classic" data-i18n-ko="이미 유명한">이미 유명한</span> <span class="tab-count" id="classic-count">0</span>
-        </button>
-      </div>
-      <button class="ctrl-link" id="open-criteria-top" data-i18n-en="Ranking criteria" data-i18n-ko="순위 기준 ▾">순위 기준 ▾</button>
     </div>
   </div>
 

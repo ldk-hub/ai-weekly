@@ -1341,9 +1341,32 @@ async function main() {
   console.log(`curated rising=${rising.length} classic=${classic.length} → latest.json + archive/${today}.json`);
 }
 
-if (require.main === module) {
-  main().catch((e) => {
-    console.error(e.message);
+/**
+ * latest.json 품질 검증: 한글 미번역 제목 및 제네릭 폴백 문구가 포함된 항목을 차단합니다.
+ */
+function validateLatest() {
+  const latest = JSON.parse(fs.readFileSync(LATEST, "utf8"));
+  const items = [...(latest.rising || []), ...(latest.classic || [])];
+  const GENERIC = /기능을 프로젝트 개발 환경에 도입하고 싶을 때/;
+  const errors = [];
+  for (const it of items) {
+    if (!/[가-힣]/.test(it.title_ko || "")) errors.push(`${it.id}: title_ko 미번역`);
+    if (GENERIC.test(it.use_case || "") || GENERIC.test(it.summary_ko || "")) errors.push(`${it.id}: 제네릭 폴백 문구`);
+  }
+  if (errors.length) {
+    console.error(`✗ validate 실패 (${errors.length}건)\n` + errors.join("\n"));
     process.exit(1);
-  });
+  }
+  console.log(`✓ validate 통과: ${items.length}개 항목`);
+}
+
+if (require.main === module) {
+  if (process.argv.includes("--validate")) {
+    validateLatest();
+  } else {
+    main().catch((e) => {
+      console.error(e.message);
+      process.exit(1);
+    });
+  }
 }

@@ -108,19 +108,12 @@ function selfCheck() {
   process.exit(0);
 }
 
+const { resolveGitHubToken } = require('../core/github-token');
+
 function getToken() {
-  if (process.env.GH_TOKEN) return process.env.GH_TOKEN;
-  if (process.env.GITHUB_TOKEN) return process.env.GITHUB_TOKEN;
-  const paths = [process.env.PATH || "", "/usr/local/bin", "/opt/homebrew/bin"].filter(Boolean).join(":");
-  try {
-    const token = execSync('gh auth token --hostname github.com', {
-      env: { ...process.env, PATH: paths },
-      encoding: 'utf8',
-      stdio: ['pipe', 'pipe', 'ignore']
-    }).trim();
-    if (token) return token;
-  } catch(e) {}
-  console.error("Error: No GitHub token found. Provide GH_TOKEN, GITHUB_TOKEN, or use `gh auth`");
+  const token = resolveGitHubToken();
+  if (token) return token;
+  console.error("Error: No GitHub token found. Provide GH_TOKEN, GITHUB_TOKEN, `gh auth`, or git credentials.");
   process.exit(1);
 }
 

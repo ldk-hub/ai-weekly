@@ -80,14 +80,6 @@ export const NEWS_CATEGORIES = [
   { id: "hfpapers",  emoji: "🤗", label_ko: "HF Daily Papers", label_en: "HF Daily Papers" },
 ];
 
-export const STUDY_CATEGORIES = [
-  { id: "all",     emoji: "✨", label_ko: "전체",         label_en: "All" },
-  { id: "paper",   emoji: "📄", label_ko: "논문",         label_en: "Papers" },
-  { id: "article", emoji: "📝", label_ko: "아티클/블로그", label_en: "Articles" },
-  { id: "video",   emoji: "🎥", label_ko: "강의/영상",     label_en: "Videos" },
-  { id: "docs",    emoji: "📚", label_ko: "공식 문서",     label_en: "Docs" },
-];
-
 export const NEWS_SIGNALS = [
   { id: "all",      emoji: "🌐", label_ko: "모든 신호",   label_en: "All Signals" },
   { id: "model",    emoji: "🚀", label_ko: "새 모델",     label_en: "Models" },
