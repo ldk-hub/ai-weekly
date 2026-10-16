@@ -1,212 +1,9 @@
 {
   "archives": [
     {
-      "file": "2026-10-14.json",
-      "version": "v2026.10.14",
-      "generated_at": "2026-10-14",
-      "rising_count": 20,
-      "classic_count": 13
-    },
-    {
-      "file": "2026-10-12.json",
-      "version": "v2026.10.12",
-      "generated_at": "2026-10-12",
-      "rising_count": 20,
-      "classic_count": 13
-    },
-    {
-      "file": "2026-10-06.json",
-      "version": "v2026.10.06",
-      "generated_at": "2026-10-06",
-      "rising_count": 20,
-      "classic_count": 15
-    },
-    {
-      "file": "2026-10-04.json",
-      "version": "v2026.10.04",
-      "generated_at": "2026-10-04",
-      "rising_count": 20,
-      "classic_count": 11
-    },
-    {
-      "file": "2026-10-02.json",
-      "version": "v2026.10.02",
-      "generated_at": "2026-10-02",
-      "rising_count": 20,
-      "classic_count": 14
-    },
-    {
-      "file": "2026-09-14.json",
-      "version": "v2026.09.14",
-      "generated_at": "2026-09-14",
-      "rising_count": 16,
-      "classic_count": 16
-    },
-    {
-      "file": "2026-09-10.json",
-      "version": "v2026.09.10",
-      "generated_at": "2026-09-10",
-      "rising_count": 20,
-      "classic_count": 16
-    },
-    {
-      "file": "2026-09-07.json",
-      "version": "v2026.09.07",
-      "generated_at": "2026-09-07",
-      "rising_count": 19,
-      "classic_count": 16
-    },
-    {
-      "file": "2026-09-03.json",
-      "version": "v2026.09.03",
-      "generated_at": "2026-09-03",
-      "rising_count": 19,
-      "classic_count": 16
-    },
-    {
-      "file": "2026-08-31.json",
-      "version": "v2026.08.31",
-      "generated_at": "2026-08-31",
-      "rising_count": 19,
-      "classic_count": 16
-    },
-    {
-      "file": "2026-08-25.json",
-      "version": "v2026.08.25",
-      "generated_at": "2026-08-25",
-      "rising_count": 20,
-      "classic_count": 13
-    },
-    {
-      "file": "2026-08-24.json",
-      "version": "v2026.08.24",
-      "generated_at": "2026-08-24",
-      "rising_count": 20,
-      "classic_count": 14
-    },
-    {
-      "file": "2026-08-18.json",
-      "version": "v2026.08.18",
-      "generated_at": "2026-08-18",
-      "rising_count": 20,
-      "classic_count": 13
-    },
-    {
-      "file": "2026-08-10.json",
-      "version": "v2026.08.10",
-      "generated_at": "2026-08-10",
-      "rising_count": 18,
-      "classic_count": 13
-    },
-    {
-      "file": "2026-08-06.json",
-      "version": "v2026.08.06",
-      "generated_at": "2026-08-06",
-      "rising_count": 18,
-      "classic_count": 13
-    },
-    {
-      "file": "2026-08-04.json",
-      "version": "v2026.08.04",
-      "generated_at": "2026-08-04",
-      "rising_count": 19,
-      "classic_count": 10
-    },
-    {
-      "file": "2026-08-03.json",
-      "version": "v2026.08.03",
-      "generated_at": "2026-08-03",
-      "rising_count": 10,
-      "classic_count": 15
-    },
-    {
-      "file": "2026-07-29.json",
-      "version": "v2026.07.29",
-      "generated_at": "2026-07-29",
-      "rising_count": 14,
-      "classic_count": 11
-    },
-    {
-      "file": "2026-07-27.json",
-      "version": "v2026.07.27",
-      "generated_at": "2026-07-27",
-      "rising_count": 14,
-      "classic_count": 11
-    },
-    {
-      "file": "2026-07-20.json",
-      "version": "v2026.07.20",
-      "generated_at": "2026-07-20T00:13:16Z",
-      "rising_count": 7,
-      "classic_count": 16
-    },
-    {
-      "file": "2026-07-13.json",
-      "version": "v2026.07.13",
-      "generated_at": "2026-07-13",
-      "rising_count": 14,
-      "classic_count": 12
-    },
-    {
-      "file": "2026-06-29.json",
-      "version": "v2026.06.29",
-      "generated_at": "2026-06-29",
-      "rising_count": 15,
-      "classic_count": 9
-    },
-    {
-      "file": "2026-06-15.json",
-      "version": "v2026.06.15",
-      "generated_at": "2026-06-15",
-      "rising_count": 20,
-      "classic_count": 15
-    },
-    {
-      "file": "2026-06-08.json",
-      "version": "v2026.06.08",
-      "generated_at": null,
-      "rising_count": 10,
-      "classic_count": 12
-    },
-    {
-      "file": "2026-06-01.json",
-      "version": "v2026.06.01",
-      "generated_at": "2026-05-25T00:23:09Z",
-      "rising_count": 9,
-      "classic_count": 14
-    },
-    {
-      "file": "2026-05-25.json",
-      "version": "v2026.05.25",
-      "generated_at": "2026-05-25T00:23:09Z",
-      "rising_count": 9,
-      "classic_count": 14
-    },
-    {
-      "file": "2026-05-18.json",
-      "version": "v2026.05.18",
-      "generated_at": "2026-05-18T15:30:00Z",
-      "rising_count": 7,
-      "classic_count": 13
-    },
-    {
-      "file": "2026-05-11.json",
-      "version": "v2026.05.11",
-      "generated_at": "2026-05-04T16:00:00Z",
-      "rising_count": 10,
-      "classic_count": 7
-    },
-    {
-      "file": "2026-05-04.json",
-      "version": "v2026.05.04",
-      "generated_at": "2026-05-04T16:00:00Z",
-      "rising_count": 1,
-      "classic_count": 16
-    },
-    {
-      "file": "2026-04-27.json",
-      "version": "v2026.04.27",
-      "generated_at": "2026-04-27T15:00:00Z",
+      "file": "2026-04-13.json",
+      "version": "v2026.04.13",
+      "generated_at": "2026-04-13T16:51:30Z",
       "rising_count": 12,
       "classic_count": 12
     },
@@ -218,11 +15,221 @@
       "classic_count": 12
     },
     {
-      "file": "2026-04-13.json",
-      "version": "v2026.04.13",
-      "generated_at": "2026-04-13T16:51:30Z",
+      "file": "2026-04-27.json",
+      "version": "v2026.04.27",
+      "generated_at": "2026-04-27T15:00:00Z",
       "rising_count": 12,
       "classic_count": 12
+    },
+    {
+      "file": "2026-05-04.json",
+      "version": "v2026.05.04",
+      "generated_at": "2026-05-04T16:00:00Z",
+      "rising_count": 1,
+      "classic_count": 16
+    },
+    {
+      "file": "2026-05-11.json",
+      "version": "v2026.05.11",
+      "generated_at": "2026-05-04T16:00:00Z",
+      "rising_count": 10,
+      "classic_count": 7
+    },
+    {
+      "file": "2026-05-18.json",
+      "version": "v2026.05.18",
+      "generated_at": "2026-05-18T15:30:00Z",
+      "rising_count": 7,
+      "classic_count": 13
+    },
+    {
+      "file": "2026-05-25.json",
+      "version": "v2026.05.25",
+      "generated_at": "2026-05-25T00:23:09Z",
+      "rising_count": 9,
+      "classic_count": 14
+    },
+    {
+      "file": "2026-06-01.json",
+      "version": "v2026.06.01",
+      "generated_at": "2026-05-25T00:23:09Z",
+      "rising_count": 9,
+      "classic_count": 14
+    },
+    {
+      "file": "2026-06-08.json",
+      "version": "v2026.06.08",
+      "generated_at": null,
+      "rising_count": 10,
+      "classic_count": 12
+    },
+    {
+      "file": "2026-06-15.json",
+      "version": "v2026.06.15",
+      "generated_at": "2026-06-15",
+      "rising_count": 20,
+      "classic_count": 15
+    },
+    {
+      "file": "2026-06-29.json",
+      "version": "v2026.06.29",
+      "generated_at": "2026-06-29",
+      "rising_count": 15,
+      "classic_count": 9
+    },
+    {
+      "file": "2026-07-13.json",
+      "version": "v2026.07.13",
+      "generated_at": "2026-07-13",
+      "rising_count": 14,
+      "classic_count": 12
+    },
+    {
+      "file": "2026-07-20.json",
+      "version": "v2026.07.20",
+      "generated_at": "2026-07-20T00:13:16Z",
+      "rising_count": 7,
+      "classic_count": 16
+    },
+    {
+      "file": "2026-07-27.json",
+      "version": "v2026.07.27",
+      "generated_at": "2026-07-27",
+      "rising_count": 14,
+      "classic_count": 11
+    },
+    {
+      "file": "2026-07-29.json",
+      "version": "v2026.07.29",
+      "generated_at": "2026-07-29",
+      "rising_count": 14,
+      "classic_count": 11
+    },
+    {
+      "file": "2026-08-03.json",
+      "version": "v2026.08.03",
+      "generated_at": "2026-08-03",
+      "rising_count": 10,
+      "classic_count": 15
+    },
+    {
+      "file": "2026-08-04.json",
+      "version": "v2026.08.04",
+      "generated_at": "2026-08-04",
+      "rising_count": 19,
+      "classic_count": 10
+    },
+    {
+      "file": "2026-08-06.json",
+      "version": "v2026.08.06",
+      "generated_at": "2026-08-06",
+      "rising_count": 18,
+      "classic_count": 13
+    },
+    {
+      "file": "2026-08-10.json",
+      "version": "v2026.08.10",
+      "generated_at": "2026-08-10",
+      "rising_count": 18,
+      "classic_count": 13
+    },
+    {
+      "file": "2026-08-18.json",
+      "version": "v2026.08.18",
+      "generated_at": "2026-08-18",
+      "rising_count": 20,
+      "classic_count": 13
+    },
+    {
+      "file": "2026-08-24.json",
+      "version": "v2026.08.24",
+      "generated_at": "2026-08-24",
+      "rising_count": 20,
+      "classic_count": 14
+    },
+    {
+      "file": "2026-08-25.json",
+      "version": "v2026.08.25",
+      "generated_at": "2026-08-25",
+      "rising_count": 20,
+      "classic_count": 13
+    },
+    {
+      "file": "2026-08-31.json",
+      "version": "v2026.08.31",
+      "generated_at": "2026-08-31",
+      "rising_count": 19,
+      "classic_count": 16
+    },
+    {
+      "file": "2026-09-03.json",
+      "version": "v2026.09.03",
+      "generated_at": "2026-09-03",
+      "rising_count": 19,
+      "classic_count": 16
+    },
+    {
+      "file": "2026-09-07.json",
+      "version": "v2026.09.07",
+      "generated_at": "2026-09-07",
+      "rising_count": 19,
+      "classic_count": 16
+    },
+    {
+      "file": "2026-09-10.json",
+      "version": "v2026.09.10",
+      "generated_at": "2026-09-10",
+      "rising_count": 20,
+      "classic_count": 16
+    },
+    {
+      "file": "2026-09-14.json",
+      "version": "v2026.09.14",
+      "generated_at": "2026-09-14",
+      "rising_count": 16,
+      "classic_count": 16
+    },
+    {
+      "file": "2026-10-02.json",
+      "version": "v2026.10.02",
+      "generated_at": "2026-10-02",
+      "rising_count": 20,
+      "classic_count": 14
+    },
+    {
+      "file": "2026-10-04.json",
+      "version": "v2026.10.04",
+      "generated_at": "2026-10-04",
+      "rising_count": 20,
+      "classic_count": 11
+    },
+    {
+      "file": "2026-10-06.json",
+      "version": "v2026.10.06",
+      "generated_at": "2026-10-06",
+      "rising_count": 20,
+      "classic_count": 15
+    },
+    {
+      "file": "2026-10-12.json",
+      "version": "v2026.10.12",
+      "generated_at": "2026-10-12",
+      "rising_count": 20,
+      "classic_count": 13
+    },
+    {
+      "file": "2026-10-14.json",
+      "version": "v2026.10.14",
+      "generated_at": "2026-10-14",
+      "rising_count": 20,
+      "classic_count": 13
+    },
+    {
+      "file": "2026-10-16.json",
+      "version": "v2026.10.16",
+      "generated_at": "2026-10-16",
+      "rising_count": 20,
+      "classic_count": 13
     }
   ]
 }

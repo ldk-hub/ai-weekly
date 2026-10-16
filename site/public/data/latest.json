@@ -1,7 +1,7 @@
 {
-  "generated": "2026-10-14",
-  "generated_at": "2026-10-14",
-  "version": "v2026.10.14",
+  "generated": "2026-10-16",
+  "generated_at": "2026-10-16",
+  "version": "v2026.10.16",
   "rising": [
     {
       "id": "QingYunA/answer-me-with-html",
@@ -13,10 +13,10 @@
       "category": "skill",
       "score": 100,
       "trend_score": 100,
-      "stars": 3303,
-      "velocity_7d": 1285,
+      "stars": 3450,
+      "velocity_7d": 900,
       "velocity_score": 100,
-      "growth_rate": 0.389,
+      "growth_rate": 0.2609,
       "v7d_estimated": false,
       "source_count": 2,
       "sources": [
@@ -27,7 +27,7 @@
         {
           "source": "github",
           "url": "https://github.com/QingYunA/answer-me-with-html",
-          "label": "최근 7일 +1,285 stars"
+          "label": "최근 7일 +900 stars"
         },
         {
           "source": "hn",
@@ -67,10 +67,10 @@
       "category": "agent",
       "score": 90,
       "trend_score": 90,
-      "stars": 206787,
-      "velocity_7d": 306628,
+      "stars": 269586,
+      "velocity_7d": 263212,
       "velocity_score": 100,
-      "growth_rate": 1,
+      "growth_rate": 0.9764,
       "v7d_estimated": false,
       "source_count": 2,
       "sources": [
@@ -81,7 +81,7 @@
         {
           "source": "github",
           "url": "https://github.com/morluto/rea",
-          "label": "최근 7일 +306,628 stars"
+          "label": "최근 7일 +263,212 stars"
         },
         {
           "source": "hn",
@@ -126,10 +126,10 @@
       "category": "agent",
       "score": 70,
       "trend_score": 70,
-      "stars": 11513,
-      "velocity_7d": 5667,
+      "stars": 13440,
+      "velocity_7d": 5906,
       "velocity_score": 100,
-      "growth_rate": 0.4922,
+      "growth_rate": 0.4394,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -139,7 +139,7 @@
         {
           "source": "github",
           "url": "https://github.com/yetone/magpie",
-          "label": "최근 7일 +5,667 stars"
+          "label": "최근 7일 +5,906 stars"
         }
       ],
       "status": "rising",
@@ -175,10 +175,10 @@
       "category": "mcp",
       "score": 70,
       "trend_score": 70,
-      "stars": 7401,
-      "velocity_7d": 2214,
+      "stars": 7933,
+      "velocity_7d": 2136,
       "velocity_score": 100,
-      "growth_rate": 0.2991,
+      "growth_rate": 0.2693,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -188,7 +188,7 @@
         {
           "source": "github",
           "url": "https://github.com/rehan-remade/universal-modder",
-          "label": "최근 7일 +2,214 stars"
+          "label": "최근 7일 +2,136 stars"
         }
       ],
       "status": "rising",
@@ -215,103 +215,6 @@
       "thumbnail_url": "https://github.com/rehan-remade.png"
     },
     {
-      "id": "Jakeschincariol/replica-skill",
-      "name": "replica-skill",
-      "owner": "Jakeschincariol",
-      "title_ko": "replica-skill — 임의의 앱을 분석하여 역공학, 재구축, 버그 개선까지 수행하는 11종 스킬셋",
-      "official_url": "https://github.com/Jakeschincariol/replica-skill",
-      "repo_url": "https://github.com/Jakeschincariol/replica-skill",
-      "category": "skill",
-      "score": 70,
-      "trend_score": 70,
-      "stars": 2400,
-      "velocity_7d": 1527,
-      "velocity_score": 100,
-      "growth_rate": 0.6362,
-      "v7d_estimated": true,
-      "source_count": 1,
-      "sources": [
-        "github"
-      ],
-      "evidence": [
-        {
-          "source": "github",
-          "url": "https://github.com/Jakeschincariol/replica-skill",
-          "label": "최근 7일 +1,527 stars"
-        }
-      ],
-      "status": "rising",
-      "catchphrase": "기존 앱의 동작을 분석해 클론 코드를 작성하고 사용자가 불편해하던 단점까지 개선",
-      "summary_ko": "웹이나 모바일 애플리케이션의 인터페이스와 기능을 분석하여 풀스택 클론 앱으로 재구축하는 11가지 Claude 전용 스킬 패키지입니다. 대상 서비스의 네트워크 요청 및 컴포넌트 구조를 역공학하고, 동일한 기능을 갖춘 현대적 코드로 재작성하며, 사용자 불만 요소를 해결하는 개선 패치까지 제안합니다.",
-      "key_features": [
-        "대상 서비스 UI/UX 및 API 구조 자동 역공학 파이프라인",
-        "Next.js/React 기반 모던 풀스택 클론 프로젝트 스캐폴딩",
-        "버그 탐지 및 사용자 경험 개선 사항 자동 제안"
-      ],
-      "use_case": "유명 웹 서비스의 핵심 MVP를 빠르게 클론하여 커스텀 기능으로 확장하고 싶을 때",
-      "install_hint": "README 참고",
-      "badge": "🔥 Rising",
-      "badges": [
-        "🔥 Rising"
-      ],
-      "tags": [
-        "app-cloning",
-        "reverse-engineering",
-        "fullstack-skills",
-        "claude-skills"
-      ],
-      "thumbnail_url": "https://github.com/Jakeschincariol.png"
-    },
-    {
-      "id": "Oldcircle/geo-sleuth",
-      "name": "geo-sleuth",
-      "owner": "Oldcircle",
-      "title_ko": "geo-sleuth — 사진 한 장으로 오픈스트리트맵과 위성을 대조해 촬영 위치를 찾는 OSINT 스킬",
-      "official_url": "https://github.com/Oldcircle/geo-sleuth",
-      "repo_url": "https://github.com/Oldcircle/geo-sleuth",
-      "category": "skill",
-      "score": 70,
-      "trend_score": 70,
-      "stars": 2392,
-      "velocity_7d": 1334,
-      "velocity_score": 100,
-      "growth_rate": 0.5577,
-      "v7d_estimated": false,
-      "source_count": 1,
-      "sources": [
-        "github"
-      ],
-      "evidence": [
-        {
-          "source": "github",
-          "url": "https://github.com/Oldcircle/geo-sleuth",
-          "label": "최근 7일 +1,334 stars"
-        }
-      ],
-      "status": "rising",
-      "catchphrase": "지형 스카이라인, 도로 기하구조, 위성 이미지, 스트리트뷰를 교차 검증하는 위치 추적기",
-      "summary_ko": "단 한 장의 사진만으로 촬영 장소의 지리적 위치를 정밀 추적할 수 있도록 돕는 에이전트 OSINT 스킬입니다. OpenStreetMap 도로망, 지형 고도 스카이라인, 인공위성 영상, 스트리트뷰 데이터를 교차 검증하며 추론 근거를 단계별로 명확하게 제시합니다. Claude Code, Codex, Cursor 등과 호환됩니다.",
-      "key_features": [
-        "OpenStreetMap 기반 도로 기하구조 및 건물 윤곽선 대조",
-        "산악 지형 스카이라인 및 위성 영상 다중 교차 검증",
-        "추론 과정 및 신뢰도 점수를 포함한 단계별 근거 보고서 제공"
-      ],
-      "use_case": "사진 속 랜드마크나 풍경을 단서로 정확한 촬영 위치와 좌표를 역추적하고 싶을 때",
-      "install_hint": "README 참고",
-      "badge": "🔥 Rising",
-      "badges": [
-        "🔥 Rising"
-      ],
-      "tags": [
-        "osint",
-        "geolocation",
-        "satellite-data",
-        "claude-skills",
-        "map-analysis"
-      ],
-      "thumbnail_url": "https://github.com/Oldcircle.png"
-    },
-    {
       "id": "edenfunf/reelmimic",
       "name": "reelmimic",
       "owner": "edenfunf",
@@ -321,11 +224,11 @@
       "category": "agent",
       "score": 70,
       "trend_score": 70,
-      "stars": 2726,
-      "velocity_7d": 1272,
+      "stars": 3329,
+      "velocity_7d": 2006,
       "velocity_score": 100,
-      "growth_rate": 0.4666,
-      "v7d_estimated": true,
+      "growth_rate": 0.6026,
+      "v7d_estimated": false,
       "source_count": 1,
       "sources": [
         "github"
@@ -334,7 +237,7 @@
         {
           "source": "github",
           "url": "https://github.com/edenfunf/reelmimic",
-          "label": "최근 7일 +1,272 stars"
+          "label": "최근 7일 +2,006 stars"
         }
       ],
       "status": "rising",
@@ -361,6 +264,103 @@
       "thumbnail_url": "https://github.com/edenfunf.png"
     },
     {
+      "id": "Oldcircle/geo-sleuth",
+      "name": "geo-sleuth",
+      "owner": "Oldcircle",
+      "title_ko": "geo-sleuth — 사진 한 장으로 오픈스트리트맵과 위성을 대조해 촬영 위치를 찾는 OSINT 스킬",
+      "official_url": "https://github.com/Oldcircle/geo-sleuth",
+      "repo_url": "https://github.com/Oldcircle/geo-sleuth",
+      "category": "skill",
+      "score": 70,
+      "trend_score": 70,
+      "stars": 2970,
+      "velocity_7d": 1678,
+      "velocity_score": 100,
+      "growth_rate": 0.565,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/Oldcircle/geo-sleuth",
+          "label": "최근 7일 +1,678 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "지형 스카이라인, 도로 기하구조, 위성 이미지, 스트리트뷰를 교차 검증하는 위치 추적기",
+      "summary_ko": "단 한 장의 사진만으로 촬영 장소의 지리적 위치를 정밀 추적할 수 있도록 돕는 에이전트 OSINT 스킬입니다. OpenStreetMap 도로망, 지형 고도 스카이라인, 인공위성 영상, 스트리트뷰 데이터를 교차 검증하며 추론 근거를 단계별로 명확하게 제시합니다. Claude Code, Codex, Cursor 등과 호환됩니다.",
+      "key_features": [
+        "OpenStreetMap 기반 도로 기하구조 및 건물 윤곽선 대조",
+        "산악 지형 스카이라인 및 위성 영상 다중 교차 검증",
+        "추론 과정 및 신뢰도 점수를 포함한 단계별 근거 보고서 제공"
+      ],
+      "use_case": "사진 속 랜드마크나 풍경을 단서로 정확한 촬영 위치와 좌표를 역추적하고 싶을 때",
+      "install_hint": "README 참고",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "osint",
+        "geolocation",
+        "satellite-data",
+        "claude-skills",
+        "map-analysis"
+      ],
+      "thumbnail_url": "https://github.com/Oldcircle.png"
+    },
+    {
+      "id": "Jakeschincariol/replica-skill",
+      "name": "replica-skill",
+      "owner": "Jakeschincariol",
+      "title_ko": "replica-skill — 임의의 앱을 분석하여 역공학, 재구축, 버그 개선까지 수행하는 11종 스킬셋",
+      "official_url": "https://github.com/Jakeschincariol/replica-skill",
+      "repo_url": "https://github.com/Jakeschincariol/replica-skill",
+      "category": "skill",
+      "score": 70,
+      "trend_score": 70,
+      "stars": 2752,
+      "velocity_7d": 1197,
+      "velocity_score": 100,
+      "growth_rate": 0.435,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/Jakeschincariol/replica-skill",
+          "label": "최근 7일 +1,197 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "기존 앱의 동작을 분석해 클론 코드를 작성하고 사용자가 불편해하던 단점까지 개선",
+      "summary_ko": "웹이나 모바일 애플리케이션의 인터페이스와 기능을 분석하여 풀스택 클론 앱으로 재구축하는 11가지 Claude 전용 스킬 패키지입니다. 대상 서비스의 네트워크 요청 및 컴포넌트 구조를 역공학하고, 동일한 기능을 갖춘 현대적 코드로 재작성하며, 사용자 불만 요소를 해결하는 개선 패치까지 제안합니다.",
+      "key_features": [
+        "대상 서비스 UI/UX 및 API 구조 자동 역공학 파이프라인",
+        "Next.js/React 기반 모던 풀스택 클론 프로젝트 스캐폴딩",
+        "버그 탐지 및 사용자 경험 개선 사항 자동 제안"
+      ],
+      "use_case": "유명 웹 서비스의 핵심 MVP를 빠르게 클론하여 커스텀 기능으로 확장하고 싶을 때",
+      "install_hint": "README 참고",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "app-cloning",
+        "reverse-engineering",
+        "fullstack-skills",
+        "claude-skills"
+      ],
+      "thumbnail_url": "https://github.com/Jakeschincariol.png"
+    },
+    {
       "id": "Louis-CFM/coucou",
       "name": "coucou",
       "owner": "Louis-CFM",
@@ -370,10 +370,10 @@
       "category": "agent",
       "score": 70,
       "trend_score": 70,
-      "stars": 5119,
-      "velocity_7d": 1104,
+      "stars": 5311,
+      "velocity_7d": 1008,
       "velocity_score": 100,
-      "growth_rate": 0.2157,
+      "growth_rate": 0.1898,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -383,7 +383,7 @@
         {
           "source": "github",
           "url": "https://github.com/Louis-CFM/coucou",
-          "label": "최근 7일 +1,104 stars"
+          "label": "최근 7일 +1,008 stars"
         }
       ],
       "status": "rising",
@@ -410,54 +410,6 @@
       "thumbnail_url": "https://github.com/Louis-CFM.png"
     },
     {
-      "id": "zhuyansen/new-term-radar",
-      "name": "new-term-radar",
-      "owner": "zhuyansen",
-      "title_ko": "new-term-radar — Daily radar for new AI terms: names of new models,",
-      "official_url": "https://github.com/zhuyansen/new-term-radar",
-      "repo_url": "https://github.com/zhuyansen/new-term-radar",
-      "category": "mcp",
-      "score": 70,
-      "trend_score": 70,
-      "stars": 865,
-      "velocity_7d": 865,
-      "velocity_score": 100,
-      "growth_rate": 1,
-      "v7d_estimated": true,
-      "source_count": 1,
-      "sources": [
-        "github"
-      ],
-      "evidence": [
-        {
-          "source": "github",
-          "url": "https://github.com/zhuyansen/new-term-radar",
-          "label": "최근 7일 +865 stars"
-        }
-      ],
-      "status": "rising",
-      "catchphrase": "Daily radar for new AI terms: names of new models, products and repos, caught on X, Hugging Face, GitHub and sitemaps before keyword tools list them.",
-      "summary_ko": "Daily radar for new AI terms: names of new models, products and repos, caught on X, Hugging Face, GitHub and sitemaps before keyword tools list them.",
-      "key_features": [
-        "Daily radar for new AI terms: names of new models,...",
-        "Model Context Protocol(MCP) 표준 인터페이스 지원",
-        "agent-skills, ai, aisa 기반 생태계 연동"
-      ],
-      "use_case": "new-term-radar의 기능을 프로젝트 개발 환경에 도입하고 싶을 때",
-      "install_hint": "README 참고",
-      "badge": "🔥 Rising",
-      "badges": [
-        "🔥 Rising"
-      ],
-      "tags": [
-        "agent-skills",
-        "ai",
-        "aisa",
-        "claude-code"
-      ],
-      "thumbnail_url": "https://github.com/zhuyansen.png"
-    },
-    {
       "id": "lemomo-ai/lemo-opuscar",
       "name": "lemo-opuscar",
       "owner": "lemomo-ai",
@@ -467,11 +419,11 @@
       "category": "skill",
       "score": 70,
       "trend_score": 70,
-      "stars": 2178,
-      "velocity_7d": 847,
+      "stars": 2467,
+      "velocity_7d": 991,
       "velocity_score": 100,
-      "growth_rate": 0.3889,
-      "v7d_estimated": true,
+      "growth_rate": 0.4017,
+      "v7d_estimated": false,
       "source_count": 1,
       "sources": [
         "github"
@@ -480,7 +432,7 @@
         {
           "source": "github",
           "url": "https://github.com/lemomo-ai/lemo-opuscar",
-          "label": "최근 7일 +847 stars"
+          "label": "최근 7일 +991 stars"
         }
       ],
       "status": "rising",
@@ -506,6 +458,55 @@
       "thumbnail_url": "https://github.com/lemomo-ai.png"
     },
     {
+      "id": "Folkbench/folkbench",
+      "name": "folkbench",
+      "owner": "Folkbench",
+      "title_ko": "folkbench — Claude Code와 Codex용 AI API 릴레이 서버의 가용성·지연시간·단가를 실측 비교하고 전환하는 도구",
+      "official_url": "https://github.com/Folkbench/folkbench",
+      "repo_url": "https://github.com/Folkbench/folkbench",
+      "category": "harness",
+      "score": 70,
+      "trend_score": 70,
+      "stars": 1127,
+      "velocity_7d": 991,
+      "velocity_score": 100,
+      "growth_rate": 0.8793,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/Folkbench/folkbench",
+          "label": "최근 7일 +991 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "오픈소스 AI API 중계 서비스의 실제 가용률과 응답 속도를 벤치마킹하고 원클릭으로 전환",
+      "summary_ko": "Claude Code와 OpenAI Codex에서 사용하는 다양한 AI API 릴레이(중계) 서비스들의 실제 가용성, 응답 지연 시간(Latency), 토큰 단가를 실시간으로 벤치마킹하고 순위를 매겨주는 Rust 및 Tauri 기반 데스크톱 도구입니다. 특정 API 공급자에 장애가 발생하거나 응답이 느려질 때 가장 빠르고 안정적인 엔드포인트로 즉시 전환할 수 있습니다.",
+      "key_features": [
+        "AI API 릴레이 서비스별 실시간 가용률·응답 지연 시간·가격 비교 벤치마크",
+        "Claude Code 및 Codex 설정 파일과 연동되는 원클릭 엔드포인트 스위처",
+        "Rust 및 Tauri 기반의 가볍고 빠른 크로스플랫폼 데스크톱 앱 제공"
+      ],
+      "use_case": "여러 LLM API 프록시나 라우터를 사용할 때 가장 응답이 빠르고 저렴한 공급자로 즉시 전환하고 싶을 때",
+      "install_hint": "README 참고",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "api-relay",
+        "benchmark",
+        "endpoint-switcher",
+        "claude-code",
+        "codex"
+      ],
+      "thumbnail_url": "https://github.com/Folkbench.png"
+    },
+    {
       "id": "nykooi1/vibe-wise",
       "name": "vibe-wise",
       "owner": "nykooi1",
@@ -515,10 +516,10 @@
       "category": "skill",
       "score": 70,
       "trend_score": 70,
-      "stars": 3533,
-      "velocity_7d": 556,
+      "stars": 3624,
+      "velocity_7d": 503,
       "velocity_score": 100,
-      "growth_rate": 0.1574,
+      "growth_rate": 0.1388,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -528,7 +529,7 @@
         {
           "source": "github",
           "url": "https://github.com/nykooi1/vibe-wise",
-          "label": "최근 7일 +556 stars"
+          "label": "최근 7일 +503 stars"
         }
       ],
       "status": "rising",
@@ -554,20 +555,20 @@
       "thumbnail_url": "https://github.com/nykooi1.png"
     },
     {
-      "id": "Folkbench/folkbench",
-      "name": "folkbench",
-      "owner": "Folkbench",
-      "title_ko": "folkbench — AI API 中转站评测排行与切换工具：实测可用率、延迟与价格 · Open-source AI A",
-      "official_url": "https://github.com/Folkbench/folkbench",
-      "repo_url": "https://github.com/Folkbench/folkbench",
-      "category": "harness",
+      "id": "devswha/herdr-web-ui",
+      "name": "herdr-web-ui",
+      "owner": "devswha",
+      "title_ko": "herdr-web-ui — 여러 에이전트 패널과 터미널을 브라우저와 모바일에서 제어하는 웹 클라이언트",
+      "official_url": "https://github.com/devswha/herdr-web-ui",
+      "repo_url": "https://github.com/devswha/herdr-web-ui",
+      "category": "mcp",
       "score": 70,
       "trend_score": 70,
-      "stars": 842,
-      "velocity_7d": 491,
+      "stars": 1026,
+      "velocity_7d": 334,
       "velocity_score": 100,
-      "growth_rate": 0.5831,
-      "v7d_estimated": true,
+      "growth_rate": 0.3255,
+      "v7d_estimated": false,
       "source_count": 1,
       "sources": [
         "github"
@@ -575,31 +576,31 @@
       "evidence": [
         {
           "source": "github",
-          "url": "https://github.com/Folkbench/folkbench",
-          "label": "최근 7일 +491 stars"
+          "url": "https://github.com/devswha/herdr-web-ui",
+          "label": "최근 7일 +334 stars"
         }
       ],
       "status": "rising",
-      "catchphrase": "AI API 中转站评测排行与切换工具：实测可用率、延迟与价格 · Open-source AI API relay benchmark, rankings & switcher for Claude Code / Codex",
-      "summary_ko": "AI API 中转站评测排行与切换工具：实测可用率、延迟与价格 · Open-source AI API relay benchmark, rankings & switcher for Claude Code / Codex",
+      "catchphrase": "SSH 원격 서버와 로컬 에이전트 터미널을 웹에서 통합 조작하고 웹 푸시 알림 수신",
+      "summary_ko": "분산 환경에서 실행되는 여러 코딩 에이전트 세션을 하나의 웹 브라우저 및 스마트폰 인터페이스에서 모니터링할 수 있는 UI 도구입니다. 각 에이전트별 실시간 터미널 스트리밍, SSH를 통한 원격 PC 접속, 작업 완료 및 확인 대기 시 웹 푸시 알림을 지원하여 에이전트 관리 편의성을 극대화합니다.",
       "key_features": [
-        "AI API 中转站评测排行与切换工具：实测可用率、延迟与价格 · Open-source AI A...",
-        "코딩 에이전트 다중 런타임 및 세션 오케스트레이션",
-        "ai, api-relay, api-relay-pricing 기반 생태계 연동"
+        "모바일 및 데스크톱 브라우저 최적화 다중 에이전트 대시보드",
+        "SSH 원격 머신 에이전트 터미널 실시간 스트리밍 및 명령 전달",
+        "에이전트 입력 대기 및 에러 발생 시 즉각적인 웹 푸시 알림"
       ],
-      "use_case": "folkbench의 기능을 프로젝트 개발 환경에 도입하고 싶을 때",
+      "use_case": "외출 중이거나 침대에서 스마트폰으로 실행 중인 에이전트들의 상태를 확인하고 지시할 때",
       "install_hint": "README 참고",
       "badge": "🔥 Rising",
       "badges": [
         "🔥 Rising"
       ],
       "tags": [
-        "ai",
-        "api-relay",
-        "api-relay-pricing",
-        "benchmark"
+        "agent-ui",
+        "web-terminal",
+        "remote-monitoring",
+        "push-alerts"
       ],
-      "thumbnail_url": "https://github.com/Folkbench.png"
+      "thumbnail_url": "https://github.com/devswha.png"
     },
     {
       "id": "amontlabs/lcu",
@@ -611,10 +612,10 @@
       "category": "harness",
       "score": 70,
       "trend_score": 70,
-      "stars": 1072,
-      "velocity_7d": 434,
+      "stars": 1114,
+      "velocity_7d": 291,
       "velocity_score": 100,
-      "growth_rate": 0.4049,
+      "growth_rate": 0.2612,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -624,7 +625,7 @@
         {
           "source": "github",
           "url": "https://github.com/amontlabs/lcu",
-          "label": "최근 7일 +434 stars"
+          "label": "최근 7일 +291 stars"
         }
       ],
       "status": "rising",
@@ -659,10 +660,10 @@
       "category": "skill",
       "score": 70,
       "trend_score": 70,
-      "stars": 2670,
-      "velocity_7d": 264,
+      "stars": 2722,
+      "velocity_7d": 246,
       "velocity_score": 100,
-      "growth_rate": 0.0989,
+      "growth_rate": 0.0904,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -672,7 +673,7 @@
         {
           "source": "github",
           "url": "https://github.com/dzhng/jevgrep",
-          "label": "최근 7일 +264 stars"
+          "label": "최근 7일 +246 stars"
         }
       ],
       "status": "rising",
@@ -698,54 +699,6 @@
       "thumbnail_url": "https://github.com/dzhng.png"
     },
     {
-      "id": "devswha/herdr-web-ui",
-      "name": "herdr-web-ui",
-      "owner": "devswha",
-      "title_ko": "herdr-web-ui — 여러 에이전트 패널과 터미널을 브라우저와 모바일에서 제어하는 웹 클라이언트",
-      "official_url": "https://github.com/devswha/herdr-web-ui",
-      "repo_url": "https://github.com/devswha/herdr-web-ui",
-      "category": "mcp",
-      "score": 70,
-      "trend_score": 70,
-      "stars": 908,
-      "velocity_7d": 256,
-      "velocity_score": 100,
-      "growth_rate": 0.2819,
-      "v7d_estimated": false,
-      "source_count": 1,
-      "sources": [
-        "github"
-      ],
-      "evidence": [
-        {
-          "source": "github",
-          "url": "https://github.com/devswha/herdr-web-ui",
-          "label": "최근 7일 +256 stars"
-        }
-      ],
-      "status": "rising",
-      "catchphrase": "SSH 원격 서버와 로컬 에이전트 터미널을 웹에서 통합 조작하고 웹 푸시 알림 수신",
-      "summary_ko": "분산 환경에서 실행되는 여러 코딩 에이전트 세션을 하나의 웹 브라우저 및 스마트폰 인터페이스에서 모니터링할 수 있는 UI 도구입니다. 각 에이전트별 실시간 터미널 스트리밍, SSH를 통한 원격 PC 접속, 작업 완료 및 확인 대기 시 웹 푸시 알림을 지원하여 에이전트 관리 편의성을 극대화합니다.",
-      "key_features": [
-        "모바일 및 데스크톱 브라우저 최적화 다중 에이전트 대시보드",
-        "SSH 원격 머신 에이전트 터미널 실시간 스트리밍 및 명령 전달",
-        "에이전트 입력 대기 및 에러 발생 시 즉각적인 웹 푸시 알림"
-      ],
-      "use_case": "외출 중이거나 침대에서 스마트폰으로 실행 중인 에이전트들의 상태를 확인하고 지시할 때",
-      "install_hint": "README 참고",
-      "badge": "🔥 Rising",
-      "badges": [
-        "🔥 Rising"
-      ],
-      "tags": [
-        "agent-ui",
-        "web-terminal",
-        "remote-monitoring",
-        "push-alerts"
-      ],
-      "thumbnail_url": "https://github.com/devswha.png"
-    },
-    {
       "id": "nanaism/yomiyasu",
       "name": "yomiyasu",
       "owner": "nanaism",
@@ -755,10 +708,10 @@
       "category": "skill",
       "score": 70,
       "trend_score": 70,
-      "stars": 1946,
-      "velocity_7d": 238,
+      "stars": 1992,
+      "velocity_7d": 221,
       "velocity_score": 100,
-      "growth_rate": 0.1223,
+      "growth_rate": 0.1109,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -768,7 +721,7 @@
         {
           "source": "github",
           "url": "https://github.com/nanaism/yomiyasu",
-          "label": "최근 7일 +238 stars"
+          "label": "최근 7일 +221 stars"
         }
       ],
       "status": "rising",
@@ -803,10 +756,10 @@
       "category": "skill",
       "score": 70,
       "trend_score": 70,
-      "stars": 2079,
-      "velocity_7d": 187,
+      "stars": 2130,
+      "velocity_7d": 185,
       "velocity_score": 100,
-      "growth_rate": 0.0899,
+      "growth_rate": 0.0869,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -816,7 +769,7 @@
         {
           "source": "github",
           "url": "https://github.com/JohnHeibel/PDoomVideo",
-          "label": "최근 7일 +187 stars"
+          "label": "최근 7일 +185 stars"
         }
       ],
       "status": "rising",
@@ -852,10 +805,10 @@
       "category": "mcp",
       "score": 60,
       "trend_score": 60,
-      "stars": 4553,
-      "velocity_7d": 392,
+      "stars": 4635,
+      "velocity_7d": 369,
       "velocity_score": 100,
-      "growth_rate": 0.0861,
+      "growth_rate": 0.0796,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -865,7 +818,7 @@
         {
           "source": "github",
           "url": "https://github.com/ccch1mneyyy/dsh-TUI",
-          "label": "최근 7일 +392 stars"
+          "label": "최근 7일 +369 stars"
         }
       ],
       "status": "rising",
@@ -891,6 +844,55 @@
       "thumbnail_url": "https://github.com/ccch1mneyyy.png"
     },
     {
+      "id": "vshulcz/deja-vu",
+      "name": "deja-vu",
+      "owner": "vshulcz",
+      "title_ko": "deja-vu — 디스크에 저장된 40여 종 코딩 에이전트의 과거 세션 이력을 LLM 없이 초고속 검색하는 단일 바이너리 메모리",
+      "official_url": "https://github.com/vshulcz/deja-vu",
+      "repo_url": "https://github.com/vshulcz/deja-vu",
+      "category": "mcp",
+      "score": 55,
+      "trend_score": 55,
+      "stars": 1205,
+      "velocity_7d": 46,
+      "velocity_score": 86.8,
+      "growth_rate": 0.0382,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/vshulcz/deja-vu",
+          "label": "최근 7일 +46 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "Claude Code, Codex, Cursor 등 디스크 내 기존 세션 로그를 즉시 자산화하는 Go 단일 바이너리 MCP",
+      "summary_ko": "별도의 외부 LLM 호출이나 무거운 데이터베이스 없이, 로컬 디스크에 이미 남아 있는 Claude Code, Codex, Cursor, Gemini CLI 등 40여 종 코딩 에이전트의 세션 히스토리를 색인하여 초고속 검색과 지속형 메모리를 제공하는 Go 단일 바이너리 도구입니다. MCP 서버와 훅(Hooks)을 통해 과거에 해결했던 버그나 설계 결정을 새로운 에이전트 세션에 즉시 주입합니다.",
+      "key_features": [
+        "Claude Code·Codex·Cursor 등 40여 개 코딩 에이전트의 로컬 세션 로그 통합 색인",
+        "외부 LLM 비용 없이 즉각 동작하는 단일 Go 바이너리 기반 초고속 로컬 검색",
+        "MCP 서버 및 훅 연동으로 과거 작업 맥락을 현재 세션에 자동 복원"
+      ],
+      "use_case": "여러 코딩 에이전트를 오가며 작업할 때 예전 세션에서 해결했던 코드와 대화 맥락을 즉시 되살리고 싶을 때",
+      "install_hint": "README 참고",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "session-history",
+        "agent-memory",
+        "local-search",
+        "go-binary",
+        "mcp-server"
+      ],
+      "thumbnail_url": "https://github.com/vshulcz.png"
+    },
+    {
       "id": "Panniantong/Agent-Reach",
       "name": "Agent-Reach",
       "owner": "Panniantong",
@@ -898,12 +900,12 @@
       "official_url": "https://github.com/Panniantong/Agent-Reach",
       "repo_url": "https://github.com/Panniantong/Agent-Reach",
       "category": "mcp",
-      "score": 59,
-      "trend_score": 59,
-      "stars": 96989,
-      "velocity_7d": 3782,
-      "velocity_score": 97,
-      "growth_rate": 0.039,
+      "score": 53,
+      "trend_score": 53,
+      "stars": 97766,
+      "velocity_7d": 3546,
+      "velocity_score": 82.5,
+      "growth_rate": 0.0363,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -913,7 +915,7 @@
         {
           "source": "github",
           "url": "https://github.com/Panniantong/Agent-Reach",
-          "label": "최근 7일 +3,782 stars"
+          "label": "최근 7일 +3,546 stars"
         }
       ],
       "status": "rising",
@@ -939,19 +941,19 @@
       "thumbnail_url": "https://github.com/Panniantong.png"
     },
     {
-      "id": "vshulcz/deja-vu",
-      "name": "deja-vu",
-      "owner": "vshulcz",
-      "title_ko": "deja-vu — Coding agent memory for Claude Code, Codex, Cursor",
-      "official_url": "https://github.com/vshulcz/deja-vu",
-      "repo_url": "https://github.com/vshulcz/deja-vu",
+      "id": "thedotmack/claude-mem",
+      "name": "claude-mem",
+      "owner": "thedotmack",
+      "title_ko": "claude-mem — 세션이 바뀌어도 작업 맥락을 기억하는 에이전트 영구 메모리 MCP",
+      "official_url": "https://github.com/thedotmack/claude-mem",
+      "repo_url": "https://github.com/thedotmack/claude-mem",
       "category": "mcp",
-      "score": 56,
-      "trend_score": 56,
-      "stars": 1189,
-      "velocity_7d": 43,
-      "velocity_score": 90,
-      "growth_rate": 0.0362,
+      "score": 44,
+      "trend_score": 44,
+      "stars": 101047,
+      "velocity_7d": 2610,
+      "velocity_score": 58.8,
+      "growth_rate": 0.0258,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -960,48 +962,96 @@
       "evidence": [
         {
           "source": "github",
-          "url": "https://github.com/vshulcz/deja-vu",
-          "label": "최근 7일 +43 stars"
+          "url": "https://github.com/thedotmack/claude-mem",
+          "label": "최근 7일 +2,610 stars"
         }
       ],
       "status": "rising",
-      "catchphrase": "Coding agent memory for Claude Code, Codex, Cursor and 38 more, built from the session history already on your disk. Local search, MCP and hooks, no L",
-      "summary_ko": "Coding agent memory for Claude Code, Codex, Cursor and 38 more, built from the session history already on your disk. Local search, MCP and hooks, no LLM, one Go binary.",
+      "catchphrase": "이전 세션의 대화, 결정 사항, 프로젝트 히스토리를 캡처하여 연속성을 보장하는 메모리",
+      "summary_ko": "Claude Code 세션이 종료되거나 새로 시작되어도 이전의 작업 내역, 해결했던 이슈, 아키텍처 결정 사항을 잊지 않고 기억하도록 지원하는 영구 메모리 MCP 서버입니다. 매번 컨텍스트를 다시 설명할 필요 없이 이전 작업의 연속선상에서 곧바로 개발을 이어갈 수 있습니다.",
       "key_features": [
-        "Coding agent memory for Claude Code, Codex, Cursor...",
-        "Model Context Protocol(MCP) 표준 인터페이스 지원",
-        "agent-memory, ai-memory, claude-code 기반 생태계 연동"
+        "세션 간 자동 맥락 저장 및 관련 지식 인덱싱",
+        "프로젝트별 핵심 결정 사항 및 트러블슈팅 이력 관리",
+        "MCP 기반의 간편한 연동 및 지연 없는 질의"
       ],
-      "use_case": "deja-vu의 기능을 프로젝트 개발 환경에 도입하고 싶을 때",
+      "use_case": "새 세션을 시작할 때마다 프로젝트 배경을 다시 설명하는 번거로움을 없애고 싶을 때",
       "install_hint": "README 참고",
       "badge": "🔥 Rising",
       "badges": [
         "🔥 Rising"
       ],
       "tags": [
-        "agent-memory",
-        "ai-memory",
-        "claude-code",
-        "claude-code-hooks"
+        "persistent-memory",
+        "mcp-server",
+        "context-management",
+        "claude-code"
       ],
-      "thumbnail_url": "https://github.com/vshulcz.png"
+      "thumbnail_url": "https://github.com/thedotmack.png"
     }
   ],
   "classic": [
     {
+      "id": "farion1231/cc-switch",
+      "name": "cc-switch",
+      "owner": "farion1231",
+      "title_ko": "cc-switch — 여러 AI 코딩 도구의 설정을 원클릭 전환하는 올인원 매니저",
+      "official_url": "https://github.com/farion1231/cc-switch",
+      "repo_url": "https://github.com/farion1231/cc-switch",
+      "category": "mcp",
+      "score": 39,
+      "trend_score": 39,
+      "stars": 144731,
+      "velocity_7d": 3080,
+      "velocity_score": 48.4,
+      "growth_rate": 0.0213,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/farion1231/cc-switch",
+          "label": "최근 7일 +3,080 stars"
+        }
+      ],
+      "status": "classic",
+      "catchphrase": "크로스 플랫폼 데스크톱 GUI로 AI 코딩 어시스턴트의 프로필과 프롬프트 설정을 간편 관리",
+      "summary_ko": "Claude Code, Codex, Cursor, Cline 등 다양한 AI 코딩 도구의 프롬프트 프로필, API 키, MCP 서버 구성을 하나의 GUI 환경에서 원클릭으로 전환할 수 있는 크로스 플랫폼 데스크톱 유틸리티입니다.",
+      "key_features": [
+        "다중 AI 코딩 도구 설정 및 프로필 원클릭 전환",
+        "프로젝트별 커스텀 프롬프트 및 MCP 서버 프리셋 관리",
+        "직관적이고 깔끔한 크로스 플랫폼 데스크톱 UI"
+      ],
+      "use_case": "여러 AI 코딩 어시스턴트 환경을 프로젝트마다 빠르게 스위칭하며 작업할 때",
+      "install_hint": "README 참고",
+      "badge": "⭐ Classic",
+      "badges": [
+        "⭐ Classic"
+      ],
+      "tags": [
+        "cc-switch",
+        "profile-manager",
+        "claude-code",
+        "desktop-utility"
+      ],
+      "thumbnail_url": "https://github.com/farion1231.png"
+    },
+    {
       "id": "QwenAudio/qwen-audio-agent",
       "name": "qwen-audio-agent",
       "owner": "QwenAudio",
-      "title_ko": "qwen-audio-agent — A realtime voice runtime that keeps Agents talking",
+      "title_ko": "qwen-audio-agent — 코딩 에이전트와 실시간으로 끊김 없이 음성 대화를 나누며 협업하는 보이스 런타임",
       "official_url": "https://github.com/QwenAudio/qwen-audio-agent",
       "repo_url": "https://github.com/QwenAudio/qwen-audio-agent",
       "category": "agent",
-      "score": 39,
-      "trend_score": 39,
-      "stars": 2907,
-      "velocity_7d": 56,
-      "velocity_score": 47.9,
-      "growth_rate": 0.0193,
+      "score": 37,
+      "trend_score": 37,
+      "stars": 2921,
+      "velocity_7d": 54,
+      "velocity_score": 42.1,
+      "growth_rate": 0.0185,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -1011,28 +1061,29 @@
         {
           "source": "github",
           "url": "https://github.com/QwenAudio/qwen-audio-agent",
-          "label": "최근 7일 +56 stars"
+          "label": "최근 7일 +54 stars"
         }
       ],
       "status": "classic",
-      "catchphrase": "A realtime voice runtime that keeps Agents talking, working, and present.  Real-time Voice Runtime for AI Agents",
-      "summary_ko": "A realtime voice runtime that keeps Agents talking, working, and present.  Real-time Voice Runtime for AI Agents",
+      "catchphrase": "에이전트가 코드를 작성하고 실행하는 동안 실시간 음성으로 소통하는 저지연 보이스 런타임",
+      "summary_ko": "Claude Code, Codex, OpenCode 등 AI 코딩 에이전트에 실시간 음성 인식(ASR)과 음성 합성(TTS) 파이프라인을 결합하여, 에이전트가 작업을 수행하는 내내 사람 동료처럼 자연스럽게 대화할 수 있게 해주는 실시간 보이스 런타임입니다. 키보드 타이핑 없이 음성으로 아키텍처를 지시하고 에이전트의 진행 상황 브리핑을 즉시 귀로 들을 수 있습니다.",
       "key_features": [
-        "A realtime voice runtime that keeps Agents talking...",
-        "자율 추론 및 작업 단계별 도구 실행 자동화",
-        "acp, agent, agentic-ai 기반 생태계 연동"
+        "저지연 실시간 음성 인식(STT) 및 자연스러운 음성 합성(TTS) 양방향 스트리밍",
+        "Claude Code·Codex·OpenCode 등 주요 코딩 에이전트 런타임과 직접 결합",
+        "작업 중 인터럽트(끼어들기) 및 실시간 상태 브리핑을 지원하는 에이전틱 보이스 인터페이스"
       ],
-      "use_case": "qwen-audio-agent의 기능을 프로젝트 개발 환경에 도입하고 싶을 때",
+      "use_case": "화면 공유나 코드 리뷰를 하면서 코딩 에이전트에게 음성으로 지시를 내리고 실시간 피드백을 받고 싶을 때",
       "install_hint": "README 참고",
       "badge": "⭐ Classic",
       "badges": [
         "⭐ Classic"
       ],
       "tags": [
-        "acp",
-        "agent",
-        "agentic-ai",
-        "ai-coding"
+        "voice-agent",
+        "realtime-audio",
+        "speech-to-text",
+        "ai-coding",
+        "qwen-audio"
       ],
       "thumbnail_url": "https://github.com/QwenAudio.png"
     },
@@ -1040,16 +1091,16 @@
       "id": "lidge-jun/opencodex",
       "name": "opencodex",
       "owner": "lidge-jun",
-      "title_ko": "opencodex — Universal provider proxy for OpenAI Codex & Claude",
+      "title_ko": "opencodex — OpenAI Codex와 Claude Code에서 모든 상용·로컬 LLM을 자유롭게 연결해 쓰는 범용 프록시",
       "official_url": "https://github.com/lidge-jun/opencodex",
       "repo_url": "https://github.com/lidge-jun/opencodex",
       "category": "harness",
-      "score": 37,
-      "trend_score": 37,
-      "stars": 17363,
+      "score": 36,
+      "trend_score": 36,
+      "stars": 17449,
       "velocity_7d": 299,
-      "velocity_score": 42.8,
-      "growth_rate": 0.0172,
+      "velocity_score": 39,
+      "growth_rate": 0.0171,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -1063,24 +1114,25 @@
         }
       ],
       "status": "classic",
-      "catchphrase": "Universal provider proxy for OpenAI Codex & Claude Code — use any LLM (Claude, Gemini, Grok, DeepSeek, Ollama…) with Codex CLI, App, SDK, and Claude C",
-      "summary_ko": "Universal provider proxy for OpenAI Codex & Claude Code — use any LLM (Claude, Gemini, Grok, DeepSeek, Ollama…) with Codex CLI, App, SDK, and Claude Code",
+      "catchphrase": "Claude, Gemini, Grok, DeepSeek, Ollama 등 원하는 모든 모델을 Codex CLI와 Claude Code에 연결",
+      "summary_ko": "OpenAI Codex(CLI·App·SDK)와 Claude Code 환경에서 특정 벤더 종속 없이 Claude, Gemini, Grok, DeepSeek, 로컬 Ollama 등 원하는 모든 LLM 공급자를 연결해 사용할 수 있도록 프로토콜과 도구 호출 포맷을 변환해주는 범용 AI 게이트웨이 프록시입니다.",
       "key_features": [
-        "Universal provider proxy for OpenAI Codex & Claude...",
-        "코딩 에이전트 다중 런타임 및 세션 오케스트레이션",
-        "ai-gateway, ai-tools, anthropic 기반 생태계 연동"
+        "OpenAI Codex 및 Claude Code 클라이언트와 이기종 LLM API 간의 양방향 포맷 변환",
+        "Claude·Gemini·Grok·DeepSeek·OpenRouter·로컬 Ollama 모델 무제한 연동",
+        "모델별 스트리밍 응답, 함수/도구 호출(Tool Calling), 토큰 사용량 추적 완벽 호환"
       ],
-      "use_case": "opencodex의 기능을 프로젝트 개발 환경에 도입하고 싶을 때",
+      "use_case": "Codex CLI나 Claude Code 인터페이스는 그대로 유지하면서 백엔드 모델을 DeepSeek, Gemini, 로컬 LLM 등으로 유연하게 바꿔가며 쓸 때",
       "install_hint": "README 참고",
       "badge": "⭐ Classic",
       "badges": [
         "⭐ Classic"
       ],
       "tags": [
-        "ai-gateway",
-        "ai-tools",
-        "anthropic",
-        "chatgpt"
+        "llm-proxy",
+        "universal-gateway",
+        "codex-cli",
+        "claude-code",
+        "multi-model"
       ],
       "thumbnail_url": "https://github.com/lidge-jun.png"
     },
@@ -1092,12 +1144,12 @@
       "official_url": "https://github.com/affaan-m/ECC",
       "repo_url": "https://github.com/affaan-m/ECC",
       "category": "harness",
-      "score": 33,
-      "trend_score": 33,
-      "stars": 278598,
-      "velocity_7d": 3676,
-      "velocity_score": 32.8,
-      "growth_rate": 0.0132,
+      "score": 34,
+      "trend_score": 34,
+      "stars": 280363,
+      "velocity_7d": 4232,
+      "velocity_score": 34.3,
+      "growth_rate": 0.0151,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -1107,7 +1159,7 @@
         {
           "source": "github",
           "url": "https://github.com/affaan-m/ECC",
-          "label": "최근 7일 +3,676 stars"
+          "label": "최근 7일 +4,232 stars"
         }
       ],
       "status": "classic",
@@ -1133,6 +1185,54 @@
       "thumbnail_url": "https://github.com/affaan-m.png"
     },
     {
+      "id": "JuliusBrussee/caveman",
+      "name": "caveman",
+      "owner": "JuliusBrussee",
+      "title_ko": "caveman — 핵심만 전달하여 토큰 소모를 극적으로 줄여주는 원시인 압축 통신 스킬",
+      "official_url": "https://github.com/JuliusBrussee/caveman",
+      "repo_url": "https://github.com/JuliusBrussee/caveman",
+      "category": "skill",
+      "score": 33,
+      "trend_score": 33,
+      "stars": 112524,
+      "velocity_7d": 1647,
+      "velocity_score": 33.3,
+      "growth_rate": 0.0146,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/JuliusBrussee/caveman",
+          "label": "최근 7일 +1,647 stars"
+        }
+      ],
+      "status": "classic",
+      "catchphrase": "불필요한 미사여구를 제거하고 초압축 텍스트로 LLM 컨텍스트 윈도우를 아끼는 기법",
+      "summary_ko": "AI 에이전트와의 상호작용에서 예의상 붙는 장황한 인사말, 군더더기 서론, 반복적인 설명을 제거하여 최소한의 토큰으로 최대의 정보만을 주고받도록 설계된 스킬입니다. 빠르고 직관적인 작업 흐름을 유지하면서 LLM 사용 비용과 컨텍스트 윈도우 낭비를 크게 줄여줍니다.",
+      "key_features": [
+        "불필요한 문맥 및 의례적 텍스트 90% 이상 압축",
+        "핵심 액션과 코드 중심의 초간결 통신 모드",
+        "장시간 에이전트 세션에서 컨텍스트 소진 방지"
+      ],
+      "use_case": "에이전트의 긴 설명 없이 오직 핵심 결과와 변경 사항만 빠르게 확인하고 싶을 때",
+      "install_hint": "README 참고",
+      "badge": "⭐ Classic",
+      "badges": [
+        "⭐ Classic"
+      ],
+      "tags": [
+        "token-saver",
+        "caveman-mode",
+        "claude-skills",
+        "efficiency"
+      ],
+      "thumbnail_url": "https://github.com/JuliusBrussee.png"
+    },
+    {
       "id": "nextlevelbuilder/ui-ux-pro-max-skill",
       "name": "ui-ux-pro-max-skill",
       "owner": "nextlevelbuilder",
@@ -1140,12 +1240,12 @@
       "official_url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
       "repo_url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
       "category": "skill",
-      "score": 32,
-      "trend_score": 32,
-      "stars": 135512,
-      "velocity_7d": 1684,
-      "velocity_score": 30.9,
-      "growth_rate": 0.0124,
+      "score": 33,
+      "trend_score": 33,
+      "stars": 136247,
+      "velocity_7d": 1881,
+      "velocity_score": 31.4,
+      "growth_rate": 0.0138,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -1155,7 +1255,7 @@
         {
           "source": "github",
           "url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
-          "label": "최근 7일 +1,684 stars"
+          "label": "최근 7일 +1,881 stars"
         }
       ],
       "status": "classic",
@@ -1190,10 +1290,10 @@
       "category": "agent",
       "score": 32,
       "trend_score": 32,
-      "stars": 126197,
-      "velocity_7d": 1523,
-      "velocity_score": 30,
-      "growth_rate": 0.0121,
+      "stars": 126906,
+      "velocity_7d": 1736,
+      "velocity_score": 31.1,
+      "growth_rate": 0.0137,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -1203,7 +1303,7 @@
         {
           "source": "github",
           "url": "https://github.com/Graphify-Labs/graphify",
-          "label": "최근 7일 +1,523 stars"
+          "label": "최근 7일 +1,736 stars"
         }
       ],
       "status": "classic",
@@ -1236,12 +1336,12 @@
       "official_url": "https://github.com/nexu-io/open-design",
       "repo_url": "https://github.com/nexu-io/open-design",
       "category": "mcp",
-      "score": 31,
-      "trend_score": 31,
-      "stars": 100959,
-      "velocity_7d": 1092,
-      "velocity_score": 26.9,
-      "growth_rate": 0.0108,
+      "score": 30,
+      "trend_score": 30,
+      "stars": 101351,
+      "velocity_7d": 1154,
+      "velocity_score": 25.9,
+      "growth_rate": 0.0114,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -1251,7 +1351,7 @@
         {
           "source": "github",
           "url": "https://github.com/nexu-io/open-design",
-          "label": "최근 7일 +1,092 stars"
+          "label": "최근 7일 +1,154 stars"
         }
       ],
       "status": "classic",
@@ -1277,54 +1377,6 @@
       "thumbnail_url": "https://github.com/nexu-io.png"
     },
     {
-      "id": "JuliusBrussee/caveman",
-      "name": "caveman",
-      "owner": "JuliusBrussee",
-      "title_ko": "caveman — 핵심만 전달하여 토큰 소모를 극적으로 줄여주는 원시인 압축 통신 스킬",
-      "official_url": "https://github.com/JuliusBrussee/caveman",
-      "repo_url": "https://github.com/JuliusBrussee/caveman",
-      "category": "skill",
-      "score": 30,
-      "trend_score": 30,
-      "stars": 111483,
-      "velocity_7d": 1076,
-      "velocity_score": 24,
-      "growth_rate": 0.0097,
-      "v7d_estimated": false,
-      "source_count": 1,
-      "sources": [
-        "github"
-      ],
-      "evidence": [
-        {
-          "source": "github",
-          "url": "https://github.com/JuliusBrussee/caveman",
-          "label": "최근 7일 +1,076 stars"
-        }
-      ],
-      "status": "classic",
-      "catchphrase": "불필요한 미사여구를 제거하고 초압축 텍스트로 LLM 컨텍스트 윈도우를 아끼는 기법",
-      "summary_ko": "AI 에이전트와의 상호작용에서 예의상 붙는 장황한 인사말, 군더더기 서론, 반복적인 설명을 제거하여 최소한의 토큰으로 최대의 정보만을 주고받도록 설계된 스킬입니다. 빠르고 직관적인 작업 흐름을 유지하면서 LLM 사용 비용과 컨텍스트 윈도우 낭비를 크게 줄여줍니다.",
-      "key_features": [
-        "불필요한 문맥 및 의례적 텍스트 90% 이상 압축",
-        "핵심 액션과 코드 중심의 초간결 통신 모드",
-        "장시간 에이전트 세션에서 컨텍스트 소진 방지"
-      ],
-      "use_case": "에이전트의 긴 설명 없이 오직 핵심 결과와 변경 사항만 빠르게 확인하고 싶을 때",
-      "install_hint": "README 참고",
-      "badge": "⭐ Classic",
-      "badges": [
-        "⭐ Classic"
-      ],
-      "tags": [
-        "token-saver",
-        "caveman-mode",
-        "claude-skills",
-        "efficiency"
-      ],
-      "thumbnail_url": "https://github.com/JuliusBrussee.png"
-    },
-    {
       "id": "Egonex-AI/Understand-Anything",
       "name": "Understand-Anything",
       "owner": "Egonex-AI",
@@ -1332,12 +1384,12 @@
       "official_url": "https://github.com/Egonex-AI/Understand-Anything",
       "repo_url": "https://github.com/Egonex-AI/Understand-Anything",
       "category": "agent",
-      "score": 27,
-      "trend_score": 27,
-      "stars": 86174,
-      "velocity_7d": 647,
-      "velocity_score": 18.7,
-      "growth_rate": 0.0075,
+      "score": 28,
+      "trend_score": 28,
+      "stars": 86485,
+      "velocity_7d": 745,
+      "velocity_score": 19.6,
+      "growth_rate": 0.0086,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -1347,7 +1399,7 @@
         {
           "source": "github",
           "url": "https://github.com/Egonex-AI/Understand-Anything",
-          "label": "최근 7일 +647 stars"
+          "label": "최근 7일 +745 stars"
         }
       ],
       "status": "classic",
@@ -1373,54 +1425,6 @@
       "thumbnail_url": "https://github.com/Egonex-AI.png"
     },
     {
-      "id": "MaxFreedomPollard/Compartment",
-      "name": "Compartment",
-      "owner": "MaxFreedomPollard",
-      "title_ko": "Compartment — Encrypted, fully offline agentic memory. One click",
-      "official_url": "https://github.com/MaxFreedomPollard/Compartment",
-      "repo_url": "https://github.com/MaxFreedomPollard/Compartment",
-      "category": "mcp",
-      "score": 27,
-      "trend_score": 27,
-      "stars": 581,
-      "velocity_7d": 4,
-      "velocity_score": 17.1,
-      "growth_rate": 0.0069,
-      "v7d_estimated": false,
-      "source_count": 1,
-      "sources": [
-        "github"
-      ],
-      "evidence": [
-        {
-          "source": "github",
-          "url": "https://github.com/MaxFreedomPollard/Compartment",
-          "label": "최근 7일 +4 stars"
-        }
-      ],
-      "status": "classic",
-      "catchphrase": "Encrypted, fully offline agentic memory. One click install, GUI w/ memory map, all OS and agents. Superior memory creation, storage and retrieval.",
-      "summary_ko": "Encrypted, fully offline agentic memory. One click install, GUI w/ memory map, all OS and agents. Superior memory creation, storage and retrieval.",
-      "key_features": [
-        "Encrypted, fully offline agentic memory. One click...",
-        "Model Context Protocol(MCP) 표준 인터페이스 지원",
-        "agent-memory, ai-agents, ai-memory 기반 생태계 연동"
-      ],
-      "use_case": "Compartment의 기능을 프로젝트 개발 환경에 도입하고 싶을 때",
-      "install_hint": "README 참고",
-      "badge": "⭐ Classic",
-      "badges": [
-        "⭐ Classic"
-      ],
-      "tags": [
-        "agent-memory",
-        "ai-agents",
-        "ai-memory",
-        "claude"
-      ],
-      "thumbnail_url": "https://github.com/MaxFreedomPollard.png"
-    },
-    {
       "id": "NousResearch/hermes-agent",
       "name": "hermes-agent",
       "owner": "NousResearch",
@@ -1430,10 +1434,10 @@
       "category": "agent",
       "score": 26,
       "trend_score": 26,
-      "stars": 253487,
-      "velocity_7d": 1549,
+      "stars": 254119,
+      "velocity_7d": 1696,
       "velocity_score": 15.2,
-      "growth_rate": 0.0061,
+      "growth_rate": 0.0067,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -1443,7 +1447,7 @@
         {
           "source": "github",
           "url": "https://github.com/NousResearch/hermes-agent",
-          "label": "최근 7일 +1,549 stars"
+          "label": "최근 7일 +1,696 stars"
         }
       ],
       "status": "classic",
@@ -1472,16 +1476,16 @@
       "id": "ComposioHQ/awesome-claude-skills",
       "name": "awesome-claude-skills",
       "owner": "ComposioHQ",
-      "title_ko": "awesome-claude-skills — A curated list of awesome Claude Skills, resources",
+      "title_ko": "awesome-claude-skills — 실무 워크플로우 자동화를 위한 검증된 Claude 스킬 및 리소스 종합 큐레이션",
       "official_url": "https://github.com/ComposioHQ/awesome-claude-skills",
       "repo_url": "https://github.com/ComposioHQ/awesome-claude-skills",
-      "category": "mcp",
+      "category": "skill",
       "score": 25,
       "trend_score": 25,
-      "stars": 77025,
-      "velocity_7d": 355,
-      "velocity_score": 11.5,
-      "growth_rate": 0.0046,
+      "stars": 77194,
+      "velocity_7d": 408,
+      "velocity_score": 12,
+      "growth_rate": 0.0053,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -1491,30 +1495,80 @@
         {
           "source": "github",
           "url": "https://github.com/ComposioHQ/awesome-claude-skills",
-          "label": "최근 7일 +355 stars"
+          "label": "최근 7일 +408 stars"
         }
       ],
       "status": "classic",
-      "catchphrase": "A curated list of awesome Claude Skills, resources, and tools for customizing Claude AI workflows",
-      "summary_ko": "A curated list of awesome Claude Skills, resources, and tools for customizing Claude AI workflows",
+      "catchphrase": "Composio가 엄선한 분야별 Claude Code·Claude AI 커스텀 스킬과 외부 서비스 연동 템플릿 총집합",
+      "summary_ko": "Claude와 Claude Code의 실무 활용도를 극대화할 수 있는 고품질 커스텀 스킬(SKILL.md), 프롬프트 템플릿, 외부 SaaS 연동 자동화 레시피를 체계적으로 분류해 놓은 대표 큐레이션 저장소입니다. 개발, 데이터 분석, 문서 작성, 마케팅, DevOps 등 직무별로 즉시 복사해 쓸 수 있는 스킬 예제를 제공합니다.",
       "key_features": [
-        "A curated list of awesome Claude Skills, resources...",
-        "Model Context Protocol(MCP) 표준 인터페이스 지원",
-        "agent-skills, ai-agents, antigravity 기반 생태계 연동"
+        "개발·데이터·기획·데브옵스 등 직무별로 검증된 Claude 스킬 템플릿 총망라",
+        "GitHub·Notion·Slack·Jira 등 외부 SaaS 도구와 결합된 실전 워크플로우 레시피 제공",
+        "Claude Code, Cursor, Gemini CLI 등 다양한 에이전트 환경에서 즉시 재사용 가능한 표준 규격"
       ],
-      "use_case": "awesome-claude-skills의 기능을 프로젝트 개발 환경에 도입하고 싶을 때",
+      "use_case": "팀이나 개인 업무에 바로 도입할 수 있는 검증된 Claude 스킬 예제와 자동화 레시피를 찾고 싶을 때",
       "install_hint": "README 참고",
       "badge": "⭐ Classic",
       "badges": [
         "⭐ Classic"
       ],
       "tags": [
-        "agent-skills",
-        "ai-agents",
-        "antigravity",
-        "automation"
+        "awesome-list",
+        "claude-skills",
+        "workflow-automation",
+        "composio",
+        "agent-resources"
       ],
       "thumbnail_url": "https://github.com/ComposioHQ.png"
+    },
+    {
+      "id": "MaxFreedomPollard/Compartment",
+      "name": "Compartment",
+      "owner": "MaxFreedomPollard",
+      "title_ko": "Compartment — 메모리 맵 GUI를 갖춘 완전 오프라인·암호화 기반의 로컬 에이전트 장기 기억 저장소",
+      "official_url": "https://github.com/MaxFreedomPollard/Compartment",
+      "repo_url": "https://github.com/MaxFreedomPollard/Compartment",
+      "category": "mcp",
+      "score": 25,
+      "trend_score": 25,
+      "stars": 581,
+      "velocity_7d": 3,
+      "velocity_score": 11.7,
+      "growth_rate": 0.0052,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/MaxFreedomPollard/Compartment",
+          "label": "최근 7일 +3 stars"
+        }
+      ],
+      "status": "classic",
+      "catchphrase": "클라우드 유출 걱정 없는 100% 오프라인 암호화 메모리와 시각적 메모리 맵 GUI를 원클릭으로 구축",
+      "summary_ko": "모든 운영체제와 코딩 에이전트(Claude Code, Claude Desktop, Gemini CLI 등)에서 사용할 수 있는 완전 오프라인·로컬 암호화 기반 에이전트 장기 기억 시스템입니다. 원클릭 설치와 함께 기억 간의 연결 구조를 눈으로 확인하고 편집할 수 있는 메모리 맵 GUI를 제공하며, 로컬 시맨틱 검색으로 정교한 기억 생성·보관·인출을 수행합니다.",
+      "key_features": [
+        "외부 네트워크 전송 없이 로컬 디스크에서 완전 암호화되어 동작하는 오프라인 메모리",
+        "에이전트가 축적한 지식과 관계를 시각적으로 탐색·편집하는 메모리 맵(Memory Map) GUI",
+        "MCP 표준 인터페이스를 통해 Claude·Gemini 등 모든 에이전트에 원클릭 연동"
+      ],
+      "use_case": "민감한 사내 코드나 개인정보가 포함된 프로젝트 맥락을 외부 클라우드 노출 없이 안전하게 에이전트 장기 기억으로 관리할 때",
+      "install_hint": "README 참고",
+      "badge": "⭐ Classic",
+      "badges": [
+        "⭐ Classic"
+      ],
+      "tags": [
+        "encrypted-memory",
+        "offline-first",
+        "memory-map-gui",
+        "mcp-server",
+        "privacy"
+      ],
+      "thumbnail_url": "https://github.com/MaxFreedomPollard.png"
     },
     {
       "id": "garrytan/gstack",
@@ -1526,10 +1580,10 @@
       "category": "skill",
       "score": 25,
       "trend_score": 25,
-      "stars": 136314,
-      "velocity_7d": 617,
+      "stars": 136569,
+      "velocity_7d": 678,
       "velocity_score": 11.3,
-      "growth_rate": 0.0045,
+      "growth_rate": 0.005,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -1539,7 +1593,7 @@
         {
           "source": "github",
           "url": "https://github.com/garrytan/gstack",
-          "label": "최근 7일 +617 stars"
+          "label": "최근 7일 +678 stars"
         }
       ],
       "status": "classic",
@@ -1563,48 +1617,6 @@
         "startup-stack"
       ],
       "thumbnail_url": "https://github.com/garrytan.png"
-    },
-    {
-      "id": "mikehasa/agentacct",
-      "name": "agentacct",
-      "owner": "mikehasa",
-      "title_ko": "agentacct — See what your coding agents did and what it cost. ",
-      "official_url": "https://github.com/mikehasa/agentacct",
-      "repo_url": "https://github.com/mikehasa/agentacct",
-      "category": "mcp",
-      "score": 20,
-      "trend_score": 20,
-      "stars": 766,
-      "velocity_7d": 0,
-      "velocity_score": 0,
-      "growth_rate": 0,
-      "v7d_estimated": false,
-      "source_count": 1,
-      "sources": [
-        "github"
-      ],
-      "evidence": [],
-      "status": "classic",
-      "catchphrase": "See what your coding agents did and what it cost. Breaks each task down into work steps — tools used, files changed, tests run, time and tokens spent.",
-      "summary_ko": "See what your coding agents did and what it cost. Breaks each task down into work steps — tools used, files changed, tests run, time and tokens spent. Local-first dashboard for Claude Code, Codex, OpenCode, and more. No login, no telemetry.",
-      "key_features": [
-        "See what your coding agents did and what it cost. ...",
-        "Model Context Protocol(MCP) 표준 인터페이스 지원",
-        "agent-observability, ai-agents, analytics 기반 생태계 연동"
-      ],
-      "use_case": "agentacct의 기능을 프로젝트 개발 환경에 도입하고 싶을 때",
-      "install_hint": "README 참고",
-      "badge": "⭐ Classic",
-      "badges": [
-        "⭐ Classic"
-      ],
-      "tags": [
-        "agent-observability",
-        "ai-agents",
-        "analytics",
-        "claude-code"
-      ],
-      "thumbnail_url": "https://github.com/mikehasa.png"
     }
   ]
 }
