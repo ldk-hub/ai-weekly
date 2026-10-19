@@ -495,5 +495,123 @@ module.exports = {
     ],
     use_case: "폐쇄형 소프트웨어나 바이너리 파일의 내부 동작 메커니즘을 에이전트로 분석할 때",
     tags: ["reverse-engineering", "binary-analysis", "security-audit", "agent-framework"]
+  },
+  "Folkbench/folkbench": {
+    category: "harness",
+    title_ko: "folkbench — Claude Code와 Codex용 AI API 릴레이 서버의 가용성·지연시간·단가를 실측 비교하고 전환하는 도구",
+    catchphrase: "오픈소스 AI API 중계 서비스의 실제 가용률과 응답 속도를 벤치마킹하고 원클릭으로 전환",
+    summary_ko: "Claude Code와 OpenAI Codex에서 사용하는 다양한 AI API 릴레이(중계) 서비스들의 실제 가용성, 응답 지연 시간(Latency), 토큰 단가를 실시간으로 벤치마킹하고 순위를 매겨주는 Rust 및 Tauri 기반 데스크톱 도구입니다. 특정 API 공급자에 장애가 발생하거나 응답이 느려질 때 가장 빠르고 안정적인 엔드포인트로 즉시 전환할 수 있습니다.",
+    key_features: [
+      "AI API 릴레이 서비스별 실시간 가용률·응답 지연 시간·가격 비교 벤치마크",
+      "Claude Code 및 Codex 설정 파일과 연동되는 원클릭 엔드포인트 스위처",
+      "Rust 및 Tauri 기반의 가볍고 빠른 크로스플랫폼 데스크톱 앱 제공"
+    ],
+    use_case: "여러 LLM API 프록시나 라우터를 사용할 때 가장 응답이 빠르고 저렴한 공급자로 즉시 전환하고 싶을 때",
+    tags: ["api-relay", "benchmark", "endpoint-switcher", "claude-code", "codex", "tauri"]
+  },
+  "zhuyansen/new-term-radar": {
+    category: "skill",
+    title_ko: "new-term-radar — 검색 트렌드 도구에 잡히기 전 신규 AI 모델·제품·저장소 신조어를 포착하는 일일 레이더",
+    catchphrase: "X, Hugging Face, GitHub, 사이트맵에서 새로 등장한 AI 기술 용어와 프로젝트를 가장 먼저 탐지",
+    summary_ko: "Google Trends나 기존 SEO 키워드 도구가 인덱싱하기 전에 X(트위터), Hugging Face, GitHub 트렌딩, 주요 기술 사이트맵을 매일 스캔하여 새롭게 등장한 AI 모델명, 프레임워크, 오픈소스 프로젝트 명칭을 실시간으로 포착하는 스킬 및 MCP 서버입니다. 기술 트렌드 리서처와 프로덕트 빌더가 초기 시그널을 선점할 수 있도록 돕습니다.",
+    key_features: [
+      "X·Hugging Face·GitHub·웹 사이트맵 교차 스캔 기반 신조어 조기 탐지",
+      "기존 키워드 도구가 놓치는 신규 출시 모델 및 오픈소스 프로젝트 식별",
+      "Claude Code 스킬 및 MCP 서버 인터페이스로 트렌드 리서치 자동화"
+    ],
+    use_case: "새롭게 부상하는 AI 모델이나 오픈소스 기술 키워드를 남들보다 가장 먼저 파악하고 분석할 때",
+    tags: ["trend-radar", "keyword-research", "early-signal", "claude-skills", "mcp-server"]
+  },
+  "vshulcz/deja-vu": {
+    category: "mcp",
+    title_ko: "deja-vu — 디스크에 저장된 40여 종 코딩 에이전트의 과거 세션 이력을 LLM 없이 초고속 검색하는 단일 바이너리 메모리",
+    catchphrase: "Claude Code, Codex, Cursor 등 디스크 내 기존 세션 로그를 즉시 자산화하는 Go 단일 바이너리 MCP",
+    summary_ko: "별도의 외부 LLM 호출이나 무거운 데이터베이스 없이, 로컬 디스크에 이미 남아 있는 Claude Code, Codex, Cursor, Gemini CLI 등 40여 종 코딩 에이전트의 세션 히스토리를 색인하여 초고속 검색과 지속형 메모리를 제공하는 Go 단일 바이너리 도구입니다. MCP 서버와 훅(Hooks)을 통해 과거에 해결했던 버그나 설계 결정을 새로운 에이전트 세션에 즉시 주입합니다.",
+    key_features: [
+      "Claude Code·Codex·Cursor 등 40여 개 코딩 에이전트의 로컬 세션 로그 통합 색인",
+      "외부 LLM 비용 없이 즉각 동작하는 단일 Go 바이너리 기반 초고속 로컬 검색",
+      "MCP 서버 및 훅 연동으로 과거 작업 맥락을 현재 세션에 자동 복원"
+    ],
+    use_case: "여러 코딩 에이전트를 오가며 작업할 때 예전 세션에서 해결했던 코드와 대화 맥락을 즉시 되살리고 싶을 때",
+    tags: ["session-history", "agent-memory", "local-search", "go-binary", "mcp-server"]
+  },
+  "QwenAudio/qwen-audio-agent": {
+    category: "agent",
+    title_ko: "qwen-audio-agent — 코딩 에이전트와 실시간으로 끊김 없이 음성 대화를 나누며 협업하는 보이스 런타임",
+    catchphrase: "에이전트가 코드를 작성하고 실행하는 동안 실시간 음성으로 소통하는 저지연 보이스 런타임",
+    summary_ko: "Claude Code, Codex, OpenCode 등 AI 코딩 에이전트에 실시간 음성 인식(ASR)과 음성 합성(TTS) 파이프라인을 결합하여, 에이전트가 작업을 수행하는 내내 사람 동료처럼 자연스럽게 대화할 수 있게 해주는 실시간 보이스 런타임입니다. 키보드 타이핑 없이 음성으로 아키텍처를 지시하고 에이전트의 진행 상황 브리핑을 즉시 귀로 들을 수 있습니다.",
+    key_features: [
+      "저지연 실시간 음성 인식(STT) 및 자연스러운 음성 합성(TTS) 양방향 스트리밍",
+      "Claude Code·Codex·OpenCode 등 주요 코딩 에이전트 런타임과 직접 결합",
+      "작업 중 인터럽트(끼어들기) 및 실시간 상태 브리핑을 지원하는 에이전틱 보이스 인터페이스"
+    ],
+    use_case: "화면 공유나 코드 리뷰를 하면서 코딩 에이전트에게 음성으로 지시를 내리고 실시간 피드백을 받고 싶을 때",
+    tags: ["voice-agent", "realtime-audio", "speech-to-text", "ai-coding", "qwen-audio"]
+  },
+  "lidge-jun/opencodex": {
+    category: "harness",
+    title_ko: "opencodex — OpenAI Codex와 Claude Code에서 모든 상용·로컬 LLM을 자유롭게 연결해 쓰는 범용 프록시",
+    catchphrase: "Claude, Gemini, Grok, DeepSeek, Ollama 등 원하는 모든 모델을 Codex CLI와 Claude Code에 연결",
+    summary_ko: "OpenAI Codex(CLI·App·SDK)와 Claude Code 환경에서 특정 벤더 종속 없이 Claude, Gemini, Grok, DeepSeek, 로컬 Ollama 등 원하는 모든 LLM 공급자를 연결해 사용할 수 있도록 프로토콜과 도구 호출 포맷을 변환해주는 범용 AI 게이트웨이 프록시입니다.",
+    key_features: [
+      "OpenAI Codex 및 Claude Code 클라이언트와 이기종 LLM API 간의 양방향 포맷 변환",
+      "Claude·Gemini·Grok·DeepSeek·OpenRouter·로컬 Ollama 모델 무제한 연동",
+      "모델별 스트리밍 응답, 함수/도구 호출(Tool Calling), 토큰 사용량 추적 완벽 호환"
+    ],
+    use_case: "Codex CLI나 Claude Code 인터페이스는 그대로 유지하면서 백엔드 모델을 DeepSeek, Gemini, 로컬 LLM 등으로 유연하게 바꿔가며 쓸 때",
+    tags: ["llm-proxy", "universal-gateway", "codex-cli", "claude-code", "multi-model"]
+  },
+  "ComposioHQ/awesome-claude-skills": {
+    category: "skill",
+    title_ko: "awesome-claude-skills — 실무 워크플로우 자동화를 위한 검증된 Claude 스킬 및 리소스 종합 큐레이션",
+    catchphrase: "Composio가 엄선한 분야별 Claude Code·Claude AI 커스텀 스킬과 외부 서비스 연동 템플릿 총집합",
+    summary_ko: "Claude와 Claude Code의 실무 활용도를 극대화할 수 있는 고품질 커스텀 스킬(SKILL.md), 프롬프트 템플릿, 외부 SaaS 연동 자동화 레시피를 체계적으로 분류해 놓은 대표 큐레이션 저장소입니다. 개발, 데이터 분석, 문서 작성, 마케팅, DevOps 등 직무별로 즉시 복사해 쓸 수 있는 스킬 예제를 제공합니다.",
+    key_features: [
+      "개발·데이터·기획·데브옵스 등 직무별로 검증된 Claude 스킬 템플릿 총망라",
+      "GitHub·Notion·Slack·Jira 등 외부 SaaS 도구와 결합된 실전 워크플로우 레시피 제공",
+      "Claude Code, Cursor, Gemini CLI 등 다양한 에이전트 환경에서 즉시 재사용 가능한 표준 규격"
+    ],
+    use_case: "팀이나 개인 업무에 바로 도입할 수 있는 검증된 Claude 스킬 예제와 자동화 레시피를 찾고 싶을 때",
+    tags: ["awesome-list", "claude-skills", "workflow-automation", "composio", "agent-resources"]
+  },
+  "MaxFreedomPollard/Compartment": {
+    category: "mcp",
+    title_ko: "Compartment — 메모리 맵 GUI를 갖춘 완전 오프라인·암호화 기반의 로컬 에이전트 장기 기억 저장소",
+    catchphrase: "클라우드 유출 걱정 없는 100% 오프라인 암호화 메모리와 시각적 메모리 맵 GUI를 원클릭으로 구축",
+    summary_ko: "모든 운영체제와 코딩 에이전트(Claude Code, Claude Desktop, Gemini CLI 등)에서 사용할 수 있는 완전 오프라인·로컬 암호화 기반 에이전트 장기 기억 시스템입니다. 원클릭 설치와 함께 기억 간의 연결 구조를 눈으로 확인하고 편집할 수 있는 메모리 맵 GUI를 제공하며, 로컬 시맨틱 검색으로 정교한 기억 생성·보관·인출을 수행합니다.",
+    key_features: [
+      "외부 네트워크 전송 없이 로컬 디스크에서 완전 암호화되어 동작하는 오프라인 메모리",
+      "에이전트가 축적한 지식과 관계를 시각적으로 탐색·편집하는 메모리 맵(Memory Map) GUI",
+      "MCP 표준 인터페이스를 통해 Claude·Gemini 등 모든 에이전트에 원클릭 연동"
+    ],
+    use_case: "민감한 사내 코드나 개인정보가 포함된 프로젝트 맥락을 외부 클라우드 노출 없이 안전하게 에이전트 장기 기억으로 관리할 때",
+    tags: ["encrypted-memory", "offline-first", "memory-map-gui", "mcp-server", "privacy"]
+  },
+  "mikehasa/agentacct": {
+    category: "harness",
+    title_ko: "agentacct — 코딩 에이전트의 작업 단계별 도구 호출·파일 변경·토큰 비용을 추적하는 로컬 퍼스트 대시보드",
+    catchphrase: "로그인이나 원격 텔레메트리 없이 에이전트가 수행한 작업과 비용을 단계별로 정밀 해부",
+    summary_ko: "Claude Code, Codex, OpenCode 등 코딩 에이전트가 수행한 작업을 단계별(호출한 도구, 변경한 파일, 실행한 테스트, 소요 시간, 소모된 토큰 및 비용)로 세밀하게 분해해 보여주는 로컬 퍼스트 관측(Observability) 대시보드입니다. 외부 서버 로그인이나 텔레메트리 전송 없이 로컬에서 안전하게 에이전트 지출과 작업 효율을 분석할 수 있습니다.",
+    key_features: [
+      "태스크별 도구 호출·파일 수정·테스트 실행·소요 시간·토큰 비용의 단계별 분해 시각화",
+      "Claude Code·Codex·OpenCode 등 주요 코딩 에이전트 로컬 로그 자동 파싱",
+      "계정 로그인 및 외부 텔레메트리 전송이 전혀 없는 100% 로컬 퍼스트 아키텍처"
+    ],
+    use_case: "코딩 에이전트가 어떤 작업 단계에서 토큰과 시간을 가장 많이 소모했는지 로컬에서 정밀하게 감사하고 싶을 때",
+    tags: ["agent-observability", "cost-tracking", "token-analytics", "local-first", "claude-code"]
+  },
+  "paperclipai/paperclip": {
+    category: "harness",
+    title_ko: "paperclip — 실무 현업에서 여러 AI 코딩 에이전트를 통합 지휘하고 거버넌스를 관리하는 오픈소스 앱",
+    catchphrase: "Claude Code, Codex, OpenClaw 등 멀티 에이전트 오케스트레이션과 프로젝트 워크플로우 자동화를 한곳에서 관리",
+    summary_ko: "기업 및 팀 단위 개발 환경에서 Claude Code, Codex, Hermes, OpenClaw 등 다양한 자율 에이전트들을 하나의 대시보드에서 통합 오케스트레이션하고 프로젝트 작업을 배분·통제할 수 있는 오픈소스 애플리케이션입니다. 에이전트별 권한 거버넌스, 스킬 배포, 작업 진행 상태를 체계적으로 관리하여 멀티 에이전트 협업 생산성을 극대화합니다.",
+    key_features: [
+      "Claude Code·Codex·OpenClaw 등 이기종 멀티 에이전트 통합 오케스트레이션",
+      "실무 프로젝트 태스크 할당, 워크플로우 자동화 및 에이전트 거버넌스 제어",
+      "MCP 및 에이전트 스킬(Agent Skills) 표준 규격 연동으로 팀 단위 확장 지원"
+    ],
+    use_case: "실무 개발팀에서 여러 종류의 AI 코딩 에이전트를 동시에 운영하며 작업 할당과 권한을 체계적으로 관리할 때",
+    tags: ["agent-orchestration", "multi-agent", "ai-governance", "workflow-automation", "claude-code"]
   }
 };
+

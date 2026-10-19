@@ -49,62 +49,59 @@
 
   <div class="header-container" role="banner">
     <div class="top-bar">
-          <nav class="page-nav">
-            <a href="./" class="pn-link">
-              <span data-i18n-en="Popular Plugins" data-i18n-ko="인기 플러그인">인기 플러그인</span>
-            </a>
-            <a href="news" class="pn-link">
-              <span data-i18n-en="AI News" data-i18n-ko="AI 뉴스">AI 뉴스</span>
-            </a>
-            <a href="starboard" class="pn-link">
-              <span data-i18n-en="Starboard" data-i18n-ko="스타보드">스타보드</span>
-            </a>
-            <a href="lounge" class="pn-link is-active">
-              <span data-i18n-en="Lounge" data-i18n-ko="라운지">라운지</span>
-            </a>
-          </nav>
-          <div class="brand-actions">
-            <button class="theme-toggle" id="theme-toggle" aria-label="테마 전환" type="button">🌙 다크</button>
-            <button class="lang-toggle" id="lang-toggle" aria-label="언어 전환" type="button">
-              <span class="lang-opt" data-lang="en">EN</span>
-              <span class="lang-sep">/</span>
-              <span class="lang-opt" data-lang="ko">KO</span>
-            </button>
-            <a class="gh-btn" href="https://github.com/ldk-hub/ai-weekly" target="_blank" rel="noopener">GitHub</a>
-          </div>
+      <a href="./" class="brand-logo" aria-label="AI위클리 홈">
+        <img src="claude-avatar.svg" alt="" width="28" height="28" />
+        <span class="brand-name" data-i18n-en="AI Weekly" data-i18n-ko="AI위클리">AI위클리</span>
+      </a>
+      <nav class="page-nav" aria-label="주요 메뉴">
+        <a href="./" class="pn-link">
+          <span data-i18n-en="Popular Plugins" data-i18n-ko="인기 플러그인">인기 플러그인</span>
+        </a>
+        <a href="news" class="pn-link">
+          <span data-i18n-en="AI News" data-i18n-ko="AI 뉴스">AI 뉴스</span>
+        </a>
+        <a href="starboard" class="pn-link">
+          <span data-i18n-en="Starboard" data-i18n-ko="스타보드">스타보드</span>
+        </a>
+        <a href="lounge" class="pn-link is-active">
+          <span data-i18n-en="Lounge" data-i18n-ko="라운지">라운지</span>
+        </a>
+      </nav>
+      <div class="brand-actions">
+        <button class="theme-toggle" id="theme-toggle" aria-label="테마 전환" type="button">🌙 다크</button>
+        <button class="lang-toggle" id="lang-toggle" aria-label="언어 전환" type="button">
+          <span class="lang-opt" data-lang="en">EN</span>
+          <span class="lang-sep">/</span>
+          <span class="lang-opt" data-lang="ko">KO</span>
+        </button>
+        <a class="gh-btn" href="https://github.com/ldk-hub/ai-weekly" target="_blank" rel="noopener">GitHub</a>
+      </div>
     </div>
 
-    <div class="hero-header">
+    <div class="compact-subbar">
       <div class="hero-titles">
-        <h1 class="hero-h1" data-i18n-en-html="Where the <span class='hl-mint'>conversation</span><br>actually <span class='hl-lemon'>happens</span>." data-i18n-ko-html="읽고 끝내지 않고<br><span class='hl-mint'>이야기</span>를 <span class='hl-lemon'>남깁니다</span>.">읽고 끝내지 않고<br><span class="hl-mint">이야기</span>를 <span class="hl-lemon">남깁니다</span>.</h1>
-        <p class="hero-p" data-i18n-en-html="A free-form thread plus <strong class='hero-strong'>every recent comment</strong> left across the site." data-i18n-ko-html="자유 대화 스레드와 사이트 곳곳에 달린 <strong class='hero-strong'>최근 댓글</strong>을 한곳에 모았습니다.">자유 대화 스레드와 사이트 곳곳에 달린 <strong class="hero-strong">최근 댓글</strong>을 한곳에 모았습니다.</p>
+        <h1 class="hero-h1" data-i18n-en-html="Where the <span class='hl-mint'>conversation</span> actually <span class='hl-lemon'>happens</span>." data-i18n-ko-html="읽고 끝내지 않고 <span class='hl-mint'>이야기</span>를 <span class='hl-lemon'>남깁니다</span>.">읽고 끝내지 않고 <span class="hl-mint">이야기</span>를 <span class="hl-lemon">남깁니다</span>.</h1>
+        <p class="hero-p" data-i18n-en-html="Free-form thread &amp; <strong class='hero-strong'>recent comments</strong> across the site" data-i18n-ko-html="자유 대화 스레드와 사이트 전체 <strong class='hero-strong'>최근 댓글</strong> 모음">자유 대화 스레드와 사이트 전체 <strong class="hero-strong">최근 댓글</strong> 모음</p>
       </div>
 
-      <div class="hero-actions">
-        <div class="hero-art-dots">
-          <img src="claude-avatar.svg" alt="Claude" width="72" height="72" />
+      <div class="update-bar" id="update-bar" role="status" aria-live="polite">
+        <div class="update-meta">
+          <span class="update-dot"></span>
+          <span class="update-text"><strong id="updated-at">—</strong> <span data-i18n-en="Updated" data-i18n-ko="갱신">갱신</span></span>
+          <span class="update-sep" id="version-sep"></span>
+          <span class="version-pill" id="version-pill"></span>
+          <span class="update-sep"></span>
+          <span class="update-text unb-summary" id="page-summary">—</span>
+        </div>
+
+        <div class="update-actions-right">
+          <a class="archive-btn" href="https://github.com/ldk-hub/ai-weekly/discussions" target="_blank" rel="noopener">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 3.5h12v8H6l-3 2.5v-2.5H2z"></path></svg>
+            <span data-i18n-en="All discussions" data-i18n-ko="전체 스레드">전체 스레드</span>
+          </a>
         </div>
       </div>
     </div>
-
-    <div class="update-bar" id="update-bar" role="status" aria-live="polite">
-      <div class="update-meta">
-        <span class="update-dot"></span>
-        <span class="update-text"><strong id="updated-at">—</strong> <span data-i18n-en="Updated" data-i18n-ko="갱신">갱신</span></span>
-        <span class="update-sep" id="version-sep"></span>
-        <span class="version-pill" id="version-pill"></span>
-        <span class="update-sep"></span>
-        <span class="update-text unb-summary" id="page-summary">—</span>
-      </div>
-
-      <div class="update-actions-right">
-        <a class="archive-btn" href="https://github.com/ldk-hub/ai-weekly/discussions" target="_blank" rel="noopener">
-          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 3.5h12v8H6l-3 2.5v-2.5H2z"></path></svg>
-          <span data-i18n-en="All discussions" data-i18n-ko="전체 스레드">전체 스레드</span>
-        </a>
-      </div>
-    </div>
-
   </div>
 
   <main id="lounge-container"><div style="text-align:center;padding:60px 0;color:var(--muted);font-size:15px;" data-i18n-en="Loading the lounge…" data-i18n-ko="라운지를 불러오는 중…">라운지를 불러오는 중…</div></main>
