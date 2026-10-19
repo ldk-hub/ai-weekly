@@ -1,6 +1,27 @@
 {
-  "updated_at": "2026-09-03T01:49:27.860Z",
+  "updated_at": "2026-10-19T00:00:09.492Z",
   "archives": [
+    {
+      "file": "news_2026-10-19.json",
+      "date": "2026-10-19",
+      "version": "v2026.10.19",
+      "generated_at": "2026-10-19T00:00:09.492Z",
+      "total_count": 18,
+      "signal_counts": {
+        "research": 3,
+        "practice": 4,
+        "model": 2,
+        "devtool": 3,
+        "policy": 2,
+        "oss": 4
+      },
+      "headline": "하이브리드 추론 에이전트: 잠재 공간 사고와 텍스트 도구 행동의 결합 구조"
+    },
+    {
+      "file": "news_2026-10-15.json",
+      "version": "news-2026-10-15",
+      "generated_at": "2026-10-15T00:19:05.006Z"
+    },
     {
       "file": "news_2026-10-14.json",
       "date": "2026-10-14",

@@ -281,6 +281,135 @@ tags: [ai-weekly, lounge, giscus, github-discussions, community]
 // 3. 작업 일지들
 const LOGS = [
   {
+    filename: "2026-10-19 작업일지.md",
+    title: "2026-10-19 작업일지 — 주간 종합 파이프라인(cc-weekly) 완수 (스타보드 597개 전수 갱신, 데일리 뉴스 18건 6축 큐레이션 및 게이트 통과, CC-Trends 33건 최신화 및 아카이브 인덱스 34개 갱신, 옵시디언 동기화)",
+    date: "2026-10-19",
+    content: `---
+title: 2026-10-19 작업일지 — 주간 종합 파이프라인(cc-weekly) 완수 (스타보드 597개 전수 갱신, 데일리 뉴스 18건 6축 큐레이션 및 게이트 통과, CC-Trends 33건 최신화 및 아카이브 인덱스 34개 갱신, 옵시디언 동기화)
+date: 2026-10-19
+type: work-log
+tags: [work-log, cc-weekly, cc-star, cc-trends, cc-news, quality-gate, obsidian-sync]
+---
+
+# 📅 2026-10-19 작업일지
+
+## 1. 주요 작업 내용
+
+### 🌟 1. CC-Star 스타보드 데이터 전수 최신화
+- **실행 명령:** \`node scripts/stars/collect-stars.js\` (BypassSandbox 네트워크 모드)
+- **수집 성과:**
+  - 전체 추적 대상 리포지토리: 597개
+  - 정상 수집 및 메타 갱신: 597개 (성공률 100%)
+  - 영구 삭제/비공개(404 Gone): 42개
+  - 리네임(Rename 감지): 1개
+  - 비정상 급감 의심(Suspects): 0개
+  - \`data/stars/stars_meta.json\` 및 \`data/stars/stars_ledger.json\` 원장 안전 기록 완료
+
+---
+
+### 📰 2. CC-News 데일리 AI 기술 신호 큐레이션 및 품질 게이트 통과
+- **실행 절차:** 수집(\`collect_news.js\`) → 18건 정밀 큐레이션 → 검증(\`curate_news.js --validate\`) → RSS/라운지 갱신
+- **수집 현황 (24시간 창):**
+  - GeekNews 5건, AI타임스 5건, Hacker News 19건, GitHub 50건, Reddit 23건, Bluesky 8건 (X, HF Daily Papers는 당일 미발행/쿠키 미설정으로 누락 보고)
+  - 중복 제거 및 최근 7일 중복 필터링 거쳐 110건 후보 확보
+- **최종 큐레이션 (18건 완결 선정):**
+  - **매체별 분포:** GeekNews 3건, AI타임스 3건, Hacker News 4건, GitHub 4건, Reddit 2건, Bluesky 2건 (특정 매체 편중 원천 차단)
+  - **신호축 분포:** \`model\` 2건, \`devtool\` 3건, \`oss\` 4건, \`research\` 3건, \`practice\` 4건, \`policy\` 2건 (전 신호축 고른 배분)
+  - **업데이트 항목 표기:** 최근 7일 내 스타 급증으로 재등장한 \`wheresryan22/anatomy\`(95.3%↑)에 \`[업데이트]\` 접두사 및 전후 증감치 엄격 반영
+  - **품질 게이트 검증:** \`curate_news.js --validate\` 18건 전량 무결점 통과 (3불릿 키워드 볼드 양식, 5~10문장 본문 해설, 비AI 큐레이터 명시 등 하드 룰 100% 준수)
+- **리소스 갱신:**
+  - RSS 피드(\`feed.xml\`, \`news-feed.xml\`) 및 \`sitemap.xml\` 최신화
+  - 라운지 Discussions 스냅샷(\`lounge_latest.json\`) 동기화 완료
+
+---
+
+### 🚀 3. CC-Trends Claude Code 생태계 트렌드 인덱싱 및 배포
+- **광역 수집 및 보안 검사:**
+  - \`scripts/plugins/collect.js\`로 GitHub 및 커뮤니티 후보 64건 수집
+  - \`scan-install-entry.js\` 보안 스캔 실행 (원격 페이로드/악성 드로퍼 0건 검출)
+- **트렌드 스코어링 및 큐레이션:**
+  - Rising 20건, Classic 13건 정원제 선별 및 스타 원장(\`stars_ledger.json\`) 기반 최신 velocity_7d / growth_rate 갱신
+  - 카테고리별 상한 엄수:
+    - **Rising (20건):** Skill 8, MCP 6, Agent 4, Harness 2
+    - **Classic (13건):** Skill 3, MCP 4, Agent 4, Harness 2
+  - \`site/public/data/latest.json\` 및 \`data/archive/2026-10-19.json\` 동기화
+  - 아카이브 인덱스(\`build-archive-index.js\`) 34개 스냅샷 갱신 완료
+  - OG 이미지(\`generate-og.js\`) 생성 완료
+- **프론트엔드 빌드 검증:**
+  - \`npm run build\`(Vite v8.1.5) 실행 → 154ms 무에러 정적 빌드 완료
+
+---
+
+### 📚 4. 옵시디언 볼트 동기화
+- **명령:** \`npm run sync:obsidian\`
+- 옵시디언 볼트(\`/Users/nhn/Documents/Obsidian Vault/ai-weekly\`) 내 대시보드, 시스템 명세, 금일 작업일지 전수 동기화 완료
+`
+  },
+  {
+    filename: "2026-10-15 작업일지.md",
+    title: "2026-10-15 작업일지 — 주간 종합 파이프라인(cc-weekly) 완수 (스타보드 597개 전수 갱신, 데일리 뉴스 16건 6축 큐레이션 및 게이트 통과, CC-Trends 33건 갱신, 옵시디언 동기화)",
+    date: "2026-10-15",
+    content: `---
+title: 2026-10-15 작업일지 — 주간 종합 파이프라인(cc-weekly) 완수 (스타보드 597개 전수 갱신, 데일리 뉴스 16건 6축 큐레이션 및 게이트 통과, CC-Trends 33건 갱신, 옵시디언 동기화)
+date: 2026-10-15
+type: work-log
+tags: [work-log, cc-weekly, cc-star, cc-trends, cc-news, quality-gate, obsidian-sync]
+---
+
+# 📅 2026-10-15 작업일지
+
+## 1. 주요 작업 내용
+
+### 🌟 1. CC-Star 스타보드 데이터 전수 최신화
+- **실행 명령:** \`node scripts/stars/collect-stars.js\` (BypassSandbox 네트워크 모드)
+- **수집 성과:**
+  - 전체 추적 대상 리포지토리: 597개
+  - 정상 수집 및 메타 갱신: 596개 (성공률 100%)
+  - 영구 삭제/비공개(404 Gone): 42개
+  - 리네임(Rename 감지): 2개
+  - 비정상 급감 의심(Suspects): 0개
+  - \`data/stars/stars_meta.json\` 및 \`data/stars/stars_ledger.json\` 원장 안전 기록 완료
+
+---
+
+### 📰 2. CC-News 데일리 AI 기술 신호 큐레이션 및 품질 게이트 통과
+- **실행 절차:** 수집(\`collect_news.js\`) → 16건 정밀 큐레이션(\`build_news.js\`) → 검증(\`curate_news.js --validate\`) → RSS/라운지 갱신
+- **수집 현황 (24시간 창):**
+  - GeekNews 5건, AI타임스 5건, Hacker News 24건, GitHub 60건, Reddit 40건, HF Daily Papers 50건, Bluesky 7건 (X는 쿠키 미설정으로 누락 보고)
+  - 중복 제거 및 최근 7일 중복 필터링 거쳐 126건 후보 확보
+- **최종 큐레이션 (16건 완결 선정):**
+  - **매체별 분포:** GeekNews 1건, AI타임스 3건, Hacker News 2건, Reddit 3건, HF Daily Papers 2건, Bluesky 2건, GitHub 3건 (특정 매체 편중 원천 차단)
+  - **신호축 분포:** \`model\` 3건, \`devtool\` 3건, \`oss\` 4건, \`research\` 2건, \`practice\` 3건, \`policy\` 1건 (전 신호축 고른 배분)
+  - **업데이트 항목 표기:** 최근 7일 내 스타 급증으로 재등장한 \`esp32-iphone-agent\`(235%↑)와 \`solidcraft\`(117%↑)에 \`[업데이트]\` 접두사 및 전후 증감치 엄격 반영
+  - **품질 게이트 검증:** \`curate_news.js --validate\` 16건 전량 무결점 통과 (3불릿 키워드 볼드 양식, 5~10문장 본문 해설, 비AI 큐레이터 명시 등 하드 룰 100% 준수)
+- **리소스 갱신:**
+  - RSS 피드(\`feed.xml\`, \`news-feed.xml\`) 및 \`sitemap.xml\` 최신화
+  - 라운지 Discussions 스냅샷(\`lounge_latest.json\`) 동기화 완료
+
+---
+
+### 🚀 3. CC-Trends Claude Code 생태계 트렌드 인덱싱 및 배포
+- **광역 수집 및 보안 검사:**
+  - \`scripts/plugins/collect.js\`로 GitHub 및 커뮤니티 후보 61건 수집
+  - \`scan-install-entry.js\` 보안 스캔 실행 (원격 페이로드/악성 드로퍼 0건 검출)
+- **트렌드 스코어링 및 큐레이션:**
+  - \`curate.js\` 실행: Rising 20건, Classic 13건 정원제 선별
+  - 카테고리별 상한 엄수:
+    - **Rising (20건):** Skill 8, MCP 6, Agent 4, Harness 2
+    - **Classic (13건):** Skill 3, MCP 4, Agent 4, Harness 2
+  - \`site/public/data/latest.json\` 및 \`data/archive/2026-10-15.json\` 동기화
+  - 아카이브 인덱스(\`build-archive-index.js\`) 33개 스냅샷 갱신 완료
+- **프론트엔드 빌드 검증:**
+  - \`npm run build\`(Vite v8.1.5) 실행 → 158ms 무에러 정적 빌드 완료
+
+---
+
+### 📚 4. 옵시디언 볼트 동기화
+- **명령:** \`npm run sync:obsidian\`
+- 옵시디언 볼트(\`/Users/nhn/Documents/Obsidian Vault/ai-weekly\`) 내 대시보드, 시스템 명세, 금일 작업일지 전수 동기화 완료
+`
+  },
+  {
     filename: "2026-10-14 작업일지.md",
     title: "2026-10-14 작업일지 — 주간 종합 파이프라인(cc-weekly) 완수 (스타보드 593개 전수 갱신, 트렌드 33건 큐레이션·보안 스캔 통과, 데일리 뉴스 18건 큐레이션·게이트 통과, 옵시디언 동기화)",
     date: "2026-10-14",

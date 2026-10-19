@@ -16,7 +16,7 @@
   <!-- Version pill (right side) -->
   <g transform="translate(940, 64)">
     <rect x="0" y="0" width="200" height="36" rx="18" fill="#f2efe5"/>
-    <text x="100" y="23" font-size="13" font-weight="600" fill="#0e0e0e" text-anchor="middle">📅 2026.10.14 · v2026.10.14</text>
+    <text x="100" y="23" font-size="13" font-weight="600" fill="#0e0e0e" text-anchor="middle">📅 2026.10.19 · v2026.10.19</text>
   </g>
 
   <!-- Main title -->
@@ -27,38 +27,38 @@
   
     <g transform="translate(60, 290)">
       <rect x="0" y="0" width="347" height="280" rx="20" fill="#ffeca0" stroke="#0e0e0e" stroke-width="1.5"/>
-      <text x="24" y="40" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="2">#01 · SKILL</text>
-      <text x="24" y="92" font-size="28" font-weight="700" fill="#0e0e0e" letter-spacing="-0.5">answer-me-with-…</text>
-      <text x="24" y="138" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">터미널의 장황한 텍스트 답변 대신 표, 차트, 탭이 갖춰진 유려한 …</text>
-      <text x="24" y="172" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">차트, 탭이 갖춰진 유려한 원페이지 HTML로 응답</text>
-
-      <g transform="translate(24, 220)">
-        <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">QingYunA/answer-me-wit…</text>
-        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 3.3k</text>
-      </g>
-    </g>
-    <g transform="translate(427, 290)">
-      <rect x="0" y="0" width="347" height="280" rx="20" fill="#d8edd0" stroke="#0e0e0e" stroke-width="1.5"/>
-      <text x="24" y="40" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="2">#02 · AGENT</text>
+      <text x="24" y="40" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="2">#01 · AGENT</text>
       <text x="24" y="92" font-size="28" font-weight="700" fill="#0e0e0e" letter-spacing="-0.5">rea — 앱 동작 분석부터…</text>
       <text x="24" y="138" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">애플리케이션의 런타임 행동과 바이너리 구조를 에이전트가 깊이 파고들…</text>
       <text x="24" y="172" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85"></text>
 
       <g transform="translate(24, 220)">
         <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">morluto/rea</text>
-        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 207k</text>
+        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 322k</text>
+      </g>
+    </g>
+    <g transform="translate(427, 290)">
+      <rect x="0" y="0" width="347" height="280" rx="20" fill="#d8edd0" stroke="#0e0e0e" stroke-width="1.5"/>
+      <text x="24" y="40" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="2">#02 · SKILL</text>
+      <text x="24" y="92" font-size="28" font-weight="700" fill="#0e0e0e" letter-spacing="-0.5">answer-me-with-…</text>
+      <text x="24" y="138" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">터미널의 장황한 텍스트 답변 대신 표, 차트, 탭이 갖춰진 유려한 …</text>
+      <text x="24" y="172" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">차트, 탭이 갖춰진 유려한 원페이지 HTML로 응답</text>
+
+      <g transform="translate(24, 220)">
+        <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">QingYunA/answer-me-wit…</text>
+        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 3.7k</text>
       </g>
     </g>
     <g transform="translate(794, 290)">
       <rect x="0" y="0" width="347" height="280" rx="20" fill="#ffd8bd" stroke="#0e0e0e" stroke-width="1.5"/>
-      <text x="24" y="40" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="2">#03 · AGENT</text>
-      <text x="24" y="92" font-size="28" font-weight="700" fill="#0e0e0e" letter-spacing="-0.5">magpie — 맥 메뉴바에…</text>
-      <text x="24" y="138" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">Codex에 DeepSeek을, Claude Code에 Kimi를 …</text>
-      <text x="24" y="172" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">Claude Code에 Kimi를 메뉴바에서 즉시 전환하는 멀티 모델 브릿지</text>
+      <text x="24" y="40" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="2">#03 · MCP</text>
+      <text x="24" y="92" font-size="28" font-weight="700" fill="#0e0e0e" letter-spacing="-0.5">Agent-Reach — 트…</text>
+      <text x="24" y="138" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">단 하나의 CLI로 인터넷 전역의 정보를 에이전트에게 실시간 공급하…</text>
+      <text x="24" y="172" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85"></text>
 
       <g transform="translate(24, 220)">
-        <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">yetone/magpie</text>
-        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 12k</text>
+        <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">Panniantong/Agent-Reach</text>
+        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 99k</text>
       </g>
     </g>
 
