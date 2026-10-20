@@ -281,6 +281,50 @@ tags: [ai-weekly, lounge, giscus, github-discussions, community]
 // 3. 작업 일지들
 const LOGS = [
   {
+    filename: "2026-10-20 작업일지.md",
+    title: "2026-10-20 작업일지 — 평일 데일리 파이프라인(cc-daily) 완수 (GitHub 토큰 멈춤 방어 개선, 113건 수집·18건 전 매체 균형 큐레이션, 품질 게이트 통과, RSS/옵시디언 동기화)",
+    date: "2026-10-20",
+    content: `---
+title: 2026-10-20 작업일지 — 평일 데일리 파이프라인(cc-daily) 완수 (GitHub 토큰 멈춤 방어 개선, 113건 수집·18건 전 매체 균형 큐레이션, 품질 게이트 통과, RSS/옵시디언 동기화)
+date: 2026-10-20
+type: work-log
+tags: [work-log, cc-daily, cc-news, quality-gate, obsidian-sync]
+---
+
+# 📅 2026-10-20 작업일지
+
+## 1. 주요 작업 내용
+
+### 🛡️ 1. GitHub 토큰 탐색 무한 대기(Hang) 방어 패치
+- **문제 진단:** \`scripts/core/github-token.js\` 내 \`git credential fill\` 호출 시 macOS 키체인 대화상자/프롬프트 대기로 인해 비동기 태스크가 무한 블록되는 현상 발견
+- **코드 개선:** \`execSync("git credential fill", ...)\`에 \`timeout: 3000\`을 부여하여 토큰 부재 환경에서도 안전하게 즉시 에러를 반환하고 진행할 수 있도록 수술적 패치 적용
+- **의사결정 (/grill-me):** 사용자 인터뷰를 통해 기존 스타보드 원장 데이터(597개 리포)를 안전하게 보존하고, 데일리 AI 기술 신호 큐레이션(Step 2~5)을 고품질 에이전트 직접 작성 모드로 집중 수행하기로 합의
+
+---
+
+### 📰 2. CC-News 데일리 AI 기술 신호 큐레이션 및 품질 게이트 통과
+- **실행 절차:** 수집(\`collect_news.js\`) → 18건 전 매체 균형 큐레이션 → 검증(\`curate_news.js --validate\`) → RSS 피드 최신화
+- **수집 현황 (24시간 창, 113건 확보):**
+  - GeekNews 5건, AI타임스 5건, Hacker News 16건, GitHub 50건, Reddit 30건, Bluesky 7건
+  - [MISSING] 매체: X (부계정 쿠키 미설정), HF Daily Papers (해당 일자 0건) 투명 보고
+  - [REPEAT] 최근 7일 배포본 84건 URL 대조: 3건 중복 제외, 4건 업데이트 후보 유지
+- **최종 큐레이션 (18건 엄선, 매체별 3건 완벽 균형):**
+  - **매체별 분포:** GeekNews 3건, AI타임스 3건, Hacker News 3건, Reddit 3건, Bluesky 3건, GitHub 3건 (특정 매체 편중 원천 차단)
+  - **신호축 분포:** \`model\` 3건, \`devtool\` 4건, \`oss\` 4건, \`research\` 3건, \`practice\` 3건, \`policy\` 2건, \`product\` 1건 (전 신호축 고른 배분)
+  - **업데이트 항목 표기:** 최근 7일 내 스타 급증으로 재등장한 \`onehumanbeing/esp32-iphone-agent\`(별 2,074→3,289, 58.6%↑, 하루평균 397개)에 \`[업데이트]\` 접두사 및 전후 증감치 엄격 반영
+- **품질 게이트 검증:**
+  - \`node scripts/news/curate_news.js --validate\` 18건 전원 무결점 통과
+  - 3불릿 키워드 볼드(\`• **키워드**: \`), 5~10문장 해설(\`body_ko\`), 스크랩 없는 완전 재작성 준수
+
+---
+
+### 📡 3. 배포 리소스 갱신 및 옵시디언 동기화
+- **RSS/사이트맵 갱신:** \`scripts/core/generate-rss.js\` 실행 → \`feed.xml\`, \`news-feed.xml\`, \`sitemap.xml\` 최신화 완료
+- **아카이브 영구 보존:** \`site/public/data/archive/news_2026-10-20.json\`, \`data/archive/news_2026-10-20.json\`, \`news_index.json\` 갱신 완료
+- **옵시디언 볼트 동기화:** \`npm run sync:obsidian\` 실행으로 로컬 볼트(\`/Users/nhn/Documents/Obsidian Vault/ai-weekly\`)와 동기화 완수
+`,
+  },
+  {
     filename: "2026-10-19 작업일지.md",
     title: "2026-10-19 작업일지 — 주간 종합 파이프라인(cc-weekly) 완수 (스타보드 597개 전수 갱신, 데일리 뉴스 18건 6축 큐레이션 및 게이트 통과, CC-Trends 33건 최신화 및 아카이브 인덱스 34개 갱신, 옵시디언 동기화)",
     date: "2026-10-19",

@@ -39,6 +39,7 @@ function resolveGitHubToken() {
       input: "protocol=https\nhost=github.com\n\n",
       encoding: "utf8",
       stdio: ["pipe", "pipe", "ignore"],
+      timeout: 3000,
     });
     const match = out.match(/^password=(.+)$/m);
     if (match && match[1].trim()) {

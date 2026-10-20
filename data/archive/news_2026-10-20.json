@@ -1,0 +1,546 @@
+{
+  "generated_at": "2026-10-20T01:53:07.607Z",
+  "version": "v2026.10.20",
+  "summary": "🔥 오늘의 핵심 이슈: #하네스엔지니어링 #코딩에이전트 #로컬AI — 모델 가중치 튜닝을 넘어 실행 환경(하네스)과 워크플로우 제어로 진화하는 AI 에이전트 기술 흐름이 집중된 하루였습니다.",
+  "curated_by": "ldk-hub",
+  "signal_counts": {
+    "oss": 3,
+    "research": 3,
+    "practice": 3,
+    "model": 3,
+    "devtool": 3,
+    "policy": 2,
+    "product": 1
+  },
+  "news": [
+    {
+      "id": "github_1119c57199",
+      "category_id": "github",
+      "category_name": "GitHub",
+      "signal_id": "oss",
+      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
+      "importance": 93,
+      "headline": "[업데이트] esp32-iphone-agent: 7달러 ESP32로 아이폰을 자율 제어하는 하드웨어 에이전트 (별 58% 급증)",
+      "title_ko": "[업데이트] esp32-iphone-agent: 7달러 ESP32로 아이폰을 자율 제어하는 하드웨어 에이전트 (별 58% 급증)",
+      "summary_ko": "• **스타 급상승**: 지난 10월 15일 소개 이후 스타 수가 2,074개에서 3,289개로 58.6% 급증하며 하루 평균 397개의 별을 획득 중인 화제의 리포입니다.\n• **기능 진화**: 블루투스 마우스/키보드 HID 에뮬레이션 안정성을 높이고 로컬 비전 모델(Qwen2.5-VL)과의 제로레이턴시 통신 모듈을 새롭게 추가했습니다.\n• **모바일 자동화**: 맥 컴퓨터나 탈옥, 애플 개발자 계정 없이도 실제 스마트폰 UI를 AI가 직접 보고 터치하는 임베디드 자동화의 지평을 넓혔습니다.",
+      "body_ko": "onehumanbeing이 공개한 esp32-iphone-agent는 단돈 7달러짜리 ESP32 마이크로컨트롤러를 이용해 AI가 실제 아이폰을 조작하게 만드는 오픈소스 프로젝트입니다. 지난 10월 15일 첫 배포 이후 스타 수가 2,074개에서 3,289개로 58.6% 급증했으며, 하루 평균 397개의 스타를 꾸준히 모으며 전 세계 개발자 커뮤니티의 뜨거운 주목을 받고 있습니다. 이번 업데이트에서는 에어플레이 화면 캡처 대기 시간을 30% 단축하고 USB HID 가상 터치 제스처의 입력 정밀도를 대폭 개선했습니다. 또한 클라우드 API뿐 아니라 온디바이스에서 구동되는 로컬 비전 모델과의 직결 통신을 지원하여 데이터 보안을 강화했습니다. 탈옥이나 복잡한 개발자 인증 절차 없이도 피지컬 하드웨어를 통해 완벽한 모바일 디바이스 자율 에이전트를 구현할 수 있다는 점에서 폭발적인 호응을 얻고 있습니다.",
+      "is_update": true,
+      "prev_published_date": "2026-10-15",
+      "prev_stars": 2074,
+      "star_growth_pct": 58.6,
+      "author_profile": "onehumanbeing",
+      "publish_date": "2026-10-19T21:10:19.000Z",
+      "tags": [
+        "ESP32",
+        "아이폰자동화",
+        "임베디드AI",
+        "오픈소스"
+      ],
+      "url": "https://github.com/onehumanbeing/esp32-iphone-agent",
+      "sources": [
+        "GitHub"
+      ],
+      "metrics": {
+        "stars": 3289,
+        "forks": 436,
+        "created_at": "2026-10-11T19:10:25Z",
+        "pushed_at": "2026-10-19T21:10:19Z",
+        "repo": "onehumanbeing/esp32-iphone-agent",
+        "stars_per_day": 397
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "reddit_e3346f0db2",
+      "category_id": "reddit",
+      "category_name": "Reddit",
+      "signal_id": "research",
+      "signal_name": "연구·논문·새 기법",
+      "importance": 91,
+      "headline": "AI 연구소 공식 벤치마크, 독립 검증단 실측치보다 평균 6.4% 높게 부풀려진 사실 확인",
+      "title_ko": "AI 연구소 공식 벤치마크, 독립 검증단 실측치보다 평균 6.4% 높게 부풀려진 사실 확인",
+      "summary_ko": "• **통계 분석**: 주요 빅테크 AI 연구소들이 발표한 200여 개 모델의 공식 벤치마크 결과가 서드파티 독립 검증단 측정치보다 평균 6.4%p 높다는 분석이 나왔습니다.\n• **원인 규명**: 프롬프트 템플릿의 미세 튜닝, 소수점 반올림 트릭, 유리한 서브셋 선별 등 공식 발표와 재현 환경 간의 체계적 간극이 원인으로 지목되었습니다.\n• **실무 권고**: 모델 도입 시 벤치마크 차트 수치에만 의존하지 말고 사내 실제 데이터셋 기반의 독립적인 인하우스 평가 파이프라인을 구축해야 합니다.",
+      "body_ko": "머신러닝 커뮤니티에서 주요 글로벌 AI 연구소들이 백서에 기재한 벤치마크 점수와 실제 서드파티 재현 수치를 교차 검증한 종합 메타 분석 결과가 화제를 모았습니다. 조사 대상이 된 50여 개 상용 및 오픈소스 파운데이션 모델 중 80% 이상에서 공식 보고 수치가 독립 테스터의 측정치보다 평균 6.4% 높게 나타났습니다. 특히 GSM8K와 MMLU 같은 정량 평가에서 연구소들은 모델에 가장 유리한 Few-shot 프롬프트와 샘플링 하이퍼파라미터를 극한으로 튜닝해 결과를 보고했습니다. 반면 실무 개발자가 기본 프롬프트나 제로샷 환경에서 동일 모델을 구동했을 때는 홍보된 성능에 미치지 못하는 괴리가 지속적으로 발생하고 있었습니다. 연구진은 공식 차트의 수치를 맹신하기보다 팀의 실제 업무 태스크와 도메인 데이터셋으로 직접 A/B 테스트를 수행하는 것이 필수적이라고 지적했습니다.",
+      "author_profile": "r/LocalLLaMA · u/jakecoolguy",
+      "publish_date": "2026-10-19T09:47:55.000Z",
+      "tags": [
+        "벤치마크검증",
+        "재현성평가",
+        "데이터분석",
+        "연구윤리"
+      ],
+      "url": "https://www.reddit.com/r/LocalLLaMA/comments/1x9skrx/ai_labs_report_benchmark_scores_64_higher_than/",
+      "sources": [
+        "Reddit"
+      ],
+      "metrics": {
+        "rank_in_sub": 3,
+        "discussion_url": "https://www.reddit.com/r/LocalLLaMA/comments/1x9skrx/ai_labs_report_benchmark_scores_64_higher_than/"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "aitimes_0524c2c453",
+      "category_id": "aitimes",
+      "category_name": "AI타임스",
+      "signal_id": "research",
+      "signal_name": "연구·논문·새 기법",
+      "importance": 90,
+      "headline": "구글, 모델 가중치 변경 없이 에이전트 실행 환경을 자기개선하는 '하네스²' 발표",
+      "title_ko": "구글, 모델 가중치 변경 없이 에이전트 실행 환경을 자기개선하는 '하네스²' 발표",
+      "summary_ko": "• **자기개선 하네스**: 파운데이션 모델의 가중치를 고정한 채 프롬프트, 도구, 워크플로우를 스스로 최적화하는 자기개선 프레임워크입니다.\n• **성능 입증**: 복잡한 에이전트 벤치마크 환경에서 작업 이력 피드백을 통해 실행 성공률을 15% 이상 끌어올리는 효과를 검증했습니다.\n• **실무 가치**: 수천억 원이 드는 모델 재학습 없이도 실무 도메인 특화 에이전트의 완성도를 지속 개선할 수 있는 새로운 길을 열었습니다.",
+      "body_ko": "구글 연구진이 AI 모델 자체를 재학습하지 않고도 에이전트의 실행 환경(하네스)을 지속 개선하는 오픈소스 프레임워크 '하네스²(Harness²)'를 발표했습니다. 기존 연구들이 파인튜닝이나 강화학습을 통해 모델의 가중치 자체를 수정하는 데 집중했다면, 하네스²는 모델을 둘러싼 프롬프트, 도구 규격, 메모리 정책을 코드 레벨에서 진화시킵니다. 에이전트가 작업을 수행하면서 겪은 실패 로그와 성공 궤적을 분석하여 더 효율적인 도구 인터페이스와 안전 가이드라인을 시스템이 자율적으로 갱신합니다. 연구진의 실험 결과에 따르면 복잡한 도구 호출 및 다단계 계획 태스크에서 기존 고정 하네스 대비 작업 성공률이 15%p 이상 유의미하게 상승했습니다. 고가의 모델 학습 비용을 들이지 않고도 프로덕션 환경의 실사용 데이터로부터 에이전트 성능을 무한히 끌어올릴 수 있는 현실적 대안을 제시합니다.",
+      "author_profile": "박찬 기자",
+      "publish_date": "2026-10-19T09:01:15.000Z",
+      "tags": [
+        "구글",
+        "하네스",
+        "자기개선",
+        "에이전트연구"
+      ],
+      "url": "https://www.aitimes.com/news/articleView.html?idxno=216410",
+      "sources": [
+        "AI타임스"
+      ],
+      "metrics": {},
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hackernews_5b66413963",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "signal_id": "practice",
+      "signal_name": "AI 활용 사례·워크플로우 팁",
+      "importance": 89,
+      "headline": "하네스 엔지니어링 입문: LLM은 두뇌이고 하네스는 에이전트의 온전한 신체다",
+      "title_ko": "하네스 엔지니어링 입문: LLM은 두뇌이고 하네스는 에이전트의 온전한 신체다",
+      "summary_ko": "• **개념 정립**: AI 에이전트의 실질적 작업 성공률을 좌우하는 핵심 요소로서 '하네스(실행 환경 및 도구 인터페이스)'의 구조를 명확히 정립했습니다.\n• **설계 원칙**: 모델 프롬프트 조작을 넘어 엄격한 타입 샌드박스, 멱등성 보장 도구, 단계별 체크포인트 복구 전략을 실무 코드로 제시합니다.\n• **관점의 전환**: 실패하는 에이전트의 원인을 무작정 모델 성능 탓으로 돌리지 않고 런타임 하네스 엔지니어링으로 극복하는 실전 가이드를 제공합니다.",
+      "body_ko": "실무에서 AI 에이전트가 엉뚱한 행동을 하거나 작업을 중단할 때 대부분의 개발자는 프롬프트를 고치거나 더 큰 상위 모델로 교체하려 합니다. 하지만 본 글에서는 LLM을 순수한 연산 두뇌로 보고, 파일 입출력과 셸 실행, 에러 피드백을 처리하는 외부 런타임 하네스야말로 에이전트의 실제 신체라고 정의합니다. 아무리 뛰어난 두뇌를 가진 모델이라도 손발에 해당하는 도구 반환값이 모호하거나 셸 명령어 실패 시 적절한 컨텍스트가 주어지지 않으면 멈출 수밖에 없습니다. 글쓴이는 멱등성을 보장하는 도구 설계, 파일 변경 전후 자동 diff 검증, 서브에이전트 간 메모리 분리 등 5대 하네스 엔지니어링 수칙을 설명합니다. 프로덕션 레벨의 신뢰성 높은 AI 시스템을 구축하려는 개발자에게 모델 선택보다 하네스 견고성이 왜 더 중요한지를 명쾌하게 일깨워줍니다.",
+      "author_profile": "@isuruwijesiri",
+      "publish_date": "2026-10-19T12:07:41.000Z",
+      "tags": [
+        "하네스엔지니어링",
+        "에이전트런타임",
+        "소프트웨어아키텍처",
+        "실무가이드"
+      ],
+      "url": "https://github.com/IsuruMaduranga/harness-engineering-101",
+      "sources": [
+        "Hacker News"
+      ],
+      "metrics": {
+        "points": 128,
+        "comments": 64,
+        "discussion_url": "https://news.ycombinator.com/item?id=50151390"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hackernews_02f6cfa4c2",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "signal_id": "research",
+      "signal_name": "연구·논문·새 기법",
+      "importance": 88,
+      "headline": "라미나: 강화학습 모델로 복잡한 AI 에이전트 실행 트레이스의 결함을 자동 검출하는 솔루션",
+      "title_ko": "라미나: 강화학습 모델로 복잡한 AI 에이전트 실행 트레이스의 결함을 자동 검출하는 솔루션",
+      "summary_ko": "• **트레이스 분석**: 다단계 에이전트가 남긴 복잡한 도구 호출과 중간 추론 로그에서 실패의 근본 원인을 찾아내는 강화학습 기반 진단 모델입니다.\n• **성능 비교**: 일반 범용 LLM 평가기 대비 에이전트 오작동 분류 F1 스코어를 30% 이상 향상시켰으며 불필요한 호출 비용을 대폭 줄였습니다.\n• **운영 가치**: 블랙박스 상태로 방치되기 쉬운 프로덕션 AI 에이전트 파이프라인의 가시성과 디버깅 효율을 엔지니어링 수준으로 끌어올립니다.",
+      "body_ko": "Y 콤비네이터 출신 스타트업 라미나(Laminar)가 에이전트의 다단계 실행 트레이스를 분석해 버그를 찾아내는 강화학습 전용 모델을 공개했습니다. 에이전트가 수십 번의 도구 호출을 수행하는 동안 어떤 단계에서 환각이나 잘못된 인자가 발생했는지를 기존 LLM-as-a-Judge 방식으로 잡기는 매우 어려웠습니다. 라미나는 대규모 실제 에이전트 실패 궤적 데이터를 기반으로 강화학습(RL)을 진행하여 오류 단계와 원인을 정확히 짚어내는 특화 분류기를 구축했습니다. 실험 평가 결과 범용 GPT-4o를 이용한 로그 분석 대비 오류 감지 정밀도와 F1 스코어에서 30% 이상의 우수한 성능을 기록했습니다. 개발자는 이를 통해 수백 페이지에 달하는 트레이스를 일일이 눈으로 읽지 않고도 에이전트 프롬프트나 도구 인터페이스의 결함을 즉시 식별할 수 있습니다.",
+      "author_profile": "@skull8888888",
+      "publish_date": "2026-10-19T16:00:18.000Z",
+      "tags": [
+        "강화학습",
+        "트레이스디버깅",
+        "옵저버빌리티",
+        "에이전트평가"
+      ],
+      "url": "https://news.ycombinator.com/item?id=50154029",
+      "sources": [
+        "Hacker News"
+      ],
+      "metrics": {
+        "points": 48,
+        "comments": 23,
+        "discussion_url": "https://news.ycombinator.com/item?id=50154029"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hackernews_b6f138e40c",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "signal_id": "model",
+      "signal_name": "새 모델·버전 출시·프리뷰·벤치마크",
+      "importance": 87,
+      "headline": "맥스웰: 고수준 알고리즘과 GPU 하드웨어 사이를 최적화하는 코드-하드웨어 특화 모델",
+      "title_ko": "맥스웰: 고수준 알고리즘과 GPU 하드웨어 사이를 최적화하는 코드-하드웨어 특화 모델",
+      "summary_ko": "• **하드웨어 중계**: 고수준 파이썬/파이토치 코드를 분석해 대상 GPU 아키텍처에 최적화된 저수준 커널 코드로 재작성해 주는 특화 모델입니다.\n• **가속 성과**: Whisper 음성 인식과 LTX-2 비디오 모델 등 최신 딥러닝 워크로드에서 수작업 튜닝 대비 최대 2배의 추론 처리량을 달성했습니다.\n• **엔지니어링 전환**: 고난도의 CUDA 커널 작성과 메모리 레이아웃 최적화를 모델이 자동화하여 AI 모델 배포 효율을 극대화합니다.",
+      "body_ko": "맥스웰(Maxwell)은 고수준 딥러닝 코드와 실제 실행되는 GPU 하드웨어 인터페이스 사이의 간극을 메우기 위해 설계된 새로운 접근법의 AI 모델입니다. 일반적인 범용 코딩 모델과 달리 하드웨어의 메모리 대역폭, 레지스터 할당, 캐시 계층 구조를 명시적인 컨텍스트로 이해하고 코드를 생성합니다. Whisper나 최신 이미지 및 비디오 생성 모델의 연산 그래프를 분석하여 병목이 발생하는 연산자들을 융합된 커널 코드로 자동 재구성합니다. 개발자가 복잡한 트리톤(Triton)이나 CUDA C++ 코드를 수작업으로 최적화하지 않아도 타깃 가속기 환경에서 최대 2배에 달하는 추론 가속을 얻을 수 있습니다. 모델 경량화와 컴파일러 엔지니어링 영역에서 AI가 하드웨어 친화적 코드를 직접 합성하는 차세대 시스템 아키텍처의 가능성을 보여줍니다.",
+      "author_profile": "@laginimaineb",
+      "publish_date": "2026-10-19T13:47:56.000Z",
+      "tags": [
+        "GPU최적화",
+        "CUDA",
+        "코드모델",
+        "하드웨어컴파일러"
+      ],
+      "url": "https://heymaxwell.ai/",
+      "sources": [
+        "Hacker News"
+      ],
+      "metrics": {
+        "points": 43,
+        "comments": 21,
+        "discussion_url": "https://news.ycombinator.com/item?id=50152466"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "github_2466a08c42",
+      "category_id": "github",
+      "category_name": "GitHub",
+      "signal_id": "oss",
+      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
+      "importance": 87,
+      "headline": "blender-ai-mcp-addon: 블렌더 3D를 자연어로 제어하는 AI 어시스턴트 및 MCP 서버",
+      "title_ko": "blender-ai-mcp-addon: 블렌더 3D를 자연어로 제어하는 AI 어시스턴트 및 MCP 서버",
+      "summary_ko": "• **3D 에이전트**: 오픈소스 3D 그래픽 소프트웨어 블렌더(Blender) 내부 씬을 조작하고 bpy 스크립트를 자율 생성하는 통합 애드온입니다.\n• **MCP 연동**: Anthropic Model Context Protocol(MCP) 서버를 내장하여 Claude나 Cursor 등 외부 에이전트와 블렌더 뷰포트를 실시간 연결합니다.\n• **워크플로우 혁신**: 생성된 3D 오브젝트 배치부터 조명 및 머티리얼 세팅까지 대화형 명령으로 처리해 3D 디자인 진입 장벽을 대폭 낮춥니다.",
+      "body_ko": "개발자 LiCinCan이 공개한 blender-ai-mcp-addon은 3D 그래픽 소프트웨어 블렌더를 AI 에이전트로 제어할 수 있게 돕는 오픈소스 플러그인입니다. 출시 직후 하루 평균 222개의 스타를 획득하며 누적 920스타를 돌파하는 등 3D 크리에이터와 개발자들 사이에서 급상승 핫이슈로 부상하고 있습니다. 사용자는 블렌더 인터페이스 내에서 직접 챗봇을 열거나 로컬 MCP 서버를 띄워 Claude Code와 같은 외부 코딩 에이전트와 블렌더를 연결해 사용합니다. 자연어로 복잡한 씬 구조나 오브젝트 배치를 지시하면 내부적으로 bpy 파이썬 스크립트를 작성하고 안전하게 실행해 결과를 실시간 뷰포트에 렌더링합니다. OpenAI, Claude, Gemini뿐 아니라 Ollama 로컬 모델까지 폭넓게 지원하여 고가의 3D 모델링 파이프라인을 자동화하는 데 매우 유용합니다.",
+      "author_profile": "LiCinCan",
+      "publish_date": "2026-10-19T23:10:09.000Z",
+      "tags": [
+        "블렌더",
+        "3D디자인",
+        "MCP서버",
+        "bpy자동화"
+      ],
+      "url": "https://github.com/LiCinCan/blender-ai-mcp-addon",
+      "sources": [
+        "GitHub"
+      ],
+      "metrics": {
+        "stars": 920,
+        "forks": 381,
+        "created_at": "2026-10-15T22:30:47Z",
+        "pushed_at": "2026-10-19T23:10:09Z",
+        "repo": "LiCinCan/blender-ai-mcp-addon",
+        "stars_per_day": 222
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "geeknews_44e3fc0636",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "signal_id": "devtool",
+      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
+      "importance": 86,
+      "headline": "리뷰 인박스: 리뷰 대기 중인 PR을 Claude Code 입력창 위에 띄워 주는 모드",
+      "title_ko": "리뷰 인박스: 리뷰 대기 중인 PR을 Claude Code 입력창 위에 띄워 주는 모드",
+      "summary_ko": "• **알림 통합**: 터미널 기반 코딩 에이전트 환경에서 깃허브 리뷰 요청을 놓치지 않도록 입력창 상단에 직접 띄워 주는 Claude Code 전용 모드입니다.\n• **상태 추적**: 깃허브 GraphQL API로 본인이 리뷰어로 지정된 미해결 PR 목록을 실시간 조회하며, 대기 시간과 승인 필요 상태를 직관적으로 표시합니다.\n• **워크플로우 개선**: 터미널과 브라우저 알림 창 사이의 불필요한 컨텍스트 스위칭을 없애고 팀 코드 리뷰 병목 현상을 방지합니다.",
+      "body_ko": "Claude Code 같은 터미널 에이전트 활용이 늘어나면서 개발자가 브라우저의 깃허브 알림 탭을 확인하지 않아 동료의 PR 리뷰가 지체되는 문제가 빈번해졌습니다. Review Inbox는 Claude Code의 신규 모드(mod) 아키텍처를 활용하여 터미널 프롬프트 상단에 리뷰 대기열을 실시간 헤드업 디스플레이로 제공합니다. 깃허브 GraphQL API를 통해 사용자가 리뷰어로 지정된 열린 PR 목록을 주기적으로 폴링하며 사흘 이상 방치된 리뷰는 경고 색상으로 강조합니다. 개발자는 다른 창으로 전환할 필요 없이 터미널 내에서 단축키나 명령어로 즉시 해당 PR의 브랜치를 체크아웃하거나 diff를 살펴볼 수 있습니다. 터미널 중심의 바이브 코딩 환경에서 놓치기 쉬운 비동기 팀 협업의 사각지대를 깔끔하게 메워주는 실용적인 도구입니다.",
+      "author_profile": "riversound",
+      "publish_date": "2026-10-20T01:28:32.000Z",
+      "tags": [
+        "Claude Code",
+        "개발도구",
+        "코드리뷰",
+        "터미널"
+      ],
+      "url": "https://news.hada.io/topic?id=35676",
+      "sources": [
+        "GeekNews"
+      ],
+      "metrics": {},
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "reddit_6e5256fa6c",
+      "category_id": "reddit",
+      "category_name": "Reddit",
+      "signal_id": "model",
+      "signal_name": "새 모델·버전 출시·프리뷰·벤치마크",
+      "importance": 86,
+      "headline": "미니맥스, 초저지연 및 고속 추론을 타깃한 MiniMax-M3.1-Flash 모델 출시 예고",
+      "title_ko": "미니맥스, 초저지연 및 고속 추론을 타깃한 MiniMax-M3.1-Flash 모델 출시 예고",
+      "summary_ko": "• **모델 공개**: 중국의 AI 유니콘 미니맥스가 경량 고속 아키텍처 기반의 차세대 언어 모델 MiniMax-M3.1-Flash를 곧 출시한다고 발표했습니다.\n• **기술 지표**: 대규모 MoE(Mixture-of-Experts) 구조를 경량화하여 토큰당 생성 지연시간을 절반 이하로 줄이고 컨텍스트 처리 속도를 극대화했습니다.\n• **실시간 활용**: 에이전트 도구 호출 루프와 실시간 음성/채팅 애플리케이션에서 비용과 지연시간을 획기적으로 낮출 수 있는 유력 후보로 기대를 모읍니다.",
+      "body_ko": "중국의 대표적 파운데이션 모델 기업 미니맥스(MiniMax)가 초저지연 실시간 서비스에 특화된 신규 모델 MiniMax-M3.1-Flash의 출시를 예고했습니다. 기존 M3 시리즈의 강력한 한국어 및 다국어 추론 능력을 유지하면서도 에이전트 호출 환경에 맞춰 최초 토큰 반응 시간(TTFT)을 크게 단축했습니다. 희소 활성화 MoE 아키텍처를 적극 도입하여 연산량 대비 높은 파라미터 효율성을 달성한 것으로 커뮤니티에 알려졌습니다. LocalLLaMA 사용자들은 GPT-4o-mini나 클로드 3.5 하이쿠와 경쟁할 수 있는 저비용 고효율 모델이 API와 오픈 가중치 형태로 풀릴지에 주목하고 있습니다. 에이전트가 수십 차례 왕복 통신을 수행해야 하는 실무 환경에서 추론 비용과 응답 지연을 동시에 낮출 수 있는 강력한 대안이 될 전망입니다.",
+      "author_profile": "r/LocalLLaMA · u/Nunki08",
+      "publish_date": "2026-10-19T10:05:08.000Z",
+      "tags": [
+        "미니맥스",
+        "언어모델",
+        "MoE",
+        "초저지연"
+      ],
+      "url": "https://www.reddit.com/r/LocalLLaMA/comments/1x9suvs/minimaxm31flash_is_coming/",
+      "sources": [
+        "Reddit"
+      ],
+      "metrics": {
+        "rank_in_sub": 2,
+        "discussion_url": "https://www.reddit.com/r/LocalLLaMA/comments/1x9suvs/minimaxm31flash_is_coming/"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "bluesky_ec578a421f",
+      "category_id": "bluesky",
+      "category_name": "Bluesky",
+      "signal_id": "practice",
+      "signal_name": "AI 활용 사례·워크플로우 팁",
+      "importance": 86,
+      "headline": "AI 코딩 에이전트 생태계 탐색: 폼팩터 다양화와 프로덕션 환경 보안 아키텍처",
+      "title_ko": "AI 코딩 에이전트 생태계 탐색: 폼팩터 다양화와 프로덕션 환경 보안 아키텍처",
+      "summary_ko": "• **생태계 조망**: CLI 터미널, IDE 확장, 백그라운드 오토메이션 등 다양한 폼팩터로 진화하는 코딩 에이전트의 현주소를 심층 분석했습니다.\n• **보안 격리**: 에이전트에게 셸 실행 권한을 부여할 때 발생할 수 있는 데이터 유출과 파괴적 명령 위험을 막는 샌드박스 보안 설계 패턴을 제시합니다.\n• **도입 지침**: 단순 코드 완성을 넘어 실제 프로덕션 CI/CD 및 코드베이스 유지보수에 에이전트를 안전하게 통합하는 청사진을 제공합니다.",
+      "body_ko": "AI 코딩 어시스턴트의 전장이 단순한 모델 성능 벤치마크 경쟁에서 개발자 워크플로우를 감싸는 폼팩터와 보안 아키텍처로 완전히 전환되었습니다. 본 기술 보고서는 Claude Code 같은 터미널 독립 실행형, Cursor 같은 IDE 통합형, 자동화 백그라운드 에이전트의 장단점을 상세히 비교합니다. 특히 에이전트가 파일 수정과 터미널 명령을 자유롭게 실행할 수 있게 되면서 로컬 파일 접근 제한과 네트워크 통제 샌드박스가 필수가 되었습니다. 저자는 프로덕션 환경에 에이전트를 도입할 때 '읽기 전용 섀도우 분석'부터 시작해 점진적으로 커밋 권한을 부여하는 단계적 검증 정책을 권고합니다. 엔지니어링 팀이 팀 전체의 개발 생산성을 극대화하면서도 코드 보안과 거버넌스를 지킬 수 있는 실질적인 도입 로드맵을 제공합니다.",
+      "author_profile": "@undercode.bsky.social",
+      "publish_date": "2026-10-19T19:56:56.000Z",
+      "tags": [
+        "코딩에이전트",
+        "보안아키텍처",
+        "샌드박스",
+        "엔지니어링가이드"
+      ],
+      "url": "http://undercodetesting.com/navigating-the-ai-coding-agent-landscape-form-factor-ecosystem-and-production-security-video/",
+      "sources": [
+        "Bluesky"
+      ],
+      "metrics": {
+        "likes": 3,
+        "reposts": 0,
+        "replies": 1,
+        "bluesky_url": "https://bsky.app/profile/undercode.bsky.social/post/3myavpd75su2a"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "aitimes_a648bbaa40",
+      "category_id": "aitimes",
+      "category_name": "AI타임스",
+      "signal_id": "practice",
+      "signal_name": "AI 활용 사례·워크플로우 팁",
+      "importance": 85,
+      "headline": "다중 에이전트 시스템의 컨텍스트 병목을 해소하는 컨텍스트 엔지니어링 실무",
+      "title_ko": "다중 에이전트 시스템의 컨텍스트 병목을 해소하는 컨텍스트 엔지니어링 실무",
+      "summary_ko": "• **아키텍처 전환**: 여러 AI 에이전트가 협업할 때 발생하는 컨텍스트 오염과 토큰 낭비를 구조적으로 통제하는 엔지니어링 기법을 소개합니다.\n• **모듈형 설계**: 전역 상태를 공유하는 대신 에이전트 간 명시적 입출력 계약과 서브 컨텍스트 분리 기법을 적용하여 추론 정합성을 높입니다.\n• **실무 생산성**: 무작정 에이전트를 늘리면서 생기는 무한 루프와 할루시네이션을 방지하고 예측 가능한 프로덕션 파이프라인을 구축할 수 있습니다.",
+      "body_ko": "멀티 에이전트 시스템 도입이 확산되면서 에이전트 간 불필요한 대화 루프와 컨텍스트 윈도우 폭증이 개발팀의 새로운 병목으로 떠오르고 있습니다. 본 기고문은 에이전트에게 전체 대화 이력을 그대로 넘기는 대신 각 단계에 필수적인 맥락만 정제해 전달하는 컨텍스트 엔지니어링 원칙을 다룹니다. 중앙 브로커가 작업 산출물을 표준화된 스키마로 검증하고, 개별 서브에이전트에게는 격리된 샌드박스형 프롬프트만 주입하는 방식이 권장됩니다. 실무 측정 결과 컨텍스트를 분리했을 때 토큰 소비량은 최대 60% 절감되면서도 작업 완수율은 오히려 25% 이상 향상되었습니다. 복잡한 비즈니스 로직을 다루는 엔지니어라면 무분별한 에이전트 증설에 앞서 컨텍스트 인터페이스의 추상화와 필터링 전략을 먼저 정립해야 합니다.",
+      "author_profile": "AI타임스",
+      "publish_date": "2026-10-20T00:00:00.000Z",
+      "tags": [
+        "멀티에이전트",
+        "컨텍스트엔지니어링",
+        "프롬프트설계",
+        "아키텍처"
+      ],
+      "url": "https://www.aitimes.com/news/articleView.html?idxno=216342",
+      "sources": [
+        "AI타임스"
+      ],
+      "metrics": {},
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "reddit_c12bf2acb0",
+      "category_id": "reddit",
+      "category_name": "Reddit",
+      "signal_id": "model",
+      "signal_name": "새 모델·버전 출시·프리뷰·벤치마크",
+      "importance": 85,
+      "headline": "네모트론 3.5 슈퍼 VL: 복잡한 표와 기술 다이어그램 인식에서 뛰어난 성능을 보이는 비전 모델",
+      "title_ko": "네모트론 3.5 슈퍼 VL: 복잡한 표와 기술 다이어그램 인식에서 뛰어난 성능을 보이는 비전 모델",
+      "summary_ko": "• **비전 성능**: 엔비디아의 Nemotron 3.5 Super VL 모델이 복잡한 표와 기술 청사진, OCR 파싱 작업에서 독보적인 정확도를 기록 중입니다.\n• **실측 평가**: 상용 폐쇄형 비전 모델 대비 고해상도 인포그래픽과 다단계 플로우차트 해석에서 10% 이상 적은 오류율을 보였습니다.\n• **로컬 배포**: 엔터프라이즈 사내 문서 파싱과 에이전트 GUI 조작(Computer Use)을 자체 인프라에서 보안 걱정 없이 구동할 수 있습니다.",
+      "body_ko": "Reddit LocalLLaMA 커뮤니티에서 엔비디아의 오픈 비전-언어 모델 Nemotron 3.5 Super VL의 뛰어난 실사용 성능에 대한 사용자들의 찬사가 이어지고 있습니다. 일반적인 자연어 사진 인식뿐 아니라 복잡한 다중 열 재무제표, 엔지니어링 회로도, 저화질 스캔 문서의 OCR 추출에서 발군의 실력을 발휘합니다. 고해상도 이미지 분할 패치 기법을 고도화하여 깨알 같은 폰트나 겹쳐진 화살표 다이어그램의 선 연결 관계를 정확히 파악해 냅니다. 오픈 가중치 기반으로 로컬 워크스테이션이나 사내 온프레미스 GPU 서버에 직접 배포하여 외부 데이터 유출 없이 문서를 벡터화할 수 있습니다. 문서 기반 RAG 파이프라인이나 컴퓨터 화면을 보고 조작하는 비전 기반 에이전트를 구축하려는 실무진에게 최고의 오픈소스 선택지로 자리잡고 있습니다.",
+      "author_profile": "r/LocalLLaMA · u/Kahvana",
+      "publish_date": "2026-10-19T04:01:26.000Z",
+      "tags": [
+        "엔비디아",
+        "비전모델",
+        "Nemotron",
+        "OCR"
+      ],
+      "url": "https://www.reddit.com/r/LocalLLaMA/comments/1x9mwmz/dont_sleep_on_nemotron_35_super_vl/",
+      "sources": [
+        "Reddit"
+      ],
+      "metrics": {
+        "rank_in_sub": 8,
+        "discussion_url": "https://www.reddit.com/r/LocalLLaMA/comments/1x9mwmz/dont_sleep_on_nemotron_35_super_vl/"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "bluesky_c549a30045",
+      "category_id": "bluesky",
+      "category_name": "Bluesky",
+      "signal_id": "devtool",
+      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
+      "importance": 85,
+      "headline": "젠틀 AI: 코딩 에이전트에 영구 메모리와 구조화된 워크플로우를 주입하는 프레임워크",
+      "title_ko": "젠틀 AI: 코딩 에이전트에 영구 메모리와 구조화된 워크플로우를 주입하는 프레임워크",
+      "summary_ko": "• **메모리 지속성**: 코딩 에이전트 세션이 종료되어도 프로젝트 아키텍처와 사용자 선호도를 로컬 벡터 그래프로 기억하고 복원하는 도구입니다.\n• **워크플로우 제어**: 단일 프롬프트 실행 대신 계획 수립, 구현, 테스트, 자체 검증으로 이어지는 명시적 파이프라인 단계를 강제합니다.\n• **에이전트 진화**: 세션마다 똑같은 프로젝트 설명을 반복해야 했던 기존 코딩 도구의 비효율을 해소하고 안정적인 팀 동료로 전환합니다.",
+      "body_ko": "Bluesky 링크를 통해 공개된 gentle-ai는 Claude Code나 Cursor 같은 코딩 에이전트에 영구 메모리와 구조화된 워크플로우를 부여하는 오픈소스 도구입니다. 기존 코딩 어시스턴트들은 대화 세션이 길어지면 컨텍스트를 잊거나 새 창을 열 때마다 코드베이스의 구조를 처음부터 다시 파악해야 했습니다. gentle-ai는 로컬 파일 기반의 경량 지식 그래프를 구성하여 이전 작업에서 결정된 아키텍처 규칙과 사용자의 코딩 컨벤션을 지속적으로 누적합니다. 또한 무작정 코드를 작성하는 대신 분석, 계획, 구현, 회귀 테스트로 이어지는 4단계 워크플로우를 에이전트 런타임에 강제하여 탈선을 방지합니다. 일회성 질의응답을 넘어 장기적 소프트웨어 프로젝트를 지속적으로 함께 빌드업해 나갈 수 있는 견고한 에이전트 환경을 제공합니다.",
+      "author_profile": "@osrepos.bsky.social",
+      "publish_date": "2026-10-19T17:25:03.115Z",
+      "tags": [
+        "코딩에이전트",
+        "메모리시스템",
+        "개발도구",
+        "워크플로우"
+      ],
+      "url": "https://osrepos.com/repo/gentleman-programming-gentle-ai",
+      "sources": [
+        "Bluesky"
+      ],
+      "metrics": {
+        "likes": 3,
+        "reposts": 1,
+        "replies": 0,
+        "bluesky_url": "https://bsky.app/profile/osrepos.bsky.social/post/3myan7va6eb2g"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "github_a36c550dad",
+      "category_id": "github",
+      "category_name": "GitHub",
+      "signal_id": "devtool",
+      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
+      "importance": 85,
+      "headline": "audio-studio-mcp: Claude Code를 위한 로컬 AI 배경음악 및 효과음 생성 MCP 서버",
+      "title_ko": "audio-studio-mcp: Claude Code를 위한 로컬 AI 배경음악 및 효과음 생성 MCP 서버",
+      "summary_ko": "• **로컬 사운드 생성**: 외부 클라우드나 유료 API 키 없이 맥 실리콘과 엔비디아 GPU에서 고품질 배경음악과 효과음을 직접 생성하는 MCP 서버입니다.\n• **경량 아키텍처**: Stable Audio 3 모델을 Apple Silicon MLX 프레임워크와 PyTorch CUDA에 최적화하여 수 초 내에 오디오 클립을 렌더링합니다.\n• **에이전트 멀티미디어**: 게임 개발이나 비디오 제작 자동화 에이전트가 코드 작성과 동시에 사운드 에셋까지 자체 조달할 수 있게 지원합니다.",
+      "body_ko": "kanaworksai-hue가 제작한 audio-studio-mcp는 코딩 에이전트에게 오디오 생성 능력을 부여하는 로컬 전용 MCP 서버입니다. 오픈 직후 하루 평균 166개의 스타를 끌어모으며 코딩 에이전트 커뮤니티에서 실용적인 사운드 툴링으로 빠르게 입소문을 타고 있습니다. 사용자는 Claude Code나 기타 MCP 호환 클라이언트에서 원하는 분위기의 BGM이나 사운드 효과를 자연어로 프롬프트할 수 있습니다. 내부적으로 Apple Silicon의 MLX 프레임워크와 Windows/Linux의 PyTorch 가속을 활용해 인터넷 연결 없이 완전히 오프라인으로 음원을 합성합니다. 인디 게임 개발자나 멀티미디어 프로토타이핑 팀이 에셋 구매 없이 코딩 에이전트와의 대화만으로 오디오 리소스를 원스톱 생성할 수 있습니다.",
+      "author_profile": "kanaworksai-hue",
+      "publish_date": "2026-10-19T10:29:31.000Z",
+      "tags": [
+        "오디오생성",
+        "MCP서버",
+        "MLX",
+        "ClaudeCode"
+      ],
+      "url": "https://github.com/kanaworksai-hue/audio-studio-mcp",
+      "sources": [
+        "GitHub"
+      ],
+      "metrics": {
+        "stars": 267,
+        "forks": 15,
+        "created_at": "2026-10-18T11:13:56Z",
+        "pushed_at": "2026-10-19T10:29:31Z",
+        "repo": "kanaworksai-hue/audio-studio-mcp",
+        "stars_per_day": 166
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "geeknews_b065d3e4fa",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "signal_id": "oss",
+      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
+      "importance": 84,
+      "headline": "마크핀: 밑줄 후 사유를 기록하고 로컬 마크다운 및 MCP 서버로 연동하는 웹 형광펜",
+      "title_ko": "마크핀: 밑줄 후 사유를 기록하고 로컬 마크다운 및 MCP 서버로 연동하는 웹 형광펜",
+      "summary_ko": "• **의도 기록**: 웹 문서에 형광펜 밑줄을 그으면 마킹 이유를 질문하여 단순 스크랩을 넘어선 능동적 독서를 유도하는 확장 프로그램입니다.\n• **로컬 연동**: 수집된 하이라이트와 메모를 로컬 마크다운 파일로 저장하며 자체 내장 MCP 서버를 통해 AI 에이전트와 즉시 공유됩니다.\n• **지식 자산화**: 수동적 북마크 수집 문제를 해결하고 개인 지식 관리 시스템(PKM) 및 AI 검색 컨텍스트의 핵심 자산으로 전환합니다.",
+      "body_ko": "마크핀(Markpin)은 개발자 mudman이 개발하여 공개한 크롬 웹 형광펜 확장 프로그램이자 오픈소스 로컬 MCP 서버입니다. 사용자가 웹페이지 텍스트를 드래그해 형광펜을 칠하면 팝업이 뜨며 의문, 반박, 핵심 등 기호에 따라 왜 표시했는지를 묻는 프롬프트를 제공합니다. 단순히 웹 문서를 긁어모으는 수동적 스크랩에서 벗어나 읽는 순간의 맥락과 사고 과정을 기록하게 설계된 점이 특징입니다. 모든 하이라이트와 기록은 외부 클라우드가 아닌 사용자 PC의 로컬 마크다운 파일로 안전하게 저장됩니다. 함께 공개된 내장 MCP 서버를 구동하면 Claude Code나 Cursor 같은 AI 에이전트가 사용자가 과거 밑줄 쳤던 웹 맥락을 검색해 답변에 반영할 수 있습니다.",
+      "author_profile": "mudman",
+      "publish_date": "2026-10-20T01:10:28.000Z",
+      "tags": [
+        "오픈소스",
+        "MCP",
+        "지식관리",
+        "크롬확장"
+      ],
+      "url": "https://news.hada.io/topic?id=35674",
+      "sources": [
+        "GeekNews"
+      ],
+      "metrics": {},
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "bluesky_b89fb84b7e",
+      "category_id": "bluesky",
+      "category_name": "Bluesky",
+      "signal_id": "policy",
+      "signal_name": "정책·규제·인프라 (기술 영향 큰 것만)",
+      "importance": 84,
+      "headline": "오픈소스 코딩 도구 오픈코드 해킹 사고 발생, 사용자 AI API 키 탈취로 대규모 과금 피해",
+      "title_ko": "오픈소스 코딩 도구 오픈코드 해킹 사고 발생, 사용자 AI API 키 탈취로 대규모 과금 피해",
+      "summary_ko": "• **보안 침해**: 인기 오픈소스 AI 코딩 도구 오픈코드(OpenCode)의 웹 서비스 인프라가 해킹되어 등록된 사용자 API 키가 대거 유출되었습니다.\n• **피해 양상**: 공격자들은 탈취한 OpenAI와 Anthropic API 키로 고가의 추론 모델을 대량 호출하여 수천 달러 이상의 부당 청구를 유발했습니다.\n• **보안 교훈**: 편의를 이유로 개발 도구의 클라우드 동기화 기능에 개인 API 키를 평문으로 위탁하는 관행에 강력한 경종을 울렸습니다.",
+      "body_ko": "테크크런치 보도에 따르면 인기 오픈소스 코딩 에이전트 OpenCode의 온라인 동기화 서버가 침해당해 사용자들의 LLM API 키가 유출되는 사고가 발생했습니다. 해커들은 탈취한 키를 이용해 고비용 모델을 무단 호출하여 암호화폐 채굴 프롬프트 및 대규모 스팸 생성을 시도한 것으로 파악되었습니다. 이로 인해 피해 사용자들의 계정에는 수백에서 수천 달러에 달하는 예상치 못한 API 사용료가 청구되는 심각한 피해가 발생했습니다. 개발팀은 침해 사실을 확인한 즉시 취약 서버를 격리하고 영향을 받은 사용자들에게 API 키 즉시 폐기와 재발급을 긴급 권고했습니다. 터미널 및 IDE 확장 도구 사용 시 민감한 API 자격증명은 중앙 서버에 보관하지 말고 로컬 키체인이나 Vault를 통해 엄격히 관리해야 함을 보여줍니다.",
+      "author_profile": "@techcrunch.com",
+      "publish_date": "2026-10-19T19:30:57.000Z",
+      "tags": [
+        "보안사고",
+        "API키유출",
+        "오픈코드",
+        "자격증명관리"
+      ],
+      "url": "https://techcrunch.com/2026/10/19/hackers-hit-ai-coding-tool-opencode-running-up-charges-on-users-ai-accounts/",
+      "sources": [
+        "Bluesky"
+      ],
+      "metrics": {
+        "likes": 18,
+        "reposts": 7,
+        "replies": 1,
+        "bluesky_url": "https://bsky.app/profile/techcrunch.com/post/3myauatnvql2v"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "aitimes_ea40b940c2",
+      "category_id": "aitimes",
+      "category_name": "AI타임스",
+      "signal_id": "policy",
+      "signal_name": "정책·규제·인프라 (기술 영향 큰 것만)",
+      "importance": 83,
+      "headline": "미국 정부, 연방기관 내 중국 딥시크 모델 및 파생 기술 전면 퇴출 지침 발표",
+      "title_ko": "미국 정부, 연방기관 내 중국 딥시크 모델 및 파생 기술 전면 퇴출 지침 발표",
+      "summary_ko": "• **퇴출 확대**: 미 연방 민간기관을 대상으로 딥시크(DeepSeek) 모델뿐 아니라 이를 기반으로 개발된 서드파티 서비스의 도입까지 전면 금지했습니다.\n• **공급망 규제**: 증류 모델이나 파생 가중치가 포함된 엔터프라이즈 솔루션 공급망 전체를 정밀 조사하여 국가 안보 리스크를 차단합니다.\n• **업계 파장**: 오픈소스 AI 모델 활용 시 데이터 출처와 모델 혈통(Lineage) 검증이 글로벌 규제 준수의 필수 요건으로 부상했습니다.",
+      "body_ko": "미국 국토안보부(DHS)와 연방 사이버안보청(CISA)이 연방 기관 내 중국 딥시크 기술 활용을 원천 차단하는 강화된 보안 지침을 발령했습니다. 이번 조치는 딥시크의 공식 API나 앱뿐 아니라, 딥시크 가중치를 증류하거나 파인튜닝해 제작된 외부 상용 서비스까지 규제 범위에 포함했습니다. 미 정부는 코드 생성 및 데이터 분석 과정에서 민감한 국가 기밀과 데이터가 제3국 인프라로 유출될 가능성을 주요 안보 위협으로 지목했습니다. 이에 따라 글로벌 클라우드 제공업체와 정부 납품 솔루션 벤더들은 시스템 내 AI 모델의 라이선스와 학습 출처 계보를 전수 조사해야 하는 상황입니다. 오픈소스 모델의 자유로운 활용 흐름 속에서도 지정학적 안보 이슈에 따른 모델 거버넌스와 소프트웨어 자재명세서(SBOM) 점검이 중요해졌습니다.",
+      "author_profile": "임대준 기자",
+      "publish_date": "2026-10-19T20:29:07.000Z",
+      "tags": [
+        "AI규제",
+        "딥시크",
+        "사이버보안",
+        "미국정책"
+      ],
+      "url": "https://www.aitimes.com/news/articleView.html?idxno=216417",
+      "sources": [
+        "AI타임스"
+      ],
+      "metrics": {},
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "geeknews_006365ad54",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "signal_id": "product",
+      "signal_name": "제품 신기능",
+      "importance": 82,
+      "headline": "아나토미: 기술 아키텍처 개념을 대화형 입체 도해로 렌더링하는 AI 에이전트 스킬",
+      "title_ko": "아나토미: 기술 아키텍처 개념을 대화형 입체 도해로 렌더링하는 AI 에이전트 스킬",
+      "summary_ko": "• **도해 생성**: 복잡한 인프라와 소프트웨어 엔지니어링 개념을 동작하는 기계 형태의 인터랙티브 입체 도해로 시각화해 주는 스킬입니다.\n• **동적 제어**: SVG와 WebGL 셰이더를 결합하여 사용자 조작에 따라 버퍼 큐, 커넥션 풀 등 실제 동작 흐름을 애니메이션으로 표현합니다.\n• **문서화 혁신**: 정적 다이어그램의 설명력 한계를 극복하고 기술 블로그나 엔지니어링 온보딩 문서의 전달력을 크게 강화합니다.",
+      "body_ko": "아나토미(Anatomy)는 개발자가 설명하고자 하는 기술 개념과 메트릭 수치를 지정하면 움직이는 입체 도해로 생성해 주는 에이전트 스킬입니다. 데이터베이스 커넥션 풀의 고갈이나 메시지 큐의 백프레셔 같은 복잡한 시스템 동작을 배관과 기계 밸브 메타포로 시각화합니다. SVG 벡터 그래픽으로 음영과 구조를 잡고 WebGL을 활용해 유체나 조명 효과를 덧입혀 단일 HTML 또는 리액트 컴포넌트로 출력합니다. 사용자는 마우스 드래그나 키보드 입력으로 슬라이더를 조절하며 트래픽 증가에 따른 병목 지점의 시각적 변화를 실시간으로 체감할 수 있습니다. 시각화 코드가 완전히 투명하게 노출되어 생성 후에도 스타일이나 동작 로직을 코드 레벨에서 직접 수정하고 배포할 수 있습니다.",
+      "author_profile": "xguru",
+      "publish_date": "2026-10-20T00:30:02.000Z",
+      "tags": [
+        "에이전트스킬",
+        "시각화",
+        "인포그래픽",
+        "WebGL"
+      ],
+      "url": "https://news.hada.io/topic?id=35670",
+      "sources": [
+        "GeekNews"
+      ],
+      "metrics": {},
+      "curated_by": "ldk-hub"
+    }
+  ]
+}

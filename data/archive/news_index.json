@@ -2,6 +2,11 @@
   "updated_at": "2026-10-19T00:00:09.492Z",
   "archives": [
     {
+      "file": "news_2026-10-20.json",
+      "version": "v2026.10.20",
+      "generated_at": "2026-10-20T01:53:07.607Z"
+    },
+    {
       "file": "news_2026-10-19.json",
       "date": "2026-10-19",
       "version": "v2026.10.19",
