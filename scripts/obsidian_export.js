@@ -281,6 +281,56 @@ tags: [ai-weekly, lounge, giscus, github-discussions, community]
 // 3. 작업 일지들
 const LOGS = [
   {
+    filename: "2026-10-21 작업일지.md",
+    title: "2026-10-21 작업일지 — 평일 데일리 파이프라인(cc-daily) 완수 (스타보드 597개 100% 갱신, 125건 수집·15건 전 매체 균형 큐레이션, 품질 게이트 통과, RSS/라운지/옵시디언 동기화)",
+    date: "2026-10-21",
+    content: `---
+title: 2026-10-21 작업일지 — 평일 데일리 파이프라인(cc-daily) 완수 (스타보드 597개 100% 갱신, 125건 수집·15건 전 매체 균형 큐레이션, 품질 게이트 통과, RSS/라운지/옵시디언 동기화)
+date: 2026-10-21
+type: work-log
+tags: [work-log, cc-daily, cc-star, cc-news, quality-gate, obsidian-sync]
+---
+
+# 📅 2026-10-21 작업일지
+
+## 1. 주요 작업 내용
+
+### 🌟 1. CC-Star 스타보드 데이터 전수 최신화
+- **실행 명령:** \`node scripts/stars/collect-stars.js\` (BypassSandbox 환경)
+- **수집 성과:**
+  - 전체 추적 대상 리포지토리: 597개
+  - 정상 수집 및 메타 갱신: 597개 (성공률 100%)
+  - 영구 삭제/비공개(404 Gone): 42개
+  - 리네임(Rename): 0개
+  - 비정상 급감 의심(Suspects): 1개 (\`edenfunf/reelmimic\`: 3,663→1,867)
+  - \`data/stars/stars_meta.json\` 및 \`data/stars/stars_ledger.json\` 원장 안전 기록 완료
+
+---
+
+### 📰 2. CC-News 데일리 AI 기술 신호 큐레이션 및 품질 게이트 통과
+- **실행 절차:** 수집(\`collect_news.js\`) → 15건 전 매체 균형 큐레이션 → 검증(\`curate_news.js --validate\`) → RSS/라운지 동기화
+- **수집 현황 (24시간 창, 125건 확보):**
+  - GeekNews 5건, AI타임스 5건, Hacker News 24건, GitHub 50건, Reddit 20건, HF Daily Papers 12건, Bluesky 9건
+  - [MISSING] 매체: X (부계정 쿠키 미설정으로 0건 보고)
+  - [REPEAT] 최근 7일 배포본 86건 URL 대조: 3건 중복 제외, 3건 업데이트 후보 유지
+- **최종 큐레이션 (15건 엄선, 7개 매체 골고루 선별):**
+  - **매체별 분포:** GeekNews 2건, AI타임스 2건, Hacker News 2건, GitHub 3건, Reddit 2건, HF Daily Papers 2건, Bluesky 2건 (특정 매체 편중 원천 차단)
+  - **신호축 분포:** \`oss\` 4건, \`devtool\` 3건, \`practice\` 3건, \`model\` 2건, \`research\` 2건, \`product\` 1건 (6대 기술축 균형 배분)
+  - **업데이트 항목 표기:** 최근 7일 내 스타 급증으로 재등장한 \`tangency-labs/solidcraft\`(별 5,651→8,287, 46.6%↑, 하루평균 625개)에 \`[업데이트]\` 접두사 및 전후 증감치 엄격 반영
+- **품질 게이트 검증:**
+  - \`node scripts/news/curate_news.js --validate\` 15건 전원 무결점 통과
+  - 3불릿 키워드 볼드(\`• **키워드**: \`), 5~10문장 해설(\`body_ko\`), 스크랩 없는 완전 재작성 준수
+
+---
+
+### 📡 3. 배포 리소스 갱신 및 옵시디언 동기화
+- **RSS/사이트맵 갱신:** \`scripts/core/generate-rss.js\` 실행 → \`feed.xml\`, \`news-feed.xml\`, \`sitemap.xml\` 최신화 완료
+- **라운지 스냅샷:** \`scripts/community/collect_lounge.js\` 실행 → \`lounge_latest.json\` 최신 스냅샷 갱신
+- **아카이브 영구 보존:** \`site/public/data/archive/news_2026-10-21.json\`, \`data/archive/news_2026-10-21.json\`, \`news_index.json\` 갱신 완료
+- **옵시디언 볼트 동기화:** \`npm run sync:obsidian\` 실행으로 로컬 볼트(\`/Users/nhn/Documents/Obsidian Vault/ai-weekly\`)와 동기화 완수
+`,
+  },
+  {
     filename: "2026-10-20 작업일지.md",
     title: "2026-10-20 작업일지 — 평일 데일리 파이프라인(cc-daily) 완수 (GitHub 토큰 멈춤 방어 개선, 113건 수집·18건 전 매체 균형 큐레이션, 품질 게이트 통과, RSS/옵시디언 동기화)",
     date: "2026-10-20",
