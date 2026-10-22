@@ -13,7 +13,8 @@ export default defineConfig({
         main: resolve(__dirname, 'site/index.html'),
         news: resolve(__dirname, 'site/news.html'),
         starboard: resolve(__dirname, 'site/starboard.html'),
-        lounge: resolve(__dirname, 'site/lounge.html')
+        lounge: resolve(__dirname, 'site/lounge.html'),
+        benchmarks: resolve(__dirname, 'site/benchmarks.html')
       }
     }
   }

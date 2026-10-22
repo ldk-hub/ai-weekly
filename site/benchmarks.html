@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI위클리 — AI 점유율 및 모델별 성능 지표 (Benchmarks)</title>
+<meta name="description" content="글로벌 AI 서비스 트래픽 및 개발자 사용량 점유율부터 LMSYS Chatbot Arena, SWE-bench Verified 등 최신 프론티어 LLM 벤치마크 지표를 주간 추적합니다." />
+<meta name="theme-color" content="#fbfaf6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#161410" media="(prefers-color-scheme: dark)" />
+<script>try{const t=localStorage.getItem('aiw-theme');if(t){document.documentElement.dataset.theme=t;document.querySelectorAll('meta[name="theme-color"]').forEach(m=>{m.removeAttribute('media');m.content=t==='dark'?'#161410':'#fbfaf6';});}}catch(e){}</script>
+
+<link rel="canonical" href="https://ldk-hub.github.io/ai-weekly/benchmarks" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="AI위클리 — AI 점유율 및 모델별 성능 지표" />
+<meta property="og:description" content="글로벌 AI 서비스 점유율과 LMSYS Arena, SWE-bench 최신 벤치마크 지표 리더보드." />
+<meta property="og:url" content="https://ldk-hub.github.io/ai-weekly/benchmarks" />
+<meta property="og:image" content="https://ldk-hub.github.io/ai-weekly/og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:locale" content="ko_KR" />
+
+<link rel="icon" type="image/svg+xml" href="claude-code.svg" />
+<link rel="alternate" type="application/rss+xml" title="AI Weekly weekly RSS" href="https://ldk-hub.github.io/ai-weekly/feed.xml" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=23" />
+
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YLKMDP5YKQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-YLKMDP5YKQ');
+</script>
+</head>
+
+<body>
+
+<div class="layout-wrapper">
+
+  <div class="header-container" role="banner">
+    <div class="top-bar">
+      <a href="./" class="brand-logo" aria-label="AI위클리 홈">
+        <img src="claude-avatar.svg" alt="" width="28" height="28" />
+        <span class="brand-name" data-i18n-en="AI Weekly" data-i18n-ko="AI위클리">AI위클리</span>
+      </a>
+      <nav class="page-nav" aria-label="주요 메뉴">
+        <a href="./" class="pn-link">
+          <span data-i18n-en="Popular Plugins" data-i18n-ko="인기 플러그인">인기 플러그인</span>
+        </a>
+        <a href="news" class="pn-link">
+          <span data-i18n-en="AI News" data-i18n-ko="AI 뉴스">AI 뉴스</span>
+        </a>
+        <a href="starboard" class="pn-link">
+          <span data-i18n-en="Starboard" data-i18n-ko="스타보드">스타보드</span>
+        </a>
+        <a href="lounge" class="pn-link">
+          <span data-i18n-en="Lounge" data-i18n-ko="라운지">라운지</span>
+        </a>
+        <a href="benchmarks" class="pn-link is-active">
+          <span data-i18n-en="Benchmarks" data-i18n-ko="점유율·성능">점유율·성능</span>
+          <span class="badge" style="background:var(--accent); color:#fff; font-size:10px; padding:1px 5px; border-radius:4px; margin-left:4px; font-weight:700;">NEW</span>
+        </a>
+      </nav>
+      <div class="brand-actions">
+        <button class="theme-toggle" id="theme-toggle" aria-label="테마 전환" type="button">🌙 다크</button>
+        <button class="lang-toggle" id="lang-toggle" aria-label="언어 전환" type="button">
+          <span class="lang-opt" data-lang="en">EN</span>
+          <span class="lang-sep">/</span>
+          <span class="lang-opt" data-lang="ko">KO</span>
+        </button>
+        <a class="gh-btn" href="https://github.com/ldk-hub/ai-weekly" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+
+    <div class="compact-subbar">
+      <div class="hero-titles">
+        <h1 class="hero-h1" data-i18n-en-html="AI <span class='hl-mint'>Share</span> &amp; Frontier <span class='hl-lemon'>Performance</span>" data-i18n-ko-html="AI <span class='hl-mint'>점유율</span>과 프론티어 <span class='hl-lemon'>성능</span>">AI <span class="hl-mint">점유율</span>과 프론티어 <span class="hl-lemon">성능</span></h1>
+        <p class="hero-p bm-source" id="bm-source"></p>
+      </div>
+
+      <div class="update-bar" id="update-bar" role="status" aria-live="polite">
+        <div class="update-meta">
+          <span class="update-dot"></span>
+          <span class="update-text"><strong id="updated-at">—</strong> <span data-i18n-en="Updated" data-i18n-ko="갱신">갱신</span></span>
+        </div>
+
+        <div class="update-actions-right">
+          <div class="subscribe-wrapper" id="subscribe-wrapper">
+            <button class="subscribe-btn-open" id="subscribe-open" type="button">
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1.5" y="3.5" width="13" height="9" rx="2"></rect><path d="m2 4.5 6 4 6-4"></path></svg>
+              <span data-i18n-en="Subscribe" data-i18n-ko="구독">구독</span>
+            </button>
+            <form class="subscribe-form" id="subscribe-form" style="display:none" action="https://rlaalstn.substack.com/api/v1/free?nojs=true" method="post" target="_blank">
+              <input type="hidden" name="first_url" value="https://ldk-hub.github.io/ai-weekly/benchmarks" />
+              <input type="hidden" name="source" value="subscribe_widget" />
+              <input type="email" name="email" required placeholder="이메일 주소" data-i18n-en-placeholder="your@email.com" data-i18n-ko-placeholder="이메일 주소" aria-label="이메일 구독" />
+              <button type="submit" class="subscribe-submit" data-i18n-en="Subscribe" data-i18n-ko="구독하기">구독하기</button>
+              <button type="button" class="subscribe-close" id="subscribe-close">×</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Benchmarks Main Container -->
+  <main id="benchmarks-container">
+    <div style="text-align:center;padding:60px 0;color:var(--muted);font-size:15px;">점유율 및 성능 지표 데이터를 불러오는 중입니다...</div>
+  </main>
+
+  <footer class="site-footer">
+    <span>AI위클리 · Claude Code 주간 인덱스</span>
+    <span><a href="./">인기 플러그인</a> · <a href="news">AI 뉴스</a> · <a href="starboard">스타보드</a> · <a href="lounge">라운지</a> · <a href="benchmarks">점유율·성능</a></span>
+  </footer>
+
+</div>
+
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>

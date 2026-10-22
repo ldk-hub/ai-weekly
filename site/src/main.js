@@ -1,8 +1,22 @@
-import { isNewsPage, isStarboardPage, isLoungePage, GISCUS, isGiscusReady, STATE, CATEGORIES, NEWS_CATEGORIES, NEWS_SIGNALS, saveBookmarks, savePluginBookmarks } from "./state.js";
+import { isNewsPage, isStarboardPage, isLoungePage, isBenchmarksPage, GISCUS, isGiscusReady, STATE, CATEGORIES, NEWS_CATEGORIES, NEWS_SIGNALS, saveBookmarks, savePluginBookmarks } from "./state.js";
 
 
 async function load(source) {
   STATE.source = source || "latest";
+
+  if (isBenchmarksPage) {
+    try {
+      const res = await fetch("data/benchmarks_latest.json", { cache: "no-store" });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      STATE.data = await res.json();
+    } catch (e) {
+      STATE.data = null;
+    }
+    renderUpdateBar();
+    renderPageSummary();
+    renderBenchmarks();
+    return;
+  }
 
   if (isLoungePage) {
     // 대화 원본은 GitHub Discussions 다. 브라우저에서 직접 못 읽으므로(GraphQL 은 토큰 필수)
@@ -121,6 +135,15 @@ function renderPageSummary() {
   let newCount = 0;
   const checkNew = (item) => (item.badges || []).some(b => b.includes("신상") || b.includes("7일") || b.includes("NEW"));
   
+  if (isBenchmarksPage) {
+    const shares = STATE.data.market_shares || [];
+    const models = STATE.data.model_benchmarks || [];
+    el.textContent = lang === "en"
+      ? `${shares.length} services · ${models.length} frontier models`
+      : `서비스 점유율 ${shares.length}개 · 프론티어 모델 ${models.length}개`;
+    return;
+  }
+
   if (isLoungePage) {
     const threads = STATE.data.threads || [];
     const total = threads.reduce((n, t) => n + (t.comment_count || 0), 0);
@@ -765,6 +788,11 @@ function renderLounge() {
 
 function render() {
   const d = STATE.data || {};
+  if (isBenchmarksPage) {
+    renderBenchmarks();
+    return;
+  }
+
   if (isLoungePage) {
     renderLounge();
     return;
@@ -2055,4 +2083,310 @@ function starboardCardHTML(item, idx) {
     </article>
   `;
 }
+
+/* ==========================================================================
+   AI 점유율 및 모델별 성능 지표 (Benchmarks) 렌더링
+   ========================================================================== */
+
+function refocus(key) {
+  if (key) document.querySelector(`[data-focus-key="${key}"]`)?.focus({ preventScroll: true });
+}
+
+function renderBenchmarks() {
+  const container = document.getElementById("benchmarks-container");
+  if (!container) return;
+
+  const isEn = getLang() === "en";
+
+  // 출처 한 줄 업데이트 (#bm-source)
+  const sourceEl = document.getElementById("bm-source");
+  if (sourceEl) {
+    if (STATE.data?.sources?.length) {
+      const hs = STATE.data.sources.filter(s => s.header);
+      sourceEl.innerHTML = hs.length
+        ? `<strong>${isEn ? "Sources" : "출처"}</strong> ${hs.map(s => `${escapeHTML(s.label)} <a href="${escapeHTML(s.url)}" target="_blank" rel="noopener noreferrer">${escapeHTML(s.name)}</a> (${escapeHTML(s.as_of)})`).join(" · ")}`
+        : (isEn ? "Sources and dates not specified" : "출처·기준일 미기재");
+    } else {
+      sourceEl.innerHTML = "";
+    }
+  }
+
+  if (!STATE.data) {
+    container.innerHTML = `<div style="text-align:center;padding:60px 0;color:var(--muted);font-size:15px;">${isEn ? "Couldn&#39;t load the share and benchmark data." : "점유율·성능 데이터를 불러오지 못했습니다."}</div>`;
+    return;
+  }
+
+  const shares = STATE.data.market_shares || [];
+  const models = STATE.data.model_benchmarks || [];
+
+  const f1 = v => v == null ? "—" : Number(v).toFixed(1);
+  const f2 = v => v == null ? "—" : Number(v).toFixed(2);
+  const fInt = v => v == null ? "—" : Number(v).toLocaleString("en-US");
+  const fCtx = s => {
+    const n = parseInt(String(s ?? "").replace(/\D/g, ""), 10);
+    if (!n) return "—";
+    return n >= 1000 ? `${+(n / 1000).toFixed(1)}M` : `${n}K`;
+  };
+  const chg = v => {
+    if (v == null) return `<span class="bm-chg flat">—</span>`;
+    const cls = v > 0 ? "up" : v < 0 ? "down" : "flat";
+    const arrow = v > 0 ? "▲" : v < 0 ? "▼" : "–";
+    const word = v > 0 ? (isEn ? "increase" : "상승") : v < 0 ? (isEn ? "decrease" : "하락") : (isEn ? "no change" : "변화 없음");
+    return `<span class="bm-chg ${cls}" aria-label="${isEn ? `vs last month ${word} ${Math.abs(v).toFixed(1)}%p` : `전월 대비 ${word} ${Math.abs(v).toFixed(1)}%p`}">${arrow} ${Math.abs(v).toFixed(1)}p</span>`;
+  };
+  const blended = m => (3 * m.pricing_in_1m + m.pricing_out_1m) / 4;
+
+  const METRICS = [
+    { id: "coding", key: "arena_coding_elo", label: isEn ? "Coding" : "코딩", sub: isEn ? "Arena Coding · pts" : "Arena Coding · 점", fmt: fInt },
+    { id: "arena", key: "arena_elo", label: isEn ? "Arena" : "선호도", sub: isEn ? "Arena · pts" : "Arena · 점", fmt: fInt },
+    { id: "gpqa", key: "gpqa_diamond", label: isEn ? "Science" : "과학 추론", sub: "GPQA · %", fmt: f1 },
+    { id: "mmlu", key: "mmlu_pro", label: isEn ? "Knowledge" : "지식", sub: "MMLU-Pro · %", fmt: f1 },
+  ];
+
+  // 1. 요약 칩
+  const isShareTab = STATE.benchmarkTab !== "bench";
+  const top = (arr, f, asc) => arr.filter(x => f(x) != null).sort((a, b) => asc ? f(a) - f(b) : f(b) - f(a))[0];
+  const sTop = top(shares, x => x.share_pct);
+  const codingTop = top(models, x => x.arena_coding_elo);
+  const arenaTop = top(models, x => x.arena_elo);
+  const codingVals = models.map(m => m.arena_coding_elo).filter(v => v != null).sort((a, b) => a - b);
+  const median = codingVals.length ? codingVals[Math.floor(codingVals.length / 2)] : null;
+  const cheapTop = median == null ? undefined : top(models.filter(m => m.arena_coding_elo != null && m.arena_coding_elo >= median), blended, true);
+  const nm = x => x?.model ?? "—";
+
+  const chip = (go, sort, label, name, num, extra = "") => {
+    const isActive = (go === "share" && isShareTab) || (go === "bench" && !isShareTab && STATE.benchmarkSort === sort);
+    return `
+    <button type="button" class="bm-chip ${isActive ? "is-active" : ""}" data-go="${go}" ${sort ? `data-sort="${sort}"` : ""} data-focus-key="chip-${go}-${sort}" aria-pressed="${isActive}" title="${isEn ? `View ${label}` : `${label} 바로가기`}">
+      <span class="bm-chip-top">
+        <span class="bm-chip-label">
+          <span class="bm-chip-dot" aria-hidden="true"></span>
+          ${label}
+          <span class="bm-chip-arrow" aria-hidden="true">↗</span>
+        </span>
+        ${extra}
+      </span>
+      <span class="bm-chip-bottom">
+        <span class="bm-chip-main" title="${escapeHTML(name)}">${escapeHTML(name)}</span>
+        <span class="bm-chip-num">${num}</span>
+      </span>
+    </button>`;
+  };
+
+  const summaryHTML = `
+    <div class="bm-summary" id="bm-summary">
+      ${chip("share", "", isEn ? "Top referrals" : "리퍼럴 1위", sTop ? sTop.name : "—", sTop ? `${f2(sTop.share_pct)}%` : "—", sTop && sTop.mom_change != null ? chg(sTop.mom_change) : "")}
+      ${chip("bench", "coding", isEn ? "Top coding score" : "코딩 최고점", nm(codingTop), codingTop ? `${fInt(codingTop.arena_coding_elo)}${isEn ? " pts" : "점"}` : "—")}
+      ${chip("bench", "arena", isEn ? "Top Arena score" : "선호도 최고점", nm(arenaTop), arenaTop ? `${fInt(arenaTop.arena_elo)}${isEn ? " pts" : "점"}` : "—")}
+      ${chip("bench", "price", isEn ? "Best value" : "가성비 1위", nm(cheapTop), cheapTop ? `$${f2(cheapTop.pricing_in_1m)} / $${f2(cheapTop.pricing_out_1m)}` : "—", `<span class="bm-chip-hint">${isEn ? "Cheapest in the top half for coding" : "코딩 상위 절반 중 최저가"}</span>`)}
+    </div>`;
+
+  // 2. 툴바 (탭 + 정렬)
+  const hasCoding = models.some(m => m.arena_coding_elo != null);
+  const hasArena = models.some(m => m.arena_elo != null);
+
+  const toolbarHTML = `
+    <div class="bm-toolbar">
+      <div class="bm-seg" id="bm-tabs" role="tablist" aria-label="${isEn ? "Select view" : "보기 선택"}">
+        <button type="button" role="tab" id="tab-share" data-tab="share" aria-controls="bm-share" data-focus-key="tab-share" aria-selected="${isShareTab}" tabindex="${isShareTab ? 0 : -1}">${isEn ? "Share" : "점유율"}</button>
+        <button type="button" role="tab" id="tab-bench" data-tab="bench" aria-controls="bm-bench" data-focus-key="tab-bench" aria-selected="${!isShareTab}" tabindex="${!isShareTab ? 0 : -1}">${isEn ? "Performance" : "성능"}</button>
+      </div>
+      <div class="bm-sort" id="bm-sort" ${isShareTab ? "hidden" : ""}>
+        <span>${isEn ? "Sort by" : "정렬 기준"}</span>
+        <div class="bm-seg" role="group" aria-label="${isEn ? "Sort by" : "정렬 기준"}">
+          <button type="button" data-sort="coding" data-focus-key="sort-coding" ${hasCoding ? "" : "hidden"} aria-pressed="${STATE.benchmarkSort === "coding"}">${isEn ? "Coding" : "코딩"}</button>
+          <button type="button" data-sort="arena" data-focus-key="sort-arena" ${hasArena ? "" : "hidden"} aria-pressed="${STATE.benchmarkSort === "arena"}">${isEn ? "Arena" : "선호도"}</button>
+          <button type="button" data-sort="price" data-focus-key="sort-price" aria-pressed="${STATE.benchmarkSort === "price"}">${isEn ? "Lowest price" : "가격 낮은 순"}</button>
+        </div>
+      </div>
+    </div>`;
+
+  // 3. 점유율 패널
+  const sortedShares = [...shares].sort((a, b) => b.share_pct - a.share_pct);
+  const maxShare = sortedShares[0]?.share_pct || 1;
+  const mainShares = sortedShares.slice(0, 5);
+  const restShares = sortedShares.slice(5);
+  const restSum = restShares.reduce((n, s) => n + s.share_pct, 0);
+
+  const shareRow = (s, rank) => `
+    <li class="bm-srow" title="${escapeHTML(s.description || "")}">
+      <span class="bm-rank">${rank}</span>
+      <span class="bm-name"><a href="https://${escapeHTML(s.domain)}" target="_blank" rel="noopener noreferrer">${escapeHTML(s.name)}</a><small>${escapeHTML(s.provider)}</small></span>
+      <span class="bm-bar" aria-hidden="true"><i style="width:${(s.share_pct / maxShare * 100).toFixed(1)}%;background:${escapeHTML(s.color)}"></i></span>
+      <span class="bm-val">${f2(s.share_pct)}%</span>
+      ${chg(s.mom_change)}
+    </li>`;
+
+  let srowsHTML = mainShares.map((s, i) => shareRow(s, i + 1)).join("");
+  if (restShares.length) {
+    srowsHTML += `
+    <li class="bm-srow">
+      <span class="bm-rank"></span>
+      <span class="bm-name"><button type="button" class="bm-link-btn" id="bm-others-btn" aria-expanded="${STATE.benchmarkOthersOpen}" data-focus-key="others">${isEn ? `${restShares.length} others ${STATE.benchmarkOthersOpen ? "Hide ▴" : "▾"}` : `기타 ${restShares.length}개 ${STATE.benchmarkOthersOpen ? "접기 ▴" : "펼치기 ▾"}`}</button><small>${restShares.map(s => escapeHTML(s.name)).join(" · ")}</small></span>
+      <span class="bm-bar" aria-hidden="true"><i style="width:${(restSum / maxShare * 100).toFixed(1)}%;background:var(--soft)"></i></span>
+      <span class="bm-val">${f2(restSum)}%</span>
+      <span class="bm-chg flat"></span>
+    </li>`;
+    if (STATE.benchmarkOthersOpen) {
+      srowsHTML += restShares.map((s, i) => shareRow(s, mainShares.length + i + 1)).join("");
+    }
+  }
+
+  const sharePanelHTML = `
+    <section id="bm-share" role="tabpanel" aria-labelledby="tab-share" ${!isShareTab ? "hidden" : ""}>
+      <div class="bm-card">
+        <div class="bm-card-head">
+          <div>
+            <strong>${isEn ? "AI chatbot referral share" : "AI 챗봇 리퍼럴 점유율"}</strong>
+            <span class="bm-card-sub">${isEn ? "Share of visits AI chatbots send to other websites · not user counts · Statcounter, monthly" : "AI 챗봇이 다른 웹사이트로 보낸 방문 비율 · 사용자 수가 아님 · Statcounter 월간"}</span>
+          </div>
+          <span>${isEn ? "▲▼ vs last month (%p)" : "▲▼ 전월 대비 %p"}</span>
+        </div>
+        <ol class="bm-srows" id="bm-share-rows">${srowsHTML}</ol>
+      </div>
+    </section>`;
+
+  // 4. 성능 패널
+  const visible = METRICS.filter(x => models.some(m => m[x.key] != null));
+  if (STATE.benchmarkSort !== "price" && !visible.some(x => x.id === STATE.benchmarkSort)) {
+    STATE.benchmarkSort = visible[0]?.id ?? "price";
+  }
+
+  const sortedMs = [...models];
+  if (STATE.benchmarkSort === "price") {
+    sortedMs.sort((a, b) => blended(a) - blended(b));
+  } else {
+    const sm = METRICS.find(x => x.id === STATE.benchmarkSort);
+    if (sm) {
+      sortedMs.sort((a, b) => (b[sm.key] ?? -Infinity) - (a[sm.key] ?? -Infinity));
+    }
+  }
+
+  const best = Object.fromEntries(METRICS.map(m => [m.id, Math.max(...models.map(x => x[m.key] ?? -Infinity))]));
+  const minPrice = Math.min(...models.map(blended));
+  const sortMetric = METRICS.find(x => x.id === STATE.benchmarkSort);
+  const vals = sortMetric ? models.map(x => x[sortMetric.key]).filter(v => v != null) : [];
+  const [lo, hi] = [Math.min(...vals), Math.max(...vals)];
+  const mini = v => {
+    const p = hi === lo ? 100 : 15 + 85 * (v - lo) / (hi - lo);
+    return `<span class="bm-mini" aria-hidden="true"><i style="width:${p.toFixed(0)}%"></i></span>`;
+  };
+
+  const th = (id, label, sub) => {
+    const on = STATE.benchmarkSort === id;
+    const asc = id === "price";
+    return `<th class="num ${on ? "is-sorted" : ""}" aria-sort="${on ? (asc ? "ascending" : "descending") : "none"}">
+      <button type="button" data-sort="${id}" data-focus-key="th-${id}">
+        <span class="lbl">${label}${on ? ` <span class="arrow">${asc ? "▲" : "▼"}</span>` : ""}</span><small>${sub}</small>
+      </button></th>`;
+  };
+
+  const head = `
+    <tr>
+      <th class="num">${isEn ? "Rank" : "순위"}</th>
+      <th>${isEn ? "Model" : "모델"}</th>
+      ${visible.map(m => th(m.id, m.label, m.sub)).join("")}
+      ${th("price", isEn ? "Price" : "가격", isEn ? "OpenRouter · $/1M in·out" : "OpenRouter · $/1M 입력·출력")}
+      <th class="num">${isEn ? "Context" : "컨텍스트"}</th>
+    </tr>
+    <tr><th class="bm-hint-row" colspan="${4 + visible.length}">${isEn ? "Higher scores and lower prices are better · Click a header to sort" : "점수는 높을수록, 가격은 낮을수록 좋음 · 열 제목을 누르면 정렬"}</th></tr>`;
+
+  const body = sortedMs.map((m, i) => {
+    const cells = visible.map(x => {
+      const v = m[x.key];
+      const on = STATE.benchmarkSort === x.id;
+      return `<td class="num ${on ? "is-sorted" : ""}">${on && v != null ? mini(v) : ""}<span class="bm-v ${v === best[x.id] ? "is-best" : ""}">${x.fmt(v)}</span></td>`;
+    }).join("");
+    return `
+    <tr>
+      <td class="num"><span class="bm-rank">${i + 1}</span></td>
+      <td><span class="bm-model"><b>${escapeHTML(m.model)}${m.badge_type === "open-weights" ? `<span class="bm-tag">${isEn ? "Open" : "오픈"}</span>` : ""}</b><small>${escapeHTML(m.provider)}</small></span></td>
+      ${cells}
+      <td class="num ${STATE.benchmarkSort === "price" ? "is-sorted" : ""}"><span class="bm-v ${blended(m) === minPrice ? "is-best" : ""}">${f2(m.pricing_in_1m)} / ${f2(m.pricing_out_1m)}</span></td>
+      <td class="num">${fCtx(m.context_window)}</td>
+    </tr>`;
+  }).join("");
+
+  const mlistHTML = sortedMs.map((m, i) => `
+    <li class="bm-mrow">
+      <span class="bm-rank">${i + 1}</span>
+      <span class="bm-model"><b>${escapeHTML(m.model)}${m.badge_type === "open-weights" ? `<span class="bm-tag">${isEn ? "Open" : "오픈"}</span>` : ""}</b><small>${escapeHTML(m.provider)} · $${f2(m.pricing_in_1m)} / $${f2(m.pricing_out_1m)} · ${fCtx(m.context_window)}</small></span>
+      <span class="bm-mval"><b>${sortMetric ? sortMetric.fmt(m[sortMetric.key]) : `$${f2(blended(m))}`}</b><small>${sortMetric ? sortMetric.label : (isEn ? "Blended" : "혼합 단가")}</small></span>
+    </li>`).join("");
+
+  const footNotes = [
+    isEn ? "Arena scores are preference ratings from user votes; top ranks can shift within the margin of error." : "Arena 점수는 사용자 투표로 매긴 선호도라 상위권 순위는 오차 범위 안에서 바뀔 수 있다.",
+    isEn ? "Prices are OpenRouter listings and may differ from official vendor prices." : "가격은 OpenRouter 표시가이며 회사 공식가와 다를 수 있다."
+  ];
+  if (STATE.benchmarkSort === "price") {
+    footNotes.push(isEn ? "Price sort uses a 3:1 input/output blend" : "가격 정렬은 입력 3 : 출력 1 가중 평균 기준");
+  }
+  const footNoteHTML = `<div class="bm-foot-note" id="bm-foot-note">${footNotes.join("<br />")}</div>`;
+
+  const benchPanelHTML = `
+    <section id="bm-bench" role="tabpanel" aria-labelledby="tab-bench" ${isShareTab ? "hidden" : ""}>
+      <div class="bm-card">
+        <div class="bm-card-head">
+          <div>
+            <strong>${isEn ? `Top model per company (${models.length})` : `회사별 대표 모델 ${models.length}개`}</strong>
+            <span class="bm-card-sub">${isEn ? "One highest-ranked model per company on Arena · other models from the same company are excluded" : "Arena 순위에서 회사마다 가장 높은 모델 1개 · 같은 회사의 다른 모델은 제외"}</span>
+          </div>
+        </div>
+        <div class="bm-table-wrap"><table class="bm-table" id="bm-bench-table"><thead>${head}</thead><tbody>${body}</tbody></table></div>
+        <ol class="bm-mlist" id="bm-mlist">${mlistHTML}</ol>
+        ${footNoteHTML}
+      </div>
+    </section>`;
+
+  container.innerHTML = summaryHTML + toolbarHTML + sharePanelHTML + benchPanelHTML;
+}
+
+// 이벤트 핸들러 바인딩 (위임)
+document.getElementById("benchmarks-container")?.addEventListener("click", (e) => {
+  const t = e.target.closest("[data-go],[data-tab],[data-sort],#bm-others-btn");
+  if (!t) return;
+
+  if (t.id === "bm-others-btn") {
+    STATE.benchmarkOthersOpen = !STATE.benchmarkOthersOpen;
+    renderBenchmarks();
+    refocus("others");
+    return;
+  }
+
+  if (t.dataset.go) {
+    STATE.benchmarkTab = t.dataset.go;
+    if (t.dataset.sort) STATE.benchmarkSort = t.dataset.sort;
+    renderBenchmarks();
+    refocus(t.dataset.focusKey);
+    document.getElementById("bm-tabs")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    return;
+  }
+
+  if (t.dataset.tab) {
+    STATE.benchmarkTab = t.dataset.tab;
+    renderBenchmarks();
+    refocus(t.dataset.focusKey);
+    return;
+  }
+
+  if (t.dataset.sort) {
+    STATE.benchmarkSort = t.dataset.sort;
+    renderBenchmarks();
+    refocus(t.dataset.focusKey);
+    return;
+  }
+});
+
+// 키보드 ←→ 키로 탭 전환
+document.getElementById("benchmarks-container")?.addEventListener("keydown", (e) => {
+  const tabs = e.target.closest("#bm-tabs");
+  if (!tabs) return;
+  if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+  e.preventDefault();
+  STATE.benchmarkTab = STATE.benchmarkTab === "share" ? "bench" : "share";
+  renderBenchmarks();
+  refocus(`tab-${STATE.benchmarkTab}`);
+});
+
+
 

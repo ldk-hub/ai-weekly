@@ -2,6 +2,7 @@
 export const isNewsPage = !!document.getElementById("news-feed-container");
 export const isStarboardPage = !!document.getElementById("starboard-container");
 export const isLoungePage = !!document.getElementById("lounge-container");
+export const isBenchmarksPage = !!document.getElementById("benchmarks-container");
 
 // giscus (GitHub Discussions) 설정 — 라운지 대화와 뉴스 항목별 댓글이 모두 이 값을 쓴다.
 // repoId·categoryId 는 https://giscus.app 에서 리포를 입력하면 발급된다.
@@ -56,7 +57,10 @@ export const STATE = {
   source: "latest",
   archives: [],
   lounge: null,
-  viewMode: localStorage.getItem('aiw-view') || 'card'
+  viewMode: localStorage.getItem('aiw-view') || 'card',
+  benchmarkTab: 'share',
+  benchmarkSort: 'coding',
+  benchmarkOthersOpen: false
 };
 
 export const CATEGORIES = [
