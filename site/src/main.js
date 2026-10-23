@@ -217,7 +217,19 @@ function renderUpdateBar() {
       if (nxtSep) nxtSep.style.display = "none";
     }
   } else {
-    updEl.textContent = "—";
+    let fallbackText = "—";
+    if (STATE.source !== "latest") {
+      const fileMatch = String(STATE.source || "").match(/(\d{4})-(\d{2})-(\d{2})/);
+      if (fileMatch) {
+        const dObj = new Date(`${fileMatch[1]}-${fileMatch[2]}-${fileMatch[3]}T00:00:00`);
+        if (!isNaN(dObj.getTime())) {
+          fallbackText = `${fmtKFull(dObj)} (${dayLabel(dObj, lang)})`;
+        } else {
+          fallbackText = `${fileMatch[1]}.${fileMatch[2]}.${fileMatch[3]}`;
+        }
+      }
+    }
+    updEl.textContent = fallbackText;
     if (nxtEl) nxtEl.textContent = "—";
     if (nxtContainer) nxtContainer.style.display = "none";
     if (nxtSep) nxtSep.style.display = "none";
@@ -253,17 +265,23 @@ function renderArchiveMenu() {
      </button></li>`
   ];
   for (const a of STATE.archives) {
-    const rawDt = a.generated_at || a.date;
-    let dt = a.file;
-    if (rawDt) {
-      const m = String(rawDt).match(/^(\d{4})-(\d{2})-(\d{2})/);
-      if (m) {
-        dt = `${m[1]}.${m[2]}.${m[3]}`;
-      } else {
-        const dObj = new Date(rawDt);
-        if (!isNaN(dObj.getTime())) dt = fmtKFull(dObj);
+    let dt = "";
+    const fileMatch = String(a.file || "").match(/(\d{4})-(\d{2})-(\d{2})/);
+    if (fileMatch) {
+      dt = `${fileMatch[1]}.${fileMatch[2]}.${fileMatch[3]}`;
+    } else {
+      const rawDt = a.generated_at || a.date;
+      if (rawDt) {
+        const m = String(rawDt).match(/^(\d{4})-(\d{2})-(\d{2})/);
+        if (m) {
+          dt = `${m[1]}.${m[2]}.${m[3]}`;
+        } else {
+          const dObj = new Date(rawDt);
+          if (!isNaN(dObj.getTime())) dt = fmtKFull(dObj);
+        }
       }
     }
+    if (!dt) dt = "—";
     let ver = a.version;
     if (!ver) {
       const dm = a.file.match(/(\d{4})-(\d{2})-(\d{2})/);
@@ -426,12 +444,13 @@ function stripRepoPrefix(title, name) {
 }
 
 function cardHTML(item, idx) {
-  const safeId = escapeHTML(item.id || "");
-  const avatar = item.thumbnail_url || `https://github.com/${(item.id || "").split("/")[0]}.png?size=80`;
+  const repoId = item.id || (item.owner && item.name ? `${item.owner}/${item.name}` : (item.repo_url ? String(item.repo_url).replace(/^https?:\/\/github\.com\//, "") : (item.name || "")));
+  const safeId = escapeHTML(repoId);
+  const avatar = item.thumbnail_url || `https://github.com/${(repoId).split("/")[0]}.png?size=80`;
   const st = stickerFor(item, idx);
   const lang = getLang();
 
-  const isBookmarked = STATE.pluginBookmarks.has(item.id);
+  const isBookmarked = STATE.pluginBookmarks.has(repoId);
   const saveLabel = isBookmarked
     ? (lang === "en" ? "Remove from saved" : "저장 해제")
     : (lang === "en" ? "Save" : "저장하기");
@@ -483,7 +502,7 @@ function cardHTML(item, idx) {
 
   const displayTitle = (lang === "en" && item.description_en)
     ? item.description_en
-    : (stripRepoPrefix(item.title_ko, item.name) || item.id);
+    : (stripRepoPrefix(item.title_ko, item.name) || item.catchphrase || item.name || repoId);
 
   return `
     <article class="card" data-id="${safeId}">
@@ -497,7 +516,7 @@ function cardHTML(item, idx) {
             ${korChip(item)}
             ${weeklyStars}
           </div>
-          <div class="repo-id">${formatRepoId(item.id)}</div>
+          <div class="repo-id">${formatRepoId(repoId)}</div>
         </div>
       </div>
       <h3 class="card-title" data-open="${safeId}" tabindex="0" role="button">${escapeHTML(displayTitle)}</h3>
@@ -538,8 +557,9 @@ function sourcesLine(item) {
  * 캐치프레이즈와 badges 는 뺐다: 제목·순위 줄과 같은 말이다.
  */
 function modalHTML(item, tab, rank) {
-  const safeId = escapeHTML(item.id || "");
-  const avatar = item.thumbnail_url || `https://github.com/${(item.id || "").split("/")[0]}.png?size=80`;
+  const repoId = item.id || (item.owner && item.name ? `${item.owner}/${item.name}` : (item.repo_url ? String(item.repo_url).replace(/^https?:\/\/github\.com\//, "") : (item.name || "")));
+  const safeId = escapeHTML(repoId);
+  const avatar = item.thumbnail_url || `https://github.com/${(repoId).split("/")[0]}.png?size=80`;
   const lang = getLang();
   const tabLabel = tab === "rising"
     ? (lang === "en" ? "Trending" : "이번 주 뜨는")
@@ -597,7 +617,7 @@ function modalHTML(item, tab, rank) {
       <img class="m-avatar" src="${escapeHTML(avatar)}" alt="" onerror="this.style.visibility='hidden'"/>
       <div class="m-meta">
         <div class="m-category">${escapeHTML(item.category || "")}</div>
-        <div class="m-repo">${formatRepoId(item.id)}</div>
+        <div class="m-repo">${formatRepoId(repoId)}</div>
       </div>
       <div class="m-stars">★ ${Number(item.stars || 0).toLocaleString()}</div>
       ${scorePill}
@@ -651,9 +671,10 @@ function modalSourcesSection(item) {
 
 function findItem(id) {
   const d = STATE.data || {};
-  const rIdx = (d.rising || []).findIndex(x => x.id === id);
+  const match = x => x.id === id || (x.owner && x.name && `${x.owner}/${x.name}` === id) || (x.repo_url && String(x.repo_url).replace(/^https?:\/\/github\.com\//, "") === id) || x.name === id;
+  const rIdx = (d.rising || []).findIndex(match);
   if (rIdx >= 0) return { item: d.rising[rIdx], tab: "rising", rank: d.rising[rIdx].rank ?? rIdx + 1 };
-  const cIdx = (d.classic || []).findIndex(x => x.id === id);
+  const cIdx = (d.classic || []).findIndex(match);
   if (cIdx >= 0) return { item: d.classic[cIdx], tab: "classic", rank: d.classic[cIdx].rank ?? cIdx + 1 };
   return null;
 }
