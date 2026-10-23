@@ -36,8 +36,8 @@ async function load(source) {
   if (isStarboardPage) {
     try {
       const [metaRes, ledgerRes] = await Promise.all([
-        fetch("data/stars_meta.json", { cache: "no-store" }),
-        fetch("data/stars_ledger.json", { cache: "no-store" })
+        fetch("data/stars_meta.json"),
+        fetch("data/stars_ledger.json")
       ]);
       const meta = await metaRes.json();
       const ledger = await ledgerRes.json();
@@ -1241,6 +1241,7 @@ function newsCardHTML(item, idx = 0) {
 
 document.getElementById("search")?.addEventListener("input", e => {
   STATE.query = e.target.value;
+  if (isStarboardPage) STATE.sbLimit = 50;
   render();
 });
 
@@ -1269,6 +1270,7 @@ document.querySelectorAll(".tab, .cat-chip[data-tab]").forEach(btn => {
     STATE.tab = btn.dataset.tab;
     STATE.category = "all";
     STATE.pluginBookmarksOnly = false;
+    if (isStarboardPage) STATE.sbLimit = 50;
     render();
   });
 });
@@ -2056,35 +2058,64 @@ function renderStarboard() {
   const gridStyle = STATE.viewMode === 'list' 
     ? 'display:flex;flex-direction:column;gap:10px;' 
     : 'display:grid;grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr));gap:24px;';
+
+  const legendText = lang === "en"
+    ? "Active (within 7d) · Slowing (8–90d) · Dormant (>90d)"
+    : "활발 (최근 7일 이내) · 둔화 (8~90일) · 방치 (90일 초과)";
     
   let html = "";
-  if (hasQuery) {
-    html += `
-      <div class="feed-actions-bar" style="margin-bottom:12px;">
+  html += `
+    <div class="feed-actions-bar" style="margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+      ${hasQuery ? `
         <div class="feed-results-count">
           ${lang === "en" ? "Showing" : "검색 결과"} <strong>${list.length}</strong>${lang === "en" ? " repositories" : "개 리포지토리"}
           <button type="button" id="clear-starboard-filters-btn" style="background:none; border:none; color:var(--accent); cursor:pointer; font-size:12px; margin-left:8px; text-decoration:underline; font-weight:600;">${lang === "en" ? "Clear search" : "검색 초기화"}</button>
         </div>
+      ` : `<div></div>`}
+      <div class="sb-legend" style="font-size:12px; color:var(--muted); margin-left:auto;">
+        ${legendText}
+      </div>
+    </div>
+  `;
+
+  const limit = STATE.sbLimit || 50;
+  const visibleList = list.slice(0, limit);
+  const remaining = list.length - visibleList.length;
+
+  html += `<div class="${gridClass}" style="${gridStyle}">`;
+  html += visibleList.map((item, idx) => starboardCardHTML(item, idx, legendText)).join("");
+  html += `</div>`;
+
+  if (remaining > 0) {
+    const moreLabel = lang === "en" ? `Show more (${remaining} remaining)` : `더 보기 (남은 ${remaining}개)`;
+    html += `
+      <div style="text-align:center; margin-top:24px;">
+        <button type="button" class="expand-toggle-btn" id="sb-more" style="margin:0 auto;">${moreLabel}</button>
       </div>
     `;
   }
-  html += `<div class="${gridClass}" style="${gridStyle}">`;
-  html += list.map((item, idx) => starboardCardHTML(item, idx)).join("");
-  html += `</div>`;
+
   el.innerHTML = html;
 }
 
 document.getElementById("starboard-container")?.addEventListener("click", (e) => {
+  const moreBtn = e.target.closest("#sb-more");
+  if (moreBtn) {
+    STATE.sbLimit = (STATE.sbLimit || 50) + 50;
+    renderStarboard();
+    return;
+  }
   const clearBtn = e.target.closest("#clear-starboard-filters-btn");
   if (clearBtn) {
     STATE.query = "";
+    STATE.sbLimit = 50;
     const s = document.getElementById("search");
     if (s) s.value = "";
     renderStarboard();
   }
 });
 
-function starboardCardHTML(item, idx) {
+function starboardCardHTML(item, idx, legendText) {
   const rank = idx + 1;
   const badgeClass = {
     "active": "sb-badge-active",
@@ -2098,6 +2129,10 @@ function starboardCardHTML(item, idx) {
     "slowing": lang === "en" ? "Slowing" : "둔화",
     "dormant": lang === "en" ? "Dormant" : "방치"
   }[item.activity];
+
+  const badgeTitle = legendText || (lang === "en"
+    ? "Active (within 7d) · Slowing (8–90d) · Dormant (>90d)"
+    : "활발 (최근 7일 이내) · 둔화 (8~90일) · 방치 (90일 초과)");
   
   const repoName = item.id.split("/")[1];
   const ownerName = item.id.split("/")[0];
@@ -2123,10 +2158,10 @@ function starboardCardHTML(item, idx) {
   }).join(" ");
   
   const svg = item.sparklineData.length >= 3
-    ? `<svg class="sb-sparkline" width="100%" height="${height}" viewBox="-2 -10 ${width + 4} ${height+20}" preserveAspectRatio="none" style="margin-top:auto; padding-top:12px;">
+    ? `<svg class="sb-sparkline" aria-hidden="true" width="100%" height="${height}" viewBox="-2 -10 ${width + 4} ${height+20}" preserveAspectRatio="none" style="margin-top:auto; padding-top:12px;">
     <polyline fill="none" stroke="${velocityColor}" stroke-width="3" points="${points}" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>`
-    : `<div class="sb-nochart" style="margin-top:auto; padding-top:12px;">${lang === "en"
+    : `<div class="sb-nochart" aria-hidden="true" style="margin-top:auto; padding-top:12px;">${lang === "en"
         ? `${item.sparklineData.length} observations — trend chart needs 3+`
         : `관측 ${item.sparklineData.length}회 · 추이 그래프는 3회부터`}</div>`;
   
@@ -2167,7 +2202,7 @@ function starboardCardHTML(item, idx) {
           <span class="stars-line" style="font-size:16px; font-weight:700;">★ ${item.currentStars.toLocaleString()}</span>
           ${velocityBadge}
         </div>
-        <span class="sb-badge ${badgeClass}" style="margin:0;">${badgeLabel}</span>
+        <span class="sb-badge ${badgeClass}" style="margin:0;" title="${escapeHTML(badgeTitle)}">${badgeLabel}</span>
       </div>
 
       ${descHtml}

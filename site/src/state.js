@@ -57,6 +57,7 @@ export const STATE = {
   source: "latest",
   archives: [],
   lounge: null,
+  sbLimit: 50,
   viewMode: localStorage.getItem('aiw-view') || 'card',
   benchmarkTab: 'share',
   benchmarkSort: 'coding',
