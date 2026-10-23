@@ -104,10 +104,10 @@ async function loadArchives() {
   renderArchiveMenu();
 }
 
-// 스타보드는 매일 자동 수집(stars.yml), 뉴스는 데일리 파이프라인(매일 갱신), 플러그인은 매주 월요일(weekly-trends.yml)
+// 스타보드는 매일 자동 수집(stars.yml), 플러그인은 매주 월요일(weekly-trends.yml)
 function nextUpdateDate(from) {
   const d = new Date(from);
-  if (isStarboardPage || isNewsPage) {
+  if (isStarboardPage) {
     d.setDate(d.getDate() + 1);
   } else {
     const day = d.getDay();
@@ -191,6 +191,25 @@ function dayLabel(d, lang) {
   const e = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
   return (lang === "en" ? e : k)[d.getDay()];
 }
+function getRelativeDayLabel(ts, lang) {
+  if (!ts || isNaN(ts.getTime())) return "";
+  const toKstYmd = d => {
+    const kst = new Date(d.getTime() + (9 * 60 + d.getTimezoneOffset()) * 60000);
+    return `${kst.getFullYear()}-${String(kst.getMonth() + 1).padStart(2, "0")}-${String(kst.getDate()).padStart(2, "0")}`;
+  };
+  const nowKst = toKstYmd(new Date());
+  const targetKst = toKstYmd(ts);
+  const diffDays = Math.round((Date.parse(nowKst) - Date.parse(targetKst)) / (86400 * 1000));
+
+  if (diffDays <= 0) {
+    return lang === "en" ? "today" : "오늘";
+  } else if (diffDays === 1) {
+    return lang === "en" ? "yesterday" : "어제";
+  } else {
+    return lang === "en" ? `${diffDays} days ago` : `${diffDays}일 전`;
+  }
+}
+
 function renderUpdateBar() {
   const d = STATE.data || {};
   const rawTs = d.generated_at || d.updated_at || d.curated_date;
@@ -206,15 +225,23 @@ function renderUpdateBar() {
   
   if (!updEl) return;
   if (ts && !isNaN(ts.getTime())) {
-    updEl.textContent = `${fmtKFull(ts)} (${dayLabel(ts, lang)})`;
-    if (STATE.source === "latest") {
-      const nm = nextUpdateDate(ts);
-      if (nxtEl) nxtEl.textContent = `${fmtKDate(nm)} (${dayLabel(nm, lang)})`;
-      if (nxtContainer) nxtContainer.style.display = "";
-      if (nxtSep) nxtSep.style.display = "";
-    } else {
+    const baseDate = `${fmtKFull(ts)} (${dayLabel(ts, lang)})`;
+    if (isNewsPage || isLoungePage) {
+      const rel = getRelativeDayLabel(ts, lang);
+      updEl.textContent = rel ? `${baseDate} · ${rel}` : baseDate;
       if (nxtContainer) nxtContainer.style.display = "none";
       if (nxtSep) nxtSep.style.display = "none";
+    } else {
+      updEl.textContent = baseDate;
+      if (STATE.source === "latest") {
+        const nm = nextUpdateDate(ts);
+        if (nxtEl) nxtEl.textContent = `${fmtKDate(nm)} (${dayLabel(nm, lang)})`;
+        if (nxtContainer) nxtContainer.style.display = "";
+        if (nxtSep) nxtSep.style.display = "";
+      } else {
+        if (nxtContainer) nxtContainer.style.display = "none";
+        if (nxtSep) nxtSep.style.display = "none";
+      }
     }
   } else {
     let fallbackText = "—";
