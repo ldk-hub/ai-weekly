@@ -78,7 +78,7 @@ function buildFeed() {
   const lastBuild = weeks[0]?.data?.generated_at || new Date().toISOString();
 
   const items = weeks.map(week => {
-    const title = `cc-trends · ${week.date} 주간 업데이트`;
+    const title = `AI위클리 · ${week.date} 주간 업데이트`;
     const link = `${SITE_URL}?w=${week.date}`;
     const desc = summarizeWeek(week);
     return `    <item>
@@ -93,7 +93,7 @@ function buildFeed() {
   return `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>cc-trends — Claude Code 도구 주간 인덱스</title>
+    <title>AI위클리 — Claude Code 도구 주간 인덱스</title>
     <link>${SITE_URL}</link>
     <atom:link href="${SITE_URL}feed.xml" rel="self" type="application/rss+xml" />
     <description>매주 월요일 갱신되는 Claude Code 에이전트 · 스킬 · 하네스 · MCP 큐레이션.</description>
