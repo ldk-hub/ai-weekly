@@ -27,9 +27,6 @@
 <link rel="icon" type="image/svg+xml" href="claude-code.svg" />
 <link rel="alternate" type="application/rss+xml" title="AI Weekly weekly RSS" href="https://ldk-hub.github.io/ai-weekly/feed.xml" />
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css?v=22" />
 
 <!-- Google Analytics 4 -->
@@ -45,6 +42,7 @@
 </head>
 
 <body>
+<a class="skip-link" href="#main" data-i18n-en="Skip to main content" data-i18n-ko="본문으로 건너뛰기">본문으로 건너뛰기</a>
 
 <div class="layout-wrapper">
 
@@ -128,14 +126,14 @@
     <div class="unified-nav-box">
       <div class="unb-bottom sb-controls">
         <nav class="cat-filter" role="tablist" aria-label="리그 선택">
-          <button class="cat-chip active" data-tab="heavy" role="tab" aria-selected="true" title="스타 10k+">
-            🥊 <span data-i18n-en="Heavyweight" data-i18n-ko="헤비급">헤비급</span> <span class="tab-count" id="heavy-count">0</span>
+          <button class="cat-chip active" data-tab="heavy" role="tab" aria-selected="true" aria-controls="starboard-container" title="스타 10k+">
+            <span aria-hidden="true">🥊</span> <span data-i18n-en="Heavyweight" data-i18n-ko="헤비급">헤비급</span> <span class="tab-count" id="heavy-count">0</span>
           </button>
-          <button class="cat-chip" data-tab="middle" role="tab" aria-selected="false" title="스타 1k~10k">
-            🥋 <span data-i18n-en="Middleweight" data-i18n-ko="미들급">미들급</span> <span class="tab-count" id="middle-count">0</span>
+          <button class="cat-chip" data-tab="middle" role="tab" aria-selected="false" aria-controls="starboard-container" title="스타 1k~10k">
+            <span aria-hidden="true">🥋</span> <span data-i18n-en="Middleweight" data-i18n-ko="미들급">미들급</span> <span class="tab-count" id="middle-count">0</span>
           </button>
-          <button class="cat-chip" data-tab="light" role="tab" aria-selected="false" title="스타 1k 미만">
-            🪶 <span data-i18n-en="Lightweight" data-i18n-ko="라이트급">라이트급</span> <span class="tab-count" id="light-count">0</span>
+          <button class="cat-chip" data-tab="light" role="tab" aria-selected="false" aria-controls="starboard-container" title="스타 1k 미만">
+            <span aria-hidden="true">🪶</span> <span data-i18n-en="Lightweight" data-i18n-ko="라이트급">라이트급</span> <span class="tab-count" id="light-count">0</span>
           </button>
         </nav>
         <div class="filter-right">
@@ -153,7 +151,10 @@
   </div>
 
   <!-- Feed grouped by day -->
-  <main id="starboard-container"><div style="text-align:center;padding:60px 0;color:var(--muted);font-size:15px;">스타보드 랭킹표가 여기에 렌더링됩니다.</div></main>
+  <main id="main">
+    <h2 class="sr-only" data-i18n-en="Starboard Leaderboard" data-i18n-ko="스타보드 순위표">스타보드 순위표</h2>
+    <div id="starboard-container"><div style="text-align:center;padding:60px 0;color:var(--muted);font-size:15px;">스타보드 랭킹표가 여기에 렌더링됩니다.</div></div>
+  </main>
 
   <footer class="site-footer">
     <span>AI위클리 · Claude Code 주간 인덱스</span>

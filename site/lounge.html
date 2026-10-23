@@ -28,9 +28,6 @@
 <link rel="alternate" type="application/rss+xml" title="AI위클리 — AI 뉴스 RSS" href="https://ldk-hub.github.io/ai-weekly/news-feed.xml" />
 <link rel="alternate" type="application/rss+xml" title="AI위클리 — 주간 플러그인 RSS" href="https://ldk-hub.github.io/ai-weekly/feed.xml" />
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css?v=22" />
 
 <!-- Google Analytics 4 -->
@@ -44,6 +41,7 @@
 </head>
 
 <body>
+<a class="skip-link" href="#main" data-i18n-en="Skip to main content" data-i18n-ko="본문으로 건너뛰기">본문으로 건너뛰기</a>
 
 <div class="layout-wrapper">
 
@@ -105,7 +103,10 @@
     </div>
   </div>
 
-  <main id="lounge-container"><div style="text-align:center;padding:60px 0;color:var(--muted);font-size:15px;" data-i18n-en="Loading the lounge…" data-i18n-ko="라운지를 불러오는 중…">라운지를 불러오는 중…</div></main>
+  <main id="main">
+    <h2 class="sr-only" data-i18n-en="Community Lounge" data-i18n-ko="커뮤니티 라운지">커뮤니티 라운지</h2>
+    <div id="lounge-container"><div style="text-align:center;padding:60px 0;color:var(--muted);font-size:15px;" data-i18n-en="Loading the lounge…" data-i18n-ko="라운지를 불러오는 중…">라운지를 불러오는 중…</div></div>
+  </main>
 
   <footer class="site-footer">
     <span>AI위클리 · Claude Code 주간 인덱스</span>

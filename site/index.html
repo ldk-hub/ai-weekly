@@ -27,9 +27,6 @@
 <link rel="icon" type="image/svg+xml" href="claude-code.svg" />
 <link rel="alternate" type="application/rss+xml" title="AI Weekly weekly RSS" href="https://ldk-hub.github.io/ai-weekly/feed.xml" />
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css?v=22" />
 
 <!-- Google Analytics 4 -->
@@ -45,6 +42,7 @@
 </head>
 
 <body>
+<a class="skip-link" href="#main" data-i18n-en="Skip to main content" data-i18n-ko="본문으로 건너뛰기">본문으로 건너뛰기</a>
 
 <div class="layout-wrapper">
 
@@ -129,15 +127,15 @@
       <div class="unb-bottom">
         <div class="data-tabs-wrap">
           <div class="tabs" role="tablist">
-            <button class="tab active" data-tab="rising" role="tab" aria-selected="true">
-              🔥 <span data-i18n-en="Rising" data-i18n-ko="이번 주 뜨는">이번 주 뜨는</span> <span class="tab-count" id="rising-count">0</span>
+            <button class="tab active" data-tab="rising" role="tab" aria-selected="true" aria-controls="grid">
+              <span aria-hidden="true">🔥</span> <span data-i18n-en="Rising" data-i18n-ko="이번 주 뜨는">이번 주 뜨는</span> <span class="tab-count" id="rising-count">0</span>
             </button>
-            <button class="tab" data-tab="classic" role="tab" aria-selected="false">
-              ⭐ <span data-i18n-en="Classic" data-i18n-ko="이미 유명한">이미 유명한</span> <span class="tab-count" id="classic-count">0</span>
+            <button class="tab" data-tab="classic" role="tab" aria-selected="false" aria-controls="grid">
+              <span aria-hidden="true">⭐</span> <span data-i18n-en="Classic" data-i18n-ko="이미 유명한">이미 유명한</span> <span class="tab-count" id="classic-count">0</span>
             </button>
           </div>
         </div>
-        <nav class="cat-filter" id="cat-filter" role="tablist" aria-label="Category filter"></nav>
+        <nav class="cat-filter" id="cat-filter" aria-label="Category filter"></nav>
         <div class="filter-right">
           <div class="unb-search-wrap">
             <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="#A7A199" stroke-width="1.7"><circle cx="7" cy="7" r="4.5"></circle><path d="m10.5 10.5 3 3"></path></svg>
@@ -151,7 +149,8 @@
   </div>
 
   <!-- Feed grouped by day -->
-  <main>
+  <main id="main">
+    <h2 class="sr-only" data-i18n-en="Tool List" data-i18n-ko="도구 목록">도구 목록</h2>
     <div class="grid" id="grid"></div>
   </main>
 

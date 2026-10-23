@@ -9,8 +9,10 @@ async function load(source) {
       const res = await fetch("data/benchmarks_latest.json", { cache: "no-store" });
       if (!res.ok) throw new Error("HTTP " + res.status);
       STATE.data = await res.json();
+      STATE.loadError = null;
     } catch (e) {
       STATE.data = null;
+      STATE.loadError = e.message;
     }
     renderUpdateBar();
     renderPageSummary();
@@ -23,9 +25,12 @@ async function load(source) {
     // collect_lounge.js 가 수집 시점에 떨궈둔 스냅샷을 읽는다 — 뉴스·스타보드와 같은 방식.
     try {
       const res = await fetch("data/lounge_latest.json", { cache: "no-store" });
+      if (!res.ok) throw new Error("HTTP " + res.status);
       STATE.data = await res.json();
+      STATE.loadError = null;
     } catch (e) {
       STATE.data = { generated_at: null, threads: [], comments: [] };
+      STATE.loadError = e.message;
     }
     renderUpdateBar();
     renderPageSummary();
@@ -39,6 +44,8 @@ async function load(source) {
         fetch("data/stars_meta.json"),
         fetch("data/stars_ledger.json")
       ]);
+      if (!metaRes.ok) throw new Error("HTTP " + metaRes.status);
+      if (!ledgerRes.ok) throw new Error("HTTP " + ledgerRes.status);
       const meta = await metaRes.json();
       const ledger = await ledgerRes.json();
       STATE.data = {
@@ -49,8 +56,10 @@ async function load(source) {
       };
       // Process data into leagues
       processStarboardData();
+      STATE.loadError = null;
     } catch (e) {
       STATE.data = { meta: {}, ledger: {}, generated_at: null, heavy: [], middle: [], light: [] };
+      STATE.loadError = e.message;
     }
   } else {
     let url;
@@ -64,7 +73,9 @@ async function load(source) {
     }
     try {
       const res = await fetch(url, { cache: "no-store" });
+      if (!res.ok) throw new Error("HTTP " + res.status);
       STATE.data = await res.json();
+      STATE.loadError = null;
       if (isNewsPage && STATE.data) {
         if (!STATE.data.generated_at) {
           STATE.data.generated_at = STATE.data.updated_at || (STATE.data.curated_date ? `${STATE.data.curated_date}T00:00:00Z` : null);
@@ -72,8 +83,20 @@ async function load(source) {
         if (!STATE.data.version && STATE.data.curated_date) {
           STATE.data.version = `v${STATE.data.curated_date.replace(/-/g, ".")}`;
         }
+      } else if (STATE.data && !isStarboardPage && !isLoungePage && !isBenchmarksPage) {
+        if (Array.isArray(STATE.data.rising)) {
+          STATE.data.rising.forEach((item, index) => {
+            item.rank ??= index + 1;
+          });
+        }
+        if (Array.isArray(STATE.data.classic)) {
+          STATE.data.classic.forEach((item, index) => {
+            item.rank ??= index + 1;
+          });
+        }
       }
     } catch (e) {
+      STATE.loadError = e.message;
       if (isNewsPage) STATE.data = { generated_at: null, news: [] };
       else STATE.data = { generated_at: null, rising: [], classic: [] };
     }
@@ -378,20 +401,22 @@ function renderCategoryFilter() {
       const count = c.id === "all" ? list.length : list.filter(x => x.category === c.id).length;
       if (c.id !== "all" && count === 0) return "";
       const label = lang === "en" ? c.label_en : c.label_ko;
-      const active = (STATE.category === c.id && !STATE.pluginBookmarksOnly) ? "is-active" : "";
-      return `<button class="cat-chip ${active}" data-cat="${c.id}" type="button">
-        <span class="cat-emoji">${c.emoji}</span>
+      const isActive = STATE.category === c.id && !STATE.pluginBookmarksOnly;
+      const active = isActive ? "active is-active" : "";
+      return `<button class="cat-chip ${active}" data-cat="${c.id}" type="button" aria-pressed="${isActive ? "true" : "false"}">
+        <span class="cat-emoji" aria-hidden="true">${c.emoji}</span>
         <span>${label}</span>
         <span class="cat-count">${count}</span>
       </button>`;
     }).join("");
 
     const bmCount = list.filter(it => STATE.pluginBookmarks.has(it.id)).length;
-    const bmActive = STATE.pluginBookmarksOnly ? "is-active" : "";
+    const bmIsActive = STATE.pluginBookmarksOnly;
+    const bmActive = bmIsActive ? "active is-active" : "";
     const bmLabel = lang === "en" ? "Saved" : "저장";
     const bmChip = `
-      <button class="cat-chip bookmark-chip ${bmActive}" id="plugin-bookmark-filter-chip" type="button" style="margin-left:4px;">
-        <span>⭐</span>
+      <button class="cat-chip bookmark-chip ${bmActive}" id="plugin-bookmark-filter-chip" type="button" aria-pressed="${bmIsActive ? "true" : "false"}" style="margin-left:4px;">
+        <span aria-hidden="true">⭐</span>
         <span>${bmLabel}</span>
         <span class="cat-count">${bmCount}</span>
       </button>
@@ -404,8 +429,46 @@ function updateTabCounts() {
   const d = STATE.data || {};
   const r = document.getElementById("rising-count");
   const c = document.getElementById("classic-count");
-  if (r) r.textContent = (d.rising || []).length;
-  if (c) c.textContent = (d.classic || []).length;
+  const risingTotal = (d.rising || []).length;
+  const classicTotal = (d.classic || []).length;
+
+  const hasFilter = !!STATE.query || STATE.category !== "all" || STATE.pluginBookmarksOnly;
+
+  if (!hasFilter) {
+    if (r) r.textContent = risingTotal;
+    if (c) c.textContent = classicTotal;
+    return;
+  }
+
+  const filterFn = it => {
+    if (STATE.pluginBookmarksOnly && !STATE.pluginBookmarks.has(it.id)) return false;
+    if (STATE.category !== "all" && it.category !== STATE.category) return false;
+    if (!matches(it)) return false;
+    return true;
+  };
+
+  const risingMatch = (d.rising || []).filter(filterFn).length;
+  const classicMatch = (d.classic || []).filter(filterFn).length;
+
+  if (r) r.textContent = `${risingMatch}/${risingTotal}`;
+  if (c) c.textContent = `${classicMatch}/${classicTotal}`;
+}
+
+function getStarsSnapshotTitle() {
+  const gen = STATE.data?.generated_at;
+  const lang = getLang();
+  if (!gen) return "";
+  let dateStr = "";
+  try {
+    const d = new Date(gen);
+    const y = d.getUTCFullYear();
+    const m = String(d.getUTCMonth() + 1).padStart(2, "0");
+    const day = String(d.getUTCDate()).padStart(2, "0");
+    dateStr = `${y}.${m}.${day}`;
+  } catch (e) {
+    dateStr = String(gen).slice(0, 10).replace(/-/g, ".");
+  }
+  return lang === "en" ? `As of ${dateStr} (weekly snapshot)` : `${dateStr} 기준 (주간 스냅샷)`;
 }
 
 function matches(item) {
@@ -551,7 +614,7 @@ function cardHTML(item, idx) {
       ${feats ? `<ul class="features">${feats}</ul>` : ""}
       ${cliChip}
       <div class="card-foot">
-        <span class="meta-left"><span class="stars-line">★ ${formatStars(item.stars)}</span></span>
+        <span class="meta-left"><span class="stars-line" title="${escapeHTML(getStarsSnapshotTitle())}">★ ${formatStars(item.stars)}</span></span>
         <a class="repo-link" href="${escapeHTML(item.official_url || "#")}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
           GITHUB <span class="arrow">→</span>
         </a>
@@ -571,8 +634,9 @@ function sourcesLine(item) {
   const lang = getLang();
   if (!srcs.length && score == null) return "";
   const chips = srcs.map(s => `<span class="src-chip">${escapeHTML(SOURCE_LABEL[s] || s)}</span>`).join("");
-  const scoreLabel = lang === "en" ? "Score" : "검증";
-  const scoreEl = (score != null) ? `<span class="src-score" title="${scoreLabel}"> ${scoreLabel} ${score}</span>` : "";
+  const scoreLabel = lang === "en" ? "Curation score" : "큐레이션 점수";
+  const scoreTitle = lang === "en" ? "Weighted sum across 4 axes from ranking criteria" : "순위 기준 모달의 4축 가중 합계";
+  const scoreEl = (score != null) ? `<span class="src-score" title="${escapeHTML(scoreTitle)}"> ${scoreLabel} ${score}</span>` : "";
   return `<div class="src-line">${chips}${scoreEl}</div>`;
 }
 
@@ -594,9 +658,11 @@ function modalHTML(item, tab, rank) {
   const rankStr = String(rank).padStart(2, "0");
 
   const score = item.trend_score;
+  const scoreLabel = lang === "en" ? "Curation score" : "큐레이션 점수";
+  const scoreTitle = lang === "en" ? "Weighted sum across 4 axes from ranking criteria" : "순위 기준 모달의 4축 가중 합계";
   const scorePill = (score != null)
-    ? `<span class="m-score-pill" title="${lang === "en" ? "velocity · buzz · quality · recency" : "velocity · buzz · quality · recency 종합"}">
-         ${lang === "en" ? "Score" : "검증"} <strong>${score}</strong><span class="m-score-max">/100</span>
+    ? `<span class="m-score-pill" title="${escapeHTML(scoreTitle)}">
+         ${scoreLabel} <strong>${score}</strong><span class="m-score-max">/100</span>
        </span>`
     : "";
 
@@ -646,7 +712,7 @@ function modalHTML(item, tab, rank) {
         <div class="m-category">${escapeHTML(item.category || "")}</div>
         <div class="m-repo">${formatRepoId(repoId)}</div>
       </div>
-      <div class="m-stars">★ ${Number(item.stars || 0).toLocaleString()}</div>
+      <div class="m-stars" title="${escapeHTML(getStarsSnapshotTitle())}">★ ${Number(item.stars || 0).toLocaleString()}</div>
       ${scorePill}
     </div>
     <h2>${escapeHTML(modalTitle)}</h2>
@@ -706,22 +772,37 @@ function findItem(id) {
   return null;
 }
 
+let modalPreviousActiveElement = null;
+
 function openModal(id) {
   const hit = findItem(id);
   if (!hit) return;
+  modalPreviousActiveElement = document.activeElement;
   const modal = document.getElementById("modal");
   document.getElementById("modal-body").innerHTML = modalHTML(hit.item, hit.tab, hit.rank);
   modal.classList.add("open");
   modal.setAttribute("aria-hidden", "false");
   document.body.classList.add("modal-open");
   modal.scrollTop = 0;
+  const panel = modal.querySelector(".modal-panel");
+  if (panel) {
+    panel.setAttribute("tabindex", "-1");
+    panel.focus();
+  } else {
+    modal.querySelector(".modal-close")?.focus();
+  }
 }
 
 function closeModal() {
   const modal = document.getElementById("modal");
+  if (!modal || !modal.classList.contains("open")) return;
   modal.classList.remove("open");
   modal.setAttribute("aria-hidden", "true");
   document.body.classList.remove("modal-open");
+  if (modalPreviousActiveElement && typeof modalPreviousActiveElement.focus === "function") {
+    modalPreviousActiveElement.focus();
+  }
+  modalPreviousActiveElement = null;
 }
 
 /* ─── giscus (GitHub Discussions) ──────────────────────────────
@@ -888,9 +969,16 @@ function render() {
 
     if (list.length === 0) {
       const lang = getLang();
-      const noDataMsg = STATE.bookmarksOnly 
-        ? (lang === "en" ? "Nothing saved yet. Tap the star on any card to save it." : "저장한 뉴스가 없습니다. 카드의 별(☆)을 눌러 저장해보세요.")
-        : (lang === "en" ? "No news matches the filters. Try changing keywords or filters." : "조건에 일치하는 뉴스가 없습니다. 필터나 검색어를 변경해보세요.");
+      let noDataMsg;
+      if (STATE.loadError) {
+        noDataMsg = lang === "en"
+          ? `Failed to load data (${escapeHTML(STATE.loadError)}). Please refresh in a moment.`
+          : `데이터를 불러오지 못했습니다 (${escapeHTML(STATE.loadError)}). 잠시 후 새로고침해 주세요.`;
+      } else if (STATE.bookmarksOnly) {
+        noDataMsg = lang === "en" ? "Nothing saved yet. Tap the star on any card to save it." : "저장한 뉴스가 없습니다. 카드의 별(☆)을 눌러 저장해보세요.";
+      } else {
+        noDataMsg = lang === "en" ? "No news matches the filters. Try changing keywords or filters." : "조건에 일치하는 뉴스가 없습니다. 필터나 검색어를 변경해보세요.";
+      }
       el.innerHTML = `
         <div style="text-align:center;padding:60px 0;color:var(--muted);font-size:16px;">
           ${noDataMsg}
@@ -953,7 +1041,7 @@ function render() {
         <div class="feed-actions-bar">
           <div class="feed-results-count">
             ${lang === "en" ? "Showing" : "총"} <strong>${list.length}</strong>${lang === "en" ? " articles" : "개의 뉴스"}
-            ${hasActiveFilters ? `<button type="button" id="clear-filters-btn" style="background:none; border:none; color:var(--accent); cursor:pointer; font-size:12px; margin-left:8px; text-decoration:underline; font-weight:600;">${lang === "en" ? "Reset filters" : "필터 초기화"}</button>` : ""}
+            ${hasActiveFilters ? `<button type="button" id="clear-filters-btn" style="background:none; border:none; color:var(--accent-text); cursor:pointer; font-size:12px; margin-left:8px; text-decoration:underline; font-weight:600;">${lang === "en" ? "Reset filters" : "필터 초기화"}</button>` : ""}
           </div>
           <button type="button" class="expand-toggle-btn" id="expand-toggle-btn" title="${expandText}">
             <span>📖</span>
@@ -989,7 +1077,11 @@ function render() {
 
     if (list.length === 0) {
       let msg;
-      if (STATE.pluginBookmarksOnly) {
+      if (STATE.loadError) {
+        msg = lang === "en"
+          ? `Failed to load data (${escapeHTML(STATE.loadError)}). Please refresh in a moment.`
+          : `데이터를 불러오지 못했습니다 (${escapeHTML(STATE.loadError)}). 잠시 후 새로고침해 주세요.`;
+      } else if (STATE.pluginBookmarksOnly) {
         msg = lang === "en"
           ? "No saved tools in this tab. Click ★ on any card to save it."
           : "이 탭에서 저장한 도구가 없습니다. 카드의 별(☆)을 눌러 저장해보세요.";
@@ -1004,7 +1096,7 @@ function render() {
             <div class="feed-actions-bar" style="margin-bottom:14px;">
               <div class="feed-results-count">
                 ${lang === "en" ? "Showing" : "총"} <strong>0</strong>${lang === "en" ? " tools" : "개의 도구"}
-                <button type="button" id="clear-plugin-filters-btn" style="background:none; border:none; color:var(--accent); cursor:pointer; font-size:12px; margin-left:8px; text-decoration:underline; font-weight:600;">${lang === "en" ? "Reset filters" : "필터 초기화"}</button>
+                <button type="button" id="clear-plugin-filters-btn" style="background:none; border:none; color:var(--accent-text); cursor:pointer; font-size:12px; margin-left:8px; text-decoration:underline; font-weight:600;">${lang === "en" ? "Reset filters" : "필터 초기화"}</button>
               </div>
             </div>
           ` : ""}
@@ -1016,7 +1108,7 @@ function render() {
         <div class="feed-actions-bar" style="grid-column: 1 / -1; width: 100%; margin-bottom: 8px;">
           <div class="feed-results-count">
             ${lang === "en" ? "Showing" : "총"} <strong>${list.length}</strong>${lang === "en" ? " tools" : "개의 도구"}
-            <button type="button" id="clear-plugin-filters-btn" style="background:none; border:none; color:var(--accent); cursor:pointer; font-size:12px; margin-left:8px; text-decoration:underline; font-weight:600;">${lang === "en" ? "Reset filters" : "필터 초기화"}</button>
+            <button type="button" id="clear-plugin-filters-btn" style="background:none; border:none; color:var(--accent-text); cursor:pointer; font-size:12px; margin-left:8px; text-decoration:underline; font-weight:600;">${lang === "en" ? "Reset filters" : "필터 초기화"}</button>
           </div>
         </div>
       ` : "";
@@ -1433,8 +1525,46 @@ document.getElementById("modal")?.addEventListener("click", e => {
   }
   if (e.target.dataset.close !== undefined) closeModal();
 });
+document.getElementById("modal")?.addEventListener("keydown", e => {
+  if (e.key === "Tab") {
+    const modal = document.getElementById("modal");
+    if (!modal || !modal.classList.contains("open")) return;
+    const focusables = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+    const valid = Array.from(focusables).filter(el => !el.disabled && el.offsetParent !== null);
+    if (valid.length === 0) {
+      e.preventDefault();
+      return;
+    }
+    const first = valid[0];
+    const last = valid[valid.length - 1];
+    if (e.shiftKey) {
+      if (document.activeElement === first || document.activeElement === modal.querySelector(".modal-panel")) {
+        e.preventDefault();
+        last.focus();
+      }
+    } else {
+      if (document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  }
+});
 document.addEventListener("keydown", e => {
-  if (e.key === "Escape") closeModal();
+  if (e.key === "Escape") {
+    const archiveMenu = document.getElementById("archive-menu");
+    const archiveBtn = document.getElementById("archive-btn");
+    if (archiveMenu && !archiveMenu.hidden) {
+      archiveMenu.hidden = true;
+      archiveBtn?.setAttribute("aria-expanded", "false");
+      archiveBtn?.focus();
+      return;
+    }
+    const modal = document.getElementById("modal");
+    if (modal && modal.classList.contains("open")) {
+      closeModal();
+    }
+  }
 });
 
 function getCriteriaHTML(lang) {
@@ -1659,12 +1789,20 @@ function getCriteriaHTML(lang) {
 }
 
 function openCriteria() {
+  modalPreviousActiveElement = document.activeElement;
   const modal = document.getElementById("modal");
   document.getElementById("modal-body").innerHTML = getCriteriaHTML(getLang());
   modal.classList.add("open");
   modal.setAttribute("aria-hidden", "false");
   document.body.classList.add("modal-open");
   modal.scrollTop = 0;
+  const panel = modal.querySelector(".modal-panel");
+  if (panel) {
+    panel.setAttribute("tabindex", "-1");
+    panel.focus();
+  } else {
+    modal.querySelector(".modal-close")?.focus();
+  }
 }
 document.getElementById("open-criteria-top")?.addEventListener("click", openCriteria);
 
@@ -2042,9 +2180,11 @@ function renderStarboard() {
   
   const hasQuery = !!STATE.query;
   if (list.length === 0) {
-    const emptyMsg = hasQuery
-      ? (lang === "en" ? "No repositories match your search." : "검색어와 일치하는 리포지토리가 없습니다.")
-      : (lang === "en" ? "No repositories in this league yet." : "이 리그에는 아직 등록된 리포지토리가 없습니다.");
+    const emptyMsg = STATE.loadError
+      ? (lang === "en" ? `Failed to load data (${escapeHTML(STATE.loadError)}). Please refresh in a moment.` : `데이터를 불러오지 못했습니다 (${escapeHTML(STATE.loadError)}). 잠시 후 새로고침해 주세요.`)
+      : (hasQuery
+        ? (lang === "en" ? "No repositories match your search." : "검색어와 일치하는 리포지토리가 없습니다.")
+        : (lang === "en" ? "No repositories in this league yet." : "이 리그에는 아직 등록된 리포지토리가 없습니다."));
     el.innerHTML = `
       <div style="text-align:center;padding:60px 0;color:var(--muted);font-size:16px;">
         ${emptyMsg}
@@ -2069,7 +2209,7 @@ function renderStarboard() {
       ${hasQuery ? `
         <div class="feed-results-count">
           ${lang === "en" ? "Showing" : "검색 결과"} <strong>${list.length}</strong>${lang === "en" ? " repositories" : "개 리포지토리"}
-          <button type="button" id="clear-starboard-filters-btn" style="background:none; border:none; color:var(--accent); cursor:pointer; font-size:12px; margin-left:8px; text-decoration:underline; font-weight:600;">${lang === "en" ? "Clear search" : "검색 초기화"}</button>
+          <button type="button" id="clear-starboard-filters-btn" style="background:none; border:none; color:var(--accent-text); cursor:pointer; font-size:12px; margin-left:8px; text-decoration:underline; font-weight:600;">${lang === "en" ? "Clear search" : "검색 초기화"}</button>
         </div>
       ` : `<div></div>`}
       <div class="sb-legend" style="font-size:12px; color:var(--muted); margin-left:auto;">
@@ -2173,8 +2313,8 @@ function starboardCardHTML(item, idx, legendText) {
   // 핫 모멘텀 배지
   const isHot = item.velocity >= 300;
   const velocityBadge = isHot 
-    ? `<span class="sb-hot-badge">🔥 ${sign}${item.velocity.toLocaleString()}/wk</span>`
-    : `<span style="color:${velocityColor}; font-weight:700; font-size: 14px; background:var(--surface); padding:2px 8px; border-radius:12px; display:inline-block;">${sign}${item.velocity.toLocaleString()}/wk</span>`;
+    ? `<span class="sb-hot-badge sb-velocity">🔥 ${sign}${item.velocity.toLocaleString()}/wk</span>`
+    : `<span class="sb-velocity" style="color:${velocityColor}; font-weight:700; font-size: 14px; background:var(--surface); padding:2px 8px; border-radius:12px; display:inline-block;">${sign}${item.velocity.toLocaleString()}/wk</span>`;
 
   // 설명부: EN 모드에서는 영문 원본(descEn)을 우선 노출, KO 모드에서는 한국어(descKo) 우선 노출
   const useKoBox = lang === "en" ? (!descEn && !!descKo) : !!descKo;
@@ -2246,7 +2386,8 @@ function renderBenchmarks() {
   }
 
   if (!STATE.data) {
-    container.innerHTML = `<div style="text-align:center;padding:60px 0;color:var(--muted);font-size:15px;">${isEn ? "Couldn&#39;t load the share and benchmark data." : "점유율·성능 데이터를 불러오지 못했습니다."}</div>`;
+    const errorSuffix = STATE.loadError ? ` (${escapeHTML(STATE.loadError)})` : "";
+    container.innerHTML = `<div style="text-align:center;padding:60px 0;color:var(--muted);font-size:15px;">${isEn ? `Failed to load data${errorSuffix}. Please refresh in a moment.` : `데이터를 불러오지 못했습니다${errorSuffix}. 잠시 후 새로고침해 주세요.`}</div>`;
     return;
   }
 
@@ -2338,8 +2479,16 @@ function renderBenchmarks() {
   // 3. 점유율 패널
   const sortedShares = [...shares].sort((a, b) => b.share_pct - a.share_pct);
   const maxShare = sortedShares[0]?.share_pct || 1;
-  const mainShares = sortedShares.slice(0, 5);
-  const restShares = sortedShares.slice(5);
+  const hasMomChange = shares.some(s => s.mom_change != null);
+
+  let mainShares, restShares;
+  if (sortedShares.length === 6) {
+    mainShares = sortedShares;
+    restShares = [];
+  } else {
+    mainShares = sortedShares.slice(0, 5);
+    restShares = sortedShares.slice(5);
+  }
   const restSum = restShares.reduce((n, s) => n + s.share_pct, 0);
 
   const shareRow = (s, rank) => `
@@ -2348,23 +2497,27 @@ function renderBenchmarks() {
       <span class="bm-name"><a href="https://${escapeHTML(s.domain)}" target="_blank" rel="noopener noreferrer">${escapeHTML(s.name)}</a><small>${escapeHTML(s.provider)}</small></span>
       <span class="bm-bar" aria-hidden="true"><i style="width:${(s.share_pct / maxShare * 100).toFixed(1)}%;background:${escapeHTML(s.color)}"></i></span>
       <span class="bm-val">${f2(s.share_pct)}%</span>
-      ${chg(s.mom_change)}
+      ${hasMomChange ? chg(s.mom_change) : ""}
     </li>`;
 
   let srowsHTML = mainShares.map((s, i) => shareRow(s, i + 1)).join("");
-  if (restShares.length) {
+  if (restShares.length >= 2) {
     srowsHTML += `
     <li class="bm-srow">
       <span class="bm-rank"></span>
       <span class="bm-name"><button type="button" class="bm-link-btn" id="bm-others-btn" aria-expanded="${STATE.benchmarkOthersOpen}" data-focus-key="others">${isEn ? `${restShares.length} others ${STATE.benchmarkOthersOpen ? "Hide ▴" : "▾"}` : `기타 ${restShares.length}개 ${STATE.benchmarkOthersOpen ? "접기 ▴" : "펼치기 ▾"}`}</button><small>${restShares.map(s => escapeHTML(s.name)).join(" · ")}</small></span>
       <span class="bm-bar" aria-hidden="true"><i style="width:${(restSum / maxShare * 100).toFixed(1)}%;background:var(--soft)"></i></span>
       <span class="bm-val">${f2(restSum)}%</span>
-      <span class="bm-chg flat"></span>
+      ${hasMomChange ? `<span class="bm-chg flat"></span>` : ""}
     </li>`;
     if (STATE.benchmarkOthersOpen) {
       srowsHTML += restShares.map((s, i) => shareRow(s, mainShares.length + i + 1)).join("");
     }
   }
+
+  const momHeaderLabel = hasMomChange
+    ? (isEn ? "▲▼ vs last month (%p)" : "▲▼ 전월 대비 %p")
+    : (isEn ? "No prior month data" : "전월 데이터 없음");
 
   const sharePanelHTML = `
     <section id="bm-share" role="tabpanel" aria-labelledby="tab-share" ${!isShareTab ? "hidden" : ""}>
@@ -2374,7 +2527,7 @@ function renderBenchmarks() {
             <strong>${isEn ? "AI chatbot referral share" : "AI 챗봇 리퍼럴 점유율"}</strong>
             <span class="bm-card-sub">${isEn ? "Share of visits AI chatbots send to other websites · not user counts · Statcounter, monthly" : "AI 챗봇이 다른 웹사이트로 보낸 방문 비율 · 사용자 수가 아님 · Statcounter 월간"}</span>
           </div>
-          <span>${isEn ? "▲▼ vs last month (%p)" : "▲▼ 전월 대비 %p"}</span>
+          <span>${momHeaderLabel}</span>
         </div>
         <ol class="bm-srows" id="bm-share-rows">${srowsHTML}</ol>
       </div>

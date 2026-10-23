@@ -55,6 +55,7 @@ export const STATE = {
   pluginBookmarks: loadPluginBookmarks(),
   allExpanded: false,
   source: "latest",
+  loadError: null,
   archives: [],
   lounge: null,
   sbLimit: 50,
