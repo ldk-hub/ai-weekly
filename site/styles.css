@@ -2169,6 +2169,9 @@ html[data-theme="dark"] .card:hover .features li {
 
 /* 플러그인 원클릭 CLI 칩 */
 .cli-copy-chip {
+  all: unset;
+  box-sizing: border-box;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -2184,6 +2187,17 @@ html[data-theme="dark"] .card:hover .features li {
   cursor: pointer;
   transition: all 0.2s;
   user-select: none;
+}
+.card-install-note {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 10px;
+  line-height: 1.4;
+}
+.card-install-note .note-label {
+  font-weight: 600;
+  color: var(--ink-2);
+  margin-right: 4px;
 }
 html[data-theme="dark"] .cli-copy-chip {
   background: rgba(255, 255, 255, 0.04);

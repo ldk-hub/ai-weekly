@@ -457,20 +457,29 @@ function cardHTML(item, idx) {
     </div>
   ` : "";
 
-  // 설치 명령 칩은 큐레이터가 실제 install_hint 를 준 항목에만 붙인다.
-  // 폴백 `/install owner/repo` 는 대부분 실행되지 않는 명령이라 복사 버튼과 함께 내보내면 안 된다.
-  const cmd = item.install_hint || "";
-  const escapedCmd = escapeHTML(cmd).replace(/'/g, "\\'");
+  // 설치 안내 및 복사 칩:
+  // 아카이브(STATE.source !== "latest")에서는 명령을 절대 보여주지 않고 "설치: README 참고" 텍스트만 표시.
+  // 최신 주차에서는 install_hint가 "README"로 시작하면 텍스트만, 그 외 실제 명령이면 복사 버튼 생성.
+  const rawCmd = item.install_hint || "";
+  const isArchive = STATE.source !== "latest";
+  const isReadmeHint = !rawCmd || /^README/i.test(rawCmd.trim());
   const copyTxt = lang === "en" ? "Copy" : "복사";
-  const copiedTxt = lang === "en" ? "✓ Copied!" : "✓ 복사됨!";
   const copyTitle = lang === "en" ? "Click to copy install command" : "클릭하여 설치 명령어 복사";
-  const cliChip = cmd ? `
-    <div class="cli-copy-chip" onclick="event.stopPropagation(); navigator.clipboard.writeText('${escapedCmd}'); const el=this.querySelector('.cli-action'); el.innerText='${copiedTxt}'; setTimeout(()=>el.innerText='${copyTxt}', 1500);" title="${copyTitle}">
-      <span class="cli-icon">❯</span>
-      <span class="cli-cmd">${escapeHTML(cmd)}</span>
-      <span class="cli-action">${copyTxt}</span>
-    </div>
-  ` : "";
+
+  let cliChip = "";
+  if (rawCmd) {
+    if (isArchive || isReadmeHint) {
+      cliChip = `<div class="card-install-note"><span class="note-label">${lang === "en" ? "Install:" : "설치:"}</span> ${lang === "en" ? "See README" : "README 참고"}</div>`;
+    } else {
+      cliChip = `
+        <button type="button" class="cli-copy-chip" data-cmd="${escapeHTML(rawCmd)}" title="${copyTitle}">
+          <span class="cli-icon">❯</span>
+          <span class="cli-cmd">${escapeHTML(rawCmd)}</span>
+          <span class="cli-action">${copyTxt}</span>
+        </button>
+      `;
+    }
+  }
 
   const displayTitle = (lang === "en" && item.description_en)
     ? item.description_en
@@ -552,11 +561,27 @@ function modalHTML(item, tab, rank) {
     `<span class="m-tag">${escapeHTML(t)}</span>`
   ).join("");
 
-  const installBlock = item.install_hint
-    ? `<div class="m-section"><div class="m-label">${lang === "en" ? "Install" : "설치"}</div>
-         <div class="m-install">${escapeHTML(item.install_hint)}</div>
-       </div>`
-    : "";
+  let installBlock = "";
+  if (item.install_hint) {
+    const isArchive = STATE.source !== "latest";
+    const isReadmeHint = !item.install_hint || /^README/i.test(item.install_hint.trim());
+    const copyTxt = lang === "en" ? "Copy" : "복사";
+    const copyTitle = lang === "en" ? "Click to copy install command" : "클릭하여 설치 명령어 복사";
+
+    if (isArchive || isReadmeHint) {
+      installBlock = `<div class="m-section"><div class="m-label">${lang === "en" ? "Install" : "설치"}</div>
+         <div class="m-install">${lang === "en" ? "See README" : "README 참고"}</div>
+       </div>`;
+    } else {
+      installBlock = `<div class="m-section"><div class="m-label">${lang === "en" ? "Install" : "설치"}</div>
+         <button type="button" class="cli-copy-chip" data-cmd="${escapeHTML(item.install_hint)}" title="${copyTitle}">
+           <span class="cli-icon">❯</span>
+           <span class="cli-cmd">${escapeHTML(item.install_hint)}</span>
+           <span class="cli-action">${copyTxt}</span>
+         </button>
+       </div>`;
+    }
+  }
 
   const modalTitle = (lang === "en" && item.description_en)
     ? item.description_en
@@ -1256,7 +1281,32 @@ document.addEventListener("click", e => {
   }
 });
 
+function handleCliCopy(e) {
+  const cliBtn = e.target.closest(".cli-copy-chip");
+  if (!cliBtn) return false;
+  e.stopPropagation();
+  const cmd = cliBtn.dataset.cmd || "";
+  const actionEl = cliBtn.querySelector(".cli-action");
+  const origText = actionEl ? actionEl.innerText : "";
+  const lang = getLang();
+  const successTxt = lang === "en" ? "✓ Copied!" : "✓ 복사됨!";
+  const failTxt = lang === "en" ? "Copy failed" : "복사 실패";
+
+  navigator.clipboard.writeText(cmd)
+    .then(() => {
+      if (actionEl) actionEl.innerText = successTxt;
+      setTimeout(() => { if (actionEl) actionEl.innerText = origText; }, 1500);
+    })
+    .catch(() => {
+      if (actionEl) actionEl.innerText = failTxt;
+      setTimeout(() => { if (actionEl) actionEl.innerText = origText; }, 1500);
+    });
+  return true;
+}
+
 document.getElementById("grid")?.addEventListener("click", e => {
+  if (handleCliCopy(e)) return;
+
   const clearBtn = e.target.closest("#clear-plugin-filters-btn");
   if (clearBtn) {
     STATE.category = "all";
@@ -1325,6 +1375,7 @@ function copyPluginBriefing(id) {
 }
 
 document.getElementById("modal")?.addEventListener("click", e => {
+  if (handleCliCopy(e)) return;
   const copyBtn = e.target.closest("[data-copy-plugin]");
   if (copyBtn) {
     copyPluginBriefing(copyBtn.dataset.copyPlugin);
