@@ -95,9 +95,12 @@ graph TD
 - [[02-cc-star 오픈소스 스타보드 파이프라인|📈 cc-star 오픈소스 스타보드 파이프라인 명세]]
 - [[03-cc-trends 주간 트렌드 인덱싱|🔥 cc-trends 주간 트렌드 인덱싱 명세]]
 - [[04-giscus 라운지 및 커뮤니티 연동|💬 giscus 라운지 및 커뮤니티 연동 명세]]
+- [[05-benchmarks 점유율·성능 파이프라인|📊 benchmarks 점유율·성능 파이프라인 명세]]
 
 ### 📅 날짜별 작업 일지 (Work Logs)
-- [[2026-10-13 작업일지|📅 2026-10-13 작업일지 (평일 cc-daily: 스타보드 593개 최신화, HF 데일리 fallback 및 checkSuspect 결함 개선, 데일리 뉴스 17건 큐레이션 및 배포)]]
+- [[2026-10-23 작업일지|📅 2026-10-23 작업일지 (평일 cc-daily: 벤치마크 검증 스크립트 정정, 데일리 뉴스 17건 큐레이션 및 배포, 옵시디언 동기화)]]
+- [[2026-10-22 작업일지|📅 2026-10-22 작업일지 (신규 '점유율·성능' 탭 전면 구현, 2026-10 데이터 검수, 수치 신뢰성 보완 및 원격 푸시)]]
+- [[2026-10-21 작업일지|📅 2026-10-21 작업일지 (평일 cc-daily: 스타보드 597개 최신화, 15건 전 매체 균형 큐레이션 및 배포)]]
 - [[2026-10-12 작업일지|📅 2026-10-12 작업일지 (주간 cc-weekly: 스타보드 592개 최신화, 트렌드 33건 선별·순위 반영·보안 스캔, 데일리 뉴스 18건 큐레이션 배포)]]
 - [[2026-10-08 작업일지|📅 2026-10-08 작업일지 (평일 cc-daily: 스타보드 586개 갱신, 7개 매체 데일리 뉴스 18건 정밀 큐레이션 및 배포)]]
 - [[2026-10-06 작업일지|📅 2026-10-06 작업일지 (주간 cc-weekly: 스타보드 584개 최신화, 트렌드 35건 선별·보안 스캔, 데일리 뉴스 18건 큐레이션 배포)]]
@@ -278,8 +281,92 @@ tags: [ai-weekly, lounge, giscus, github-discussions, community]
 3. **다크/라이트 테마 자동 동기화:** 사이트 테마 변경 시 \`postMessage\`를 통해 Giscus iframe 테마 실시간 전환
 `;
 
+const SPEC_BENCHMARKS = `---
+title: benchmarks 점유율·성능 파이프라인 명세
+date: 2026-10-22
+type: system-spec
+tags: [ai-weekly, benchmarks, frontier-models, market-share, pipeline]
+---
+
+# 📊 benchmarks — AI 챗봇 점유율 및 프론티어 모델 성능 파이프라인
+
+## 1. 개요 및 목적
+주요 AI 챗봇 서비스의 글로벌 웹 리퍼럴 점유율(Statcounter)과 최신 프론티어 LLM의 실제 코딩/선호도 벤치마크(LMArena, OpenRouter)를 종합하여, 개발자와 사용자에게 실효성 있는 AI 선택 기준을 제공한다.
+
+## 2. 핵심 집계 원칙
+1. **과거 구버전(Legacy) 배제 원칙:** 이미 단종되었거나 1년 이상 경과한 구버전 모델은 집계에서 완전히 제외하고 현재 활성(Active Latest) 플래그십만 수집한다.
+2. **회사별 대표 모델 1개 원칙:** 전체 상위 10개가 아니라 주요 AI 연구소/기업별로 가장 높은 순위의 대표 모델 1개씩을 선별한다 (같은 회사의 다른 모델은 제외).
+3. **수치 해석 신뢰성 보장:**
+   - **리퍼럴 점유율:** Statcounter 값은 사용자 수(MAU)가 아니라 AI 챗봇이 다른 웹사이트로 보낸 방문(Referral) 비율임을 명시.
+   - **오차 범위 명시:** Arena 점수는 사용자 투표 선호도 기반이므로 상위권 순위가 오차 범위 안에서 변동될 수 있음을 안내.
+   - **가격 출처 명시:** OpenRouter 등록 가격 기준이며 공식 제조사 가격과 다를 수 있음을 주석으로 안내.
+
+## 3. 검증 및 빌드 게이트
+- \`npm run data:benchmarks\`: 과거 구버전 모델 배제 및 필수 메타데이터(\`arena_coding_elo\`, 가격, 컨텍스트) 검증
+- \`node .tmp/handoff-benchmarks/verify-data.mjs\`: 원본 출처 증거(\`.tmp/handoff-benchmarks/evidence/\`)와 데이터 파일의 100% 무결성 대조
+`;
+
 // 3. 작업 일지들
 const LOGS = [
+  {
+    filename: "2026-10-23 작업일지.md",
+    title: "2026-10-23 작업일지 — 평일 데일리 파이프라인(cc-daily) 완수 (벤치마크 검증 스크립트 최신화, 24시간 91건 수집·17건 전 매체 균형 큐레이션, 품질 게이트 통과, RSS/옵시디언 동기화)",
+    date: "2026-10-23",
+    content: `---
+title: 2026-10-23 작업일지
+date: 2026-10-23
+type: work-log
+tags: [ai-weekly, work-log, cc-daily, benchmarks, curation]
+status: completed
+author: ldk-hub <orm6711@gmail.com>
+---
+
+# 📅 2026-10-23 작업일지
+
+## 📌 주요 작업 요약
+1. **신규 '점유율·성능(Benchmarks)' 탭 파이프라인 정비:**
+   - \`scripts/benchmarks/curate-benchmarks.js\`의 검증 로직을 개정된 스펙(\`arena_coding_elo\`, 가격 필드)에 맞게 정정하여 \`npm run data:benchmarks\` 정상 통과 완료.
+   - 옵시디언 볼트에 \`05-benchmarks 점유율·성능 파이프라인.md\` 신규 명세 추가.
+2. **cc-news 데일리 24시간 기술 신호 수집 및 큐레이션:**
+   - 8개 매체 중 6개 활성 매체에서 총 91건 후보 수집 (\`geeknews\`: 5, \`aitimes\`: 5, \`hackernews\`: 12, \`github\`: 50, \`hfpapers\`: 12, \`bluesky\`: 7).
+   - [MISSING] 매체: Reddit (HTTP 403 throttling), X (쿠키 미설정).
+   - 에이전트 2-B 직접 정밀 큐레이션을 통해 총 17건 선별 배포:
+     - 3불릿 앞머리 볼드 키워드(\`• **키워드**: ...\`) 형식 100% 준수
+     - \`body_ko\` 5~10문장 엄수
+     - 품질 게이트(\`node scripts/news/curate_news.js --validate\`) 100% 통과.
+3. **사이트 무결성 검증 및 옵시디언 동기화:**
+   - \`npm run build\` 성공 (Vite 프로덕션 빌드 무결성 확인).
+   - RSS 피드 및 사이트맵 갱신 완료.
+   - 옵시디언 볼트 동기화 완료 (\`npm run sync:obsidian\`).
+`
+  },
+  {
+    filename: "2026-10-22 작업일지.md",
+    title: "2026-10-22 작업일지 — 신규 '점유율·성능(Benchmarks)' 페이지 전면 구현 및 수치 신뢰성 보완",
+    date: "2026-10-22",
+    content: `---
+title: 2026-10-22 작업일지
+date: 2026-10-22
+type: work-log
+tags: [ai-weekly, work-log, benchmarks, ux, trust]
+status: completed
+author: ldk-hub <orm6711@gmail.com>
+---
+
+# 📅 2026-10-22 작업일지
+
+## 📌 주요 작업 요약
+1. **신규 '점유율·성능' 탭 전면 구현 (UX/UI 2단계):**
+   - \`site/benchmarks.html\`, \`main.js\`, \`styles.css\`, \`state.js\` 개발 완료.
+   - 점유율 단일 막대 목록 통합, 정렬/필터 툴바, 상위 4개 요약 칩 구현.
+   - WCAG AA 기준 4.5:1 대비 충족 및 모바일 640px 이하 카드 반응형 최적화.
+2. **수치 해석 신뢰성 4가지 표시 보완:**
+   - 리퍼럴 점유율 정의(Statcounter), Arena 1위 오차범위 안내, 회사별 대표 모델 1개 명시, OpenRouter 가격 출처 명시 (KO/EN 이중 언어).
+3. **상위 4개 요약 칩 활성화 링(Active Ring) 추가:**
+   - 클릭 시 \`.is-active\` 테두리 링 및 점 인디케이터, 바로가기 화살표 \`↗\` 연동.
+   - 원격 저장소(\`main\`) 커밋 및 푸시 완료 (\`43deaf1\`).
+`
+  },
   {
     filename: "2026-10-21 작업일지.md",
     title: "2026-10-21 작업일지 — 평일 데일리 파이프라인(cc-daily) 완수 (스타보드 597개 100% 갱신, 125건 수집·15건 전 매체 균형 큐레이션, 품질 게이트 통과, RSS/라운지/옵시디언 동기화)",
@@ -1654,6 +1741,7 @@ function main() {
   writeFile(path.join(specDir, "02-cc-star 오픈소스 스타보드 파이프라인.md"), SPEC_STAR);
   writeFile(path.join(specDir, "03-cc-trends 주간 트렌드 인덱싱.md"), SPEC_TRENDS);
   writeFile(path.join(specDir, "04-giscus 라운지 및 커뮤니티 연동.md"), SPEC_LOUNGE);
+  writeFile(path.join(specDir, "05-benchmarks 점유율·성능 파이프라인.md"), SPEC_BENCHMARKS);
 
   // 3. 작업 일지
   const logsDir = path.join(VAULT_DIR, "02. 작업 일지 (Work Logs)");

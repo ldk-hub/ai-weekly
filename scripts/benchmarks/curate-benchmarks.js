@@ -58,8 +58,8 @@ function validateAndCurate() {
   console.log(`🏆 벤치마크 모델 수: ${benchmarks.length}개`);
 
   for (const item of benchmarks) {
-    // 필수 필드 체크
-    if (!item.model || !item.arena_elo || !item.swe_bench_verified) {
+    // 필수 필드 체크 (최신 현행 스펙: swe_bench_verified 대신 arena_coding_elo 및 가격/제공사 필수)
+    if (!item.model || item.arena_elo == null || item.arena_coding_elo == null || item.pricing_in_1m == null || item.pricing_out_1m == null) {
       console.error(`❌ [Benchmarks] 필수 값이 누락된 모델 발견: ${JSON.stringify(item)}`);
       process.exit(1);
     }
