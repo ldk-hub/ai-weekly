@@ -25,7 +25,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=23" />
+<link rel="stylesheet" href="styles.css?v=24" />
 
 <!-- Google Analytics 4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-YLKMDP5YKQ"></script>
@@ -86,6 +86,8 @@
         <div class="update-meta">
           <span class="update-dot"></span>
           <span class="update-text"><strong id="updated-at">—</strong> <span data-i18n-en="Updated" data-i18n-ko="갱신">갱신</span></span>
+          <span class="update-sep"></span>
+          <span class="update-text unb-summary" id="page-summary">—</span>
         </div>
 
         <div class="update-actions-right">
@@ -118,6 +120,14 @@
     <span><a href="./">인기 플러그인</a> · <a href="news">AI 뉴스</a> · <a href="starboard">스타보드</a> · <a href="lounge">라운지</a> · <a href="benchmarks">점유율·성능</a></span>
   </footer>
 
+</div>
+
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-panel" role="dialog" aria-modal="true">
+    <button class="modal-close" data-close aria-label="close">✕</button>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
 </div>
 
 <script type="module" src="/src/main.js"></script>

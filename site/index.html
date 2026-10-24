@@ -30,7 +30,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=22" />
+<link rel="stylesheet" href="styles.css?v=24" />
 
 <!-- Google Analytics 4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-YLKMDP5YKQ"></script>
@@ -142,11 +142,23 @@
         </div>
         <nav class="cat-filter" id="cat-filter" role="tablist" aria-label="Category filter"></nav>
         <div class="filter-right">
+          <label class="src-select-wrap sort-select-wrap" title="정렬 기준">
+            <span class="src-select-label" data-i18n-en="Sort" data-i18n-ko="정렬">정렬</span>
+            <select id="plugin-sort-select" aria-label="플러그인 정렬 기준">
+              <option value="score" data-i18n-en="Trend Score" data-i18n-ko="트렌드 점수순">트렌드 점수순</option>
+              <option value="velocity" data-i18n-en="Weekly Stars" data-i18n-ko="주간 스타순">주간 스타순</option>
+              <option value="stars" data-i18n-en="Total Stars" data-i18n-ko="총 스타순">총 스타순</option>
+            </select>
+          </label>
           <div class="unb-search-wrap">
             <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="#A7A199" stroke-width="1.7"><circle cx="7" cy="7" r="4.5"></circle><path d="m10.5 10.5 3 3"></path></svg>
             <input type="search" id="search" placeholder="플러그인 검색 (/)" data-i18n-en-placeholder="Search plugins, repos, tags (/)" data-i18n-ko-placeholder="플러그인 검색 (/)" aria-label="검색" />
-            <kbd class="kbd-hint">/</kbd>
+            <button type="button" class="search-clear-btn" id="search-clear-btn" hidden aria-label="검색어 지우기" title="검색어 지우기 (Esc)">×</button>
+            <kbd class="kbd-hint" id="search-kbd-hint">/</kbd>
           </div>
+          <button class="view-toggle" id="view-toggle" aria-label="뷰 모드 전환" type="button" title="리스트/카드 보기 전환">
+            <span class="vt-icon" id="vt-icon">☷</span>
+          </button>
           <button class="ctrl-link" id="open-criteria-top" data-i18n-en="Criteria ▾" data-i18n-ko="순위 기준 ▾">순위 기준 ▾</button>
         </div>
       </div>

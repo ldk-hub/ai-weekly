@@ -31,7 +31,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=22" />
+<link rel="stylesheet" href="styles.css?v=24" />
 
 <!-- Google Analytics 4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-YLKMDP5YKQ"></script>
@@ -136,9 +136,10 @@
           <div class="unb-search-wrap">
             <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="#A7A199" stroke-width="1.7"><circle cx="7" cy="7" r="4.5"></circle><path d="m10.5 10.5 3 3"></path></svg>
             <input type="search" id="search" placeholder="뉴스 검색 (/)" data-i18n-en-placeholder="Search news (/)" data-i18n-ko-placeholder="뉴스 검색 (/)" aria-label="검색" />
-            <kbd class="kbd-hint" title="단축키: /">/</kbd>
+            <button type="button" class="search-clear-btn" id="search-clear-btn" hidden aria-label="검색어 지우기" title="검색어 지우기 (Esc)">×</button>
+            <kbd class="kbd-hint" id="search-kbd-hint" title="단축키: /">/</kbd>
           </div>
-          <button class="view-toggle" id="view-toggle" aria-label="뷰 모드 전환" type="button" title="리스트 보기">
+          <button class="view-toggle" id="view-toggle" aria-label="뷰 모드 전환" type="button" title="리스트/카드 보기 전환">
             <span class="vt-icon" id="vt-icon">☷</span>
           </button>
         </div>

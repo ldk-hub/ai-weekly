@@ -1,4 +1,6 @@
-import { isNewsPage, isStarboardPage, isLoungePage, isBenchmarksPage, GISCUS, isGiscusReady, STATE, CATEGORIES, NEWS_CATEGORIES, NEWS_SIGNALS, saveBookmarks, savePluginBookmarks } from "./state.js";
+import { isNewsPage, isStarboardPage, isLoungePage, isBenchmarksPage, GISCUS, isGiscusReady, STATE, CATEGORIES, NEWS_CATEGORIES, NEWS_SIGNALS, saveBookmarks, savePluginBookmarks, saveStarboardBookmarks, syncStateFromURL, syncURLFromState } from "./state.js";
+
+syncStateFromURL();
 
 
 async function load(source) {
@@ -139,8 +141,8 @@ function renderPageSummary() {
     const shares = STATE.data.market_shares || [];
     const models = STATE.data.model_benchmarks || [];
     el.textContent = lang === "en"
-      ? `${shares.length} services · ${models.length} frontier models`
-      : `서비스 점유율 ${shares.length}개 · 프론티어 모델 ${models.length}개`;
+      ? `${shares.length} services (3-source avg) · ${models.length} frontier models (3-leaderboard avg)`
+      : `서비스 점유율 ${shares.length}개(3곳 평균) · 프론티어 모델 ${models.length}개(3대 리더보드 평균)`;
     return;
   }
 
@@ -252,7 +254,18 @@ function renderArchiveMenu() {
        <span class="ar-ver">${latestLabel}</span>
      </button></li>`
   ];
+  const latestVer = STATE.data?.version || "";
   for (const a of STATE.archives) {
+    let ver = a.version;
+    if (!ver) {
+      const dm = a.file.match(/(\d{4})-(\d{2})-(\d{2})/);
+      ver = dm ? `v${dm[1]}.${dm[2]}.${dm[3]}` : a.file;
+    } else if (/^\d{4}\.\d{2}\.\d{2}$/.test(ver)) {
+      ver = `v${ver}`;
+    }
+    if (STATE.source === "latest" && latestVer && ver === latestVer) {
+      continue;
+    }
     const rawDt = a.generated_at || a.date;
     let dt = a.file;
     if (rawDt) {
@@ -263,13 +276,6 @@ function renderArchiveMenu() {
         const dObj = new Date(rawDt);
         if (!isNaN(dObj.getTime())) dt = fmtKFull(dObj);
       }
-    }
-    let ver = a.version;
-    if (!ver) {
-      const dm = a.file.match(/(\d{4})-(\d{2})-(\d{2})/);
-      ver = dm ? `v${dm[1]}.${dm[2]}.${dm[3]}` : a.file;
-    } else if (/^\d{4}\.\d{2}\.\d{2}$/.test(ver)) {
-      ver = `v${ver}`;
     }
     items.push(`<li><button data-source="${escapeHTML(a.file)}" class="${STATE.source === a.file ? "is-active" : ""}">
       <span class="ar-ver">${escapeHTML(ver)}</span>
@@ -441,8 +447,11 @@ function cardHTML(item, idx) {
     </button>
   `;
 
-  // 주간 증가 스타 또는 성장률 배지
-  const weeklyStars = item.weekly_stars ? `<span class="sb-hot-badge" style="font-size:12px; padding:1px 6px;">★ +${item.weekly_stars.toLocaleString()}/w</span>` : "";
+  // 주간 증가 스타 또는 성장률 배지 (JSON 스키마의 velocity_7d 또는 weekly_stars 모두 호환)
+  const weeklyDelta = item.weekly_stars ?? item.velocity_7d;
+  const weeklyStars = (weeklyDelta && weeklyDelta > 0)
+    ? `<span class="sb-hot-badge" style="font-size:12px; padding:1px 6px;" title="${lang === "en" ? "7-day star growth" : "최근 7일 스타 증가량"}">★ +${Number(weeklyDelta).toLocaleString()}/w</span>`
+    : "";
 
   // 기능 3개. 앞 두 단어를 굵게 하던 처리는 뺐다 — 의미와 무관하게 조사에서 잘렸다.
   const feats = (item.key_features || []).slice(0, 3).map(f =>
@@ -457,9 +466,11 @@ function cardHTML(item, idx) {
     </div>
   ` : "";
 
-  // 설치 명령 칩은 큐레이터가 실제 install_hint 를 준 항목에만 붙인다.
-  // 폴백 `/install owner/repo` 는 대부분 실행되지 않는 명령이라 복사 버튼과 함께 내보내면 안 된다.
-  const cmd = item.install_hint || "";
+  // 설치 명령 칩은 큐레이터가 실제 실행 가능한 install_hint 를 준 항목에만 붙인다.
+  // "README 참고" 같은 안내 문구는 복사 버튼과 함께 내보내면 안 된다.
+  const rawCmd = (item.install_hint || "").trim();
+  const isValidCli = rawCmd && !/^(readme|참고|참조|문서\s*참고)/i.test(rawCmd) && !rawCmd.includes("README 참고");
+  const cmd = isValidCli ? rawCmd : "";
   const escapedCmd = escapeHTML(cmd).replace(/'/g, "\\'");
   const copyTxt = lang === "en" ? "Copy" : "복사";
   const copiedTxt = lang === "en" ? "✓ Copied!" : "✓ 복사됨!";
@@ -476,8 +487,12 @@ function cardHTML(item, idx) {
     ? item.description_en
     : (stripRepoPrefix(item.title_ko, item.name) || item.id);
 
+  const tagChips = (item.tags || []).slice(0, 3).map(t =>
+    `<button type="button" class="card-tag-chip" data-tag-filter="${escapeHTML(t)}" title="${lang === "en" ? `Filter by #${t}` : `#${t} 태그로 검색`}">#${escapeHTML(t)}</button>`
+  ).join("");
+
   return `
-    <article class="card" data-id="${safeId}">
+    <article class="card plugin-card" data-id="${safeId}" data-open="${safeId}" tabindex="0" role="button" aria-label="${escapeHTML(displayTitle)}">
       ${bookmarkBtn}
       ${st ? `<span class="rank-pill ${st.cls}">${escapeHTML(st.label)}</span>` : ""}
       <div class="card-head">
@@ -491,12 +506,15 @@ function cardHTML(item, idx) {
           <div class="repo-id">${formatRepoId(item.id)}</div>
         </div>
       </div>
-      <h3 class="card-title" data-open="${safeId}" tabindex="0" role="button">${escapeHTML(displayTitle)}</h3>
+      <h3 class="card-title">${escapeHTML(displayTitle)}</h3>
       ${useCaseBox}
       ${feats ? `<ul class="features">${feats}</ul>` : ""}
       ${cliChip}
       <div class="card-foot">
-        <span class="meta-left"><span class="stars-line">★ ${formatStars(item.stars)}</span></span>
+        <span class="meta-left">
+          <span class="stars-line">★ ${formatStars(item.stars)}</span>
+          ${tagChips ? `<span class="card-tags-inline">${tagChips}</span>` : ""}
+        </span>
         <a class="repo-link" href="${escapeHTML(item.official_url || "#")}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
           GITHUB <span class="arrow">→</span>
         </a>
@@ -544,17 +562,27 @@ function modalHTML(item, tab, rank) {
        </span>`
     : "";
 
+  const weeklyDelta = item.weekly_stars ?? item.velocity_7d;
+  const weeklyPill = (weeklyDelta && weeklyDelta > 0)
+    ? `<span class="m-score-pill" style="color:var(--mint);" title="${lang === "en" ? "7-day star growth" : "최근 7일 스타 증가량"}">★ +${Number(weeklyDelta).toLocaleString()}/w</span>`
+    : "";
+
   const feats = (item.key_features || []).map(f =>
     `<li>${escapeHTML(f.trim())}</li>`
   ).join("");
 
   const tags = (item.tags || []).map(t =>
-    `<span class="m-tag">${escapeHTML(t)}</span>`
+    `<button type="button" class="m-tag clickable-tag" data-tag-filter="${escapeHTML(t)}" title="${lang === "en" ? "Filter by tag" : "이 태그로 필터링"}">#${escapeHTML(t)}</button>`
   ).join("");
 
-  const installBlock = item.install_hint
-    ? `<div class="m-section"><div class="m-label">${lang === "en" ? "Install" : "설치"}</div>
-         <div class="m-install">${escapeHTML(item.install_hint)}</div>
+  const rawHint = (item.install_hint || "").trim();
+  const isValidCli = rawHint && !/^(README\s*참고|See\s*README|N\/A|-)$/i.test(rawHint);
+  const installBlock = isValidCli
+    ? `<div class="m-section"><div class="m-label">${lang === "en" ? "Install" : "설치 명령어"}</div>
+         <div class="m-install" style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
+           <code>${escapeHTML(rawHint)}</code>
+           <button type="button" class="cli-copy-chip" data-copy-cli="${escapeHTML(rawHint)}" title="${lang === "en" ? "Copy command" : "명령어 복사"}">📋 ${lang === "en" ? "Copy" : "복사"}</button>
+         </div>
        </div>`
     : "";
 
@@ -575,6 +603,7 @@ function modalHTML(item, tab, rank) {
         <div class="m-repo">${formatRepoId(item.id)}</div>
       </div>
       <div class="m-stars">★ ${Number(item.stars || 0).toLocaleString()}</div>
+      ${weeklyPill}
       ${scorePill}
     </div>
     <h2>${escapeHTML(modalTitle)}</h2>
@@ -787,6 +816,16 @@ function renderLounge() {
 }
 
 function render() {
+  syncURLFromState();
+  const searchEl = document.getElementById("search");
+  if (searchEl && searchEl.value !== STATE.query) {
+    searchEl.value = STATE.query;
+  }
+  const searchClearBtn = document.getElementById("search-clear-btn");
+  const searchKbdHint = document.getElementById("search-kbd-hint");
+  if (searchClearBtn) searchClearBtn.hidden = !STATE.query;
+  if (searchKbdHint) searchKbdHint.hidden = !!STATE.query;
+
   const d = STATE.data || {};
   if (isBenchmarksPage) {
     renderBenchmarks();
@@ -842,8 +881,8 @@ function render() {
         const cleanedSummary = d.summary.replace(/\s*ldk-hub에서\s*큐레이션\s*하였습니다\.?/g, "").replace(/\s*\(ldk-hub에서\s*큐레이션\s*하였습니다\.?\)/g, "").trim();
         const formattedSummary = escapeHTML(cleanedSummary)
           // 점을 포함한 버전 태그(#Gemini3.8Live)가 "#Gemini3" + ".8Live" 로 쪼개지던 것.
-          // 끝에 붙은 마침표는 태그에 넣지 않는다.
-          .replace(/(#[\w가-힣-]+(?:\.[\w가-힣-]+)*)/g, '<span class="db-tag">$1</span>')
+          // 끝에 붙은 마침표는 태그에 넣지 않는다. 클릭 시 해당 키워드로 즉시 필터링한다.
+          .replace(/#([\w가-힣-]+(?:\.[\w가-힣-]+)*)/g, '<button type="button" class="db-tag clickable-tag" data-tag-filter="$1" title="클릭하여 #$1 키워드 필터링">#$1</button>')
           .replace(/(🔥\s*오늘의\s*핵심\s*(?:이슈|키워드):)/g, '<strong>$1</strong>');
 
         html += `
@@ -907,8 +946,23 @@ function render() {
       .filter(it => !STATE.pluginBookmarksOnly || STATE.pluginBookmarks.has(it.id))
       .filter(it => STATE.category === "all" || it.category === STATE.category)
       .filter(matches);
+
+    const sortSel = document.getElementById("plugin-sort-select");
+    if (sortSel && sortSel.value !== STATE.pluginSort) {
+      sortSel.value = STATE.pluginSort;
+    }
+
+    if (STATE.pluginSort === "velocity") {
+      list.sort((a, b) => (b.velocity_7d ?? b.weekly_stars ?? 0) - (a.velocity_7d ?? a.weekly_stars ?? 0));
+    } else if (STATE.pluginSort === "stars") {
+      list.sort((a, b) => (b.stars ?? 0) - (a.stars ?? 0));
+    } else {
+      list.sort((a, b) => (b.trend_score ?? b.score ?? 0) - (a.trend_score ?? a.score ?? 0));
+    }
+
     const el = document.getElementById("grid");
     if (!el) return;
+    el.classList.toggle("list-view", STATE.viewMode === "list");
     updateTabCounts();
     renderCategoryFilter();
     const lang = getLang();
@@ -1125,7 +1179,10 @@ function newsCardHTML(item, idx = 0) {
     </details>
   ` : "";
   
-  const tags = "";
+  const tagArr = (item.tags || []).slice(0, 4);
+  const tags = tagArr.length
+    ? `<div class="card-tags-inline" style="margin-top:10px;">${tagArr.map(t => `<button type="button" class="card-tag-chip" data-tag-filter="${escapeHTML(t)}" title="${lang === "en" ? "Filter by tag" : "이 태그로 필터링"}">#${escapeHTML(t)}</button>`).join("")}</div>`
+    : "";
 
   const related = (item.related_articles && item.related_articles.length > 0) ? `<div style="margin-top:16px; font-size:13px; background:var(--pill); padding:14px; border-radius:12px;"><strong style="color:var(--ink-2); display:flex; align-items:center; gap:6px;">🔗 ${lang === "en" ? "Related Articles" : "관련 기사"}</strong><ul style="margin-top:8px; padding-left:18px; color:var(--muted); list-style-type:circle;">${item.related_articles.map(r => `<li style="margin-bottom:4px;"><a href="${escapeHTML(r.url)}" target="_blank" rel="noopener" style="color:var(--muted); text-decoration:none;">${escapeHTML(r.title)}</a></li>`).join("")}</ul></div>` : "";
 
@@ -1135,6 +1192,12 @@ function newsCardHTML(item, idx = 0) {
     </button>
   `;
 
+  const discussionUrl = item.metrics?.discussion_url && item.metrics.discussion_url !== item.url ? item.metrics.discussion_url : "";
+  const discussionLink = discussionUrl ? `
+    <a class="repo-link" href="${escapeHTML(discussionUrl)}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="font-size:12px; color:var(--ink-2);">
+      💬 ${lang === "en" ? "Discussion ↗" : "커뮤니티 반응 ↗"}
+    </a>` : "";
+
   const commentBtn = isGiscusReady() ? `
       <button type="button" class="repo-link" data-giscus-term="${safeId}" style="background:none; border:none; cursor:pointer; font:inherit; color:var(--accent);">
         💬 ${lang === "en" ? "Comments" : "댓글"}
@@ -1142,6 +1205,7 @@ function newsCardHTML(item, idx = 0) {
   const linkBtn = item.url ? `
     <div class="card-foot" style="margin-top:18px; border-top:1px solid var(--border); padding-top:14px; display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
       ${copyBtn}
+      ${discussionLink}
       ${commentBtn}
       <a class="repo-link" href="${escapeHTML(item.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="margin-left:auto; font-weight:600;">
         ${lang === "en" ? "Read Source" : "원문 보기"} <span class="arrow">→</span>
@@ -1171,6 +1235,36 @@ document.getElementById("search")?.addEventListener("input", e => {
   render();
 });
 
+document.getElementById("search-clear-btn")?.addEventListener("click", () => {
+  STATE.query = "";
+  const searchEl = document.getElementById("search");
+  if (searchEl) {
+    searchEl.value = "";
+    searchEl.focus();
+  }
+  render();
+});
+
+document.getElementById("plugin-sort-select")?.addEventListener("change", e => {
+  STATE.pluginSort = e.target.value;
+  render();
+});
+
+document.getElementById("starboard-activity-select")?.addEventListener("change", e => {
+  STATE.starboardActivity = e.target.value;
+  renderStarboard();
+});
+
+document.getElementById("starboard-sort-select")?.addEventListener("change", e => {
+  STATE.starboardSort = e.target.value;
+  renderStarboard();
+});
+
+document.getElementById("starboard-bookmark-filter-chip")?.addEventListener("click", () => {
+  STATE.starboardBookmarksOnly = !STATE.starboardBookmarksOnly;
+  renderStarboard();
+});
+
 const viewToggleBtn = document.getElementById("view-toggle");
 if (viewToggleBtn) {
   const updateIcon = () => {
@@ -1186,6 +1280,13 @@ if (viewToggleBtn) {
   });
 }
 document.querySelectorAll(".tab, .cat-chip[data-tab]").forEach(btn => {
+  if (btn.dataset.tab === STATE.tab) {
+    btn.classList.add("active");
+    btn.setAttribute("aria-selected", "true");
+  } else {
+    btn.classList.remove("active");
+    btn.setAttribute("aria-selected", "false");
+  }
   btn.addEventListener("click", () => {
     document.querySelectorAll(".tab, .cat-chip[data-tab]").forEach(b => {
       b.classList.remove("active");
@@ -1285,6 +1386,31 @@ document.getElementById("grid")?.addEventListener("click", e => {
     return;
   }
 
+  const cliBtn = e.target.closest("[data-copy-cli]");
+  if (cliBtn) {
+    e.stopPropagation();
+    const cmd = cliBtn.dataset.copyCli;
+    const lang = getLang();
+    navigator.clipboard.writeText(cmd).then(() => {
+      showToast(lang === "en" ? `Copied: ${cmd}` : `설치 명령어가 복사되었습니다: ${cmd}`);
+    }).catch(() => {
+      showToast(lang === "en" ? "Failed to copy" : "복사에 실패했습니다");
+    });
+    return;
+  }
+
+  const tagBtn = e.target.closest("[data-tag-filter]");
+  if (tagBtn) {
+    e.stopPropagation();
+    const tag = tagBtn.dataset.tagFilter;
+    STATE.query = tag;
+    const s = document.getElementById("search");
+    if (s) s.value = tag;
+    render();
+    showToast(getLang() === "en" ? `Filtered by #${tag}` : `#${tag} 태그로 필터링했습니다`);
+    return;
+  }
+
   const copyBtn = e.target.closest("[data-copy-plugin]");
   if (copyBtn) {
     e.stopPropagation();
@@ -1292,10 +1418,11 @@ document.getElementById("grid")?.addEventListener("click", e => {
     return;
   }
 
-  // 상세는 제목을 눌러야 열린다. 예전엔 카드 전체가 클릭 영역이라
-  // 추천 박스나 기능 줄의 글자를 읽으려 눌러도 모달이 떴다.
-  const title = e.target.closest("[data-open]");
-  if (title) openModal(title.dataset.open);
+  if (e.target.closest("a")) return;
+  if (window.getSelection && window.getSelection().toString().trim().length > 0) return;
+
+  const card = e.target.closest("[data-open]");
+  if (card) openModal(card.dataset.open);
 });
 document.getElementById("grid")?.addEventListener("keydown", e => {
   const title = e.target.closest("[data-open]");
@@ -1310,11 +1437,13 @@ function copyPluginBriefing(id) {
   const lang = getLang();
   if (!hit || !hit.item) return;
   const it = hit.item;
+  const rawHint = (it.install_hint || "").trim();
+  const isValidCli = rawHint && !/^(README\s*참고|See\s*README|N\/A|-)$/i.test(rawHint);
   const lines = [
     `[Claude Code 도구] ${it.title_ko || it.id} (${it.id})`,
     it.catchphrase ? `💡 ${it.catchphrase}` : "",
     it.use_case ? `🎯 추천: ${it.use_case}` : "",
-    it.install_hint ? `💻 설치: ${it.install_hint}` : "",
+    isValidCli ? `💻 설치: ${rawHint}` : "",
     `🔗 ${it.official_url || it.repo_url || `https://github.com/${it.id}`}`
   ].filter(Boolean);
   navigator.clipboard.writeText(lines.join("\n")).then(() => {
@@ -1328,6 +1457,30 @@ document.getElementById("modal")?.addEventListener("click", e => {
   const copyBtn = e.target.closest("[data-copy-plugin]");
   if (copyBtn) {
     copyPluginBriefing(copyBtn.dataset.copyPlugin);
+    return;
+  }
+  const cliBtn = e.target.closest("[data-copy-cli]");
+  if (cliBtn) {
+    e.stopPropagation();
+    const cmd = cliBtn.dataset.copyCli;
+    const lang = getLang();
+    navigator.clipboard.writeText(cmd).then(() => {
+      showToast(lang === "en" ? `Copied: ${cmd}` : `설치 명령어가 복사되었습니다: ${cmd}`);
+    }).catch(() => {
+      showToast(lang === "en" ? "Failed to copy" : "복사에 실패했습니다");
+    });
+    return;
+  }
+  const tagBtn = e.target.closest("[data-tag-filter]");
+  if (tagBtn) {
+    e.stopPropagation();
+    const tag = tagBtn.dataset.tagFilter;
+    closeModal();
+    STATE.query = tag;
+    const s = document.getElementById("search");
+    if (s) s.value = tag;
+    render();
+    showToast(getLang() === "en" ? `Filtered by #${tag}` : `#${tag} 태그로 필터링했습니다`);
     return;
   }
   if (e.target.dataset.close !== undefined) closeModal();
@@ -1783,6 +1936,19 @@ document.getElementById("news-feed-container")?.addEventListener("click", (e) =>
     return;
   }
 
+  // 4.5 해시태그 필터 클릭 (#tag)
+  const tagBtn = e.target.closest("[data-tag-filter]");
+  if (tagBtn) {
+    e.stopPropagation();
+    const tag = tagBtn.dataset.tagFilter;
+    STATE.query = tag;
+    const search = document.getElementById("search");
+    if (search) search.value = tag;
+    render();
+    showToast(getLang() === "en" ? `Filtered by #${tag}` : `#${tag} 키워드로 필터링했습니다`);
+    return;
+  }
+
   // 5. 댓글 버튼 (giscus)
   const btn = e.target.closest("[data-giscus-term]");
   if (!btn) return;
@@ -1899,13 +2065,15 @@ function processStarboardData() {
       currentStars,
       velocity,
       activity,
-      sparklineData
+      sparklineData,
+      recentEntries
     });
   }
   
   // Sort by velocity desc, then currentStars desc
   processed.sort((a, b) => b.velocity - a.velocity || b.currentStars - a.currentStars);
   
+  STATE.data.allProcessed = processed;
   STATE.data.heavy = processed.filter(r => r.currentStars >= 10000);
   STATE.data.middle = processed.filter(r => r.currentStars >= 1000 && r.currentStars < 10000);
   STATE.data.light = processed.filter(r => r.currentStars < 1000);
@@ -1925,12 +2093,36 @@ function matchesStarboard(item) {
 }
 
 function renderStarboard() {
+  syncURLFromState();
   const el = document.getElementById("starboard-container");
   if (!el) return;
   const lang = getLang();
   
   const baseList = STATE.data[STATE.tab] || [];
-  const list = baseList.filter(matchesStarboard);
+
+  // 컨트롤 상태 동기화
+  const actSel = document.getElementById("starboard-activity-select");
+  if (actSel && actSel.value !== STATE.starboardActivity) actSel.value = STATE.starboardActivity;
+  const sortSel = document.getElementById("starboard-sort-select");
+  if (sortSel && sortSel.value !== STATE.starboardSort) sortSel.value = STATE.starboardSort;
+  const bmChip = document.getElementById("starboard-bookmark-filter-chip");
+  if (bmChip) {
+    bmChip.classList.toggle("active", !!STATE.starboardBookmarksOnly);
+    const cntEl = document.getElementById("sb-saved-count");
+    const savedInLeague = baseList.filter(r => STATE.starboardBookmarks.has(r.id)).length;
+    if (cntEl) cntEl.textContent = savedInLeague;
+  }
+
+  let list = baseList
+    .filter(it => !STATE.starboardBookmarksOnly || STATE.starboardBookmarks.has(it.id))
+    .filter(it => STATE.starboardActivity === "all" || it.activity === STATE.starboardActivity)
+    .filter(matchesStarboard);
+
+  if (STATE.starboardSort === "stars") {
+    list = [...list].sort((a, b) => b.currentStars - a.currentStars || b.velocity - a.velocity);
+  } else {
+    list = [...list].sort((a, b) => b.velocity - a.velocity || b.currentStars - a.currentStars);
+  }
   
   // Update counts
   const tabs = ['heavy', 'middle', 'light'];
@@ -1939,15 +2131,17 @@ function renderStarboard() {
     if (btn) btn.textContent = (STATE.data[tab] || []).length;
   }
   
-  const hasQuery = !!STATE.query;
+  const hasActiveFilters = !!STATE.query || STATE.starboardActivity !== "all" || STATE.starboardBookmarksOnly;
   if (list.length === 0) {
-    const emptyMsg = hasQuery
-      ? (lang === "en" ? "No repositories match your search." : "검색어와 일치하는 리포지토리가 없습니다.")
-      : (lang === "en" ? "No repositories in this league yet." : "이 리그에는 아직 등록된 리포지토리가 없습니다.");
+    const emptyMsg = STATE.starboardBookmarksOnly
+      ? (lang === "en" ? "No saved repositories in this league. Tap ★ on a card to save it." : "이 리그에서 저장한 리포지토리가 없습니다. 카드의 별(☆)을 눌러 저장해보세요.")
+      : (hasActiveFilters
+        ? (lang === "en" ? "No repositories match your filters." : "검색어나 필터 조건과 일치하는 리포지토리가 없습니다.")
+        : (lang === "en" ? "No repositories in this league yet." : "이 리그에는 아직 등록된 리포지토리가 없습니다."));
     el.innerHTML = `
       <div style="text-align:center;padding:60px 0;color:var(--muted);font-size:16px;">
         ${emptyMsg}
-        ${hasQuery ? `<div style="margin-top:14px;"><button type="button" id="clear-starboard-filters-btn" class="expand-toggle-btn" style="margin:0 auto;">${lang === "en" ? "Clear search" : "검색 초기화"}</button></div>` : ""}
+        ${hasActiveFilters ? `<div style="margin-top:14px;"><button type="button" id="clear-starboard-filters-btn" class="expand-toggle-btn" style="margin:0 auto;">${lang === "en" ? "Reset filters" : "필터 초기화"}</button></div>` : ""}
       </div>
     `;
     return;
@@ -1959,12 +2153,12 @@ function renderStarboard() {
     : 'display:grid;grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr));gap:24px;';
     
   let html = "";
-  if (hasQuery) {
+  if (hasActiveFilters) {
     html += `
       <div class="feed-actions-bar" style="margin-bottom:12px;">
         <div class="feed-results-count">
-          ${lang === "en" ? "Showing" : "검색 결과"} <strong>${list.length}</strong>${lang === "en" ? " repositories" : "개 리포지토리"}
-          <button type="button" id="clear-starboard-filters-btn" style="background:none; border:none; color:var(--accent); cursor:pointer; font-size:12px; margin-left:8px; text-decoration:underline; font-weight:600;">${lang === "en" ? "Clear search" : "검색 초기화"}</button>
+          ${lang === "en" ? "Showing" : "필터 결과"} <strong>${list.length}</strong>${lang === "en" ? " repositories" : "개 리포지토리"}
+          <button type="button" id="clear-starboard-filters-btn" style="background:none; border:none; color:var(--accent); cursor:pointer; font-size:12px; margin-left:8px; text-decoration:underline; font-weight:600;">${lang === "en" ? "Reset filters" : "필터 초기화"}</button>
         </div>
       </div>
     `;
@@ -1975,18 +2169,148 @@ function renderStarboard() {
   el.innerHTML = html;
 }
 
+function openStarboardModal(id) {
+  const all = STATE.data?.allProcessed || [];
+  const item = all.find(x => x.id === id);
+  if (!item) return;
+  const modal = document.getElementById("modal");
+  const body = document.getElementById("modal-body");
+  if (!modal || !body) return;
+
+  const lang = getLang();
+  const ownerName = item.id.split("/")[0];
+  const avatar = item.meta?.owner_avatar || `https://github.com/${ownerName}.png?size=80`;
+  const sign = item.velocity > 0 ? "+" : "";
+  const velocityColor = item.velocity > 0 ? "var(--mint)" : "var(--muted)";
+  const entries = (item.recentEntries || []).slice().reverse();
+
+  const width = 520;
+  const height = 110;
+  const max = Math.max(...item.sparklineData);
+  const min = Math.min(...item.sparklineData);
+  const range = max - min || 1;
+  const step = width / Math.max(1, item.sparklineData.length - 1);
+  const points = item.sparklineData.map((val, i) => {
+    const x = i * step;
+    const y = height - ((val - min) / range) * height;
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(" ");
+
+  const chartHtml = item.sparklineData.length >= 2
+    ? `<div class="m-section">
+         <div class="m-label">${lang === "en" ? "Recent Star Trajectory" : "최근 스타 추이 그래프"} (${entries[entries.length - 1]?.date || ""} → ${entries[0]?.date || ""})</div>
+         <div style="background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:16px 14px 10px;">
+           <svg width="100%" height="${height}" viewBox="-4 -10 ${width + 8} ${height + 20}" preserveAspectRatio="none">
+             <polyline fill="none" stroke="${velocityColor}" stroke-width="3.5" points="${points}" stroke-linecap="round" stroke-linejoin="round"/>
+           </svg>
+           <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--muted); margin-top:6px;">
+             <span>Min: ★ ${min.toLocaleString()}</span>
+             <span>Max: ★ ${max.toLocaleString()}</span>
+           </div>
+         </div>
+       </div>`
+    : "";
+
+  const rowsHtml = entries.slice(0, 10).map((e, idx) => {
+    const prev = entries[idx + 1];
+    const diff = prev ? e.stars - prev.stars : null;
+    const diffStr = diff != null ? (diff > 0 ? `+${diff.toLocaleString()}` : `${diff.toLocaleString()}`) : "—";
+    return `<tr>
+      <td>${escapeHTML(e.date)}</td>
+      <td style="text-align:right; font-weight:600;">★ ${Number(e.stars).toLocaleString()}</td>
+      <td style="text-align:right; color:${diff > 0 ? 'var(--mint)' : 'var(--muted)'};">${diffStr}</td>
+    </tr>`;
+  }).join("");
+
+  const topics = (item.meta?.topics || []).slice(0, 8).map(t =>
+    `<button type="button" class="m-tag clickable-tag" data-tag-filter="${escapeHTML(t)}">#${escapeHTML(t)}</button>`
+  ).join("");
+
+  body.innerHTML = `
+    <div class="m-rank">
+      <span class="accent">STARBOARD</span>
+      <span class="dot-sep">·</span>
+      <span>${escapeHTML(item.meta?.language || "Repository")}</span>
+    </div>
+    <div class="m-head">
+      <img class="m-avatar" src="${escapeHTML(avatar)}" alt="" onerror="this.style.visibility='hidden'"/>
+      <div class="m-meta">
+        <div class="m-category">${escapeHTML(item.activity.toUpperCase())}</div>
+        <div class="m-repo">${formatRepoId(item.id)}</div>
+      </div>
+      <div class="m-stars">★ ${item.currentStars.toLocaleString()}</div>
+      <span class="m-score-pill" style="color:${velocityColor};">${sign}${item.velocity.toLocaleString()}/wk</span>
+    </div>
+    <h2>${escapeHTML(item.meta?.desc_ko || item.meta?.description || item.id)}</h2>
+    ${item.meta?.desc_ko && item.meta?.description ? `<p class="m-summary">${escapeHTML(item.meta.description)}</p>` : ""}
+    ${chartHtml}
+    <div class="m-section">
+      <div class="m-label">${lang === "en" ? "Observation Ledger (Recent 10)" : "관측 원장 기록 (최근 10회)"}</div>
+      <table class="sb-history-table">
+        <thead>
+          <tr>
+            <th>${lang === "en" ? "Date" : "관측일"}</th>
+            <th style="text-align:right;">${lang === "en" ? "Total Stars" : "누적 스타"}</th>
+            <th style="text-align:right;">${lang === "en" ? "Delta" : "직전 대비"}</th>
+          </tr>
+        </thead>
+        <tbody>${rowsHtml}</tbody>
+      </table>
+    </div>
+    ${topics ? `<div class="m-tags">${topics}</div>` : ""}
+    <div class="m-cta-row">
+      <a class="m-cta" href="https://github.com/${escapeHTML(item.id)}" target="_blank" rel="noopener">
+        ${lang === "en" ? "Open in GitHub →" : "GitHub 저장소 열기 →"}
+      </a>
+    </div>
+  `;
+  modal.classList.add("open");
+  modal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-open");
+  modal.scrollTop = 0;
+}
+
 document.getElementById("starboard-container")?.addEventListener("click", (e) => {
   const clearBtn = e.target.closest("#clear-starboard-filters-btn");
   if (clearBtn) {
     STATE.query = "";
+    STATE.starboardActivity = "all";
+    STATE.starboardBookmarksOnly = false;
     const s = document.getElementById("search");
     if (s) s.value = "";
     renderStarboard();
+    return;
+  }
+
+  const bmBtn = e.target.closest("[data-sb-bookmark]");
+  if (bmBtn) {
+    e.stopPropagation();
+    const id = bmBtn.dataset.sbBookmark;
+    const lang = getLang();
+    if (STATE.starboardBookmarks.has(id)) {
+      STATE.starboardBookmarks.delete(id);
+      showToast(lang === "en" ? "Removed from saved" : "저장 목록에서 뺐습니다");
+    } else {
+      STATE.starboardBookmarks.add(id);
+      showToast(lang === "en" ? "Saved ★" : "저장했습니다 ★");
+    }
+    saveStarboardBookmarks(STATE.starboardBookmarks);
+    renderStarboard();
+    return;
+  }
+
+  if (e.target.closest("a")) return;
+  if (window.getSelection && window.getSelection().toString().trim().length > 0) return;
+
+  const card = e.target.closest("[data-sb-open]");
+  if (card) {
+    openStarboardModal(card.dataset.sbOpen);
   }
 });
 
 function starboardCardHTML(item, idx) {
   const rank = idx + 1;
+  const safeId = escapeHTML(item.id);
   const badgeClass = {
     "active": "sb-badge-active",
     "slowing": "sb-badge-slowing",
@@ -2010,6 +2334,12 @@ function starboardCardHTML(item, idx) {
   const rankPill = rank === 1
     ? `<span class="rank-pill is-top">#01</span>`
     : (rank <= 3 ? `<span class="rank-pill is-hot">#0${rank}</span>` : "");
+
+  const isSaved = STATE.starboardBookmarks && STATE.starboardBookmarks.has(item.id);
+  const saveTitle = isSaved
+    ? (lang === "en" ? "Remove from saved" : "저장 해제")
+    : (lang === "en" ? "Save repository" : "리포지토리 저장");
+  const saveBtn = `<button type="button" class="plugin-save-btn ${isSaved ? "is-bookmarked" : ""}" data-sb-bookmark="${safeId}" title="${saveTitle}" aria-label="${saveTitle}" aria-pressed="${isSaved ? "true" : "false"}">${isSaved ? "★" : "☆"}</button>`;
   
   const width = 300;
   const height = 80;
@@ -2049,8 +2379,11 @@ function starboardCardHTML(item, idx) {
     : (descEn ? `<div class="sb-desc-en" title="${escapeHTML(descKo || descEn)}" style="font-size:13px; color:var(--muted); line-height:1.45; margin:8px 0; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">${escapeHTML(descEn)}</div>` : "");
 
   return `
-    <article class="card star-card" style="padding: 22px 20px 0; overflow:hidden; display:flex; flex-direction:column;">
-      ${rankPill}
+    <article class="card star-card" data-sb-open="${safeId}" tabindex="0" role="button" aria-label="${safeId}" style="padding: 22px 20px 0; overflow:hidden; display:flex; flex-direction:column; cursor:pointer;">
+      <div class="card-top-bar" style="margin-bottom:8px;">
+        ${rankPill}
+        ${saveBtn}
+      </div>
       
       <div class="card-head" style="margin-bottom:10px;">
         <img class="avatar" src="${escapeHTML(avatar)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'"/>
@@ -2073,8 +2406,9 @@ function starboardCardHTML(item, idx) {
 
       ${descHtml}
       
-      <div class="sb-foot-row" style="display:flex; justify-content:flex-end; margin-top:auto; padding-top:6px;">
-        <a class="repo-link" href="https://github.com/${escapeHTML(item.id)}" target="_blank" rel="noopener" style="margin:0; font-size:13px; font-weight:600;">
+      <div class="sb-foot-row" style="display:flex; justify-content:space-between; align-items:center; margin-top:auto; padding-top:6px;">
+        <span style="font-size:12px; color:var(--muted);">${lang === "en" ? "Click card for ledger history" : "클릭하여 관측 추이 상세 보기"}</span>
+        <a class="repo-link" href="https://github.com/${safeId}" target="_blank" rel="noopener" style="margin:0; font-size:13px; font-weight:600;">
           GITHUB <span class="arrow">→</span>
         </a>
       </div>
@@ -2085,26 +2419,129 @@ function starboardCardHTML(item, idx) {
 }
 
 /* ==========================================================================
-   AI 점유율 및 모델별 성능 지표 (Benchmarks) 렌더링
+   AI 점유율 및 모델별 성능 지표 (Benchmarks) 렌더링 — 3대 공식 출처 평균 & 최신성 검증
    ========================================================================== */
 
 function refocus(key) {
   if (key) document.querySelector(`[data-focus-key="${key}"]`)?.focus({ preventScroll: true });
 }
 
+function openBenchmarkModelModal(modelName) {
+  const models = STATE.data?.model_benchmarks || [];
+  const m = models.find(x => x.model === modelName);
+  if (!m) return;
+  const modal = document.getElementById("modal");
+  const body = document.getElementById("modal-body");
+  if (!modal || !body) return;
+
+  const isEn = getLang() === "en";
+  const f1 = v => v == null ? "—" : Number(v).toFixed(1);
+  const f2 = v => v == null ? "—" : Number(v).toFixed(2);
+  const fInt = v => v == null ? "—" : Number(v).toLocaleString("en-US");
+  const orUrl = m.openrouter_id ? `https://openrouter.ai/${escapeHTML(m.openrouter_id)}` : "https://openrouter.ai/rankings";
+
+  body.innerHTML = `
+    <div class="m-rank">
+      <span class="accent">${isEn ? "3-LEADERBOARD VERIFIED" : "3대 리더보드 교차 검증"}</span>
+      <span class="dot-sep">·</span>
+      <span>${escapeHTML(m.provider)}</span>
+    </div>
+    <div class="m-head">
+      <div class="m-meta">
+        <div class="m-category">${escapeHTML(m.release_date || "2026")} · ${escapeHTML(m.context_window || "")} Context</div>
+        <div class="m-repo">${escapeHTML(m.openrouter_id || m.model)}</div>
+      </div>
+      <span class="m-score-pill" title="${isEn ? "3-Leaderboard Composite Score" : "3대 리더보드 종합 평균"}">
+        ${isEn ? "Composite" : "3대 종합"} <strong>${f1(m.composite_score)}</strong><span class="m-score-max">/100</span>
+      </span>
+      <span class="m-score-pill" style="color:var(--mint);" title="${isEn ? "3-Leaderboard Coding Composite" : "3대 코딩 종합 평균"}">
+        ${isEn ? "Coding" : "코딩 종합"} <strong>${f1(m.coding_composite_score)}</strong><span class="m-score-max">/100</span>
+      </span>
+    </div>
+    <h2>${escapeHTML(m.model)}</h2>
+    <div class="m-section">
+      <div class="m-label">${isEn ? "3-Leaderboard Raw Scores & Benchmarks" : "3대 리더보드 원점수 및 세부 벤치마크"}</div>
+      <table class="sb-history-table">
+        <thead>
+          <tr>
+            <th>${isEn ? "Leaderboard / Metric" : "측정 출처 · 지표"}</th>
+            <th style="text-align:right;">${isEn ? "Score" : "점수"}</th>
+            <th style="text-align:right;">${isEn ? "Category" : "비고"}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>LMArena</strong> Overall Elo</td>
+            <td style="text-align:right; font-weight:700;">${fInt(m.arena_elo)} pts</td>
+            <td style="text-align:right; color:var(--muted);">${isEn ? "Blind human preference" : "블라인드 인간 선호도"}</td>
+          </tr>
+          <tr>
+            <td><strong>LMArena</strong> Coding Elo</td>
+            <td style="text-align:right; font-weight:700;">${fInt(m.arena_coding_elo)} pts</td>
+            <td style="text-align:right; color:var(--muted);">${isEn ? "Coding arena Elo" : "실전 코딩 블라인드 대전"}</td>
+          </tr>
+          <tr>
+            <td><strong>Artificial Analysis</strong> Intelligence Index</td>
+            <td style="text-align:right; font-weight:700;">${f1(m.aa_intelligence)} / 100</td>
+            <td style="text-align:right; color:var(--muted);">${isEn ? "8-eval composite" : "8종 독립 평가 종합"}</td>
+          </tr>
+          <tr>
+            <td><strong>Artificial Analysis</strong> Coding Index</td>
+            <td style="text-align:right; font-weight:700;">${f1(m.aa_coding)} / 100</td>
+            <td style="text-align:right; color:var(--muted);">${isEn ? "Coding eval composite" : "코딩/에이전트 평가 지수"}</td>
+          </tr>
+          <tr>
+            <td><strong>LiveBench</strong> Global Average</td>
+            <td style="text-align:right; font-weight:700;">${f1(m.livebench_score)} / 100</td>
+            <td style="text-align:right; color:var(--muted);">${isEn ? "Contamination-free" : "오염 방지 동적 벤치마크"}</td>
+          </tr>
+          <tr>
+            <td><strong>LiveBench</strong> Coding</td>
+            <td style="text-align:right; font-weight:700;">${f1(m.livebench_coding)} / 100</td>
+            <td style="text-align:right; color:var(--muted);">${isEn ? "Dynamic coding tasks" : "동적 코딩 과제"}</td>
+          </tr>
+          <tr>
+            <td><strong>GPQA Diamond</strong> / <strong>MMLU-Pro</strong></td>
+            <td style="text-align:right; font-weight:700;">${f1(m.gpqa_diamond)}% / ${f1(m.mmlu_pro)}%</td>
+            <td style="text-align:right; color:var(--muted);">${isEn ? "PhD science / Knowledge" : "박사급 과학 추론 · 종합 지식"}</td>
+          </tr>
+          <tr>
+            <td><strong>OpenRouter API Price</strong> (1M tokens)</td>
+            <td style="text-align:right; font-weight:700;">$${f2(m.pricing_in_1m)} in / $${f2(m.pricing_out_1m)} out</td>
+            <td style="text-align:right; color:var(--muted);">${escapeHTML(m.context_window)} context</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="m-cta-row">
+      <a class="m-cta-ghost" href="https://lmarena.ai/leaderboard" target="_blank" rel="noopener">LMArena ↗</a>
+      <a class="m-cta-ghost" href="https://artificialanalysis.ai/leaderboards/models" target="_blank" rel="noopener">Artificial Analysis ↗</a>
+      <a class="m-cta" href="${orUrl}" target="_blank" rel="noopener">
+        ${isEn ? "View on OpenRouter →" : "OpenRouter에서 모델 보기 →"}
+      </a>
+    </div>
+  `;
+  modal.classList.add("open");
+  modal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-open");
+  modal.scrollTop = 0;
+}
+
 function renderBenchmarks() {
+  syncURLFromState();
   const container = document.getElementById("benchmarks-container");
   if (!container) return;
 
   const isEn = getLang() === "en";
 
-  // 출처 한 줄 업데이트 (#bm-source)
+  // 출처 한 줄 업데이트 (#bm-source) + 최신성 검증 통과 배지
   const sourceEl = document.getElementById("bm-source");
   if (sourceEl) {
     if (STATE.data?.sources?.length) {
       const hs = STATE.data.sources.filter(s => s.header);
+      const freshBadge = `<span class="bm-freshness-badge" title="${isEn ? "All sources verified within 30-45 days freshness policy" : "모든 출처 최신성 게이트(점유율 45일·벤치마크 30일 이내) 검증 완료"}">✓ ${isEn ? "Freshness Verified" : "최신성 검증 통과"}</span>`;
       sourceEl.innerHTML = hs.length
-        ? `<strong>${isEn ? "Sources" : "출처"}</strong> ${hs.map(s => `${escapeHTML(s.label)} <a href="${escapeHTML(s.url)}" target="_blank" rel="noopener noreferrer">${escapeHTML(s.name)}</a> (${escapeHTML(s.as_of)})`).join(" · ")}`
+        ? `${freshBadge} <strong>${isEn ? "Sources" : "검증 출처"}</strong> ${hs.map(s => `${escapeHTML(s.label)} <a href="${escapeHTML(s.url)}" target="_blank" rel="noopener noreferrer">${escapeHTML(s.name)}</a> (${escapeHTML(s.as_of)})`).join(" · ")}`
         : (isEn ? "Sources and dates not specified" : "출처·기준일 미기재");
     } else {
       sourceEl.innerHTML = "";
@@ -2137,21 +2574,22 @@ function renderBenchmarks() {
   const blended = m => (3 * m.pricing_in_1m + m.pricing_out_1m) / 4;
 
   const METRICS = [
-    { id: "coding", key: "arena_coding_elo", label: isEn ? "Coding" : "코딩", sub: isEn ? "Arena Coding · pts" : "Arena Coding · 점", fmt: fInt },
-    { id: "arena", key: "arena_elo", label: isEn ? "Arena" : "선호도", sub: isEn ? "Arena · pts" : "Arena · 점", fmt: fInt },
-    { id: "gpqa", key: "gpqa_diamond", label: isEn ? "Science" : "과학 추론", sub: "GPQA · %", fmt: f1 },
-    { id: "mmlu", key: "mmlu_pro", label: isEn ? "Knowledge" : "지식", sub: "MMLU-Pro · %", fmt: f1 },
+    { id: "composite", key: "composite_score", label: isEn ? "3-Source Avg" : "3대 종합 평균", sub: isEn ? "Arena·AA·LiveBench / 100" : "Arena·AA·LiveBench / 100", fmt: f1 },
+    { id: "coding", key: "coding_composite_score", label: isEn ? "Coding Avg" : "코딩 종합", sub: isEn ? "3-Source Coding / 100" : "3대 코딩 평균 / 100", fmt: f1 },
+    { id: "arena", key: "arena_elo", label: "LMArena", sub: isEn ? "Overall Elo · pts" : "선호도 Elo · 점", fmt: fInt },
+    { id: "aa", key: "aa_intelligence", label: "Artificial Analysis", sub: isEn ? "Intelligence · /100" : "지능 지수 · /100", fmt: f1 },
+    { id: "livebench", key: "livebench_score", label: "LiveBench", sub: isEn ? "Contam-free · /100" : "무오염 평가 · /100", fmt: f1 },
   ];
 
   // 1. 요약 칩
   const isShareTab = STATE.benchmarkTab !== "bench";
   const top = (arr, f, asc) => arr.filter(x => f(x) != null).sort((a, b) => asc ? f(a) - f(b) : f(b) - f(a))[0];
   const sTop = top(shares, x => x.share_pct);
-  const codingTop = top(models, x => x.arena_coding_elo);
-  const arenaTop = top(models, x => x.arena_elo);
-  const codingVals = models.map(m => m.arena_coding_elo).filter(v => v != null).sort((a, b) => a - b);
-  const median = codingVals.length ? codingVals[Math.floor(codingVals.length / 2)] : null;
-  const cheapTop = median == null ? undefined : top(models.filter(m => m.arena_coding_elo != null && m.arena_coding_elo >= median), blended, true);
+  const compTop = top(models, x => x.composite_score);
+  const codingTop = top(models, x => x.coding_composite_score ?? x.arena_coding_elo);
+  const compVals = models.map(m => m.composite_score ?? m.arena_coding_elo).filter(v => v != null).sort((a, b) => a - b);
+  const median = compVals.length ? compVals[Math.floor(compVals.length / 2)] : null;
+  const cheapTop = median == null ? undefined : top(models.filter(m => (m.composite_score ?? m.arena_coding_elo) >= median), blended, true);
   const nm = x => x?.model ?? "—";
 
   const chip = (go, sort, label, name, num, extra = "") => {
@@ -2175,47 +2613,61 @@ function renderBenchmarks() {
 
   const summaryHTML = `
     <div class="bm-summary" id="bm-summary">
-      ${chip("share", "", isEn ? "Top referrals" : "리퍼럴 1위", sTop ? sTop.name : "—", sTop ? `${f2(sTop.share_pct)}%` : "—", sTop && sTop.mom_change != null ? chg(sTop.mom_change) : "")}
-      ${chip("bench", "coding", isEn ? "Top coding score" : "코딩 최고점", nm(codingTop), codingTop ? `${fInt(codingTop.arena_coding_elo)}${isEn ? " pts" : "점"}` : "—")}
-      ${chip("bench", "arena", isEn ? "Top Arena score" : "선호도 최고점", nm(arenaTop), arenaTop ? `${fInt(arenaTop.arena_elo)}${isEn ? " pts" : "점"}` : "—")}
-      ${chip("bench", "price", isEn ? "Best value" : "가성비 1위", nm(cheapTop), cheapTop ? `$${f2(cheapTop.pricing_in_1m)} / $${f2(cheapTop.pricing_out_1m)}` : "—", `<span class="bm-chip-hint">${isEn ? "Cheapest in the top half for coding" : "코딩 상위 절반 중 최저가"}</span>`)}
+      ${chip("share", "", isEn ? "3-Source Share #1" : "3곳 평균 점유율 1위", sTop ? sTop.name : "—", sTop ? `${f2(sTop.share_pct)}%` : "—", sTop && sTop.mom_change != null ? chg(sTop.mom_change) : "")}
+      ${chip("bench", "composite", isEn ? "3-Leaderboard #1" : "3대 리더보드 종합 1위", nm(compTop), compTop ? `${f1(compTop.composite_score)} / 100` : "—")}
+      ${chip("bench", "coding", isEn ? "Coding Composite #1" : "코딩 종합 1위", nm(codingTop), codingTop ? `${f1(codingTop.coding_composite_score)}${isEn ? " pts" : "점"}` : "—")}
+      ${chip("bench", "price", isEn ? "Best Value #1" : "가성비 1위", nm(cheapTop), cheapTop ? `$${f2(cheapTop.pricing_in_1m)} / $${f2(cheapTop.pricing_out_1m)}` : "—", `<span class="bm-chip-hint">${isEn ? "Cheapest in top 50% composite" : "종합 상위 절반 중 최저가"}</span>`)}
     </div>`;
 
   // 2. 툴바 (탭 + 정렬)
-  const hasCoding = models.some(m => m.arena_coding_elo != null);
-  const hasArena = models.some(m => m.arena_elo != null);
-
   const toolbarHTML = `
     <div class="bm-toolbar">
       <div class="bm-seg" id="bm-tabs" role="tablist" aria-label="${isEn ? "Select view" : "보기 선택"}">
-        <button type="button" role="tab" id="tab-share" data-tab="share" aria-controls="bm-share" data-focus-key="tab-share" aria-selected="${isShareTab}" tabindex="${isShareTab ? 0 : -1}">${isEn ? "Share" : "점유율"}</button>
-        <button type="button" role="tab" id="tab-bench" data-tab="bench" aria-controls="bm-bench" data-focus-key="tab-bench" aria-selected="${!isShareTab}" tabindex="${!isShareTab ? 0 : -1}">${isEn ? "Performance" : "성능"}</button>
+        <button type="button" role="tab" id="tab-share" data-tab="share" aria-controls="bm-share" data-focus-key="tab-share" aria-selected="${isShareTab}" tabindex="${isShareTab ? 0 : -1}">${isEn ? "3-Source Share" : "3곳 평균 점유율"}</button>
+        <button type="button" role="tab" id="tab-bench" data-tab="bench" aria-controls="bm-bench" data-focus-key="tab-bench" aria-selected="${!isShareTab}" tabindex="${!isShareTab ? 0 : -1}">${isEn ? "3-Leaderboard Performance" : "3대 리더보드 성능"}</button>
       </div>
       <div class="bm-sort" id="bm-sort" ${isShareTab ? "hidden" : ""}>
         <span>${isEn ? "Sort by" : "정렬 기준"}</span>
         <div class="bm-seg" role="group" aria-label="${isEn ? "Sort by" : "정렬 기준"}">
-          <button type="button" data-sort="coding" data-focus-key="sort-coding" ${hasCoding ? "" : "hidden"} aria-pressed="${STATE.benchmarkSort === "coding"}">${isEn ? "Coding" : "코딩"}</button>
-          <button type="button" data-sort="arena" data-focus-key="sort-arena" ${hasArena ? "" : "hidden"} aria-pressed="${STATE.benchmarkSort === "arena"}">${isEn ? "Arena" : "선호도"}</button>
+          <button type="button" data-sort="composite" data-focus-key="sort-composite" aria-pressed="${STATE.benchmarkSort === "composite"}">${isEn ? "3-Source Avg" : "3대 종합"}</button>
+          <button type="button" data-sort="coding" data-focus-key="sort-coding" aria-pressed="${STATE.benchmarkSort === "coding"}">${isEn ? "Coding" : "코딩 종합"}</button>
+          <button type="button" data-sort="arena" data-focus-key="sort-arena" aria-pressed="${STATE.benchmarkSort === "arena"}">LMArena</button>
+          <button type="button" data-sort="aa" data-focus-key="sort-aa" aria-pressed="${STATE.benchmarkSort === "aa"}">AA</button>
+          <button type="button" data-sort="livebench" data-focus-key="sort-livebench" aria-pressed="${STATE.benchmarkSort === "livebench"}">LiveBench</button>
           <button type="button" data-sort="price" data-focus-key="sort-price" aria-pressed="${STATE.benchmarkSort === "price"}">${isEn ? "Lowest price" : "가격 낮은 순"}</button>
         </div>
       </div>
     </div>`;
 
-  // 3. 점유율 패널
+  // 3. 점유율 패널 (3곳 교차 평균 + 세부 출처 분해 칩)
   const sortedShares = [...shares].sort((a, b) => b.share_pct - a.share_pct);
   const maxShare = sortedShares[0]?.share_pct || 1;
   const mainShares = sortedShares.slice(0, 5);
   const restShares = sortedShares.slice(5);
   const restSum = restShares.reduce((n, s) => n + s.share_pct, 0);
 
-  const shareRow = (s, rank) => `
+  const shareRow = (s, rank) => {
+    const bd = s.sources_breakdown;
+    const bdPills = bd
+      ? `<div class="bm-src-pills">
+           <span class="bm-src-pill" title="Similarweb Direct Web Visits">${isEn ? "Web" : "웹 방문"} ${f1(bd.similarweb_visit)}%</span>
+           <span class="bm-src-pill" title="Statcounter Outbound Referrals">${isEn ? "Referral" : "리퍼럴"} ${f1(bd.statcounter_referral)}%</span>
+           <span class="bm-src-pill" title="OpenRouter Developer API Share">API ${f1(bd.openrouter_api)}%</span>
+         </div>`
+      : "";
+    return `
     <li class="bm-srow" title="${escapeHTML(s.description || "")}">
       <span class="bm-rank">${rank}</span>
-      <span class="bm-name"><a href="https://${escapeHTML(s.domain)}" target="_blank" rel="noopener noreferrer">${escapeHTML(s.name)}</a><small>${escapeHTML(s.provider)}</small></span>
+      <span class="bm-name">
+        <a href="https://${escapeHTML(s.domain)}" target="_blank" rel="noopener noreferrer">${escapeHTML(s.name)}</a>
+        <small>${escapeHTML(s.provider)}</small>
+        ${bdPills}
+      </span>
       <span class="bm-bar" aria-hidden="true"><i style="width:${(s.share_pct / maxShare * 100).toFixed(1)}%;background:${escapeHTML(s.color)}"></i></span>
       <span class="bm-val">${f2(s.share_pct)}%</span>
       ${chg(s.mom_change)}
     </li>`;
+  };
 
   let srowsHTML = mainShares.map((s, i) => shareRow(s, i + 1)).join("");
   if (restShares.length) {
@@ -2237,8 +2689,8 @@ function renderBenchmarks() {
       <div class="bm-card">
         <div class="bm-card-head">
           <div>
-            <strong>${isEn ? "AI chatbot referral share" : "AI 챗봇 리퍼럴 점유율"}</strong>
-            <span class="bm-card-sub">${isEn ? "Share of visits AI chatbots send to other websites · not user counts · Statcounter, monthly" : "AI 챗봇이 다른 웹사이트로 보낸 방문 비율 · 사용자 수가 아님 · Statcounter 월간"}</span>
+            <strong>${isEn ? "AI Service 3-Source Ensemble Market Share" : "AI 서비스 3대 출처 종합 점유율 (평균)"}</strong>
+            <span class="bm-card-sub">${isEn ? "Ensemble mean of ① Similarweb (Web Visits) + ② Statcounter (Outbound Referrals) + ③ OpenRouter (API Token Share)" : "단일 출처 편향 제거를 위해 ① Similarweb(웹 방문) · ② Statcounter(웹 리퍼럴) · ③ OpenRouter(API 호출) 3곳 점유율을 산술 평균"}</span>
           </div>
           <span>${isEn ? "▲▼ vs last month (%p)" : "▲▼ 전월 대비 %p"}</span>
         </div>
@@ -2249,7 +2701,7 @@ function renderBenchmarks() {
   // 4. 성능 패널
   const visible = METRICS.filter(x => models.some(m => m[x.key] != null));
   if (STATE.benchmarkSort !== "price" && !visible.some(x => x.id === STATE.benchmarkSort)) {
-    STATE.benchmarkSort = visible[0]?.id ?? "price";
+    STATE.benchmarkSort = visible[0]?.id ?? "composite";
   }
 
   const sortedMs = [...models];
@@ -2289,7 +2741,7 @@ function renderBenchmarks() {
       ${th("price", isEn ? "Price" : "가격", isEn ? "OpenRouter · $/1M in·out" : "OpenRouter · $/1M 입력·출력")}
       <th class="num">${isEn ? "Context" : "컨텍스트"}</th>
     </tr>
-    <tr><th class="bm-hint-row" colspan="${4 + visible.length}">${isEn ? "Higher scores and lower prices are better · Click a header to sort" : "점수는 높을수록, 가격은 낮을수록 좋음 · 열 제목을 누르면 정렬"}</th></tr>`;
+    <tr><th class="bm-hint-row" colspan="${4 + visible.length}">${isEn ? "Click any column header to sort · Click a model row for full 8-metric breakdown" : "열 제목을 누르면 정렬 · 모델 행을 클릭하면 3대 리더보드 8개 세부 지표 모달이 열립니다"}</th></tr>`;
 
   const body = sortedMs.map((m, i) => {
     const cells = visible.map(x => {
@@ -2298,7 +2750,7 @@ function renderBenchmarks() {
       return `<td class="num ${on ? "is-sorted" : ""}">${on && v != null ? mini(v) : ""}<span class="bm-v ${v === best[x.id] ? "is-best" : ""}">${x.fmt(v)}</span></td>`;
     }).join("");
     return `
-    <tr>
+    <tr class="bm-clickable-row" data-bm-model="${escapeHTML(m.model)}" tabindex="0" role="button" aria-label="${escapeHTML(m.model)}">
       <td class="num"><span class="bm-rank">${i + 1}</span></td>
       <td><span class="bm-model"><b>${escapeHTML(m.model)}${m.badge_type === "open-weights" ? `<span class="bm-tag">${isEn ? "Open" : "오픈"}</span>` : ""}</b><small>${escapeHTML(m.provider)}</small></span></td>
       ${cells}
@@ -2308,15 +2760,16 @@ function renderBenchmarks() {
   }).join("");
 
   const mlistHTML = sortedMs.map((m, i) => `
-    <li class="bm-mrow">
+    <li class="bm-mrow bm-clickable-row" data-bm-model="${escapeHTML(m.model)}" tabindex="0" role="button">
       <span class="bm-rank">${i + 1}</span>
       <span class="bm-model"><b>${escapeHTML(m.model)}${m.badge_type === "open-weights" ? `<span class="bm-tag">${isEn ? "Open" : "오픈"}</span>` : ""}</b><small>${escapeHTML(m.provider)} · $${f2(m.pricing_in_1m)} / $${f2(m.pricing_out_1m)} · ${fCtx(m.context_window)}</small></span>
       <span class="bm-mval"><b>${sortMetric ? sortMetric.fmt(m[sortMetric.key]) : `$${f2(blended(m))}`}</b><small>${sortMetric ? sortMetric.label : (isEn ? "Blended" : "혼합 단가")}</small></span>
     </li>`).join("");
 
   const footNotes = [
-    isEn ? "Arena scores are preference ratings from user votes; top ranks can shift within the margin of error." : "Arena 점수는 사용자 투표로 매긴 선호도라 상위권 순위는 오차 범위 안에서 바뀔 수 있다.",
-    isEn ? "Prices are OpenRouter listings and may differ from official vendor prices." : "가격은 OpenRouter 표시가이며 회사 공식가와 다를 수 있다."
+    isEn ? "3-Source Composite normalizes LMArena Elo (human preference), Artificial Analysis Intelligence Index, and LiveBench (contamination-free) onto a 0–100 scale." : "3대 종합 평균은 ① LMArena Elo(인간 선호도) · ② Artificial Analysis 지능 지수 · ③ LiveBench(무오염 동적 평가) 3곳 점수를 0~100점으로 정규화해 산술 평균한 값입니다.",
+    isEn ? "Stale or frozen benchmarks (e.g., SWE-bench frozen since Feb 2026) are automatically blocked by the 30-day freshness gate." : "갱신이 중단된 구버전 벤치마크(예: 2026년 2월 이후 동결된 SWE-bench 등)는 30일 최신성 검증 게이트에 의해 자동 배제됩니다.",
+    isEn ? "Prices are OpenRouter listings and may differ from official vendor prices." : "가격은 OpenRouter 표시가이며 회사 공식가와 다를 수 있습니다."
   ];
   if (STATE.benchmarkSort === "price") {
     footNotes.push(isEn ? "Price sort uses a 3:1 input/output blend" : "가격 정렬은 입력 3 : 출력 1 가중 평균 기준");
@@ -2328,8 +2781,8 @@ function renderBenchmarks() {
       <div class="bm-card">
         <div class="bm-card-head">
           <div>
-            <strong>${isEn ? `Top model per company (${models.length})` : `회사별 대표 모델 ${models.length}개`}</strong>
-            <span class="bm-card-sub">${isEn ? "One highest-ranked model per company on Arena · other models from the same company are excluded" : "Arena 순위에서 회사마다 가장 높은 모델 1개 · 같은 회사의 다른 모델은 제외"}</span>
+            <strong>${isEn ? `Flagship Frontier Models (${models.length}) — 3-Leaderboard Ensemble` : `글로벌 프론티어 대표 모델 ${models.length}종 — 3대 리더보드 종합`}</strong>
+            <span class="bm-card-sub">${isEn ? "One latest flagship model per company · Verified across LMArena, Artificial Analysis, and LiveBench" : "제작사별 최신 대표 모델 1개 · LMArena · Artificial Analysis · LiveBench 3곳 교차 검증"}</span>
           </div>
         </div>
         <div class="bm-table-wrap"><table class="bm-table" id="bm-bench-table"><thead>${head}</thead><tbody>${body}</tbody></table></div>
@@ -2343,6 +2796,12 @@ function renderBenchmarks() {
 
 // 이벤트 핸들러 바인딩 (위임)
 document.getElementById("benchmarks-container")?.addEventListener("click", (e) => {
+  const modelRow = e.target.closest("[data-bm-model]");
+  if (modelRow && !e.target.closest("a, button")) {
+    openBenchmarkModelModal(modelRow.dataset.bmModel);
+    return;
+  }
+
   const t = e.target.closest("[data-go],[data-tab],[data-sort],#bm-others-btn");
   if (!t) return;
 
@@ -2377,8 +2836,14 @@ document.getElementById("benchmarks-container")?.addEventListener("click", (e) =
   }
 });
 
-// 키보드 ←→ 키로 탭 전환
+// 키보드 ←→ 키로 탭 전환 및 Enter로 모델 상세 모달 열기
 document.getElementById("benchmarks-container")?.addEventListener("keydown", (e) => {
+  const modelRow = e.target.closest("[data-bm-model]");
+  if (modelRow && (e.key === "Enter" || e.key === " ")) {
+    e.preventDefault();
+    openBenchmarkModelModal(modelRow.dataset.bmModel);
+    return;
+  }
   const tabs = e.target.closest("#bm-tabs");
   if (!tabs) return;
   if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
