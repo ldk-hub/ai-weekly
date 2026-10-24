@@ -136,7 +136,9 @@ function validateAndCurate() {
       typeof item.arena_elo !== "number" ||
       typeof item.arena_coding_elo !== "number" ||
       typeof item.aa_intelligence !== "number" ||
-      typeof item.livebench_score !== "number"
+      typeof item.livebench_score !== "number" ||
+      item.pricing_in_1m == null ||
+      item.pricing_out_1m == null
     ) {
       console.error(`❌ [Benchmarks] 3대 리더보드 필수 지표가 누락된 모델 발견: ${JSON.stringify(item)}`);
       process.exit(1);

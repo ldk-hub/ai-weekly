@@ -13,7 +13,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:title" content="AI위클리 — 📈 스타보드" />
 <meta property="og:description" content="추적 리포의 주간 스타 증감을 리그별 순위표로. 활동성 배지와 순위 변동을 함께 봅니다." />
-<meta property="og:url" content="https://ldk-hub.github.io/ai-weekly/starboard.html" />
+<meta property="og:url" content="https://ldk-hub.github.io/ai-weekly/starboard" />
 <meta property="og:image" content="https://ldk-hub.github.io/ai-weekly/og.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
@@ -27,9 +27,6 @@
 <link rel="icon" type="image/svg+xml" href="claude-code.svg" />
 <link rel="alternate" type="application/rss+xml" title="AI Weekly weekly RSS" href="https://ldk-hub.github.io/ai-weekly/feed.xml" />
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css?v=24" />
 
 <!-- Google Analytics 4 -->
@@ -45,6 +42,7 @@
 </head>
 
 <body>
+<a class="skip-link" href="#main" data-i18n-en="Skip to main content" data-i18n-ko="본문으로 건너뛰기">본문으로 건너뛰기</a>
 
 <div class="layout-wrapper">
 
@@ -63,9 +61,6 @@
         </a>
         <a href="starboard" class="pn-link is-active">
           <span data-i18n-en="Starboard" data-i18n-ko="스타보드">스타보드</span>
-        </a>
-        <a href="lounge" class="pn-link">
-          <span data-i18n-en="Lounge" data-i18n-ko="라운지">라운지</span>
         </a>
         <a href="benchmarks" class="pn-link">
           <span data-i18n-en="Benchmarks" data-i18n-ko="점유율·성능">점유율·성능</span>
@@ -112,6 +107,7 @@
           </div>
 
           <div class="subscribe-wrapper" id="subscribe-wrapper">
+            <span class="subscribe-hint" data-i18n-en="Every Monday: this week's tools, by email" data-i18n-ko="매주 월요일, 이번 주 도구 요약을 메일로">매주 월요일, 이번 주 도구 요약을 메일로</span>
             <button class="subscribe-btn-open" id="subscribe-open" type="button">
               <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1.5" y="3.5" width="13" height="9" rx="2"></rect><path d="m2 4.5 6 4 6-4"></path></svg>
               <span data-i18n-en="Subscribe" data-i18n-ko="구독">구독</span>
@@ -131,14 +127,14 @@
     <div class="unified-nav-box">
       <div class="unb-bottom sb-controls">
         <nav class="cat-filter" id="sb-league-nav" role="tablist" aria-label="리그 선택">
-          <button class="cat-chip active" data-tab="heavy" role="tab" aria-selected="true" title="스타 10k+">
-            🥊 <span data-i18n-en="Heavyweight" data-i18n-ko="헤비급">헤비급</span> <span class="tab-count" id="heavy-count">0</span>
+          <button class="cat-chip active" data-tab="heavy" role="tab" aria-selected="true" aria-controls="starboard-container" title="스타 10k+">
+            <span aria-hidden="true">🥊</span> <span data-i18n-en="Heavyweight" data-i18n-ko="헤비급">헤비급</span> <span class="tab-count" id="heavy-count">0</span>
           </button>
-          <button class="cat-chip" data-tab="middle" role="tab" aria-selected="false" title="스타 1k~10k">
-            🥋 <span data-i18n-en="Middleweight" data-i18n-ko="미들급">미들급</span> <span class="tab-count" id="middle-count">0</span>
+          <button class="cat-chip" data-tab="middle" role="tab" aria-selected="false" aria-controls="starboard-container" title="스타 1k~10k">
+            <span aria-hidden="true">🥋</span> <span data-i18n-en="Middleweight" data-i18n-ko="미들급">미들급</span> <span class="tab-count" id="middle-count">0</span>
           </button>
-          <button class="cat-chip" data-tab="light" role="tab" aria-selected="false" title="스타 1k 미만">
-            🪶 <span data-i18n-en="Lightweight" data-i18n-ko="라이트급">라이트급</span> <span class="tab-count" id="light-count">0</span>
+          <button class="cat-chip" data-tab="light" role="tab" aria-selected="false" aria-controls="starboard-container" title="스타 1k 미만">
+            <span aria-hidden="true">🪶</span> <span data-i18n-en="Lightweight" data-i18n-ko="라이트급">라이트급</span> <span class="tab-count" id="light-count">0</span>
           </button>
           <button class="cat-chip bookmark-chip" id="starboard-bookmark-filter-chip" type="button" title="저장한 리포지토리 모아보기">
             <span>⭐</span>
@@ -177,7 +173,10 @@
   </div>
 
   <!-- Feed grouped by day -->
-  <main id="starboard-container"><div style="text-align:center;padding:60px 0;color:var(--muted);font-size:15px;">스타보드 랭킹표가 여기에 렌더링됩니다.</div></main>
+  <main id="main">
+    <h2 class="sr-only" data-i18n-en="Starboard Leaderboard" data-i18n-ko="스타보드 순위표">스타보드 순위표</h2>
+    <div id="starboard-container"><div style="text-align:center;padding:60px 0;color:var(--muted);font-size:15px;">스타보드 랭킹표가 여기에 렌더링됩니다.</div></div>
+  </main>
 
   <footer class="site-footer">
     <span>AI위클리 · Claude Code 주간 인덱스</span>

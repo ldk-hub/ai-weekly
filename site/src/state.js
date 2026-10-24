@@ -72,8 +72,10 @@ export const STATE = {
   pluginBookmarks: loadPluginBookmarks(),
   allExpanded: false,
   source: "latest",
+  loadError: null,
   archives: [],
   lounge: null,
+  sbLimit: 50,
   viewMode: localStorage.getItem("aiw-view") || "card",
   benchmarkTab: "share",      // 'share' | 'bench'
   benchmarkSort: "composite", // 'composite' | 'coding' | 'arena' | 'aa' | 'livebench' | 'price'

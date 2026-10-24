@@ -15,6 +15,7 @@
 
   /* brand */
   --accent: #d97757;  /* Anthropic terracotta — matches Claude Code logo */
+  --accent-text: #a85032;  /* 12px 이하 텍스트용 (4.5:1 이상 대비) */
 
   /* sticker pastels */
   --hl-mint:  #d8edd0;
@@ -28,8 +29,8 @@
 
   --hover-shadow: 0 16px 32px rgba(14, 14, 14, 0.08);
 
-  /* starboard velocity — 정의 누락으로 스파크라인 stroke 가 none 으로 계산되던 것 복구 */
-  --mint:    #2bab84;
+  /* starboard velocity — 정의 누락으로 스파크라인 stroke 가 none 으로 계산되던 것 복구 (대비 4.5:1 이상) */
+  --mint:    #18794e;
   --coral:   #d97757;
   --surface: var(--pill);
 
@@ -50,6 +51,7 @@ html[data-theme="dark"] {
   --muted:        #a29b8c;
   --soft:         #6f6b60;
   --accent:       #E08963;
+  --accent-text:  var(--accent);
   --lemon:        #ffeca0;
   --hl-mint:      rgba(122, 199, 150, 0.24);
   --hl-lemon:     rgba(240, 210, 90, 0.22);
@@ -78,6 +80,7 @@ html[data-theme="dark"] {
     --muted:        #a29b8c;
     --soft:         #6f6b60;
     --accent:       #E08963;
+  --accent-text:  var(--accent);
     --hl-mint:      rgba(122, 199, 150, 0.24);
     --hl-lemon:     rgba(240, 210, 90, 0.22);
     --hl-peach:     rgba(255, 148, 118, 0.2);
@@ -352,6 +355,9 @@ html[data-theme="dark"] .archive-btn { color: var(--muted); }
   position: absolute;
   top: 38px; right: 0;
   width: 210px;
+  max-height: min(60vh, 520px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 12px;
@@ -382,6 +388,14 @@ html[data-theme="dark"] .archive-menu { box-shadow: 0 12px 32px rgba(0,0,0,.5); 
 /* Subscribe wrapper */
 .subscribe-wrapper {
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.subscribe-hint {
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
 }
 .subscribe-btn-open {
   display: flex;
@@ -415,11 +429,15 @@ html[data-theme="dark"] .archive-menu { box-shadow: 0 12px 32px rgba(0,0,0,.5); 
 }
 .subscribe-form input {
   border: none;
-  outline: none;
   width: 180px;
   font-size: 13px;
   color: var(--ink);
   background: transparent;
+}
+.subscribe-form input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 .subscribe-form input::placeholder { color: var(--muted); }
 .subscribe-submit {
@@ -509,6 +527,7 @@ html[data-theme="dark"] .pn-link:hover { background: rgba(0,0,0,0.2); }
   flex-wrap: wrap;
   gap: 7px;
   flex: 1;
+  min-width: 0;
 }
 
 /* 뉴스 매체 8종은 칩으로 두 줄을 먹었다. 네이티브 select 로 접는다 */
@@ -734,7 +753,7 @@ main {
   background: var(--pill);
   font-variant-numeric: tabular-nums;
 }
-.rank-pill.is-top { background: var(--hl-coral); color: #fff; }
+.rank-pill.is-top { background: var(--hl-coral); color: var(--ink); }
 .rank-pill.is-hot { background: var(--hl-lemon); }
 .rank-pill.is-new { background: var(--hl-mint); }
 html[data-theme="dark"] .rank-pill.is-top { color: var(--ink); }
@@ -770,7 +789,7 @@ html[data-theme="dark"] .rank-pill.is-top { color: var(--ink); }
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--accent);
+  color: var(--accent-text);
 }
 .repo-id {
   font-size: 12px;
@@ -1561,7 +1580,8 @@ footer a:hover, footer .foot-link:hover { color: var(--accent); border-bottom-co
 
   /* --- 구독 폼: 폰트 16px(iOS 자동확대 차단)와 wrap 은 반드시 세트 --- */
   .update-actions-right { flex-wrap: wrap; row-gap: 10px; }
-  .subscribe-wrapper { min-width: 0; max-width: 100%; }
+  .subscribe-wrapper { min-width: 0; max-width: 100%; flex-wrap: wrap; }
+  .subscribe-hint { width: 100%; order: 2; font-size: 11px; margin-top: 4px; }
   .subscribe-form { width: 100%; max-width: 100%; }
   .subscribe-form input { width: auto; flex: 1 1 0; min-width: 0; font-size: 16px; }
   .unb-search-wrap input { font-size: 16px; min-width: 0; }
@@ -1948,6 +1968,9 @@ footer a:hover, footer .foot-link:hover { color: var(--accent); border-bottom-co
      .sb-controls .cat-filter (특이도 0,2,0) 를 이기려면 셀렉터를 맞춰야 한다 */
   .unb-bottom .cat-filter,
   .sb-controls .cat-filter {
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
     flex-wrap: nowrap;
     overflow-x: auto;
     scrollbar-width: none;
@@ -2106,7 +2129,7 @@ html[data-theme="dark"] .news-details .deep-dive-content {
   padding: 2px 8px;
   border-radius: 8px;
   background: var(--pill);
-  color: var(--accent);
+  color: var(--accent-text);
   border: 1px solid rgba(217, 119, 87, 0.2);
 }
 
@@ -2169,6 +2192,9 @@ html[data-theme="dark"] .card:hover .features li {
 
 /* 플러그인 원클릭 CLI 칩 */
 .cli-copy-chip {
+  all: unset;
+  box-sizing: border-box;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -2184,6 +2210,17 @@ html[data-theme="dark"] .card:hover .features li {
   cursor: pointer;
   transition: all 0.2s;
   user-select: none;
+}
+.card-install-note {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 10px;
+  line-height: 1.4;
+}
+.card-install-note .note-label {
+  font-weight: 600;
+  color: var(--ink-2);
+  margin-right: 4px;
 }
 html[data-theme="dark"] .cli-copy-chip {
   background: rgba(255, 255, 255, 0.04);
@@ -3048,6 +3085,46 @@ button.db-tag.clickable-tag:hover {
   .bm-srow {
     grid-template-columns: 22px 1fr auto auto;
   }
+}
+
+/* Accessibility: Skip Link */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 16px;
+  background: var(--ink);
+  color: var(--bg);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 14px;
+  z-index: 10000;
+  text-decoration: none;
+  transition: top 0.15s ease-out;
+}
+.skip-link:focus,
+.skip-link:focus-visible {
+  top: 16px;
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Visually Hidden for screen readers (h1 -> h2 -> h3 hierarchy) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Feed results count inline buttons (대비 4.5:1 이상) */
+.feed-results-count button {
+  color: var(--accent-text) !important;
 }
 
 

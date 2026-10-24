@@ -77,6 +77,15 @@ function loadPrevStars() {
   return map;
 }
 
+function loadStarsMeta() {
+  const metaPath = path.join(ROOT, "data", "stars", "stars_meta.json");
+  try {
+    return JSON.parse(fs.readFileSync(metaPath, "utf8"));
+  } catch (e) {
+    return { repos: {} };
+  }
+}
+
 function daysAgo(iso) {
   if (!iso) return null;
   return Math.round((Date.now() - Date.parse(iso)) / 86400000);
@@ -85,6 +94,7 @@ function daysAgo(iso) {
 async function main() {
   const prevStars = loadPrevStars();
   const ledger = loadLedger();
+  const starsMeta = loadStarsMeta();
   const repos = new Map();
 
   const toCandidate = (r) => ({
@@ -109,6 +119,10 @@ async function main() {
   for (const { q, sort } of GH_QUERIES) {
     for (const r of await ghSearch(q, sort)) {
       if (r.fork || r.archived) continue;
+      if (starsMeta.repos?.[r.full_name]?.suspect) {
+        console.warn(`[collect] skipping suspect repo: ${r.full_name} (${starsMeta.repos[r.full_name].suspect})`);
+        continue;
+      }
       if (repos.has(r.full_name)) continue;
       repos.set(r.full_name, toCandidate(r));
     }
@@ -116,6 +130,10 @@ async function main() {
 
   // 이전 주 등재 리포도 유지 대상 (classic 연속성 + velocity 추적)
   for (const id of Object.keys(prevStars)) {
+    if (starsMeta.repos?.[id]?.suspect) {
+      console.warn(`[collect] skipping suspect prev repo: ${id}`);
+      continue;
+    }
     if (repos.has(id)) continue;
     const res = await fetch(`https://api.github.com/repos/${id}`, {
       headers: { ...(GH_TOKEN ? { Authorization: `Bearer ${GH_TOKEN}` } : {}), Accept: "application/vnd.github+json" },

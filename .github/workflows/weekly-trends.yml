@@ -1,8 +1,9 @@
 name: Weekly trends pipeline
 
 on:
-  schedule:
-    - cron: '0 0 * * 1' # 매주 월요일 00:00 UTC = 09:00 KST
+  # 2026-10-23 수동 운영으로 전환(GEMINI_API_KEY 미등록). 되살리려면 시크릿 등록 후 주석 해제
+  # schedule:
+  #   - cron: '0 0 * * 1' # 매주 월요일 00:00 UTC = 09:00 KST
   workflow_dispatch:
 
 concurrency:

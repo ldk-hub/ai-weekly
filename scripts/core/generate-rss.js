@@ -78,7 +78,7 @@ function buildFeed() {
   const lastBuild = weeks[0]?.data?.generated_at || new Date().toISOString();
 
   const items = weeks.map(week => {
-    const title = `cc-trends · ${week.date} 주간 업데이트`;
+    const title = `AI위클리 · ${week.date} 주간 업데이트`;
     const link = `${SITE_URL}?w=${week.date}`;
     const desc = summarizeWeek(week);
     return `    <item>
@@ -93,7 +93,7 @@ function buildFeed() {
   return `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>cc-trends — Claude Code 도구 주간 인덱스</title>
+    <title>AI위클리 — Claude Code 도구 주간 인덱스</title>
     <link>${SITE_URL}</link>
     <atom:link href="${SITE_URL}feed.xml" rel="self" type="application/rss+xml" />
     <description>매주 월요일 갱신되는 Claude Code 에이전트 · 스킬 · 하네스 · MCP 큐레이션.</description>
@@ -170,9 +170,10 @@ function dataDate(relPath, fallback) {
 const today = new Date().toISOString().slice(0, 10);
 const pages = [
   { loc: SITE_URL, lastmod: dataDate("site/public/data/latest.json", today), extra: "    <changefreq>weekly</changefreq>\n    <priority>1.0</priority>" },
-  { loc: `${SITE_URL}news.html`, lastmod: dataDate("site/public/data/news_latest.json", today), extra: "    <priority>0.9</priority>" },
-  { loc: `${SITE_URL}starboard.html`, lastmod: dataDate("site/public/data/stars_meta.json", today), extra: "    <changefreq>daily</changefreq>\n    <priority>0.8</priority>" },
-  { loc: `${SITE_URL}lounge.html`, lastmod: dataDate("site/public/data/lounge_latest.json", today), extra: "    <changefreq>daily</changefreq>\n    <priority>0.6</priority>" },
+  { loc: `${SITE_URL}news`, lastmod: dataDate("site/public/data/news_latest.json", today), extra: "    <priority>0.9</priority>" },
+  { loc: `${SITE_URL}starboard`, lastmod: dataDate("site/public/data/stars_meta.json", today), extra: "    <changefreq>daily</changefreq>\n    <priority>0.8</priority>" },
+  { loc: `${SITE_URL}benchmarks`, lastmod: dataDate("site/public/data/benchmarks_latest.json", today), extra: "    <changefreq>weekly</changefreq>\n    <priority>0.7</priority>" },
+  { loc: `${SITE_URL}lounge`, lastmod: dataDate("site/public/data/lounge_latest.json", today), extra: "    <changefreq>daily</changefreq>\n    <priority>0.3</priority>" },
 ];
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>

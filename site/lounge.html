@@ -13,7 +13,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:title" content="AI위클리 — 라운지" />
 <meta property="og:description" content="AI 뉴스와 Claude Code 도구를 두고 나누는 대화. 자유 대화와 사이트 전체 최근 댓글을 한곳에서." />
-<meta property="og:url" content="https://ldk-hub.github.io/ai-weekly/lounge.html" />
+<meta property="og:url" content="https://ldk-hub.github.io/ai-weekly/lounge" />
 <meta property="og:image" content="https://ldk-hub.github.io/ai-weekly/og.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
@@ -28,9 +28,6 @@
 <link rel="alternate" type="application/rss+xml" title="AI위클리 — AI 뉴스 RSS" href="https://ldk-hub.github.io/ai-weekly/news-feed.xml" />
 <link rel="alternate" type="application/rss+xml" title="AI위클리 — 주간 플러그인 RSS" href="https://ldk-hub.github.io/ai-weekly/feed.xml" />
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css?v=24" />
 
 <!-- Google Analytics 4 -->
@@ -44,6 +41,7 @@
 </head>
 
 <body>
+<a class="skip-link" href="#main" data-i18n-en="Skip to main content" data-i18n-ko="본문으로 건너뛰기">본문으로 건너뛰기</a>
 
 <div class="layout-wrapper">
 
@@ -62,9 +60,6 @@
         </a>
         <a href="starboard" class="pn-link">
           <span data-i18n-en="Starboard" data-i18n-ko="스타보드">스타보드</span>
-        </a>
-        <a href="lounge" class="pn-link is-active">
-          <span data-i18n-en="Lounge" data-i18n-ko="라운지">라운지</span>
         </a>
         <a href="benchmarks" class="pn-link">
           <span data-i18n-en="Benchmarks" data-i18n-ko="점유율·성능">점유율·성능</span>
@@ -99,6 +94,20 @@
         </div>
 
         <div class="update-actions-right">
+          <div class="subscribe-wrapper" id="subscribe-wrapper">
+            <span class="subscribe-hint" data-i18n-en="Every Monday: this week's tools, by email" data-i18n-ko="매주 월요일, 이번 주 도구 요약을 메일로">매주 월요일, 이번 주 도구 요약을 메일로</span>
+            <button class="subscribe-btn-open" id="subscribe-open" type="button">
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1.5" y="3.5" width="13" height="9" rx="2"></rect><path d="m2 4.5 6 4 6-4"></path></svg>
+              <span data-i18n-en="Subscribe" data-i18n-ko="구독">구독</span>
+            </button>
+            <form class="subscribe-form" id="subscribe-form" style="display:none" action="https://rlaalstn.substack.com/api/v1/free?nojs=true" method="post" target="_blank">
+              <input type="hidden" name="first_url" value="https://ldk-hub.github.io/ai-weekly/" />
+              <input type="hidden" name="source" value="subscribe_widget" />
+              <input type="email" name="email" required placeholder="이메일 주소" data-i18n-en-placeholder="your@email.com" data-i18n-ko-placeholder="이메일 주소" aria-label="이메일 구독" />
+              <button type="submit" class="subscribe-submit" data-i18n-en="Subscribe" data-i18n-ko="구독하기">구독하기</button>
+              <button type="button" class="subscribe-close" id="subscribe-close">×</button>
+            </form>
+          </div>
           <a class="archive-btn" href="https://github.com/ldk-hub/ai-weekly/discussions" target="_blank" rel="noopener">
             <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 3.5h12v8H6l-3 2.5v-2.5H2z"></path></svg>
             <span data-i18n-en="All discussions" data-i18n-ko="전체 스레드">전체 스레드</span>
@@ -108,7 +117,10 @@
     </div>
   </div>
 
-  <main id="lounge-container"><div style="text-align:center;padding:60px 0;color:var(--muted);font-size:15px;" data-i18n-en="Loading the lounge…" data-i18n-ko="라운지를 불러오는 중…">라운지를 불러오는 중…</div></main>
+  <main id="main">
+    <h2 class="sr-only" data-i18n-en="Community Lounge" data-i18n-ko="커뮤니티 라운지">커뮤니티 라운지</h2>
+    <div id="lounge-container"><div style="text-align:center;padding:60px 0;color:var(--muted);font-size:15px;" data-i18n-en="Loading the lounge…" data-i18n-ko="라운지를 불러오는 중…">라운지를 불러오는 중…</div></div>
+  </main>
 
   <footer class="site-footer">
     <span>AI위클리 · Claude Code 주간 인덱스</span>
