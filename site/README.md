@@ -1,46 +1,48 @@
 <div align="center">
 
-# AI위클리 (사이트 뷰어)
+# AI위클리 — 프론트엔드 뷰어 (`site/`)
 
-**이 문서는 AI위클리 웹사이트(프론트엔드) 빌드 및 개발 환경에 대한 안내입니다.** <br>
-전체 아키텍처 및 데이터 수집 파이프라인은 [루트 README](../README.md)를 참고하세요.
+**이 디렉토리는 AI위클리의 5대 핵심 탭(`인기 플러그인 · AI 뉴스 · 스타보드 · 라운지 · 점유율/성능`)을 렌더링하는 Vite 기반 초경량 멀티페이지 정적 웹 프론트엔드입니다.**<br>
+전체 데이터 수집·보안 검증 파이프라인 및 아키텍처 상세는 [루트 README](../README.md)를 참고하세요.
 
 </div>
 
 ---
 
-## 개요
-이 폴더는 수집된 뉴스 및 인기 플러그인 데이터를 화면에 보여주는 정적(Static) 웹사이트 소스 코드를 담고 있습니다. 별도의 프레임워크나 빌드 도구를 거치지 않는 가벼운 구조를 채택했습니다.
+## 🛠 기술 스택 및 특징
+- **번들러 & 런타임**: Vite 8, HTML5, Vanilla ES Modules (`src/main.js`, `src/state.js`), CSS3 (`styles.css`)
+- **글로벌 UX**: 다크/라이트 테마 전환(`localStorage`), 한/영 실시간 다국어 전환(`EN / KO`), 로컬 북마크(`⭐ 저장`), 단축키 `/` 즉시 검색
+- **데이터 소스 (`public/data/`)**:
+  - `latest.json`: 주간 인기 플러그인 (Rising / Classic)
+  - `news_latest.json`: 일간 AI 뉴스 (8개 매체, 3대 포인트 & 심층 해설)
+  - `stars_meta.json` & `stars_ledger.json`: 620개 오픈소스 메타데이터 및 시계열 스타 원장 (헤비·미들·라이트 3체급)
+  - `lounge_latest.json`: GitHub Discussions 커뮤니티 스냅샷
+  - `benchmarks_latest.json`: Statcounter AI 리퍼럴 점유율 및 LMArena·OpenRouter 프론티어 모델 벤치마크
 
-## 기술 스택
-- **언어**: HTML5, Vanilla JavaScript, CSS3
-- **데이터소스**: 정적 JSON 단일 파일
-  - 뉴스: `public/data/news_latest.json`
-  - 플러그인: `public/data/latest.json`
-- **호스팅**: GitHub Pages (무료, HTTPS 자동)
+## 💻 로컬 실행 및 빌드
 
-## 로컬 실행 및 프리뷰
-별도의 노드 서버나 빌드 과정 없이 정적 파일 서버만 띄우면 바로 테스트할 수 있습니다.
+프로젝트 루트 디렉토리에서 아래 명령어를 실행합니다:
 
 ```bash
-# 루트 디렉토리에서 실행
-python3 -m http.server 8000 --directory site
+npm run dev      # Vite 개발 서버 실행 (http://localhost:5173)
+npm run build    # 프로덕션 정적 번들 빌드 (루트 dist/ 생성)
+npm run preview  # 빌드 결과물 로컬 프리뷰
 ```
-실행 후 브라우저에서 `http://localhost:8000`으로 접속하여 확인합니다.
 
-## 폴더 상세 구조
-```
+## 📂 디렉토리 구조
+```text
 site/
-├── index.html       # 메인 뷰어
-├── styles.css       # 스타일 정의
-├── script.js        # 데이터 로드 및 렌더링 로직
+├── index.html          # 🧩 인기 플러그인 (메인 홈)
+├── news.html           # 📰 AI 뉴스 뷰어
+├── starboard.html      # 📈 스타보드 3체급 랭킹 뷰어
+├── lounge.html         # 💬 AI 라운지 커뮤니티 뷰어
+├── benchmarks.html     # 📊 점유율·성능 벤치마크 뷰어
+├── styles.css          # 통합 스타일시트 (다크/라이트 테마 토큰)
+├── src/
+│   ├── main.js         # 5대 탭 데이터 로더, 필터링, 렌더링 및 이벤트 핸들러
+│   └── state.js        # 전역 상태, 다국어 사전, 카테고리/시그널 상수, 로컬 북마크 저장소
 └── public/
-    └── data/
-        ├── latest.json        # 플러그인 최신 데이터
-        ├── news_latest.json   # 뉴스 최신 데이터
-        └── archive/           # 주차별 렌더링 스냅샷 보존
+    ├── feed.xml        # 주간 플러그인 RSS 피드
+    ├── news-feed.xml   # 데일리 AI 뉴스 RSS 피드
+    └── data/           # 최신 JSON 데이터 및 주차별/일자별 아카이브(archive/)
 ```
-
-## 기여 및 기타
-사이트 디자인 개선, 버그 수정 등을 위한 기여는 언제든 환영합니다.
-전체 파이프라인이나 데이터 수집 방식 관련 이슈는 프로젝트 루트에 위치한 [루트 README](../README.md)를 참고해 주시기 바랍니다.
