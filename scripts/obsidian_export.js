@@ -98,6 +98,7 @@ graph TD
 - [[05-benchmarks 점유율·성능 파이프라인|📊 benchmarks 점유율·성능 파이프라인 명세]]
 
 ### 📅 날짜별 작업 일지 (Work Logs)
+- [[2026-10-26 작업일지|📅 2026-10-26 작업일지 (주간 cc-weekly: 스타보드 598개 최신화, 트렌드 35건 큐레이션·보안 스캔, 데일리 뉴스 18건 큐레이션 및 옵시디언 동기화)]]
 - [[2026-10-23 작업일지|📅 2026-10-23 작업일지 (평일 cc-daily: 벤치마크 검증 스크립트 정정, 데일리 뉴스 17건 큐레이션 및 배포, 옵시디언 동기화)]]
 - [[2026-10-22 작업일지|📅 2026-10-22 작업일지 (신규 '점유율·성능' 탭 전면 구현, 2026-10 데이터 검수, 수치 신뢰성 보완 및 원격 푸시)]]
 - [[2026-10-21 작업일지|📅 2026-10-21 작업일지 (평일 cc-daily: 스타보드 597개 최신화, 15건 전 매체 균형 큐레이션 및 배포)]]
@@ -308,6 +309,50 @@ tags: [ai-weekly, benchmarks, frontier-models, market-share, pipeline]
 
 // 3. 작업 일지들
 const LOGS = [
+  {
+    filename: "2026-10-26 작업일지.md",
+    title: "2026-10-26 작업일지 — 주간 종합 파이프라인(cc-weekly) 완수 (스타보드 598개 100% 최신화, 트렌드 35건 큐레이션 및 진입점 보안 스캔 통과, 데일리 뉴스 18건 전 매체 균형 큐레이션, RSS/OG/라운지/옵시디언 동기화)",
+    date: "2026-10-26",
+    content: `---
+title: 2026-10-26 작업일지
+date: 2026-10-26
+type: work-log
+tags: [ai-weekly, work-log, cc-weekly, cc-star, cc-trends, cc-news, security-scan]
+status: completed
+author: ldk-hub <orm6711@gmail.com>
+---
+
+# 📅 2026-10-26 작업일지 (주간 종합 파이프라인 cc-weekly 완수)
+
+## 📌 주요 작업 요약
+
+### 1. 스타보드 갱신 (cc-star)
+- **대상 및 호출 결과**: 총 598개 타겟 리포지토리 전수 추적 완료 (\`Success: 598 (100%)\`, 404 Gone: 44, Renames: 1, Suspects: 0).
+- **데이터 저장**: \`data/stars/stars_meta.json\` 및 \`data/stars/stars_ledger.json\` 원자적 갱신 및 프론트엔드(\`site/public/data/\`) 동기화 완료.
+
+### 2. 주간 트렌드 큐레이션 및 빌드 (cc-trends)
+- **후보 광역 수집**: GitHub 및 커뮤니티 검색을 통해 67개 후보 리포지토리 수집 완료 (\`.tmp/candidates.json\`).
+- **설치 진입점 보안 스캔**: \`scan-install-entry.js\` 실행 결과 67건 검사 전수 이상 없음 통과 (악성 원격 드로퍼 0건).
+- **정밀 한국어 메타데이터 확충**: 신규 화제 에이전트·스킬·MCP 16종(\`juliobsz/skills\`, \`Leonxlnx/earshot\`, \`openfilm/openfilm\`, \`Jakeschincariol/founder-skill\`, \`alchaincyf/huashu-motion\` 등)의 정밀 한국어 큐레이션 데이터 구축 (\`curated-knowledge-ext.js\`).
+- **트렌드 빌드 및 검증**: Rising 19건, Classic 16건 선별 완료, \`latest.json\`, 주간 아카이브(\`archive/2026-10-26.json\`), 아카이브 인덱스(\`archive/index.json\`) 갱신 및 \`--validate\` 게이트 100% 통과.
+
+### 3. 데일리 AI 기술 신호 큐레이션 (cc-news)
+- **8대 매체 수집**: 최근 24시간 동안 발생한 신호 106건 수집 (\`.tmp/news_candidates.json\`). (GeekNews 5, AI타임스 5, Hacker News 13, GitHub 50, Reddit 21, HF Papers 1, Bluesky 11, X: 0 [쿠키 미설정]).
+- **18건 균형 큐레이션**:
+  - 매체별 쿼터(매체당 최대 5건) 및 신호축 쿼터(축당 최대 4건)를 엄격히 준수하여 총 18건 선별.
+  - 신호축 분포: \`model\` 3, \`product\` 2, \`devtool\` 4, \`oss\` 2, \`research\` 4, \`practice\` 3.
+  - GitHub 초고속 모멘텀 리포지토리(\`deepseek-ai/DeepInfer\`, 일평균 +2,301 stars) 및 주간 63.4% 폭증 업데이트 리포지토리(\`cranebeaker/coop-anything\`) 포함.
+- **품질 게이트 검증**: \`curate_news.js --validate\` 100% 통과 (\`news_latest.json\`, \`archive/news_2026-10-26.json\` 동기화).
+
+### 4. 사이트 리소스 및 라운지 갱신
+- **RSS/Sitemap**: \`feed.xml\`, \`news-feed.xml\`, \`sitemap.xml\` 생성 완료.
+- **AI 라운지**: \`collect_lounge.js\` 실행을 통해 Discussions 최신 스냅샷 동기화 (\`lounge_latest.json\`).
+- **오픈그래프(OG)**: \`generate-og.js\` 실행을 통해 \`og.svg\`, \`og.png\` 최신화 완료.
+
+### 5. 옵시디언 볼트 동기화 (sync:obsidian)
+- 주간 파이프라인 전체 수행 이력 및 신규 작업일지를 옵시디언 볼트(\`/Users/nhn/Documents/Obsidian Vault/ai-weekly\`)에 전면 동기화.
+`
+  },
   {
     filename: "2026-10-23 작업일지.md",
     title: "2026-10-23 작업일지 — 평일 데일리 파이프라인(cc-daily) 완수 (벤치마크 검증 스크립트 최신화, 24시간 91건 수집·17건 전 매체 균형 큐레이션, 품질 게이트 통과, RSS/옵시디언 동기화)",

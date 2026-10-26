@@ -898,7 +898,16 @@ async function callGemini(candidates) {
   const rising = [];
   const classic = [];
 
+  const EXCLUDE_REPOS = new Set([
+    "Gathin23/cleanyourtv",
+    "simbasjungles/free-my-tv",
+    "Ansub/tv-detox",
+    "Arekejoker/qwen21-nsfw-pose-skill",
+  ]);
+
   for (const c of candidates) {
+    if (EXCLUDE_REPOS.has(c.id)) continue;
+
     const known = CURATED_KNOWLEDGE[c.id];
     let cat = known?.category || "skill";
     if (!known) {

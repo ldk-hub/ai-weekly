@@ -1,10 +1,31 @@
 {
   "archives": [
     {
+      "file": "2026-10-26.json",
+      "version": "v2026.10.26",
+      "generated_at": "2026-10-26",
+      "rising_count": 19,
+      "classic_count": 16
+    },
+    {
       "file": "2026-10-19.json",
       "version": "v2026.10.19",
       "generated_at": "2026-10-19",
       "rising_count": 19,
+      "classic_count": 13
+    },
+    {
+      "file": "2026-10-16.json",
+      "version": "v2026.10.16",
+      "generated_at": "2026-10-16",
+      "rising_count": 20,
+      "classic_count": 13
+    },
+    {
+      "file": "2026-10-15.json",
+      "version": "v2026.10.15",
+      "generated_at": "2026-10-15",
+      "rising_count": 20,
       "classic_count": 13
     },
     {

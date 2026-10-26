@@ -612,6 +612,214 @@ module.exports = {
     ],
     use_case: "실무 개발팀에서 여러 종류의 AI 코딩 에이전트를 동시에 운영하며 작업 할당과 권한을 체계적으로 관리할 때",
     tags: ["agent-orchestration", "multi-agent", "ai-governance", "workflow-automation", "claude-code"]
+  },
+  "juliobsz/skills": {
+    category: "skill",
+    title_ko: "skills — 단 한 줄의 지시로 Awwwards급 프리미엄 인터랙티브 웹사이트를 제작하는 에이전트 스킬",
+    catchphrase: "Astro, Next.js, WebGL, GSAP 모션을 결합하여 수상작 수준의 웹 인터페이스를 구현",
+    summary_ko: "Claude Code 및 Codex 환경에서 단 한 줄의 요구사항만으로 Awwwards 수상 수준의 인터랙티브 웹사이트를 설계하고 개발하는 고도화된 에이전트 스킬입니다. Astro 및 Next.js 프레임워크 기반 위에 WebGL 셰이더와 GSAP ScrollTrigger 애니메이션을 자동으로 조합하여 고품질 랜딩 페이지를 빌드합니다. 디테일한 반응형 모션과 마이크로 인터랙션을 기본 탑재합니다.",
+    key_features: [
+      "단일 명령어로 Awwwards급 인터랙티브 웹사이트 뼈대 및 모션 자동 생성",
+      "Astro, Next.js, WebGL, GSAP 등 현대적 프론트엔드·비주얼 스택 통합",
+      "반응형 뷰포트 최적화 및 60fps 부드러운 스크롤 인터랙션 보장"
+    ],
+    use_case: "포트폴리오나 브랜드 랜딩 페이지를 최고 수준의 인터랙티브 웹 디자인으로 빠르게 구현할 때",
+    tags: ["awwwards", "web-design", "gsap", "webgl", "claude-skills"]
+  },
+  "Leonxlnx/earshot": {
+    category: "mcp",
+    title_ko: "earshot — 코딩 에이전트가 소리를 듣고 분석하며 사운드를 제작할 수 있게 돕는 청각 인터페이스",
+    catchphrase: "GPU 없이 CPU만으로 오디오 피드백을 듣고 효과음과 배경음을 합성하는 오픈소스 오디오 도구",
+    summary_ko: "AI 코딩 에이전트에게 귀(Ears)를 달아주어 웹사이트 효과음, 배경 음악, 시스템 알림음을 직접 듣고 리뷰하거나 생성할 수 있도록 지원하는 도구입니다. CPU 전용 경량 아키텍처로 구동되어 고가의 GPU 없이도 로컬 환경에서 안정적으로 동작합니다. 사운드 디자인, 게임 오디오 제작, 웹 접근성 오디오 검증 워크플로우를 대폭 자동화합니다.",
+    key_features: [
+      "CPU 환경에 최적화된 경량 오디오 분석 및 합성 엔진",
+      "코딩 에이전트가 생성된 사운드를 직접 듣고 평가하는 피드백 루프",
+      "Claude Code 및 MCP 환경에 완벽 대응하는 표준 인터페이스"
+    ],
+    use_case: "에이전트와 함께 웹/앱 프로젝트의 효과음 및 인터랙션 사운드를 기획하고 다듬을 때",
+    tags: ["audio-agent", "sound-design", "mcp-server", "cpu-only", "claude-code"]
+  },
+  "openfilm/openfilm": {
+    category: "agent",
+    title_ko: "openfilm — 모든 코딩 에이전트를 전문 비디오 제작 디렉터로 변환하는 오픈소스 AI 비디오 에이전트",
+    catchphrase: "대본 작성부터 샷 리스트, 음성 합성, 비디오 렌더링까지 전체 파이프라인을 자동 제어",
+    summary_ko: "Claude Code, Codex 등 기존 코딩 에이전트를 풀스택 비디오 제작 감독으로 전환해주는 오픈소스 영상 에이전트 프레임워크입니다. 스토리보드 기획, 씬 분할, TTS 음성 생성, AI 비디오 모델 연동, 최종 영상 합성까지 전 과정을 코드와 프롬프트로 오케스트레이션합니다. 마케팅 영상이나 숏폼 콘텐츠 제작 생산성을 극대화합니다.",
+    key_features: [
+      "코딩 에이전트 기반 종단간 영상 제작 파이프라인 오케스트레이션",
+      "스토리보드, 보이스오버, 비디오 생성 AI 모델 유기적 결합",
+      "오픈소스 기반 확장성과 모듈식 비디오 컴포넌트 아키텍처"
+    ],
+    use_case: "AI 제품 데모 영상이나 유튜브/SNS용 홍보 영상을 에이전트에게 전적으로 위임하여 제작할 때",
+    tags: ["video-agent", "video-generation", "openfilm", "claude-code", "content-creation"]
+  },
+  "Jakeschincariol/founder-skill": {
+    category: "skill",
+    title_ko: "founder-skill — 제품 출시 전 비즈니스 모델과 시장성을 철저히 검증하는 11가지 창업가 스킬셋",
+    catchphrase: "고객 인터뷰 분석, 경쟁사 포지셔닝, 가격 정책 등 사업 가설을 다각도로 스트레스 테스트",
+    summary_ko: "제품 론칭 전에 창업 아이디어와 비즈니스 모델을 다각도로 스트레스 테스트할 수 있도록 설계된 11가지 무료 Claude Code 스킬 모음입니다. 타깃 고객 세그먼트 분석, 경쟁사 차별점 도출, 지불 용의성 측정, 랜딩 페이지 카피 최적화 등 실전 창업에 필요한 핵심 검증 단계를 에이전트가 단계별로 인터뷰하며 진단합니다.",
+    key_features: [
+      "제품 시장 적합성(PMF) 검증을 위한 11가지 체계적인 스킬 모듈",
+      "경쟁사 분석 및 유니크 밸류 프로포지션(UVP) 도출 프레임워크",
+      "Claude Code 대화 세션에서 즉시 실행 가능한 창업 코칭 워크플로우"
+    ],
+    use_case: "새로운 사이드 프로젝트나 스타트업 제품을 출시하기 전에 시장 실패 위험을 줄이고 싶을 때",
+    tags: ["founder-skills", "startup-validation", "business-model", "claude-skills"]
+  },
+  "alchaincyf/huashu-motion": {
+    category: "skill",
+    title_ko: "huashu-motion — 배경음악 작곡부터 화면 연출 수정까지 지원하는 상업용 제품 홍보 영상 스킬",
+    catchphrase: "에이전트가 단 한 번의 명령으로 고품질 제품 론칭 필름을 생성하고 시각적 수정을 처리",
+    summary_ko: "Claude Code 에이전트가 상업용 수준의 제품 론칭 홍보 비디오를 원클릭으로 생성할 수 있도록 돕는 영상 제작 전문 스킬입니다. 장면 분위기에 어울리는 배경음악 작곡, 비주얼 컷 편집, 자막 배치뿐만 아니라 사용자가 특정 화면 요소를 지목하여 수정할 수 있는 비주얼 피드백 루프를 지원합니다.",
+    key_features: [
+      "상업용 제품 론칭 비디오 기획 및 원클릭 자동 렌더링",
+      "분위기 맞춤형 배경 음악 작곡 및 음향 싱크 조율",
+      "화면 특정 영역을 지정하여 인터랙티브하게 수정하는 비주얼 피드백"
+    ],
+    use_case: "새로 개발한 소프트웨어나 하드웨어 제품의 공식 론칭 쇼케이스 영상을 빠르게 뽑아내고 싶을 때",
+    tags: ["launch-film", "video-craft", "claude-skills", "motion-graphics"]
+  },
+  "devswha/ovis": {
+    category: "agent",
+    title_ko: "ovis — 에이전트가 웹 브라우징과 GUI를 직접 탐색하고 제어하는 오픈소스 워크스페이스",
+    catchphrase: "Playwright 및 헤드리스 브라우저를 통합하여 웹 상호작용과 리서치를 자율 수행하는 환경",
+    summary_ko: "AI 코딩 에이전트가 웹 인터페이스를 자유롭게 탐색하고 시각적 요소를 파악하며 자동화 작업을 수행할 수 있도록 지원하는 오픈소스 브라우저 GUI 워크스페이스입니다. Playwright 기반의 브라우저 제어와 실시간 화면 캡처, DOM 분석 기능을 제공하여 복잡한 웹 로그인, 데이터 스크래핑, 폼 제출 워크플로우를 매끄럽게 처리합니다.",
+    key_features: [
+      "Playwright 기반 웹 브라우저 완전 자율 제어 및 네비게이션",
+      "실시간 렌더링 화면 시각 분석 및 DOM 인터랙션 파이프라인",
+      "Claude Code 및 다양한 에이전트 프레임워크와의 유연한 통합"
+    ],
+    use_case: "에이전트에게 웹 서비스 리서치나 자동화된 브라우저 테스트 및 정보 수집을 맡기고 싶을 때",
+    tags: ["browser-agent", "web-automation", "playwright", "claude-code"]
+  },
+  "MaryCache/imozuru": {
+    category: "skill",
+    title_ko: "imozuru — 낯선 기술과 레퍼런스를 1차 원문까지 고구마 줄기처럼 파고드는 심층 리서치 스킬",
+    catchphrase: "2차 인용에 의존하지 않고 공식 문서와 최초 논문 소스까지 추적하여 검증하는 조사 툴",
+    summary_ko: "AI 에이전트가 기술 조사를 진행할 때 블로그나 2차 가공 자료에 멈추지 않고, 최초 정의된 논문, 공식 RFC 명세, 깃허브 커밋 원문까지 고구마 줄기처럼 연쇄 추적하도록 유도하는 Claude Code 리서치 스킬입니다. 팩트 체킹의 신뢰도를 극대화하고 환각을 효과적으로 차단합니다.",
+    key_features: [
+      "1차 소스 및 원본 명세까지 연쇄 역추적하는 심층 검색 로직",
+      "출처별 신뢰도 가중치 부여 및 교차 검증 보고서 작성",
+      "복잡한 기술 개념의 기원과 역사적 발전 맥락 정리"
+    ],
+    use_case: "새로운 아키텍처나 라이브러리를 도입하기 전 원문 명세와 공식 문서를 철저히 검증하고 싶을 때",
+    tags: ["deep-research", "fact-checking", "claude-skills", "investigation"]
+  },
+  "nateherkai/roast-room": {
+    category: "skill",
+    title_ko: "roast-room — 베조스·폴 그레이엄 등 7인의 가상 멘토가 제품을 신랄하게 비판하는 피드백 스킬",
+    catchphrase: "달콤한 칭찬 대신 뼈아픈 약점과 사업적 허점을 날카롭게 파고드는 혹독한 피드백 룸",
+    summary_ko: "제프 베조스, 폴 그레이엄, 알렉스 호르모지 등 전설적인 창업가 및 투자자 7인의 사고방식을 시뮬레이션하여 개발 중인 제품이나 기획서를 가차 없이 로스팅해주는 스킬입니다. 듣기 좋은 찬사 대신 제품의 치명적인 허점, 시장성 결여, 고객 이탈 위험을 거침없이 지적하여 완성도를 극한으로 끌어올립니다.",
+    key_features: [
+      "7인의 유명 창업가 및 투자자 관점의 가상 멘토링 페르소나",
+      "비즈니스 모델 및 제품 사용성 취약점 집중 공격 및 보완책 제시",
+      "출시 전 객관적인 현실 자각과 전략 재정비 기회 제공"
+    ],
+    use_case: "내 제품이나 사업 아이디어의 맹점과 약점을 가장 혹독하고 객관적으로 점검받고 싶을 때",
+    tags: ["roast-room", "brutal-feedback", "claude-skills", "product-review"]
+  },
+  "shinshin86/mesh-avatar-studio": {
+    category: "skill",
+    title_ko: "mesh-avatar-studio — 단 한 장의 일러스트를 애니메이션 2D 메시 아바타로 변환하는 스킬",
+    catchphrase: "스파인 스타일의 2D 버텍스 메시와 본 구조를 생성하여 캐릭터에 생명을 부여",
+    summary_ko: "정적인 2D 일러스트레이션 이미지 한 장을 입력받아 관절 리깅과 버텍스 메시를 자동 분할하고 부드러운 애니메이션을 적용할 수 있는 2D 아바타 제작 스킬입니다. 스파인이나 Live2D와 유사한 부드러운 움직임을 웹 브라우저나 게임 엔진에서 바로 구동 가능한 코드로 내보낼 수 있습니다.",
+    key_features: [
+      "2D 일러스트 기반 자동 관절 리깅 및 메시 생성 파이프라인",
+      "아이들, 인사, 감정 표현 등 표준 애니메이션 클립 프리셋 제공",
+      "Three.js 및 WebGL 호환 경량 런타임 코드 출력"
+    ],
+    use_case: "서비스 캐릭터나 마스코트 이미지를 인터랙티브한 웹 애니메이션 아바타로 구현하고 싶을 때",
+    tags: ["2d-mesh", "avatar-studio", "live2d-style", "claude-skills", "character-animation"]
+  },
+  "YeonwooSung/my-claude-code-mods": {
+    category: "skill",
+    title_ko: "my-claude-code-mods — 실무 개발 생산성을 극대화하는 Claude Code 커스텀 모드 모음",
+    catchphrase: "터미널 워크플로우를 최적화하고 자주 쓰는 반복 작업을 단축하는 실전 유틸리티 세트",
+    summary_ko: "국내 개발자가 실제 개발 현장에서 Claude Code를 활용하며 가장 유용했던 커스텀 모드와 자동화 팁을 집대성한 실전 레포지토리입니다. 프롬프트 개선, 파일 네비게이션 단축, 커밋 메시지 컨벤션 자동화 등 일상적인 코딩 에이전트 사용성을 한 단계 끌어올리는 실용적인 설정과 스크립트를 제공합니다.",
+    key_features: [
+      "실무 현장 검증을 거친 Claude Code 환경 설정 및 모드 스크립트",
+      "반복적인 프롬프트 입력과 커맨드 실행을 최소화하는 단축 워크플로우",
+      "한국어 개발 환경에 특화된 프롬프트 튜닝 가이드"
+    ],
+    use_case: "Claude Code의 기본 환경을 실무 개발 생산성에 맞춰 빠르고 편리하게 튜닝하고 싶을 때",
+    tags: ["claude-code", "productivity", "custom-mods", "korean-dev", "developer-tools"]
+  },
+  "Tejashmakwana/motionmaxxing": {
+    category: "skill",
+    title_ko: "motionmaxxing — 웹 프론트엔드의 인터랙션과 모션 그래픽을 극한으로 끌어올리는 스킬",
+    catchphrase: "밋밋한 정적 UI를 고급 브랜드 웹사이트처럼 살아 움직이게 만드는 비주얼 모션 최적화",
+    summary_ko: "Framer Motion, CSS 트랜지션, GSAP를 활용하여 일반적인 웹 UI에 최상급 수준의 마이크로 인터랙션과 물리 기반 모션을 불어넣는 스킬입니다. 버튼 호버, 페이지 트랜지션, 카드 드래그, 텍스트 스크램블 등 시각적 완성도를 극대화하는 모션 프리셋을 정교하게 계산하여 주입합니다.",
+    key_features: [
+      "물리 기반 스프링 애니메이션 및 자연스러운 댐핑 계산",
+      "Framer Motion 및 Tailwind CSS 기반 즉시 적용 컴포넌트",
+      "웹 성능을 저해하지 않는 렌더링 최적화"
+    ],
+    use_case: "개발 중인 웹 서비스의 UI 디테일과 모션 인터랙션을 해외 유명 테크 기업 수준으로 다듬을 때",
+    tags: ["motion-design", "framer-motion", "frontend-craft", "claude-skills"]
+  },
+  "cth9191/animate": {
+    category: "skill",
+    title_ko: "animate — 어떤 스타일이든 코드로 절차적 애니메이션을 생성하는 Claude Code 스킬",
+    catchphrase: "수학적 파라미터와 물리 공식을 결합하여 무한히 이어지는 유기적 애니메이션을 제작",
+    summary_ko: "Canvas 2D, SVG, WebGL 환경에서 수학적 알고리즘과 절차적 생성 기법을 이용해 매끄러운 루프 애니메이션을 제작하는 도구입니다. 복잡한 키프레임 수작업 없이 수식과 노이즈 함수만으로 유기적인 파티클, 흐르는 파동, 기하학적 패턴 모션을 손쉽게 구축할 수 있습니다.",
+    key_features: [
+      "펄린 노이즈 및 물리 공식을 활용한 절차적 모션 생성",
+      "용량이 거의 들지 않는 가벼운 순수 코드 기반 애니메이션",
+      "웹 및 모바일 어디서나 반응형으로 동작하는 고해상도 벡터 렌더링"
+    ],
+    use_case: "배경 인터랙티브 비주얼이나 기하학적 로딩 애니메이션을 가볍고 화려하게 구현할 때",
+    tags: ["procedural-animation", "canvas", "webgl", "claude-skills", "generative-art"]
+  },
+  "Jakeschincariol/arena-skill": {
+    category: "skill",
+    title_ko: "arena-skill — 에이전트의 답변이 불만족스러울 때 100가지 변형을 만들어 승자를 가리는 스킬",
+    catchphrase: "토너먼트 아레나 방식으로 다수의 대안을 생성하고 자동 평가하여 최상의 결과물 선별",
+    summary_ko: "복잡한 코딩이나 카피라이팅 작업에서 단일 답변의 품질이 성에 차지 않을 때, 여러 각도의 접근법과 페르소나를 동원해 대량의 대안을 생성한 뒤 자동 토너먼트 배틀을 거쳐 최선의 결과물을 추출하는 아레나 스킬입니다. 시행착오 시간을 획기적으로 줄이고 기대 이상의 탁월한 결과물을 찾아냅니다.",
+    key_features: [
+      "다양한 프롬프트 전략을 적용한 수십 가지 후보 대안 병렬 생성",
+      "명확한 기준 기반의 자동 토너먼트 평가 및 채점 시스템",
+      "최상위 승자 대안의 장점만을 결합한 최종 결과물 합성"
+    ],
+    use_case: "단순한 첫 번째 답변에 안주하지 않고 최고의 코드 구현이나 카피를 반드시 찾아내야 할 때",
+    tags: ["arena-eval", "tournament-selection", "claude-skills", "quality-boost"]
+  },
+  "DozenTwelve/Papermorph": {
+    category: "skill",
+    title_ko: "Papermorph — 텍스트 서적과 문서를 애니메이션·음성 인터랙티브 콘텐츠로 변환하는 스킬",
+    catchphrase: "지루한 긴 글을 동적인 다이어그램, 내레이션, 인터랙티브 캔버스로 입체화",
+    summary_ko: "방대한 분량의 기술 서적, 논문, 매뉴얼을 입력받아 핵심 개념을 시각적인 인터랙티브 모션 그래픽과 음성 설명이 결합된 입체적인 학습 자료로 변환해주는 에이전트 스킬입니다. 텍스트의 핵심 논리를 인포그래픽과 애니메이션으로 시각화하여 정보 습득 속도를 극적으로 높여줍니다.",
+    key_features: [
+      "긴 문서의 챕터별 핵심 개념 시각화 및 다이어그램 자동화",
+      "AI 음성 합성(TTS)과 싱크를 맞춘 동적 텍스트 하이라이트",
+      "웹 브라우저에서 바로 조작 가능한 인터랙티브 캔버스 생성"
+    ],
+    use_case: "난해한 기술 문서나 책의 내용을 팀원들이 단 5분 만에 이해할 수 있는 동적 콘텐츠로 가공할 때",
+    tags: ["papermorph", "interactive-docs", "visual-learning", "claude-skills"]
+  },
+  "agentvivekkumar/dontbemichael": {
+    category: "harness",
+    title_ko: "dontbemichael — Claude Code와 유기적으로 연동되는 로컬 멀티 에이전트 하네스",
+    catchphrase: "단일 에이전트의 실수를 방지하고 팀 단위 상호 교차 검증을 수행하는 로컬 하네스",
+    summary_ko: "단일 에이전트가 독단적으로 엉뚱한 결정을 내리지 않도록, 여러 전문 에이전트들이 서로의 코드와 결정을 감시하고 교차 검증하도록 설계된 로컬 멀티 에이전트 하네스입니다. Claude Code와의 완벽한 호환성을 바탕으로 코드 리뷰, 테스트 작성, 보안 감사를 별도의 에이전트가 나누어 수행합니다.",
+    key_features: [
+      "로컬 환경에서의 역할별 멀티 에이전트 독립 실행 및 협력",
+      "에이전트 간 코드 교차 검증 및 할루시네이션 실시간 차단",
+      "기존 Claude Code 설정 및 워크플로우 100% 호환"
+    ],
+    use_case: "에이전트가 혼자 코드를 작성하다 생길 수 있는 치명적 버그를 사전 예방하고 싶을 때",
+    tags: ["multi-agent", "agent-harness", "cross-validation", "claude-code"]
+  },
+  "DenisSergeevitch/ex-ussr-kinship-research": {
+    category: "skill",
+    title_ko: "ex-ussr-kinship-research — 구소련 역사 문서 및 공공 기록 아카이브 정밀 추적 에이전트 스킬",
+    catchphrase: "파편화된 다국어 아카이브 기록을 교차 검증하여 인물 관계도와 족보를 증거 기반으로 복원",
+    summary_ko: "구소련 및 동유럽 지역의 흩어진 역사 공문서, 인구 조사 기록, 묘지 기록 등 다국어 아카이브 데이터를 AI 에이전트가 정밀 추적하고 교차 검증할 수 있도록 돕는 증거 기반 계보학 조사 스킬입니다. 역사학자나 전문 연구자가 방대한 원천 문서를 체계적으로 분석할 수 있는 조사 방법론을 제공합니다.",
+    key_features: [
+      "러시아어·우크라이나어 등 다국어 고문서 텍스트 정밀 해석 및 정규화",
+      "1차 기록물 간의 인물 및 일자 불일치 자동 감지 및 교차 검증",
+      "가계도 및 인물 관계도 데이터베이스 구조화 출력"
+    ],
+    use_case: "동유럽 및 구소련 지역의 역사 기록물이나 가족사 아카이브를 전문적으로 조사하고 분석할 때",
+    tags: ["genealogy", "historical-archive", "evidence-first", "claude-skills"]
   }
 };
 
