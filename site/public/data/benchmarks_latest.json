@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-24T22:15:00+09:00",
+  "updated_at": "2026-10-26T12:00:00+09:00",
   "policy": {
     "filter_rule": "multi_source_ensemble_average",
     "staleness_gate": {
@@ -108,12 +108,12 @@
       "source_name": "ChatGPT",
       "provider": "OpenAI",
       "share_pct": 54.49,
-      "prev_share_pct": 56.10,
+      "prev_share_pct": 56.1,
       "mom_change": -1.61,
       "sources_breakdown": {
-        "similarweb_visit": 54.50,
+        "similarweb_visit": 54.5,
         "statcounter_referral": 80.48,
-        "openrouter_api": 28.50
+        "openrouter_api": 28.5
       },
       "color": "#10a37f",
       "domain": "chatgpt.com",
@@ -124,13 +124,13 @@
       "name": "Gemini",
       "source_name": "Google Gemini",
       "provider": "Google",
-      "share_pct": 19.80,
+      "share_pct": 19.8,
       "prev_share_pct": 18.25,
       "mom_change": 1.55,
       "sources_breakdown": {
-        "similarweb_visit": 26.50,
+        "similarweb_visit": 26.5,
         "statcounter_referral": 10.91,
-        "openrouter_api": 22.00
+        "openrouter_api": 22
       },
       "color": "#4285f4",
       "domain": "gemini.google.com",
@@ -142,12 +142,12 @@
       "source_name": "Claude",
       "provider": "Anthropic",
       "share_pct": 14.32,
-      "prev_share_pct": 12.90,
+      "prev_share_pct": 12.9,
       "mom_change": 1.42,
       "sources_breakdown": {
-        "similarweb_visit": 9.80,
+        "similarweb_visit": 9.8,
         "statcounter_referral": 0.95,
-        "openrouter_api": 32.20
+        "openrouter_api": 32.2
       },
       "color": "#d97757",
       "domain": "claude.ai",
@@ -159,12 +159,12 @@
       "source_name": "DeepSeek",
       "provider": "DeepSeek",
       "share_pct": 5.34,
-      "prev_share_pct": 5.80,
+      "prev_share_pct": 5.8,
       "mom_change": -0.46,
       "sources_breakdown": {
-        "similarweb_visit": 3.50,
+        "similarweb_visit": 3.5,
         "statcounter_referral": 0.02,
-        "openrouter_api": 12.50
+        "openrouter_api": 12.5
       },
       "color": "#4d6bfe",
       "domain": "deepseek.com",
@@ -177,11 +177,11 @@
       "provider": "Perplexity AI",
       "share_pct": 3.48,
       "prev_share_pct": 3.78,
-      "mom_change": -0.30,
+      "mom_change": -0.3,
       "sources_breakdown": {
-        "similarweb_visit": 3.10,
+        "similarweb_visit": 3.1,
         "statcounter_referral": 5.85,
-        "openrouter_api": 1.50
+        "openrouter_api": 1.5
       },
       "color": "#1fb8cd",
       "domain": "perplexity.ai",
@@ -194,11 +194,11 @@
       "provider": "Microsoft · xAI",
       "share_pct": 2.57,
       "prev_share_pct": 3.17,
-      "mom_change": -0.60,
+      "mom_change": -0.6,
       "sources_breakdown": {
-        "similarweb_visit": 2.60,
+        "similarweb_visit": 2.6,
         "statcounter_referral": 1.79,
-        "openrouter_api": 3.30
+        "openrouter_api": 3.3
       },
       "color": "#0078d4",
       "domain": "copilot.microsoft.com",
@@ -222,8 +222,8 @@
       "swe_bench_verified": null,
       "gpqa_diamond": 89.4,
       "mmlu_pro": 91.2,
-      "pricing_in_1m": 2.0,
-      "pricing_out_1m": 8.0,
+      "pricing_in_1m": 2,
+      "pricing_out_1m": 8,
       "context_window": "1,000K",
       "badge_type": ""
     },
@@ -243,8 +243,8 @@
       "swe_bench_verified": null,
       "gpqa_diamond": 88.9,
       "mmlu_pro": 90.8,
-      "pricing_in_1m": 5.0,
-      "pricing_out_1m": 25.0,
+      "pricing_in_1m": 5,
+      "pricing_out_1m": 25,
       "context_window": "1,000K",
       "badge_type": ""
     },
@@ -281,12 +281,12 @@
       "aa_intelligence": 88.9,
       "aa_coding": 90.2,
       "livebench_score": 86.8,
-      "livebench_coding": 88.0,
+      "livebench_coding": 88,
       "swe_bench_verified": null,
       "gpqa_diamond": 88.1,
       "mmlu_pro": 89.9,
-      "pricing_in_1m": 3.0,
-      "pricing_out_1m": 12.0,
+      "pricing_in_1m": 3,
+      "pricing_out_1m": 12,
       "context_window": "256K",
       "badge_type": ""
     },
@@ -348,8 +348,8 @@
       "swe_bench_verified": null,
       "gpqa_diamond": 84.2,
       "mmlu_pro": 87.9,
-      "pricing_in_1m": 2.0,
-      "pricing_out_1m": 6.0,
+      "pricing_in_1m": 2,
+      "pricing_out_1m": 6,
       "context_window": "1,000K",
       "badge_type": ""
     },
@@ -365,7 +365,7 @@
       "aa_intelligence": 85.5,
       "aa_coding": 87.1,
       "livebench_score": 83.6,
-      "livebench_coding": 85.0,
+      "livebench_coding": 85,
       "swe_bench_verified": null,
       "gpqa_diamond": 83.9,
       "mmlu_pro": 86.8,
@@ -411,8 +411,8 @@
       "swe_bench_verified": null,
       "gpqa_diamond": 83.1,
       "mmlu_pro": 85.9,
-      "pricing_in_1m": 2.0,
-      "pricing_out_1m": 6.0,
+      "pricing_in_1m": 2,
+      "pricing_out_1m": 6,
       "context_window": "500K",
       "badge_type": ""
     }

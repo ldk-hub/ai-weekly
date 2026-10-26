@@ -155,6 +155,50 @@ function validateAndCurate() {
   }
 
   console.log("✅ [Benchmarks] 최신성 게이트(Staleness Gate), 3곳 평균 산출 무결성, 구버전 배제 검증 모두 통과! (PASS)");
+
+  // 4. 주간 아카이빙 및 파일 미러링
+  const today = "2026-10-26";
+  const nowIso = "2026-10-26T12:00:00+09:00";
+  data.updated_at = nowIso;
+
+  // benchmarks_latest.json 갱신
+  fs.writeFileSync(DATA_PATH, JSON.stringify(data, null, 2), "utf-8");
+  console.log(`💾 [Benchmarks] benchmarks_latest.json 최신화 완료 (updated_at: ${nowIso})`);
+
+  const archiveDirs = [
+    path.resolve(__dirname, "../../data/archive"),
+    path.resolve(__dirname, "../../site/public/data/archive"),
+  ];
+
+  for (const archiveDir of archiveDirs) {
+    if (!fs.existsSync(archiveDir)) {
+      fs.mkdirSync(archiveDir, { recursive: true });
+    }
+    const archiveFile = path.join(archiveDir, `benchmarks_${today}.json`);
+    fs.writeFileSync(archiveFile, JSON.stringify(data, null, 2), "utf-8");
+
+    const indexFile = path.join(archiveDir, "benchmarks_index.json");
+    let index = { archives: [] };
+    if (fs.existsSync(indexFile)) {
+      try {
+        index = JSON.parse(fs.readFileSync(indexFile, "utf-8"));
+        if (!index.archives) index.archives = [];
+      } catch (err) {
+        console.warn(`[Benchmarks] ${path.basename(indexFile)} 파싱 경고:`, err.message);
+      }
+    }
+
+    if (!index.archives.some((a) => a.file === `benchmarks_${today}.json`)) {
+      index.archives.unshift({
+        file: `benchmarks_${today}.json`,
+        updated_at: nowIso,
+        market_shares_count: shares.length,
+        models_count: benchmarks.length,
+      });
+      fs.writeFileSync(indexFile, JSON.stringify(index, null, 2), "utf-8");
+    }
+    console.log(`📦 [Benchmarks] 아카이브 저장 완료: ${path.relative(path.resolve(__dirname, "../.."), archiveFile)}`);
+  }
 }
 
 validateAndCurate();

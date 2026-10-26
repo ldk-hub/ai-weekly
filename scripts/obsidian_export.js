@@ -288,45 +288,51 @@ tags: [ai-weekly, lounge, giscus, github-discussions, community]
 
 const SPEC_BENCHMARKS = `---
 title: benchmarks 점유율·성능 파이프라인 명세
-date: 2026-10-22
+date: 2026-10-26
 type: system-spec
-tags: [ai-weekly, benchmarks, frontier-models, market-share, pipeline]
+tags: [ai-weekly, benchmarks, frontier-models, market-share, pipeline, staleness-gate, multi-source]
 ---
 
 # 📊 benchmarks — AI 챗봇 점유율 및 프론티어 모델 성능 파이프라인
 
 ## 1. 개요 및 목적
-주요 AI 챗봇 서비스의 글로벌 웹 리퍼럴 점유율(Statcounter)과 최신 프론티어 LLM의 실제 코딩/선호도 벤치마크(LMArena, OpenRouter)를 종합하여, 개발자와 사용자에게 실효성 있는 AI 선택 기준을 제공한다.
+주요 AI 챗봇 서비스의 다중 출처(3곳) 웹 방문·리퍼럴·개발자 API 점유율과 최신 프론티어 LLM의 실제 코딩/선호도 3대 공신 리더보드(LMArena, Artificial Analysis, LiveBench)를 종합하여, 개발자와 엔지니어에게 편향 없는 정량적 AI 도입 기준을 제공한다.
 
-## 2. 핵심 집계 원칙
-1. **과거 구버전(Legacy) 배제 원칙:** 이미 단종되었거나 1년 이상 경과한 구버전 모델은 집계에서 완전히 제외하고 현재 활성(Active Latest) 플래그십만 수집한다.
-2. **회사별 대표 모델 1개 원칙:** 전체 상위 10개가 아니라 주요 AI 연구소/기업별로 가장 높은 순위의 대표 모델 1개씩을 선별한다 (같은 회사의 다른 모델은 제외).
-3. **수치 해석 신뢰성 보장:**
-   - **리퍼럴 점유율:** Statcounter 값은 사용자 수(MAU)가 아니라 AI 챗봇이 다른 웹사이트로 보낸 방문(Referral) 비율임을 명시.
-   - **오차 범위 명시:** Arena 점수는 사용자 투표 선호도 기반이므로 상위권 순위가 오차 범위 안에서 변동될 수 있음을 안내.
-   - **가격 출처 명시:** OpenRouter 등록 가격 기준이며 공식 제조사 가격과 다를 수 있음을 주석으로 안내.
+## 2. 4대 핵심 집계 및 검증 원칙
+1. **최신성 게이트 (Staleness Gate):**
+   - 점유율 출처(Similarweb, Statcounter, OpenRouter Rankings)는 실행일 기준 **45일 이내** 데이터만 허용.
+   - 성능 리더보드 출처(LMArena, Artificial Analysis, LiveBench)는 실행일 기준 **30일 이내** 데이터만 허용.
+   - 2026-02 이후 갱신이 중단된 과거 링크(\`swebench.com\` 등)는 원천 차단.
+2. **다중 출처 3곳 앙상블 평균 (Multi-Source Ensemble Average):**
+   - 점유율은 \`Similarweb\`(웹 방문) + \`Statcounter\`(리퍼럴) + \`OpenRouter Rankings\`(개발자 API) 3곳의 산술 평균으로 집계하고 합계 100.0% 정합성을 강제.
+3. **3대 리더보드 필수 수록:**
+   - \`LMArena\`(Arena Elo / Arena Coding Elo), \`Artificial Analysis\`(Quality Index), \`LiveBench\`(오염방지 점수) 및 100만 토큰당 가격(\`pricing_in_1m\`, \`pricing_out_1m\`) 누락 없는 모델만 수록.
+4. **구버전(Legacy) 모델 배제 및 기업별 대표 모델 1개 원칙:**
+   - Claude 3.5/3.7, GPT-4o, Llama 2/3, Gemini 1.5/2.5 등 구버전 배제.
+   - 주요 AI 연구소(OpenAI, Anthropic, Google, DeepSeek, xAI, Meta 등)의 최고 순위 활성(Active) 플래그십 1개씩 선별.
 
-## 3. 검증 및 빌드 게이트
-- \`npm run data:benchmarks\`: 과거 구버전 모델 배제 및 필수 메타데이터(\`arena_coding_elo\`, 가격, 컨텍스트) 검증
-- \`node .tmp/handoff-benchmarks/verify-data.mjs\`: 원본 출처 증거(\`.tmp/handoff-benchmarks/evidence/\`)와 데이터 파일의 100% 무결성 대조
+## 3. 검증 및 자동 아카이빙
+- \`npm run data:benchmarks\` (\`node scripts/benchmarks/curate-benchmarks.js\`):
+  - 6대 출처 최신성, 점유율 3곳 평균(100%), 모델 메타데이터 전수 검증
+  - 검증 통과 시 \`updated_at\` 갱신 및 \`data/archive/benchmarks_YYYY-MM-DD.json\`, \`site/public/data/archive/\` 양쪽 자동 아카이빙 및 \`benchmarks_index.json\` 갱신
 `;
 
 // 3. 작업 일지들
 const LOGS = [
   {
     filename: "2026-10-26 작업일지.md",
-    title: "2026-10-26 작업일지 — 주간 종합 파이프라인(cc-weekly) 완수 (스타보드 598개 100% 최신화, 트렌드 35건 큐레이션 및 진입점 보안 스캔 통과, 데일리 뉴스 18건 전 매체 균형 큐레이션, RSS/OG/라운지/옵시디언 동기화)",
+    title: "2026-10-26 작업일지 — 주간 종합 파이프라인(cc-weekly) 완수 및 AI 점유율·성능(cc-benchmarks) 검증·아카이빙 전면 고도화",
     date: "2026-10-26",
     content: `---
 title: 2026-10-26 작업일지
 date: 2026-10-26
 type: work-log
-tags: [ai-weekly, work-log, cc-weekly, cc-star, cc-trends, cc-news, security-scan]
+tags: [ai-weekly, work-log, cc-weekly, cc-star, cc-trends, cc-news, cc-benchmarks, security-scan]
 status: completed
 author: ldk-hub <orm6711@gmail.com>
 ---
 
-# 📅 2026-10-26 작업일지 (주간 종합 파이프라인 cc-weekly 완수)
+# 📅 2026-10-26 작업일지 (주간 종합 파이프라인 cc-weekly 완수 및 cc-benchmarks 정밀 검증·아카이빙)
 
 ## 📌 주요 작업 요약
 
@@ -341,9 +347,17 @@ author: ldk-hub <orm6711@gmail.com>
 - **트렌드 빌드 및 검증**: Rising 19건, Classic 16건 선별 완료, \`latest.json\`, 주간 아카이브(\`archive/2026-10-26.json\`), 아카이브 인덱스(\`archive/index.json\`) 갱신 및 \`--validate\` 게이트 100% 통과.
 
 ### 3. AI 점유율 및 프론티어 성능 파이프라인 (cc-benchmarks & cc-weekly 통합)
-- **최신성 게이트(Staleness Gate)**: 실행일(Run Date) 기준 점유율 출처 45일, 성능 출처 30일 이내 유효성 전수 검증 통과 (\`npm run data:benchmarks\`).
-- **다중 출처 3곳 앙상블 평균**: Similarweb(웹 방문) + Statcounter(리퍼럴) + OpenRouter(개발자 API) 3곳 산술 평균 및 합계 100.0% 정합성 검증.
-- **프론티어 모델 3대 리더보드**: LMArena(Elo/Coding), Artificial Analysis(지능 지수), LiveBench(오염방지) 3대 리더보드 필수 지표 및 가격 데이터 검증 완료.
+- **최신성 게이트(Staleness Gate)**: 실행일(2026-10-26) 기준 점유율 출처 45일, 성능 출처 30일 이내 유효성 전수 검증 통과 (\`npm run data:benchmarks\`).
+  - Similarweb(25일 전), Statcounter(26일 전), OpenRouter Rankings(2일 전), LMArena(5일 전), AA(3일 전), LiveBench(6일 전)
+- **점유율 3대 출처 앙상블 평균**: Similarweb + Statcounter + OpenRouter 3곳 평균 합계 **100.00%** 일치:
+  - 1위 ChatGPT (54.49%), 2위 Gemini (19.80%), 3위 Claude (14.32%), 4위 DeepSeek (5.34%), 5위 Perplexity (3.48%), 6위 Copilot (2.56%)
+- **프론티어 모델 3대 리더보드 순위**: LMArena, Artificial Analysis, LiveBench 종합 10대 대표 모델:
+  - 1위 Gemini 4 Argon (종합 91.2 / 코딩 92.6)
+  - 2위 Claude Opus 5.5 (종합 90.8 / 코딩 92.4)
+  - 3위 Muse Wonder (종합 89.7 / 코딩 90.9)
+  - 4위 GPT-5.6 Sol (종합 88.4 / 코딩 89.8)
+  - 5위 Kimi K3 (종합 87.5 / 코딩 89.1)
+- **자동 아카이빙 로직 탑재**: 검증 통과 시 \`data/archive/benchmarks_2026-10-26.json\` 및 \`site/public/data/archive/benchmarks_2026-10-26.json\` 양쪽 트리 동기화 및 \`benchmarks_index.json\` 갱신 기능 정식 반영.
 - **스킬 체계 전면 재편**: \`cc-weekly\` 스킬에 점유율·성능 단계를 정식 Step 3로 편입하고, 독립 실행 스킬인 \`cc-benchmarks\` 및 \`cc-trends\` 신규 명세 구축.
 
 ### 4. 데일리 AI 기술 신호 큐레이션 (cc-news)
