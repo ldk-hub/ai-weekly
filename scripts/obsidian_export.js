@@ -65,23 +65,27 @@ graph TD
         A5[GitHub Search API] --> S
         A6[Bluesky Search] --> S
         A7[HF Daily Papers] --> S
-        A8[561개 OSS Repo Stars] --> S
+        A8[598개 OSS Repo Stars] --> S
+        A9[3대 점유율·3대 리더보드] --> S
     end
 
     subgraph "정밀 큐레이션 & 품질 게이트 (Phase 2)"
         S --> C[cc-news Curator]
         S --> ST[cc-star Ledger]
         S --> TR[cc-trends Scoring]
+        S --> BM[cc-benchmarks Staleness Gate]
         C --> V{품질 게이트 검증<br/>3불릿 / 5~10문장 / 메타일치}
+        BM --> V
         V -- 통과 --> B[Vite Multi-Page Build]
     end
 
     subgraph "사이트 배포 & 커뮤니티 (Phase 3)"
-        B --> D1[🔥 인기 플러그인 index.html]
+        B --> D1[🔥 인기 트렌드 index.html]
         B --> D2[📰 AI 뉴스 news.html]
         B --> D3[📈 스타보드 starboard.html]
-        B --> D4[💬 AI 라운지 lounge.html]
-        D4 <--> G[GitHub Discussions / Giscus]
+        B --> D4[📊 점유율·성능 benchmarks.html]
+        B --> D5[💬 AI 라운지 lounge.html]
+        D5 <--> G[GitHub Discussions / Giscus]
         B --> RSS[RSS & Sitemap 자동 생성]
     end
 \`\`\`
@@ -336,7 +340,13 @@ author: ldk-hub <orm6711@gmail.com>
 - **정밀 한국어 메타데이터 확충**: 신규 화제 에이전트·스킬·MCP 16종(\`juliobsz/skills\`, \`Leonxlnx/earshot\`, \`openfilm/openfilm\`, \`Jakeschincariol/founder-skill\`, \`alchaincyf/huashu-motion\` 등)의 정밀 한국어 큐레이션 데이터 구축 (\`curated-knowledge-ext.js\`).
 - **트렌드 빌드 및 검증**: Rising 19건, Classic 16건 선별 완료, \`latest.json\`, 주간 아카이브(\`archive/2026-10-26.json\`), 아카이브 인덱스(\`archive/index.json\`) 갱신 및 \`--validate\` 게이트 100% 통과.
 
-### 3. 데일리 AI 기술 신호 큐레이션 (cc-news)
+### 3. AI 점유율 및 프론티어 성능 파이프라인 (cc-benchmarks & cc-weekly 통합)
+- **최신성 게이트(Staleness Gate)**: 실행일(Run Date) 기준 점유율 출처 45일, 성능 출처 30일 이내 유효성 전수 검증 통과 (\`npm run data:benchmarks\`).
+- **다중 출처 3곳 앙상블 평균**: Similarweb(웹 방문) + Statcounter(리퍼럴) + OpenRouter(개발자 API) 3곳 산술 평균 및 합계 100.0% 정합성 검증.
+- **프론티어 모델 3대 리더보드**: LMArena(Elo/Coding), Artificial Analysis(지능 지수), LiveBench(오염방지) 3대 리더보드 필수 지표 및 가격 데이터 검증 완료.
+- **스킬 체계 전면 재편**: \`cc-weekly\` 스킬에 점유율·성능 단계를 정식 Step 3로 편입하고, 독립 실행 스킬인 \`cc-benchmarks\` 및 \`cc-trends\` 신규 명세 구축.
+
+### 4. 데일리 AI 기술 신호 큐레이션 (cc-news)
 - **8대 매체 수집**: 최근 24시간 동안 발생한 신호 106건 수집 (\`.tmp/news_candidates.json\`). (GeekNews 5, AI타임스 5, Hacker News 13, GitHub 50, Reddit 21, HF Papers 1, Bluesky 11, X: 0 [쿠키 미설정]).
 - **18건 균형 큐레이션**:
   - 매체별 쿼터(매체당 최대 5건) 및 신호축 쿼터(축당 최대 4건)를 엄격히 준수하여 총 18건 선별.
@@ -344,12 +354,12 @@ author: ldk-hub <orm6711@gmail.com>
   - GitHub 초고속 모멘텀 리포지토리(\`deepseek-ai/DeepInfer\`, 일평균 +2,301 stars) 및 주간 63.4% 폭증 업데이트 리포지토리(\`cranebeaker/coop-anything\`) 포함.
 - **품질 게이트 검증**: \`curate_news.js --validate\` 100% 통과 (\`news_latest.json\`, \`archive/news_2026-10-26.json\` 동기화).
 
-### 4. 사이트 리소스 및 라운지 갱신
+### 5. 사이트 리소스 및 라운지 갱신
 - **RSS/Sitemap**: \`feed.xml\`, \`news-feed.xml\`, \`sitemap.xml\` 생성 완료.
 - **AI 라운지**: \`collect_lounge.js\` 실행을 통해 Discussions 최신 스냅샷 동기화 (\`lounge_latest.json\`).
 - **오픈그래프(OG)**: \`generate-og.js\` 실행을 통해 \`og.svg\`, \`og.png\` 최신화 완료.
 
-### 5. 옵시디언 볼트 동기화 (sync:obsidian)
+### 6. 옵시디언 볼트 동기화 (sync:obsidian)
 - 주간 파이프라인 전체 수행 이력 및 신규 작업일지를 옵시디언 볼트(\`/Users/nhn/Documents/Obsidian Vault/ai-weekly\`)에 전면 동기화.
 `
   },
