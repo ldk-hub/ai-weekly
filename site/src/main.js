@@ -607,7 +607,7 @@ function cardHTML(item, idx) {
       ${bookmarkBtn}
       ${st ? `<span class="rank-pill ${st.cls}">${escapeHTML(st.label)}</span>` : ""}
       <div class="card-head">
-        <img class="avatar" src="${escapeHTML(avatar)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'"/>
+        <img class="avatar" src="${escapeHTML(avatar)}" alt="" loading="lazy" onerror="this.onerror=null;this.src='claude-avatar.svg';this.classList.add('is-fallback');"/>
         <div class="head-meta">
           <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
             <span class="category-label">${escapeHTML(item.category || "")}</span>
@@ -713,7 +713,7 @@ function modalHTML(item, tab, rank) {
       <span>#${rankStr}</span>
     </div>
     <div class="m-head">
-      <img class="m-avatar" src="${escapeHTML(avatar)}" alt="" onerror="this.style.visibility='hidden'"/>
+      <img class="m-avatar" src="${escapeHTML(avatar)}" alt="" onerror="this.onerror=null;this.src='claude-avatar.svg';this.classList.add('is-fallback');"/>
       <div class="m-meta">
         <div class="m-category">${escapeHTML(item.category || "")}</div>
         <div class="m-repo">${formatRepoId(repoId)}</div>
@@ -897,7 +897,7 @@ function renderLounge() {
           <li style="padding:14px 0; border-bottom:1px solid var(--border);">
             <a href="${escapeHTML(c.url)}" target="_blank" rel="noopener" style="text-decoration:none; color:inherit; display:block;">
               <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
-                <img src="${escapeHTML(c.author_avatar || "")}" alt="" width="20" height="20" loading="lazy" style="border-radius:50%;" onerror="this.style.visibility='hidden'"/>
+                <img src="${escapeHTML(c.author_avatar || "")}" alt="" width="20" height="20" loading="lazy" style="border-radius:50%;" onerror="this.onerror=null;this.src='claude-avatar.svg';this.classList.add('is-fallback');"/>
                 <span style="font-weight:600; font-size:13px;">${escapeHTML(c.author || "unknown")}</span>
                 <span style="color:var(--muted); font-size:12px;">${escapeHTML(c.thread_title || "")}</span>
                 <span style="color:var(--muted); font-size:12px; margin-left:auto;">${stamp}</span>
@@ -1411,9 +1411,11 @@ document.getElementById("starboard-bookmark-filter-chip")?.addEventListener("cli
 
 const viewToggleBtn = document.getElementById("view-toggle");
 if (viewToggleBtn) {
+  const gridSvg = '<svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><rect x="2" y="2" width="5" height="5" rx="1.5"></rect><rect x="9" y="2" width="5" height="5" rx="1.5"></rect><rect x="2" y="9" width="5" height="5" rx="1.5"></rect><rect x="9" y="9" width="5" height="5" rx="1.5"></rect></svg>';
+  const listSvg = '<svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><rect x="2.5" y="3" width="11" height="2" rx="1"></rect><rect x="2.5" y="7" width="11" height="2" rx="1"></rect><rect x="2.5" y="11" width="11" height="2" rx="1"></rect></svg>';
   const updateIcon = () => {
     const icon = document.getElementById("vt-icon");
-    if (icon) icon.innerText = STATE.viewMode === 'list' ? '≡' : '☷';
+    if (icon) icon.innerHTML = STATE.viewMode === 'list' ? gridSvg : listSvg;
   };
   updateIcon();
   viewToggleBtn.addEventListener("click", () => {
@@ -2127,7 +2129,7 @@ document.getElementById("news-feed-container")?.addEventListener("click", (e) =>
     return;
   }
 
-  // 3. 심층 해설 일괄 펼치기 / 접기 버튼
+  // 3. 심층 해설 일괄 펼치기 / 접기 버튼 (DOM 재렌더링 없이 즉각 전환하여 스크롤 튐 방지)
   const expandBtn = e.target.closest("#expand-toggle-btn");
   if (expandBtn) {
     e.stopPropagation();
@@ -2135,7 +2137,13 @@ document.getElementById("news-feed-container")?.addEventListener("click", (e) =>
     document.querySelectorAll("#news-feed-container details.news-details").forEach(d => {
       d.open = STATE.allExpanded;
     });
-    render();
+    const lang = getLang();
+    const expandText = STATE.allExpanded
+      ? (lang === "en" ? "Collapse all deep dives" : "심층 해설 모두 접기")
+      : (lang === "en" ? "Expand all deep dives" : "심층 해설 모두 펼치기");
+    const expandIcon = STATE.allExpanded ? "▲" : "▼";
+    expandBtn.title = expandText;
+    expandBtn.innerHTML = `<span>📖</span><span>${expandText}</span><span style="font-size:12px;">${expandIcon}</span>`;
     return;
   }
 
@@ -2189,25 +2197,54 @@ initFloatingTopButton();
 loadArchives();
 load();
 
-// Subscribe Form Toggle
+// Subscribe Form Floating Popover Toggle
 document.addEventListener("DOMContentLoaded", () => {
   const subOpen = document.getElementById("subscribe-open");
   const subForm = document.getElementById("subscribe-form");
   const subClose = document.getElementById("subscribe-close");
 
   if (subOpen && subForm && subClose) {
-    subOpen.addEventListener("click", () => {
-      subOpen.style.display = "none";
+    const closeForm = () => {
+      subForm.style.display = "none";
+      subOpen.setAttribute("aria-expanded", "false");
+    };
+    const openForm = () => {
       subForm.style.display = "flex";
+      subOpen.setAttribute("aria-expanded", "true");
       const input = subForm.querySelector("input");
       if (input) input.focus();
+    };
+
+    subOpen.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (subForm.style.display === "flex") {
+        closeForm();
+      } else {
+        openForm();
+      }
     });
-    subClose.addEventListener("click", () => {
-      subForm.style.display = "none";
-      subOpen.style.display = "flex";
+
+    subClose.addEventListener("click", (e) => {
+      e.stopPropagation();
+      closeForm();
+    });
+
+    subForm.addEventListener("click", (e) => {
+      e.stopPropagation();
+    });
+
+    document.addEventListener("click", (e) => {
+      if (subForm.style.display === "flex" && !e.target.closest("#subscribe-wrapper")) {
+        closeForm();
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && subForm.style.display === "flex") {
+        closeForm();
+      }
     });
   }
-
 });
 
 function processStarboardData() {
@@ -2384,8 +2421,10 @@ function renderStarboard() {
           <button type="button" id="clear-starboard-filters-btn" style="background:none; border:none; color:var(--accent-text); cursor:pointer; font-size:12px; margin-left:8px; text-decoration:underline; font-weight:600;">${lang === "en" ? "Reset filters" : "필터 초기화"}</button>
         </div>
       ` : `<div></div>`}
-      <div class="sb-legend" style="font-size:12px; color:var(--muted); margin-left:auto;">
-        ${legendText}
+      <div class="sb-legend-bar" role="note" aria-label="${lang === 'en' ? 'Activity Legend' : '활동성 기준 범례'}" style="margin-left:auto; margin-bottom:0;">
+        <span class="sb-legend-item"><span class="sb-legend-dot active"></span>${lang === 'en' ? 'Active (<7d)' : '활발 (7일 이내)'}</span>
+        <span class="sb-legend-item"><span class="sb-legend-dot slowing"></span>${lang === 'en' ? 'Slowing (8–90d)' : '둔화 (8~90일)'}</span>
+        <span class="sb-legend-item"><span class="sb-legend-dot dormant"></span>${lang === 'en' ? 'Dormant (>90d)' : '방치 (90일 초과)'}</span>
       </div>
     </div>
   `;
@@ -2474,7 +2513,7 @@ function openStarboardModal(id) {
       <span>${escapeHTML(item.meta?.language || "Repository")}</span>
     </div>
     <div class="m-head">
-      <img class="m-avatar" src="${escapeHTML(avatar)}" alt="" onerror="this.style.visibility='hidden'"/>
+      <img class="m-avatar" src="${escapeHTML(avatar)}" alt="" onerror="this.onerror=null;this.src='claude-avatar.svg';this.classList.add('is-fallback');"/>
       <div class="m-meta">
         <div class="m-category">${escapeHTML(item.activity.toUpperCase())}</div>
         <div class="m-repo">${formatRepoId(item.id)}</div>
@@ -2514,8 +2553,13 @@ function openStarboardModal(id) {
 document.getElementById("starboard-container")?.addEventListener("click", (e) => {
   const moreBtn = e.target.closest("#sb-more");
   if (moreBtn) {
-    STATE.sbLimit = (STATE.sbLimit || 50) + 50;
-    renderStarboard();
+    const lang = getLang();
+    moreBtn.disabled = true;
+    moreBtn.innerText = lang === "en" ? "Loading..." : "불러오는 중...";
+    setTimeout(() => {
+      STATE.sbLimit = (STATE.sbLimit || 50) + 50;
+      renderStarboard();
+    }, 60);
     return;
   }
   const clearBtn = e.target.closest("#clear-starboard-filters-btn");
@@ -2638,7 +2682,7 @@ function starboardCardHTML(item, idx, legendText) {
       </div>
       
       <div class="card-head" style="margin-bottom:10px;">
-        <img class="avatar" src="${escapeHTML(avatar)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'"/>
+        <img class="avatar" src="${escapeHTML(avatar)}" alt="" loading="lazy" onerror="this.onerror=null;this.src='claude-avatar.svg';this.classList.add('is-fallback');"/>
         <div class="head-meta">
           <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
             <span class="repo-id" style="font-size: 13px;">${escapeHTML(ownerName)} /</span>
@@ -2793,7 +2837,10 @@ function renderBenchmarks() {
       const hs = STATE.data.sources.filter(s => s.header);
       const freshBadge = `<span class="bm-freshness-badge" title="${isEn ? "All sources verified within 30-45 days freshness policy" : "모든 출처 최신성 게이트(점유율 45일·벤치마크 30일 이내) 검증 완료"}">✓ ${isEn ? "Freshness Verified" : "최신성 검증 통과"}</span>`;
       sourceEl.innerHTML = hs.length
-        ? `${freshBadge} <strong>${isEn ? "Sources" : "검증 출처"}</strong> ${hs.map(s => `${escapeHTML(s.label)} <a href="${escapeHTML(s.url)}" target="_blank" rel="noopener noreferrer">${escapeHTML(s.name)}</a> (${escapeHTML(s.as_of)})`).join(" · ")}`
+        ? `<div class="bm-sources-wrap">
+             ${freshBadge}
+             ${hs.map(s => `<a class="bm-source-chip" href="${escapeHTML(s.url)}" target="_blank" rel="noopener noreferrer"><strong>${escapeHTML(s.label)}</strong> ${escapeHTML(s.name)} <span style="opacity:0.7">(${escapeHTML(s.as_of)})</span> ↗</a>`).join("")}
+           </div>`
         : (isEn ? "Sources and dates not specified" : "출처·기준일 미기재");
     } else {
       sourceEl.innerHTML = "";
@@ -3051,6 +3098,10 @@ function renderBenchmarks() {
           </div>
         </div>
         <div class="bm-table-wrap"><table class="bm-table" id="bm-bench-table"><thead>${head}</thead><tbody>${body}</tbody></table></div>
+        <div class="bm-mobile-hint">
+          <span>💡</span>
+          <span>${isEn ? "Tap any model to view detailed 8 leaderboard metrics" : "모델을 탭하면 3대 리더보드 8개 세부 지표 모달이 열립니다"}</span>
+        </div>
         <ol class="bm-mlist" id="bm-mlist">${mlistHTML}</ol>
         ${footNoteHTML}
       </div>
