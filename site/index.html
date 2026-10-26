@@ -125,9 +125,10 @@
     </div>
 
     <div class="unified-nav-box">
-      <div class="unb-bottom">
+      <!-- 1열: 상단 탐색 세그먼트 탭 & 유틸리티 컨트롤 바 -->
+      <div class="unb-top-row">
         <div class="data-tabs-wrap">
-          <div class="tabs" role="tablist">
+          <div class="tabs" role="tablist" aria-label="주차 탐색 기준">
             <button class="tab active" data-tab="rising" role="tab" aria-selected="true" aria-controls="grid">
               <span aria-hidden="true">🔥</span> <span data-i18n-en="Rising" data-i18n-ko="이번 주 뜨는">이번 주 뜨는</span> <span class="tab-count" id="rising-count">0</span>
             </button>
@@ -136,7 +137,6 @@
             </button>
           </div>
         </div>
-        <nav class="cat-filter" id="cat-filter" aria-label="Category filter"></nav>
         <div class="filter-right">
           <label class="src-select-wrap sort-select-wrap" title="정렬 기준">
             <span class="src-select-label" data-i18n-en="Sort" data-i18n-ko="정렬">정렬</span>
@@ -157,6 +157,10 @@
           </button>
           <button class="ctrl-link" id="open-criteria-top" data-i18n-en="Criteria ▾" data-i18n-ko="순위 기준 ▾">순위 기준 ▾</button>
         </div>
+      </div>
+      <!-- 2열: 카테고리 필터 칩 바 (온전한 가로 1열 확보로 찌그러짐 원천 차단) -->
+      <div class="unb-bottom-row">
+        <nav class="cat-filter" id="cat-filter" aria-label="Category filter"></nav>
       </div>
     </div>
   </div>

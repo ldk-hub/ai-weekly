@@ -524,31 +524,66 @@ html[data-theme="dark"] .pn-link:hover { background: rgba(0,0,0,0.2); }
 /* 갱신바로 옮겨졌다 — 건수는 날짜 옆에 있는 편이 읽힌다 */
 .unb-summary { color: var(--ink); font-weight: 600; }
 
+/* 2단 분리형 레이아웃: 상단 행(탭 + 검색/정렬) / 하단 행(카테고리 칩) */
+.unb-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px 10px;
+  flex-wrap: wrap;
+}
+.unb-bottom-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px 14px;
+  border-top: 1px dashed var(--border);
+  padding-top: 10px;
+  margin-top: 2px;
+}
+.unb-bottom-row .cat-filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+/* 기존 단일 행 호환 (스타보드 등) */
 .unb-bottom {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 10px 14px;
+  padding: 10px 16px;
   flex-wrap: wrap;
 }
 .cat-filter {
   display: flex;
   flex-wrap: wrap;
-  gap: 7px;
+  gap: 8px;
   flex: 1;
   min-width: 0;
 }
 
-/* 뉴스 매체 8종은 칩으로 두 줄을 먹었다. 네이티브 select 로 접는다 */
+/* 커스텀 Pill 셀렉트 드롭다운 (네이티브 테두리 제거 + 모던 셰브론 SVG) */
 .src-select-wrap {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  height: 32px;
-  padding: 0 6px 0 13px;
+  gap: 6px;
+  height: 36px;
+  padding: 0 10px 0 13px;
   border-radius: 999px;
   border: 1px solid var(--border);
   background: var(--card);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.src-select-wrap:hover {
+  border-color: var(--border-hover);
+}
+.src-select-wrap:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(217, 119, 87, 0.18);
 }
 .src-select-label {
   font-size: 12px;
@@ -556,23 +591,33 @@ html[data-theme="dark"] .pn-link:hover { background: rgba(0,0,0,0.2); }
   color: var(--muted);
   white-space: nowrap;
 }
-#news-source-select {
-  border: 0;
+.src-select-wrap select {
+  border: none;
+  outline: none;
   background: transparent;
   color: var(--ink);
   font-family: inherit;
   font-size: 13px;
   font-weight: 600;
-  padding: 0 4px;
+  padding: 0 20px 0 4px;
   cursor: pointer;
-  max-width: 190px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 16 16' fill='none' stroke='%236b6860' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4 6 4 4 4-4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 2px center;
 }
-#news-source-select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+html[data-theme="dark"] .src-select-wrap select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 16 16' fill='none' stroke='%23a29b8c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4 6 4 4 4-4'/%3E%3C/svg%3E");
+}
+
+/* 카테고리 칩 (정갈한 34px Pill 캡슐) */
 .cat-chip {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 7px;
-  height: 32px;
+  height: 34px;
   padding: 0 14px;
   border-radius: 999px;
   border: 1px solid var(--border);
@@ -582,44 +627,66 @@ html[data-theme="dark"] .pn-link:hover { background: rgba(0,0,0,0.2); }
   font-weight: 550;
   letter-spacing: -.2px;
   cursor: pointer;
-  transition: all 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
 }
-.cat-chip:hover { border-color: var(--border-hover); color: var(--ink); }
-/* starboard 정적 HTML 은 .active / .tab-count, JS 렌더 칩은 .is-active / .cat-count 를 쓴다 */
+.cat-chip:hover {
+  border-color: var(--border-hover);
+  color: var(--ink);
+  background: var(--pill);
+  transform: translateY(-1px);
+}
 .cat-chip.is-active,
 .cat-chip.active {
   border-color: var(--ink);
   background: var(--ink);
   color: var(--bg);
   font-weight: 650;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
 }
 .cat-chip .cat-count,
 .cat-chip .tab-count {
   font-size: 12px;
   color: var(--muted);
   font-variant-numeric: tabular-nums;
+  background: var(--pill);
+  padding: 1px 6px;
+  border-radius: 10px;
 }
 .cat-chip.is-active .cat-count,
 .cat-chip.is-active .tab-count,
 .cat-chip.active .cat-count,
 .cat-chip.active .tab-count {
-  color: inherit;
-  opacity: 0.72;
+  color: var(--bg);
+  background: rgba(255, 255, 255, 0.22);
+}
+html[data-theme="dark"] .cat-chip.is-active .cat-count,
+html[data-theme="dark"] .cat-chip.is-active .tab-count,
+html[data-theme="dark"] .cat-chip.active .cat-count,
+html[data-theme="dark"] .cat-chip.active .tab-count {
+  color: var(--ink);
+  background: rgba(0, 0, 0, 0.3);
 }
 
+/* 검색창 (36px Pill 통일) */
 .unb-search-wrap {
   display: flex;
   align-items: center;
   gap: 8px;
-  height: 32px;
-  padding: 0 4px 0 14px;
+  height: 36px;
+  padding: 0 6px 0 14px;
   border-radius: 999px;
   border: 1px solid var(--border);
-  background: var(--bg);
+  background: var(--card);
   width: 220px;
   flex-shrink: 0;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
-.unb-search-wrap:focus-within { border-color: var(--ink); }
+.unb-search-wrap:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(217, 119, 87, 0.18);
+}
 .unb-search-wrap input {
   border: none;
   outline: none;
@@ -630,8 +697,7 @@ html[data-theme="dark"] .pn-link:hover { background: rgba(0,0,0,0.2); }
 }
 .unb-search-wrap input::placeholder { color: var(--muted); }
 
-
-/* 5. Data Tabs Wrap (위계 분리: 상위 언더라인 탭 바) */
+/* 상위 탐색 모던 세그먼트 컨트롤 (.data-tabs-wrap) */
 .data-tabs-wrap {
   display: flex;
   align-items: center;
@@ -639,48 +705,41 @@ html[data-theme="dark"] .pn-link:hover { background: rgba(0,0,0,0.2); }
   margin-top: 0;
   flex-shrink: 0;
 }
-.unb-bottom .data-tabs-wrap {
-  padding-right: 14px;
-  border-right: 1px solid var(--border);
-}
 .data-tabs-wrap .tabs {
   display: flex;
-  gap: 6px;
-  padding: 0;
-  background: transparent;
-  border-radius: 0;
+  gap: 4px;
+  padding: 3px;
+  background: var(--pill);
+  border-radius: 999px;
+  border: 1px solid var(--border);
 }
 .data-tabs-wrap .tab {
-  position: relative;
   display: flex;
   align-items: center;
   gap: 6px;
-  height: 34px;
-  padding: 0 10px;
-  border-radius: 6px;
+  height: 32px;
+  padding: 0 14px;
+  border-radius: 999px;
   border: none;
   background: transparent;
   color: var(--muted);
-  font-size: 13.5px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transition: color 0.15s;
+  transition: all 0.15s ease;
 }
-.data-tabs-wrap .tab:hover { color: var(--ink); }
+.data-tabs-wrap .tab:hover {
+  color: var(--ink);
+}
 .data-tabs-wrap .tab.active {
-  background: transparent;
+  background: var(--card);
   color: var(--ink);
   font-weight: 700;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
 }
-.data-tabs-wrap .tab.active::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 6px;
-  right: 6px;
-  height: 2.5px;
-  background: var(--accent);
-  border-radius: 2px;
+html[data-theme="dark"] .data-tabs-wrap .tab.active {
+  background: var(--card-hover);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
 }
 .data-tabs-wrap .tab-count {
   font-size: 11.5px;
@@ -697,21 +756,42 @@ html[data-theme="dark"] .pn-link:hover { background: rgba(0,0,0,0.2); }
   font-weight: 700;
 }
 
+/* 뷰 모드 토글 (36px 원형 pill) */
+.view-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--ink);
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+.view-toggle:hover {
+  border-color: var(--border-hover);
+  background: var(--pill);
+}
+
+/* 순위 기준 버튼 (36px Pill) */
 .ctrl-link {
-  height: 32px;
-  padding: 0 12px;
+  height: 36px;
+  padding: 0 14px;
   border-radius: 999px;
   border: 1px solid var(--border);
-  background: var(--bg);
-  font-size: 12px;
+  background: var(--card);
+  font-size: 12.5px;
   font-weight: 600;
   color: var(--ink-2);
   cursor: pointer;
   white-space: nowrap;
-  transition: all 0.15s;
+  transition: all 0.15s ease;
 }
 .ctrl-link:hover {
-  border-color: var(--ink);
+  border-color: var(--border-hover);
   background: var(--pill);
   color: var(--ink);
 }
@@ -1550,6 +1630,35 @@ footer a:hover, footer .foot-link:hover { color: var(--accent); border-bottom-co
   .page-nav::-webkit-scrollbar { display: none; /* Safari/Chrome */ }
   .pn-link { padding: 0 14px; height: 34px; font-size: 13px; }
   
+  .unb-top-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 12px 12px 8px;
+  }
+  .unb-top-row .data-tabs-wrap {
+    width: 100%;
+  }
+  .unb-top-row .data-tabs-wrap .tabs {
+    width: 100%;
+  }
+  .unb-top-row .data-tabs-wrap .tab {
+    flex: 1;
+    justify-content: center;
+  }
+  .unb-bottom-row {
+    padding: 0 12px 12px;
+    padding-top: 8px;
+  }
+  .unb-bottom-row .cat-filter {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+  .unb-bottom-row .cat-filter::-webkit-scrollbar { display: none; }
+
   .unb-bottom { flex-direction: column; align-items: stretch; gap: 10px; padding: 10px; }
   .unb-bottom .data-tabs-wrap { padding-right: 0; border-right: none; width: 100%; }
   .unb-search-wrap { width: 100%; }
