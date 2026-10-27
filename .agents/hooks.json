@@ -1,0 +1,17 @@
+{
+  "destructive-command-guard": {
+    "enabled": true,
+    "PreToolUse": [
+      {
+        "matcher": "run_command|call_mcp_tool",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 scripts/safety_guard.py",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

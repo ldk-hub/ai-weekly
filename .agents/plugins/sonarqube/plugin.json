@@ -1,0 +1,11 @@
+{
+  "name": "sonarqube",
+  "displayName": "SonarQube Code Quality & Security",
+  "description": "Antigravity용 SonarQube 정적 분석 및 클린 코드(Clean Code) 거버넌스 플러그인. 품질 게이트(Quality Gate) 판정, 보안 취약점(OWASP/CWE), 코드 스멜 탐지 및 리팩토링 가이드를 제공합니다.",
+  "version": "1.0.0",
+  "suggestedPrompts": [
+    "SonarQube 품질 게이트(Quality Gate) 상태를 점검해 줘",
+    "현재 브랜치의 신규 코드 스멜과 버그를 분석해 줘",
+    "보안 취약점(Security Hotspots) 리포트를 추출해 줘"
+  ]
+}
