@@ -3026,6 +3026,308 @@ table.bm-table { width: 100%; border-collapse: collapse; font-size: 14px; }
 }
 
 /* ==========================================================================
+   Benchmarks 2.0: 2D 가성비 산점도 매트릭스 & 점유율 3대 출처 멀티 비교 바
+   ========================================================================== */
+
+/* 데이터 기준 및 한계 버튼 */
+.bm-scope-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--pill);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.bm-scope-trigger:hover {
+  background: var(--card-hover);
+  color: var(--ink);
+  border-color: var(--accent);
+}
+.bm-scope-trigger svg {
+  flex-shrink: 0;
+  color: var(--accent);
+}
+
+/* 도메인 특화 필터 바 */
+.bm-domain-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.bm-domain-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.bm-domain-chips {
+  display: inline-flex;
+  gap: 4px;
+  background: var(--pill);
+  padding: 3px;
+  border-radius: 10px;
+}
+.bm-domain-chip {
+  all: unset;
+  cursor: pointer;
+  padding: 4px 12px;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  transition: all 0.15s ease;
+}
+.bm-domain-chip:hover {
+  color: var(--ink);
+}
+.bm-domain-chip.is-active {
+  background: var(--card);
+  color: var(--ink);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  font-weight: 700;
+}
+
+/* 2D 가성비 산점도 매트릭스 (Scatter Plot) */
+.bm-scatter-card {
+  margin-bottom: 16px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+.bm-scatter-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 14px 18px 10px;
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in srgb, var(--card) 95%, var(--pill));
+}
+.bm-scatter-title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.bm-scatter-title strong {
+  font-size: 14px;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.bm-scatter-title span {
+  font-size: 12px;
+  color: var(--muted);
+}
+.bm-scatter-legend {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  color: var(--muted);
+  flex-wrap: wrap;
+}
+.bm-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.bm-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.bm-scatter-body {
+  padding: 16px 18px 12px;
+  position: relative;
+}
+.bm-svg-wrap {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+}
+.bm-scatter-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-width: 600px;
+  user-select: none;
+}
+.bm-scatter-svg text {
+  font-family: inherit;
+}
+.bm-scatter-dot {
+  cursor: pointer;
+  transition: r 0.15s ease, opacity 0.15s ease, filter 0.15s ease;
+}
+.bm-scatter-dot:hover {
+  r: 9;
+  filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.3));
+}
+.bm-scatter-dot:focus-visible {
+  outline: 2px solid var(--accent);
+}
+.bm-scatter-label {
+  font-size: 11px;
+  font-weight: 700;
+  fill: var(--ink);
+  pointer-events: none;
+}
+.bm-scatter-sublabel {
+  font-size: 9.5px;
+  fill: var(--muted);
+  pointer-events: none;
+}
+.bm-scatter-quadrant-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  fill: var(--muted);
+  opacity: 0.45;
+  pointer-events: none;
+}
+.bm-scatter-axis-label {
+  font-size: 11.5px;
+  font-weight: 600;
+  fill: var(--muted);
+}
+.bm-scatter-grid-line {
+  stroke: var(--border);
+  stroke-dasharray: 4 4;
+  opacity: 0.6;
+}
+.bm-scatter-quad-line {
+  stroke: var(--border);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 6;
+  opacity: 0.85;
+}
+
+/* 점유율 3대 출처 멀티 비교 바 */
+.bm-multibar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 100%;
+}
+.bm-multibar-track {
+  display: flex;
+  align-items: center;
+  height: 6px;
+  background: var(--pill);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+.bm-multibar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+.bm-multibar-legend {
+  display: flex;
+  gap: 8px;
+  font-size: 10.5px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.bm-multibar-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+.bm-multibar-legend span strong {
+  color: var(--ink-2);
+  font-weight: 700;
+}
+.bm-multibar-mini-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* 뷰 모드 토글 (산점도+표 vs 표만) */
+.bm-view-toggle {
+  display: inline-flex;
+  gap: 2px;
+  background: var(--pill);
+  padding: 2px;
+  border-radius: 8px;
+}
+.bm-view-toggle button {
+  all: unset;
+  cursor: pointer;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.bm-view-toggle button[aria-pressed="true"] {
+  background: var(--card);
+  color: var(--ink);
+  font-weight: 700;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+/* 스코프 모달 세부 스타일 */
+.bm-scope-modal-body h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 8px;
+}
+.bm-scope-modal-body p {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  margin: 0 0 14px;
+}
+.bm-scope-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+  margin: 12px 0 16px;
+}
+.bm-scope-table th {
+  background: var(--pill);
+  padding: 8px 10px;
+  text-align: left;
+  color: var(--muted);
+  font-weight: 600;
+  border-bottom: 1px solid var(--border);
+}
+.bm-scope-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  color: var(--ink);
+}
+.bm-scope-note {
+  background: color-mix(in srgb, var(--accent) 8%, var(--card));
+  border-left: 3px solid var(--accent);
+  padding: 10px 14px;
+  border-radius: 0 8px 8px 0;
+  font-size: 12.5px;
+  color: var(--ink-2);
+  line-height: 1.5;
+}
+
+/* ==========================================================================
    UI/UX 종합 개선 — 인터랙티브 칩, 정렬 셀렉트, 리스트 뷰, 3대 출처 배지
    ========================================================================== */
 

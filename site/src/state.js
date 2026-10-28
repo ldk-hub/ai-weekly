@@ -79,7 +79,9 @@ export const STATE = {
   viewMode: localStorage.getItem("aiw-view") || "card",
   benchmarkTab: "share",      // 'share' | 'bench'
   benchmarkSort: "composite", // 'composite' | 'coding' | 'arena' | 'aa' | 'livebench' | 'price'
-  benchmarkOthersOpen: false
+  benchmarkOthersOpen: false,
+  benchmarkDomainFilter: "all", // 'all' | 'coding' | 'reasoning' | 'open'
+  benchmarkView: "matrix"       // 'matrix' | 'table'
 };
 
 /**

@@ -2722,6 +2722,220 @@ function refocus(key) {
   if (key) document.querySelector(`[data-focus-key="${key}"]`)?.focus({ preventScroll: true });
 }
 
+const PROVIDER_COLORS = {
+  "Google": "#4285f4",
+  "Anthropic": "#d97757",
+  "OpenAI": "#10a37f",
+  "Meta": "#0668e1",
+  "DeepSeek": "#4d6bfe",
+  "Xiaomi": "#ff6900",
+  "Moonshot": "#6366f1",
+  "Alibaba": "#ff6a00",
+  "Z.ai": "#3b82f6",
+  "xAI": "#1d9bf0",
+  "default": "#888888"
+};
+
+function getProviderColor(provider) {
+  return PROVIDER_COLORS[provider] || PROVIDER_COLORS.default;
+}
+
+function openBenchmarkScopeModal() {
+  const modal = document.getElementById("modal");
+  const body = document.getElementById("modal-body");
+  if (!modal || !body) return;
+
+  const isEn = getLang() === "en";
+
+  body.innerHTML = `
+    <div class="bm-scope-modal-body">
+      <div class="m-rank">
+        <span class="accent">${isEn ? "DATA METHODOLOGY & LIMITATIONS" : "데이터 수집 기준 및 한계 안내"}</span>
+        <span class="dot-sep">·</span>
+        <span>${isEn ? "Multi-Source Ensemble" : "다중 출처 앙상블"}</span>
+      </div>
+      <h2 style="margin: 8px 0 12px;">${isEn ? "Benchmark Data Scope & Confidence Guide" : "AI 점유율 및 성능 지표 데이터 수집 기준과 한계"}</h2>
+      <p>
+        ${isEn 
+          ? "AI Weekly ensembles multiple independent sources across B2C web traffic, search referrals, developer API token volumes, and blind evaluations to eliminate single-source bias. However, like all publicly available telemetry, certain inherent boundaries apply."
+          : "AI위클리는 특정 단일 출처의 왜곡을 방지하기 위해 B2C 웹 방문, 검색 리퍼럴, 개발자 오픈 API 소비량, 그리고 3대 블라인드 평가를 산술 평균(Ensemble)하여 제공합니다. 다만 모든 공개 데이터가 그렇듯 태생적인 수집 범위의 한계가 존재합니다."}
+      </p>
+
+      <table class="bm-scope-table">
+        <thead>
+          <tr>
+            <th>${isEn ? "Category / Source" : "구분 · 출처"}</th>
+            <th>${isEn ? "Strengths (What it captures)" : "핵심 강점 (포착 영역)"}</th>
+            <th>${isEn ? "Limitations (What is excluded)" : "수집 한계 (제외 영역)"}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Similarweb</strong> (Web)</td>
+            <td>${isEn ? "Global B2C desktop and mobile web domain visits" : "글로벌 B2C 데스크톱 및 모바일 웹 방문 트래픽"}</td>
+            <td>${isEn ? "Excludes native iOS/Android apps & enterprise APIs" : "iOS/Android 네이티브 앱 및 엔터프라이즈 전용 API 누락"}</td>
+          </tr>
+          <tr>
+            <td><strong>Statcounter</strong> (Referral)</td>
+            <td>${isEn ? "Search engine & browser outbound traffic conversion" : "검색 엔진 및 브라우저 외부 유입 리퍼럴 추적"}</td>
+            <td>${isEn ? "Conversation duration inside chat is not tracked" : "챗봇 내부 체류 시간 미반영, 브라우저 기본 탑재 편향"}</td>
+          </tr>
+          <tr>
+            <td><strong>OpenRouter</strong> (API)</td>
+            <td>${isEn ? "Real-world token consumption by indie developers & startups" : "개발자 및 스타트업의 실제 프로덕션 API 토큰 소비량"}</td>
+            <td>${isEn ? "Excludes direct enterprise contracts (Azure, AWS, Vertex AI)" : "클라우드 직접 계약(Azure, Bedrock, Vertex) 미반영"}</td>
+          </tr>
+          <tr>
+            <td><strong>LMArena · AA · LiveBench</strong></td>
+            <td>${isEn ? "Blind human preference, hardware throughput, and contamination-free evals" : "블라인드 인간 선호도(Elo), 하드웨어 지연시간 실측, 무오염 동적 평가"}</td>
+            <td>${isEn ? "Prompt length style bias; frozen SWE-bench is strictly banned" : "프롬프트 스타일 편향 존재; 동결된 SWE-bench 등 구형 출처 차단"}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="bm-scope-note">
+        <strong>💡 ${isEn ? "Cadence & Refresh Policy" : "수행 주기 및 최신성 검증 정책"}:</strong><br />
+        ${isEn
+          ? "• <strong>Market Share (Monthly)</strong>: Refreshed on the 1st–3rd of each month aligned with Similarweb/Statcounter releases (Staleness Gate: 45 days).<br />• <strong>Frontier Benchmarks (Weekly)</strong>: Refreshed every Monday with live OpenRouter pricing & leaderboard rankings (Staleness Gate: 30 days).<br />• <strong>Hotfix</strong>: Major new flagship models are added same-day upon release."
+          : "• <strong>점유율 (월간)</strong>: Similarweb/Statcounter 발표 주기에 맞춰 <strong>매월 1~3일</strong> 전월 데이터 확정 반영 (최신성 게이트: 45일)<br />• <strong>성능 벤치마크 (주간)</strong>: OpenRouter 실시간 가격과 3대 리더보드 순위를 <strong>매주 월요일</strong> 동기화 (최신성 게이트: 30일)<br />• <strong>상시 핫픽스</strong>: 주요 프론티어 플래그십 출시 당일 즉시 반영"}
+      </div>
+    </div>
+  `;
+  modal.classList.add("open");
+  modal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-open");
+  modal.scrollTop = 0;
+}
+
+function buildScatterSVG(models, isEn, domainFilter) {
+  const width = 800;
+  const height = 340;
+  const padLeft = 65;
+  const padRight = 30;
+  const padTop = 28;
+  const padBottom = 45;
+
+  const chartW = width - padLeft - padRight;
+  const chartH = height - padTop - padBottom;
+
+  const blended = m => (3 * (m.pricing_in_1m ?? 1) + (m.pricing_out_1m ?? 1)) / 4;
+
+  let scoreKey = "composite_score";
+  let scoreLabel = isEn ? "3-Leaderboard Composite Score" : "3대 종합 지능 점수 (0–100)";
+  if (domainFilter === "coding") {
+    scoreKey = "coding_composite_score";
+    scoreLabel = isEn ? "Coding Composite Score" : "3대 코딩 종합 점수 (0–100)";
+  } else if (domainFilter === "reasoning") {
+    scoreKey = "gpqa_diamond";
+    scoreLabel = isEn ? "GPQA Diamond (PhD Science %)" : "GPQA Diamond 박사급 과학 추론 (%)";
+  }
+
+  let filtered = [...models];
+  if (domainFilter === "open") {
+    filtered = filtered.filter(m => m.badge_type === "open-weights");
+  } else if (domainFilter === "coding") {
+    filtered = filtered.filter(m => m[scoreKey] != null);
+  } else if (domainFilter === "reasoning") {
+    filtered = filtered.filter(m => m[scoreKey] != null);
+  }
+  if (!filtered.length) filtered = [...models];
+
+  const prices = filtered.map(blended);
+  const minP = Math.max(0.05, Math.min(...prices) * 0.75);
+  const maxP = Math.max(10, Math.max(...prices) * 1.3);
+  const logMinP = Math.log10(minP);
+  const logMaxP = Math.log10(maxP);
+
+  const getX = p => {
+    const val = Math.max(minP, Math.min(maxP, p));
+    const ratio = (Math.log10(val) - logMinP) / (logMaxP - logMinP);
+    return padLeft + ratio * chartW;
+  };
+
+  const scores = filtered.map(m => m[scoreKey] ?? 85);
+  const minS = Math.min(...scores) - 1.2;
+  const maxS = Math.max(...scores) + 1.2;
+
+  const getY = s => {
+    const ratio = (s - minS) / (maxS - minS);
+    return padTop + (1 - ratio) * chartH;
+  };
+
+  const sortedP = [...prices].sort((a, b) => a - b);
+  const medianP = sortedP[Math.floor(sortedP.length / 2)] || 2.0;
+  const sortedS = [...scores].sort((a, b) => a - b);
+  const medianS = sortedS[Math.floor(sortedS.length / 2)] || 87.0;
+
+  const midX = getX(medianP);
+  const midY = getY(medianS);
+
+  const quadLabels = `
+    <line x1="${midX}" y1="${padTop}" x2="${midX}" y2="${height - padBottom}" class="bm-scatter-quad-line" />
+    <line x1="${padLeft}" y1="${midY}" x2="${width - padRight}" y2="${midY}" class="bm-scatter-quad-line" />
+    <text x="${padLeft + 12}" y="${padTop + 18}" class="bm-scatter-quadrant-label" style="fill:var(--mint);opacity:0.85;">★ ${isEn ? "VALUE CHAMPIONS (High Intel · Low Price)" : "가성비 챔피언 (고지능 · 저비용)"}</text>
+    <text x="${width - padRight - 12}" y="${padTop + 18}" text-anchor="end" class="bm-scatter-quadrant-label" style="fill:var(--accent);opacity:0.85;">👑 ${isEn ? "FRONTIER LEADERS (Max Intelligence)" : "프론티어 리더 (최상위 플래그십)"}</text>
+    <text x="${padLeft + 12}" y="${height - padBottom - 10}" class="bm-scatter-quadrant-label">⚡ ${isEn ? "BUDGET & LOCAL (Lightweight)" : "초저비용 · 보편형 (양산/온프레미스)"}</text>
+    <text x="${width - padRight - 12}" y="${height - padBottom - 10}" text-anchor="end" class="bm-scatter-quadrant-label">🎯 ${isEn ? "SPECIALIZED (High Context / Niche)" : "특수 목적 · 대용량 컨텍스트"}</text>
+  `;
+
+  const xTicks = [0.1, 0.5, 1.0, 2.0, 5.0, 10.0, 20.0].filter(t => t >= minP && t <= maxP);
+  const xGrid = xTicks.map(t => {
+    const x = getX(t);
+    return `
+      <line x1="${x}" y1="${padTop}" x2="${x}" y2="${height - padBottom}" class="bm-scatter-grid-line" />
+      <text x="${x}" y="${height - padBottom + 16}" text-anchor="middle" class="bm-scatter-axis-label">$${t < 1 ? t.toFixed(1) : t.toFixed(0)}</text>
+    `;
+  }).join("");
+
+  const yTicks = [Math.ceil(minS), Math.round((minS + maxS) / 2), Math.floor(maxS)];
+  const yGrid = yTicks.map(t => {
+    const y = getY(t);
+    return `
+      <line x1="${padLeft}" y1="${y}" x2="${width - padRight}" y2="${y}" class="bm-scatter-grid-line" />
+      <text x="${padLeft - 8}" y="${y + 4}" text-anchor="end" class="bm-scatter-axis-label">${t.toFixed(0)}</text>
+    `;
+  }).join("");
+
+  const axisTitles = `
+    <text x="${padLeft + chartW / 2}" y="${height - 8}" text-anchor="middle" class="bm-scatter-axis-label" style="font-weight:700;fill:var(--ink-2);">
+      ${isEn ? "Blended Price per 1M Tokens (Log Scale: $/1M)" : "100만 토큰당 혼합 단가 (로그 스케일: $/1M)"}
+    </text>
+    <text x="16" y="${padTop + chartH / 2}" text-anchor="middle" transform="rotate(-90 16 ${padTop + chartH / 2})" class="bm-scatter-axis-label" style="font-weight:700;fill:var(--ink-2);">
+      ${scoreLabel}
+    </text>
+  `;
+
+  const dots = filtered.map(m => {
+    const p = blended(m);
+    const s = m[scoreKey] ?? 85;
+    const cx = getX(p);
+    const cy = getY(s);
+    const color = getProviderColor(m.provider);
+    const shortName = m.model.replace(/\s*(Argon|Sol|Wonder|Max|Pro|Flash).*/i, " $1");
+
+    return `
+      <g class="bm-scatter-point-group" tabindex="0" role="button" aria-label="${escapeHTML(m.model)}: Score ${s.toFixed(1)}, Price $${p.toFixed(2)}" data-bm-model="${escapeHTML(m.model)}">
+        <circle cx="${cx}" cy="${cy}" r="6.5" fill="${color}" stroke="var(--card)" stroke-width="2" class="bm-scatter-dot" data-bm-model="${escapeHTML(m.model)}">
+          <title>${escapeHTML(m.model)} (${escapeHTML(m.provider)})\nScore: ${s.toFixed(1)} / 100\nPrice: $${p.toFixed(2)}/1M tokens\nContext: ${escapeHTML(m.context_window || "")}</title>
+        </circle>
+        <text x="${cx + 8}" y="${cy - 2}" class="bm-scatter-label">${escapeHTML(shortName)}</text>
+        <text x="${cx + 8}" y="${cy + 8}" class="bm-scatter-sublabel">${s.toFixed(1)}pt · $${p.toFixed(2)}</text>
+      </g>
+    `;
+  }).join("");
+
+  return `
+    <svg viewBox="0 0 ${width} ${height}" class="bm-scatter-svg" aria-label="${isEn ? "Performance vs Price Scatter Matrix" : "성능 대 가격 2D 가성비 산점도 매트릭스"}">
+      <rect x="${padLeft}" y="${padTop}" width="${chartW}" height="${chartH}" fill="color-mix(in srgb, var(--card) 60%, transparent)" rx="6" />
+      ${quadLabels}
+      ${xGrid}
+      ${yGrid}
+      ${axisTitles}
+      ${dots}
+    </svg>
+  `;
+}
+
 function openBenchmarkModelModal(modelName) {
   const models = STATE.data?.model_benchmarks || [];
   const m = models.find(x => x.model === modelName);
@@ -2871,7 +3085,7 @@ function renderBenchmarks() {
     const word = v > 0 ? (isEn ? "increase" : "상승") : v < 0 ? (isEn ? "decrease" : "하락") : (isEn ? "no change" : "변화 없음");
     return `<span class="bm-chg ${cls}" aria-label="${isEn ? `vs last month ${word} ${Math.abs(v).toFixed(1)}%p` : `전월 대비 ${word} ${Math.abs(v).toFixed(1)}%p`}">${arrow} ${Math.abs(v).toFixed(1)}p</span>`;
   };
-  const blended = m => (3 * m.pricing_in_1m + m.pricing_out_1m) / 4;
+  const blended = m => (3 * (m.pricing_in_1m ?? 1) + (m.pricing_out_1m ?? 1)) / 4;
 
   const METRICS = [
     { id: "composite", key: "composite_score", label: isEn ? "3-Source Avg" : "3대 종합 평균", sub: isEn ? "Arena·AA·LiveBench / 100" : "Arena·AA·LiveBench / 100", fmt: f1 },
@@ -2919,14 +3133,22 @@ function renderBenchmarks() {
       ${chip("bench", "price", isEn ? "Best Value #1" : "가성비 1위", nm(cheapTop), cheapTop ? `$${f2(cheapTop.pricing_in_1m)} / $${f2(cheapTop.pricing_out_1m)}` : "—", `<span class="bm-chip-hint">${isEn ? "Cheapest in top 50% composite" : "종합 상위 절반 중 최저가"}</span>`)}
     </div>`;
 
-  // 2. 툴바 (탭 + 정렬)
+  // 2. 툴바 (탭 + 정렬 + 뷰 토글)
+  const isMatrixView = STATE.benchmarkView === "matrix";
+  const domainFilter = STATE.benchmarkDomainFilter || "all";
+
   const toolbarHTML = `
     <div class="bm-toolbar">
       <div class="bm-seg" id="bm-tabs" role="tablist" aria-label="${isEn ? "Select view" : "보기 선택"}">
         <button type="button" role="tab" id="tab-share" data-tab="share" aria-controls="bm-share" data-focus-key="tab-share" aria-selected="${isShareTab}" tabindex="${isShareTab ? 0 : -1}">${isEn ? "3-Source Share" : "3곳 평균 점유율"}</button>
         <button type="button" role="tab" id="tab-bench" data-tab="bench" aria-controls="bm-bench" data-focus-key="tab-bench" aria-selected="${!isShareTab}" tabindex="${!isShareTab ? 0 : -1}">${isEn ? "3-Leaderboard Performance" : "3대 리더보드 성능"}</button>
       </div>
+
       <div class="bm-sort" id="bm-sort" ${isShareTab ? "hidden" : ""}>
+        <div class="bm-view-toggle" role="group" aria-label="${isEn ? "Display mode" : "화면 구성"}">
+          <button type="button" data-bm-view="matrix" aria-pressed="${isMatrixView}" title="${isEn ? "Scatter Chart + Table" : "산점도 차트 + 표"}">${isEn ? "Chart+Table" : "산점도+표"}</button>
+          <button type="button" data-bm-view="table" aria-pressed="${!isMatrixView}" title="${isEn ? "Table Only" : "표만 보기"}">${isEn ? "Table Only" : "표만 보기"}</button>
+        </div>
         <span>${isEn ? "Sort by" : "정렬 기준"}</span>
         <div class="bm-seg" role="group" aria-label="${isEn ? "Sort by" : "정렬 기준"}">
           <button type="button" data-sort="composite" data-focus-key="sort-composite" aria-pressed="${STATE.benchmarkSort === "composite"}">${isEn ? "3-Source Avg" : "3대 종합"}</button>
@@ -2939,13 +3161,13 @@ function renderBenchmarks() {
       </div>
     </div>`;
 
-  // 3. 점유율 패널 (3곳 교차 평균 + 세부 출처 분해 칩)
+  // 3. 점유율 패널 (3곳 출처 멀티 비교 바)
   const sortedShares = [...shares].sort((a, b) => b.share_pct - a.share_pct);
   const maxShare = sortedShares[0]?.share_pct || 1;
   const hasMomChange = shares.some(s => s.mom_change != null);
 
   let mainShares, restShares;
-  if (sortedShares.length === 6) {
+  if (sortedShares.length <= 6) {
     mainShares = sortedShares;
     restShares = [];
   } else {
@@ -2956,22 +3178,28 @@ function renderBenchmarks() {
 
   const shareRow = (s, rank) => {
     const bd = s.sources_breakdown;
-    const bdPills = bd
-      ? `<div class="bm-src-pills">
-           <span class="bm-src-pill" title="Similarweb Direct Web Visits">${isEn ? "Web" : "웹 방문"} ${f1(bd.similarweb_visit)}%</span>
-           <span class="bm-src-pill" title="Statcounter Outbound Referrals">${isEn ? "Referral" : "리퍼럴"} ${f1(bd.statcounter_referral)}%</span>
-           <span class="bm-src-pill" title="OpenRouter Developer API Share">API ${f1(bd.openrouter_api)}%</span>
-         </div>`
-      : "";
+    const multiBarHTML = bd
+      ? `
+      <div class="bm-multibar-container" title="${isEn ? `Web ${f1(bd.similarweb_visit)}% · Referral ${f1(bd.statcounter_referral)}% · API ${f1(bd.openrouter_api)}%` : `웹 방문 ${f1(bd.similarweb_visit)}% · 리퍼럴 ${f1(bd.statcounter_referral)}% · 개발자 API ${f1(bd.openrouter_api)}%`}">
+        <div class="bm-multibar-track" title="${isEn ? "Ensemble Share Relative Bar" : "종합 평균 상대 비율"}">
+          <i class="bm-multibar-fill" style="width:${Math.min(100, (s.share_pct / maxShare * 100)).toFixed(1)}%;background:${escapeHTML(s.color)};"></i>
+        </div>
+        <div class="bm-multibar-legend">
+          <span><i class="bm-multibar-mini-dot" style="background:#10a37f;"></i>${isEn ? "Web" : "웹"} <strong>${f1(bd.similarweb_visit)}%</strong></span>
+          <span><i class="bm-multibar-mini-dot" style="background:#f59e0b;"></i>${isEn ? "Ref" : "리퍼럴"} <strong>${f1(bd.statcounter_referral)}%</strong></span>
+          <span><i class="bm-multibar-mini-dot" style="background:#8b5cf6;"></i>API <strong>${f1(bd.openrouter_api)}%</strong></span>
+        </div>
+      </div>`
+      : `<span class="bm-bar" aria-hidden="true"><i style="width:${(s.share_pct / maxShare * 100).toFixed(1)}%;background:${escapeHTML(s.color)}"></i></span>`;
+
     return `
     <li class="bm-srow" title="${escapeHTML(s.description || "")}">
       <span class="bm-rank">${rank}</span>
       <span class="bm-name">
         <a href="https://${escapeHTML(s.domain)}" target="_blank" rel="noopener noreferrer">${escapeHTML(s.name)}</a>
         <small>${escapeHTML(s.provider)}</small>
-        ${bdPills}
       </span>
-      <span class="bm-bar" aria-hidden="true"><i style="width:${(s.share_pct / maxShare * 100).toFixed(1)}%;background:${escapeHTML(s.color)}"></i></span>
+      ${multiBarHTML}
       <span class="bm-val">${f2(s.share_pct)}%</span>
       ${hasMomChange ? chg(s.mom_change) : ""}
     </li>`;
@@ -3011,12 +3239,22 @@ function renderBenchmarks() {
     </section>`;
 
   // 4. 성능 패널
+  let filteredMs = [...models];
+  if (domainFilter === "open") {
+    filteredMs = filteredMs.filter(m => m.badge_type === "open-weights");
+  } else if (domainFilter === "coding") {
+    filteredMs = filteredMs.filter(m => m.coding_composite_score != null);
+  } else if (domainFilter === "reasoning") {
+    filteredMs = filteredMs.filter(m => m.gpqa_diamond != null);
+  }
+  if (!filteredMs.length) filteredMs = [...models];
+
   const visible = METRICS.filter(x => models.some(m => m[x.key] != null));
   if (STATE.benchmarkSort !== "price" && !visible.some(x => x.id === STATE.benchmarkSort)) {
     STATE.benchmarkSort = visible[0]?.id ?? "composite";
   }
 
-  const sortedMs = [...models];
+  const sortedMs = [...filteredMs];
   if (STATE.benchmarkSort === "price") {
     sortedMs.sort((a, b) => blended(a) - blended(b));
   } else {
@@ -3081,19 +3319,59 @@ function renderBenchmarks() {
   const footNotes = [
     isEn ? "3-Source Composite normalizes LMArena Elo (human preference), Artificial Analysis Intelligence Index, and LiveBench (contamination-free) onto a 0–100 scale." : "3대 종합 평균은 ① LMArena Elo(인간 선호도) · ② Artificial Analysis 지능 지수 · ③ LiveBench(무오염 동적 평가) 3곳 점수를 0~100점으로 정규화해 산술 평균한 값입니다.",
     isEn ? "Stale or frozen benchmarks (e.g., SWE-bench frozen since Feb 2026) are automatically blocked by the 30-day freshness gate." : "갱신이 중단된 구버전 벤치마크(예: 2026년 2월 이후 동결된 SWE-bench 등)는 30일 최신성 검증 게이트에 의해 자동 배제됩니다.",
-    isEn ? "Prices are OpenRouter listings and may differ from official vendor prices." : "가격은 OpenRouter 표시가이며 회사 공식가와 다를 수 있습니다."
+    isEn ? "Prices are OpenRouter listings and automatically synced via OpenRouter API." : "가격 정보는 OpenRouter 공개 REST API를 통해 자동 동기화되며, 공급사 직접 계약 조건과 차이가 있을 수 있습니다."
   ];
   if (STATE.benchmarkSort === "price") {
     footNotes.push(isEn ? "Price sort uses a 3:1 input/output blend" : "가격 정렬은 입력 3 : 출력 1 가중 평균 기준");
   }
   const footNoteHTML = `<div class="bm-foot-note" id="bm-foot-note">${footNotes.join("<br />")}</div>`;
 
+  // 도메인 필터 바
+  const domainFilterHTML = `
+    <div class="bm-domain-bar">
+      <span class="bm-domain-label">${isEn ? "Filter by Domain" : "분야별 보기"}:</span>
+      <div class="bm-domain-chips" role="group" aria-label="${isEn ? "Filter by Domain" : "분야별 필터"}">
+        <button type="button" class="bm-domain-chip ${domainFilter === "all" ? "is-active" : ""}" data-domain-filter="all">${isEn ? "All Models" : "전체 종합"}</button>
+        <button type="button" class="bm-domain-chip ${domainFilter === "coding" ? "is-active" : ""}" data-domain-filter="coding">💻 ${isEn ? "Coding Specialist" : "코딩 특화"}</button>
+        <button type="button" class="bm-domain-chip ${domainFilter === "reasoning" ? "is-active" : ""}" data-domain-filter="reasoning">🧠 ${isEn ? "Reasoning & Science" : "복합 추론·과학"}</button>
+        <button type="button" class="bm-domain-chip ${domainFilter === "open" ? "is-active" : ""}" data-domain-filter="open">🔓 ${isEn ? "Open Weights" : "오픈웨이트"}</button>
+      </div>
+    </div>
+  `;
+
+  // 2D 산점도 매트릭스 카드 (isMatrixView 가 true일 때만 노출)
+  const scatterMatrixCardHTML = isMatrixView
+    ? `
+    <div class="bm-scatter-card" id="bm-scatter-card">
+      <div class="bm-scatter-head">
+        <div class="bm-scatter-title">
+          <strong>📊 ${isEn ? "2D Performance vs Price Matrix (Value Quadrant)" : "2D 성능 vs 가격 가성비 매트릭스 (4분면 분석)"}</strong>
+          <span>${isEn ? "Identify top performers and cost-effective frontier models · Click any point to view 8-metric details" : "지능 점수 대비 토큰 비용 효율성 시각화 · 모델 점을 클릭하면 8대 세부 지표가 열립니다"}</span>
+        </div>
+        <div class="bm-scatter-legend">
+          <span class="bm-legend-item"><i class="bm-legend-dot" style="background:#4285f4;"></i>Google</span>
+          <span class="bm-legend-item"><i class="bm-legend-dot" style="background:#d97757;"></i>Anthropic</span>
+          <span class="bm-legend-item"><i class="bm-legend-dot" style="background:#10a37f;"></i>OpenAI</span>
+          <span class="bm-legend-item"><i class="bm-legend-dot" style="background:#0668e1;"></i>Meta</span>
+          <span class="bm-legend-item"><i class="bm-legend-dot" style="background:#4d6bfe;"></i>DeepSeek</span>
+        </div>
+      </div>
+      <div class="bm-scatter-body">
+        <div class="bm-svg-wrap">
+          ${buildScatterSVG(models, isEn, domainFilter)}
+        </div>
+      </div>
+    </div>`
+    : "";
+
   const benchPanelHTML = `
     <section id="bm-bench" role="tabpanel" aria-labelledby="tab-bench" ${isShareTab ? "hidden" : ""}>
+      ${domainFilterHTML}
+      ${scatterMatrixCardHTML}
       <div class="bm-card">
         <div class="bm-card-head">
           <div>
-            <strong>${isEn ? `Flagship Frontier Models (${models.length}) — 3-Leaderboard Ensemble` : `글로벌 프론티어 대표 모델 ${models.length}종 — 3대 리더보드 종합`}</strong>
+            <strong>${isEn ? `Flagship Frontier Models (${filteredMs.length}) — 3-Leaderboard Ensemble` : `글로벌 프론티어 대표 모델 ${filteredMs.length}종 — 3대 리더보드 종합`}</strong>
             <span class="bm-card-sub">${isEn ? "One latest flagship model per company · Verified across LMArena, Artificial Analysis, and LiveBench" : "제작사별 최신 대표 모델 1개 · LMArena · Artificial Analysis · LiveBench 3곳 교차 검증"}</span>
           </div>
         </div>
@@ -3113,18 +3391,33 @@ function renderBenchmarks() {
 // 이벤트 핸들러 바인딩 (위임)
 document.getElementById("benchmarks-container")?.addEventListener("click", (e) => {
   const modelRow = e.target.closest("[data-bm-model]");
-  if (modelRow && !e.target.closest("a, button")) {
+  if (modelRow && !e.target.closest("a, button:not([data-bm-model])")) {
     openBenchmarkModelModal(modelRow.dataset.bmModel);
     return;
   }
 
-  const t = e.target.closest("[data-go],[data-tab],[data-sort],#bm-others-btn");
+  const t = e.target.closest("[data-go],[data-tab],[data-sort],[data-domain-filter],[data-bm-view],#bm-others-btn");
   if (!t) return;
 
   if (t.id === "bm-others-btn") {
     STATE.benchmarkOthersOpen = !STATE.benchmarkOthersOpen;
     renderBenchmarks();
     refocus("others");
+    return;
+  }
+
+  if (t.dataset.bmView) {
+    STATE.benchmarkView = t.dataset.bmView;
+    renderBenchmarks();
+    return;
+  }
+
+  if (t.dataset.domainFilter) {
+    STATE.benchmarkDomainFilter = t.dataset.domainFilter;
+    if (t.dataset.domainFilter === "coding") {
+      STATE.benchmarkSort = "coding";
+    }
+    renderBenchmarks();
     return;
   }
 
@@ -3152,6 +3445,11 @@ document.getElementById("benchmarks-container")?.addEventListener("click", (e) =
   }
 });
 
+// 상단 데이터 수집 기준 및 한계 버튼 클릭 이벤트 리스너 바인딩
+document.getElementById("bm-scope-btn")?.addEventListener("click", () => {
+  openBenchmarkScopeModal();
+});
+
 // 키보드 ←→ 키로 탭 전환 및 Enter로 모델 상세 모달 열기
 document.getElementById("benchmarks-container")?.addEventListener("keydown", (e) => {
   const modelRow = e.target.closest("[data-bm-model]");
@@ -3168,6 +3466,7 @@ document.getElementById("benchmarks-container")?.addEventListener("keydown", (e)
   renderBenchmarks();
   refocus(`tab-${STATE.benchmarkTab}`);
 });
+
 
 
 

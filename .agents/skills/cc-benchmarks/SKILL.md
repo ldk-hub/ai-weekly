@@ -13,15 +13,17 @@ description: "AI 챗봇 시장 점유율(3곳 다중 출처 평균) 및 최신 �
 
 ```mermaid
 graph TD
-    A[벤치마크 데이터 검증 시작] --> B[검증 1: Staleness Gate - 출처 최신성]
-    B --> C[검증 2: Multi-Source Ensemble - 점유율 3곳 평균 100%]
-    C --> D[검증 3: Frontier Active Only - 구버전 배제 & 3대 리더보드]
-    D --> E[site/public/data/benchmarks_latest.json 검증 완료]
+    A[OpenRouter API 호출: fetch-openrouter.js] --> B[benchmarks_latest.json 가격/메타 동기화]
+    B --> C[검증 1: Staleness Gate - 출처 최신성 45일/30일]
+    C --> D[검증 2: Multi-Source Ensemble - 점유율 3곳 평균 100%]
+    D --> E[검증 3: Frontier Active Only - 구버전 배제 & 3대 리더보드]
+    E --> F[site/public/data/benchmarks_latest.json 검증 완료 및 아카이빙]
 ```
 
-### 1.1 최신성 게이트 (Staleness Gate)
-- **점유율 출처 (최대 45일 허용)**: 월간 지표 특성을 고려하여 실행일(Run Date) 기준 45일 이내 데이터만 허용.
-- **성능 벤치마크 출처 (최대 30일 허용)**: 일/주 단위 갱신 리더보드 특성을 고려하여 30일 초과 미갱신 시 즉시 배제.
+### 1.1 최신성 게이트 및 이원화된 수행 주기 (Bifurcated Cadence)
+- **점유율 출처 (월간 파이프라인 · 최대 45일 허용)**: Similarweb, Statcounter 등 매월 초 발표되는 월간 지표 특성에 맞추어 **매월 1~3일 정기 갱신**.
+- **성능 벤치마크 출처 (주간 파이프라인 · 최대 30일 허용)**: LMArena, Artificial Analysis, LiveBench, OpenRouter API는 **매주 월요일 정기 갱신** (`cc-weekly` Step 3).
+- **이벤트 기반 핫픽스 (상시)**: 새로운 주요 프론티어 플래그십 모델 출시 시 단일 엔트리를 즉시 수동 추가하여 당일 배포.
 - **과거 링크 엄격 차단**: 2026년 2월 이후 갱신이 멈춘 구형 `swebench.com` 등 방치된 출처는 블랙리스트로 원천 차단.
 
 ### 1.2 다중 출처 앙상블 평균 (Multi-Source Ensemble Average)
@@ -43,9 +45,9 @@ graph TD
 ## 2. 실행 명령어 및 검증
 
 ```bash
-# 벤치마크 데이터 유효성 및 정책 검증 게이트
+# 벤치마크 데이터 유효성 및 정책 검증 게이트 (OpenRouter API 동기화 + 검증 체인)
 npm run data:benchmarks
-# (동일 명령: node scripts/benchmarks/curate-benchmarks.js)
+# (동일 명령: node scripts/benchmarks/fetch-openrouter.js && node scripts/benchmarks/curate-benchmarks.js)
 ```
 
 ### 필수 체크포인트:

@@ -223,7 +223,7 @@
       "gpqa_diamond": 89.4,
       "mmlu_pro": 91.2,
       "pricing_in_1m": 2,
-      "pricing_out_1m": 8,
+      "pricing_out_1m": 10,
       "context_window": "1,000K",
       "badge_type": ""
     },
@@ -243,8 +243,8 @@
       "swe_bench_verified": null,
       "gpqa_diamond": 88.9,
       "mmlu_pro": 90.8,
-      "pricing_in_1m": 5,
-      "pricing_out_1m": 25,
+      "pricing_in_1m": 4,
+      "pricing_out_1m": 20,
       "context_window": "1,000K",
       "badge_type": ""
     },
@@ -264,8 +264,8 @@
       "swe_bench_verified": null,
       "gpqa_diamond": 87.6,
       "mmlu_pro": 89.5,
-      "pricing_in_1m": 0.25,
-      "pricing_out_1m": 0.99,
+      "pricing_in_1m": 4,
+      "pricing_out_1m": 20,
       "context_window": "1,000K",
       "badge_type": "open-weights"
     },
@@ -285,8 +285,8 @@
       "swe_bench_verified": null,
       "gpqa_diamond": 88.1,
       "mmlu_pro": 89.9,
-      "pricing_in_1m": 3,
-      "pricing_out_1m": 12,
+      "pricing_in_1m": 4,
+      "pricing_out_1m": 20,
       "context_window": "256K",
       "badge_type": ""
     },
@@ -306,8 +306,8 @@
       "swe_bench_verified": null,
       "gpqa_diamond": 85.4,
       "mmlu_pro": 88.2,
-      "pricing_in_1m": 0.6,
-      "pricing_out_1m": 2.4,
+      "pricing_in_1m": 0.179,
+      "pricing_out_1m": 20,
       "context_window": "256K",
       "badge_type": "open-weights"
     },
@@ -327,7 +327,7 @@
       "swe_bench_verified": null,
       "gpqa_diamond": 84.8,
       "mmlu_pro": 87.5,
-      "pricing_in_1m": 0.44,
+      "pricing_in_1m": 0.435,
       "pricing_out_1m": 0.87,
       "context_window": "1,050K",
       "badge_type": "open-weights"
@@ -370,7 +370,7 @@
       "gpqa_diamond": 83.9,
       "mmlu_pro": 86.8,
       "pricing_in_1m": 0.14,
-      "pricing_out_1m": 0.28,
+      "pricing_out_1m": 0.42,
       "context_window": "128K",
       "badge_type": "open-weights"
     },
@@ -390,7 +390,7 @@
       "swe_bench_verified": null,
       "gpqa_diamond": 83.5,
       "mmlu_pro": 86.4,
-      "pricing_in_1m": 0.08,
+      "pricing_in_1m": 0.0699,
       "pricing_out_1m": 1.4,
       "context_window": "128K",
       "badge_type": "open-weights"
