@@ -306,7 +306,7 @@
       "swe_bench_verified": null,
       "gpqa_diamond": 85.4,
       "mmlu_pro": 88.2,
-      "pricing_in_1m": 0.179,
+      "pricing_in_1m": 0.192,
       "pricing_out_1m": 20,
       "context_window": "256K",
       "badge_type": "open-weights"
@@ -369,8 +369,8 @@
       "swe_bench_verified": null,
       "gpqa_diamond": 83.9,
       "mmlu_pro": 86.8,
-      "pricing_in_1m": 0.14,
-      "pricing_out_1m": 0.42,
+      "pricing_in_1m": 0.045,
+      "pricing_out_1m": 0.5,
       "context_window": "128K",
       "badge_type": "open-weights"
     },

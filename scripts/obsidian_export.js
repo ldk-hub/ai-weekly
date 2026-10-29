@@ -102,6 +102,7 @@ graph TD
 - [[05-benchmarks 점유율·성능 파이프라인|📊 benchmarks 점유율·성능 파이프라인 명세]]
 
 ### 📅 날짜별 작업 일지 (Work Logs)
+- [[2026-10-29 작업일지|📅 2026-10-29 작업일지 (평일 cc-daily: 스타보드 601개 100% 최신화, 18건 전 매체 균형 큐레이션 및 배포, 옵시디언 동기화)]]
 - [[2026-10-26 작업일지|📅 2026-10-26 작업일지 (주간 cc-weekly: 스타보드 598개 최신화, 트렌드 35건 큐레이션·보안 스캔, 데일리 뉴스 18건 큐레이션 및 옵시디언 동기화)]]
 - [[2026-10-23 작업일지|📅 2026-10-23 작업일지 (평일 cc-daily: 벤치마크 검증 스크립트 정정, 데일리 뉴스 17건 큐레이션 및 배포, 옵시디언 동기화)]]
 - [[2026-10-22 작업일지|📅 2026-10-22 작업일지 (신규 '점유율·성능' 탭 전면 구현, 2026-10 데이터 검수, 수치 신뢰성 보완 및 원격 푸시)]]
@@ -319,6 +320,48 @@ tags: [ai-weekly, benchmarks, frontier-models, market-share, pipeline, staleness
 
 // 3. 작업 일지들
 const LOGS = [
+  {
+    filename: "2026-10-29 작업일지.md",
+    title: "2026-10-29 작업일지 — 평일 정기 파이프라인(cc-daily) 완수: 스타보드 601개 갱신 및 18건 전 매체 균형 큐레이션",
+    date: "2026-10-29",
+    content: `---
+title: 2026-10-29 작업일지
+date: 2026-10-29
+type: work-log
+tags: [ai-weekly, work-log, cc-daily, cc-star, cc-news, cc-benchmarks, obsidian-sync]
+status: completed
+author: ldk-hub <orm6711@gmail.com>
+---
+
+# 📅 2026-10-29 작업일지 (평일 정기 파이프라인 cc-daily 및 cc-benchmarks 완수)
+
+## 📌 주요 작업 요약
+
+### 1. 스타보드 갱신 (cc-star)
+- **대상 및 호출 결과**: 총 601개 타겟 리포지토리 전수 추적 완료 (\`Success: 601 (100%)\`, 404 Gone: 46, Renames: 0, Suspects: 0).
+- **데이터 저장**: \`data/stars/stars_meta.json\` 및 \`data/stars/stars_ledger.json\` 원자적 갱신 및 프론트엔드(\`site/public/data/\`) 동기화 완료.
+
+### 2. 데일리 AI 기술 신호 큐레이션 (cc-news)
+- **8대 매체 수집**: 최근 24시간 동안 발생한 신호 114건 수집 (\`.tmp/news_candidates.json\`). (GeekNews 5, AI타임스 5, Hacker News 13, GitHub 50, Reddit 22, HF Papers 12, Bluesky 7, X: 0 [부계정 쿠키 미설정]).
+- **18건 균형 큐레이션**:
+  - 매체별 쿼터(매체당 최대 5건) 및 신호축 쿼터(축당 최대 4건)를 엄격히 준수하여 총 18건 선별.
+  - 신호축 분포: \`model\` 3, \`devtool\` 3, \`practice\` 4, \`research\` 3, \`oss\` 3, \`policy\` 2.
+  - GitHub 업데이트 리포지토리 1건 포함 (\`morganlinton/BeautifulRust\`, 5일간 스타 743 → 1,365개로 +83.7% 급증 반영).
+- **품질 게이트 검증**: \`curate_news.js --validate\` 100% 통과 (\`news_latest.json\`, \`archive/news_2026-10-29.json\` 동기화).
+
+### 3. AI 점유율 및 프론티어 성능 파이프라인 (cc-benchmarks)
+- **최신성 게이트(Staleness Gate)**: 실행일(2026-10-29) 기준 점유율 3대 출처(Similarweb, Statcounter, OpenRouter Rankings) 및 성능 3대 출처(LMArena, AA, LiveBench) 전수 검증 통과 (\`npm run data:benchmarks\`).
+- **다중 출처 앙상블 평균**: 점유율 6대 챗봇 서비스의 3곳 평균 합계 100.00% 무결성 검증.
+- **아카이빙 및 동기화**: \`benchmarks_latest.json\` 최신화 및 \`data/archive/benchmarks_2026-10-29.json\`, \`site/public/data/archive/\` 양쪽 아카이브 반영 완료.
+
+### 4. 사이트 배포 리소스 및 라운지 갱신
+- **RSS/Sitemap**: \`generate-rss.js\` 실행을 통해 \`feed.xml\`, \`news-feed.xml\`, \`sitemap.xml\` 생성 완료.
+- **AI 라운지**: \`collect_lounge.js\` 실행을 통해 Discussions 최신 스냅샷 동기화 (\`lounge_latest.json\`).
+
+### 5. 옵시디언 볼트 동기화 (sync:obsidian)
+- 평일 파이프라인 전체 수행 이력 및 신규 작업일지를 옵시디언 볼트(\`/Users/nhn/Documents/Obsidian Vault/ai-weekly\`)에 전면 동기화.
+`
+  },
   {
     filename: "2026-10-26 작업일지.md",
     title: "2026-10-26 작업일지 — 주간 종합 파이프라인(cc-weekly) 완수 및 AI 점유율·성능(cc-benchmarks) 검증·아카이빙 전면 고도화",

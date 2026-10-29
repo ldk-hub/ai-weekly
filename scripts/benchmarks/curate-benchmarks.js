@@ -55,8 +55,8 @@ function validateAndCurate() {
     process.exit(1);
   }
 
-  // 기준 시각: 데이터 updated_at 또는 현재 실행 시각 중 최신 기준
-  const runDate = data.updated_at ? new Date(data.updated_at) : new Date();
+  // 기준 시각: 현재 실행 시각 기준
+  const runDate = new Date();
   console.log(`📅 검문 기준 일시 (Run Date): ${runDate.toISOString()}`);
 
   // 1. 출처 최신성 게이트 (Staleness Gate) 검증
@@ -157,8 +157,9 @@ function validateAndCurate() {
   console.log("✅ [Benchmarks] 최신성 게이트(Staleness Gate), 3곳 평균 산출 무결성, 구버전 배제 검증 모두 통과! (PASS)");
 
   // 4. 주간 아카이빙 및 파일 미러링
-  const today = "2026-10-26";
-  const nowIso = "2026-10-26T12:00:00+09:00";
+  const now = new Date();
+  const today = now.toISOString().slice(0, 10);
+  const nowIso = now.toISOString();
   data.updated_at = nowIso;
 
   // benchmarks_latest.json 갱신
