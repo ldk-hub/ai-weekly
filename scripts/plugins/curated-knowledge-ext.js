@@ -820,6 +820,110 @@ module.exports = {
     ],
     use_case: "동유럽 및 구소련 지역의 역사 기록물이나 가족사 아카이브를 전문적으로 조사하고 분석할 때",
     tags: ["genealogy", "historical-archive", "evidence-first", "claude-skills"]
+  },
+  "t3dotgg/tstack": {
+    category: "skill",
+    title_ko: "tstack — Theo가 매일 실무에서 활용하는 Claude Code 및 Codex 필수 에이전트 스킬 모음집",
+    catchphrase: "유명 개발자 Theo가 검증한 실전 코딩·디버깅 에이전트 스킬 워크플로우 번들",
+    summary_ko: "인기 개발 유튜버이자 엔지니어 Theo(t3dotgg)가 실무에서 매일 사용하는 AI 코딩 에이전트 스킬 번들입니다. Claude Code 및 OpenAI Codex와 완벽하게 호환되며, 복잡한 타입스크립트 리팩토링, 풀스택 컴포넌트 생성, 코드 검증을 가장 효율적인 프롬프트 체인과 툴셋으로 단축시킵니다.",
+    key_features: [
+      "Theo의 실전 개발 노하우가 집약된 Claude Code·Codex 공용 스킬 셋",
+      "풀스택 TypeScript 프로젝트 환경에 최적화된 빠른 코드 생성 및 검증",
+      "불필요한 토큰 소모를 줄이고 실행 정확도를 높인 실무형 프롬프트 아키텍처"
+    ],
+    use_case: "Claude Code와 Codex 환경에서 검증된 고효율 실무 코딩 스킬을 즉시 세팅하고 싶을 때",
+    tags: ["agent-skills", "claude-code", "codex", "typescript", "theo-t3"]
+  },
+  "haydenschmitty/floorplan": {
+    category: "agent",
+    title_ko: "floorplan — Claude와 Codex가 그려주는 인터랙티브 코드베이스 아키텍처 청사진",
+    catchphrase: "복잡한 전체 코드베이스 구조와 컴포넌트 연결 관계를 쉬운 설명과 대화형 지도로 시각화",
+    summary_ko: "Claude Code나 Codex가 전체 코드베이스를 분석하여 애플리케이션의 내부 구조와 파일 간 연결 관계를 쉬운 자연어와 대화형 평면도(Floorplan)로 시각화해주는 개발자 도구입니다. 신규 프로젝트 온보딩 시 거대한 리포지토리의 핵심 흐름과 의존성을 빠르게 파악할 수 있도록 돕습니다.",
+    key_features: [
+      "전체 코드베이스의 모듈 및 파일 연결망 인터랙티브 맵 자동 생성",
+      "개발자가 이해하기 쉬운 자연어 구조 설명 및 온보딩 가이드 제공",
+      "Claude Code 및 Codex 플러그인 생태계와 자연스러운 통합"
+    ],
+    use_case: "낯설거나 거대한 레거시 코드베이스의 전체 구조와 데이터 흐름을 한눈에 파악하고 싶을 때",
+    tags: ["codebase-map", "architecture-visualization", "claude-code", "codex", "onboarding"]
+  },
+  "andyhuo520/digital-human-koubo": {
+    category: "skill",
+    title_ko: "digital-human-koubo — 단 한 장의 사진으로 토킹헤드 영상을 생성하는 AI 디지털 휴먼 스킬",
+    catchphrase: "Renoise MCP 기반 고품질 영상 생성과 48종 크리에이터 패키징을 제공하는 에이전트 스킬",
+    summary_ko: "단 한 장의 인물 사진만으로 자연스러운 립싱크와 표정을 갖춘 디지털 휴먼 토킹헤드 비디오를 제작할 수 있는 에이전트 스킬입니다. Renoise MCP 생성 파이프라인과 5가지 영상 편집 스타일, 48개의 크리에이터용 패키징 요소를 갖추고 있어 Claude Code 및 Codex 환경에서 자동화된 쇼츠/콘텐츠 영상을 빠르게 만들어냅니다.",
+    key_features: [
+      "단일 사진 기반 고품질 디지털 휴먼 발화 영상 생성 파이프라인",
+      "Renoise MCP 연동 및 5가지 전문 영상 편집 스타일 프리셋",
+      "48종 크리에이터급 패키징 컴포넌트 및 멀티 에이전트 환경 지원"
+    ],
+    use_case: "Claude Code 등 코딩 에이전트로 발표 영상이나 크리에이터용 디지털 휴먼 콘텐츠를 자동 제작할 때",
+    tags: ["digital-human", "talking-head", "mcp-server", "video-generation", "claude-code"]
+  },
+  "qybaihe/bla": {
+    category: "mcp",
+    title_ko: "bla — AI 역공학 에이전트로부터 바이너리와 소스코드를 지키는 적대적 방어 쉴드",
+    catchphrase: "독소 주입·토큰 소진·할루시네이션 유도로 AI 리버스 엔지니어링 시도를 무력화",
+    summary_ko: "Claude Code, Cursor 등의 AI 코딩 에이전트가 소프트웨어를 역공학하거나 취약점을 분석하려 할 때 이를 차단하는 적대적 AI 방어 쉴드(Blind LLM Agents)입니다. 바이너리, Electron, JS 번들, WebAssembly 등에 특수 난독화와 기만 패턴을 심어 에이전트의 컨텍스트를 소진시키고 환각(Hallucination)을 유도하여 핵심 로직 유출을 방어합니다.",
+    key_features: [
+      "AI 역공학 에이전트를 표적으로 한 독소 및 환각 유도 난독화",
+      "바이너리, Electron, JS 번들, WebAssembly, Python 등 폭넓은 런타임 방어",
+      "Claude Code 및 Cursor 기반 자동화 분석 툴 대상 침투 방어 검증"
+    ],
+    use_case: "자사 배포 바이너리나 프론트엔드 번들이 AI 에이전트에 의해 손쉽게 역공학되는 것을 차단하고 싶을 때",
+    tags: ["adversarial-ai", "llm-security", "obfuscation", "reverse-engineering", "defense-shield"]
+  },
+  "microsoft/TokenEconomizer": {
+    category: "agent",
+    title_ko: "TokenEconomizer — 코딩 에이전트의 토큰 소모와 API 비용을 줄여주는 마이크로소프트의 블랙박스 비용 제어기",
+    catchphrase: "경험 기반 휴리스틱과 블랙박스 압축으로 에이전트 성능 저하 없이 토큰 비용을 대폭 절감",
+    summary_ko: "마이크로소프트가 공개한 코딩 에이전트 전용 비용 제어 및 토큰 최적화 프레임워크입니다. 과거 에이전트 실행 경험과 패턴을 학습하여 불필요한 컨텍스트 중복을 제거하고, 모델의 추론 성능을 유지하면서도 LLM API 호출 토큰 비용을 최소화하는 블랙박스 컨트롤러를 제공합니다.",
+    key_features: [
+      "과거 에이전트 궤적 경험을 활용한 동적 프롬프트 및 컨텍스트 압축",
+      "코딩 에이전트의 태스크 성공률을 희생하지 않는 블랙박스 최적화 알고리즘",
+      "Claude Code, Codex, GitHub Copilot 등 대규모 코딩 에이전트 비용 절감"
+    ],
+    use_case: "팀 단위 코딩 에이전트 운용 시 기하급수적으로 늘어나는 LLM 토큰 비용을 체계적으로 감축하고 싶을 때",
+    tags: ["token-optimization", "cost-control", "microsoft", "coding-agents", "context-compression"]
+  },
+  "reason-machines/reason-network": {
+    category: "harness",
+    title_ko: "reason-network — 팀원들의 코딩 에이전트를 P2P로 연결해 상호 협력시키는 분산 통신 엔진",
+    catchphrase: "서로 다른 PC에서 실행 중인 Claude Code·Codex 에이전트 간의 실시간 분산 협업 네트워크",
+    summary_ko: "서로 다른 개발자의 로컬 머신에서 실행되는 다양한 코딩 에이전트(Claude Code, Codex, Cursor 등)를 P2P 통신망으로 연결하여 팀 단위 협업을 가능케 하는 엔진입니다. Iroh 기반의 분산 네트워킹을 통해 에이전트끼리 코드 컨텍스트와 피드백을 실시간 교환하고 분업화된 작업을 함께 완수하도록 돕습니다.",
+    key_features: [
+      "Iroh 기반 로컬 및 원격 코딩 에이전트 간 보안 P2P 분산 네트워크 구축",
+      "Claude Code, Codex, Cursor 등 이종 에이전트 간 실시간 컨텍스트 및 작업 공유",
+      "중앙 서버 없이 팀 에이전트들이 직접 대화하며 대규모 프로젝트 공동 해결"
+    ],
+    use_case: "팀 내 여러 개발자의 코딩 에이전트들을 분산 연결하여 협동 코딩 파이프라인을 구축하고 싶을 때",
+    tags: ["agent-to-agent", "p2p-network", "multi-agent", "claude-code", "distributed-agents"]
+  },
+  "patch-gg/pixelfx": {
+    category: "skill",
+    title_ko: "pixelfx — 244종의 픽셀 아트 VFX 코드 및 커스텀 이펙트 제작 Claude Code 스킬",
+    catchphrase: "경량 코드로 구현된 244개 레트로 픽셀 효과와 에이전트 기반 커스텀 VFX 생성기",
+    summary_ko: "244가지 다양한 레트로 게임 스타일의 픽셀 아트 시각 효과(VFX)를 순수 코드로 제공하는 라이브러리이자 에이전트 스킬입니다. 폭발, 마법, 반짝임 등 각 효과가 독립적인 가벼운 스니펫으로 작성되어 있으며, Claude Code 스킬을 통해 원하는 스타일의 새로운 픽셀 이펙트를 프롬프트로 즉시 생성할 수 있습니다.",
+    key_features: [
+      "244개 독립형 픽셀 아트 이펙트 코드 스니펫 및 스프라이트 시트 지원",
+      "웹 캔버스 및 2D 게임 엔진에 가볍게 바로 붙여넣는 순수 코드 구현",
+      "Claude Code와 연동하여 프롬프트로 커스텀 픽셀 VFX를 창작하는 전용 스킬"
+    ],
+    use_case: "레트로 웹 게임이나 크리에이티브 프론트엔드에 화려한 픽셀 그래픽 효과를 빠르게 삽입하고 싶을 때",
+    tags: ["pixel-art", "vfx", "game-dev", "canvas-animation", "claude-skills"]
+  },
+  "Ryze-AI-Adgent/open-seo-mcp-skills": {
+    category: "mcp",
+    title_ko: "open-seo-mcp-skills — 실데이터(GA4·GSC) 기반 검색 엔진 및 생성형 AI 검색(GEO) 최적화 MCP",
+    catchphrase: "Google 검색 콘솔·애널리틱스와 직접 연동하여 키워드 분석·순위 추적·백링크 감사를 자동화",
+    summary_ko: "Google Search Console(GSC), GA4, 광고 데이터를 직접 연동하여 전통적인 검색 엔진 최적화(SEO)와 최신 생성형 AI 검색 최적화(GEO)를 동시에 수행하는 무료 오픈소스 MCP 서버이자 스킬 번들입니다. Claude Code가 실제 사이트 성과 데이터를 조회하고 키워드 발굴, 순위 모니터링, 백링크 감사, 기술적 SEO 결함 진단을 자율적으로 수행합니다.",
+    key_features: [
+      "Google Search Console 및 GA4 실시간 데이터 연동 기반 종합 SEO 감사",
+      "전통적 검색 엔진(SEO) 및 생성형 AI 검색 엔진(GEO) 가시성 추적",
+      "Claude Code 원클릭 HTTP 전송 계층 MCP 지원"
+    ],
+    use_case: "Claude Code에서 실제 사이트의 트래픽·순위 데이터를 바탕으로 정밀한 검색 최적화 전략을 수립할 때",
+    tags: ["seo-mcp", "geo-optimization", "google-search-console", "analytics", "claude-code"]
   }
 };
 

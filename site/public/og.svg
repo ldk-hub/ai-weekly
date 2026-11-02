@@ -16,7 +16,7 @@
   <!-- Version pill (right side) -->
   <g transform="translate(940, 64)">
     <rect x="0" y="0" width="200" height="36" rx="18" fill="#f2efe5"/>
-    <text x="100" y="23" font-size="13" font-weight="600" fill="#0e0e0e" text-anchor="middle">📅 2026.10.26 · v2026.10.26</text>
+    <text x="100" y="23" font-size="13" font-weight="600" fill="#0e0e0e" text-anchor="middle">📅 2026.11.01 · v2026.11.01</text>
   </g>
 
   <!-- Main title -->
@@ -34,7 +34,7 @@
 
       <g transform="translate(24, 220)">
         <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">juliobsz/skills</text>
-        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 950</text>
+        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 1.1k</text>
       </g>
     </g>
     <g transform="translate(427, 290)">
@@ -46,19 +46,19 @@
 
       <g transform="translate(24, 220)">
         <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">morluto/rea</text>
-        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 385k</text>
+        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 419k</text>
       </g>
     </g>
     <g transform="translate(794, 290)">
       <rect x="0" y="0" width="347" height="280" rx="20" fill="#ffd8bd" stroke="#0e0e0e" stroke-width="1.5"/>
       <text x="24" y="40" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="2">#03 · SKILL</text>
-      <text x="24" y="92" font-size="28" font-weight="700" fill="#0e0e0e" letter-spacing="-0.5">lemo-opuscar — …</text>
-      <text x="24" y="138" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">스타일 프롬프트와 순수 자바스크립트 코드만으로 렌더링되는 시네마틱 …</text>
+      <text x="24" y="92" font-size="28" font-weight="700" fill="#0e0e0e" letter-spacing="-0.5">pixelfx — 244종의…</text>
+      <text x="24" y="138" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85">경량 코드로 구현된 244개 레트로 픽셀 효과와 에이전트 기반 커스…</text>
       <text x="24" y="172" font-size="14" font-weight="500" fill="#0e0e0e" opacity="0.85"></text>
 
       <g transform="translate(24, 220)">
-        <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">lemomo-ai/lemo-opuscar</text>
-        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 7.4k</text>
+        <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">patch-gg/pixelfx</text>
+        <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 2.5k</text>
       </g>
     </g>
 

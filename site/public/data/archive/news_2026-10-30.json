@@ -1,0 +1,523 @@
+{
+  "generated_at": "2026-10-30T01:03:57.563Z",
+  "version": "v2026.10.30",
+  "summary": "🔥 오늘의 핵심 키워드: #제미나이 #오픈가중치 #에이전트서빙 — 구글 제미나이 4 카본의 지능 종합 1위 등극과 미스트랄 라지 4 가중치 공개, LLM 서빙 스케줄링 및 에이전트 협업 최적화가 집중된 하루였습니다.",
+  "curated_by": "ldk-hub",
+  "signal_counts": {
+    "model": 2,
+    "oss": 3,
+    "research": 3,
+    "practice": 3,
+    "product": 3,
+    "devtool": 3
+  },
+  "news": [
+    {
+      "id": "hackernews_0acd12b32c",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "signal_id": "model",
+      "signal_name": "새 모델·버전 출시·프리뷰·벤치마크",
+      "importance": 92,
+      "headline": "구글 제미나이 4 카본, Artificial Analysis 지능 종합 지수 1위 등극",
+      "title_ko": "구글 제미나이 4 카본, Artificial Analysis 지능 종합 지수 1위 등극",
+      "summary_ko": "• **순위 변동**: 구글의 '제미나이 4 카본(Gemini 4 Carbon)'이 인공지능 종합 평가 지수 AA Intelligence Index v5에서 1위를 차지했다.\n• **세부 점수**: 복합 지능 평가에서 정상을 기록했으며 코딩 전문 벤치마크에서도 최상위권인 Claude Opus 5.5의 뒤를 바짝 추격했다.\n• **엔진 혁신**: 멀티모달 추론과 심층 분석에서 대폭 향상된 처리량과 일관성을 보여주며 프론티어 플래그십 경쟁을 가속화했다.",
+      "body_ko": "공신력 있는 AI 분석 플랫폼 Artificial Analysis가 발표한 Intelligence Index v5에서 구글의 Gemini 4 Carbon이 종합 1위에 올랐다. 이 벤치마크는 단일 과제가 아니라 수학, 복합 추론, 코딩, 지시 이행 능력을 망라한 종합 품질 지표다. Gemini 4 Carbon은 전반적인 추론 지수에서 경쟁 모델들을 제치고 가장 높은 종합 스코어를 획득했다. 특히 코딩 전용 벤치마크에서도 선두를 달리는 최신 프론티어 모델들과 불과 1점 안팎의 근소한 격차를 유지했다. 대규모 컨텍스트 처리와 멀티모달 입력이 결합된 환경에서 뛰어난 응답 품질을 입증했다. 글로벌 엔터프라이즈 환경에서 차세대 백엔드 AI 엔진 도입 기준에 중대한 변화를 예고한다.",
+      "author_profile": "@theHocineSaad",
+      "publish_date": "2026-10-29T12:41:56.000Z",
+      "tags": [
+        "제미나이",
+        "벤치마크",
+        "아티피셜애널리시스",
+        "구글"
+      ],
+      "url": "https://artificialanalysis.ai/articles/gemini-4-carbon-new-number-1",
+      "sources": [
+        "Hacker News"
+      ],
+      "metrics": {
+        "points": 328,
+        "comments": 240,
+        "discussion_url": "https://news.ycombinator.com/item?id=50288019"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "github_1983be73a5",
+      "category_id": "github",
+      "category_name": "GitHub",
+      "signal_id": "oss",
+      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
+      "importance": 89,
+      "headline": "[업데이트] MiniMax-AI/mcode-stack: 미니맥스 팀의 에이전트 스킬셋, 스타 114% 급증과 함께 생태계 확장",
+      "title_ko": "[업데이트] MiniMax-AI/mcode-stack: 미니맥스 팀의 에이전트 스킬셋, 스타 114% 급증과 함께 생태계 확장",
+      "summary_ko": "• **스타 급증**: 직전 배포 기준 193개이던 스타가 413개로 114% 급증하며 일평균 213스타의 높은 관심을 이어가고 있다.\n• **신규 기능**: 서브에이전트 분할 판정, 도구 컨텍스트 예산 감사, 긴 세션 메모리 압축 등 프로덕션 스킬들이 추가로 정비됐다.\n• **배포 확장**: 미니맥스 코드뿐만 아니라 Claude Code 및 Codex 플러그인 마켓플레이스 명령 한 줄로 즉시 설치가 가능해졌다.",
+      "body_ko": "미니맥스 AI 팀이 자사 코딩 에이전트 구동을 위해 직접 사용하는 엔지니어링 스킬셋 mcode-stack이 전일 대비 114%의 스타 성장률을 기록하며 화제를 모았다. 이번 업데이트에서는 일평균 213개의 스타 획득을 견인한 실전용 엔지니어링 스킬들의 문서화와 설치 체계가 한층 보강되었다. 작업의 서브에이전트 위임 여부를 결정하는 subagent-split-check와 컨텍스트 누수를 진단하는 context-tax-audit 등이 정식 포함됐다. 사용자는 터미널에서 플러그인 설치 명령 한 줄로 자신의 에이전트 환경에 전체 스택을 즉시 탑재할 수 있다. 실제 상용 코딩 제품을 만드는 개발팀의 내부 운영 노하우가 오픈소스로 투명하게 공유되고 있는 프로젝트다.",
+      "is_update": true,
+      "prev_published_date": "2026-10-29",
+      "prev_stars": 193,
+      "star_growth_pct": 114,
+      "author_profile": "MiniMax-AI",
+      "publish_date": "2026-10-29T14:24:29.000Z",
+      "tags": [
+        "에이전트스킬",
+        "코딩에이전트",
+        "미니맥스",
+        "오픈소스"
+      ],
+      "url": "https://github.com/MiniMax-AI/mcode-stack",
+      "sources": [
+        "GitHub"
+      ],
+      "metrics": {
+        "stars": 413,
+        "forks": 26,
+        "created_at": "2026-10-28T02:17:41Z",
+        "pushed_at": "2026-10-29T14:24:29Z",
+        "repo": "MiniMax-AI/mcode-stack",
+        "stars_per_day": 213
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "aitimes_1b34874120",
+      "category_id": "aitimes",
+      "category_name": "AI타임스",
+      "signal_id": "model",
+      "signal_name": "새 모델·버전 출시·프리뷰·벤치마크",
+      "importance": 88,
+      "headline": "미스트랄 AI, '미스트랄 라지 4' 모델 가중치 공개 및 온프레미스 출시",
+      "title_ko": "미스트랄 AI, '미스트랄 라지 4' 모델 가중치 공개 및 온프레미스 출시",
+      "summary_ko": "• **가중치 공개**: 미스트랄 AI가 최신 플래그십 파운데이션 모델인 '미스트랄 라지 4'의 가중치를 전격 공개하고 정식 출시했다.\n• **배포 유연성**: 기존 폐쇄형 API 중심에서 벗어나 기업이 자체 데이터센터나 프라이빗 클라우드에 직접 올려 미세조정할 수 있다.\n• **보안 특화**: 유럽 및 글로벌 규제 준수가 필요한 기업을 위해 외부 데이터 유출 없는 로컬 사이버보안 분석 환경을 지원한다.",
+      "body_ko": "프랑스 AI 스타트업 미스트랄 AI가 대표 모델 미스트랄 라지 4의 오픈 가중치를 공개하고 엔터프라이즈 배포를 개시했다. 기존에 상용 클라우드 API로만 제한 공급되던 최고 성능 모델을 기업이 자체 인프라에서 구동할 수 있게 전환했다. 온프레미스 인프라 환경에서 금융이나 방산 등 데이터 주권이 엄격한 도메인의 사내 구축 수요를 겨냥했다. 특히 사이버 보안 위협 분석과 취약점 패치 생성 등 기밀 코드를 다루는 작업에서 높은 성능을 입증했다. 폐쇄형 독점 모델 일변도의 프론티어 시장에서 오픈 가중치 진영의 경쟁력을 한 단계 끌어올린 출시로 평가된다.",
+      "author_profile": "임대준 기자",
+      "publish_date": "2026-10-29T21:16:49.000Z",
+      "tags": [
+        "오픈가중치",
+        "미스트랄",
+        "온프레미스",
+        "사이버보안"
+      ],
+      "url": "https://www.aitimes.com/news/articleView.html?idxno=216821",
+      "sources": [
+        "AI타임스"
+      ],
+      "metrics": {},
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hfpapers_4f65b4deba",
+      "category_id": "hfpapers",
+      "category_name": "HF Daily Papers",
+      "signal_id": "research",
+      "signal_name": "연구·논문·새 기법",
+      "importance": 87,
+      "headline": "TAO: LLM 에이전트 서빙을 위한 GPU 추론과 CPU 도구 실행 통합 스케줄링 프레임워크",
+      "title_ko": "TAO: LLM 에이전트 서빙을 위한 GPU 추론과 CPU 도구 실행 통합 스케줄링 프레임워크",
+      "summary_ko": "• **기법 제안**: GPU 상의 모델 추론과 CPU 상의 외부 도구 실행이 반복 교차하는 에이전트 환경에 최적화된 공동 스케줄러 TAO를 제안했다.\n• **실험 결과**: 기존 휴리스틱 기반 스케줄러 대비 큐 대기 시간을 34% 단축하고 전반적인 서비스 서빙 처리량을 1.4배 향상시켰다.\n• **기존 차이**: 도구의 반환 준비 시점을 미리 예측해 GPU 컨텍스트 스왑 오버헤드를 원천적으로 제거했다.",
+      "body_ko": "허깅페이스 데일리 페이퍼 목록에 선정된 논문 TAO는 LLM 기반 에이전트 시스템의 서빙 병목을 해결하는 스케줄링 구조를 제안했다. 기존 서빙 프레임워크는 GPU 추론만 스케줄링하고 도구 실행은 개별 프로세스로 방치하여 GPU 메모리가 유휴 상태로 대기하는 낭비가 컸다. 저자들은 외부 도구 호출의 예상 실행 시간을 동적으로 추정하고, 반환 시점에 맞춰 GPU 배치 풀에 선제적으로 슬롯을 확보하는 기법을 고안했다. 벤치마크 테스트 결과 요청 완료 지연 시간을 최대 34% 줄이고 전체 클러스터의 에이전트 세션 수용량을 크게 높였다. 복잡한 도구 체인을 다루는 프로덕션 에이전트 백엔드 엔지니어링에 중요한 이론적 해법을 제시한다.",
+      "author_profile": "lsh-algorithm",
+      "publish_date": "2026-10-29T00:00:00.000Z",
+      "tags": [
+        "에이전트서빙",
+        "GPU스케줄링",
+        "도구실행",
+        "LLM추론"
+      ],
+      "url": "https://huggingface.co/papers/2610.37230",
+      "sources": [
+        "HF Daily Papers"
+      ],
+      "metrics": {
+        "upvotes": 16,
+        "comments": 3,
+        "arxiv_id": "2610.37230",
+        "paper_published_at": "2026-10-27T00:00:00.000Z",
+        "github_repo": null
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "aitimes_1397f35ec5",
+      "category_id": "aitimes",
+      "category_name": "AI타임스",
+      "signal_id": "practice",
+      "signal_name": "AI 활용 사례·워크플로우 팁",
+      "importance": 86,
+      "headline": "앤트로픽, 클로드 자체 대화 위험성을 감시하는 자기 평가 기술 도입",
+      "title_ko": "앤트로픽, 클로드 자체 대화 위험성을 감시하는 자기 평가 기술 도입",
+      "summary_ko": "• **기술 도입**: 앤트로픽이 클로드가 생성한 답변의 유해성과 악용 시도를 스스로 사후 평가하는 '자기 평가' 기능을 서비스에 적용했다.\n• **성능 지표**: 기존 감시 시스템이 놓친 유해 세션을 78% 감지해냈으며, 전체 연산 비용 증가는 2% 미만으로 억제했다.\n• **보안 기여**: 외부 모니터링 모델 없이도 모델 도난 및 대규모 사기 공격을 효율적으로 사전 차단할 수 있게 됐다.",
+      "body_ko": "앤트로픽이 대화의 위험성과 악용 가능성을 클로드 모델 자체가 스스로 평가하는 자기 평가 메커니즘을 정식 배포했다. 이 방식은 별도의 안전 검열용 보조 모델을 상시 가동하지 않고, 클로드가 응답을 마친 직후 해당 세션의 컨텍스트를 자체 검토한다. 내부 벤치마크 결과 기존 감시 파이프라인이 탐지하지 못했던 복합 유해 세션의 78%를 성공적으로 포착했다. 동시에 추가적인 서빙 연산 오버헤드는 2% 미만으로 유지하여 인프라 효율성을 높였다. 모델의 탈옥 시도나 지식 증류를 통한 가중치 탈취 공격을 방어하는 데 매우 유용한 실무 아키텍처다.",
+      "author_profile": "임대준 기자",
+      "publish_date": "2026-10-29T22:21:59.000Z",
+      "tags": [
+        "안전성",
+        "자기평가",
+        "보안",
+        "앤트로픽"
+      ],
+      "url": "https://www.aitimes.com/news/articleView.html?idxno=216824",
+      "sources": [
+        "AI타임스"
+      ],
+      "metrics": {},
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "bluesky_71bc47a32b",
+      "category_id": "bluesky",
+      "category_name": "Bluesky",
+      "signal_id": "practice",
+      "signal_name": "AI 활용 사례·워크플로우 팁",
+      "importance": 85,
+      "headline": "앤트로픽 연구: AI 에이전트가 전문가의 중대 의사결정을 지원하는 프롬프트 패턴",
+      "title_ko": "앤트로픽 연구: AI 에이전트가 전문가의 중대 의사결정을 지원하는 프롬프트 패턴",
+      "summary_ko": "• **연구 발표**: 앤트로픽이 전문가의 비가역적 의사결정을 보조할 때 AI 에이전트가 편향을 줄이고 판단을 돕는 전략을 공개했다.\n• **핵심 패턴**: 되돌릴 수 없는 중요한 결정을 내릴 때 에이전트가 추천하지 않는 대안의 가장 강력한 근거를 먼저 제시하도록 유도한다.\n• **실무 적용**: 에이전트의 일방적 동의 편향을 억제하고 다각도의 아키텍처 트레이드오프를 검증할 수 있다.",
+      "body_ko": "앤트로픽 연구팀이 고도의 전문 지식이 필요한 의사결정 과정에서 AI 에이전트가 전문가의 통찰을 극대화하는 상호작용 기법을 공유했다. 연구진은 시스템 변경이나 운영 인프라 전환처럼 한번 실행하면 되돌리기 어려운 작업에서 에이전트가 즉각 결론만 내리는 방식을 경계했다. 권장 선택지를 제시하기에 앞서 채택하지 않은 대안이 지닌 가장 강력한 반론을 먼저 의무적으로 서술하게 만드는 패턴을 제안했다. 이러한 반대 가설 제시 프로세스는 전문가가 놓치기 쉬운 엣지 케이스와 리스크 요소를 사전에 인지하도록 유도한다. 엔지니어링 리드와 솔루션 아키텍트가 에이전트의 과도한 순응 성향을 억제하고 합리적 결정을 내리는 데 유용한 프랙티스다.",
+      "author_profile": "@hectoralamo.bsky.social",
+      "publish_date": "2026-10-29T15:10:18.841Z",
+      "tags": [
+        "의사결정",
+        "프롬프트패턴",
+        "아키텍처",
+        "앤트로픽"
+      ],
+      "url": "https://www.anthropic.com/research/agents-judgment-calls",
+      "sources": [
+        "Bluesky"
+      ],
+      "metrics": {
+        "likes": 3,
+        "reposts": 0,
+        "replies": 2,
+        "bluesky_url": "https://bsky.app/profile/hectoralamo.bsky.social/post/3myzkdyezxc2z"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "aitimes_85d65b2d5a",
+      "category_id": "aitimes",
+      "category_name": "AI타임스",
+      "signal_id": "product",
+      "signal_name": "제품 신기능",
+      "importance": 84,
+      "headline": "오픈AI, 챗GPT 유료 프로 및 기업용 요금제 작업 사용량 최대 2배 확대",
+      "title_ko": "오픈AI, 챗GPT 유료 프로 및 기업용 요금제 작업 사용량 최대 2배 확대",
+      "summary_ko": "• **정책 완화**: 오픈AI가 챗GPT 프로 및 엔터프라이즈 요금제 사용자의 AI 작업 기본 쿼리 한도를 최대 2배로 확대했다.\n• **계획 철회**: 월 200달러 프로 요금제에 사전 공지했던 사용량 축소 계획을 전격 백지화하고 고부하 작업을 보장한다.\n• **생산성 제고**: 개발자와 연구자가 코딩 에이전트 및 심층 리서치 작업을 제한 없이 지속할 수 있는 기반을 강화했다.",
+      "body_ko": "오픈AI가 28일 연속 기능 출시 캠페인의 일환으로 프로 및 기업용 유료 구독자의 사용 한도를 대폭 상향했다. 챗GPT 프로 계정과 기업용 워크스페이스에서 모델을 호출할 수 있는 기본 작업 처리량이 기존 대비 최대 2배 늘어났다. 이전에 예고되었던 고부하 추론 모델 사용 제한 계획도 사용자들의 피드백을 수용하여 전면 철회되었다. 코덱스와 심층 리서치 에이전트 등 복잡한 멀티스텝 작업 환경에서 세션 중단 없이 작업을 이어갈 수 있게 됐다. 고사양 엔터프라이즈 개발 환경에서 비용 대비 실질 작업 처리 효율이 크게 개선될 전망이다.",
+      "author_profile": "임대준 기자",
+      "publish_date": "2026-10-29T21:52:24.000Z",
+      "tags": [
+        "챗GPT",
+        "오픈AI",
+        "엔터프라이즈",
+        "사용량확대"
+      ],
+      "url": "https://www.aitimes.com/news/articleView.html?idxno=216823",
+      "sources": [
+        "AI타임스"
+      ],
+      "metrics": {},
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hfpapers_4047ad471d",
+      "category_id": "hfpapers",
+      "category_name": "HF Daily Papers",
+      "signal_id": "research",
+      "signal_name": "연구·논문·새 기법",
+      "importance": 84,
+      "headline": "RealCLI: 사람과 터미널 에이전트 간의 런타임 협업 품질을 측정하는 동적 벤치마크",
+      "title_ko": "RealCLI: 사람과 터미널 에이전트 간의 런타임 협업 품질을 측정하는 동적 벤치마크",
+      "summary_ko": "• **연구 배경**: 기존 CLI 에이전트 평가는 고정된 단일 지시문 결과만 측정해 실제 런타임에서의 사람과의 인터랙션 품질을 평가하지 못했다.\n• **평가 지표**: 동적 지시 변경, 중간 에러 발생 시의 개입 수용성, 롤백 안정성을 포함하는 다차원 협업 점수 체계를 구축했다.\n• **실험 발견**: 자율 성공률이 높은 에이전트라도 사람의 중간 지시 수정에 적응하지 못하고 기존 계획을 고집하는 문제가 빈번했다.",
+      "body_ko": "허깅페이스 데일리 페이퍼에 등재된 RealCLI 연구는 터미널 CLI 에이전트와 인간 개발자 간의 실제 협업 능력을 정밀 평가하는 벤치마크를 발표했다. SWE-bench를 비롯한 기존 벤치마크들은 초기에 주어진 요구사항이 끝까지 고정된 상태에서 최종 통과 여부만 확인하는 한계가 있었다. 연구진은 개발자가 실행 도중 명령을 취소하거나 추가 제약 조건을 부여하는 상황을 시뮬레이션하여 런타임 적응력을 측정했다. 실험 결과 정적 평가에서 80% 이상의 성공률을 보인 프론티어 에이전트들도 런타임 개입 상황에서는 적응률이 절반 수준으로 떨어졌다. 현실적인 페어 프로그래밍 에이전트를 개발하기 위해 필수적으로 극복해야 할 과제를 짚어냈다.",
+      "author_profile": "csjiaya",
+      "publish_date": "2026-10-29T00:00:00.000Z",
+      "tags": [
+        "CLI에이전트",
+        "벤치마크",
+        "협업평가",
+        "RealCLI"
+      ],
+      "url": "https://huggingface.co/papers/2610.22507",
+      "sources": [
+        "HF Daily Papers"
+      ],
+      "metrics": {
+        "upvotes": 15,
+        "comments": 1,
+        "arxiv_id": "2610.22507",
+        "paper_published_at": "2026-10-15T00:00:00.000Z",
+        "github_repo": null
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hackernews_8b5ad7140a",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "signal_id": "devtool",
+      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
+      "importance": 83,
+      "headline": "스카이파일럿, Grace Blackwell 클러스터 GPU 활용률을 27% 개선하는 토폴로지 스케줄러 발표",
+      "title_ko": "스카이파일럿, Grace Blackwell 클러스터 GPU 활용률을 27% 개선하는 토폴로지 스케줄러 발표",
+      "summary_ko": "• **문제 진단**: 엔비디아 Grace Blackwell 시스템에서 인터커넥트 토폴로지를 무시하고 분산 학습을 실행할 경우 최대 43%의 성능 저하가 발생한다.\n• **솔루션 제안**: SkyPilot 연구팀이 노드 간 NVLink와 InfiniBand 연결 구조를 인지하는 맞춤형 오케스트레이션 스케줄러를 공개했다.\n• **정량 성과**: 동일한 서버 랙 구성에서 추가 하드웨어 투자 없이도 실제 가용 GPU 성능을 27% 향상시키는 성과를 거뒀다.",
+      "body_ko": "오픈소스 클라우드 오케스트레이션 프레임워크 SkyPilot 팀이 엔비디아의 차세대 Grace Blackwell 랙 환경을 위한 토폴로지 인식 스케줄러를 발표했다. 연구진은 분산 학습 시 고속 NVLink 대역폭과 InfiniBand 네트워크 구조를 고려하지 않고 노드를 배치하면 성능이 43%까지 급락함을 확인했다. 이에 GPU 랙의 물리적 통신 토폴로지를 자동으로 파악해 최적의 통신 경로를 갖는 노드 조합에 작업을 할당하는 스케줄링 알고리즘을 개발했다. 실험 결과 기존 기본 쿠버네티스 스케줄러 대비 동일 랙에서 27% 더 많은 유효 GPU 처리량을 확보했다. 대규모 파운데이션 모델 학습 인프라의 클러스터 효율성을 극대화할 수 있는 솔루션이다.",
+      "author_profile": "@wondersky",
+      "publish_date": "2026-10-29T15:45:05.000Z",
+      "tags": [
+        "스케줄러",
+        "GPU인프라",
+        "분산학습",
+        "SkyPilot"
+      ],
+      "url": "https://skypilot.ai/blog/grace-blackwell-needs-a-new-scheduler",
+      "sources": [
+        "Hacker News"
+      ],
+      "metrics": {
+        "points": 126,
+        "comments": 21,
+        "discussion_url": "https://news.ycombinator.com/item?id=50290912"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hfpapers_8afa1c5de1",
+      "category_id": "hfpapers",
+      "category_name": "HF Daily Papers",
+      "signal_id": "research",
+      "signal_name": "연구·논문·새 기법",
+      "importance": 83,
+      "headline": "LongZero: 인간 데이터 라벨 없이 강화학습만으로 LLM의 롱컨텍스트 추론 능력을 극대화하는 기법",
+      "title_ko": "LongZero: 인간 데이터 라벨 없이 강화학습만으로 LLM의 롱컨텍스트 추론 능력을 극대화하는 기법",
+      "summary_ko": "• **방법 제안**: 값비싼 사람의 라벨링 데이터 없이 순수 합성 규칙과 검증 가능한 보상 체계만으로 긴 문맥 추론을 학습시키는 LongZero를 제안했다.\n• **실험 성과**: 128K 이상의 초장문 질의응답 및 논리 추론 과제에서 기존 지도 미세조정(SFT) 모델 대비 정답률을 21% 끌어올렸다.\n• **차별점**: 자연 발생 데이터의 희소성을 극복하기 위해 난이도와 길이가 점진적으로 증가하는 자동 커리큘럼 RL 프레임워크를 정립했다.",
+      "body_ko": "허깅페이스 데일리 페이퍼 목록에 선정된 LongZero 논문은 대규모 언어 모델의 장문 추론 능력을 데이터 구축 비용 없이 강화하는 연구를 다뤘다. 긴 문맥을 다루는 강화학습 데이터는 사람이 직접 검증하기 어렵고 비용이 막대하여 연구 진행의 가장 큰 병목으로 꼽혀왔다. 저자들은 논리적 일관성과 수학적 규칙으로 정답 검증이 가능한 장문 합성 과제를 자동으로 생성하는 파이프라인을 설계했다. 점진적으로 문맥 길이를 늘려가는 커리큘럼 강화학습을 적용한 결과 128K 토큰 길이의 복잡한 추론 문제에서 정확도가 21% 향상되었다. 고품질 학습 데이터 부족 문제를 알고리즘적 보상 설계로 해결한 주목할 만한 연구다.",
+      "author_profile": "zhennan1",
+      "publish_date": "2026-10-29T00:00:00.000Z",
+      "tags": [
+        "롱컨텍스트",
+        "강화학습",
+        "합성데이터",
+        "LongZero"
+      ],
+      "url": "https://huggingface.co/papers/2610.30132",
+      "sources": [
+        "HF Daily Papers"
+      ],
+      "metrics": {
+        "upvotes": 4,
+        "comments": 1,
+        "arxiv_id": "2610.30132",
+        "paper_published_at": "2026-10-21T00:00:00.000Z",
+        "github_repo": "https://github.com/zhennan1/LongZero"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "geeknews_58be847604",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "signal_id": "practice",
+      "signal_name": "AI 활용 사례·워크플로우 팁",
+      "importance": 82,
+      "headline": "좀비 통계: 주요 AI 서비스가 인용하는 수치 데이터의 출처 왜곡 실태 분석",
+      "title_ko": "좀비 통계: 주요 AI 서비스가 인용하는 수치 데이터의 출처 왜곡 실태 분석",
+      "summary_ko": "• **조사 결과**: 5개 주요 AI 서비스가 답변에서 인용한 통계 1,285건 중 원천 연구와 정확히 일치한 비율은 40%에 불과했다.\n• **왜곡 메커니즘**: 인용 링크에 해당 숫자가 있더라도 82% 중 48%는 2차 블로그나 마케팅 기사를 거치며 맥락이 변질된 수치였다.\n• **대응 방안**: AI 검색 및 RAG 시스템 구축 시 1차 원문 레퍼런스 검증 게이트를 강제해야 할 필요성을 시사한다.",
+      "body_ko": "AI 검색 서비스들이 생성형 답변에서 제시하는 수치형 통계의 실제 신뢰성을 추적 분석한 리포트가 발표됐다. 조사팀이 5개 대표 AI 서비스가 인용한 1,285건의 통계 수치를 역추적한 결과, 원천 연구의 실제 수치 및 맥락과 일치한 사례는 40%에 그쳤다. 인용된 웹페이지에 해당 숫자가 실제로 존재하는 비율은 82%에 달했으나, 이들 중 48%는 3차나 4차로 인용된 블로그 글을 거치며 단위나 조건이 왜곡된 좀비 통계였다. LLM은 검색 스니펫의 표면적 일치만 판단할 뿐 1차 출처 검증 메커니즘이 취약함을 보여준다. 엔터프라이즈 RAG 파이프라인 설계 시 팩트체크 검증 레이어가 필수적임을 입증한 실증 사례다.",
+      "author_profile": "neo",
+      "publish_date": "2026-10-29T22:44:46.000Z",
+      "tags": [
+        "환각",
+        "RAG",
+        "팩트체크",
+        "데이터신뢰성"
+      ],
+      "url": "https://news.hada.io/topic?id=36254",
+      "sources": [
+        "GeekNews"
+      ],
+      "metrics": {},
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hackernews_82bb59db8c",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "signal_id": "devtool",
+      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
+      "importance": 81,
+      "headline": "클로드 듀엣(Claude Duet): 실무 생산성을 체감시킨 개인 비서형 AI 하네스 아키텍처",
+      "title_ko": "클로드 듀엣(Claude Duet): 실무 생산성을 체감시킨 개인 비서형 AI 하네스 아키텍처",
+      "summary_ko": "• **실전 평가**: 기존 챗봇 하네스의 한계를 극복하고 사용자의 일상 업무 맥락을 안정적으로 유지하는 Claude Duet의 아키텍처를 분석했다.\n• **구조 특징**: 무거운 풀 컨텍스트 주입 대신 필요한 순간에만 로컬 상태와 과거 작업 기록을 인출하는 경량 메모리 격리 구조를 취했다.\n• **시사점**: 개인화 에이전트의 성공 열쇠가 모델 자체의 크기보다 컨텍스트 오염을 제어하는 하네스 설계에 있음을 보여준다.",
+      "body_ko": "개발자 커뮤니티에서 앤트로픽의 최신 워크스페이스 보조 하네스 Claude Duet의 실제 업무 활용 경험과 구조 분석이 주목받고 있다. 많은 기성 개인 비서형 도구들이 대화가 길어질수록 환각이 증가하거나 프롬프트 캐시 비용이 급증하는 고질병을 앓아왔다. 반면 Duet은 백그라운드 태스크와 사용자 인터랙션을 분리하고 필요한 도메인 상태만 온디맨드로 주입하는 모듈형 하네스 설계를 도입했다. 작성자는 다양한 오픈소스 에이전트 하네스를 전전한 끝에 실무에서 피로감 없이 지속 사용 가능한 첫 번째 도구라고 호평했다. 단순한 프롬프트 래퍼를 넘어선 시스템 엔지니어링의 중요성을 잘 보여주는 사례다.",
+      "author_profile": "@nathanfig",
+      "publish_date": "2026-10-29T17:24:25.000Z",
+      "tags": [
+        "하네스",
+        "에이전트아키텍처",
+        "컨텍스트제어",
+        "ClaudeDuet"
+      ],
+      "url": "https://fig.blue/posts/duet-is-the-future/",
+      "sources": [
+        "Hacker News"
+      ],
+      "metrics": {
+        "points": 101,
+        "comments": 81,
+        "discussion_url": "https://news.ycombinator.com/item?id=50292727"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "github_0c2c5b9a4e",
+      "category_id": "github",
+      "category_name": "GitHub",
+      "signal_id": "oss",
+      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
+      "importance": 80,
+      "headline": "qybaihe/bla: AI 역공학 에이전트의 코드 탈취를 무력화하는 적대적 난독화 쉴드",
+      "title_ko": "qybaihe/bla: AI 역공학 에이전트의 코드 탈취를 무력화하는 적대적 난독화 쉴드",
+      "summary_ko": "• **프로젝트 소개**: 개발자 qybaihe가 REA 등 자동화된 AI 역공학 에이전트로부터 바이너리, Electron, JS, WASM 코드를 보호하는 BLA를 공개했다.\n• **동작 메커니즘**: 에이전트의 컨텍스트를 고갈시키고 허위 로직을 유도하는 중독, 소진, 환각 방어 기법을 적용한다.\n• **화제성 근거**: 출시 직후 일평균 160개의 스타를 획득하며 누적 768스타를 돌파하는 등 소프트웨어 지적재산권 보호 도구로 급부상했다.",
+      "body_ko": "오픈소스 개발자 qybaihe가 AI 에이전트를 이용한 자동화 리버스 엔지니어링 공격을 방어하는 보안 프레임워크 BLA를 선보였다. 최근 AI 에이전트가 복잡한 번들 코드와 바이너리를 순식간에 디컴파일하고 핵심 알고리즘을 분석해내는 사례가 늘어나며 개발자들의 우려가 커졌다. BLA는 에이전트가 코드를 파싱할 때 무한 루프 프롬프트나 잘못된 추론 경로로 빠지도록 설계된 적대적 코드 패턴을 주입한다. 또한 WASM 모듈과 일렉트론 애플리케이션의 핵심 로직을 난독화하여 분석 토큰을 낭비하게 만든다. 출시 직후 하루 평균 160스타를 모으며 누적 768스타를 달성할 만큼 개발자 지적재산권 방어의 새로운 대안으로 각광받고 있다.",
+      "author_profile": "qybaihe",
+      "publish_date": "2026-10-29T18:12:48.000Z",
+      "tags": [
+        "AI보안",
+        "난독화",
+        "리버스엔지니어링",
+        "오픈소스"
+      ],
+      "url": "https://github.com/qybaihe/bla",
+      "sources": [
+        "GitHub"
+      ],
+      "metrics": {
+        "stars": 768,
+        "forks": 121,
+        "created_at": "2026-10-25T05:25:45Z",
+        "pushed_at": "2026-10-29T18:12:48Z",
+        "repo": "qybaihe/bla",
+        "stars_per_day": 160
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "github_a649ac06f4",
+      "category_id": "github",
+      "category_name": "GitHub",
+      "signal_id": "oss",
+      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
+      "importance": 79,
+      "headline": "daveebbelaar/bama: 스위프트 기반 네이티브 맥 앱 개발 및 클론을 자동화하는 에이전트 스킬셋",
+      "title_ko": "daveebbelaar/bama: 스위프트 기반 네이티브 맥 앱 개발 및 클론을 자동화하는 에이전트 스킬셋",
+      "summary_ko": "• **도구 개요**: 개발자 daveebbelaar가 Swift 및 SwiftUI를 사용해 네이티브 macOS 앱을 설계, 구현, 테스트하는 에이전트 스킬 BAMA를 공개했다.\n• **지원 워크플로우**: 앱 리서치, UI 디자인 토큰 생성, Liquid Glass 컴포넌트 구현, 단위 테스트 검증까지 전 과정을 단계별로 자동화한다.\n• **관심 지표**: 하루평균 137스타를 유입시키며 총 780스타를 기록하는 등 Claude Code와 Codex 유저들 사이에서 실전 도구로 안착했다.",
+      "body_ko": "네덜란드의 AI 엔지니어 daveebbelaar가 맥OS 네이티브 애플리케이션 개발에 특화된 종합 에이전트 스킬 BAMA를 오픈소스로 배포했다. 웹 기술 기반 일렉트론 앱과 달리 Swift와 SwiftUI로 고성능 네이티브 데스크톱 앱을 구축할 수 있도록 체계적인 워크플로우를 제공한다. 에이전트가 기성 앱의 기능 구조를 분석해 클론 코드를 생성하고, 네이티브 메뉴 막대와 시스템 권한 설정을 올바르게 다루도록 안내한다. Claude Code나 Codex 환경에 해당 스킬 폴더를 추가하는 것만으로 터미널에서 즉시 네이티브 빌드 파이프라인을 구동할 수 있다. 하루평균 137개의 스타 증가율과 총 780개의 스타를 달성하며 데스크톱 개발의 생산성을 비약적으로 높여주는 스킬로 평가받는다.",
+      "author_profile": "daveebbelaar",
+      "publish_date": "2026-10-29T13:05:44.000Z",
+      "tags": [
+        "macOS",
+        "Swift",
+        "앱개발",
+        "에이전트스킬"
+      ],
+      "url": "https://github.com/daveebbelaar/bama",
+      "sources": [
+        "GitHub"
+      ],
+      "metrics": {
+        "stars": 780,
+        "forks": 116,
+        "created_at": "2026-10-24T08:44:36Z",
+        "pushed_at": "2026-10-29T13:05:44Z",
+        "repo": "daveebbelaar/bama",
+        "stars_per_day": 137
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "bluesky_4df84c5379",
+      "category_id": "bluesky",
+      "category_name": "Bluesky",
+      "signal_id": "product",
+      "signal_name": "제품 신기능",
+      "importance": 78,
+      "headline": "구글, AI 비동기 코딩 에이전트 줄스(Jules) 서비스 종료 발표",
+      "title_ko": "구글, AI 비동기 코딩 에이전트 줄스(Jules) 서비스 종료 발표",
+      "summary_ko": "• **종료 결정**: 구글이 2024년 12월 깃허브 이슈 자동 해결을 목표로 실험 출시했던 비동기 코딩 에이전트 줄스(Jules)를 공식 종료한다.\n• **기능 흡수**: 독립형 비동기 웹 서비스 형태 대신 Antigravity IDE 및 Gemini CLI 에코시스템 내 단일 엔진으로 역량을 통합한다.\n• **개발자 영향**: 분산되어 있던 구글의 개발자 지원 AI 도구들이 통합 플랫폼 중심으로 재편되고 있음을 보여준다.",
+      "body_ko": "구글이 GitHub 이슈를 자율적으로 분석하고 백그라운드에서 PR을 생성해주던 코딩 에이전트 Jules의 서비스를 종료한다고 밝혔다. Jules는 개발자가 신경 쓰기 번거로운 마이너 버그 수정과 의존성 업데이트를 대신 처리하는 도구로 2024년 말 처음 소개되었다. 하지만 최근 IDE 통합 에이전트와 터미널 CLI 기반 워크플로우가 대세로 자리 잡으면서 독립형 웹 서비스의 입지가 축소되었다. 구글은 Jules의 핵심 코드베이스 분석 기술을 Antigravity 등 차세대 코딩 환경으로 통합 흡수하기로 결정했다. 파편화되었던 AI 개발 도구들이 표준 통합 개발 인터페이스로 수렴하는 흐름을 반영한다.",
+      "author_profile": "@samclemente.me",
+      "publish_date": "2026-10-29T21:20:35.000Z",
+      "tags": [
+        "구글",
+        "줄스",
+        "코딩에이전트",
+        "도구통합"
+      ],
+      "url": "https://www.theverge.com/tech/1022729/google-is-sunsetting-its-ai-coding-agent-jules",
+      "sources": [
+        "Bluesky"
+      ],
+      "metrics": {
+        "likes": 8,
+        "reposts": 0,
+        "replies": 2,
+        "bluesky_url": "https://bsky.app/profile/samclemente.me/post/3mz2723gxf32g"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "geeknews_6cae82a094",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "signal_id": "devtool",
+      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
+      "importance": 76,
+      "headline": "DevFit: 채용공고 JD와 깃허브 커밋 기록을 대조해 기술면접 예상 질문을 생성하는 서비스",
+      "title_ko": "DevFit: 채용공고 JD와 깃허브 커밋 기록을 대조해 기술면접 예상 질문을 생성하는 서비스",
+      "summary_ko": "• **도구 목적**: 지원하려는 회사의 채용공고와 지원자의 GitHub 커밋 내역을 분석해 맞춤형 기술면접 꼬리질문을 생성한다.\n• **분석 방식**: 실제 코드 변경 사항과 채용 공고의 요구 기술 스택 간 교차점을 찾아 구체적인 코드 아키텍처 질문을 도출한다.\n• **활용 효과**: 면접관의 시선에서 본인의 과거 구현 코드와 설계 결정 근거를 사전에 꼼꼼히 점검할 수 있다.",
+      "body_ko": "개발자 aidengoldkr이 채용공고와 지원자의 GitHub 활동을 기반으로 기술면접 질문을 뽑아주는 DevFit을 선보였다. 지원자가 관심 있는 기업의 직무 기술서와 본인의 깃허브 리포지토리 링크를 입력하면 LLM이 양쪽 맥락을 대조한다. 지원자가 실제 커밋한 코드베이스의 아키텍처 선택과 기술스택을 분석하여 실무 면접관 수준의 심층 꼬리질문을 만들어낸다. 지원 라이브러리를 왜 선택했는지나 동시성 제어를 어떻게 처리했는지 같은 실질적인 질문이 생성된다. 단순한 CS 기본 질문 나열을 넘어 지원자의 실제 코드 레벨 강약점을 짚어주는 도구다.",
+      "author_profile": "aidengoldkr",
+      "publish_date": "2026-10-29T22:39:43.000Z",
+      "tags": [
+        "개발자도구",
+        "기술면접",
+        "깃허브",
+        "이력서분석"
+      ],
+      "url": "https://news.hada.io/topic?id=36252",
+      "sources": [
+        "GeekNews"
+      ],
+      "metrics": {},
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "geeknews_bd86f1ef21",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "signal_id": "product",
+      "signal_name": "제품 신기능",
+      "importance": 74,
+      "headline": "데드라인 렌즈: 고지서 사진에서 납부기한을 인식해 캘린더 알림을 등록하는 온디바이스 앱",
+      "title_ko": "데드라인 렌즈: 고지서 사진에서 납부기한을 인식해 캘린더 알림을 등록하는 온디바이스 앱",
+      "summary_ko": "• **기능 소개**: 과태료 고지서나 정기 검사 통지서 같은 종이 우편물 사진에서 납부기한을 자동 인식해 캘린더 알림을 걸어준다.\n• **기술 특징**: 서버로 이미지를 전송하지 않고 온디바이스 OCR과 로컬 텍스트 분석 모델만으로 기한 정보를 추출한다.\n• **실무 가치**: 개인정보 유출 걱정 없이 오프라인 서류 기한 관리를 자동화할 수 있는 경량 모바일 애플리케이션이다.",
+      "body_ko": "개발자 jonnylab이 고지서와 공문서의 마감일을 놓치지 않도록 돕는 안드로이드 유틸리티 데드라인 렌즈를 공개했다. 사용자가 종이 우편물이나 고지서 사진을 찍으면 문서 내 납부기한과 안내 항목을 온디바이스 OCR로 신속하게 인식한다. 인식된 일정은 스마트폰 기본 캘린더와 연동되어 마감 전 자동 알림으로 등록된다. 외부 서버에 사진을 업로드하지 않고 모든 이미지 처리를 단말 로컬에서 끝내는 구조라 민감한 개인정보 유출 위험이 없다. 복잡한 클라우드 API 호출 없이 로컬 추론만으로 실생활 문제를 해결한 온디바이스 실용 사례다.",
+      "author_profile": "jonnylab",
+      "publish_date": "2026-10-29T23:26:41.000Z",
+      "tags": [
+        "온디바이스",
+        "OCR",
+        "모바일앱",
+        "안드로이드"
+      ],
+      "url": "https://news.hada.io/topic?id=36256",
+      "sources": [
+        "GeekNews"
+      ],
+      "metrics": {},
+      "curated_by": "ldk-hub"
+    }
+  ]
+}
