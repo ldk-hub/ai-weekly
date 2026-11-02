@@ -333,10 +333,11 @@ const HN_QUERIES = [
   "LLM", "AI agent", "coding agent", "MCP server", "open source LLM",
   "benchmark model", "transformer paper", "Claude", "GPT", "Gemini",
 ];
-async function fetchHackerNews() {
+async function fetchHackerNews(dynamicSeeds = []) {
   const seen = new Set();
   const out = [];
-  for (const q of HN_QUERIES) {
+  const queries = [...HN_QUERIES, ...dynamicSeeds.slice(0, 2)];
+  for (const q of queries) {
     try {
       const url = `https://hn.algolia.com/api/v1/search_by_date?query=${encodeURIComponent(q)}`
         + `&tags=story&numericFilters=created_at_i>${SINCE_EPOCH},points>=15&hitsPerPage=25`;
@@ -383,14 +384,18 @@ const GH_QUERIES = [
 
 // 쿼리 실패는 조용히 넘어가면 축 하나가 통째로 죽어도 알 수 없다 — main 에서 보고한다.
 const ghQueryErrors = [];
-async function fetchGitHub() {
+async function fetchGitHub(dynamicSeeds = []) {
   const token = ghToken();
   if (!token) {
     console.warn("[github] GH_TOKEN/GITHUB_TOKEN/gh auth 없음 — 오픈소스 신호(④) 건너뜀");
     return [];
   }
+  const queries = [...GH_QUERIES];
+  for (const seed of dynamicSeeds.slice(0, 3)) {
+    queries.push(`${seed} pushed:>=${SINCE_DATE} stars:>=5 in:name,description`);
+  }
   const repos = new Map();
-  for (const q of GH_QUERIES) {
+  for (const q of queries) {
     try {
       const url = `https://api.github.com/search/repositories?q=${encodeURIComponent(q)}&sort=stars&order=desc&per_page=30`;
       const body = await getJson(url, {
@@ -636,7 +641,7 @@ async function fetchBlueskyQuery(q) {
   return null;
 }
 
-async function fetchBluesky() {
+async function fetchBluesky(dynamicSeeds = []) {
   if (process.env.NEWS_SKIP_BLUESKY === "1") {
     console.warn("[bluesky] NEWS_SKIP_BLUESKY=1 — 건너뜀");
     return [];
@@ -644,7 +649,8 @@ async function fetchBluesky() {
   const seen = new Set();
   const out = [];
   let scanned = 0;
-  for (const [idx, q] of BSKY_QUERIES.entries()) {
+  const queries = [...BSKY_QUERIES, ...dynamicSeeds.slice(0, 1)];
+  for (const [idx, q] of queries.entries()) {
     if (idx > 0) await sleep(BSKY_DELAY_MS);
     let body;
     try {
@@ -690,7 +696,7 @@ const X_MIN_LIKES = Number(process.env.NEWS_X_MIN_LIKES || 50);
 const X_DELAY_MS = Number(process.env.NEWS_X_DELAY_MS || 4000);
 const X_HOSTS = ["x.com", "twitter.com"];
 
-async function fetchX() {
+async function fetchX(dynamicSeeds = []) {
   if (process.env.NEWS_SKIP_X === "1") {
     console.warn("[x] NEWS_SKIP_X=1 — 건너뜀");
     return [];
@@ -698,7 +704,8 @@ async function fetchX() {
   const seen = new Set();
   const out = [];
   let scanned = 0;
-  for (const [idx, q] of BSKY_QUERIES.entries()) {
+  const queries = [...BSKY_QUERIES, ...dynamicSeeds.slice(0, 1)];
+  for (const [idx, q] of queries.entries()) {
     if (idx > 0) await sleep(X_DELAY_MS);
     let tweets;
     try {
@@ -798,6 +805,42 @@ const SOURCE_RANK = {
   x: (a, b) => (b.metrics.likes || 0) - (a.metrics.likes || 0),
 };
 
+// ── 동적 신조어/엔터티 레이더 (new-term-radar 메커니즘 내재화) ────────
+const RADAR_STOPWORDS = new Set([
+  "github", "google", "openai", "microsoft", "meta", "anthropic", "apple", "amazon",
+  "python", "javascript", "typescript", "rust", "linux", "hackernews", "geeknews", "aitimes",
+  "reddit", "showhn", "showgn", "api", "sdk", "http", "https", "com", "org", "net", "io",
+  "html", "pdf", "article", "news", "ai", "llm", "agent", "models", "model", "paper", "papers",
+  "free", "open", "source", "code", "coding", "data", "web", "chat", "post", "title", "today",
+  "year", "time", "week", "first", "release", "new", "super", "system", "systems", "tools",
+  "tool", "work", "world", "server", "servers", "claude", "chatgpt", "gemini", "copilot",
+  "review", "update", "patch", "build", "docker", "cloud", "windows", "macos", "android"
+]);
+
+function extractDynamicSeeds(feedCandidates, maxSeeds = 3) {
+  if (!feedCandidates || !feedCandidates.length) return [];
+  const counts = new Map();
+  // CamelCase 또는 하이픈 결합 고유명사 (예: OmniDiff, TokenEconomizer, dsh-superagent)
+  const pattern = /\b[A-Za-z0-9]+(?:-[A-Za-z0-9]+)+\b|\b[A-Z][a-z0-9]+[A-Z][a-zA-Z0-9]*\b/g;
+
+  for (const c of feedCandidates) {
+    const text = `${c.title || ""} ${(c.body || "").slice(0, 600)}`;
+    const matches = text.match(pattern) || [];
+    for (const m of matches) {
+      const lower = m.toLowerCase();
+      if (RADAR_STOPWORDS.has(lower) || lower.length < 4 || lower.length > 25) continue;
+      if (!/[a-zA-Z]/.test(m) || /^\d{4}-\d{2}-\d{2}$/.test(m)) continue;
+      counts.set(m, (counts.get(m) || 0) + 1);
+    }
+  }
+
+  return [...counts.entries()]
+    .filter(([_, count]) => count >= 1)
+    .sort((a, b) => b[1] - a[1])
+    .map(([term]) => term)
+    .slice(0, maxSeeds);
+}
+
 function capPerSource(candidates) {
   const grouped = {};
   for (const c of candidates) (grouped[c.source] ||= []).push(c);
@@ -821,16 +864,31 @@ async function main() {
   console.log(`뉴스 수집 시작 — 최근 ${WINDOW_HOURS}시간 (KST ${NOW_KST.format()})`);
   console.log("==========================================");
 
-  const labels = [...CURATED_FEEDS.map((f) => f.source), "hackernews", "github", "reddit", "hfpapers", "bluesky", "x"];
-  const groups = await Promise.all([
-    ...CURATED_FEEDS.map((f) => fetchCuratedFeed(f)),
-    fetchHackerNews(),
-    fetchGitHub(),
+  // 1단계: 검색 쿼리에 의존하지 않는 독립 피드(GeekNews, AI타임스, Reddit, HF Papers) 우선 병렬 수집
+  const curatedFeedPromises = CURATED_FEEDS.map((f) => fetchCuratedFeed(f));
+  const [curatedGroups, redditGroup, hfGroup] = await Promise.all([
+    Promise.all(curatedFeedPromises),
     fetchReddit(),
     fetchHuggingFacePapers(),
-    fetchBluesky(),
-    fetchX(),
   ]);
+
+  // 동적 엔터티/신조어 추출 (new-term-radar 메커니즘 내재화)
+  const initialCandidates = [...curatedGroups.flat(), ...redditGroup, ...hfGroup];
+  const dynamicSeeds = extractDynamicSeeds(initialCandidates, 3);
+  if (dynamicSeeds.length) {
+    console.log(`[radar] 1차 피드 기반 신조어/엔터티 시드 (${dynamicSeeds.length}개): ${dynamicSeeds.join(", ")}`);
+  }
+
+  // 2단계: 정적 쿼리에 동적 시드를 결합하여 검색형 소스(HN, GitHub, Bluesky, X) 수집
+  const [hnGroup, ghGroup, bskyGroup, xGroup] = await Promise.all([
+    fetchHackerNews(dynamicSeeds),
+    fetchGitHub(dynamicSeeds),
+    fetchBluesky(dynamicSeeds),
+    fetchX(dynamicSeeds),
+  ]);
+
+  const labels = [...CURATED_FEEDS.map((f) => f.source), "hackernews", "github", "reddit", "hfpapers", "bluesky", "x"];
+  const groups = [...curatedGroups, hnGroup, ghGroup, redditGroup, hfGroup, bskyGroup, xGroup];
   groups.forEach((g, i) => console.log(`[${labels[i]}] ${g.length}건`));
 
   if (Object.keys(dateless).length) {
@@ -886,7 +944,14 @@ async function main() {
   }
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+if (require.main === module) {
+  main().catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
+}
+
+module.exports = {
+  extractDynamicSeeds,
+  RADAR_STOPWORDS,
+};
