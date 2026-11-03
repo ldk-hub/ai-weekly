@@ -1,0 +1,540 @@
+{
+  "generated_at": "2026-11-03T00:55:04.330Z",
+  "version": "v2026.11.03",
+  "summary": "🔥 오늘의 핵심 키워드: #포스트그레스AI버그 #앤트로픽토큰비용 #온디바이스에이전트 — LLM을 활용한 데이터베이스 결함 발견 급증과 앤트로픽 사내 토큰 소비량의 인건비 추월, 경량 코딩 하네스 및 온디바이스 에이전트의 대두가 집중된 하루였습니다.",
+  "curated_by": "ldk-hub",
+  "signal_counts": {
+    "practice": 3,
+    "oss": 2,
+    "model": 2,
+    "devtool": 4,
+    "research": 3,
+    "product": 2,
+    "policy": 1
+  },
+  "news": [
+    {
+      "id": "geeknews_87d21e480b",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "signal_id": "practice",
+      "signal_name": "AI 활용 사례·워크플로우 팁",
+      "importance": 94,
+      "headline": "PostgreSQL 19 출시 지연, LLM 버그 발견 속도가 사람의 수정 속도를 앞지르다",
+      "title_ko": "PostgreSQL 19 출시 지연, LLM 버그 발견 속도가 사람의 수정 속도를 앞지르다",
+      "summary_ko": "• **출시 일정 지연**: 대규모 언어 모델을 활용한 결함 제보가 급증하면서 핵심 개발팀의 검토 부담이 가중되어 PostgreSQL 19 공개가 11월로 늦춰졌다.\n• **백포트 부담 급증**: 전년 동기 대비 백포트 커밋이 60% 이상 증가하며 과거 숨겨진 결함 패치 작업이 새 기능 개발 시간을 잠식했다.\n• **검토 병목 현상**: AI가 버그를 찾아내고 패치를 제안하더라도 최종 코드 신뢰성과 안전성을 검증하는 인적 리뷰 체계가 한계에 직면했다.",
+      "body_ko": "오픈소스 데이터베이스의 대표 주자인 PostgreSQL의 차기 주 버전인 19의 출시가 예년보다 늦어지고 있습니다. 통상 9월 중순에서 10월 중순 사이에 정식 버전이 공개되었으나 이번에는 11월로 연기되었으며 베타 후반에 대형 기능 3개가 제외되었습니다. 핵심 원인은 LLM을 활용한 자동 버그 탐지 도구의 확산으로 인해 결함 제보와 패치 요청이 폭증했기 때문입니다. 이전 버전들로 반영해야 하는 백포트 커밋이 전년 대비 60% 이상 늘어나면서 개발진의 유지보수 부담이 심각해졌습니다. 버그를 발굴하는 속도는 AI 덕분에 획기적으로 빨라졌지만, 제안된 패치의 정합성과 프로젝트 규약 준수 여부를 검토하는 작업은 여전히 숙련된 인간 커미터의 몫으로 남아 있습니다. 소프트웨어 공학 전반에서 생성형 AI가 결함 발견 능력을 극대화한 만큼 이를 소화할 검증 및 거버넌스 체계의 재설계가 시급한 과제로 떠올랐습니다.",
+      "author_profile": "neo",
+      "publish_date": "2026-11-03T00:02:05.000Z",
+      "tags": [
+        "PostgreSQL",
+        "LLM 버그 탐지",
+        "오픈소스 유지보수",
+        "소프트웨어 공학",
+        "코드 검토"
+      ],
+      "url": "https://news.hada.io/topic?id=36491",
+      "sources": [
+        "GeekNews"
+      ],
+      "metrics": {},
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "aitimes_9005d6a725",
+      "category_id": "aitimes",
+      "category_name": "AI타임스",
+      "signal_id": "practice",
+      "signal_name": "AI 활용 사례·워크플로우 팁",
+      "importance": 93,
+      "headline": "앤트로픽, 사내 AI 토큰 활용 비용이 직원 급여 총액을 추월",
+      "title_ko": "앤트로픽, 사내 AI 토큰 활용 비용이 직원 급여 총액을 추월",
+      "summary_ko": "• **비용 구조 역전**: 앤트로픽 내부 업무에 투입되는 클로드 AI 서비스의 환산 가치가 월간 직원 보상 비용을 넘어선 것으로 확인되었다.\n• **사용량 급팽창**: 사내 소프트웨어 개발과 전사 업무 전반에 모델이 깊숙이 침투하며 9개월 사이에 토큰 소비량이 250배 이상 폭증했다.\n• **코딩 주도권 전환**: 자사 소프트웨어 신규 코드의 90% 이상을 클로드가 직접 작성하면서 AI가 실질적인 핵심 생산 인력으로 안착했다.",
+      "body_ko": "프론티어 AI 연구소인 앤트로픽의 내부 업무에서 AI 서비스가 차지하는 비중이 인건비를 넘어선 실태가 공개되었습니다. 기업공개 신고서에 따르면 4월 기준 사내 클로드 사용 가치가 주식 보상을 제외한 월간 직원 급여 총액을 상회했습니다. 1월 대비 9월의 내부 토큰 소비량은 무려 250배 이상 치솟았으며 소프트웨어 개발과 전략 분석 등 전 영역에 모델이 투입되고 있습니다. 앤트로픽은 최근 추가된 전체 코드의 90% 이상을 클로드가 자율적으로 작성했다고 공식 발표한 바 있습니다. 고객 판매용 정가 기준으로 산출한 수치이므로 실제 지출 현금이 인건비를 넘은 것은 아니지만 상징성이 큽니다. 이는 최상위 기술 조직에서 AI 에이전트가 단순 보조 도구를 넘어 가장 핵심적인 1차 생산력으로 완전히 전환되었음을 입증합니다.",
+      "author_profile": "박찬 기자",
+      "publish_date": "2026-11-02T09:06:49.000Z",
+      "tags": [
+        "앤트로픽",
+        "클로드",
+        "생산성 혁신",
+        "토큰 소비",
+        "코딩 에이전트"
+      ],
+      "url": "https://www.aitimes.com/news/articleView.html?idxno=216891",
+      "sources": [
+        "AI타임스"
+      ],
+      "metrics": {},
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "github_99c1bc27c1",
+      "category_id": "github",
+      "category_name": "GitHub",
+      "signal_id": "oss",
+      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
+      "importance": 92,
+      "headline": "Mika, 온디바이스에서 앱과 웹을 직접 제어하는 안드로이드 자율 AI 에이전트",
+      "title_ko": "Mika, 온디바이스에서 앱과 웹을 직접 제어하는 안드로이드 자율 AI 에이전트",
+      "summary_ko": "• **디바이스 직접 조작**: 모바일 운영체제의 접근성 API와 화면 인식을 바탕으로 스마트폰 내 앱과 웹 작업을 사용자 대신 완결한다.\n• **온디바이스 구동**: 코틀린과 젯팩 컴포즈 기반으로 설계되어 클라우드 의존 없이 단말 내부에서 자율적으로 동작하도록 최적화되었다.\n• **오픈소스 급부상**: 복잡한 모바일 GUI 워크플로우를 자동화하는 실질적 구조를 제공하며 하루 평균 1,195개의 스타를 획득하고 있다.",
+      "body_ko": "개인 개발자 wangzan101이 안드로이드 단말에서 앱과 웹 브라우저를 직접 조작하는 오픈소스 AI 에이전트 Mika를 공개했습니다. 이 도구는 코틀린(Kotlin)과 젯팩 컴포즈(Jetpack Compose)를 기반으로 작성되어 가볍고 매끄러운 단말 연동성을 자랑합니다. 사용자가 음성이나 텍스트로 목표를 내리면 에이전트가 화면 요소들을 스스로 인식하고 터치와 입력을 수행해 태스크를 완결합니다. 별도의 클라우드 서버에 상시 의존하지 않고 로컬 기기 내에서 자동화 루프를 처리할 수 있도록 경량화된 구조를 채택했습니다. 현재 깃허브에서 일평균 1,195개의 스타를 확보하며 모바일 에이전트 분야에서 가장 빠른 상승세를 보이고 있습니다. 모바일 환경에서 반복적인 클릭 작업이나 예약 업무를 프라이버시 침해 없이 자동화하려는 엔지니어들에게 유용한 대안이 될 수 있습니다.",
+      "author_profile": "wangzan101",
+      "publish_date": "2026-11-02T19:08:44.000Z",
+      "tags": [
+        "Mika",
+        "안드로이드 에이전트",
+        "온디바이스 AI",
+        "Kotlin",
+        "모바일 자동화"
+      ],
+      "url": "https://github.com/wangzan101/Mika",
+      "sources": [
+        "GitHub"
+      ],
+      "metrics": {
+        "stars": 5291,
+        "forks": 1025,
+        "created_at": "2026-10-29T14:34:07Z",
+        "pushed_at": "2026-11-02T19:08:44Z",
+        "repo": "wangzan101/Mika",
+        "stars_per_day": 1195
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "reddit_cef960de12",
+      "category_id": "reddit",
+      "category_name": "Reddit",
+      "signal_id": "model",
+      "signal_name": "새 모델·버전 출시·프리뷰·벤치마크",
+      "importance": 91,
+      "headline": "ISTA, 763B 파라미터 딥시크-V4.1 코더를 파라미터당 1비트 수준으로 압축 공개",
+      "title_ko": "ISTA, 763B 파라미터 딥시크-V4.1 코더를 파라미터당 1비트 수준으로 압축 공개",
+      "summary_ko": "• **극단적 1비트 양자화**: 7632억 개 파라미터를 가진 거대 MoE 모델을 GSQ와 RCO 기법을 결합해 파라미터당 약 1.05비트로 경량화했다.\n• **전문가 프루닝 적용**: 레이어당 384개의 라우팅 전문가 중 절반인 192개를 제거하여 트랜스포머 가중치를 138GB에서 72GB로 대폭 줄였다.\n• **로컬 실행 가능성**: 거대한 코딩 특화 프론티어 모델을 소비자용 워크스테이션이나 단일 노드에서 직접 구동할 수 있는 길을 열었다.",
+      "body_ko": "오픈소스 AI 연구진 ISTA가 7632억 개 파라미터 규모의 DeepSeek-V4.1-Flash-1017 모델을 기반으로 한 초경량 코더 빌드를 공개했습니다. 이 모델은 희소 전문가 혼합(MoE) 구조로 레이어당 384개의 전문가 중 6개가 토큰마다 활성화되는 특성을 지닙니다. 연구팀은 GSQ 및 RCO 압축 기법과 함께 전체 전문가의 50%를 과감히 쳐내는 프루닝을 단행했습니다. 그 결과 원래 138.2GB에 달하던 트랜스포머 가중치 크기를 72.1GB로 압축하여 파라미터당 약 1비트(1.05비트) 수준을 달성했습니다. 잔여 가중치 자체는 정밀도를 유지하되 중복된 전문가 경로를 정리함으로써 코딩 추론 성능 손실을 최소화했습니다. 초거대 오픈소스 코딩 모델을 다중 엔터프라이즈 GPU 없이 일반 고성능 PC 환경에서 로컬 테스트할 수 있게 한 혁신적인 결과물입니다.",
+      "author_profile": "r/LocalLLaMA · u/Loginhe",
+      "publish_date": "2026-11-02T14:33:20.000Z",
+      "tags": [
+        "DeepSeek",
+        "MoE 프루닝",
+        "양자화",
+        "로컬 LLM",
+        "코딩 모델"
+      ],
+      "url": "https://www.reddit.com/r/LocalLLaMA/comments/1xlys6k/release_ista_deepseekv41flash1017_gsqrco_coder_a/",
+      "sources": [
+        "Reddit"
+      ],
+      "metrics": {
+        "rank_in_sub": 3,
+        "discussion_url": "https://www.reddit.com/r/LocalLLaMA/comments/1xlys6k/release_ista_deepseekv41flash1017_gsqrco_coder_a/"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hackernews_0f1e6cc159",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "signal_id": "devtool",
+      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
+      "importance": 90,
+      "headline": "Momentic, 애플리케이션을 직접 탐색하며 결함을 잡아내는 자율 QA 에이전트 공개",
+      "title_ko": "Momentic, 애플리케이션을 직접 탐색하며 결함을 잡아내는 자율 QA 에이전트 공개",
+      "summary_ko": "• **자율 탐색형 QA**: 정적 스크립트에 의존하지 않고 웹과 모바일 앱의 UI 흐름을 자율적으로 돌아다니며 예외 상황을 검증한다.\n• **다중 플랫폼 지원**: 웹 환경뿐 아니라 iOS와 안드로이드 네이티브 앱 및 향후 데스크톱 앱까지 하나의 통합 에이전트로 대응한다.\n• **테스트 유지보수 절감**: UI 변경 시마다 수동으로 테스트 코드를 재작성하던 기존 엔드투엔드 프레임워크의 유지보수 비용을 크게 낮춘다.",
+      "body_ko": "와이콤비네이터 출신 스타트업 Momentic이 사용자의 실제 애플리케이션을 자율 탐색하며 버그를 탐지하는 QA 에이전트를 선보였습니다. 기존의 셀레늄이나 플레이라이트 같은 자동화 도구는 UI 셀렉터나 흐름이 조금만 변경되어도 테스트 코드가 깨지는 한계가 있었습니다. Momentic 에이전트는 시각 인식과 LLM 계획 수립 엔진을 결합하여 화면 내 버튼과 입력 양식을 스스로 인지하고 조작합니다. 복잡한 사용자 여정과 엣지 케이스를 자율적으로 버그 배싱하면서 비정상 동작이나 렌더링 결함을 포착합니다. 현재 웹과 모바일 환경을 모두 지원하며 지속적 배포 파이프라인에서 휴먼 테스터의 역할을 상당 부분 보완합니다. 릴리스 주기가 빠른 프론트엔드 엔지니어링 조직에서 테스트 회귀 비용을 대폭 절감할 수 있는 개발 도구로 주목받고 있습니다.",
+      "author_profile": "@wuweiweiwu",
+      "publish_date": "2026-11-02T17:05:25.000Z",
+      "tags": [
+        "Momentic",
+        "QA 에이전트",
+        "자율 테스트",
+        "E2E 테스트",
+        "웹 자동화"
+      ],
+      "url": "https://momentic.ai/",
+      "sources": [
+        "Hacker News"
+      ],
+      "metrics": {
+        "points": 117,
+        "comments": 75,
+        "discussion_url": "https://news.ycombinator.com/item?id=50339913"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "github_18db670c60",
+      "category_id": "github",
+      "category_name": "GitHub",
+      "signal_id": "devtool",
+      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
+      "importance": 89,
+      "headline": "Uncut, 7MB 단일 정적 바이너리로 구동되는 무손실 헤드리스 코딩 에이전트 하네스",
+      "title_ko": "Uncut, 7MB 단일 정적 바이너리로 구동되는 무손실 헤드리스 코딩 에이전트 하네스",
+      "summary_ko": "• **극도의 경량성**: 무거운 런타임 없이 7MB 크기의 단일 Go 정적 바이너리로 동작하여 즉각적인 배포와 실행이 가능하다.\n• **손실 없는 표준 입출력**: 컨텍스트 누락이나 임의 압축 없이 표준 입출력 파이프를 통해 4가지 핵심 도구와 완벽히 상호작용한다.\n• **오픈소스 인기 급증**: 헤드리스 에이전트 파이프라인의 명확한 미니멀리즘을 제시하며 하루 평균 436개의 스타를 끌어모으고 있다.",
+      "body_ko": "개발자 Balanov가 극단적인 단순함을 지향하는 헤드리스 코딩 에이전트 하네스 Uncut을 오픈소스로 발표했습니다. 이 프로젝트는 복잡한 프레임워크나 가상 환경 설정 없이 단 7MB 크기의 단일 Go 바이너리로 컴파일되어 동작합니다. 무손실(lossless) 아키텍처를 표방하며 모델과 도구 사이에서 컨텍스트를 임의로 요약하거나 은닉하지 않고 정확한 파이프라인을 유지합니다. 파일 읽기, 쓰기, 셸 명령 실행 등 4개의 필수 도구만 표준 입출력(stdin/stdout) 기반으로 연결해 투명성을 확보했습니다. 백그라운드 데몬이나 CI/CD 자동화 환경에 코딩 에이전트를 무마찰로 주입할 수 있는 것이 가장 큰 강점입니다. 깃허브에서 일평균 436스타를 기록하며 비대해진 기존 코딩 에이전트 런타임에 지친 엔지니어들 사이에서 빠른 반향을 얻고 있습니다.",
+      "author_profile": "Balanov",
+      "publish_date": "2026-11-02T20:58:19.000Z",
+      "tags": [
+        "Uncut",
+        "코딩 에이전트",
+        "Go 바이너리",
+        "헤드리스 하네스",
+        "오픈소스"
+      ],
+      "url": "https://github.com/Balanov/uncut",
+      "sources": [
+        "GitHub"
+      ],
+      "metrics": {
+        "stars": 572,
+        "forks": 5,
+        "created_at": "2026-11-01T17:19:30Z",
+        "pushed_at": "2026-11-02T20:58:19Z",
+        "repo": "Balanov/uncut",
+        "stars_per_day": 436
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hfpapers_431a9e7773",
+      "category_id": "hfpapers",
+      "category_name": "HF Daily Papers",
+      "signal_id": "research",
+      "signal_name": "연구·논문·새 기법",
+      "importance": 88,
+      "headline": "R^2Orch, 셀프플레이와 스킬 내재화 루프를 통한 에이전트 오케스트레이션 재귀적 자기개선",
+      "title_ko": "R^2Orch, 셀프플레이와 스킬 내재화 루프를 통한 에이전트 오케스트레이션 재귀적 자기개선",
+      "summary_ko": "• **재귀적 오케스트레이션**: 스스로 생성한 과제에서 실력을 기르는 내부 루프와 내부 루프의 개선 방식을 진화시키는 외부 루프를 결합했다.\n• **재귀적 학습가능성 지표**: 모든 시도가 동일한 결과로 수렴하는 이점 붕괴 문제를 막기 위해 스킬 제거 시 차별화된 결과를 내는 보상 체계를 제안했다.\n• **자율 진화 성능 입증**: 수동으로 커리큘럼을 설계하지 않고도 복잡한 다중 에이전트 조율 작업에서 기존 기법 대비 뚜렷한 성능 향상을 달성했다.",
+      "body_ko": "칭화대 등 연구진이 다중 에이전트 시스템의 조율 능력을 자율적으로 향상시키는 새 프레임워크 R^2Orch를 제안했습니다. 기존의 에이전트 오케스트레이션 학습은 사람이 직접 설계한 커리큘럼에 의존하거나 과제 성공 여부가 단일 점수로만 평가되어 이점이 붕괴되는 한계가 있었습니다. 논문에서는 오케스트레이터가 스스로 과제를 선정하고 셀프플레이를 벌이는 내부 루프와, 이 개선 체계를 상위에서 다듬는 외부 루프로 구성된 2중 구조를 고안했습니다. 또한 특정 스킬이 배제되었을 때 결과 궤적이 유의미하게 분기하도록 유도하는 '재귀적 학습가능성' 목적 함수를 도입해 유효 과제를 선별하도록 했습니다. 88건의 높은 커뮤니티 추천을 받으며 기존 고정형 에이전트 프레임워크를 뛰어넘는 자기개선 가능성을 실증했습니다. 복잡한 장기 실행 소프트웨어 엔지니어링 에이전트 팀을 훈련시키는 핵심 설계 원리로 주목받고 있습니다.",
+      "author_profile": "Thu-zqc",
+      "publish_date": "2026-11-02T00:00:00.000Z",
+      "tags": [
+        "R^2Orch",
+        "에이전트 오케스트레이션",
+        "자기개선",
+        "셀프플레이",
+        "AI 논문"
+      ],
+      "url": "https://huggingface.co/papers/2610.22740",
+      "sources": [
+        "HF Daily Papers"
+      ],
+      "metrics": {
+        "upvotes": 88,
+        "comments": 1,
+        "arxiv_id": "2610.22740",
+        "paper_published_at": "2026-10-22T00:00:00.000Z",
+        "github_repo": null
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hackernews_ca27840283",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "signal_id": "research",
+      "signal_name": "연구·논문·새 기법",
+      "importance": 87,
+      "headline": "LLM의 신경망 가중치 직접 조작, 초인적 지능이 아니라 텍스트 임베딩 패턴 인식이다",
+      "title_ko": "LLM의 신경망 가중치 직접 조작, 초인적 지능이 아니라 텍스트 임베딩 패턴 인식이다",
+      "summary_ko": "• **과대포장 논란 반박**: 프론티어 LLM이 신경망 가중치(weight)를 직접 읽고 수정한다는 최근 연구가 초인적 능력으로 해석되는 것을 비판했다.\n• **원리적 한계 규명**: 부동소수점 가중치 행렬을 이해한 것이 아니라 일종의 토큰화된 텍스트 표현으로 취급해 부분적 보정을 수행한 것에 불과하다.\n• **실무 해석 주의**: 가중치 공간 프로그래밍이라는 자극적인 명칭 뒤에 숨겨진 실제 메커니즘과 일반화 능력의 한계를 명확히 인식해야 한다.",
+      "body_ko": "최신 대규모 언어 모델이 별도의 학습 없이 인공신경망의 가중치 행렬을 직접 읽고 편집한다는 논문을 둘러싸고 기술적 반론이 제기되었습니다. 최근 발표된 일부 연구에서는 GPT-6급 프론티어 모델이 소형 네트워크의 가중치를 직접 조작해 문제를 푼 것을 '초인적 가중치 공간 프로그래밍'으로 묘사했습니다. 그러나 컴퓨터 과학자들은 모델이 신경망의 본질적인 고차원 손실 지형을 이해한 것이 아니라고 지적합니다. 부동소수점 수치들을 텍스트 토큰 시퀀스로 인코딩하여 기존 학습 데이터에 존재하는 패턴에 맞춰 단순 보정한 현상에 불과하다는 설명입니다. 복잡한 네트워크로 확장하거나 비선형적 상호작용이 깊어지면 이러한 직접 수정 능력은 급격히 붕괴합니다. 차세대 AI 모델의 능력을 평가할 때 환상에 기반한 비약 대신 엄밀한 수학적 한계를 직시해야 한다는 개발자 커뮤니티의 공감을 얻고 있습니다.",
+      "author_profile": "@agrm",
+      "publish_date": "2026-11-02T22:26:53.000Z",
+      "tags": [
+        "가중치 공간",
+        "신경망 편집",
+        "LLM 분석",
+        "Hacker News",
+        "기술 비평"
+      ],
+      "url": "https://www.seangoedecke.com/llms-are-not-superhuman-at-reading-and-writing-neural-network-weights/",
+      "sources": [
+        "Hacker News"
+      ],
+      "metrics": {
+        "points": 19,
+        "comments": 0,
+        "discussion_url": "https://news.ycombinator.com/item?id=50344861"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "reddit_bce4c3db2c",
+      "category_id": "reddit",
+      "category_name": "Reddit",
+      "signal_id": "practice",
+      "signal_name": "AI 활용 사례·워크플로우 팁",
+      "importance": 86,
+      "headline": "단순 토큰 속도 대신 실전 디버깅 9종으로 비교한 로컬 양자화 모델 vs 클로드",
+      "title_ko": "단순 토큰 속도 대신 실전 디버깅 9종으로 비교한 로컬 양자화 모델 vs 클로드",
+      "summary_ko": "• **실전 벤치마크**: 초당 토큰 수(tok/s) 중심의 벤치마크 대신 실제 프로젝트에서 발생한 9개의 고난도 버그를 해결하는 능력으로 모델을 평가했다.\n• **양자화 모델의 실력**: 최신 로컬 양자화 모델들이 단순 문법 오류는 잘 잡지만 다중 파일의 복잡한 상태 추적에서는 성능 하락을 보였다.\n• **클로드의 안정성**: 엣지 케이스 추론과 비동기 레이스 컨디션 버그 해결에서 클로드 최신 모델이 여전히 압도적인 일관성을 입증했다.",
+      "body_ko": "레딧 LocalLLaMA 커뮤니티에서 단순 토큰 생성 속도를 배제하고 9개의 실전 버그를 해결하는 테스트 결과가 화제를 모았습니다. 작성자는 연구용 합성 문제가 아니라 본인의 실제 프로덕션 코드베이스에서 겪었던 까다로운 버그 9개를 선별했습니다. 로컬에서 구동되는 고효율 양자화 모델들과 앤트로픽의 클로드 모델을 동일 조건에 배치해 디버깅 성공률을 비교 분석했습니다. 결과적으로 소형 양자화 모델은 단일 함수 내 로직 결함은 빠르게 교정했으나 복잡한 호출 체계에서는 엉뚱한 가설을 제시했습니다. 반면 클로드 모델은 세션 전반의 컨텍스트를 유지하며 비동기 동시성 버그의 근본 원인을 정확히 짚어냈습니다. 실무 개발자들에게 장비 스펙에 따른 단순 생성 속도보다 실제 디버깅 성공률이 도구 선택의 결정적 척도임을 일깨워줍니다.",
+      "author_profile": "r/LocalLLaMA · u/FeydRowan",
+      "publish_date": "2026-11-02T13:08:34.000Z",
+      "tags": [
+        "LocalLLaMA",
+        "실전 디버깅",
+        "로컬 LLM",
+        "Claude",
+        "벤치마크"
+      ],
+      "url": "https://www.reddit.com/r/LocalLLaMA/comments/1xlwpqv/not_another_toks_post_local_quants_vs_claude_on_9/",
+      "sources": [
+        "Reddit"
+      ],
+      "metrics": {
+        "rank_in_sub": 4,
+        "discussion_url": "https://www.reddit.com/r/LocalLLaMA/comments/1xlwpqv/not_another_toks_post_local_quants_vs_claude_on_9/"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "aitimes_d8393a9054",
+      "category_id": "aitimes",
+      "category_name": "AI타임스",
+      "signal_id": "research",
+      "signal_name": "연구·논문·새 기법",
+      "importance": 85,
+      "headline": "AI 50개를 모아 문명 건설을 실험했더니 극단적 관료주의에 빠져 실패",
+      "title_ko": "AI 50개를 모아 문명 건설을 실험했더니 극단적 관료주의에 빠져 실패",
+      "summary_ko": "• **다중 에이전트 사회 실험**: 최첨단 AI 모델 50개를 하나의 군집으로 묶어 가상 환경에서 문명을 건설하고 생존하는 과제를 부여했다.\n• **비효율적 관료화**: 에이전트들이 5,900개의 메시지를 주고받으며 복잡한 위원회와 역할 분담 논의에 매몰되어 실제 생산 활동을 외면했다.\n• **협업 구조의 한계**: 단순히 똑똑한 에이전트들을 다수 결합한다고 해서 집단 지성이 저절로 발현되지 않음을 실증적으로 보여주었다.",
+      "body_ko": "최첨단 AI 모델 50개를 하나의 군집으로 묶어 협업을 유도한 대규모 사회 실험에서 흥미로운 실패 결과가 보고되었습니다. 실험 환경에서 에이전트들은 가상 문명을 일구고 자원을 생산해 생존하도록 설계되었습니다. 그러나 에이전트들은 실제 작업을 진행하는 대신 무려 5,900건에 달하는 대화를 나누며 규칙 제정과 위원회 구성에 집착했습니다. 각자가 관료주의적인 역할 분담과 절차적 규약에 매달리면서 식량 수급과 기본 시설 건설 같은 필수 과업은 방치되었습니다. 여러 AI 모델을 연결하더라도 의사결정 체계와 인센티브 구조가 정교하지 않으면 오히려 효율이 급락함을 보여줍니다. 자율 다중 에이전트 기반의 자동화 파이프라인을 설계할 때 무분별한 에이전트 증설보다 명확한 위계와 단일 책임 원칙이 중요함을 시사합니다.",
+      "author_profile": "박찬 기자",
+      "publish_date": "2026-11-02T09:24:54.000Z",
+      "tags": [
+        "다중 에이전트",
+        "AI 사회 실험",
+        "관료주의 병목",
+        "협업 실패",
+        "에이전트 아키텍처"
+      ],
+      "url": "https://www.aitimes.com/news/articleView.html?idxno=216893",
+      "sources": [
+        "AI타임스"
+      ],
+      "metrics": {},
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hackernews_bbb1231235",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "signal_id": "product",
+      "signal_name": "제품 신기능",
+      "importance": 84,
+      "headline": "클로드 오퍼스 5.5, 인허가 제출 수준의 정밀 건축 설계도 제도 역량 입증",
+      "title_ko": "클로드 오퍼스 5.5, 인허가 제출 수준의 정밀 건축 설계도 제도 역량 입증",
+      "summary_ko": "• **전문 설계 제도화**: 13개 모델을 대상으로 손스케치를 실제 건축 도면으로 전환하는 시험을 진행한 결과 전문 제도사 수준에 도달했다.\n• **치수 정합성 확보**: 단순한 컨셉 스케치 생성을 넘어 인허가 검토가 가능한 정밀한 벽체 두께와 배관, 개구부 치수를 일관되게 그렸다.\n• **전문 영역 확장**: 텍스트와 코드 생성에 집중되던 LLM의 멀티모달 능력이 엔지니어링 및 건축 캐드 분야로 본격 확산되고 있다.",
+      "body_ko": "앤트로픽의 차세대 모델인 Claude Opus 5.5가 건축 분야에서 인허가 제출이 가능한 수준의 설계 도면을 작성할 수 있다는 실측 평가가 공개되었습니다. 건축가 스티븐 갤러거는 주요 13개 모델을 대상으로 손으로 그린 초기 구상 스케치를 정밀 청사진으로 변환하는 비교 실험을 진행했습니다. 클로드 모델들은 세대를 거치며 도면 제어 능력이 비약적으로 발전했으며 오퍼스 5.5에 이르러 규격에 맞는 도면 기호를 정확히 배치했습니다. 벽체의 정확한 단면 치수와 문, 창문, 설비 배관의 상대적 위치를 실제 시공 가능한 수준으로 다듬어냈습니다. 이는 시각 정보를 해석하고 전문 산업 규격을 준수하는 멀티모달 추론 능력이 비약적으로 진화했음을 증명합니다. 단순한 코딩 보조를 넘어 하드웨어 및 오프라인 엔지니어링 영역까지 에이전트의 실무 침투가 가속화되고 있습니다.",
+      "author_profile": "@SteveGallag",
+      "publish_date": "2026-11-02T16:25:33.000Z",
+      "tags": [
+        "Claude Opus",
+        "건축 설계",
+        "도면 자동화",
+        "멀티모달",
+        "Hacker News"
+      ],
+      "url": "https://stephenjgallagher.substack.com/p/ai-can-draw-blueprints-now",
+      "sources": [
+        "Hacker News"
+      ],
+      "metrics": {
+        "points": 79,
+        "comments": 28,
+        "discussion_url": "https://news.ycombinator.com/item?id=50339224"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hfpapers_be69543c70",
+      "category_id": "hfpapers",
+      "category_name": "HF Daily Papers",
+      "signal_id": "model",
+      "signal_name": "새 모델·버전 출시·프리뷰·벤치마크",
+      "importance": 83,
+      "headline": "Apriel Voice 27B 프리뷰, 음성 인식·추론·도구 호출을 통합한 오픈 모델 공개",
+      "title_ko": "Apriel Voice 27B 프리뷰, 음성 인식·추론·도구 호출을 통합한 오픈 모델 공개",
+      "summary_ko": "• **단일 음성 추론 백본**: 별도의 음성 인식기나 대화 모델 없이 Gemma 4 26B 기반 공유 백본에서 음성 처리와 도구 호출을 직접 완결한다.\n• **2단계 적응 훈련**: 음성 인터페이스를 먼저 구축한 후 텍스트 재생과 결합된 공동 미세조정을 통해 기존 텍스트·이미지 모달리티를 보존했다.\n• **오픈 음성 에이전트**: 실시간 음성 상호작용과 도구 조작을 결합한 개방형 모델을 제공하여 차세대 로컬 음성 비서 구축을 가속한다.",
+      "body_ko": "오픈소스 AI 연구진이 음성 이해와 다단계 추론, 도구 호출을 단일 백본에서 처리하는 Apriel Voice 27B Preview를 발표했습니다. 이 모델은 사후 학습된 Gemma 4 26B-A4B 체크포인트를 기반으로 음성 신호를 중간 텍스트 변환 없이 직접 처리합니다. 음성 인식을 담당하는 프론트엔드와 추론용 대화 모델을 분리하던 기존 파이프라인과 달리 단일 모델 안에서 도구 호출 토큰까지 생성합니다. 연구팀은 1단계 음성 인터페이스 구축과 2단계 프로젝터-백본 공동 미세조정의 2단계 학습 방식을 적용해 텍스트와 이미지 입력 역량을 그대로 보존했습니다. 허깅페이스 데일리 페이퍼에서 33개의 추천을 받으며 음성 에이전트 분야의 강력한 오픈 대안으로 떠올랐습니다. 지연 시간을 최소화하고 단말 내에서 자연스럽게 음성으로 도구를 다루는 개인용 비서 개발에 크게 기여할 전망입니다.",
+      "author_profile": "amant555",
+      "publish_date": "2026-11-02T00:00:00.000Z",
+      "tags": [
+        "Apriel Voice",
+        "음성 언어 모델",
+        "Gemma 4",
+        "도구 호출",
+        "오픈소스 모델"
+      ],
+      "url": "https://huggingface.co/papers/2610.40738",
+      "sources": [
+        "HF Daily Papers"
+      ],
+      "metrics": {
+        "upvotes": 33,
+        "comments": 1,
+        "arxiv_id": "2610.40738",
+        "paper_published_at": "2026-10-29T00:00:00.000Z",
+        "github_repo": null
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "github_4f3b0db148",
+      "category_id": "github",
+      "category_name": "GitHub",
+      "signal_id": "devtool",
+      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
+      "importance": 82,
+      "headline": "stack-diagram, 한 문장으로 기술 스택을 설명하면 공식 로고 아키텍처 다이어그램을 생성하는 에이전트 스킬",
+      "title_ko": "stack-diagram, 한 문장으로 기술 스택을 설명하면 공식 로고 아키텍처 다이어그램을 생성하는 에이전트 스킬",
+      "summary_ko": "• **자연어 다이어그램 생성**: 개발 스택을 자연어 한 문장으로 입력하면 공식 브랜드 로고가 포함된 고품질 시스템 구조도를 즉시 렌더링한다.\n• **에이전트 스킬 표준 준수**: 클로드 코드(Claude Code)와 코덱스(Codex) 등 다양한 AI CLI 도구에서 플러그인 형태로 즉시 호출할 수 있다.\n• **문서화 생산성 극대화**: 아키텍처 다이어그램 작성 도구를 일일이 다루지 않고도 리포지터리 초기 설계 문서를 신속하게 시각화한다.",
+      "body_ko": "오픈소스 개발자 caru-ini가 AI 코딩 에이전트를 위한 스킬 패키지인 stack-diagram을 발표했습니다. 이 도구는 타입스크립트로 작성되었으며 클로드 코드나 코덱스 같은 최신 에이전트 CLI 환경에서 바로 연동됩니다. 개발자가 한 문장으로 스택을 요약하면 공식 SVG 로고가 배치된 다이어그램을 도출합니다. 수작업으로 피그마나 드로우아이오를 열어 아이콘을 찾고 선을 연결하는 번거로운 과정을 완전히 자동화했습니다. 현재 깃허브에서 일평균 666개의 스타를 끌어모으며 에이전트 기반 개발 워크플로우에 최적화된 유틸리티로 급부상했습니다. 프로젝트 초기 README나 기술 제안서(RFC)를 작성할 때 시스템 구성도를 10초 만에 시각화할 수 있어 개발 생산성을 높여줍니다.",
+      "author_profile": "caru-ini",
+      "publish_date": "2026-11-02T09:50:24.000Z",
+      "tags": [
+        "stack-diagram",
+        "클로드 코드",
+        "아키텍처 다이어그램",
+        "에이전트 스킬",
+        "TypeScript"
+      ],
+      "url": "https://github.com/caru-ini/stack-diagram",
+      "sources": [
+        "GitHub"
+      ],
+      "metrics": {
+        "stars": 1200,
+        "forks": 53,
+        "created_at": "2026-11-01T05:35:12Z",
+        "pushed_at": "2026-11-02T09:50:24Z",
+        "repo": "caru-ini/stack-diagram",
+        "stars_per_day": 666
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "geeknews_315be4bf40",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "signal_id": "oss",
+      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
+      "importance": 81,
+      "headline": "MyGo, Go 기반 네이티브 UI와 OS 웹뷰를 혼합해 가벼운 데스크톱 앱을 만드는 오픈소스",
+      "title_ko": "MyGo, Go 기반 네이티브 UI와 OS 웹뷰를 혼합해 가벼운 데스크톱 앱을 만드는 오픈소스",
+      "summary_ko": "• **하이브리드 렌더링**: Go 언어로 직접 GPU에 그리는 네이티브 UI와 OS 기본 웹뷰(WebView2, WKWebView 등)를 하나의 창에서 혼합 지원한다.\n• **초경량 독립 실행**: 무거운 크로미움 브라우저 엔진을 번들링하지 않아 메모리 소모를 줄이고 Go 단독으로도 GUI를 구성할 수 있다.\n• **타입세이프 통신**: Go 백엔드 서비스와 프론트엔드 사이에 타입이 안전한 이벤트 스트리밍과 타입스크립트 클라이언트 자동 생성을 제공한다.",
+      "body_ko": "유명 오픈소스 개발자 egoist가 Go 언어와 운영체제 기본 웹뷰를 활용해 경량 데스크톱 애플리케이션을 제작할 수 있는 MyGo를 발표했습니다. 일렉트론(Electron)처럼 수백 메가바이트의 크롬 브라우저를 앱마다 내장하는 대신 윈도우의 WebView2와 맥의 WKWebView를 활용합니다. 특히 Go 코드로 직접 GPU 렌더링을 처리하는 네이티브 UI 컴포넌트와 웹 프론트엔드를 동일 화면에서 혼합해 쓸 수 있습니다. Flexbox와 Grid 레이아웃, 가상화 목록, 리치 텍스트 편집기뿐 아니라 창을 띄우지 않고 로직을 자동 검증하는 헤드리스 UI 테스트 기능까지 갖췄습니다. Go에서 정의한 서비스를 프론트엔드에서 호출할 때 타입스크립트 클라이언트를 자동으로 생성해 주어 정합성을 보장합니다. 데스크톱 클라이언트를 가볍고 빠르게 빌드하려는 Go 및 프론트엔드 개발자들에게 강력한 옵션을 제공합니다.",
+      "author_profile": "xguru",
+      "publish_date": "2026-11-03T00:30:02.000Z",
+      "tags": [
+        "MyGo",
+        "Go 언어",
+        "데스크톱 앱",
+        "WebView",
+        "오픈소스 GUI"
+      ],
+      "url": "https://news.hada.io/topic?id=36493",
+      "sources": [
+        "GeekNews"
+      ],
+      "metrics": {},
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "bluesky_b06462f844",
+      "category_id": "bluesky",
+      "category_name": "Bluesky",
+      "signal_id": "devtool",
+      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
+      "importance": 80,
+      "headline": "ah, 실행 중인 터미널 에이전트 세션과 양방향 연동되는 경량 로컬 UI 서버 및 CLI",
+      "title_ko": "ah, 실행 중인 터미널 에이전트 세션과 양방향 연동되는 경량 로컬 UI 서버 및 CLI",
+      "summary_ko": "• **에이전트 실시간 연동**: 터미널 백그라운드에서 동작 중인 에이전트 세션의 상태와 웹 기반 대시보드를 실시간 동기화한다.\n• **내장 작업 도구 통합**: Helix 에디터와 jj(Jujutsu) 버전 관리 상태, 변경점(diff) 리뷰 도구를 웹 브라우저에서 직관적으로 제어할 수 있다.\n• **모듈형 아키텍처**: 터미널과 에디터 어댑터를 자유롭게 교체할 수 있도록 설계되어 개인 맞춤형 에이전트 작업 공간을 구축하게 돕는다.",
+      "body_ko": "개발자 david-crespo가 터미널에서 구동 중인 코딩 에이전트와 대화형 UI를 결합하는 오픈소스 도구 ah(agent host)를 공개했습니다. 터미널 탭에 포커스된 작업 상태를 실시간으로 추적하여 웹 대시보드에 현재 진행 중인 태스크와 형상 관리 상태를 시각화합니다. WebSocket을 통해 브라우저에서 Helix 에디터를 직접 띄워 마크다운 문서를 실시간 렌더링 프리뷰와 함께 편집할 수 있습니다. 변경된 코드의 차이점을 검토하는 skepsis diff 리뷰어와 jj(Jujutsu) 버전 관리 연동을 기본 지원합니다. 필요에 따라 에디터를 Neovim으로 교체하거나 형상 관리를 Git으로 바꿀 수 있는 유연한 어댑터 구조를 갖추고 있습니다. CLI의 가벼움과 웹 UI의 시각적 편의성을 결합해 에이전트 페어 프로그래밍 경험을 개선하고자 하는 개발자들에게 유용한 실험 도구입니다.",
+      "author_profile": "@proptermalone.bsky.social",
+      "publish_date": "2026-11-03T00:10:15.917Z",
+      "tags": [
+        "ah",
+        "에이전트 호스트",
+        "CLI 대시보드",
+        "Jujutsu",
+        "개발자 도구"
+      ],
+      "url": "https://github.com/david-crespo/ah",
+      "sources": [
+        "Bluesky"
+      ],
+      "metrics": {
+        "likes": 6,
+        "reposts": 2,
+        "replies": 0,
+        "bluesky_url": "https://bsky.app/profile/proptermalone.bsky.social/post/3mzekf6idic2x"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "reddit_4ccb1e5c0c",
+      "category_id": "reddit",
+      "category_name": "Reddit",
+      "signal_id": "policy",
+      "signal_name": "정책·규제·인프라 (기술 영향 큰 것만)",
+      "importance": 79,
+      "headline": "알리바바 큐원, 향후 모델도 끝까지 오픈소스 가중치 공개를 고수한다는 공식 성명 발표",
+      "title_ko": "알리바바 큐원, 향후 모델도 끝까지 오픈소스 가중치 공개를 고수한다는 공식 성명 발표",
+      "summary_ko": "• **오픈소스 유지 선언**: Qwen4 이후 폐쇄형 API로 전환될 것이라는 시장의 소문을 일축하고 오픈 가중치 원칙을 지속한다고 천명했다.\n• **생태계 신뢰 보호**: 글로벌 오픈소스 개발자 커뮤니티의 불안을 해소하며 개방형 AI 생태계의 핵심 기둥 역할을 이어갈 방침이다.\n• **독자 인프라 자립**: 상용 폐쇄형 모델에 종속되지 않고 자체 호스팅과 온프레미스 인프라를 구축하려는 엔지니어들에게 확실한 지침을 제공했다.",
+      "body_ko": "알리바바의 Qwen 연구팀이 향후 출시될 플래그십 모델 계열에서도 오픈소스 가중치 공개를 끝까지 고수하겠다는 공식 성명을 냈습니다. 최근 커뮤니티에서는 차기 대형 모델인 Qwen4가 마지막 오픈 가중치 버전이 되고 이후부터는 독점 API 모델로 전환될 것이라는 루머가 돌았습니다. Qwen 팀은 이러한 추측을 전면 부인하며 글로벌 오픈소스 생태계와의 약속을 확고히 지켜나가겠다는 의지를 밝혔습니다. 이는 최근 메타(Meta)와 함께 오픈 가중치 진영을 이끌어온 Qwen 모델의 지속 가능성에 대한 개발자들의 우려를 단번에 불식시켰습니다. 오픈소스 모델을 기반으로 맞춤형 파인튜닝과 온프레미스 사내 인프라를 구축하던 엔터프라이즈 엔지니어들에게 매우 중요한 정책적 안정성을 제공합니다. 폐쇄형 빅테크 API의 가격 인상과 검열 정책에 대응하는 핵심적인 개방형 대안으로 자리매김할 전망입니다.",
+      "author_profile": "r/LocalLLaMA · u/ResearchCrafty1804",
+      "publish_date": "2026-11-02T16:42:32.000Z",
+      "tags": [
+        "Qwen",
+        "오픈소스 AI",
+        "알리바바",
+        "오픈 가중치",
+        "AI 정책"
+      ],
+      "url": "https://www.reddit.com/r/LocalLLaMA/comments/1xm28e6/official_statement_qwen_models_will_stick_to_open/",
+      "sources": [
+        "Reddit"
+      ],
+      "metrics": {
+        "rank_in_sub": 1,
+        "discussion_url": "https://www.reddit.com/r/LocalLLaMA/comments/1xm28e6/official_statement_qwen_models_will_stick_to_open/"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "bluesky_70da73818f",
+      "category_id": "bluesky",
+      "category_name": "Bluesky",
+      "signal_id": "product",
+      "signal_name": "제품 신기능",
+      "importance": 78,
+      "headline": "Workbench, 에이전트 협업 패러다임 변화에 맞춘 차세대 개발자 작업 공간 베타 공개",
+      "title_ko": "Workbench, 에이전트 협업 패러다임 변화에 맞춘 차세대 개발자 작업 공간 베타 공개",
+      "summary_ko": "• **에이전트 중심 워크스페이스**: 단순 자동 완성을 넘어 복잡한 작업을 에이전트에 위임하는 최신 코딩 패러다임에 맞춰 작업 공간을 재설계했다.\n• **개발자 피로도 경감**: 여러 에이전트의 출력물과 변경점을 한눈에 조망하고 의사결정에만 집중할 수 있는 통합 인터페이스를 제공한다.\n• **베타 서비스 개시**: 수십 년 경력의 베테랑 엔지니어들의 실제 피드백을 반영하여 실무 생산성 도구로 완성도를 높여가고 있다.",
+      "body_ko": "개발자 Matt Birchler가 최신 AI 코딩 에이전트 워크플로우에 최적화된 새로운 개발 도구 Workbench의 공개 베타를 시작했습니다. 지난 2년간 코딩 에이전트는 단일 함수 수정을 넘어 거대한 아키텍처 개편과 전사 리팩토링을 수행할 정도로 성능이 급변했습니다. 개발자의 역할 역시 직접 코드를 타이핑하는 위치에서 여러 에이전트의 제안을 지휘하고 검토하는 감독관의 위치로 바뀌었습니다. Workbench는 이러한 역할 변화에 맞춰 에이전트의 작업 맥락과 수정 내역을 한 화면에서 체계적으로 조율할 수 있도록 지원합니다. 파편화된 터미널 창과 브라우저 도구들을 하나로 묶어 컨텍스트 스위칭으로 인한 인지 부하를 최소화했습니다. 에이전틱 코딩의 확산에 맞춰 기존 IDE의 틀을 벗어난 새로운 개발자 경험을 시험해 볼 수 있는 주목할 만한 프로덕트입니다.",
+      "author_profile": "@birchtree.me",
+      "publish_date": "2026-11-02T22:03:42.441Z",
+      "tags": [
+        "Workbench",
+        "코딩 에이전트",
+        "개발자 생산성",
+        "IDE",
+        "에이전틱 개발"
+      ],
+      "url": "https://birchtree.me/blog/workbench-is-the-best-developer-tool-ive-ever-made-in-beta-now/",
+      "sources": [
+        "Bluesky"
+      ],
+      "metrics": {
+        "likes": 3,
+        "reposts": 0,
+        "replies": 0,
+        "bluesky_url": "https://bsky.app/profile/birchtree.me/post/3mzedcuwquj23"
+      },
+      "curated_by": "ldk-hub"
+    }
+  ]
+}
