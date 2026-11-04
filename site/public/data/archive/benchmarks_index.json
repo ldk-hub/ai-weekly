@@ -1,6 +1,12 @@
 {
   "archives": [
     {
+      "file": "benchmarks_2026-11-04.json",
+      "updated_at": "2026-11-04T05:02:16.681Z",
+      "market_shares_count": 6,
+      "models_count": 10
+    },
+    {
       "file": "benchmarks_2026-11-01.json",
       "updated_at": "2026-11-01T23:36:13.408Z",
       "market_shares_count": 6,

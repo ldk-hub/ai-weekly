@@ -41,7 +41,7 @@ graph TD
 - **역할:** 주요 AI 챗봇의 3대 출처 점유율과 최신 현행(Active Frontier) 모델 벤치마크를 검증 및 갱신한다.
 - **핵심 검문 게이트:**
   1. **최신성 게이트(Staleness Gate)**: 실행일(Run Date) 기준 점유율 출처 45일, 성능 출처 30일 이내 최신 데이터인지 검증. 과거 갱신 중단된 구형 링크(`swebench.com` 등) 원천 차단.
-  2. **다중 출처 3곳 앙상블 평균**: 점유율은 Similarweb(웹 방문) + Statcounter(리퍼럴) + OpenRouter(개발자 API) 3곳 산술 평균 및 합계 100.0% 검증.
+  2. **다중 출처 3곳 앙상블 평균**: 점유율은 Similarweb(웹 방문) + Trakkr(AI 리퍼럴) + OpenRouter(개발자 API) 3곳 산술 평균 및 합계 100.0% 검증.
   3. **3대 리더보드 필수 수록**: LMArena(Elo/Coding), Artificial Analysis(지능 지수), LiveBench(오염방지 점수) 및 100만 토큰당 가격 필수.
   4. **구버전 모델(Legacy Models) 배제**: Claude 3.5, GPT-4o, Llama 2/3 등 구버전 차단 및 기업별 대표 플래그십 1개 원칙 준수.
 - **산출물:** `site/public/data/benchmarks_latest.json`

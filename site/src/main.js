@@ -2776,9 +2776,9 @@ function openBenchmarkScopeModal() {
             <td>${isEn ? "Excludes native iOS/Android apps & enterprise APIs" : "iOS/Android 네이티브 앱 및 엔터프라이즈 전용 API 누락"}</td>
           </tr>
           <tr>
-            <td><strong>Statcounter</strong> (Referral)</td>
-            <td>${isEn ? "Search engine & browser outbound traffic conversion" : "검색 엔진 및 브라우저 외부 유입 리퍼럴 추적"}</td>
-            <td>${isEn ? "Conversation duration inside chat is not tracked" : "챗봇 내부 체류 시간 미반영, 브라우저 기본 탑재 편향"}</td>
+            <td><strong>Trakkr / Statcounter</strong> (Referral)</td>
+            <td>${isEn ? "AI search engine & chatbot outbound referral traffic conversion (GA4)" : "AI 검색 엔진 및 챗봇 외부 유입 리퍼럴 추적 (GA4 세션 기반)"}</td>
+            <td>${isEn ? "Tracks active citations & click referrals with low latency (Staleness Gate: 21 days)" : "실시간 AI 인용 클릭 및 주간 롤링 반영 (최신성 게이트: 21일)"}</td>
           </tr>
           <tr>
             <td><strong>OpenRouter</strong> (API)</td>
@@ -2796,8 +2796,8 @@ function openBenchmarkScopeModal() {
       <div class="bm-scope-note">
         <strong>💡 ${isEn ? "Cadence & Refresh Policy" : "수행 주기 및 최신성 검증 정책"}:</strong><br />
         ${isEn
-          ? "• <strong>Market Share (Monthly)</strong>: Refreshed on the 1st–3rd of each month aligned with Similarweb/Statcounter releases (Staleness Gate: 45 days).<br />• <strong>Frontier Benchmarks (Weekly)</strong>: Refreshed every Monday with live OpenRouter pricing & leaderboard rankings (Staleness Gate: 30 days).<br />• <strong>Hotfix</strong>: Major new flagship models are added same-day upon release."
-          : "• <strong>점유율 (월간)</strong>: Similarweb/Statcounter 발표 주기에 맞춰 <strong>매월 1~3일</strong> 전월 데이터 확정 반영 (최신성 게이트: 45일)<br />• <strong>성능 벤치마크 (주간)</strong>: OpenRouter 실시간 가격과 3대 리더보드 순위를 <strong>매주 월요일</strong> 동기화 (최신성 게이트: 30일)<br />• <strong>상시 핫픽스</strong>: 주요 프론티어 플래그십 출시 당일 즉시 반영"}
+          ? "• <strong>Market Share (Hybrid)</strong>: Similarweb (Monthly, 45d) + Trakkr AI Index / OpenRouter (Weekly, 21d) ensemble.<br />• <strong>Frontier Benchmarks (Weekly)</strong>: Refreshed every Monday with live OpenRouter pricing & leaderboard rankings (Staleness Gate: 30 days).<br />• <strong>Hotfix</strong>: Major new flagship models are added same-day upon release."
+          : "• <strong>점유율 (하이브리드)</strong>: Similarweb(월간, 45일) + Trakkr AI 리퍼럴/OpenRouter(주간·일간, 21일) 앙상블 반영<br />• <strong>성능 벤치마크 (주간)</strong>: OpenRouter 실시간 가격과 3대 리더보드 순위를 <strong>매주 월요일</strong> 동기화 (최신성 게이트: 30일)<br />• <strong>상시 핫픽스</strong>: 주요 프론티어 플래그십 출시 당일 즉시 반영"}
       </div>
     </div>
   `;
@@ -3178,15 +3178,16 @@ function renderBenchmarks() {
 
   const shareRow = (s, rank) => {
     const bd = s.sources_breakdown;
+    const refVal = bd ? (bd.trakkr_referral ?? bd.statcounter_referral ?? bd.referral_traffic ?? 0) : 0;
     const multiBarHTML = bd
       ? `
-      <div class="bm-multibar-container" title="${isEn ? `Web ${f1(bd.similarweb_visit)}% · Referral ${f1(bd.statcounter_referral)}% · API ${f1(bd.openrouter_api)}%` : `웹 방문 ${f1(bd.similarweb_visit)}% · 리퍼럴 ${f1(bd.statcounter_referral)}% · 개발자 API ${f1(bd.openrouter_api)}%`}">
+      <div class="bm-multibar-container" title="${isEn ? `Web ${f1(bd.similarweb_visit)}% · Referral ${f1(refVal)}% · API ${f1(bd.openrouter_api)}%` : `웹 방문 ${f1(bd.similarweb_visit)}% · 리퍼럴 ${f1(refVal)}% · 개발자 API ${f1(bd.openrouter_api)}%`}">
         <div class="bm-multibar-track" title="${isEn ? "Ensemble Share Relative Bar" : "종합 평균 상대 비율"}">
           <i class="bm-multibar-fill" style="width:${Math.min(100, (s.share_pct / maxShare * 100)).toFixed(1)}%;background:${escapeHTML(s.color)};"></i>
         </div>
         <div class="bm-multibar-legend">
           <span><i class="bm-multibar-mini-dot" style="background:#10a37f;"></i>${isEn ? "Web" : "웹"} <strong>${f1(bd.similarweb_visit)}%</strong></span>
-          <span><i class="bm-multibar-mini-dot" style="background:#f59e0b;"></i>${isEn ? "Ref" : "리퍼럴"} <strong>${f1(bd.statcounter_referral)}%</strong></span>
+          <span><i class="bm-multibar-mini-dot" style="background:#f59e0b;"></i>${isEn ? "Ref" : "리퍼럴"} <strong>${f1(refVal)}%</strong></span>
           <span><i class="bm-multibar-mini-dot" style="background:#8b5cf6;"></i>API <strong>${f1(bd.openrouter_api)}%</strong></span>
         </div>
       </div>`
@@ -3230,7 +3231,7 @@ function renderBenchmarks() {
         <div class="bm-card-head">
           <div>
             <strong>${isEn ? "AI Service 3-Source Ensemble Market Share" : "AI 서비스 3대 출처 종합 점유율 (평균)"}</strong>
-            <span class="bm-card-sub">${isEn ? "Ensemble mean of ① Similarweb (Web Visits) + ② Statcounter (Outbound Referrals) + ③ OpenRouter (API Token Share)" : "단일 출처 편향 제거를 위해 ① Similarweb(웹 방문) · ② Statcounter(웹 리퍼럴) · ③ OpenRouter(API 호출) 3곳 점유율을 산술 평균"}</span>
+            <span class="bm-card-sub">${isEn ? "Ensemble mean of ① Similarweb (Web Visits) + ② Trakkr (AI Referral Index) + ③ OpenRouter (API Token Share)" : "단일 출처 편향 제거를 위해 ① Similarweb(웹 방문) · ② Trakkr(AI 리퍼럴) · ③ OpenRouter(API 호출) 3곳 점유율을 산술 평균"}</span>
           </div>
           <span>${momHeaderLabel}</span>
         </div>

@@ -33,7 +33,7 @@ flowchart LR
     subgraph Collect["1. 결정적 수집 (Node.js)"]
         S1["8개 기술 매체 RSS/DOM\n(collect_news.js)"]
         S2["GitHub GraphQL / 620개 OSS\n(collect.js · collect-stars.js)"]
-        S3["Statcounter · LMArena · OpenRouter\n(curate-benchmarks.js + evidence/)"]
+        S3["Trakkr AI · LMArena · OpenRouter\n(curate-benchmarks.js + evidence/)"]
     end
 
     subgraph Guard["2. 공급망 보안 & 팩트 고정"]
@@ -60,7 +60,7 @@ flowchart LR
 | **🔒 공급망 악성 코드 차단**<br>*(Static Security Scan)* | 급상승 오픈소스 중 `setup.py`·`install.sh`에 공인 IP를 하드코딩해 원격 코드를 `exec`/`eval`하는 드로퍼 위험 | 설치 진입점 파일을 정적 검사하는 **`scan-install-entry.js`**를 파이프라인에 내장하여 비인가 원격 실행 패턴 자동 격리 | 큐레이션 대상 중 **실제 악성 패키지 2건 사전 탐지·차단** |
 | **✅ 다단계 품질 게이트**<br>*(Automated Validation)* | 요약 포맷 깨짐, 원문 단순 복붙, 주식/광고성 노이즈 기사 유입 및 특정 매체 편향 위험 | 배포 전 **`--validate` CLI 검증기**로 3대 포인트 불릿 규격, 5~10문장 해설 완결성, 금융/광고 정규식 필터(`FINANCE_RE`), 매체별 쿼터 균형을 전수 검사 (위반 시 배포 즉시 중단) | 수동 개입 없는 **일관된 프로덕션 품질 유지** |
 | **📈 3체급 코호트 정규화**<br>*(League & Velocity)* | 단일 스타 수 순위표에서는 수만 스타의 거대 리포지토리에 가려 신생 유망 도구가 묻히는 왜곡 발생 | **620개** 추적 리포를 **헤비급(`10k+`) · 미들급(`1k~10k`) · 라이트급(`<1k`)** 3체급 리그로 분리하고, 주간 성장 속도(Velocity)와 커뮤니티 버즈를 결합한 4축 스코어링 적용 | 체급별 급성장 오픈소스 조기 발굴 및 시계열 원장 보존 |
-| **📊 증빙 기반 벤치마크 & 초경량 운영**<br>*(Evidence-Backed Static)* | 모델 성능·점유율 비교 시 출처 불분명 및 백엔드 서버/DB 운영 비용 부담 | Statcounter·LMArena·OpenRouter 수집 시점의 **원본 스냅샷(`evidence/`)을 함께 보존**하고, 순수 JSON + **Vite 정적 빌드(0.2초 미만)**로 서버 비용 없이 무중단 운영 | **100% 출처 검증 가능**한 지표 제공 & 인프라 유지비 **\$0** |
+| **📊 증빙 기반 벤치마크 & 초경량 운영**<br>*(Evidence-Backed Static)* | 모델 성능·점유율 비교 시 출처 불분명 및 백엔드 서버/DB 운영 비용 부담 | Trakkr·Similarweb·OpenRouter·LMArena 수집 시점의 **원본 스냅샷(`evidence/`)을 함께 보존**하고, 순수 JSON + **Vite 정적 빌드(0.2초 미만)**로 서버 비용 없이 무중단 운영 | **100% 출처 검증 가능**한 지표 제공 & 인프라 유지비 **\$0** |
 
 ---
 
@@ -114,11 +114,11 @@ flowchart LR
 글로벌 AI 서비스의 웹 리퍼럴 트래픽 점유율과 프론티어 LLM의 코딩·선호도·가성비 지표를 원본 증빙(`evidence/`)과 함께 추적하는 리더보드입니다.
 
 - **상단 4대 핵심 요약 칩 (원클릭 정렬 연동)**:
-  - **`리퍼럴 1위`** (Statcounter 월간 웹 방문 리퍼럴 점유율 1위 및 전월 대비 증감 `%p`)
+  - **`리퍼럴 1위`** (Trakkr AI Search Index 주간/일간 롤링 웹 방문 리퍼럴 점유율 1위 및 전월 대비 증감 `%p`)
   - **`코딩 최고점`** (LMArena Coding 리더보드 최고 Elo 모델)
   - **`선호도 최고점`** (LMArena Overall 종합 선호도 최고 Elo 모델)
   - **`가성비 1위`** (코딩 점수 상위 절반 모델 중 OpenRouter 입출력 가중 단가 최저가 모델)
-- **점유율 / 성능 듀얼 뷰 & 다중 정렬**: `점유율`(Statcounter 월간 바 차트 및 기타 모델 펼치기) 탭과 `성능`(회사별 대표 프론티어 모델의 `코딩 · 선호도 · 입출력 가격($/1M) · 컨텍스트 윈도우` 비교 및 `코딩 / 선호도 / 가격 낮은 순` 정렬) 탭을 제공하며, 상단에 모든 데이터의 출처와 기준일을 투명하게 명시합니다.
+- **점유율 / 성능 듀얼 뷰 & 다중 정렬**: `점유율`(Similarweb 웹 방문 · Trakkr AI 리퍼럴 · OpenRouter API 3곳 앙상블 및 멀티바 차트) 탭과 `성능`(회사별 대표 프론티어 모델의 `코딩 · 선호도 · 입출력 가격($/1M) · 컨텍스트 윈도우` 비교 및 `코딩 / 선호도 / 가격 낮은 순` 정렬) 탭을 제공하며, 상단에 모든 데이터의 출처와 기준일을 투명하게 명시합니다.
 
 ---
 

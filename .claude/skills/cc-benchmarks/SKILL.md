@@ -20,14 +20,14 @@ graph TD
 ```
 
 ### 1.1 최신성 게이트 (Staleness Gate)
-- **점유율 출처 (최대 45일 허용)**: 월간 지표 특성을 고려하여 실행일(Run Date) 기준 45일 이내 데이터만 허용.
+- **점유율 출처 (하이브리드 최대 45일/21일 허용)**: Similarweb(월간 45일)과 Trakkr AI Index / OpenRouter(주간·일간 21일)의 앙상블로 기간 갭 최소화.
 - **성능 벤치마크 출처 (최대 30일 허용)**: 일/주 단위 갱신 리더보드 특성을 고려하여 30일 초과 미갱신 시 즉시 배제.
 - **과거 링크 엄격 차단**: 2026년 2월 이후 갱신이 멈춘 구형 `swebench.com` 등 방치된 출처는 블랙리스트로 원천 차단.
 
 ### 1.2 다중 출처 앙상블 평균 (Multi-Source Ensemble Average)
 - **점유율**: 특정 편향을 방지하기 위해 3대 출처의 산술 평균으로 집계하고 합계 100%를 엄격 검증:
   1. `Similarweb`: 웹 방문 트래픽
-  2. `Statcounter`: 글로벌 AI 챗봇 리퍼럴(Referral)
+  2. `Trakkr AI Index`: 실시간/주간 롤링 AI 리퍼럴(Referral) 클릭 점유율 (GA4 실운영 사이트 기반, Statcounter의 45일 지연 및 Claude 누락 왜곡 보정)
   3. `OpenRouter Rankings`: 개발자 API 토큰 소비량
 - **성능 지표**: 3대 공신 리더보드 데이터가 모두 존재하는 현행 플래그십 모델만 수록:
   1. `LMArena`: 블라인드 사용자 선호도(Arena Elo) 및 코딩 선호도(Arena Coding Elo)

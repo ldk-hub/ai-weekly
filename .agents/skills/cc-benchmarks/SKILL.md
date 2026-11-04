@@ -21,16 +21,16 @@ graph TD
 ```
 
 ### 1.1 최신성 게이트 및 이원화된 수행 주기 (Bifurcated Cadence)
-- **점유율 출처 (월간 파이프라인 · 최대 45일 허용)**: Similarweb, Statcounter 등 매월 초 발표되는 월간 지표 특성에 맞추어 **매월 1~3일 정기 갱신**.
+- **점유율 출처 (하이브리드 주기 · 최대 45일/21일 허용)**: Similarweb(월간 지표, 최대 45일)과 Trakkr AI Index / OpenRouter(일간·주간 롤링 지표, 최대 21일)의 앙상블로 시간적 갭(Lag)을 최소화.
 - **성능 벤치마크 출처 (주간 파이프라인 · 최대 30일 허용)**: LMArena, Artificial Analysis, LiveBench, OpenRouter API는 **매주 월요일 정기 갱신** (`cc-weekly` Step 3).
 - **이벤트 기반 핫픽스 (상시)**: 새로운 주요 프론티어 플래그십 모델 출시 시 단일 엔트리를 즉시 수동 추가하여 당일 배포.
 - **과거 링크 엄격 차단**: 2026년 2월 이후 갱신이 멈춘 구형 `swebench.com` 등 방치된 출처는 블랙리스트로 원천 차단.
 
 ### 1.2 다중 출처 앙상블 평균 (Multi-Source Ensemble Average)
 - **점유율**: 특정 편향을 방지하기 위해 3대 출처의 산술 평균으로 집계하고 합계 100%를 엄격 검증:
-  1. `Similarweb`: 웹 방문 트래픽
-  2. `Statcounter`: 글로벌 AI 챗봇 리퍼럴(Referral)
-  3. `OpenRouter Rankings`: 개발자 API 토큰 소비량
+  1. `Similarweb`: 웹 방문 트래픽 (월간 데스크톱/모바일 도메인)
+  2. `Trakkr AI Index`: 실시간/주간 롤링 AI 리퍼럴(Referral) 클릭 점유율 (GA4 실운영 사이트 기반, Statcounter의 45일 지연 및 Claude 인용 누락 왜곡 보정)
+  3. `OpenRouter Rankings`: 개발자 API 토큰 소비량 (일간/주간)
 - **성능 지표**: 3대 공신 리더보드 데이터가 모두 존재하는 현행 플래그십 모델만 수록:
   1. `LMArena`: 블라인드 사용자 선호도(Arena Elo) 및 코딩 선호도(Arena Coding Elo)
   2. `Artificial Analysis`: 품질·지능 종합 지수(Quality Index) 및 Throughput

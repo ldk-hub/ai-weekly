@@ -1,0 +1,20 @@
+{
+  "source": "Trakkr AI Search Traffic Index",
+  "url": "https://trakkr.ai/",
+  "metric": "AI Referral Page View Market Share",
+  "methodology": "Connected GA4 property sessions from thousands of live websites tracking outbound citations and referrals from AI chat platforms",
+  "as_of": "2026-10-31",
+  "collected_at": "2026-11-04T13:00:00+09:00",
+  "cadence": "daily_weekly_rolling_30d",
+  "data": {
+    "ChatGPT": 79.2,
+    "Claude": 16.6,
+    "Google Gemini": 2.8,
+    "Microsoft Copilot": 0.5,
+    "Perplexity": 0.5,
+    "You.com": 0.2,
+    "DeepSeek": 0.1,
+    "Grok_and_others": 0.1
+  },
+  "notes": "Solves Statcounter 35-45 day lag and corrects Claude artifact citation omission (up from 0.95% to 16.6%)"
+}

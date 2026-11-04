@@ -7,7 +7,8 @@
  *    - 실행일(Run Date) 기준 점유율 출처는 45일 초과, 성능 벤치마크 출처는 30일 초과 미갱신 시 즉시 배제
  *    - 2026년 2월 이후 갱신이 멈춘 구형 swebench.com 등 과거 링크는 원천 차단
  * 2. Multi-Source Ensemble Average (다중 출처 평균 산출):
- *    - 점유율: Similarweb(웹 방문) + Statcounter(리퍼럴) + OpenRouter(개발자 API) 3곳 평균 정합성 및 합계 100% 검증
+ *    - 점유율: Similarweb(웹 방문) + Trakkr(AI 리퍼럴) + OpenRouter(개발자 API) 3곳 평균 정합성 및 합계 100% 검증
+ *    - (하위 호환성: Statcounter 리퍼럴 필드 지원)
  *    - 성능: LMArena(Elo) + Artificial Analysis(Index) + LiveBench(Score) 3대 리더보드 모두 존재 및 종합 평균 정합성 검증
  * 3. Legacy Model Blocklist:
  *    - 과거 구버전 모델을 엄격히 차단하고 현행 프론티어 모델만 허용
@@ -81,7 +82,8 @@ function validateAndCurate() {
 
     const asOfDate = new Date(src.as_of);
     const ageDays = Math.floor((runDate - asOfDate) / (1000 * 60 * 60 * 24));
-    const maxDays = src.category === "share" ? 45 : 30;
+    // 리퍼럴/API 등 일간·주간 출처는 최대 21일, 월간 출처(Similarweb)는 최대 45일, 벤치마크는 30일
+    const maxDays = src.id === "trakkr" || src.id === "openrouter_rankings" ? 21 : src.category === "share" ? 45 : 30;
 
     if (ageDays > maxDays) {
       console.error(
@@ -98,17 +100,26 @@ function validateAndCurate() {
 
   for (const item of shares) {
     const bd = item.sources_breakdown;
+    const referralVal =
+      bd && typeof bd.trakkr_referral === "number"
+        ? bd.trakkr_referral
+        : bd && typeof bd.statcounter_referral === "number"
+        ? bd.statcounter_referral
+        : bd && typeof bd.referral_traffic === "number"
+        ? bd.referral_traffic
+        : undefined;
+
     if (
       !bd ||
       typeof bd.similarweb_visit !== "number" ||
-      typeof bd.statcounter_referral !== "number" ||
+      typeof referralVal !== "number" ||
       typeof bd.openrouter_api !== "number"
     ) {
       console.error(`❌ [Benchmarks] '${item.name}' 점유율에 3곳 출처 세부 데이터(sources_breakdown)가 누락되었습니다.`);
       process.exit(1);
     }
 
-    const expectedAvg = (bd.similarweb_visit + bd.statcounter_referral + bd.openrouter_api) / 3;
+    const expectedAvg = (bd.similarweb_visit + referralVal + bd.openrouter_api) / 3;
     if (Math.abs(item.share_pct - expectedAvg) > 0.05) {
       console.error(
         `❌ [Benchmarks] '${item.name}'의 평균 점유율(${item.share_pct}%)이 3곳 산술 평균(${expectedAvg.toFixed(2)}%)과 일치하지 않습니다.`

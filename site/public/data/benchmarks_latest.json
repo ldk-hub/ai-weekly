@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-01T23:49:09.888Z",
+  "updated_at": "2026-11-04T05:15:24.729Z",
   "policy": {
     "filter_rule": "multi_source_ensemble_average",
     "staleness_gate": {
@@ -9,7 +9,7 @@
         "swebench.com"
       ]
     },
-    "description": "실행일(Run Date) 기준 갱신 주기가 지난 과거 링크(점유율 45일·성능 30일 초과 및 2026-02 멈춘 구형 swebench.com 등)를 엄격 배제하고, 점유율은 3곳(Similarweb 웹 방문 · Statcounter 리퍼럴 · OpenRouter API), 성능은 3대 리더보드(LMArena · Artificial Analysis · LiveBench)의 정규화 평균으로 집계합니다."
+    "description": "실행일(Run Date) 기준 갱신 주기가 지난 과거 링크(월간 45일·주간 21일·성능 30일 초과 및 2026-02 멈춘 구형 swebench.com 등)를 엄격 배제하고, 점유율은 3곳(Similarweb 웹 방문 · Trakkr AI 리퍼럴 · OpenRouter API), 성능은 3대 리더보드(LMArena · Artificial Analysis · LiveBench)의 정규화 평균으로 집계합니다."
   },
   "sources": [
     {
@@ -28,14 +28,14 @@
       "id": "traffic",
       "category": "share",
       "label": "리퍼럴",
-      "name": "Statcounter",
-      "url": "https://gs.statcounter.com/ai-chatbot-market-share",
+      "name": "Trakkr AI Index",
+      "url": "https://trakkr.ai/",
       "kind": "page",
       "aggregate": true,
       "header": true,
-      "as_of": "2026-09-30",
-      "retrieved_at": "2026-10-24T22:15:00+09:00",
-      "evidence": "evidence/statcounter-2026-09.html"
+      "as_of": "2026-10-31",
+      "retrieved_at": "2026-11-04T13:00:00+09:00",
+      "evidence": "evidence/trakkr-ai-index-2026-10.json"
     },
     {
       "id": "openrouter_rankings",
@@ -107,102 +107,102 @@
       "name": "ChatGPT",
       "source_name": "ChatGPT",
       "provider": "OpenAI",
-      "share_pct": 54.49,
+      "share_pct": 54.07,
       "prev_share_pct": 56.1,
-      "mom_change": -1.61,
+      "mom_change": -2.03,
       "sources_breakdown": {
         "similarweb_visit": 54.5,
-        "statcounter_referral": 80.48,
+        "trakkr_referral": 79.2,
         "openrouter_api": 28.5
       },
       "color": "#10a37f",
       "domain": "chatgpt.com",
-      "description": "웹 방문 54.50% · 리퍼럴 80.48% · 개발자 API 28.50% (3곳 평균)"
+      "description": "웹 방문 54.50% · 리퍼럴 79.20% · 개발자 API 28.50% (3곳 평균)"
     },
     {
       "rank": 2,
-      "name": "Gemini",
-      "source_name": "Google Gemini",
-      "provider": "Google",
-      "share_pct": 19.8,
-      "prev_share_pct": 18.25,
-      "mom_change": 1.55,
-      "sources_breakdown": {
-        "similarweb_visit": 26.5,
-        "statcounter_referral": 10.91,
-        "openrouter_api": 22
-      },
-      "color": "#4285f4",
-      "domain": "gemini.google.com",
-      "description": "웹 방문 26.50% · 리퍼럴 10.91% · 개발자 API 22.00% (3곳 평균)"
-    },
-    {
-      "rank": 3,
       "name": "Claude",
       "source_name": "Claude",
       "provider": "Anthropic",
-      "share_pct": 14.32,
+      "share_pct": 19.53,
       "prev_share_pct": 12.9,
-      "mom_change": 1.42,
+      "mom_change": 6.63,
       "sources_breakdown": {
         "similarweb_visit": 9.8,
-        "statcounter_referral": 0.95,
+        "trakkr_referral": 16.6,
         "openrouter_api": 32.2
       },
       "color": "#d97757",
       "domain": "claude.ai",
-      "description": "웹 방문 9.80% · 리퍼럴 0.95% · 개발자 API 32.20% (3곳 평균)"
+      "description": "웹 방문 9.80% · 리퍼럴 16.60% · 개발자 API 32.20% (3곳 평균)"
+    },
+    {
+      "rank": 3,
+      "name": "Gemini",
+      "source_name": "Google Gemini",
+      "provider": "Google",
+      "share_pct": 17.1,
+      "prev_share_pct": 18.25,
+      "mom_change": -1.15,
+      "sources_breakdown": {
+        "similarweb_visit": 26.5,
+        "trakkr_referral": 2.8,
+        "openrouter_api": 22
+      },
+      "color": "#4285f4",
+      "domain": "gemini.google.com",
+      "description": "웹 방문 26.50% · 리퍼럴 2.80% · 개발자 API 22.00% (3곳 평균)"
     },
     {
       "rank": 4,
       "name": "DeepSeek",
       "source_name": "DeepSeek",
       "provider": "DeepSeek",
-      "share_pct": 5.34,
+      "share_pct": 5.37,
       "prev_share_pct": 5.8,
-      "mom_change": -0.46,
+      "mom_change": -0.43,
       "sources_breakdown": {
         "similarweb_visit": 3.5,
-        "statcounter_referral": 0.02,
+        "trakkr_referral": 0.1,
         "openrouter_api": 12.5
       },
       "color": "#4d6bfe",
       "domain": "deepseek.com",
-      "description": "웹 방문 3.50% · 리퍼럴 0.02% · 개발자 API 12.50% (3곳 평균)"
+      "description": "웹 방문 3.50% · 리퍼럴 0.10% · 개발자 API 12.50% (3곳 평균)"
     },
     {
       "rank": 5,
-      "name": "Perplexity",
-      "source_name": "Perplexity",
-      "provider": "Perplexity AI",
-      "share_pct": 3.48,
-      "prev_share_pct": 3.78,
-      "mom_change": -0.3,
-      "sources_breakdown": {
-        "similarweb_visit": 3.1,
-        "statcounter_referral": 5.85,
-        "openrouter_api": 1.5
-      },
-      "color": "#1fb8cd",
-      "domain": "perplexity.ai",
-      "description": "웹 방문 3.10% · 리퍼럴 5.85% · 개발자 API 1.50% (3곳 평균)"
-    },
-    {
-      "rank": 6,
       "name": "Grok & Copilot 외",
       "source_name": "Microsoft Copilot / xAI Grok",
       "provider": "Microsoft · xAI",
-      "share_pct": 2.57,
+      "share_pct": 2.23,
       "prev_share_pct": 3.17,
-      "mom_change": -0.6,
+      "mom_change": -0.94,
       "sources_breakdown": {
         "similarweb_visit": 2.6,
-        "statcounter_referral": 1.79,
+        "trakkr_referral": 0.8,
         "openrouter_api": 3.3
       },
       "color": "#0078d4",
       "domain": "copilot.microsoft.com",
-      "description": "웹 방문 2.60% · 리퍼럴 1.79% · 개발자 API 3.30% (3곳 평균)"
+      "description": "웹 방문 2.60% · 리퍼럴 0.80% · 개발자 API 3.30% (3곳 평균)"
+    },
+    {
+      "rank": 6,
+      "name": "Perplexity",
+      "source_name": "Perplexity",
+      "provider": "Perplexity AI",
+      "share_pct": 1.7,
+      "prev_share_pct": 3.78,
+      "mom_change": -2.08,
+      "sources_breakdown": {
+        "similarweb_visit": 3.1,
+        "trakkr_referral": 0.5,
+        "openrouter_api": 1.5
+      },
+      "color": "#1fb8cd",
+      "domain": "perplexity.ai",
+      "description": "웹 방문 3.10% · 리퍼럴 0.50% · 개발자 API 1.50% (3곳 평균)"
     }
   ],
   "model_benchmarks": [
@@ -306,8 +306,8 @@
       "swe_bench_verified": null,
       "gpqa_diamond": 85.4,
       "mmlu_pro": 88.2,
-      "pricing_in_1m": 0.192,
-      "pricing_out_1m": 15,
+      "pricing_in_1m": 0.2,
+      "pricing_out_1m": 16,
       "context_window": "256K",
       "badge_type": "open-weights"
     },
@@ -390,8 +390,8 @@
       "swe_bench_verified": null,
       "gpqa_diamond": 83.5,
       "mmlu_pro": 86.4,
-      "pricing_in_1m": 0.0699,
-      "pricing_out_1m": 1.4,
+      "pricing_in_1m": 0.08,
+      "pricing_out_1m": 3.6,
       "context_window": "128K",
       "badge_type": "open-weights"
     },
