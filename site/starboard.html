@@ -5,9 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>AI위클리 — 📈 스타보드</title>
 <meta name="description" content="Claude Code 생태계 리포의 주간 스타 증감을 헤비급·미들급·라이트급 리그별 순위표로 추적합니다." />
-<meta name="theme-color" content="#fbfaf6" media="(prefers-color-scheme: light)" />
-<meta name="theme-color" content="#161410" media="(prefers-color-scheme: dark)" />
-<script>try{const t=localStorage.getItem('aiw-theme');if(t){document.documentElement.dataset.theme=t;document.querySelectorAll('meta[name="theme-color"]').forEach(m=>{m.removeAttribute('media');m.content=t==='dark'?'#161410':'#fbfaf6';});}}catch(e){}</script>
+<meta name="theme-color" content="#fcfaf6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#090d13" media="(prefers-color-scheme: dark)" />
+<script>try{const t=localStorage.getItem('aiw-theme')||'dark';document.documentElement.dataset.theme=t;document.querySelectorAll('meta[name="theme-color"]').forEach(m=>{m.removeAttribute('media');m.content=t==='dark'?'#090d13':'#fcfaf6';});}catch(e){}</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
 
 <link rel="canonical" href="https://ldk-hub.github.io/ai-weekly/starboard" />
 <meta property="og:type" content="website" />
@@ -283,7 +287,7 @@
 
 <div class="modal" id="modal" aria-hidden="true">
   <div class="modal-backdrop" data-close></div>
-  <div class="modal-panel" role="dialog" aria-modal="true">
+  <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <button class="modal-close" data-close aria-label="close">✕</button>
     <div class="modal-body" id="modal-body"></div>
   </div>

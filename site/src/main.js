@@ -374,6 +374,7 @@ function renderCategoryFilter() {
       `;
 
       sigWrap.innerHTML = signalChipsHtml + bmChipHtml;
+      updateNewsFadeMasks();
     }
   } else if (!isStarboardPage) {
     const list = (STATE.data?.[STATE.tab] || []);
@@ -699,7 +700,7 @@ function modalHTML(item, tab, rank) {
       ${weeklyPill}
       ${scorePill}
     </div>
-    <h2>${escapeHTML(modalTitle)}</h2>
+    <h2 id="modal-title">${escapeHTML(modalTitle)}</h2>
     ${item.summary_ko ? `<p class="m-summary">${escapeHTML(item.summary_ko)}</p>` : ""}
     ${feats ? `<div class="m-section"><div class="m-label">${lang === "en" ? "Key features" : "핵심 기능"}</div><ul class="m-features">${feats}</ul></div>` : ""}
     ${item.use_case ? `<div class="m-usecase"><span class="m-usecase-icon">💡</span><span><strong>${lang === "en" ? "Good for:" : "이럴 때:"}</strong> ${escapeHTML(item.use_case)}</span></div>` : ""}
@@ -1564,7 +1565,7 @@ function getCriteriaHTML(lang) {
   if (lang === "en") {
     return `
   <div class="cr-eyebrow">CC-TRENDS · SCORING</div>
-  <h2 class="cr-title">How is the ranking calculated?</h2>
+  <h2 class="cr-title" id="modal-title">How is the ranking calculated?</h2>
   <p class="cr-lede">Recalculated every week with weighted scores across 4 axes.</p>
 
   <div class="cr-formula">
@@ -1672,7 +1673,7 @@ function getCriteriaHTML(lang) {
   }
   return `
   <div class="cr-eyebrow">CC-TRENDS · SCORING</div>
-  <h2 class="cr-title">순위는 어떻게 매겨지나요?</h2>
+  <h2 class="cr-title" id="modal-title">순위는 어떻게 매겨지나요?</h2>
   <p class="cr-lede">매주 4가지 축의 가중 점수로 다시 계산합니다.</p>
 
   <div class="cr-formula">
@@ -1835,11 +1836,28 @@ document.getElementById("lang-toggle")?.addEventListener("click", () => {
 });
 applyLang(getLang());
 
+/* ─── news fade masks ─────────────────────────────────────────── */
+function updateNewsFadeMasks() {
+  const bar = document.getElementById("signal-chip-bar");
+  const fadeLeft = document.getElementById("news-fade-left");
+  const fadeRight = document.getElementById("news-fade-right");
+  if (!bar || !fadeLeft || !fadeRight) return;
+  const scrollLeft = bar.scrollLeft;
+  const maxScroll = bar.scrollWidth - bar.clientWidth;
+  fadeLeft.style.opacity = scrollLeft > 4 ? "1" : "0";
+  fadeRight.style.opacity = (maxScroll > 4 && scrollLeft < maxScroll - 4) ? "1" : "0";
+}
+const sigBarEl = document.getElementById("signal-chip-bar");
+if (sigBarEl) {
+  sigBarEl.addEventListener("scroll", updateNewsFadeMasks);
+  window.addEventListener("resize", updateNewsFadeMasks);
+}
+
 /* ─── theme toggle ─────────────────────────────────────────── */
 function getEffectiveTheme() {
   const t = document.documentElement.dataset.theme;
   if (t === 'dark' || t === 'light') return t;
-  return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  return 'dark';
 }
 function updateThemeColorMeta(eff) {
   let meta = document.querySelector('meta[name="theme-color"]');
@@ -1848,7 +1866,7 @@ function updateThemeColorMeta(eff) {
     meta.name = "theme-color";
     document.head.appendChild(meta);
   }
-  meta.content = eff === 'dark' ? '#161410' : '#fbfaf6';
+  meta.content = eff === 'dark' ? '#090d13' : '#fcfaf6';
 }
 function renderThemeToggle() {
   const eff = getEffectiveTheme();
@@ -1858,8 +1876,10 @@ function renderThemeToggle() {
   const lang = getLang();
   if (lang === "en") {
     btn.textContent = eff === 'dark' ? '☀️ Light' : '🌙 Dark';
+    btn.title = eff === 'dark' ? 'Switch to Editorial Weekly (Light)' : 'Switch to Signal Terminal (Dark)';
   } else {
     btn.textContent = eff === 'dark' ? '☀️ 라이트' : '🌙 다크';
+    btn.title = eff === 'dark' ? '에디토리얼 위클리(라이트)로 전환' : '시그널 터미널(다크)로 전환';
   }
 }
 document.getElementById("theme-toggle")?.addEventListener("click", () => {
@@ -1877,6 +1897,7 @@ if (window.matchMedia) {
   });
 }
 renderThemeToggle();
+
 
 // 토스트 알림 함수
 function showToast(msg) {
@@ -2357,7 +2378,7 @@ function openStarboardModal(id) {
       <div class="m-stars">★ ${item.currentStars.toLocaleString()}</div>
       <span class="m-score-pill" style="color:${velocityColor};">${sign}${item.velocity.toLocaleString()}/wk</span>
     </div>
-    <h2>${escapeHTML(item.meta?.desc_ko || item.meta?.description || item.id)}</h2>
+    <h2 id="modal-title">${escapeHTML(item.meta?.desc_ko || item.meta?.description || item.id)}</h2>
     ${item.meta?.desc_ko && item.meta?.description ? `<p class="m-summary">${escapeHTML(item.meta.description)}</p>` : ""}
     ${chartHtml}
     <div class="m-section">
@@ -2593,7 +2614,7 @@ function openBenchmarkScopeModal() {
         <span class="dot-sep">·</span>
         <span>${isEn ? "Multi-Source Ensemble" : "다중 출처 앙상블"}</span>
       </div>
-      <h2 style="margin: 8px 0 12px;">${isEn ? "Benchmark Data Scope & Confidence Guide" : "AI 점유율 및 성능 지표 데이터 수집 기준과 한계"}</h2>
+      <h2 id="modal-title" style="margin: 8px 0 12px;">${isEn ? "Benchmark Data Scope & Confidence Guide" : "AI 점유율 및 성능 지표 데이터 수집 기준과 한계"}</h2>
       <p>
         ${isEn 
           ? "AI Weekly ensembles multiple independent sources across B2C web traffic, search referrals, developer API token volumes, and blind evaluations to eliminate single-source bias. However, like all publicly available telemetry, certain inherent boundaries apply."

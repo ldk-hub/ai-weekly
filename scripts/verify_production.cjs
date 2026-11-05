@@ -51,12 +51,25 @@ const { chromium } = require('playwright');
       throw new Error(`Fatal: lounge found in .site-footer of dist/${pageName}`);
     }
 
-    // Assert no pn-badge-new
-    if ($('.pn-badge-new').length > 0) {
-      throw new Error(`Fatal: .pn-badge-new found in dist/${pageName}`);
+    // Assert Google fonts JetBrains Mono & Newsreader imported
+    if (!html.includes('JetBrains+Mono') || !html.includes('Newsreader')) {
+      throw new Error(`Fatal: Google fonts (JetBrains Mono / Newsreader) missing in dist/${pageName}`);
     }
 
-    console.log(`✅ dist/${pageName}: mascot SVG present, 4 tabs intact, no lounge, no NEW badge.`);
+    // Assert detail modal dialog accessibility attributes
+    const modalPanel = $('.modal-panel');
+    if (modalPanel.length === 0 || modalPanel.attr('role') !== 'dialog' || !modalPanel.attr('aria-labelledby')) {
+      throw new Error(`Fatal: .modal-panel role="dialog" or aria-labelledby missing in dist/${pageName}`);
+    }
+
+    // Assert news fade masks in news.html
+    if (pageName === 'news.html') {
+      if ($('.chips-scroll-container').length === 0 || $('#news-fade-left').length === 0 || $('#news-fade-right').length === 0) {
+        throw new Error('Fatal: news category chips-scroll-container or fade masks missing in dist/news.html');
+      }
+    }
+
+    console.log(`✅ dist/${pageName}: mascot SVG present, 4 tabs intact, fonts & modal accessible.`);
   }
 
   // 1.3 Verify context-specific subscription hints
@@ -177,15 +190,76 @@ const { chromium } = require('playwright');
         console.log(`  - ${w}px: OK (scrollW=${overflow.scrollW} <= ${overflow.innerW}, headerHeight=${Math.round(overflow.headerHeight)}px)`);
       }
 
-      // Test theme toggle
+      // 1. Verify Dark Mode (Signal Terminal Concept)
+      const darkStyles = await page.evaluate(() => {
+        const docEl = document.documentElement;
+        const body = document.body;
+        const heroH1 = document.querySelector('.hero-h1') || document.querySelector('h1');
+        const activeChip = document.querySelector('.chip.is-active') || document.querySelector('.cat-chip.is-active') || document.querySelector('.signal-chip.is-active');
+        return {
+          theme: docEl.getAttribute('data-theme'),
+          bgColor: getComputedStyle(body).backgroundColor,
+          bodyFont: getComputedStyle(body).fontFamily,
+          heroH1Font: heroH1 ? getComputedStyle(heroH1).fontFamily : '',
+          chipColor: activeChip ? getComputedStyle(activeChip).color : '',
+          chipBg: activeChip ? getComputedStyle(activeChip).backgroundColor : ''
+        };
+      });
+      console.log(`  - Initial theme: ${darkStyles.theme}, bg=${darkStyles.bgColor}`);
+      if (!darkStyles.bodyFont.toLowerCase().includes('mono')) {
+        throw new Error(`Signal Terminal dark mode requires monospace font, got: ${darkStyles.bodyFont}`);
+      }
+
+      // 2. Test theme toggle -> Switches to Light Mode (Editorial Weekly Concept)
       const themeBtn = page.locator('#theme-toggle');
       if (await themeBtn.count() > 0) {
         await themeBtn.click();
-        const theme = await page.evaluate(() => document.documentElement.getAttribute('data-theme'));
-        console.log(`  - Theme toggle clicked: current data-theme = ${theme}`);
+        await page.waitForTimeout(100);
+        const lightStyles = await page.evaluate(() => {
+          const docEl = document.documentElement;
+          const body = document.body;
+          const heroH1 = document.querySelector('.hero-h1') || document.querySelector('h1');
+          const cardTitle = document.querySelector('.card-title');
+          return {
+            theme: docEl.getAttribute('data-theme'),
+            bgColor: getComputedStyle(body).backgroundColor,
+            heroH1Font: heroH1 ? getComputedStyle(heroH1).fontFamily : '',
+            cardTitleFont: cardTitle ? getComputedStyle(cardTitle).fontFamily : ''
+          };
+        });
+        console.log(`  - Theme toggled: ${lightStyles.theme}, bg=${lightStyles.bgColor}, heroFont=${lightStyles.heroH1Font}`);
+        if (lightStyles.theme !== 'light') {
+          throw new Error(`Expected theme 'light', got '${lightStyles.theme}'`);
+        }
+        if (!lightStyles.heroH1Font.toLowerCase().includes('newsreader') && !lightStyles.heroH1Font.toLowerCase().includes('serif')) {
+          throw new Error(`Editorial Weekly light mode requires serif (Newsreader) hero font, got: ${lightStyles.heroH1Font}`);
+        }
       }
 
-      // Test language toggle
+      // 3. Test Detail Modal interaction on index.html
+      if (pageName === 'index.html') {
+        const firstCard = page.locator('.card.plugin-card').first();
+        if (await firstCard.count() > 0) {
+          await firstCard.click();
+          await page.waitForTimeout(100);
+          const modalOpen = await page.evaluate(() => {
+            const m = document.getElementById('modal');
+            return m && m.classList.contains('open') && m.getAttribute('aria-hidden') === 'false';
+          });
+          if (!modalOpen) throw new Error('Detail modal failed to open on card click');
+          // Test Escape key close
+          await page.keyboard.press('Escape');
+          await page.waitForTimeout(100);
+          const modalClosed = await page.evaluate(() => {
+            const m = document.getElementById('modal');
+            return m && !m.classList.contains('open') && m.getAttribute('aria-hidden') === 'true';
+          });
+          if (!modalClosed) throw new Error('Detail modal failed to close on Escape key');
+          console.log('  - Detail modal dialog open/close with Escape: OK');
+        }
+      }
+
+      // 4. Test language toggle
       const langBtn = page.locator('#lang-toggle');
       if (await langBtn.count() > 0) {
         await langBtn.click();

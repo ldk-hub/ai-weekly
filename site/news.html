@@ -5,9 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>AI위클리 — AI 뉴스</title>
 <meta name="description" content="모델 릴리스 · 개발자 도구 · 오픈소스 · 연구 소식을 모아 3줄 한국어 요약과 원문 링크로 정리하는 AI 뉴스 피드." />
-<meta name="theme-color" content="#fbfaf6" media="(prefers-color-scheme: light)" />
-<meta name="theme-color" content="#161410" media="(prefers-color-scheme: dark)" />
-<script>try{const t=localStorage.getItem('aiw-theme');if(t){document.documentElement.dataset.theme=t;document.querySelectorAll('meta[name="theme-color"]').forEach(m=>{m.removeAttribute('media');m.content=t==='dark'?'#161410':'#fbfaf6';});}}catch(e){}</script>
+<meta name="theme-color" content="#fcfaf6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#090d13" media="(prefers-color-scheme: dark)" />
+<script>try{const t=localStorage.getItem('aiw-theme')||'dark';document.documentElement.dataset.theme=t;document.querySelectorAll('meta[name="theme-color"]').forEach(m=>{m.removeAttribute('media');m.content=t==='dark'?'#090d13':'#fcfaf6';});}catch(e){}</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
 
 <link rel="canonical" href="https://ldk-hub.github.io/ai-weekly/news" />
 <meta property="og:type" content="website" />
@@ -219,7 +223,11 @@
           </button>
         </div>
       </div>
-      <nav class="signal-chip-bar" id="signal-chip-bar" role="tablist" aria-label="Signal filter"></nav>
+      <div class="chips-scroll-container">
+        <div class="chips-fade-left" id="news-fade-left"></div>
+        <nav class="signal-chip-bar chips-bar" id="signal-chip-bar" role="tablist" aria-label="Signal filter"></nav>
+        <div class="chips-fade-right" id="news-fade-right"></div>
+      </div>
     </div>
 
     <h2 class="sr-only" data-i18n-en="News List" data-i18n-ko="뉴스 목록">뉴스 목록</h2>
@@ -235,7 +243,7 @@
 
 <div class="modal" id="modal" aria-hidden="true">
   <div class="modal-backdrop" data-close></div>
-  <div class="modal-panel" role="dialog" aria-modal="true">
+  <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <button class="modal-close" data-close aria-label="close">✕</button>
     <div class="modal-body" id="modal-body"></div>
   </div>

@@ -1,114 +1,144 @@
 :root {
-  /* surfaces */
-  --bg:           #fbfaf6;
+  /* ==========================================================================
+     EDITORIAL WEEKLY: Baseline Tokens (Light Mode Default)
+     ========================================================================== */
+  --bg:           #fcfaf6;
   --card:         #ffffff;
-  --card-hover:   #f6f4ee;
-  --pill:         #f2efe5;
-  --border:       #e8e3d3;
-  --border-hover: #d6d0bd;
+  --card-hover:   #fffefb;
+  --pill:         #eee8dc;
+  --surface:      #eee8dc;
+  --surface-2:    #e4ddd0;
+  --border:       #e0d9cc;
+  --border-hover: #181512;
 
-  /* text */
-  --ink:    #0e0e0e;
-  --ink-2:  #2b2b2b;
-  --muted:  #6b6860;
-  --soft:   #b3afa4;   /* 구분선·점선 밑줄 전용. 본문 대비 2.1:1 이라 글자에 쓰지 않는다 */
+  --ink:          #181512;
+  --ink-2:        #2b2824;
+  --muted:        #5e584f; /* 6.67:1 contrast on #fcfaf6 (WCAG AAA) */
+  --ink-muted:    #5e584f;
+  --soft:         #cbc4b6;
 
-  /* brand */
-  --accent: #d97757;  /* Anthropic terracotta — matches Claude Code logo */
-  --accent-text: #a85032;  /* 12px 이하 텍스트용 (4.5:1 이상 대비) */
+  --accent:       #181512; /* Deep Editorial Ink */
+  --accent-text:  #181512;
+  --accent-glow:  rgba(24, 21, 18, 0.08);
 
-  /* sticker pastels */
-  --hl-mint:  #d8edd0;
-  --hl-lemon: #ffeca0;
-  --hl-peach: #ffd8bd;
-  --hl-pink:  #ffd6e0;
-  --hl-sky:   #d4e5fa;
-  --hl-lilac: #e0d4f5;
-  --hl-coral: #ff9476;
-  --lemon:    #d6a100;
+  /* Status Colors */
+  --mint:         #0f5132;
+  --coral:        #991b1b;
+  --bm-up:        #0f5132;
+  --bm-down:      #5e584f;
+
+  /* Highlighter Tokens (Editorial Light) */
+  --hl-mint:      #dcfce7;
+  --hl-lemon:     #fef08a;
+  --hl-mint-ink:  #14532d;
+  --hl-lemon-ink: #713f12;
+
+  --hover-shadow: 0 10px 28px rgba(24, 21, 18, 0.08);
+  --modal-bg:     #ffffff;
 
   --container: min(1200px, calc(100vw - 48px));
   --ctl-h: 36px;
   --ctl-h-sm: 30px;
   --ctl-radius: 999px;
-  --ctl-radius-input: 10px;
+  --ctl-radius-input: 8px;
   --ctl-gap: 8px;
 
-  --hover-shadow: 0 16px 32px rgba(14, 14, 14, 0.08);
-
-  /* starboard velocity — 정의 누락으로 스파크라인 stroke 가 none 으로 계산되던 것 복구 (대비 4.5:1 이상) */
-  --mint:    #18794e;
-  --coral:   #d97757;
-  --surface: var(--pill);
-
-  /* benchmarks 상승·하락 (양쪽 테마 4.5:1 이상, 하락은 중립 톤) */
-  --bm-up:   #18794e;
-  --bm-down: #6b6860;
-
-  /* A1: Highlighter Tokens (Light Mode) */
-  --hl-mint:      #d8edd0;
-  --hl-lemon:     #ffeca0;
-  --hl-mint-ink:  #0e0e0e;
-  --hl-lemon-ink: #0e0e0e;
+  --font-sans: "Inter", "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", SFMono-Regular, Consolas, monospace;
+  --font-serif: "Newsreader", Georgia, serif;
 }
 
-html[data-theme="dark"] {
-  --bg:           #161410;
-  --card:         #201d18;
-  --card-hover:   #2a2721;
-  --pill:         #2a2721;
-  --border:       #332f27;
-  --border-hover: #4a463c;
-  --ink:          #f2efe8;
-  --ink-2:        #c9c2b4;
-  --muted:        #a29b8c;
-  --soft:         #6f6b60;
-  --accent:       #E08963;
-  --accent-text:  var(--accent);
-  --lemon:        #ffeca0;
-  --hover-shadow: 0 16px 32px rgba(0, 0, 0, 0.5);
-  --mint:         #4fd4a3;
-  --coral:        #e08963;
-  --bm-up:        #4fd4a3;
-  --bm-down:      #8c857b;
+/* ==========================================================================
+   SIGNAL TERMINAL: Design System (Dark Mode Default)
+   High-density developer cockpit, deep graphite black, neon amber/green phosphor,
+   full monospace typography, sharp 6px geometry, 4.5:1+ contrast guaranteed.
+   ========================================================================== */
+html[data-theme="dark"],
+html:not([data-theme="light"]) {
+  --font-sans:    var(--font-mono);
+  font-family:    var(--font-mono);
 
-  /* A1: Highlighter Tokens (Dark Mode: High contrast fluorescent highlighter underline) */
-  --hl-mint:      linear-gradient(transparent 60%, rgba(79, 212, 163, 0.32) 0);
-  --hl-lemon:     linear-gradient(transparent 60%, rgba(255, 236, 160, 0.3) 0);
-  --hl-mint-ink:  #5eedbe;
-  --hl-lemon-ink: #ffe066;
+  --bg:           #090d13;
+  --card:         #0e141d;
+  --card-hover:   #151f2c;
+  --pill:         #162231;
+  --surface:      #162231;
+  --surface-2:    #1b283a;
+  --border:       #1e2d40;
+  --border-hover: #f59e0b;
+
+  --ink:          #f0f6fc;
+  --ink-2:        #c9d1d9;
+  --muted:        #8b949e;
+  --ink-muted:    #8b949e;
+  --soft:         #30363d;
+
+  --accent:       #f59e0b; /* Amber Phosphor */
+  --accent-text:  #fbbf24;
+  --accent-glow:  rgba(245, 158, 11, 0.22);
+
+  --mint:         #10b981; /* Emerald Terminal Green */
+  --coral:        #f43f5e;
+  --bm-up:        #10b981;
+  --bm-down:      #8b949e;
+
+  /* Highlighter Tokens (Terminal Dark) */
+  --hl-mint:      linear-gradient(transparent 65%, rgba(16, 185, 129, 0.35) 0);
+  --hl-lemon:     linear-gradient(transparent 65%, rgba(245, 158, 11, 0.4) 0);
+  --hl-mint-ink:  #34d399;
+  --hl-lemon-ink: #fbbf24;
+
+  --hover-shadow: 0 16px 36px rgba(0, 0, 0, 0.7), 0 0 1px rgba(245, 158, 11, 0.3);
+  --modal-bg:     #0e141d;
+  --ctl-radius:   6px;
+  --ctl-radius-input: 6px;
 }
 
-@media (prefers-color-scheme: dark) {
-  html:not([data-theme="light"]) {
-    --bg:           #161410;
-    --card:         #201d18;
-    --card-hover:   #2a2721;
-    --pill:         #2a2721;
-    --border:       #332f27;
-    --border-hover: #4a463c;
-    --ink:          #f2efe8;
-    --ink-2:        #c9c2b4;
-    --muted:        #a29b8c;
-    --soft:         #6f6b60;
-    --accent:       #E08963;
-    --accent-text:  var(--accent);
-    --hover-shadow: 0 16px 32px rgba(0, 0, 0, 0.5);
-    --mint:         #4fd4a3;
-    --coral:        #e08963;
-    --bm-up:        #4fd4a3;
-    --bm-down:      #8c857b;
-    --hl-mint:      linear-gradient(transparent 60%, rgba(79, 212, 163, 0.32) 0);
-    --hl-lemon:     linear-gradient(transparent 60%, rgba(255, 236, 160, 0.3) 0);
-    --hl-mint-ink:  #5eedbe;
-    --hl-lemon-ink: #ffe066;
-  }
+/* ==========================================================================
+   EDITORIAL WEEKLY: Design System (Light Mode)
+   High-contrast literary newspaper, warm ivory paper background,
+   serif typography (Newsreader), hairline dividers, WCAG AAA contrast.
+   ========================================================================== */
+html[data-theme="light"] {
+  --bg:           #fcfaf6;
+  --card:         #ffffff;
+  --card-hover:   #fffefb;
+  --pill:         #eee8dc;
+  --surface:      #eee8dc;
+  --surface-2:    #e4ddd0;
+  --border:       #e0d9cc;
+  --border-hover: #181512;
+
+  --ink:          #181512;
+  --ink-2:        #2b2824;
+  --muted:        #5e584f;
+  --ink-muted:    #5e584f;
+  --soft:         #cbc4b6;
+
+  --accent:       #181512;
+  --accent-text:  #181512;
+  --accent-glow:  rgba(24, 21, 18, 0.08);
+
+  --mint:         #0f5132;
+  --coral:        #991b1b;
+  --bm-up:        #0f5132;
+  --bm-down:      #5e584f;
+
+  --hl-mint:      #dcfce7;
+  --hl-lemon:     #fef08a;
+  --hl-mint-ink:  #14532d;
+  --hl-lemon-ink: #713f12;
+
+  --hover-shadow: 0 10px 28px rgba(24, 21, 18, 0.08);
+  --modal-bg:     #ffffff;
+  --ctl-radius:   999px;
+  --ctl-radius-input: 8px;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
-  font-family: "A2-Gothic", "A2G", "A2 Gothic", "산돌 에이투지", "에이투지체", "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", system-ui, sans-serif;
+  font-family: var(--font-sans);
   background: var(--bg);
   color: var(--ink);
   line-height: 1.6;
@@ -120,6 +150,7 @@ body {
   font-size: 14px;
   word-break: keep-all;
   overflow-wrap: break-word;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 ::selection { background: var(--accent); color: var(--card); }
@@ -324,19 +355,22 @@ html[data-theme="dark"] .hero-titles p strong { color: var(--ink); }
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 5px 12px;
+  padding: 4px 12px;
   background: var(--pill);
   border: 1px solid var(--border);
   border-radius: 8px;
   font-size: 11.5px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 .meta-left {
   display: flex;
   align-items: center;
   gap: 8px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .status-dot {
@@ -360,7 +394,8 @@ html[data-theme="dark"] .hero-titles p strong { color: var(--ink); }
   display: flex;
   align-items: center;
   gap: 8px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
   margin-left: auto;
 }
 
@@ -715,7 +750,14 @@ html[data-theme="dark"] .subscribe-form {
 }
 html[data-theme="dark"] .unified-nav-box { box-shadow: 0 1px 2px rgba(0,0,0,.15); }
 /* 갱신바로 옮겨졌다 — 건수는 날짜 옆에 있는 편이 읽힌다 */
-.unb-summary { color: var(--ink); font-weight: 600; }
+.unb-summary {
+  color: var(--ink);
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
 
 /* 2단 분리형 레이아웃: 상단 행(탭 + 검색/정렬) / 하단 행(카테고리 칩) */
 .unb-top-row {
@@ -2295,10 +2337,15 @@ footer a:hover, footer .foot-link:hover { color: var(--accent); border-bottom-co
 
 /* ============ 폰 전용 (≤480) — 파일 끝이어야 768 블록을 소스 순서로 이긴다 ============ */
 @media (max-width: 480px) {
+  :root {
+    --container: 100%;
+  }
   .header-container { padding: 0; }
   .top-bar {
-    padding: 5px 10px;
-    gap: 6px;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 4px 8px !important;
+    gap: 4px;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -2307,8 +2354,8 @@ footer a:hover, footer .foot-link:hover { color: var(--accent); border-bottom-co
   .brand-logo {
     order: 1;
     width: auto;
-    font-size: 13px;
-    gap: 5px;
+    font-size: 12px;
+    gap: 4px;
     flex-shrink: 0;
   }
   .brand-actions {
@@ -2316,7 +2363,7 @@ footer a:hover, footer .foot-link:hover { color: var(--accent); border-bottom-co
     width: auto;
     margin-left: auto;
     justify-content: flex-end;
-    gap: 3px;
+    gap: 2px;
     flex-shrink: 1;
   }
   .page-nav {
@@ -2326,70 +2373,78 @@ footer a:hover, footer .foot-link:hover { color: var(--accent); border-bottom-co
     gap: 2px;
   }
   .pn-link {
-    padding: 4px 6px;
-    font-size: 11px;
-    gap: 3px;
+    padding: 3px 5px;
+    font-size: 10.5px;
+    gap: 2px;
     height: auto;
   }
   .theme-toggle, .lang-toggle {
-    padding: 0 5px;
-    font-size: 11px;
-    height: 25px;
-    gap: 3px;
+    padding: 0 4px;
+    font-size: 10.5px;
+    height: 24px;
+    gap: 2px;
   }
   .gh-btn {
-    padding: 0 6px;
-    font-size: 11px;
-    height: 25px;
+    padding: 0 5px;
+    font-size: 10.5px;
+    height: 24px;
   }
   .hero-wrapper {
-    padding: 6px 10px 5px;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 4px 8px 3px !important;
   }
   .hero-row-1 {
-    margin-bottom: 4px;
+    margin-bottom: 2px !important;
   }
   .hero-h1, .hero-titles h1 {
-    font-size: 15px;
-    line-height: 1.22;
-    margin: 0 0 2px 0;
+    font-size: 13.5px !important;
+    line-height: 1.2 !important;
+    margin: 0 0 2px 0 !important;
   }
   .hero-p, .hero-titles p {
-    font-size: 11px;
-    line-height: 1.25;
-    margin: 2px 0 0 0;
+    font-size: 10.5px !important;
+    line-height: 1.2 !important;
+    margin: 0 !important;
   }
   .hero-row-2 {
     flex-direction: row;
+    flex-wrap: nowrap !important;
     justify-content: space-between;
     align-items: center;
-    padding: 3px 8px;
+    padding: 2px 6px !important;
     gap: 4px;
-    font-size: 10.5px;
+    font-size: 10px !important;
+    overflow: hidden;
   }
   .hero-row-2 .unb-summary {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: calc(100vw - 130px);
+    display: none !important;
   }
   .meta-left {
     gap: 4px;
-    font-size: 10.5px;
-    flex-wrap: wrap;
+    font-size: 10px !important;
+    flex-wrap: nowrap !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  #next-at-container, #next-at-sep {
+    display: none !important;
   }
   .actions-right, .update-actions-right {
     display: flex;
     align-items: center;
     margin-left: auto;
-    gap: 4px;
+    gap: 3px;
+    flex-shrink: 0;
   }
   .subscribe-hint {
     display: none !important;
   }
   .archive-btn, .subscribe-btn-open {
-    height: 24px;
-    padding: 0 8px;
-    font-size: 10.5px;
+    height: 22px;
+    padding: 0 6px;
+    font-size: 10px;
   }
   main { padding: 12px 12px 64px; }
   .unb-bottom { padding: 10px; }
@@ -3972,6 +4027,621 @@ html[data-theme="dark"] .sb-legend-dot.slowing { background: #e08963; }
 .tag-active-clear:hover {
   color: var(--ink);
 }
+
+/* ==========================================================================
+   12. CONCEPT SYSTEM: SIGNAL TERMINAL (Dark Mode) & EDITORIAL WEEKLY (Light Mode)
+   Full prototype port: typography, geometry, prompt, mascot, chips, tables, usecases.
+   ========================================================================== */
+
+/* --- Smooth Transitions --- */
+.card,
+.plugin-card,
+.news-card,
+.star-card,
+.hero-wrapper,
+.header-container,
+.modal-panel,
+.pn-link,
+.btn-ctrl,
+.theme-toggle,
+.lang-toggle,
+.view-toggle,
+.chip,
+.cat-chip,
+.signal-chip,
+.rank-pill,
+.usecase-box,
+.card-usecase-box,
+.cli-copy-chip {
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* --- Chips Bar Horizontal Scroll & Fade Masks --- */
+.chips-scroll-container {
+  position: relative;
+  width: 100%;
+}
+.chips-bar,
+.signal-chip-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--ctl-gap, 8px);
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.chips-bar::-webkit-scrollbar,
+.signal-chip-bar::-webkit-scrollbar {
+  display: none;
+}
+.chips-fade-left,
+.chips-fade-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 28px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+  z-index: 2;
+}
+.chips-fade-left {
+  left: 0;
+  background: linear-gradient(to right, var(--bg), transparent);
+}
+.chips-fade-right {
+  right: 0;
+  background: linear-gradient(to left, var(--bg), transparent);
+}
+
+/* ==========================================================================
+   CONCEPT A: SIGNAL TERMINAL (Dark Mode Default)
+   High-density developer cockpit, deep graphite black (#090d13), neon amber/green phosphor,
+   full monospace typography (JetBrains Mono), sharp 6px geometry, 4.5:1+ contrast guaranteed.
+   ========================================================================== */
+html[data-theme="dark"] body,
+html:not([data-theme="light"]) body,
+html[data-theme="dark"] .hero-h1,
+html:not([data-theme="light"]) .hero-h1,
+html[data-theme="dark"] .hero-titles h1,
+html:not([data-theme="light"]) .hero-titles h1,
+html[data-theme="dark"] .hero-p,
+html:not([data-theme="light"]) .hero-p,
+html[data-theme="dark"] .hero-sub,
+html:not([data-theme="light"]) .hero-sub,
+html[data-theme="dark"] .card-title,
+html:not([data-theme="light"]) .card-title,
+html[data-theme="dark"] .card-desc,
+html:not([data-theme="light"]) .card-desc,
+html[data-theme="dark"] .brand-logo,
+html:not([data-theme="light"]) .brand-logo,
+html[data-theme="dark"] .brand-name,
+html:not([data-theme="light"]) .brand-name,
+html[data-theme="dark"] #logo-text,
+html:not([data-theme="light"]) #logo-text,
+html[data-theme="dark"] .bm-kpi-model,
+html:not([data-theme="light"]) .bm-kpi-model,
+html[data-theme="dark"] .pn-link,
+html:not([data-theme="light"]) .pn-link,
+html[data-theme="dark"] .btn-ctrl,
+html:not([data-theme="light"]) .btn-ctrl,
+html[data-theme="dark"] .theme-toggle,
+html:not([data-theme="light"]) .theme-toggle,
+html[data-theme="dark"] .lang-toggle,
+html:not([data-theme="light"]) .lang-toggle,
+html[data-theme="dark"] .view-toggle,
+html:not([data-theme="light"]) .view-toggle,
+html[data-theme="dark"] .gh-btn,
+html:not([data-theme="light"]) .gh-btn,
+html[data-theme="dark"] .repo-link,
+html:not([data-theme="light"]) .repo-link,
+html[data-theme="dark"] .search-input,
+html:not([data-theme="light"]) .search-input,
+html[data-theme="dark"] #search,
+html:not([data-theme="light"]) #search,
+html[data-theme="dark"] .chip,
+html:not([data-theme="light"]) .chip,
+html[data-theme="dark"] .cat-chip,
+html:not([data-theme="light"]) .cat-chip,
+html[data-theme="dark"] .signal-chip,
+html:not([data-theme="light"]) .signal-chip,
+html[data-theme="dark"] .rank-pill,
+html:not([data-theme="light"]) .rank-pill,
+html[data-theme="dark"] .cat-tag,
+html:not([data-theme="light"]) .cat-tag,
+html[data-theme="dark"] .category-label,
+html:not([data-theme="light"]) .category-label,
+html[data-theme="dark"] .velocity-badge,
+html:not([data-theme="light"]) .velocity-badge,
+html[data-theme="dark"] .metric-label,
+html:not([data-theme="light"]) .metric-label,
+html[data-theme="dark"] .metric-value,
+html:not([data-theme="light"]) .metric-value,
+html[data-theme="dark"] .delta-val,
+html:not([data-theme="light"]) .delta-val,
+html[data-theme="dark"] .sb-model-name,
+html:not([data-theme="light"]) .sb-model-name,
+html[data-theme="dark"] .status-meta-item,
+html:not([data-theme="light"]) .status-meta-item,
+html[data-theme="dark"] #modal-title,
+html:not([data-theme="light"]) #modal-title,
+html[data-theme="dark"] .modal-title,
+html:not([data-theme="light"]) .modal-title,
+html[data-theme="dark"] .bm-table,
+html:not([data-theme="light"]) .bm-table,
+html[data-theme="dark"] .sb-table,
+html:not([data-theme="light"]) .sb-table,
+html[data-theme="dark"] .sb-history-table,
+html:not([data-theme="light"]) .sb-history-table,
+html[data-theme="dark"] .takeaways-box,
+html:not([data-theme="light"]) .takeaways-box,
+html[data-theme="dark"] .usecase-box,
+html:not([data-theme="light"]) .usecase-box,
+html[data-theme="dark"] .card-usecase-box,
+html:not([data-theme="light"]) .card-usecase-box,
+html[data-theme="dark"] .cli-copy-chip,
+html:not([data-theme="light"]) .cli-copy-chip,
+html[data-theme="dark"] .cli-chip,
+html:not([data-theme="light"]) .cli-chip {
+  font-family: var(--font-mono) !important;
+  letter-spacing: -0.01em;
+}
+
+/* Terminal prompt & green blinking cursor */
+html[data-theme="dark"] .hero-h1::before,
+html:not([data-theme="light"]) .hero-h1::before,
+html[data-theme="dark"] .hero-titles h1::before,
+html:not([data-theme="light"]) .hero-titles h1::before {
+  content: "$ ";
+  color: var(--accent-text);
+  font-weight: 700;
+}
+html[data-theme="dark"] .hero-h1::after,
+html:not([data-theme="light"]) .hero-h1::after,
+html[data-theme="dark"] .hero-titles h1::after,
+html:not([data-theme="light"]) .hero-titles h1::after {
+  content: " _";
+  color: #10b981;
+  font-weight: 700;
+  animation: termBlink 1s step-end infinite;
+}
+@keyframes termBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Terminal sharp cockpit boxes (6px crisp geometry) */
+html[data-theme="dark"] .card,
+html:not([data-theme="light"]) .card,
+html[data-theme="dark"] .plugin-card,
+html:not([data-theme="light"]) .plugin-card,
+html[data-theme="dark"] .news-card,
+html:not([data-theme="light"]) .news-card,
+html[data-theme="dark"] .star-card,
+html:not([data-theme="light"]) .star-card,
+html[data-theme="dark"] .bm-kpi-card,
+html:not([data-theme="light"]) .bm-kpi-card,
+html[data-theme="dark"] .bm-table-wrap,
+html:not([data-theme="light"]) .bm-table-wrap,
+html[data-theme="dark"] .modal-panel,
+html:not([data-theme="light"]) .modal-panel,
+html[data-theme="dark"] .unified-nav-box,
+html:not([data-theme="light"]) .unified-nav-box {
+  border-radius: 6px !important;
+  border: 1px solid #1e2d40;
+  background: #0e141d;
+}
+
+html[data-theme="dark"] .card:hover,
+html:not([data-theme="light"]) .card:hover,
+html[data-theme="dark"] .plugin-card:hover,
+html:not([data-theme="light"]) .plugin-card:hover,
+html[data-theme="dark"] .news-card:hover,
+html:not([data-theme="light"]) .news-card:hover,
+html[data-theme="dark"] .star-card:hover,
+html:not([data-theme="light"]) .star-card:hover {
+  border-color: #f59e0b;
+  transform: translateY(-2px);
+  box-shadow: 0 0 18px rgba(245, 158, 11, 0.16), 0 14px 30px rgba(0, 0, 0, 0.7);
+}
+
+html[data-theme="dark"] .hero-wrapper,
+html:not([data-theme="light"]) .hero-wrapper {
+  border-radius: 8px !important;
+  border: 1px solid #1e2d40;
+  background: #0d131b;
+}
+
+html[data-theme="dark"] .pn-link.is-active,
+html:not([data-theme="light"]) .pn-link.is-active {
+  background: #162231;
+  color: #fbbf24;
+  border-color: #2b3e54;
+  box-shadow: inset 0 -2px 0 #f59e0b;
+  font-weight: 700;
+  border-radius: 6px;
+}
+
+/* Terminal WCAG AAA Contrast Fixes for Amber Accent (8.76:1+) */
+html[data-theme="dark"] .chip.is-active,
+html:not([data-theme="light"]) .chip.is-active,
+html[data-theme="dark"] .cat-chip.is-active,
+html:not([data-theme="light"]) .cat-chip.is-active,
+html[data-theme="dark"] .cat-chip.active,
+html:not([data-theme="light"]) .cat-chip.active,
+html[data-theme="dark"] .signal-chip.is-active,
+html:not([data-theme="light"]) .signal-chip.is-active,
+html[data-theme="dark"] .subscribe-btn,
+html:not([data-theme="light"]) .subscribe-btn,
+html[data-theme="dark"] .subscribe-submit,
+html:not([data-theme="light"]) .subscribe-submit,
+html[data-theme="dark"] .skip-link,
+html:not([data-theme="light"]) .skip-link {
+  background: #f59e0b !important;
+  color: #090d13 !important;
+  font-weight: 700;
+  border-color: #f59e0b !important;
+}
+
+html[data-theme="dark"] .chip.is-active *,
+html:not([data-theme="light"]) .chip.is-active *,
+html[data-theme="dark"] .cat-chip.is-active *,
+html:not([data-theme="light"]) .cat-chip.is-active *,
+html[data-theme="dark"] .cat-chip.active *,
+html:not([data-theme="light"]) .cat-chip.active *,
+html[data-theme="dark"] .signal-chip.is-active *,
+html:not([data-theme="light"]) .signal-chip.is-active * {
+  color: #090d13 !important;
+}
+
+/* Terminal Mascot styling (Amber Phosphor & Matrix Green CRT Glow) */
+html[data-theme="dark"] .mascot-avatar,
+html:not([data-theme="light"]) .mascot-avatar {
+  filter: drop-shadow(0 0 5px rgba(245, 158, 11, 0.5));
+}
+html[data-theme="dark"] .mascot-term-bg,
+html:not([data-theme="light"]) .mascot-term-bg {
+  stroke: #f59e0b;
+  stroke-width: 1.2;
+}
+html[data-theme="dark"] .mascot-titlebar,
+html:not([data-theme="light"]) .mascot-titlebar {
+  fill: #162231;
+}
+html[data-theme="dark"] .mascot-term-title,
+html:not([data-theme="light"]) .mascot-term-title {
+  fill: #fbbf24;
+}
+html[data-theme="dark"] .mascot-prompt,
+html:not([data-theme="light"]) .mascot-prompt {
+  fill: #f59e0b;
+}
+html[data-theme="dark"] .mascot-cursor,
+html:not([data-theme="light"]) .mascot-cursor {
+  fill: #10b981;
+}
+html[data-theme="dark"] .mascot-input-bar,
+html:not([data-theme="light"]) .mascot-input-bar {
+  fill: #f59e0b;
+}
+html[data-theme="dark"] .mascot-code-1,
+html:not([data-theme="light"]) .mascot-code-1 { fill: #10b981; }
+html[data-theme="dark"] .mascot-code-2,
+html:not([data-theme="light"]) .mascot-code-2 { fill: #34d399; }
+html[data-theme="dark"] .mascot-code-3,
+html:not([data-theme="light"]) .mascot-code-3 { fill: #fbbf24; }
+html[data-theme="dark"] .mascot-code-4,
+html:not([data-theme="light"]) .mascot-code-4 { fill: #059669; }
+html[data-theme="dark"] .mascot-body,
+html:not([data-theme="light"]) .mascot-body {
+  fill: #d97706;
+  stroke: #f59e0b;
+  stroke-width: 0.8;
+}
+html[data-theme="dark"] .mascot-ears,
+html:not([data-theme="light"]) .mascot-ears {
+  fill: #b45309;
+}
+html[data-theme="dark"] .mascot-hands,
+html:not([data-theme="light"]) .mascot-hands {
+  fill: #fbbf24;
+  stroke: #d97706;
+}
+html[data-theme="dark"] .mascot-sparkle path,
+html:not([data-theme="light"]) .mascot-sparkle path {
+  fill: #10b981;
+}
+html[data-theme="dark"] .mascot-keyboard,
+html:not([data-theme="light"]) .mascot-keyboard {
+  stroke: #f59e0b;
+}
+html[data-theme="dark"] .mascot-spacebar,
+html:not([data-theme="light"]) .mascot-spacebar {
+  fill: #10b981;
+}
+
+/* Terminal indicators & callouts */
+html[data-theme="dark"] .rank-pill,
+html:not([data-theme="light"]) .rank-pill {
+  border-radius: 6px;
+}
+html[data-theme="dark"] .rank-pill.is-top,
+html[data-theme="dark"] .rank-pill.top,
+html:not([data-theme="light"]) .rank-pill.is-top,
+html:not([data-theme="light"]) .rank-pill.top {
+  background: rgba(245, 158, 11, 0.18) !important;
+  color: #fbbf24 !important;
+  border: 1px solid rgba(245, 158, 11, 0.4) !important;
+}
+html[data-theme="dark"] .rank-pill.is-hot,
+html[data-theme="dark"] .rank-pill.hot,
+html:not([data-theme="light"]) .rank-pill.is-hot,
+html:not([data-theme="light"]) .rank-pill.hot {
+  background: rgba(16, 185, 129, 0.18) !important;
+  color: #34d399 !important;
+  border: 1px solid rgba(16, 185, 129, 0.4) !important;
+}
+html[data-theme="dark"] .cli-copy-chip,
+html[data-theme="dark"] .cli-chip,
+html:not([data-theme="light"]) .cli-copy-chip,
+html:not([data-theme="light"]) .cli-chip {
+  background: #070a0e;
+  border-color: #1e2d40;
+  border-radius: 6px;
+}
+html[data-theme="dark"] .cli-copy-chip .cli-icon,
+html[data-theme="dark"] .cli-chip span:first-child,
+html:not([data-theme="light"]) .cli-copy-chip .cli-icon,
+html:not([data-theme="light"]) .cli-chip span:first-child {
+  color: #10b981;
+}
+html[data-theme="dark"] .card-usecase-box,
+html[data-theme="dark"] .usecase-box,
+html:not([data-theme="light"]) .card-usecase-box,
+html:not([data-theme="light"]) .usecase-box {
+  background: #070a0e !important;
+  border: 1px solid #1e2d40 !important;
+  border-left: 3px solid #10b981 !important;
+  border-radius: 4px !important;
+  color: var(--ink) !important;
+}
+html[data-theme="dark"] .card-usecase-box .usecase-label,
+html:not([data-theme="light"]) .card-usecase-box .usecase-label {
+  color: #10b981 !important;
+}
+html[data-theme="dark"] .bm-table th,
+html[data-theme="dark"] .sb-table th,
+html[data-theme="dark"] .sb-history-table th,
+html[data-theme="dark"] table th,
+html:not([data-theme="light"]) .bm-table th,
+html:not([data-theme="light"]) .sb-table th,
+html:not([data-theme="light"]) .sb-history-table th,
+html:not([data-theme="light"]) table th {
+  background: #162231;
+  color: #fbbf24;
+  border-bottom: 1px solid #1e2d40;
+}
+html[data-theme="dark"] .modal-close,
+html:not([data-theme="light"]) .modal-close {
+  border-radius: 6px;
+  background: #162231;
+  color: #fbbf24;
+  border: 1px solid #1e2d40;
+}
+
+/* ==========================================================================
+   CONCEPT B: EDITORIAL WEEKLY (Light Mode)
+   High-contrast literary newspaper, warm ivory paper background (#fcfaf6),
+   serif typography (Newsreader), hairline dividers, WCAG AAA contrast.
+   ========================================================================== */
+html[data-theme="light"] .hero-h1,
+html[data-theme="light"] .hero-titles h1,
+html[data-theme="light"] .card-title,
+html[data-theme="light"] .section-title,
+html[data-theme="light"] .bm-kpi-model,
+html[data-theme="light"] .brand-logo,
+html[data-theme="light"] .brand-name,
+html[data-theme="light"] #logo-text,
+html[data-theme="light"] #modal-title,
+html[data-theme="light"] .modal-title,
+html[data-theme="light"] .takeaways-title {
+  font-family: var(--font-serif) !important;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #181512;
+}
+
+html[data-theme="light"] .hero-h1,
+html[data-theme="light"] .hero-titles h1 {
+  font-size: clamp(20px, 2.2vw, 24px);
+  line-height: 1.3;
+}
+html[data-theme="light"] .hero-h1::before,
+html[data-theme="light"] .hero-h1::after,
+html[data-theme="light"] .hero-titles h1::before,
+html[data-theme="light"] .hero-titles h1::after {
+  content: none !important;
+}
+
+html[data-theme="light"] .card-title {
+  line-height: 1.35;
+  font-size: 17px;
+}
+
+html[data-theme="light"] .hero-wrapper {
+  padding: 14px 20px 10px;
+  border-radius: 4px !important;
+  border: 1px solid #e0d9cc;
+  border-bottom: 2px solid #181512;
+  background: #fdfcf9;
+}
+
+/* Editorial Mascot styling (Letterpress stamp vibe) */
+html[data-theme="light"] .mascot-avatar {
+  filter: drop-shadow(0 1px 2px rgba(24, 21, 18, 0.12));
+}
+html[data-theme="light"] .mascot-term-bg {
+  fill: #f4efe4;
+  stroke: #181512;
+  stroke-width: 1.4;
+}
+html[data-theme="light"] .mascot-titlebar {
+  fill: #e8e1d2;
+}
+html[data-theme="light"] .mascot-term-title {
+  fill: #181512;
+}
+html[data-theme="light"] .mascot-prompt {
+  fill: #a85032;
+}
+html[data-theme="light"] .mascot-cursor {
+  fill: #181512;
+}
+html[data-theme="light"] .mascot-input-bar {
+  fill: #181512;
+}
+html[data-theme="light"] .mascot-code-1,
+html[data-theme="light"] .mascot-code-2,
+html[data-theme="light"] .mascot-code-3,
+html[data-theme="light"] .mascot-code-4 {
+  fill: #2c2824;
+}
+html[data-theme="light"] .mascot-body {
+  fill: #d97757;
+  stroke: #181512;
+  stroke-width: 1.2;
+}
+html[data-theme="light"] .mascot-ears {
+  fill: #a85032;
+}
+html[data-theme="light"] .mascot-hands {
+  fill: #f2c0b0;
+  stroke: #181512;
+}
+html[data-theme="light"] .mascot-sparkle path {
+  fill: #c86546;
+}
+html[data-theme="light"] .mascot-keyboard {
+  fill: #fbfaf6;
+  stroke: #181512;
+  stroke-width: 1.2;
+}
+html[data-theme="light"] .mascot-keycaps {
+  stroke: #6b6860;
+}
+html[data-theme="light"] .mascot-spacebar {
+  fill: #a85032;
+}
+
+html[data-theme="light"] .card,
+html[data-theme="light"] .plugin-card,
+html[data-theme="light"] .news-card,
+html[data-theme="light"] .star-card,
+html[data-theme="light"] .bm-kpi-card,
+html[data-theme="light"] .bm-table-wrap,
+html[data-theme="light"] .modal-panel,
+html[data-theme="light"] .unified-nav-box {
+  border-radius: 4px !important;
+  border: 1px solid #e0d9cc;
+  background: #ffffff;
+  box-shadow: 0 2px 10px rgba(24, 21, 18, 0.04);
+}
+
+html[data-theme="light"] .card:hover,
+html[data-theme="light"] .plugin-card:hover,
+html[data-theme="light"] .news-card:hover,
+html[data-theme="light"] .star-card:hover {
+  border-color: #181512;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(24, 21, 18, 0.09);
+}
+
+html[data-theme="light"] .pn-link.is-active {
+  background: #181512;
+  color: #ffffff;
+  border-color: #181512;
+  font-weight: 600;
+  border-radius: 4px;
+}
+
+html[data-theme="light"] .bm-table th,
+html[data-theme="light"] .sb-table th,
+html[data-theme="light"] .sb-history-table th,
+html[data-theme="light"] table th {
+  background: #f4ede0;
+  color: #181512;
+  font-family: var(--font-serif);
+  font-weight: 700;
+  border-bottom: 2px solid #181512;
+}
+
+html[data-theme="light"] .card-usecase-box,
+html[data-theme="light"] .usecase-box {
+  background: #f4ede0 !important;
+  border: 1px solid #e0d9cc !important;
+  border-left: 3px solid #181512 !important;
+  border-radius: 2px !important;
+  color: #181512 !important;
+}
+html[data-theme="light"] .card-usecase-box .usecase-label {
+  color: #181512 !important;
+}
+
+html[data-theme="light"] .rank-pill {
+  border: 1px solid #181512 !important;
+  background: transparent !important;
+  color: #181512 !important;
+  font-weight: 700;
+  border-radius: 2px;
+}
+html[data-theme="light"] .rank-pill.is-top,
+html[data-theme="light"] .rank-pill.top {
+  background: #181512 !important;
+  color: #ffffff !important;
+}
+html[data-theme="light"] .rank-pill.is-hot,
+html[data-theme="light"] .rank-pill.hot {
+  background: #e0d9cc !important;
+  color: #181512 !important;
+}
+
+html[data-theme="light"] .chip.is-active,
+html[data-theme="light"] .cat-chip.is-active,
+html[data-theme="light"] .cat-chip.active,
+html[data-theme="light"] .signal-chip.is-active {
+  background: #181512 !important;
+  color: #ffffff !important;
+  border-color: #181512 !important;
+}
+html[data-theme="light"] .chip.is-active *,
+html[data-theme="light"] .cat-chip.is-active *,
+html[data-theme="light"] .cat-chip.active *,
+html[data-theme="light"] .signal-chip.is-active * {
+  color: #ffffff !important;
+}
+html[data-theme="light"] .cat-chip.is-active .cat-count,
+html[data-theme="light"] .cat-chip.active .cat-count,
+html[data-theme="light"] .signal-chip.is-active .count-badge {
+  background: rgba(255, 255, 255, 0.25) !important;
+  color: #ffffff !important;
+}
+html[data-theme="light"] .cli-copy-chip {
+  background: #f4ede0;
+  border: 1px solid #e0d9cc;
+  border-radius: 4px;
+}
+html[data-theme="light"] .cli-copy-chip .cli-icon {
+  color: #181512;
+}
+html[data-theme="light"] .modal-close {
+  border-radius: 50%;
+  background: #eee8dc;
+  color: #181512;
+  border: 1px solid #e0d9cc;
+}
+
 
 
 
