@@ -4089,11 +4089,11 @@ html[data-theme="dark"] .sb-legend-dot.slowing { background: #e08963; }
 }
 .chips-fade-left {
   left: 0;
-  background: linear-gradient(to right, var(--bg), transparent);
+  background: linear-gradient(to right, var(--card), transparent);
 }
 .chips-fade-right {
   right: 0;
-  background: linear-gradient(to left, var(--bg), transparent);
+  background: linear-gradient(to left, var(--card), transparent);
 }
 
 /* ==========================================================================
@@ -4113,6 +4113,18 @@ html[data-theme="dark"] .hero-sub,
 html:not([data-theme="light"]) .hero-sub,
 html[data-theme="dark"] .card-title,
 html:not([data-theme="light"]) .card-title,
+html[data-theme="dark"] .card h3,
+html:not([data-theme="light"]) .card h3,
+html[data-theme="dark"] .plugin-card h3,
+html:not([data-theme="light"]) .plugin-card h3,
+html[data-theme="dark"] .news-card h3,
+html:not([data-theme="light"]) .news-card h3,
+html[data-theme="dark"] .news-card a h3,
+html:not([data-theme="light"]) .news-card a h3,
+html[data-theme="dark"] .star-card h3,
+html:not([data-theme="light"]) .star-card h3,
+html[data-theme="dark"] .star-card .head-meta h3,
+html:not([data-theme="light"]) .star-card .head-meta h3,
 html[data-theme="dark"] .card-desc,
 html:not([data-theme="light"]) .card-desc,
 html[data-theme="dark"] .brand-logo,
@@ -4123,6 +4135,10 @@ html[data-theme="dark"] #logo-text,
 html:not([data-theme="light"]) #logo-text,
 html[data-theme="dark"] .bm-kpi-model,
 html:not([data-theme="light"]) .bm-kpi-model,
+html[data-theme="dark"] .bm-name,
+html:not([data-theme="light"]) .bm-name,
+html[data-theme="dark"] .bm-chip-main,
+html:not([data-theme="light"]) .bm-chip-main,
 html[data-theme="dark"] .pn-link,
 html:not([data-theme="light"]) .pn-link,
 html[data-theme="dark"] .btn-ctrl,
@@ -4212,7 +4228,7 @@ html:not([data-theme="light"]) .hero-titles h1::after {
   50% { opacity: 0; }
 }
 
-/* Terminal sharp cockpit boxes (6px crisp geometry) */
+/* Terminal sharp cockpit boxes & controls (6px crisp geometry) */
 html[data-theme="dark"] .card,
 html:not([data-theme="light"]) .card,
 html[data-theme="dark"] .plugin-card,
@@ -4232,6 +4248,57 @@ html:not([data-theme="light"]) .unified-nav-box {
   border-radius: 6px !important;
   border: 1px solid #1e2d40;
   background: #0e141d;
+}
+
+html[data-theme="dark"] .chip,
+html:not([data-theme="light"]) .chip,
+html[data-theme="dark"] .cat-chip,
+html:not([data-theme="light"]) .cat-chip,
+html[data-theme="dark"] .signal-chip,
+html:not([data-theme="light"]) .signal-chip,
+html[data-theme="dark"] .bm-chip,
+html:not([data-theme="light"]) .bm-chip,
+html[data-theme="dark"] .tag-chip,
+html:not([data-theme="light"]) .tag-chip,
+html[data-theme="dark"] .card-tag-chip,
+html:not([data-theme="light"]) .card-tag-chip,
+html[data-theme="dark"] .m-tag,
+html:not([data-theme="light"]) .m-tag,
+html[data-theme="dark"] .btn-ctrl,
+html:not([data-theme="light"]) .btn-ctrl,
+html[data-theme="dark"] .theme-toggle,
+html:not([data-theme="light"]) .theme-toggle,
+html[data-theme="dark"] .lang-toggle,
+html:not([data-theme="light"]) .lang-toggle,
+html[data-theme="dark"] .gh-btn,
+html:not([data-theme="light"]) .gh-btn,
+html[data-theme="dark"] .search-input,
+html:not([data-theme="light"]) .search-input,
+html[data-theme="dark"] .unb-search-wrap,
+html:not([data-theme="light"]) .unb-search-wrap,
+html[data-theme="dark"] .search-box,
+html:not([data-theme="light"]) .search-box,
+html[data-theme="dark"] .subscribe-btn-open,
+html:not([data-theme="light"]) .subscribe-btn-open,
+html[data-theme="dark"] .subscribe-submit,
+html:not([data-theme="light"]) .subscribe-submit,
+html[data-theme="dark"] .subscribe-form input,
+html:not([data-theme="light"]) .subscribe-form input,
+html[data-theme="dark"] .page-nav,
+html:not([data-theme="light"]) .page-nav,
+html[data-theme="dark"] .pn-link,
+html:not([data-theme="light"]) .pn-link,
+html[data-theme="dark"] .view-toggle,
+html:not([data-theme="light"]) .view-toggle,
+html[data-theme="dark"] .archive-btn,
+html:not([data-theme="light"]) .archive-btn,
+html[data-theme="dark"] .modal-close,
+html:not([data-theme="light"]) .modal-close,
+html[data-theme="dark"] .sb-legend-popover,
+html:not([data-theme="light"]) .sb-legend-popover,
+html[data-theme="dark"] .sb-legend-btn,
+html:not([data-theme="light"]) .sb-legend-btn {
+  border-radius: 6px !important;
 }
 
 html[data-theme="dark"] .card:hover,
@@ -4273,6 +4340,10 @@ html[data-theme="dark"] .cat-chip.active,
 html:not([data-theme="light"]) .cat-chip.active,
 html[data-theme="dark"] .signal-chip.is-active,
 html:not([data-theme="light"]) .signal-chip.is-active,
+html[data-theme="dark"] .bm-chip.is-active,
+html:not([data-theme="light"]) .bm-chip.is-active,
+html[data-theme="dark"] .bm-chip[aria-pressed="true"],
+html:not([data-theme="light"]) .bm-chip[aria-pressed="true"],
 html[data-theme="dark"] .subscribe-btn,
 html:not([data-theme="light"]) .subscribe-btn,
 html[data-theme="dark"] .subscribe-submit,
@@ -4283,6 +4354,7 @@ html:not([data-theme="light"]) .skip-link {
   color: #090d13 !important;
   font-weight: 700;
   border-color: #f59e0b !important;
+  border-radius: 6px !important;
 }
 
 html[data-theme="dark"] .chip.is-active *,
@@ -4292,7 +4364,11 @@ html:not([data-theme="light"]) .cat-chip.is-active *,
 html[data-theme="dark"] .cat-chip.active *,
 html:not([data-theme="light"]) .cat-chip.active *,
 html[data-theme="dark"] .signal-chip.is-active *,
-html:not([data-theme="light"]) .signal-chip.is-active * {
+html:not([data-theme="light"]) .signal-chip.is-active *,
+html[data-theme="dark"] .bm-chip.is-active *,
+html:not([data-theme="light"]) .bm-chip.is-active *,
+html[data-theme="dark"] .bm-chip[aria-pressed="true"] *,
+html:not([data-theme="light"]) .bm-chip[aria-pressed="true"] * {
   color: #090d13 !important;
 }
 
@@ -4365,7 +4441,7 @@ html:not([data-theme="light"]) .mascot-spacebar {
 /* Terminal indicators & callouts */
 html[data-theme="dark"] .rank-pill,
 html:not([data-theme="light"]) .rank-pill {
-  border-radius: 6px;
+  border-radius: 6px !important;
 }
 html[data-theme="dark"] .rank-pill.is-top,
 html[data-theme="dark"] .rank-pill.top,
@@ -4377,8 +4453,10 @@ html:not([data-theme="light"]) .rank-pill.top {
 }
 html[data-theme="dark"] .rank-pill.is-hot,
 html[data-theme="dark"] .rank-pill.hot,
+html[data-theme="dark"] .rank-pill.is-new,
 html:not([data-theme="light"]) .rank-pill.is-hot,
-html:not([data-theme="light"]) .rank-pill.hot {
+html:not([data-theme="light"]) .rank-pill.hot,
+html:not([data-theme="light"]) .rank-pill.is-new {
   background: rgba(16, 185, 129, 0.18) !important;
   color: #34d399 !important;
   border: 1px solid rgba(16, 185, 129, 0.4) !important;
@@ -4399,8 +4477,10 @@ html:not([data-theme="light"]) .cli-chip span:first-child {
 }
 html[data-theme="dark"] .card-usecase-box,
 html[data-theme="dark"] .usecase-box,
+html[data-theme="dark"] .m-usecase,
 html:not([data-theme="light"]) .card-usecase-box,
-html:not([data-theme="light"]) .usecase-box {
+html:not([data-theme="light"]) .usecase-box,
+html:not([data-theme="light"]) .m-usecase {
   background: #070a0e !important;
   border: 1px solid #1e2d40 !important;
   border-left: 3px solid #10b981 !important;
@@ -4408,7 +4488,9 @@ html:not([data-theme="light"]) .usecase-box {
   color: var(--ink) !important;
 }
 html[data-theme="dark"] .card-usecase-box .usecase-label,
-html:not([data-theme="light"]) .card-usecase-box .usecase-label {
+html[data-theme="dark"] .m-usecase strong,
+html:not([data-theme="light"]) .card-usecase-box .usecase-label,
+html:not([data-theme="light"]) .m-usecase strong {
   color: #10b981 !important;
 }
 html[data-theme="dark"] .bm-table th,
@@ -4430,6 +4512,17 @@ html:not([data-theme="light"]) .modal-close {
   color: #fbbf24;
   border: 1px solid #1e2d40;
 }
+html[data-theme="dark"] .sb-legend-popover,
+html:not([data-theme="light"]) .sb-legend-popover {
+  border-radius: 6px !important;
+  border: 1px solid #1e2d40 !important;
+  background: #0e141d !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.7), 0 0 1px rgba(245, 158, 11, 0.3) !important;
+}
+html[data-theme="dark"] .sb-legend-popover-title,
+html:not([data-theme="light"]) .sb-legend-popover-title {
+  color: #fbbf24 !important;
+}
 
 /* ==========================================================================
    CONCEPT B: EDITORIAL WEEKLY (Light Mode)
@@ -4438,15 +4531,32 @@ html:not([data-theme="light"]) .modal-close {
    ========================================================================== */
 html[data-theme="light"] .hero-h1,
 html[data-theme="light"] .hero-titles h1,
-html[data-theme="light"] .card-title,
+html[data-theme="light"] .hero-wrapper h1,
+html[data-theme="light"] h1,
+html[data-theme="light"] h2:not(.sr-only),
 html[data-theme="light"] .section-title,
+html[data-theme="light"] .hero-sub,
+html[data-theme="light"] .card-title,
+html[data-theme="light"] .card h3,
+html[data-theme="light"] .plugin-card h3,
+html[data-theme="light"] .news-card h3,
+html[data-theme="light"] .news-card a h3,
+html[data-theme="light"] .star-card h3,
+html[data-theme="light"] .star-card .head-meta h3,
 html[data-theme="light"] .bm-kpi-model,
+html[data-theme="light"] .bm-name,
+html[data-theme="light"] .bm-chip-main,
 html[data-theme="light"] .brand-logo,
 html[data-theme="light"] .brand-name,
 html[data-theme="light"] #logo-text,
 html[data-theme="light"] #modal-title,
 html[data-theme="light"] .modal-title,
-html[data-theme="light"] .takeaways-title {
+html[data-theme="light"] .modal-panel h2,
+html[data-theme="light"] .takeaways-title,
+html[data-theme="light"] .sb-legend-popover-title,
+html[data-theme="light"] .bm-table th,
+html[data-theme="light"] .sb-table th,
+html[data-theme="light"] .sb-history-table th {
   font-family: var(--font-serif) !important;
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -4454,7 +4564,8 @@ html[data-theme="light"] .takeaways-title {
 }
 
 html[data-theme="light"] .hero-h1,
-html[data-theme="light"] .hero-titles h1 {
+html[data-theme="light"] .hero-titles h1,
+html[data-theme="light"] .hero-wrapper h1 {
   font-size: clamp(20px, 2.2vw, 24px);
   line-height: 1.3;
 }
@@ -4465,7 +4576,9 @@ html[data-theme="light"] .hero-titles h1::after {
   content: none !important;
 }
 
-html[data-theme="light"] .card-title {
+html[data-theme="light"] .card-title,
+html[data-theme="light"] .news-card h3,
+html[data-theme="light"] .star-card h3 {
   line-height: 1.35;
   font-size: 17px;
 }
@@ -4578,39 +4691,46 @@ html[data-theme="light"] table th {
 }
 
 html[data-theme="light"] .card-usecase-box,
-html[data-theme="light"] .usecase-box {
+html[data-theme="light"] .usecase-box,
+html[data-theme="light"] .m-usecase {
   background: #f4ede0 !important;
   border: 1px solid #e0d9cc !important;
   border-left: 3px solid #181512 !important;
   border-radius: 2px !important;
   color: #181512 !important;
 }
-html[data-theme="light"] .card-usecase-box .usecase-label {
+html[data-theme="light"] .card-usecase-box .usecase-label,
+html[data-theme="light"] .m-usecase strong {
   color: #181512 !important;
 }
 
 html[data-theme="light"] .rank-pill {
-  border: 1px solid #181512 !important;
+  border: 2px solid #181512 !important;
   background: transparent !important;
   color: #181512 !important;
   font-weight: 700;
-  border-radius: 2px;
+  border-radius: 2px !important;
 }
 html[data-theme="light"] .rank-pill.is-top,
 html[data-theme="light"] .rank-pill.top {
   background: #181512 !important;
   color: #ffffff !important;
+  border-color: #181512 !important;
 }
 html[data-theme="light"] .rank-pill.is-hot,
-html[data-theme="light"] .rank-pill.hot {
+html[data-theme="light"] .rank-pill.hot,
+html[data-theme="light"] .rank-pill.is-new {
   background: #e0d9cc !important;
   color: #181512 !important;
+  border-color: #181512 !important;
 }
 
 html[data-theme="light"] .chip.is-active,
 html[data-theme="light"] .cat-chip.is-active,
 html[data-theme="light"] .cat-chip.active,
-html[data-theme="light"] .signal-chip.is-active {
+html[data-theme="light"] .signal-chip.is-active,
+html[data-theme="light"] .bm-chip.is-active,
+html[data-theme="light"] .bm-chip[aria-pressed="true"] {
   background: #181512 !important;
   color: #ffffff !important;
   border-color: #181512 !important;
@@ -4618,7 +4738,9 @@ html[data-theme="light"] .signal-chip.is-active {
 html[data-theme="light"] .chip.is-active *,
 html[data-theme="light"] .cat-chip.is-active *,
 html[data-theme="light"] .cat-chip.active *,
-html[data-theme="light"] .signal-chip.is-active * {
+html[data-theme="light"] .signal-chip.is-active *,
+html[data-theme="light"] .bm-chip.is-active *,
+html[data-theme="light"] .bm-chip[aria-pressed="true"] * {
   color: #ffffff !important;
 }
 html[data-theme="light"] .cat-chip.is-active .cat-count,
@@ -4640,6 +4762,12 @@ html[data-theme="light"] .modal-close {
   background: #eee8dc;
   color: #181512;
   border: 1px solid #e0d9cc;
+}
+html[data-theme="light"] .sb-legend-popover {
+  border-radius: 4px !important;
+  border: 1px solid #e0d9cc !important;
+  background: #ffffff !important;
+  box-shadow: 0 10px 28px rgba(24, 21, 18, 0.08) !important;
 }
 
 

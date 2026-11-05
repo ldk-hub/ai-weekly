@@ -700,7 +700,7 @@ function modalHTML(item, tab, rank) {
       ${weeklyPill}
       ${scorePill}
     </div>
-    <h2 id="modal-title">${escapeHTML(modalTitle)}</h2>
+    <h2 id="modal-title" class="modal-title">${escapeHTML(modalTitle)}</h2>
     ${item.summary_ko ? `<p class="m-summary">${escapeHTML(item.summary_ko)}</p>` : ""}
     ${feats ? `<div class="m-section"><div class="m-label">${lang === "en" ? "Key features" : "핵심 기능"}</div><ul class="m-features">${feats}</ul></div>` : ""}
     ${item.use_case ? `<div class="m-usecase"><span class="m-usecase-icon">💡</span><span><strong>${lang === "en" ? "Good for:" : "이럴 때:"}</strong> ${escapeHTML(item.use_case)}</span></div>` : ""}
@@ -759,12 +759,12 @@ function findItem(id) {
 
 let modalPreviousActiveElement = null;
 
-function openModal(id) {
-  const hit = findItem(id);
-  if (!hit) return;
-  modalPreviousActiveElement = document.activeElement;
+function openModalWithContent(html) {
   const modal = document.getElementById("modal");
-  document.getElementById("modal-body").innerHTML = modalHTML(hit.item, hit.tab, hit.rank);
+  const body = document.getElementById("modal-body");
+  if (!modal || !body) return;
+  modalPreviousActiveElement = document.activeElement;
+  body.innerHTML = html;
   modal.classList.add("open");
   modal.setAttribute("aria-hidden", "false");
   document.body.classList.add("modal-open");
@@ -776,6 +776,12 @@ function openModal(id) {
   } else {
     modal.querySelector(".modal-close")?.focus();
   }
+}
+
+function openModal(id) {
+  const hit = findItem(id);
+  if (!hit) return;
+  openModalWithContent(modalHTML(hit.item, hit.tab, hit.rank));
 }
 
 function closeModal() {
@@ -1196,11 +1202,11 @@ function newsCardHTML(item, idx = 0) {
   ` : "";
 
   return `
-    <article class="card news-card" data-id="${safeId}" data-platform="${item.category_id || 'news'}" style="position:relative; padding:20px; box-shadow:0 2px 10px rgba(0,0,0,0.04); border-radius:14px; display:flex; flex-direction:column;">
+    <article class="card news-card" data-id="${safeId}" data-platform="${item.category_id || 'news'}" style="position:relative; padding:20px; display:flex; flex-direction:column;">
       ${cover}
       ${headHtml}
       <a href="${item.url ? escapeHTML(item.url) : '#'}" target="_blank" rel="noopener" style="text-decoration:none; color:inherit; display:block;">
-        <h3 style="margin-top:0; margin-bottom:10px; line-height:1.42; font-size:18px; font-weight:700;" title="${escapeHTML(rawTitle || title)}">${title}</h3>
+        <h3 class="card-title" style="margin-top:0; margin-bottom:10px; line-height:1.42; font-size:18px; font-weight:700;" title="${escapeHTML(rawTitle || title)}">${title}</h3>
       </a>
       ${summaryHtml}
       ${bodyKo}
@@ -1783,20 +1789,7 @@ function getCriteriaHTML(lang) {
 }
 
 function openCriteria() {
-  modalPreviousActiveElement = document.activeElement;
-  const modal = document.getElementById("modal");
-  document.getElementById("modal-body").innerHTML = getCriteriaHTML(getLang());
-  modal.classList.add("open");
-  modal.setAttribute("aria-hidden", "false");
-  document.body.classList.add("modal-open");
-  modal.scrollTop = 0;
-  const panel = modal.querySelector(".modal-panel");
-  if (panel) {
-    panel.setAttribute("tabindex", "-1");
-    panel.focus();
-  } else {
-    modal.querySelector(".modal-close")?.focus();
-  }
+  openModalWithContent(getCriteriaHTML(getLang()));
 }
 document.getElementById("open-criteria-top")?.addEventListener("click", openCriteria);
 
@@ -1849,8 +1842,9 @@ function updateNewsFadeMasks() {
 }
 const sigBarEl = document.getElementById("signal-chip-bar");
 if (sigBarEl) {
-  sigBarEl.addEventListener("scroll", updateNewsFadeMasks);
+  sigBarEl.addEventListener("scroll", updateNewsFadeMasks, { passive: true });
   window.addEventListener("resize", updateNewsFadeMasks);
+  updateNewsFadeMasks();
 }
 
 /* ─── theme toggle ─────────────────────────────────────────── */
@@ -2363,7 +2357,7 @@ function openStarboardModal(id) {
     `<button type="button" class="m-tag clickable-tag" data-tag-filter="${escapeHTML(t)}">#${escapeHTML(t)}</button>`
   ).join("");
 
-  body.innerHTML = `
+  const content = `
     <div class="m-rank">
       <span class="accent">STARBOARD</span>
       <span class="dot-sep">·</span>
@@ -2378,7 +2372,7 @@ function openStarboardModal(id) {
       <div class="m-stars">★ ${item.currentStars.toLocaleString()}</div>
       <span class="m-score-pill" style="color:${velocityColor};">${sign}${item.velocity.toLocaleString()}/wk</span>
     </div>
-    <h2 id="modal-title">${escapeHTML(item.meta?.desc_ko || item.meta?.description || item.id)}</h2>
+    <h2 id="modal-title" class="modal-title">${escapeHTML(item.meta?.desc_ko || item.meta?.description || item.id)}</h2>
     ${item.meta?.desc_ko && item.meta?.description ? `<p class="m-summary">${escapeHTML(item.meta.description)}</p>` : ""}
     ${chartHtml}
     <div class="m-section">
@@ -2401,10 +2395,7 @@ function openStarboardModal(id) {
       </a>
     </div>
   `;
-  modal.classList.add("open");
-  modal.setAttribute("aria-hidden", "false");
-  document.body.classList.add("modal-open");
-  modal.scrollTop = 0;
+  openModalWithContent(content);
 }
 
 document.getElementById("starboard-container")?.addEventListener("click", (e) => {
@@ -2548,7 +2539,7 @@ function starboardCardHTML(item, idx, legendText) {
             <span class="repo-id" style="font-size: 13px;">${escapeHTML(ownerName)} /</span>
             ${langTag}
           </div>
-          <h3 style="margin:2px 0 0; font-size: 18px; word-break:break-all; line-height:1.3;" title="${escapeHTML(item.id)}">${escapeHTML(repoName)}</h3>
+          <h3 class="card-title" style="margin:2px 0 0; font-size: 18px; word-break:break-all; line-height:1.3;" title="${escapeHTML(item.id)}">${escapeHTML(repoName)}</h3>
         </div>
       </div>
       
@@ -2607,14 +2598,14 @@ function openBenchmarkScopeModal() {
 
   const isEn = getLang() === "en";
 
-  body.innerHTML = `
+  const content = `
     <div class="bm-scope-modal-body">
       <div class="m-rank">
         <span class="accent">${isEn ? "DATA METHODOLOGY & LIMITATIONS" : "데이터 수집 기준 및 한계 안내"}</span>
         <span class="dot-sep">·</span>
         <span>${isEn ? "Multi-Source Ensemble" : "다중 출처 앙상블"}</span>
       </div>
-      <h2 id="modal-title" style="margin: 8px 0 12px;">${isEn ? "Benchmark Data Scope & Confidence Guide" : "AI 점유율 및 성능 지표 데이터 수집 기준과 한계"}</h2>
+      <h2 id="modal-title" class="modal-title" style="margin: 8px 0 12px;">${isEn ? "Benchmark Data Scope & Confidence Guide" : "AI 점유율 및 성능 지표 데이터 수집 기준과 한계"}</h2>
       <p>
         ${isEn 
           ? "AI Weekly ensembles multiple independent sources across B2C web traffic, search referrals, developer API token volumes, and blind evaluations to eliminate single-source bias. However, like all publicly available telemetry, certain inherent boundaries apply."
@@ -2661,10 +2652,7 @@ function openBenchmarkScopeModal() {
       </div>
     </div>
   `;
-  modal.classList.add("open");
-  modal.setAttribute("aria-hidden", "false");
-  document.body.classList.add("modal-open");
-  modal.scrollTop = 0;
+  openModalWithContent(content);
 }
 
 function buildScatterSVG(models, isEn, domainFilter) {
@@ -2810,7 +2798,7 @@ function openBenchmarkModelModal(modelName) {
   const fInt = v => v == null ? "—" : Number(v).toLocaleString("en-US");
   const orUrl = m.openrouter_id ? `https://openrouter.ai/${escapeHTML(m.openrouter_id)}` : "https://openrouter.ai/rankings";
 
-  body.innerHTML = `
+  const content = `
     <div class="m-rank">
       <span class="accent">${isEn ? "3-LEADERBOARD VERIFIED" : "3대 리더보드 교차 검증"}</span>
       <span class="dot-sep">·</span>
@@ -2828,7 +2816,7 @@ function openBenchmarkModelModal(modelName) {
         ${isEn ? "Coding" : "코딩 종합"} <strong>${f1(m.coding_composite_score)}</strong><span class="m-score-max">/100</span>
       </span>
     </div>
-    <h2>${escapeHTML(m.model)}</h2>
+    <h2 id="modal-title" class="modal-title">${escapeHTML(m.model)}</h2>
     <div class="m-section">
       <div class="m-label">${isEn ? "3-Leaderboard Raw Scores & Benchmarks" : "3대 리더보드 원점수 및 세부 벤치마크"}</div>
       <table class="sb-history-table">
@@ -2891,10 +2879,7 @@ function openBenchmarkModelModal(modelName) {
       </a>
     </div>
   `;
-  modal.classList.add("open");
-  modal.setAttribute("aria-hidden", "false");
-  document.body.classList.add("modal-open");
-  modal.scrollTop = 0;
+  openModalWithContent(content);
 }
 
 function renderBenchmarks() {

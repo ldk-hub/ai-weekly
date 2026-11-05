@@ -195,12 +195,18 @@ const { chromium } = require('playwright');
         const docEl = document.documentElement;
         const body = document.body;
         const heroH1 = document.querySelector('.hero-h1') || document.querySelector('h1');
-        const activeChip = document.querySelector('.chip.is-active') || document.querySelector('.cat-chip.is-active') || document.querySelector('.signal-chip.is-active');
+        const activeChip = document.querySelector('.chip.is-active') || document.querySelector('.cat-chip.is-active') || document.querySelector('.signal-chip.is-active') || document.querySelector('.bm-chip.is-active');
+        const cardTitle = document.querySelector('.card-title') || document.querySelector('.bm-name') || document.querySelector('.bm-kpi-model');
+        const brandName = document.querySelector('.brand-name');
+        const card = document.querySelector('.card') || document.querySelector('.bm-kpi-card');
         return {
           theme: docEl.getAttribute('data-theme'),
           bgColor: getComputedStyle(body).backgroundColor,
           bodyFont: getComputedStyle(body).fontFamily,
           heroH1Font: heroH1 ? getComputedStyle(heroH1).fontFamily : '',
+          cardTitleFont: cardTitle ? getComputedStyle(cardTitle).fontFamily : '',
+          brandNameFont: brandName ? getComputedStyle(brandName).fontFamily : '',
+          cardRadius: card ? getComputedStyle(card).borderRadius : '',
           chipColor: activeChip ? getComputedStyle(activeChip).color : '',
           chipBg: activeChip ? getComputedStyle(activeChip).backgroundColor : ''
         };
@@ -209,53 +215,112 @@ const { chromium } = require('playwright');
       if (!darkStyles.bodyFont.toLowerCase().includes('mono')) {
         throw new Error(`Signal Terminal dark mode requires monospace font, got: ${darkStyles.bodyFont}`);
       }
+      if (darkStyles.bgColor !== 'rgb(9, 13, 19)') {
+        throw new Error(`Signal Terminal dark mode requires #090d13 (rgb(9, 13, 19)), got: ${darkStyles.bgColor}`);
+      }
+      if (darkStyles.cardRadius && darkStyles.cardRadius !== '6px') {
+        throw new Error(`Signal Terminal dark mode requires 6px card radius, got: ${darkStyles.cardRadius}`);
+      }
 
       // 2. Test theme toggle -> Switches to Light Mode (Editorial Weekly Concept)
       const themeBtn = page.locator('#theme-toggle');
       if (await themeBtn.count() > 0) {
         await themeBtn.click();
-        await page.waitForTimeout(100);
+        await page.waitForTimeout(350);
         const lightStyles = await page.evaluate(() => {
           const docEl = document.documentElement;
           const body = document.body;
           const heroH1 = document.querySelector('.hero-h1') || document.querySelector('h1');
-          const cardTitle = document.querySelector('.card-title');
+          const cardTitle = document.querySelector('.card-title') || document.querySelector('.bm-name') || document.querySelector('.bm-kpi-model');
+          const brandName = document.querySelector('.brand-name');
+          const card = document.querySelector('.card') || document.querySelector('.bm-kpi-card');
           return {
             theme: docEl.getAttribute('data-theme'),
             bgColor: getComputedStyle(body).backgroundColor,
             heroH1Font: heroH1 ? getComputedStyle(heroH1).fontFamily : '',
-            cardTitleFont: cardTitle ? getComputedStyle(cardTitle).fontFamily : ''
+            cardTitleFont: cardTitle ? getComputedStyle(cardTitle).fontFamily : '',
+            brandNameFont: brandName ? getComputedStyle(brandName).fontFamily : '',
+            cardRadius: card ? getComputedStyle(card).borderRadius : ''
           };
         });
-        console.log(`  - Theme toggled: ${lightStyles.theme}, bg=${lightStyles.bgColor}, heroFont=${lightStyles.heroH1Font}`);
+        console.log(`  - Theme toggled: ${lightStyles.theme}, bg=${lightStyles.bgColor}, heroFont=${lightStyles.heroH1Font}, cardTitleFont=${lightStyles.cardTitleFont}`);
         if (lightStyles.theme !== 'light') {
           throw new Error(`Expected theme 'light', got '${lightStyles.theme}'`);
+        }
+        if (lightStyles.bgColor !== 'rgb(252, 250, 246)') {
+          throw new Error(`Editorial Weekly light mode requires #fcfaf6 (rgb(252, 250, 246)), got: ${lightStyles.bgColor}`);
         }
         if (!lightStyles.heroH1Font.toLowerCase().includes('newsreader') && !lightStyles.heroH1Font.toLowerCase().includes('serif')) {
           throw new Error(`Editorial Weekly light mode requires serif (Newsreader) hero font, got: ${lightStyles.heroH1Font}`);
         }
+        if (lightStyles.cardTitleFont && !lightStyles.cardTitleFont.toLowerCase().includes('newsreader') && !lightStyles.cardTitleFont.toLowerCase().includes('serif')) {
+          throw new Error(`Editorial Weekly light mode requires serif (Newsreader) card title font, got: ${lightStyles.cardTitleFont}`);
+        }
+        if (lightStyles.brandNameFont && !lightStyles.brandNameFont.toLowerCase().includes('newsreader') && !lightStyles.brandNameFont.toLowerCase().includes('serif')) {
+          throw new Error(`Editorial Weekly light mode requires serif (Newsreader) brand name font, got: ${lightStyles.brandNameFont}`);
+        }
+        if (lightStyles.cardRadius && lightStyles.cardRadius !== '4px') {
+          throw new Error(`Editorial Weekly light mode requires 4px card radius, got: ${lightStyles.cardRadius}`);
+        }
       }
 
-      // 3. Test Detail Modal interaction on index.html
+      // 3. Test Detail Modal interaction across pages
       if (pageName === 'index.html') {
         const firstCard = page.locator('.card.plugin-card').first();
         if (await firstCard.count() > 0) {
           await firstCard.click();
-          await page.waitForTimeout(100);
+          await page.waitForTimeout(150);
           const modalOpen = await page.evaluate(() => {
             const m = document.getElementById('modal');
             return m && m.classList.contains('open') && m.getAttribute('aria-hidden') === 'false';
           });
-          if (!modalOpen) throw new Error('Detail modal failed to open on card click');
-          // Test Escape key close
+          if (!modalOpen) throw new Error('Detail modal failed to open on card click in index.html');
           await page.keyboard.press('Escape');
-          await page.waitForTimeout(100);
+          await page.waitForTimeout(150);
           const modalClosed = await page.evaluate(() => {
             const m = document.getElementById('modal');
             return m && !m.classList.contains('open') && m.getAttribute('aria-hidden') === 'true';
           });
-          if (!modalClosed) throw new Error('Detail modal failed to close on Escape key');
+          if (!modalClosed) throw new Error('Detail modal failed to close on Escape key in index.html');
           console.log('  - Detail modal dialog open/close with Escape: OK');
+        }
+      } else if (pageName === 'starboard.html') {
+        const firstCard = page.locator('.card.star-card').first();
+        if (await firstCard.count() > 0) {
+          await firstCard.click();
+          await page.waitForTimeout(150);
+          const modalOpen = await page.evaluate(() => {
+            const m = document.getElementById('modal');
+            return m && m.classList.contains('open') && m.getAttribute('aria-hidden') === 'false';
+          });
+          if (!modalOpen) throw new Error('Starboard detail modal failed to open on card click');
+          await page.keyboard.press('Escape');
+          await page.waitForTimeout(150);
+          const modalClosed = await page.evaluate(() => {
+            const m = document.getElementById('modal');
+            return m && !m.classList.contains('open') && m.getAttribute('aria-hidden') === 'true';
+          });
+          if (!modalClosed) throw new Error('Starboard detail modal failed to close on Escape key');
+          console.log('  - Starboard detail modal dialog open/close with Escape: OK');
+        }
+      } else if (pageName === 'benchmarks.html') {
+        const scopeBtn = page.locator('#bm-scope-btn');
+        if (await scopeBtn.count() > 0) {
+          await scopeBtn.click();
+          await page.waitForTimeout(150);
+          const modalOpen = await page.evaluate(() => {
+            const m = document.getElementById('modal');
+            return m && m.classList.contains('open') && m.getAttribute('aria-hidden') === 'false';
+          });
+          if (!modalOpen) throw new Error('Benchmark scope modal failed to open on #bm-scope-btn click');
+          await page.keyboard.press('Escape');
+          await page.waitForTimeout(150);
+          const modalClosed = await page.evaluate(() => {
+            const m = document.getElementById('modal');
+            return m && !m.classList.contains('open') && m.getAttribute('aria-hidden') === 'true';
+          });
+          if (!modalClosed) throw new Error('Benchmark scope modal failed to close on Escape key');
+          console.log('  - Benchmark scope modal dialog open/close with Escape: OK');
         }
       }
 
