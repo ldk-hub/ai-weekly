@@ -47,10 +47,87 @@
 
 <div class="layout-wrapper">
 
-  <div class="header-container" role="banner">
+  <header class="header-container" role="banner">
     <div class="top-bar">
-      <a href="./" class="brand-logo" aria-label="AI위클리 홈">
-        <img src="claude-avatar.svg" alt="" width="28" height="28" />
+      <a href="./" class="brand-logo" id="brand-logo" aria-label="AI위클리 홈">
+        <svg class="mascot-avatar" width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="mascotBodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#E58A6C"/>
+              <stop offset="100%" stop-color="#C86546"/>
+            </linearGradient>
+            <linearGradient id="mascotTermGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#24272E"/>
+              <stop offset="100%" stop-color="#181A1F"/>
+            </linearGradient>
+            <filter id="mascotShadow" x="-10%" y="-10%" width="120%" height="120%">
+              <feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-color="#000" flood-opacity="0.25"/>
+            </filter>
+          </defs>
+
+          <!-- 상단 앤트로픽 AI 안테나 스파크 별 -->
+          <g class="mascot-sparkle" transform="translate(76, 8)">
+            <path d="M0,4 L1.5,1.5 L4,0 L1.5,-1.5 L0,-4 L-1.5,-1.5 L-4,0 L-1.5,1.5 Z" fill="#FFB74D"/>
+          </g>
+
+          <!-- 머리 & 터미널 그룹 -->
+          <g class="mascot-head-group">
+            <!-- 터미널 창 배경 -->
+            <rect class="mascot-term-bg" x="14" y="9" width="72" height="44" rx="6" fill="url(#mascotTermGrad)" filter="url(#mascotShadow)" stroke="#383D47" stroke-width="1"/>
+            <!-- 터미널 상단 타이틀바 -->
+            <path class="mascot-titlebar" d="M14 15 a6 6 0 0 1 6 -6 h60 a6 6 0 0 1 6 6 v6 h-72 v-6 z" fill="#282C34"/>
+            <!-- 창 제어 삼색 버튼 -->
+            <circle cx="21" cy="15" r="2.5" fill="#FF5F56"/>
+            <circle cx="28" cy="15" r="2.5" fill="#FFBD2E"/>
+            <circle cx="35" cy="15" r="2.5" fill="#27C93F"/>
+            <!-- 터미널 탭 타이틀 -->
+            <text class="mascot-term-title" x="50" y="16.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', monospace" font-size="6" fill="#8A919E" font-weight="600" text-anchor="middle">ai-weekly</text>
+
+            <!-- 터미널 내부 CLI 프롬프트 & 입력 라인 -->
+            <text class="mascot-prompt" x="19" y="27" font-family="monospace" font-size="7.5" fill="#D97757" font-weight="bold">❯</text>
+            <rect class="mascot-input-bar" x="26" y="22" width="22" height="4" rx="2" fill="#61AFEF"/>
+            <rect class="mascot-cursor" x="50" y="21.5" width="2" height="5" fill="#D97757"/>
+
+            <!-- 코드 출력 스트림 라인들 -->
+            <g class="mascot-code-stream">
+              <rect class="mascot-code-1" x="19" y="30" width="46" height="3.5" rx="1.75" fill="#98C379"/>
+              <rect class="mascot-code-2" x="19" y="36.5" width="32" height="3.5" rx="1.75" fill="#E5C07B"/>
+              <rect class="mascot-code-3" x="54" y="36.5" width="16" height="3.5" rx="1.75" fill="#C678DD"/>
+              <rect class="mascot-code-4" x="19" y="43" width="26" height="3.5" rx="1.75" fill="#56B6C2"/>
+            </g>
+
+            <!-- 캐릭터 몸체 (둥글고 세련된 테라코타 로봇) -->
+            <rect class="mascot-body" x="28" y="56" width="44" height="28" rx="8" fill="url(#mascotBodyGrad)" filter="url(#mascotShadow)"/>
+            <!-- 귀여운 사이드 센서 귀 -->
+            <rect class="mascot-ears mascot-ear-l" x="25" y="63" width="4" height="9" rx="2" fill="#B95838"/>
+            <rect class="mascot-ears mascot-ear-r" x="71" y="63" width="4" height="9" rx="2" fill="#B95838"/>
+
+            <!-- 얼굴 표정 (초롱초롱한 눈 & 미소) -->
+            <g class="mascot-eyes">
+              <!-- 왼쪽 눈 -->
+              <circle cx="41" cy="68" r="3.2" fill="#1E1E1E"/>
+              <circle cx="42" cy="67" r="1.1" fill="#FFFFFF"/>
+              <!-- 오른쪽 눈 -->
+              <circle cx="59" cy="68" r="3.2" fill="#1E1E1E"/>
+              <circle cx="60" cy="67" r="1.1" fill="#FFFFFF"/>
+              <!-- 귀여운 미소 입 -->
+              <path class="mascot-mouth" d="M47 74 Q50 77 53 74" fill="none" stroke="#682914" stroke-width="1.6" stroke-linecap="round"/>
+            </g>
+          </g>
+
+          <!-- 세련된 슬림 키보드 -->
+          <g class="mascot-keyboard-group" transform="translate(0, -1)">
+            <rect class="mascot-keyboard" x="16" y="82" width="68" height="13" rx="4" fill="#2D3139" stroke="#424754" stroke-width="0.8"/>
+            <!-- 키캡 라인 (키보드 입체감) -->
+            <path class="mascot-keycaps" d="M20 86 h60 M20 90 h60" stroke="#4F5666" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="3.5 2"/>
+            <!-- 스페이스바 포인트 -->
+            <rect class="mascot-spacebar" x="38" y="91" width="24" height="2" rx="1" fill="#D97757" opacity="0.85"/>
+          </g>
+
+          <!-- 둥글둥글한 모찌손 타건 애니메이션 -->
+          <ellipse cx="30" cy="80" rx="5" ry="3.5" fill="#EAA48E" stroke="#C86546" stroke-width="0.8" class="mascot-hands mascot-hand-l"/>
+          <ellipse cx="70" cy="80" rx="5" ry="3.5" fill="#EAA48E" stroke="#C86546" stroke-width="0.8" class="mascot-hands mascot-hand-r"/>
+        </svg>
         <span class="brand-name" data-i18n-en="AI Weekly" data-i18n-ko="AI위클리">AI위클리</span>
       </a>
       <nav class="page-nav" aria-label="주요 메뉴">
@@ -65,7 +142,6 @@
         </a>
         <a href="benchmarks" class="pn-link">
           <span data-i18n-en="Benchmarks" data-i18n-ko="점유율·성능">점유율·성능</span>
-          <span class="pn-badge-new">NEW</span>
         </a>
       </nav>
       <div class="brand-actions">
@@ -79,15 +155,15 @@
       </div>
     </div>
 
-    <div class="compact-subbar">
-      <div class="hero-titles">
+    <div class="hero-wrapper" id="hero-wrapper">
+      <div class="hero-row-1">
         <h1 class="hero-h1" data-i18n-en-html="The flood of <span class='hl-mint'>AI news</span>, in 3-line <span class='hl-lemon'>summaries</span>." data-i18n-ko-html="쏟아지는 <span class='hl-mint'>AI 소식</span>을 3줄 <span class='hl-lemon'>요약</span>으로 읽습니다.">쏟아지는 <span class="hl-mint">AI 소식</span>을 3줄 <span class="hl-lemon">요약</span>으로 읽습니다.</h1>
         <p class="hero-p" data-i18n-en-html="Model releases · devtools · open source · research in <strong class='hero-strong'>summaries &amp; links</strong>" data-i18n-ko-html="모델 릴리스 · 개발자 도구 · 오픈소스 · 연구 <strong class='hero-strong'>3줄 요약 및 원문 링크</strong>">모델 릴리스 · 개발자 도구 · 오픈소스 · 연구 <strong class="hero-strong">3줄 요약 및 원문 링크</strong></p>
       </div>
 
-      <div class="update-bar" id="update-bar" role="status" aria-live="polite">
-        <div class="update-meta">
-          <span class="update-dot"></span>
+      <div class="hero-row-2">
+        <div class="meta-left update-meta" id="update-bar" role="status" aria-live="polite">
+          <span class="status-dot"></span>
           <span class="update-text"><strong id="updated-at">—</strong> <span data-i18n-en="Updated" data-i18n-ko="갱신">갱신</span></span>
           <span class="update-sep" id="next-at-sep"></span>
           <span class="update-text" id="next-at-container"><span data-i18n-en="Next" data-i18n-ko="다음">다음</span> <strong id="next-at" style="font-weight:inherit">—</strong></span>
@@ -97,7 +173,7 @@
           <span class="update-text unb-summary" id="page-summary">—</span>
         </div>
 
-        <div class="update-actions-right">
+        <div class="actions-right update-actions-right">
           <div class="archive-wrap">
             <button class="archive-btn" id="archive-btn" type="button" aria-haspopup="listbox" aria-expanded="false">
               <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="3" width="12" height="11" rx="2"></rect><path d="M2 6.5h12M5.5 2v2M10.5 2v2"></path></svg>
@@ -108,7 +184,7 @@
           </div>
 
           <div class="subscribe-wrapper" id="subscribe-wrapper">
-            <span class="subscribe-hint" data-i18n-en="Every Monday: this week's tools, by email" data-i18n-ko="매주 월요일, 이번 주 도구 요약을 메일로">매주 월요일, 이번 주 도구 요약을 메일로</span>
+            <span class="subscribe-hint" data-i18n-en="Every morning: yesterday's AI signals, by email" data-i18n-ko="매일 아침, 어제의 AI 신호 요약을 메일로">매일 아침, 어제의 AI 신호 요약을 메일로</span>
             <button class="subscribe-btn-open" id="subscribe-open" type="button">
               <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1.5" y="3.5" width="13" height="9" rx="2"></rect><path d="m2 4.5 6 4 6-4"></path></svg>
               <span data-i18n-en="Subscribe" data-i18n-ko="구독">구독</span>
@@ -124,7 +200,10 @@
         </div>
       </div>
     </div>
+  </header>
 
+  <!-- Feed grouped by day -->
+  <main id="main">
     <div class="unified-nav-box">
       <div class="unb-bottom">
         <nav class="cat-filter" id="cat-filter" role="tablist" aria-label="Category filter"></nav>
@@ -142,17 +221,14 @@
       </div>
       <nav class="signal-chip-bar" id="signal-chip-bar" role="tablist" aria-label="Signal filter"></nav>
     </div>
-  </div>
 
-  <!-- Feed grouped by day -->
-  <main id="main">
     <h2 class="sr-only" data-i18n-en="News List" data-i18n-ko="뉴스 목록">뉴스 목록</h2>
     <div id="news-feed-container"><div style="text-align:center;padding:60px 0;color:var(--muted);font-size:15px;" data-i18n-en="Loading AI news…" data-i18n-ko="AI 뉴스를 불러오는 중…">AI 뉴스를 불러오는 중…</div></div>
   </main>
 
   <footer class="site-footer">
     <span>AI위클리 · Claude Code 주간 인덱스</span>
-    <span><a href="./">인기 플러그인</a> · <a href="news">AI 뉴스</a> · <a href="starboard">스타보드</a> · <a href="lounge">라운지</a> · <a href="benchmarks">점유율·성능</a></span>
+    <span><a href="./">인기 플러그인</a> · <a href="news">AI 뉴스</a> · <a href="starboard">스타보드</a> · <a href="benchmarks">점유율·성능</a></span>
   </footer>
 
 </div>

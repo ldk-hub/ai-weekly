@@ -28,8 +28,13 @@
 | Border | `#BFDBFE` | `--color-border` |
 | Destructive | `#DC2626` | `--color-destructive` |
 | Ring | `#1E3A8A` | `--color-ring` |
+| Highlighter Mint | `#D8EDD0` | `--hl-mint` |
+| Highlighter Mint Ink | `#0E0E0E` | `--hl-mint-ink` |
+| Highlighter Lemon | `#FFECA0` | `--hl-lemon` |
+| Highlighter Lemon Ink | `#0E0E0E` | `--hl-lemon-ink` |
+| Benchmarks Down (Neutral) | `#6B6860` | `--bm-down` |
 
-**Color Notes:** Knowledge blue + link purple + clean white
+**Color Notes:** Knowledge blue + link purple + clean white + Weeklaude highlighter tokens
 
 ### Typography
 

@@ -28,8 +28,13 @@
 | Border | `#EFE7FC` | `--color-border` |
 | Destructive | `#DC2626` | `--color-destructive` |
 | Ring | `#7C3AED` | `--color-ring` |
+| Highlighter Mint | `rgba(79, 212, 163, 0.32)` | `--hl-mint` |
+| Highlighter Mint Ink | `#5EEDBE` | `--hl-mint-ink` |
+| Highlighter Lemon | `rgba(245, 158, 11, 0.32)` | `--hl-lemon` |
+| Highlighter Lemon Ink | `#FBBF24` | `--hl-lemon-ink` |
+| Benchmarks Down (Neutral) | `#8E8A80` | `--bm-down` |
 
-**Color Notes:** AI purple + generation pink
+**Color Notes:** AI purple + generation pink + Weeklaude highlighter underline tokens
 
 ### Typography
 

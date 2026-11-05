@@ -1,20 +1,6 @@
 export const isNewsPage = !!document.getElementById("news-feed-container");
 export const isStarboardPage = !!document.getElementById("starboard-container");
-export const isLoungePage = !!document.getElementById("lounge-container");
 export const isBenchmarksPage = !!document.getElementById("benchmarks-container");
-
-// giscus (GitHub Discussions) 설정 — 라운지 대화와 뉴스 항목별 댓글이 모두 이 값을 쓴다.
-// repoId·categoryId 는 https://giscus.app 에서 리포를 입력하면 발급된다.
-// 비어 있으면 화면에 안내를 띄우고 위젯을 붙이지 않는다 (조용히 깨지지 않게).
-export const GISCUS = {
-  repo: "ldk-hub/ai-weekly",
-  repoId: "R_kgDOTXrViw",
-  loungeCategory: "General",
-  loungeCategoryId: "DIC_kwDOTXrVi84DENxe",
-  newsCategory: "General",
-  newsCategoryId: "DIC_kwDOTXrVi84DENxe",
-};
-export const isGiscusReady = () => !!(GISCUS.repoId && GISCUS.loungeCategoryId && GISCUS.newsCategoryId);
 
 export function loadBookmarks() {
   try {
@@ -74,7 +60,6 @@ export const STATE = {
   source: "latest",
   loadError: null,
   archives: [],
-  lounge: null,
   sbLimit: 50,
   viewMode: localStorage.getItem("aiw-view") || "card",
   benchmarkTab: "share",      // 'share' | 'bench'
@@ -116,7 +101,7 @@ export function syncStateFromURL() {
       if (cat) STATE.category = cat;
       if (sig) STATE.signal = sig;
       if (saved === "1") STATE.bookmarksOnly = true;
-    } else if (!isLoungePage) {
+    } else {
       if (tab && ["rising", "classic"].includes(tab)) STATE.tab = tab;
       if (cat) STATE.category = cat;
       if (sort && ["score", "velocity", "stars"].includes(sort)) STATE.pluginSort = sort;
@@ -145,7 +130,7 @@ export function syncURLFromState() {
       if (STATE.category !== "all") params.set("cat", STATE.category);
       if (STATE.signal !== "all") params.set("sig", STATE.signal);
       if (STATE.bookmarksOnly) params.set("saved", "1");
-    } else if (!isLoungePage) {
+    } else {
       if (STATE.tab !== "rising") params.set("tab", STATE.tab);
       if (STATE.category !== "all") params.set("cat", STATE.category);
       if (STATE.pluginSort !== "score") params.set("sort", STATE.pluginSort);

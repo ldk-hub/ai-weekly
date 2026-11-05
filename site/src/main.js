@@ -1,4 +1,5 @@
-import { isNewsPage, isStarboardPage, isLoungePage, isBenchmarksPage, GISCUS, isGiscusReady, STATE, CATEGORIES, NEWS_CATEGORIES, NEWS_SIGNALS, saveBookmarks, savePluginBookmarks, saveStarboardBookmarks, syncStateFromURL, syncURLFromState } from "./state.js";
+import { isNewsPage, isStarboardPage, isBenchmarksPage, STATE, CATEGORIES, NEWS_CATEGORIES, NEWS_SIGNALS, saveBookmarks, savePluginBookmarks, saveStarboardBookmarks, syncStateFromURL, syncURLFromState } from "./state.js";
+import { isSuspiciousVelocity } from "./utils/velocity.js";
 
 syncStateFromURL();
 
@@ -19,24 +20,6 @@ async function load(source) {
     renderUpdateBar();
     renderPageSummary();
     renderBenchmarks();
-    return;
-  }
-
-  if (isLoungePage) {
-    // 대화 원본은 GitHub Discussions 다. 브라우저에서 직접 못 읽으므로(GraphQL 은 토큰 필수)
-    // collect_lounge.js 가 수집 시점에 떨궈둔 스냅샷을 읽는다 — 뉴스·스타보드와 같은 방식.
-    try {
-      const res = await fetch("data/lounge_latest.json", { cache: "no-store" });
-      if (!res.ok) throw new Error("HTTP " + res.status);
-      STATE.data = await res.json();
-      STATE.loadError = null;
-    } catch (e) {
-      STATE.data = { generated_at: null, threads: [], comments: [] };
-      STATE.loadError = e.message;
-    }
-    renderUpdateBar();
-    renderPageSummary();
-    render();
     return;
   }
 
@@ -85,7 +68,7 @@ async function load(source) {
         if (!STATE.data.version && STATE.data.curated_date) {
           STATE.data.version = `v${STATE.data.curated_date.replace(/-/g, ".")}`;
         }
-      } else if (STATE.data && !isStarboardPage && !isLoungePage && !isBenchmarksPage) {
+      } else if (STATE.data && !isStarboardPage && !isBenchmarksPage) {
         if (Array.isArray(STATE.data.rising)) {
           STATE.data.rising.forEach((item, index) => {
             item.rank ??= index + 1;
@@ -112,7 +95,7 @@ async function load(source) {
 async function loadArchives() {
   // 스타보드는 과거 스냅샷 파일이 없다 (ledger 한 개가 전 이력을 담는다).
   // 삭제된 스터디 페이지의 study_index.json(빈 배열)을 읽던 잔재라 아예 건너뛴다.
-  if (isStarboardPage || isLoungePage) {
+  if (isStarboardPage) {
     STATE.archives = [];
     renderArchiveMenu();
     return;
@@ -166,15 +149,6 @@ function renderPageSummary() {
     el.textContent = lang === "en"
       ? `${shares.length} services (3-source avg) · ${models.length} frontier models (3-leaderboard avg)`
       : `서비스 점유율 ${shares.length}개(3곳 평균) · 프론티어 모델 ${models.length}개(3대 리더보드 평균)`;
-    return;
-  }
-
-  if (isLoungePage) {
-    const threads = STATE.data.threads || [];
-    const total = threads.reduce((n, t) => n + (t.comment_count || 0), 0);
-    el.textContent = lang === "en"
-      ? `${threads.length} threads · ${total} comments`
-      : `대화 ${threads.length}개 · 댓글 ${total}개`;
     return;
   }
 
@@ -251,7 +225,7 @@ function renderUpdateBar() {
   if (!updEl) return;
   if (ts && !isNaN(ts.getTime())) {
     const baseDate = `${fmtKFull(ts)} (${dayLabel(ts, lang)})`;
-    if (isNewsPage || isLoungePage) {
+    if (isNewsPage) {
       const rel = getRelativeDayLabel(ts, lang);
       updEl.textContent = rel ? `${baseDate} · ${rel}` : baseDate;
       if (nxtContainer) nxtContainer.style.display = "none";
@@ -558,8 +532,11 @@ function cardHTML(item, idx) {
 
   // 주간 증가 스타 또는 성장률 배지 (JSON 스키마의 velocity_7d 또는 weekly_stars 모두 호환)
   const weeklyDelta = item.weekly_stars ?? item.velocity_7d;
+  const isSuspicious = isSuspiciousVelocity(item);
   const weeklyStars = (weeklyDelta && weeklyDelta > 0)
-    ? `<span class="sb-hot-badge" style="font-size:12px; padding:1px 6px;" title="${lang === "en" ? "7-day star growth" : "최근 7일 스타 증가량"}">★ +${Number(weeklyDelta).toLocaleString()}/w</span>`
+    ? (isSuspicious
+      ? `<span class="velocity-badge is-anomaly" title="${lang === "en" ? "Estimated, unverified" : "추정치·검증 필요"}" aria-label="${lang === "en" ? "Estimated, unverified" : "추정치·검증 필요"}"><span class="anomaly-icon">⚠️</span> ≈ +${Number(weeklyDelta).toLocaleString()}/w</span>`
+      : `<span class="sb-hot-badge velocity-badge" style="font-size:12px; padding:1px 6px;" title="${lang === "en" ? "7-day star growth" : "최근 7일 스타 증가량"}">★ +${Number(weeklyDelta).toLocaleString()}/w</span>`)
     : "";
 
   // 기능 3개. 앞 두 단어를 굵게 하던 처리는 뺐다 — 의미와 무관하게 조사에서 잘렸다.
@@ -617,7 +594,7 @@ function cardHTML(item, idx) {
           <div class="repo-id">${formatRepoId(repoId)}</div>
         </div>
       </div>
-      <h3 class="card-title">${escapeHTML(displayTitle)}</h3>
+      <h3 class="card-title" title="${escapeHTML(displayTitle)}">${escapeHTML(displayTitle)}</h3>
       ${useCaseBox}
       ${feats ? `<ul class="features">${feats}</ul>` : ""}
       ${cliChip}
@@ -812,141 +789,6 @@ function closeModal() {
   modalPreviousActiveElement = null;
 }
 
-/* ─── giscus (GitHub Discussions) ──────────────────────────────
-   라운지 자유 대화와 뉴스 항목별 댓글이 같은 위젯을 쓴다.
-   설정값이 비어 있으면 위젯을 붙이지 않고 안내를 띄운다 — 조용히 빈 상자를 남기지 않기 위함. */
-function giscusTheme() {
-  return getEffectiveTheme() === "dark" ? "dark" : "light";
-}
-
-// term 하나당 Discussion 하나. 뉴스 항목은 id 를, 라운지는 고정 문자열을 쓴다.
-function mountGiscus(container, { term, categoryId, reactions = true }) {
-  if (!container) return;
-  container.innerHTML = "";
-  const script = document.createElement("script");
-  script.src = "https://giscus.app/client.js";
-  script.async = true;
-  script.crossOrigin = "anonymous";
-  script.setAttribute("data-repo", GISCUS.repo);
-  script.setAttribute("data-repo-id", GISCUS.repoId);
-  script.setAttribute("data-category-id", categoryId);
-  script.setAttribute("data-mapping", "specific");
-  script.setAttribute("data-term", term);
-  script.setAttribute("data-strict", "1");
-  script.setAttribute("data-reactions-enabled", reactions ? "1" : "0");
-  script.setAttribute("data-emit-metadata", "0");
-  script.setAttribute("data-input-position", "top");
-  script.setAttribute("data-theme", giscusTheme());
-  script.setAttribute("data-lang", getLang() === "en" ? "en" : "ko");
-  script.setAttribute("data-loading", "lazy");
-  container.appendChild(script);
-}
-
-function giscusSetupNotice() {
-  const lang = getLang();
-  const steps = lang === "en"
-    ? ["Enable Discussions in repository settings",
-       "Install the giscus GitHub App on this repository",
-       "Get data-repo-id and data-category-id from giscus.app",
-       "Fill GISCUS in site/src/state.js"]
-    : ["리포 Settings 에서 Discussions 켜기",
-       "giscus GitHub App 을 이 리포에 설치",
-       "giscus.app 에서 data-repo-id · data-category-id 발급",
-       "site/src/state.js 의 GISCUS 값 채우기"];
-  return `
-    <div class="card" style="padding:24px; border:1px dashed var(--border);">
-      <strong style="display:block; margin-bottom:8px;">${lang === "en" ? "Comments are not connected yet" : "댓글이 아직 연결되지 않았습니다"}</strong>
-      <p style="margin:0 0 12px; color:var(--muted); font-size:14px; line-height:1.6;">
-        ${lang === "en"
-          ? "The lounge runs on GitHub Discussions. Four steps are left:"
-          : "라운지는 GitHub Discussions 위에서 동작합니다. 남은 준비는 네 단계입니다:"}
-      </p>
-      <ol style="margin:0; padding-left:20px; color:var(--muted); font-size:14px; line-height:1.8;">
-        ${steps.map((t) => `<li>${escapeHTML(t)}</li>`).join("")}
-      </ol>
-    </div>`;
-}
-
-// 테마·언어를 바꾸면 이미 떠 있는 iframe 에 postMessage 로 알려준다 (재로드 없이 반영)
-function syncGiscusFrames() {
-  document.querySelectorAll("iframe.giscus-frame").forEach((f) => {
-    f.contentWindow?.postMessage(
-      { giscus: { setConfig: { theme: giscusTheme(), lang: getLang() === "en" ? "en" : "ko" } } },
-      "https://giscus.app"
-    );
-  });
-}
-
-function renderLounge() {
-  const el = document.getElementById("lounge-container");
-  if (!el) return;
-  const lang = getLang();
-  const d = STATE.data || {};
-
-  if (!isGiscusReady()) {
-    el.innerHTML = giscusSetupNotice();
-    return;
-  }
-
-  const comments = d.comments || [];
-  const recent = comments.length
-    ? comments.map((c) => {
-        const when = c.created_at ? new Date(c.created_at) : null;
-        const stamp = when ? `${when.getMonth() + 1}/${when.getDate()}` : "";
-        return `
-          <li style="padding:14px 0; border-bottom:1px solid var(--border);">
-            <a href="${escapeHTML(c.url)}" target="_blank" rel="noopener" style="text-decoration:none; color:inherit; display:block;">
-              <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
-                <img src="${escapeHTML(c.author_avatar || "")}" alt="" width="20" height="20" loading="lazy" style="border-radius:50%;" onerror="this.onerror=null;this.src='claude-avatar.svg';this.classList.add('is-fallback');"/>
-                <span style="font-weight:600; font-size:13px;">${escapeHTML(c.author || "unknown")}</span>
-                <span style="color:var(--muted); font-size:12px;">${escapeHTML(c.thread_title || "")}</span>
-                <span style="color:var(--muted); font-size:12px; margin-left:auto;">${stamp}</span>
-              </div>
-              <div style="font-size:14px; line-height:1.6; color:var(--text); opacity:0.9;">${escapeHTML((c.body || "").slice(0, 180))}</div>
-            </a>
-          </li>`;
-      }).join("")
-    : `<li style="padding:24px 0; color:var(--muted); font-size:14px;">${lang === "en" ? "No comments yet — be the first." : "아직 댓글이 없습니다. 첫 이야기를 남겨보세요."}</li>`;
-
-  el.innerHTML = `
-    <div class="lounge-guide-box">
-      <div class="lounge-guide-title">
-        <span>💡 ${lang === "en" ? "Suggested Discussion Topics" : "추천 토론 및 질문 주제"}</span>
-      </div>
-      <div class="lounge-topic-chips">
-        <a class="lounge-topic-chip" href="https://github.com/ldk-hub/ai-weekly/discussions/new?category=q-a" target="_blank" rel="noopener">
-          <span>❓ ${lang === "en" ? "Ask Claude Code Question" : "Claude Code 질문하기"}</span>
-        </a>
-        <a class="lounge-topic-chip" href="https://github.com/ldk-hub/ai-weekly/discussions/new?category=general" target="_blank" rel="noopener">
-          <span>✨ ${lang === "en" ? "Agent Workflow Tips" : "실무 에이전트 팁 공유"}</span>
-        </a>
-        <a class="lounge-topic-chip" href="https://github.com/ldk-hub/ai-weekly/discussions/new?category=ideas" target="_blank" rel="noopener">
-          <span>📦 ${lang === "en" ? "Recommend New Tool" : "새로운 오픈소스 추천"}</span>
-        </a>
-        <a class="lounge-topic-chip" href="https://github.com/ldk-hub/ai-weekly/discussions/new?category=ideas" target="_blank" rel="noopener">
-          <span>🚀 ${lang === "en" ? "Site Feedback & Ideas" : "AI위클리 피드백 및 제안"}</span>
-        </a>
-      </div>
-    </div>
-
-    <section class="card" style="padding:24px; margin-bottom:24px;">
-      <h2 style="margin:0 0 4px; font-size:18px;">${lang === "en" ? "Lounge" : "자유 대화"}</h2>
-      <p style="margin:0 0 16px; color:var(--muted); font-size:14px;">${lang === "en" ? "Anything about AI tooling. GitHub sign-in required." : "AI 도구 이야기 무엇이든. GitHub 로그인이 필요합니다."}</p>
-      <div id="lounge-giscus"></div>
-    </section>
-
-    <section class="card" style="padding:24px;">
-      <h2 style="margin:0 0 4px; font-size:18px;">${lang === "en" ? "Recent comments across the site" : "사이트 전체 최근 댓글"}</h2>
-      <p style="margin:0 0 8px; color:var(--muted); font-size:14px;">${lang === "en" ? "Updated with the daily news run." : "데일리 뉴스 갱신 때 함께 수집됩니다."}</p>
-      <ul style="list-style:none; margin:0; padding:0;">${recent}</ul>
-    </section>`;
-
-  mountGiscus(document.getElementById("lounge-giscus"), {
-    term: "lounge",
-    categoryId: GISCUS.loungeCategoryId,
-  });
-}
-
 function render() {
   syncURLFromState();
   const searchEl = document.getElementById("search");
@@ -964,10 +806,6 @@ function render() {
     return;
   }
 
-  if (isLoungePage) {
-    renderLounge();
-    return;
-  }
   if (isNewsPage) {
     const el = document.getElementById("news-feed-container");
     if (!el) return;
@@ -1205,10 +1043,15 @@ function newsCardHTML(item, idx = 0) {
   } else if (item.category_id === 'hfpapers' || item.platform === 'HF Daily Papers') {
     avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(authorStr.replace(/^@/, ""))}&background=FFD21E&color=1F2937&bold=true`;
     platformIconHtml = `<span class="platform-dot" style="position:absolute; bottom:-4px; right:-4px; width:14px; height:14px; background:#FFD21E; border-radius:50%; border:2px solid var(--card); display:flex; align-items:center; justify-content:center; font-size:9px;">🤗</span>`;
+  } else if (item.category_id === 'aitimes' || item.platform === 'AI타임스' || item.platform === 'AITimes') {
+    avatarUrl = `https://ui-avatars.com/api/?name=AI&background=2563eb&color=fff&bold=true`;
+    platformIconHtml = `<span class="platform-dot" style="position:absolute; bottom:-4px; right:-4px; width:14px; height:14px; background:#2563eb; border-radius:50%; border:2px solid var(--card); display:flex; align-items:center; justify-content:center; color:#fff; font-size:8px; font-weight:bold;">AI</span>`;
   } else if (item.category_id === 'hackernews' || item.platform === 'Hacker News') {
     avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(authorStr)}&background=FF6600&color=fff&bold=true`;
     platformIconHtml = `<span class="platform-dot" style="position:absolute; bottom:-4px; right:-4px; width:14px; height:14px; background:#FF6600; border-radius:50%; border:2px solid var(--card); display:flex; align-items:center; justify-content:center; color:#fff; font-size:9px; font-weight:bold;">Y</span>`;
   }
+
+  const initials = (item.category_id === 'aitimes' || item.platform === 'AI타임스') ? 'AI' : (authorStr.replace(/[^a-zA-Z0-9가-힣]/g, '').slice(0, 2).toUpperCase() || 'AI');
 
   // 재등장·급상승 배지. 같은 리포가 며칠 뒤 다시 올라오는 건 막지 않되(별이 크게 늘면 다룰 가치가 있다),
   // 신규 발표처럼 보이지 않게 화면에서 구분한다.
@@ -1249,7 +1092,7 @@ function newsCardHTML(item, idx = 0) {
     ${bookmarkBtn}
     <div class="card-head" style="margin-bottom: 12px; padding-right: 34px;">
       <div class="avatar-wrapper" style="position:relative; display:inline-block; line-height:0;">
-        <img class="avatar" src="${avatarUrl}" alt="" loading="lazy" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(authorStr)}&background=F4F4F5&color=3F3F46&bold=true'"/>
+        <img class="avatar" src="${avatarUrl}" alt="${escapeHTML(authorStr)}" loading="lazy" onerror="this.onerror=null;this.outerHTML='<div class=\\'avatar-fallback\\' title=\\'${escapeHTML(authorStr)}\\'>${initials}</div>';"/>
         ${platformIconHtml}
       </div>
       <div class="head-meta" style="flex:1;">
@@ -1341,28 +1184,22 @@ function newsCardHTML(item, idx = 0) {
       💬 ${lang === "en" ? "Discussion ↗" : "커뮤니티 반응 ↗"}
     </a>` : "";
 
-  const commentBtn = isGiscusReady() ? `
-      <button type="button" class="repo-link" data-giscus-term="${safeId}" style="background:none; border:none; cursor:pointer; font:inherit; color:var(--accent);">
-        💬 ${lang === "en" ? "Comments" : "댓글"}
-      </button>` : "";
   const linkBtn = item.url ? `
-    <div class="card-foot" style="margin-top:18px; border-top:1px solid var(--border); padding-top:14px; display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+    <div class="card-foot" style="margin-top:auto; border-top:1px solid var(--border); padding-top:14px; display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
       ${copyBtn}
       ${discussionLink}
-      ${commentBtn}
       <a class="repo-link" href="${escapeHTML(item.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="margin-left:auto; font-weight:600;">
         ${lang === "en" ? "Read Source" : "원문 보기"} <span class="arrow">→</span>
       </a>
     </div>
-    <div class="nc-comments" id="giscus-${safeId}" hidden style="margin-top:16px; border-top:1px solid var(--border); padding-top:16px;"></div>
   ` : "";
 
   return `
-    <article class="card news-card" data-id="${safeId}" data-platform="${item.category_id || 'news'}" style="position:relative; padding:20px; box-shadow:0 2px 10px rgba(0,0,0,0.04); border-radius:14px;">
+    <article class="card news-card" data-id="${safeId}" data-platform="${item.category_id || 'news'}" style="position:relative; padding:20px; box-shadow:0 2px 10px rgba(0,0,0,0.04); border-radius:14px; display:flex; flex-direction:column;">
       ${cover}
       ${headHtml}
       <a href="${item.url ? escapeHTML(item.url) : '#'}" target="_blank" rel="noopener" style="text-decoration:none; color:inherit; display:block;">
-        <h3 style="margin-top:0; margin-bottom:10px; line-height:1.42; font-size:18px; font-weight:700;">${title}</h3>
+        <h3 style="margin-top:0; margin-bottom:10px; line-height:1.42; font-size:18px; font-weight:700;" title="${escapeHTML(rawTitle || title)}">${title}</h3>
       </a>
       ${summaryHtml}
       ${bodyKo}
@@ -1408,6 +1245,29 @@ document.getElementById("starboard-bookmark-filter-chip")?.addEventListener("cli
   STATE.starboardBookmarksOnly = !STATE.starboardBookmarksOnly;
   renderStarboard();
 });
+
+const sbLegendBtn = document.getElementById("sb-legend-btn");
+const sbLegendPopover = document.getElementById("sb-legend-popover");
+if (sbLegendBtn && sbLegendPopover) {
+  sbLegendBtn.addEventListener("click", e => {
+    e.stopPropagation();
+    const isOpen = sbLegendPopover.classList.toggle("is-open");
+    sbLegendBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+  });
+  document.addEventListener("click", e => {
+    if (!sbLegendPopover.contains(e.target) && e.target !== sbLegendBtn) {
+      sbLegendPopover.classList.remove("is-open");
+      sbLegendBtn.setAttribute("aria-expanded", "false");
+    }
+  });
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && sbLegendPopover.classList.contains("is-open")) {
+      sbLegendPopover.classList.remove("is-open");
+      sbLegendBtn.setAttribute("aria-expanded", "false");
+      sbLegendBtn.focus();
+    }
+  });
+}
 
 const viewToggleBtn = document.getElementById("view-toggle");
 if (viewToggleBtn) {
@@ -1972,7 +1832,6 @@ document.getElementById("lang-toggle")?.addEventListener("click", () => {
   renderCategoryFilter();
   renderThemeToggle();
   render();
-  syncGiscusFrames();
 });
 applyLang(getLang());
 
@@ -2008,7 +1867,6 @@ document.getElementById("theme-toggle")?.addEventListener("click", () => {
   document.documentElement.dataset.theme = next;
   try { localStorage.setItem('aiw-theme', next); } catch (e) {}
   renderThemeToggle();
-  syncGiscusFrames();
 });
 if (window.matchMedia) {
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
@@ -2172,23 +2030,6 @@ document.getElementById("news-feed-container")?.addEventListener("click", (e) =>
     render();
     showToast(getLang() === "en" ? `Filtered by #${tag}` : `#${tag} 키워드로 필터링했습니다`);
     return;
-  }
-
-  // 5. 댓글 버튼 (giscus)
-  const btn = e.target.closest("[data-giscus-term]");
-  if (!btn) return;
-  e.stopPropagation();
-  const term = btn.dataset.giscusTerm;
-  const box = document.getElementById(`giscus-${term}`);
-  if (!box) return;
-  if (box.hidden) {
-    box.hidden = false;
-    if (!box.dataset.mounted) {
-      mountGiscus(box, { term, categoryId: GISCUS.newsCategoryId, reactions: false });
-      box.dataset.mounted = "1";
-    }
-  } else {
-    box.hidden = true;
   }
 });
 
@@ -2413,21 +2254,16 @@ function renderStarboard() {
     : "활발 (최근 7일 이내) · 둔화 (8~90일) · 방치 (90일 초과)";
     
   let html = "";
-  html += `
-    <div class="feed-actions-bar" style="margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-      ${hasActiveFilters ? `
+  if (hasActiveFilters) {
+    html += `
+      <div class="feed-actions-bar" style="margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
         <div class="feed-results-count">
           ${lang === "en" ? "Showing" : "필터 결과"} <strong>${list.length}</strong>${lang === "en" ? " repositories" : "개 리포지토리"}
           <button type="button" id="clear-starboard-filters-btn" style="background:none; border:none; color:var(--accent-text); cursor:pointer; font-size:12px; margin-left:8px; text-decoration:underline; font-weight:600;">${lang === "en" ? "Reset filters" : "필터 초기화"}</button>
         </div>
-      ` : `<div></div>`}
-      <div class="sb-legend-bar" role="note" aria-label="${lang === 'en' ? 'Activity Legend' : '활동성 기준 범례'}" style="margin-left:auto; margin-bottom:0;">
-        <span class="sb-legend-item"><span class="sb-legend-dot active"></span>${lang === 'en' ? 'Active (<7d)' : '활발 (7일 이내)'}</span>
-        <span class="sb-legend-item"><span class="sb-legend-dot slowing"></span>${lang === 'en' ? 'Slowing (8–90d)' : '둔화 (8~90일)'}</span>
-        <span class="sb-legend-item"><span class="sb-legend-dot dormant"></span>${lang === 'en' ? 'Dormant (>90d)' : '방치 (90일 초과)'}</span>
       </div>
-    </div>
-  `;
+    `;
+  }
 
   const limit = STATE.sbLimit || 50;
   const visibleList = list.slice(0, limit);
@@ -2662,11 +2498,14 @@ function starboardCardHTML(item, idx, legendText) {
   const descEn = (item.meta && item.meta.description) ? item.meta.description : "";
   const langTag = (item.meta && item.meta.language) ? `<span class="sb-tech-badge">🏷️ ${escapeHTML(item.meta.language)}</span>` : "";
 
-  // 핫 모멘텀 배지
+  // 핫 모멘텀 배지 & 비정상 증가량 가드
+  const isSuspicious = isSuspiciousVelocity({ stars: item.currentStars, velocity_7d: item.velocity, v7d_estimated: item.v7d_estimated });
   const isHot = item.velocity >= 300;
-  const velocityBadge = isHot 
-    ? `<span class="sb-hot-badge sb-velocity">🔥 ${sign}${item.velocity.toLocaleString()}/wk</span>`
-    : `<span class="sb-velocity" style="color:${velocityColor}; font-weight:700; font-size: 14px; background:var(--surface); padding:2px 8px; border-radius:12px; display:inline-block;">${sign}${item.velocity.toLocaleString()}/wk</span>`;
+  const velocityBadge = isSuspicious
+    ? `<span class="velocity-badge is-anomaly" title="${lang === "en" ? "Estimated, unverified" : "추정치·검증 필요"}" aria-label="${lang === "en" ? "Estimated, unverified" : "추정치·검증 필요"}"><span class="anomaly-icon">⚠️</span> ≈ ${sign}${item.velocity.toLocaleString()}/wk</span>`
+    : (isHot 
+      ? `<span class="sb-hot-badge sb-velocity">🔥 ${sign}${item.velocity.toLocaleString()}/wk</span>`
+      : `<span class="sb-velocity" style="color:${velocityColor}; font-weight:700; font-size: 14px; background:var(--surface); padding:2px 8px; border-radius:12px; display:inline-block;">${sign}${item.velocity.toLocaleString()}/wk</span>`);
 
   // 설명부: EN 모드에서는 영문 원본(descEn)을 우선 노출, KO 모드에서는 한국어(descKo) 우선 노출
   const useKoBox = lang === "en" ? (!descEn && !!descKo) : !!descKo;
@@ -2688,7 +2527,7 @@ function starboardCardHTML(item, idx, legendText) {
             <span class="repo-id" style="font-size: 13px;">${escapeHTML(ownerName)} /</span>
             ${langTag}
           </div>
-          <h3 style="margin:2px 0 0; font-size: 18px; word-break:break-all; line-height:1.3;">${escapeHTML(repoName)}</h3>
+          <h3 style="margin:2px 0 0; font-size: 18px; word-break:break-all; line-height:1.3;" title="${escapeHTML(item.id)}">${escapeHTML(repoName)}</h3>
         </div>
       </div>
       
@@ -3079,11 +2918,11 @@ function renderBenchmarks() {
     return n >= 1000 ? `${+(n / 1000).toFixed(1)}M` : `${n}K`;
   };
   const chg = v => {
-    if (v == null) return `<span class="bm-chg flat">—</span>`;
-    const cls = v > 0 ? "up" : v < 0 ? "down" : "flat";
-    const arrow = v > 0 ? "▲" : v < 0 ? "▼" : "–";
-    const word = v > 0 ? (isEn ? "increase" : "상승") : v < 0 ? (isEn ? "decrease" : "하락") : (isEn ? "no change" : "변화 없음");
-    return `<span class="bm-chg ${cls}" aria-label="${isEn ? `vs last month ${word} ${Math.abs(v).toFixed(1)}%p` : `전월 대비 ${word} ${Math.abs(v).toFixed(1)}%p`}">${arrow} ${Math.abs(v).toFixed(1)}p</span>`;
+    if (v == null || Math.abs(v) < 0.001) return `<span class="bm-chg flat" aria-label="${isEn ? "no change" : "변화 없음"}">—</span>`;
+    const cls = v > 0 ? "up" : "down";
+    const arrow = v > 0 ? "▲" : "▼";
+    const word = v > 0 ? (isEn ? "increase" : "상승") : (isEn ? "decrease" : "하락");
+    return `<span class="bm-chg ${cls}" aria-label="${isEn ? `vs last month ${word} ${Math.abs(v).toFixed(1)}%p` : `전월 대비 ${word} ${Math.abs(v).toFixed(1)}%p`}">${arrow} ${Math.abs(v).toFixed(1)}%p</span>`;
   };
   const blended = m => (3 * (m.pricing_in_1m ?? 1) + (m.pricing_out_1m ?? 1)) / 4;
 
