@@ -924,6 +924,46 @@ module.exports = {
     ],
     use_case: "Claude Code에서 실제 사이트의 트래픽·순위 데이터를 바탕으로 정밀한 검색 최적화 전략을 수립할 때",
     tags: ["seo-mcp", "geo-optimization", "google-search-console", "analytics", "claude-code"]
+  },
+  "KKKKhazix/agent-autoloop": {
+    category: "agent",
+    title_ko: "agent-autoloop — 터미널 에이전트가 백그라운드에서 작업을 자율 완결하는 워크플로우 러너",
+    catchphrase: "평소에는 묵묵히 백그라운드 작업을 완결하고 결정이 필요할 때만 대화형 카드로 확인을 요청하는 자율 에이전트",
+    summary_ko: "Claude Code 및 Codex 등 CLI 기반 코딩 에이전트를 백그라운드 데몬으로 상시 구동하여 작업을 스스로 수주하고 끝까지 완결하도록 돕는 자동화 툴킷입니다. 불필요하게 사용자를 방해하지 않으며, 오직 권한 승인이나 모호한 의사결정이 필요할 때만 인터랙티브 카드 알림을 띄워 승인을 받습니다. 이벤트 기반 파이프라인과 셀프 호스팅 환경을 지원합니다.",
+    key_features: [
+      "터미널 에이전트의 백그라운드 자율 작업 루프 및 라이프사이클 관리",
+      "의사결정 및 권한 승인 필요 시에만 트리거되는 대화형 카드 알림",
+      "Claude Code·Codex 및 TypeScript/Node.js 환경 완벽 호환"
+    ],
+    use_case: "장시간 걸리는 코드베이스 리팩토링이나 빌드 모니터링 작업을 에이전트에게 맡기고 집중하고 싶을 때",
+    tags: ["ai-agents", "autonomous-loop", "claude-code", "cli-workflow", "background-agent"]
+  },
+  "elvarofficial/teardown": {
+    category: "skill",
+    title_ko: "teardown — 물리 기계나 장치를 브라우저에서 분해·조립 가능한 3D 시뮬레이터로 변환하는 스킬",
+    catchphrase: "코드와 설계 설명만으로 임의의 기계를 직접 부품 단위로 분해하고 탐색하는 인터랙티브 3D 뷰어 생성",
+    summary_ko: "Claude Code를 통해 복잡한 기계 장치나 하드웨어 구조를 사용자가 마우스로 직접 분해하고 조작할 수 있는 3D 인터랙티브 시뮬레이터로 자동 변환해주는 스킬입니다. WebGL/Three.js 기반으로 부품 간의 결합 관계와 동작 메커니즘을 3차원으로 시각화합니다. 엔지니어링 학습, 하드웨어 분해 분석, 인터랙티브 제품 설명서 제작에 강력한 직관을 제공합니다.",
+    key_features: [
+      "임의의 기계 장치 사양을 인터랙티브 3D 분해 시뮬레이터로 즉시 렌더링",
+      "WebGL 및 Three.js 기반의 부품별 결합 구조 및 기구학적 시각화",
+      "Claude Code 명령 한 줄로 시뮬레이션 환경 생성 및 브라우저 프리뷰"
+    ],
+    use_case: "복잡한 하드웨어나 기계의 내부 구조를 3D로 직접 분해하며 원리를 이해하고 공유하고 싶을 때",
+    tags: ["3d-simulator", "teardown", "claude-skills", "threejs", "webgl"]
+  },
+  "alexgaoth/awesome-reverse-engineered": {
+    category: "mcp",
+    title_ko: "awesome-reverse-engineered — 17,000+ 오픈소스 역공학 도구를 검색·호출하는 MCP 서버 겸 에이전트 스킬",
+    catchphrase: "비공개 앱, 폐쇄형 API, 하드웨어 프로토콜을 분석한 17,000개 이상의 리버스 엔지니어링 도구 통합 색인",
+    summary_ko: "상용 비공개 앱, 폐쇄형 클라우드 API, IoT 기기, 독자 파일 포맷, 게임 프로토콜을 역공학하여 공개된 17,000개 이상의 오픈소스 도구와 라이브러리를 통합 색인화한 지식 베이스입니다. 매일 밤 자동으로 최신화되며, Claude Code 에이전트 스킬 및 MCP 서버로 제공되어 폐쇄형 인터페이스를 분석할 때 기존의 역공학 결과물을 즉시 검색하고 호출할 수 있습니다. 이미 다른 개발자가 풀어놓은 프로토콜을 중복 분석하는 낭비를 방지합니다.",
+    key_features: [
+      "17,000개 이상의 역공학 오픈소스 도구 및 프로토콜 규격 매일 밤 자동 색인",
+      "Claude Code 에이전트 스킬 및 MCP 서버를 통한 즉각적인 CLI/자연어 질의",
+      "비공개 API·바이너리 포맷·IoT 제어 프로토콜에 대한 중복 분석 비용 제거"
+    ],
+    use_case: "비공개 API나 상용 프로토콜을 연동해야 할 때 이미 검증된 오픈소스 역공학 코드를 즉시 찾고 싶을 때",
+    tags: ["reverse-engineering", "mcp-server", "claude-skills", "unofficial-api", "decompilation"]
   }
 };
+
 
