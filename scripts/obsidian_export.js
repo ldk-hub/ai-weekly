@@ -343,6 +343,12 @@ author: ldk-hub <orm6711@gmail.com>
 ### 1. 스타보드 갱신 (cc-star)
 - **추적 대상 및 성공률**: 총 610개 오픈소스 타겟 리포지토리 전수 추적 완료 (\`Success: 610 (100%)\`, 404 Gone: 48, Renames: 0, Suspects: 0).
 - **데이터 저장**: \`data/stars/stars_meta.json\` 및 \`data/stars/stars_ledger.json\` 원자적 갱신 및 프론트엔드(\`site/public/data/\`) 미러링 완료.
+- **주요 스타 급상승 Top 5**:
+  1. \`morluto/rea\`: 430,812★ (+3,393 / 일, +33,549 / 7일) — 역공학 자율 조사 에이전트
+  2. \`mattpocock/skills\`: 313,281★ (+1,706 / 일, +8,416 / 7일) — TypeScript & Claude Code 스킬셋
+  3. \`D4Vinci/Scrapling\`: 96,499★ (+1,495 / 일, +6,446 / 7일) — 차단 우회 적응형 웹 스크래퍼
+  4. \`Nutlope/hallmark\`: 47,904★ (+841 / 일, +8,954 / 7일) — 엔터프라이즈 AI 컴포넌트 툴킷
+  5. \`stablyai/orca\`: 115,445★ (+822 / 일, +7,407 / 7일) — 수십 개 병렬 에이전트 오케스트레이터 ADE
 
 ### 2. Claude Code 트렌드 갱신 (cc-trends)
 - **광역 수집 및 설치 진입점 보안 스캔**:
@@ -350,27 +356,36 @@ author: ldk-hub <orm6711@gmail.com>
   - \`scan-install-entry.js\` 정적 보안 스캔 62건 전수 실행 결과 악성 드로퍼, C2 하드코딩 IP, 원격 Drop & Exec 위반 0건 (100% 무결 통과).
 - **한국어 정밀 큐레이션 및 정원제 선별**:
   - 신규 핫 리포지토리 3건(\`KKKKhazix/agent-autoloop\`, \`elvarofficial/teardown\`, \`alexgaoth/awesome-reverse-engineered\`)에 대해 \`curated-knowledge-ext.js\` 정밀 사전 등록 완료.
-  - Rising 20건, Classic 13건 총 33건 정원제 선별.
+  - Rising 20건 (skill 8, agent 4, mcp 6, harness 2), Classic 13건 (skill 5, agent 3, harness 2, mcp 3) 총 33건 정원제 선별.
+  - 주요 신규 진입(NEW): \`nateherkai/roast-room\` (1위, 1,872★), \`stablyai/orca\` (4위, 115,445★), \`elvarofficial/teardown\` (8위, 1,907★), \`alexgaoth/awesome-reverse-engineered\` (13위, 1,219★).
   - 품질 게이트(\`curate.js --validate\`) 100% 통과 (제네릭 폴백 및 미번역 제로).
-- **아카이브 빌드**: \`build-archive-index.js\` 실행을 통해 총 38개 아카이브 엔트리 최신화 완료.
+- **아카이브 빌드**: \`build-archive-index.js\` 개선을 통해 루트 \`data/archive/\`와 \`site/public/data/archive/\` 양쪽 인덱스 동시 갱신 (총 38개 아카이브 엔트리 최신화 완료).
 
 ### 3. AI 점유율 및 프론티어 성능 파이프라인 (cc-benchmarks)
 - **주간 정기 실행 검증**: \`npm run data:benchmarks\`를 주간 종합 파이프라인 Step 3로 동시 수행하여 최신 지표 갱신 및 검증 완료.
 - **OpenRouter 모델 가격/메타 동기화**: API를 통해 454개 모델 정보를 수신하고 최신 프론티어 플래그십 가격 및 컨텍스트 윈도우 동기화 완료.
-- **최신성 게이트(Staleness Gate)**: 실행일(2026-11-05) 기준 점유율 3대 출처(Similarweb, Trakkr AI Index, OpenRouter Rankings) 및 성능 4대 출처(LMArena, AA, LiveBench, OpenRouter API) 등 7개 출처의 기준일(as_of) 경과일수(최대 허용 45일/30일 이내) 전수 통과.
-- **다중 출처 앙상블 평균**: 점유율 6대 챗봇 서비스 3곳 산술 평균 합계 100.00% 정합성 검증 완료.
-- **구버전 모델 배제 및 3대 리더보드 필수 수록**: LMArena(Elo/Coding), AA(지능 지수), LiveBench(오염방지) 지표 전수 수록 및 구버전 모델 원천 차단 확인.
+- **최신성 게이트(Staleness Gate)**: 실행일(2026-11-05) 기준 7개 출처 기준일 경과일수 전수 통과 (웹 방문 Similarweb 35일 전, 리퍼럴 Trakkr 5일 전, API OpenRouter 12일 전, LMArena 15일 전, AA 13일 전, LiveBench 16일 전 등 모두 허용 기준 충족).
+- **다중 출처 앙상블 평균**:
+  - 1위 ChatGPT: 54.07% (Similarweb 54.5%, Trakkr 79.2%, OpenRouter 28.5%)
+  - 2위 Claude: 19.53% (Similarweb 9.8%, Trakkr 16.6%, OpenRouter 32.2%)
+  - 3위 Gemini: 17.10% (Similarweb 26.5%, Trakkr 2.8%, OpenRouter 22.0%)
+  - 6대 챗봇 3곳 산술 평균 합계 100.00% 정합성 검증 완료.
+- **프론티어 코딩/선호도 1~3위**:
+  - 1위 Gemini 4 Argon: 코딩 종합 92.6 (Arena Coding Elo 1559, AA 코딩 91.8, LiveBench 코딩 89.2)
+  - 2위 Claude Opus 5.5: 코딩 종합 92.4 (Arena Coding Elo 1548, AA 코딩 92.5, LiveBench 코딩 90.1)
+  - 3위 Muse Wonder: 코딩 종합 90.9 (Arena Coding Elo 1550, AA 코딩 89.7, LiveBench 코딩 87.5)
 
 ### 4. 데일리 AI 기술 신호 큐레이션 (cc-news)
 - **8대 매체 수집**: 최근 24시간 동안 발생한 신호 120건 수집 (\`.tmp/news_candidates.json\`). (GeekNews 5, AI타임스 5, Hacker News 15, GitHub 50, Reddit 23, HF Papers 12, Bluesky 10 / 결측: X [부계정 쿠키 미설정]).
 - **15건 전 매체 균형 큐레이션**:
   - GeekNews 3건, AI타임스 2건, Hacker News 2건, Reddit 2건, HF Papers 2건, Bluesky 2건, GitHub 2건 등 7개 활성 플랫폼 균형 선별.
   - 6대 기술 신호축 균형 분포: \`model\` 2, \`product\` 2, \`devtool\` 1, \`oss\` 3, \`research\` 3, \`practice\` 3, \`policy\` 1 (축당 최대 4건 규칙 엄수).
+  - 중복 차단: 최근 7일 3건 차단, 1건 업데이트 후보 선별.
 - **품질 게이트 검증**: \`curate_news.js --validate\` 100% 통과 (3불릿 규격 \`• **키워드**: 설명\`, 본문 5~10문장 엄수, 환각/스크랩 제로).
 
 ### 5. 사이트 배포 리소스 및 라운지 갱신
-- **RSS & Sitemap**: \`generate-rss.js\` 실행을 통해 \`feed.xml\`, \`news-feed.xml\`, \`sitemap.xml\` 생성 완료.
 - **AI 라운지**: \`collect_lounge.js\` 실행을 통해 Discussions 최신 스냅샷 동기화 (\`lounge_latest.json\`).
+- **RSS & Sitemap**: \`generate-rss.js\` 실행을 통해 \`feed.xml\`, \`news-feed.xml\`, \`sitemap.xml\` 생성 완료 (5개 전 페이지 lastmod \`2026-11-05\` 동기화 완료).
 - **오픈그래프(OG)**: \`generate-og.js\` 실행을 통해 소셜 공유용 \`og.svg\` 및 \`og.png\` 생성 완료.
 
 ### 6. 옵시디언 볼트 동기화 (sync:obsidian)
