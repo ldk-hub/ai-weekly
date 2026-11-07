@@ -23,11 +23,13 @@
 
 ## 2. 코드 작성 및 안전 운영 수칙
 
-1. **근거 기반 작성 (Evidence-Based)**:
+1. **브라우저 전면 에고라이트(ego-lite / ego-browser) 전용 수행 원칙**:
+   - 웹 페이지 탐색, 채용공고 크롤링, 웹 데이터 추출, 폼 작성 등 모든 브라우저 관련 작업은 반드시 에고라이트(ego-browser, ego-lite)를 사용하여 수행합니다.
+2. **근거 기반 작성 (Evidence-Based)**:
    - 라이브러리 기능이나 설정값 제안 시 Context7 MCP 등 공식 문서 조회를 우선하여 버전 호환성(Spring Boot 3.x, Java 17+, Hibernate 6+)을 검증합니다.
-2. **수술적 변경 (Surgical Changes)**:
+3. **수술적 변경 (Surgical Changes)**:
    - 요청된 범위를 벗어난 과도한 추상화나 불필요한 인접 코드 리팩토링을 지양합니다.
-3. **안전 가드(Safety Guard) 존중**:
+4. **안전 가드(Safety Guard) 존중**:
    - `.agents/hooks.json` 및 `safety_guard.py`에 의해 보호되는 파괴적 명령(`DROP`, `TRUNCATE`, `DELETE` WHERE 누락, `git push --force`, 6시간 초과 프로메테우스 쿼리)은 자동 실행이 원천 차단되며, 반드시 사전에 대상 범위와 영향도를 분석해 사용자 승인을 받아야 합니다.
 
 ---

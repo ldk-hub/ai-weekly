@@ -1,0 +1,489 @@
+{
+  "version": "1.0",
+  "generated_at": "2026-11-07T02:44:09.191Z",
+  "summary": "🔥 오늘의 핵심 이슈: #에이전트오케스트레이션 #비용최적화 #온디바이스AI #로봇액션모델 — 에이전트 자율 협업 스케일링과 온디바이스 GUI 제어가 현실화되는 가운데, 대규모 추론 비용을 98%까지 절감하는 실무 아키텍처와 피지컬 AI를 위한 공간 액션 모델 연구가 동시 가속화되고 있습니다.",
+  "curated_by": "ldk-hub",
+  "news": [
+    {
+      "id": "geeknews_33f5a66674",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "signal_id": "devtool",
+      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
+      "importance": 88,
+      "headline": "Rune: GPU 가속 기반 멀티플랫폼 Rust UI 프레임워크 공개",
+      "title_ko": "Rune: GPU 가속 기반 멀티플랫폼 Rust UI 프레임워크 공개",
+      "summary_ko": "• **네이티브 렌더링**: macOS, Windows, Linux 및 웹 전반에서 일관된 렌더링 파이프라인을 GPU 하드웨어 가속으로 직접 구동합니다.\n• **Rust 생태계 확장**: 웹뷰 래퍼나 무거운 런타임 오버헤드 없이 순수 Rust 기반 저지연 그래픽스 인터페이스를 실현했습니다.\n• **차세대 UI 기반**: 고성능 개발자 도구와 크리에이티브 애플리케이션 구축에 최적화된 최신 렌더링 아키텍처를 제공합니다.",
+      "body_ko": "Rune 프로젝트는 웹뷰 기반 크로스 플랫폼 툴킷의 성능 한계를 극복하기 위해 탄생한 차세대 Rust UI 프레임워크입니다. 운영체제별로 파편화된 네이티브 렌더링 백엔드를 통합하고 GPU 셰이더 파이프라인을 직접 제어하여 높은 프레임 레이트를 보장합니다. 데스크톱 플랫폼뿐 아니라 웹 어셈블리(Wasm) 대상 빌드도 동일한 코드베이스로 지원합니다. 기존의 일렉트론 기반 앱에서 흔히 나타나던 과도한 메모리 점유와 렌더링 지연 문제를 획기적으로 개선할 수 있습니다. 시스템 엔지니어링 도구나 실시간 데이터 시각화 인터페이스를 제작할 때 강력한 대안으로 주목받고 있습니다.",
+      "author_profile": "neo",
+      "publish_date": "2026-11-07T01:38:06.000Z",
+      "tags": [
+        "Rust",
+        "GPU렌더링",
+        "크로스플랫폼",
+        "UI프레임워크"
+      ],
+      "url": "https://news.hada.io/topic?id=36735",
+      "sources": [
+        "GeekNews"
+      ],
+      "metrics": {},
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "geeknews_624a9ef902",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "signal_id": "practice",
+      "signal_name": "AI 활용 사례·워크플로우 팁",
+      "importance": 93,
+      "headline": "도어대시, 검색 정확도 유지하며 LLM 인퍼런스 비용 98% 절감한 엔지니어링 사례",
+      "title_ko": "도어대시, 검색 정확도 유지하며 LLM 인퍼런스 비용 98% 절감한 엔지니어링 사례",
+      "summary_ko": "• **비용 구조 혁신**: 대규모 실시간 음식 및 상점 검색 쿼리에서 발생하는 LLM 추론 비용을 98% 축소했습니다.\n• **계층형 라우팅**: 규칙 기반 캐싱과 경량 임베딩 모델, 고성능 파운데이션 모델을 결합한 다단계 필터링 파이프라인을 구축했습니다.\n• **프로덕션 확장성**: 쿼리 지연 시간을 현저히 낮추면서도 사용자 검색 의도 매칭 정확도를 기존 고비용 모델 수준으로 보존했습니다.",
+      "body_ko": "도어대시(DoorDash) 엔지니어링 팀이 프로덕션 환경의 LLM 검색 시스템에서 발생하는 막대한 비용을 극적으로 절감한 기술 아키텍처를 공유했습니다. 매일 유입되는 수천만 건의 검색 쿼리를 모두 초대형 언어 모델로 직행시키지 않고 정밀한 다단계 계층 구조로 분기했습니다. 먼저 임베딩 유사도와 도메인 규칙 기반 캐시를 통해 반복 질의를 1차 차단하고 경량 모델로 의도를 2차 정제했습니다. 최종 검증이 반드시 필요한 소수의 모호한 롱테일 쿼리에만 고성능 LLM을 호출하도록 최적화했습니다. 그 결과 정확도 저하 없이 전체 인퍼런스 인프라 비용을 기존 대비 98% 줄이는 데 성공했습니다. 대규모 상용 서비스를 운영하는 AI 백엔드 엔지니어들에게 현실적인 비용 최적화 청사진을 제시합니다.",
+      "author_profile": "neo",
+      "publish_date": "2026-11-07T00:40:02.000Z",
+      "tags": [
+        "비용절감",
+        "LLM서치",
+        "도어대시",
+        "아키텍처"
+      ],
+      "url": "https://news.hada.io/topic?id=36733",
+      "sources": [
+        "GeekNews"
+      ],
+      "metrics": {},
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "geeknews_288f9ffd46",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "signal_id": "practice",
+      "signal_name": "AI 활용 사례·워크플로우 팁",
+      "importance": 86,
+      "headline": "AI 가속이 가져온 AI 연구 패러다임의 급격한 전환",
+      "title_ko": "AI 가속이 가져온 AI 연구 패러다임의 급격한 전환",
+      "summary_ko": "• **연구 자동화 가속**: 문헌 검토부터 가설 수립, 실험 코드 작성 및 결과 분석에 이르는 전 주기에 AI가 도입되고 있습니다.\n• **실험 주기 단축**: 반복적인 하이퍼파라미터 튜닝과 아키텍처 탐색 주기가 수주일에서 수시간 단위로 압축되었습니다.\n• **품질 검증 과제**: 산출되는 논문과 실험 데이터 양이 폭증함에 따라 환각 및 재현성 검증 체계 구축이 필수로 대두되었습니다.",
+      "body_ko": "최신 AI 모델들이 인공지능 연구 자체의 속도를 유례없이 가속하고 있는 현상에 대한 심층 분석이 공개되었습니다. 연구자들은 논문 분석과 가설 검증용 프로토타입 작성에 AI 코딩 에이전트를 전면 배치하여 연구 생산성을 끌어올리고 있습니다. 실험 로그 해석과 디버깅 과정에서도 모델의 자체 반성 루프가 결합되어 연구 사이클이 비약적으로 단축되었습니다. 다만 이러한 속도전 이면에는 쏟아지는 자동 생성 코드와 논문의 진위 및 재현성을 체계적으로 검증해야 하는 새로운 병목이 발생하고 있습니다. 단순한 속도 향상을 넘어 신뢰할 수 있는 피어 리뷰 자동화와 벤치마크 정밀화가 핵심 화두로 떠오르고 있습니다.",
+      "author_profile": "neo",
+      "publish_date": "2026-11-07T00:34:28.000Z",
+      "tags": [
+        "AI연구",
+        "연구가속",
+        "연구방법론",
+        "자동화"
+      ],
+      "url": "https://news.hada.io/topic?id=36732",
+      "sources": [
+        "GeekNews"
+      ],
+      "metrics": {},
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "aitimes_87a6cb3351",
+      "category_id": "aitimes",
+      "category_name": "AI타임스",
+      "signal_id": "policy",
+      "signal_name": "정책·규제·인프라 (기술 영향 큰 것만)",
+      "importance": 85,
+      "headline": "유럽 16개국 시민단체, AI 데이터센터 전력 소비 반대 공동 시위 전개",
+      "title_ko": "유럽 16개국 시민단체, AI 데이터센터 전력 소비 반대 공동 시위 전개",
+      "summary_ko": "• **유럽 전역 연대**: 유럽 16개국 환경 및 시민단체가 마이크로소프트 데이터센터 건설 현장에 진입해 대규모 반대 행동을 개시했습니다.\n• **자원 고갈 우려**: AI 모델 학습 및 서빙을 위한 데이터센터의 막대한 전력 소비와 수자원 냉각 수요가 지역 인프라를 위협한다는 지적입니다.\n• **규제 리스크 고조**: 친환경 전력망 확보와 재생에너지 전환 의무화 등 글로벌 테크 기업을 겨냥한 입법 압박이 거세지고 있습니다.",
+      "body_ko": "유럽 16개국의 환경 단체들이 마이크로소프트 등 빅테크의 AI 데이터센터 신축 부지를 겨냥해 조직적인 반대 행동에 돌입했습니다. 생성형 AI 수요 급증에 대응하기 위해 기하급수적으로 늘어나는 초대형 컴퓨팅 센터가 지역 사회의 전력망과 상수도 인프라에 심각한 과부하를 초래한다는 비판입니다. 최근 미국 중간선거에서도 데이터센터 규제 성향의 후보들이 지지를 얻은 데 이어 유럽에서도 사회적 갈등이 본격화되는 양상입니다. 테크 기업들은 원자력 발전 계약과 지열 에너지 도입 등 탄소 배출 없는 청정 에너지 조달 계획을 잇따라 발표하고 있습니다. 하지만 전력 공급망 한계와 인허가 지연이 향후 AI 클라우드 확장 속도를 제한할 핵심 규제 변수로 떠올랐습니다.",
+      "author_profile": "임대준 기자",
+      "publish_date": "2026-11-07T01:57:42.000Z",
+      "tags": [
+        "데이터센터",
+        "전력인프라",
+        "유럽규제",
+        "ESG"
+      ],
+      "url": "https://www.aitimes.com/news/articleView.html?idxno=217126",
+      "sources": [
+        "AI타임스"
+      ],
+      "metrics": {},
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "aitimes_baa976aae7",
+      "category_id": "aitimes",
+      "category_name": "AI타임스",
+      "signal_id": "product",
+      "signal_name": "제품 신기능",
+      "importance": 87,
+      "headline": "TSMC, 엔비디아 요청 따라 차세대 3D D램 패키징 생산 검토 착수",
+      "title_ko": "TSMC, 엔비디아 요청 따라 차세대 3D D램 패키징 생산 검토 착수",
+      "summary_ko": "• **차세대 메모리 진출**: TSMC가 엔비디아의 강력한 요청에 따라 기존 파운드리를 넘어 3D 적층 D램 생산을 다각도로 검토하고 있습니다.\n• **대역폭 병목 해소**: GPU와 메모리 다이를 수직으로 결합하여 AI 연산의 최대 난제인 메모리 벽(Memory Wall)을 허물겠다는 전략입니다.\n• **반도체 지형 변화**: 삼성전자, SK하이닉스, 마이크론이 주도해 온 메모리 시장과 첨단 패키징 생태계 간의 새로운 경쟁과 협력이 예상됩니다.",
+      "body_ko": "세계 최대 파운드리 업체인 대만 TSMC가 엔비디아의 차세대 가속기 요구 조건에 맞춰 3D D램 제조 가능성을 타진하고 있습니다. 고대역폭 메모리(HBM) 적층 기술이 고도화되는 가운데, 로직 반도체와 메모리를 단일 3D 패키징으로 직접 묶는 기술적 도약이 추진되고 있습니다. 엔비디아는 차세대 AI 가속기의 추론 및 학습 성능을 극대화하기 위해 메모리 지연 시간을 제로에 가깝게 줄이는 아키텍처를 모색 중입니다. 이에 따라 전통적인 파운드리 영역과 메모리 반도체 영역 간의 기술적 경계가 빠르게 허물어지고 있습니다. 한국의 주요 메모리 공급사들과의 주도권 경쟁이 첨단 어드밴스드 패키징 분야로 확전될 전망입니다.",
+      "author_profile": "임대준 기자",
+      "publish_date": "2026-11-07T01:19:37.000Z",
+      "tags": [
+        "TSMC",
+        "엔비디아",
+        "3D DRAM",
+        "반도체"
+      ],
+      "url": "https://www.aitimes.com/news/articleView.html?idxno=217123",
+      "sources": [
+        "AI타임스"
+      ],
+      "metrics": {},
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hackernews_8876a6c596",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "signal_id": "practice",
+      "signal_name": "AI 활용 사례·워크플로우 팁",
+      "importance": 91,
+      "headline": "경량 결정 모델과 Opus 하이브리드 결합으로 4배 낮은 비용에 고정밀도 달성",
+      "title_ko": "경량 결정 모델과 Opus 하이브리드 결합으로 4배 낮은 비용에 고정밀도 달성",
+      "summary_ko": "• **지능형 에스컬레이션**: 소형 특화 의사결정 모델(Jev/Luna)이 1차 처리하고 난제 판별 시에만 Opus를 호출하는 하이브리드 파이프라인을 구축했습니다.\n• **비용·지연시간 혁신**: 엔드투엔드 파이프라인 전체 비용을 4배 절감하고 평균 응답 지연 시간을 대폭 단축했습니다.\n• **신원 확인 문제 해결**: 데이터 정합성 검증 및 신원 확인(Identity Resolution) 같은 고난도 결정 과제에서 단독 플래그십 수준 정확도를 입증했습니다.",
+      "body_ko": "하이타치(Hightouch) 데이터 엔지니어링 팀이 복잡한 엔티티 매칭 과제에서 경량 모델과 최상위 모델을 결합한 하이브리드 라우팅 벤치마크를 공개했습니다. 모든 데이터 검증 작업에 고비용의 Claude Opus를 단독 호출하는 대신 특화된 경량 모델이 1차 판정을 내리도록 설계했습니다. 경량 모델이 신뢰도 임계값을 넘지 못하는 애매한 케이스에 한해서만 Opus에 협업 질의를 전송하는 에스컬레이션 구조를 취했습니다. 이 방식은 단독 Opus 모델을 전면 적용했을 때와 대등한 99% 수준의 정확도를 유지하면서도 전체 운영 비용을 4배 줄였습니다. 실시간 배치 처리가 중요한 B2B 데이터 파이프라인에서 최신 LLM을 경제적으로 도입할 수 있는 모범 사례로 평가받습니다.",
+      "author_profile": "@theanomaly",
+      "publish_date": "2026-11-06T19:48:51.000Z",
+      "tags": [
+        "하이브리드LLM",
+        "모델라우팅",
+        "비용최적화",
+        "데이터엔지니어링"
+      ],
+      "url": "https://hightouch.com/blog/llm-judges-identity-resolution",
+      "sources": [
+        "Hacker News"
+      ],
+      "metrics": {
+        "points": 352,
+        "comments": 78,
+        "discussion_url": "https://news.ycombinator.com/item?id=50397429"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hackernews_7e554d5333",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "signal_id": "oss",
+      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
+      "importance": 84,
+      "headline": "LDraw Nova: 문서와 스펙으로부터 레고 CAD 메커니즘을 추론·시뮬레이션하는 AI 도구",
+      "title_ko": "LDraw Nova: 문서와 스펙으로부터 레고 CAD 메커니즘을 추론·시뮬레이션하는 AI 도구",
+      "summary_ko": "• **기구학적 코드 생성**: 자연어 설명이나 부품 명세로부터 레고 표준 LDraw 소스 코드를 생성하고 기구학적 맞물림을 시뮬레이션합니다.\n• **에이전트 조립 파이프라인**: 3D 조립 단계별 충돌 체크와 기어 회전 애니메이션을 에이전트가 자동 생성하여 렌더링합니다.\n• **오픈소스 CAD 혁신**: 물리적 메커니즘을 디지털 코드로 역설계하고 검증하는 새로운 엔지니어링 자동화 가능성을 제시했습니다.",
+      "body_ko": "레고 CAD 모델링을 자동화하는 오픈소스 에이전트 도구셋 LDraw Nova의 0.5.0 버전이 해커뉴스에 공개되어 기술적 관심을 모았습니다. 복잡한 기계 메커니즘과 기어 트레인의 물리적 상호작용을 파악하여 표준 LDraw 포맷으로 단계별 부품 배치를 조립합니다. 사용자가 기능적 요구사항을 제시하면 부품 라이브러리를 검색하고 회전 축과 관절의 자유도를 계산해 유효한 모델을 구성합니다. 단순히 외형을 생성하는 것을 넘어 실제 회전 및 맞물림 동작을 브라우저 상에서 인터랙티브하게 애니메이션으로 검증할 수 있습니다. 피지컬 컴퓨팅과 디지털 트윈을 결합하는 실험적인 오픈소스 CAD 프로젝트로 평가됩니다.",
+      "author_profile": "@antelocnova",
+      "publish_date": "2026-11-06T19:41:20.000Z",
+      "tags": [
+        "LDraw",
+        "CAD",
+        "시뮬레이션",
+        "오픈소스"
+      ],
+      "url": "https://github.com/anteloc/ldraw-mecha/tree/v0.5.0",
+      "sources": [
+        "Hacker News"
+      ],
+      "metrics": {
+        "points": 25,
+        "comments": 1,
+        "discussion_url": "https://news.ycombinator.com/item?id=50397325"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hackernews_4879ec09cd",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "signal_id": "research",
+      "signal_name": "연구·논문·새 기법",
+      "importance": 89,
+      "headline": "Memorilla: 대규모 언어 모델을 위한 잠재 의미론적 장기 메모리 아키텍처",
+      "title_ko": "Memorilla: 대규모 언어 모델을 위한 잠재 의미론적 장기 메모리 아키텍처",
+      "summary_ko": "• **잠재 공간 압축**: 텍스트 토큰을 평면적으로 저장하는 대신 의미론적 잠재 벡터 공간에서 지속적으로 압축·갱신하는 메모리를 제안했습니다.\n• **컨텍스트 한계 돌파**: 대화가 수만 턴 이상 길어져도 핵심 지식과 사용자 맥락을 유실 없이 보존하며 검색 지연 시간을 일정하게 유지합니다.\n• **연상 검색 최적화**: 단순 키워드나 벡터 유사도 검색의 한계를 넘어 지식 간의 잠재적 관계를 추론하는 연상 메커니즘을 구현했습니다.",
+      "body_ko": "arXiv에 최신 개정판으로 등재된 논문 Memorilla는 LLM 에이전트의 영구 메모리 한계를 극복하기 위한 새로운 잠재 공간 아키텍처를 소개했습니다. 기존의 RAG 기반 외부 메모리는 텍스트 조각을 단순 인덱싱하므로 대화 맥락이 누적될수록 의미 파편화와 검색 왜곡이 심화되는 문제가 있었습니다. Memorilla는 새로운 정보가 유입될 때마다 잠재 표현(Latent Representation) 상에서 기존 기억과 상호작용하며 상태를 점진적으로 업데이트합니다. 이를 통해 긴 상호작용 세션 속에서도 모델이 사용자의 과거 결정과 암묵적 선호도를 일관되게 기억할 수 있도록 지원합니다. 장기 실행형 개인 비서와 자율 에이전트의 인지 아키텍처 발전에 중요한 기여를 할 것으로 기대됩니다.",
+      "author_profile": "@handfuloflight",
+      "publish_date": "2026-11-06T18:03:33.000Z",
+      "tags": [
+        "잠재메모리",
+        "LLM메모리",
+        "장기기억",
+        "AI논문"
+      ],
+      "url": "https://arxiv.org/abs/2610.21375",
+      "sources": [
+        "Hacker News"
+      ],
+      "metrics": {
+        "points": 88,
+        "comments": 7,
+        "discussion_url": "https://news.ycombinator.com/item?id=50395919"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "github_99c1bc27c1",
+      "category_id": "github",
+      "category_name": "GitHub",
+      "signal_id": "devtool",
+      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
+      "importance": 92,
+      "headline": "[업데이트] Mika: 스타 40% 급증(5.2K→7.4K), 안드로이드 온디바이스 GUI 에이전트 기능 고도화",
+      "title_ko": "[업데이트] Mika: 스타 40% 급증(5.2K→7.4K), 안드로이드 온디바이스 GUI 에이전트 기능 고도화",
+      "summary_ko": "• **스타 급성장**: 최근 배포 이후 스타 수가 5,291개에서 7,416개로 40.2% 급증하며 글로벌 오픈소스 관심이 집중되고 있습니다.\n• **로컬 엔진 최적화**: 스마트폰 온디바이스 VLM 모델의 지연 시간을 줄이고 Jetpack Compose 화면 파싱 안정성을 끌어올렸습니다.\n• **생태계 기여 확산**: 다양한 화면 해상도와 다국어 서드파티 앱을 원활히 지원하기 위한 커뮤니티 PR이 활발히 병합되고 있습니다.",
+      "body_ko": "지난 11월 3일 배포 이후 불과 4일 만에 깃허브 스타 5,291개에서 7,416개로 40.2% 폭발적 성장을 기록한 Mika 프로젝트가 주목받고 있습니다. 클라우드 API 호출 없이 스마트폰 로컬 프로세서만으로 네이티브 앱 화면을 조작하는 실용성이 개발자들의 폭넓은 지지를 얻었습니다. 이번 업데이트 기간 동안 개발진은 기기 발열과 배터리 소모를 줄이기 위해 로컬 추론 엔진의 양자화 파이프라인을 집중 개선했습니다. 안드로이드 접근성 노드 파싱 중 간헐적으로 발생하던 UI 트리 동기화 오류를 해결하여 앱 전환 시의 조작 성공률을 향상시켰습니다. 다양한 서드파티 앱 시나리오를 지원하기 위한 커뮤니티 단위의 인터랙션 템플릿 기여도 빠르게 늘고 있습니다. 온디바이스 AI 에이전트가 실험 단계를 넘어 실사용 유틸리티로 진화하고 있음을 증명하고 있습니다.",
+      "is_update": true,
+      "prev_published_date": "2026-11-03",
+      "prev_stars": 5291,
+      "star_growth_pct": 40.2,
+      "author_profile": "wangzan101",
+      "publish_date": "2026-11-06T13:53:48.000Z",
+      "tags": [
+        "Mika",
+        "온디바이스AI",
+        "안드로이드에이전트",
+        "GUI자동화"
+      ],
+      "url": "https://github.com/wangzan101/Mika",
+      "sources": [
+        "GitHub"
+      ],
+      "metrics": {
+        "stars": 7416,
+        "forks": 1707,
+        "created_at": "2026-10-29T14:34:07Z",
+        "pushed_at": "2026-11-06T13:53:48Z",
+        "repo": "wangzan101/Mika",
+        "stars_per_day": 872
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "github_dd5f1ec406",
+      "category_id": "github",
+      "category_name": "GitHub",
+      "signal_id": "oss",
+      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
+      "importance": 87,
+      "headline": "rea-video: 영상의 컷별 제작 기법과 AI 생성 여부를 정밀 역공학하는 분석 도구",
+      "title_ko": "rea-video: 영상의 컷별 제작 기법과 AI 생성 여부를 정밀 역공학하는 분석 도구",
+      "summary_ko": "• **샷 단위 정밀 분해**: 업로드된 영상의 모든 장면을 컷 단위로 자동 분할하고 실사 촬영, 3D 렌더링, AI 생성 여부를 식별합니다.\n• **제작 파이프라인 복원**: 자막 스타일, 전환 효과, 믹싱된 오디오 요소의 생성 방식을 분석하여 단계별 복제 레시피를 도출합니다.\n• **크리에이터 워크플로우**: 레퍼런스 영상의 프롬프트와 시각 연출 기법을 역추적하여 학습하고자 하는 창작자들에게 실질적 가이드를 제공합니다.",
+      "body_ko": "중국 개발자 JuneYaooo가 공개한 rea-video는 영상을 샷 단위로 해체하여 연출 기법과 생성 파이프라인을 역공학하는 오픈소스 도구입니다. 영상 내 각 프레임의 노이즈 패턴과 렌더링 아티팩트를 분석해 실제 카메라 촬영물인지 생성형 AI 모델의 산출물인지 판별합니다. 텍스트 오버레이와 컷 전환 타이밍, 오디오 트랙의 볼륨 엔벨로프까지 상세한 타임라인 메타데이터로 추출합니다. 분석된 데이터를 바탕으로 동일한 분위기와 구도의 영상을 재현할 수 있는 프롬프트와 편집 워크플로우를 자동으로 제안합니다. 영상 제작자와 AI 크리에이티브 디렉터 사이에서 강력한 레퍼런스 분석 도구로 빠르게 입소문을 타고 있습니다.",
+      "author_profile": "JuneYaooo",
+      "publish_date": "2026-11-07T01:49:08.000Z",
+      "tags": [
+        "영상역공학",
+        "비디오AI",
+        "크리에이티브도구",
+        "오픈소스"
+      ],
+      "url": "https://github.com/JuneYaooo/rea-video",
+      "sources": [
+        "GitHub"
+      ],
+      "metrics": {
+        "stars": 3094,
+        "forks": 432,
+        "created_at": "2026-10-29T16:15:01Z",
+        "pushed_at": "2026-11-07T01:49:08Z",
+        "repo": "JuneYaooo/rea-video",
+        "stars_per_day": 367
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "github_9b0ee1d5d2",
+      "category_id": "github",
+      "category_name": "GitHub",
+      "signal_id": "devtool",
+      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
+      "importance": 88,
+      "headline": "vork: AI 에이전트를 위한 고성능 헤드리스 3D 및 실시간 VFX 엔진",
+      "title_ko": "vork: AI 에이전트를 위한 고성능 헤드리스 3D 및 실시간 VFX 엔진",
+      "summary_ko": "• **헤드리스 렌더링**: GUI 창 없이 백그라운드 서버 프로세스에서 Vulkan 및 Metal GPU 가속 기반 3D 씬을 직접 연산합니다.\n• **에이전트 제어 인터페이스**: AI 코딩 에이전트가 코드로 카메라 궤적, 조명 설정, 물리 시뮬레이션을 미세 조율할 수 있는 API를 제공합니다.\n• **레이 트레이싱 지원**: 실시간 하드웨어 레이 트레이싱과 Slang 셰이더 언어를 채택하여 고품질 합성 데이터셋과 시각 효과를 대량 생산합니다.",
+      "body_ko": "voyager-so 팀이 연구 프리뷰로 공개한 vork는 자율 에이전트 환경에 특화된 헤드리스 3D 그래픽스 엔진입니다. 기존의 유니티나 언리얼 엔진 같은 무거운 에디터 환경 없이도 에이전트가 코드로 3D 장면을 생성하고 렌더링할 수 있도록 경량화되었습니다. Rust 기반의 견고한 메모리 관리와 최신 Vulkan 및 Apple Metal API를 통해 최상의 GPU 처리량을 구현했습니다. 고품질 비주얼 시뮬레이션을 생성하여 비전 모델 학습용 합성 데이터를 제작하거나 가상 세계를 조작하는 데 이상적입니다. 생성형 AI 에이전트가 텍스트를 넘어 3D 물리 공간을 직접 설계하고 시각화하는 핵심 인프라로 발전할 잠재력을 지녔습니다.",
+      "author_profile": "voyager-so",
+      "publish_date": "2026-11-07T02:18:44.000Z",
+      "tags": [
+        "vork",
+        "3D엔진",
+        "헤드리스렌더링",
+        "VFX"
+      ],
+      "url": "https://github.com/voyager-so/vork",
+      "sources": [
+        "GitHub"
+      ],
+      "metrics": {
+        "stars": 361,
+        "forks": 22,
+        "created_at": "2026-11-05T22:37:07Z",
+        "pushed_at": "2026-11-07T02:18:44Z",
+        "repo": "voyager-so/vork",
+        "stars_per_day": 309
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hfpapers_30a89bda7d",
+      "category_id": "hfpapers",
+      "category_name": "HF Daily Papers",
+      "signal_id": "model",
+      "signal_name": "새 모델·버전 출시·프리뷰·벤치마크",
+      "importance": 90,
+      "headline": "SLA: 연속 사전학습을 통한 공간-언어-행동 로봇 조작 파운데이션 모델 확장",
+      "title_ko": "SLA: 연속 사전학습을 통한 공간-언어-행동 로봇 조작 파운데이션 모델 확장",
+      "summary_ko": "• **공간 지능 융합**: 기존 2D 시각-언어-행동(VLA) 모델의 한계를 넘어 정밀한 3차원 공간 인지 능력을 대규모로 사전학습했습니다.\n• **연속 사전학습 기법**: 방대한 로봇 조작 데이터셋에서 기존 지식을 잊지 않는 연속 학습 전략을 적용해 일반화 성능을 향상시켰습니다.\n• **실물 로봇 검증**: 복잡한 물체 집기 및 장애물 회피 등 다단계 물리 조작 태스크에서 이전 최고 성능 대비 높은 성공률을 기록했습니다.",
+      "body_ko": "Hugging Face Daily Papers 상위에 오른 SLA 논문은 체화된 인공지능(Embodied AI)을 위한 공간-언어-행동 모델 확장 연구를 다룹니다. 기존 VLA 모델들은 2D 이미지 기반 의미 파악에는 능숙하지만 실제 로봇 팔 조작에 필수적인 3차원 깊이 및 공간 좌표 추정에 취약했습니다. 연구팀은 3D 공간 토큰과 언어 및 모터 액션 토큰을 통합 임베딩 공간에서 함께 학습하는 새로운 사전학습 프레임워크를 수립했습니다. 다양한 로봇 환경 데이터가 순차 유입되어도 파괴적 망각 없이 지식을 축적하는 정교한 연속 학습 스케줄을 도입했습니다. 그 결과 실제 물리 로봇 환경에서 복잡한 가변 물체 조작의 정밀도와 안정성을 대폭 끌어올렸습니다.",
+      "author_profile": "Wenxuan123",
+      "publish_date": "2026-11-06T00:00:00.000Z",
+      "tags": [
+        "로봇AI",
+        "VLA",
+        "공간지능",
+        "피지컬AI"
+      ],
+      "url": "https://huggingface.co/papers/2611.08373",
+      "sources": [
+        "HF Daily Papers"
+      ],
+      "metrics": {
+        "upvotes": 93,
+        "comments": 2,
+        "arxiv_id": "2611.08373",
+        "paper_published_at": "2026-11-05T00:00:00.000Z",
+        "github_repo": null
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hfpapers_dd8daf464a",
+      "category_id": "hfpapers",
+      "category_name": "HF Daily Papers",
+      "signal_id": "research",
+      "signal_name": "연구·논문·새 기법",
+      "importance": 86,
+      "headline": "TailSteer: 멀티턴 이미지 편집 과정의 의도 표류 현상을 방지하는 궤적 스티어링",
+      "title_ko": "TailSteer: 멀티턴 이미지 편집 과정의 의도 표류 현상을 방지하는 궤적 스티어링",
+      "summary_ko": "• **의도 표류 차단**: 여러 단계에 걸쳐 이미지를 반복 수정할 때 원본 배경과 캐릭터 정체성이 서서히 변질되는 문제를 해결했습니다.\n• **궤적 꼬리 제어**: 디퓨전 역과정의 마지막 샘플링 꼬리 구간에서 원본의 핵심 불변 특징을 동적으로 고정하는 스티어링 기법을 제안했습니다.\n• **무학습 범용성**: 모델의 추가 파인튜닝 없이도 기존의 다양한 확산 모델에 플러그인 형태로 즉시 결합할 수 있습니다.",
+      "body_ko": "이미지 생성 및 편집 모델을 실제 대화형 인터페이스에 적용할 때 가장 큰 걸림돌 중 하나는 편집이 누적되면서 원본 요소가 왜곡되는 드리프트(Drift) 현상입니다. TailSteer 연구진은 단일 턴 편집에서는 드러나지 않던 오차가 다회차 반복 편집을 거치며 누적 증폭되는 메커니즘을 규명했습니다. 이를 방지하기 위해 생성 궤적의 종단부(Trajectory Tail)에서 원본의 고유 특징을 보존하도록 유도하는 스티어링 알고리즘을 고안했습니다. 사용자가 요청한 수정 사항만 정확하게 반영하고 배경, 조명, 인물 구조 등 비수정 영역은 일관되게 유지됩니다. 별도의 모델 재학습 없이도 상용 디퓨전 파이프라인에 즉시 부착해 시각적 품질을 방어할 수 있는 실용적인 방법론입니다.",
+      "author_profile": "Lyricccco",
+      "publish_date": "2026-11-06T00:00:00.000Z",
+      "tags": [
+        "이미지편집",
+        "디퓨전모델",
+        "멀티턴",
+        "드리프트방지"
+      ],
+      "url": "https://huggingface.co/papers/2611.06741",
+      "sources": [
+        "HF Daily Papers"
+      ],
+      "metrics": {
+        "upvotes": 37,
+        "comments": 3,
+        "arxiv_id": "2611.06741",
+        "paper_published_at": "2026-11-04T00:00:00.000Z",
+        "github_repo": "https://github.com/Lyricccco/tailsteer"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hfpapers_922fa6b501",
+      "category_id": "hfpapers",
+      "category_name": "HF Daily Papers",
+      "signal_id": "research",
+      "signal_name": "연구·논문·새 기법",
+      "importance": 88,
+      "headline": "EvoMemState: 개인화 에이전트를 위한 진화형 메모리 상태 관리 프레임워크",
+      "title_ko": "EvoMemState: 개인화 에이전트를 위한 진화형 메모리 상태 관리 프레임워크",
+      "summary_ko": "• **동적 메모리 진화**: 사용자와의 일상적 상호작용 속에서 생성되는 단편적 사실들을 유기적으로 합성하여 상위 수준의 인지 프로필로 발전시킵니다.\n• **모순 해결 메커니즘**: 시간 흐름에 따라 변화하는 사용자의 관심사와 변경된 선호도를 감지하고 과거 기억을 적응적으로 갱신합니다.\n• **개인화 추천 극대화**: 에이전트가 사용자의 암묵적 의도를 선제적으로 파악하여 복합 과제 수행 시 개인 맞춤형 응답을 생성합니다.",
+      "body_ko": "개인 맞춤형 비서 에이전트의 실질적 구현을 위한 최신 연구 EvoMemState가 허깅페이스에 등재되었습니다. 기존 메모리 시스템들은 사용자가 남긴 이전 대화를 데이터베이스에 단순 축적하기만 하여 사용자의 변화된 맥락을 유연하게 반영하지 못했습니다. EvoMemState는 메모리를 정적인 로그가 아닌 지속적으로 진화하는 상태 머신으로 취급합니다. 새로운 대화가 발생할 때마다 기존 신념과의 모순 여부를 판별하고 오래된 가정을 수정하는 진화 루프를 가동합니다. 이를 통해 모델은 사용자의 변화하는 식습관, 업무 스타일, 커뮤니케이션 톤을 정확히 학습하여 능동적인 맞춤 지원을 제공할 수 있습니다.",
+      "author_profile": "eric-xiang",
+      "publish_date": "2026-11-06T00:00:00.000Z",
+      "tags": [
+        "개인화에이전트",
+        "메모리진화",
+        "상태관리",
+        "AI연구"
+      ],
+      "url": "https://huggingface.co/papers/2611.03743",
+      "sources": [
+        "HF Daily Papers"
+      ],
+      "metrics": {
+        "upvotes": 20,
+        "comments": 4,
+        "arxiv_id": "2611.03743",
+        "paper_published_at": "2026-11-02T00:00:00.000Z",
+        "github_repo": "https://github.com/XMUDeepLIT/EvoMemState"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "bluesky_b8f9230cca",
+      "category_id": "bluesky",
+      "category_name": "Bluesky",
+      "signal_id": "devtool",
+      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
+      "importance": 90,
+      "headline": "PostHog/coherence: 에이전트 주도 코딩의 결함을 제어하는 구조화 프레임워크",
+      "title_ko": "PostHog/coherence: 에이전트 주도 코딩의 결함을 제어하는 구조화 프레임워크",
+      "summary_ko": "• **에이전트 척추 도구**: 코딩 에이전트가 생성하는 코드의 변경 비용, 테스트 검증 및 수술적 수정을 통제하는 체계를 구축했습니다.\n• **결함 증폭 차단**: 에이전트가 무작위로 파일을 수정하며 발생하는 사이드이펙트와 컨텍스트 오염을 사전에 방지합니다.\n• **개발자 피로도 경감**: AI 어시스턴트의 제어 불가능한 과잉 수정 패턴을 억제하고 정밀한 모듈 단위 변경을 강제합니다.",
+      "body_ko": "포스트호그(PostHog)의 Danilo 팀이 AI 에이전트 주도 개발 환경의 고질적 난제를 해결하기 위해 개발한 오픈소스 툴킷 Coherence를 블루스카이에 공개했습니다. LLM 코딩 에이전트를 실무 프로젝트에 투입했을 때 가장 큰 문제는 관련 없는 코드 포맷팅을 건드리거나 불필요한 추상화를 남발하는 현상이었습니다. Coherence는 에이전트가 작업할 수 있는 수정 반경을 엄격히 격리하고 명시적 검증 단계를 필수 파이프라인으로 강제합니다. 변경 전후의 영향도를 자동으로 추적하여 회귀 버그가 발생했을 때 즉각적인 롤백과 원인 분석을 유도합니다. 에이전트에게 자율성을 부여하면서도 엔지니어링 표준을 엄격히 준수하도록 만드는 필수 제어 장치로 주목받고 있습니다.",
+      "author_profile": "@daniloc.xyz",
+      "publish_date": "2026-11-06T16:12:47.408Z",
+      "tags": [
+        "PostHog",
+        "코딩에이전트",
+        "Coherence",
+        "개발환경"
+      ],
+      "url": "https://github.com/PostHog/coherence?q=1",
+      "sources": [
+        "Bluesky"
+      ],
+      "metrics": {
+        "likes": 12,
+        "reposts": 3,
+        "replies": 3,
+        "bluesky_url": "https://bsky.app/profile/daniloc.xyz/post/3mznrl2y6ws2m"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "bluesky_f341279723",
+      "category_id": "bluesky",
+      "category_name": "Bluesky",
+      "signal_id": "research",
+      "signal_name": "연구·논문·새 기법",
+      "importance": 89,
+      "headline": "s³: 중앙 리더 없는 단순 보상 체계 기반의 에이전트 스웜 자율 협업 스케일링",
+      "title_ko": "s³: 중앙 리더 없는 단순 보상 체계 기반의 에이전트 스웜 자율 협업 스케일링",
+      "summary_ko": "• **리더리스 군집 협업**: 명시적인 마스터 노드나 사전 정의된 턴 순서 없이 단일 공유 보상만으로 다중 에이전트가 상호작용을 자율 조직화합니다.\n• **단순 스케일링 법칙**: 에이전트 수를 확장할수록 복잡한 전략적 조율과 역할 분담이 자발적으로 발현되는 현상을 입증했습니다.\n• **분산 멀티에이전트 혁신**: 중앙 오케스트레이터의 병목 현상을 원천적으로 제거할 수 있는 새로운 집단 지성 아키텍처를 제시했습니다.",
+      "body_ko": "블루스카이 AI 연구 커뮤니티에서 큰 반향을 일으킨 s³(Simple Scaling of Swarms) 연구는 다중 에이전트 협업의 새로운 지평을 열었습니다. 기존 멀티 에이전트 시스템은 중앙 관리자 에이전트가 개별 에이전트에게 역할을 분배하고 메시지 라우팅을 통제하는 복잡한 위계 구조를 가졌습니다. s³는 고정된 역할이나 턴 순서 대신 에이전트 군집 전체가 하나의 공동 목표 보상을 극대화하도록 단순화했습니다. 흥미롭게도 에이전트 규모를 늘리는 것만으로도 복잡한 문제 해결을 위한 분업과 자발적 검증 행동이 자연스럽게 나타났습니다. 중앙 오케스트레이터의 통신 병목과 단일 장애점을 없애고 대규모 분산 에이전트 군집을 운영할 수 있는 이론적 기반을 마련했습니다.",
+      "author_profile": "@kjha02.bsky.social",
+      "publish_date": "2026-11-06T18:05:33.175Z",
+      "tags": [
+        "스웜인텔리전스",
+        "멀티에이전트",
+        "자율협업",
+        "분산AI"
+      ],
+      "url": "https://scalingswarms.com/",
+      "sources": [
+        "Bluesky"
+      ],
+      "metrics": {
+        "likes": 72,
+        "reposts": 15,
+        "replies": 3,
+        "bluesky_url": "https://bsky.app/profile/kjha02.bsky.social/post/3mznxupd3a22g"
+      },
+      "curated_by": "ldk-hub"
+    }
+  ]
+}

@@ -191,17 +191,11 @@ async function pMap(items, limit, fn) {
 }
 
 function ghToken() {
-  if (process.env.GH_TOKEN) return process.env.GH_TOKEN;
-  if (process.env.GITHUB_TOKEN) return process.env.GITHUB_TOKEN;
-  const paths = [process.env.PATH || "", "/usr/local/bin", "/opt/homebrew/bin"].filter(Boolean).join(":");
   try {
-    return execFileSync("gh", ["auth", "token"], {
-      env: { ...process.env, PATH: paths },
-      encoding: "utf8",
-      stdio: ["ignore", "pipe", "ignore"],
-    }).trim();
+    const { resolveGitHubToken } = require("../core/github-token");
+    return resolveGitHubToken();
   } catch {
-    return null;
+    return process.env.GH_TOKEN || process.env.GITHUB_TOKEN || null;
   }
 }
 
@@ -541,6 +535,16 @@ async function fetchHuggingFacePapers() {
     } else {
       console.warn(`[hfpapers] ${listDate} 목록 조회 실패:`, e.message);
       return [];
+    }
+  }
+  if (Array.isArray(list) && list.length === 0) {
+    const prevDate = new Date(Date.now() - 864e5).toISOString().slice(0, 10);
+    try {
+      list = await getJson(`https://huggingface.co/api/daily_papers?date=${prevDate}&limit=50`);
+      console.log(`[hfpapers] ${listDate} 목록 비어있음 -> 직전일(${prevDate}) 데일리 목록 수집 (${list.length}건)`);
+      listDate = prevDate;
+    } catch (e2) {
+      console.warn(`[hfpapers] 직전일 목록 조회 실패:`, e2.message);
     }
   }
   if (!Array.isArray(list)) {
