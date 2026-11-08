@@ -324,6 +324,69 @@ tags: [ai-weekly, benchmarks, frontier-models, market-share, pipeline, staleness
 // 3. 작업 일지들
 const LOGS = [
   {
+    filename: "2026-11-09 작업일지.md",
+    title: "2026-11-09 작업일지 — 주간 종합 파이프라인(cc-weekly) 완수: 스타보드 613개 최신화, 트렌드 32건 선별·보안 스캔, cc-benchmarks 검증, 데일리 뉴스 16건 큐레이션 배포 및 옵시디언 동기화",
+    date: "2026-11-09",
+    content: `---
+title: 2026-11-09 작업일지
+date: 2026-11-09
+type: work-log
+tags: [ai-weekly, work-log, cc-weekly, cc-star, cc-trends, cc-benchmarks, cc-news, security-scan, obsidian-sync]
+status: completed
+author: ldk-hub <orm6711@gmail.com>
+---
+
+# 📅 2026-11-09 작업일지 (주간 종합 파이프라인 cc-weekly 완수)
+
+## 📌 주요 작업 요약
+
+### 1. 스타보드 갱신 (cc-star)
+- **추적 대상 및 성공률**: 총 613개 오픈소스 타겟 리포지토리 전수 추적 완료 (\`Success: 613 (100%)\`, 404 Gone: 47, Renames: 0, Suspects: 0).
+- **데이터 저장**: \`data/stars/stars_meta.json\` 및 \`data/stars/stars_ledger.json\` 원자적 갱신 및 프론트엔드(\`site/public/data/\`) 미러링 완료.
+- **주요 스타 급상승 Top 5**:
+  1. \`morluto/rea\`: 443,674★ (+5,451 / 일) — 앱 동작 분석부터 네이티브 바이너리까지 자율 조사하는 역공학 에이전트
+  2. \`mattpocock/skills\`: 318,481★ (+1,694 / 일) — TypeScript & Claude Code 스킬셋
+  3. \`anthropics/skills\`: 189,590★ (+1,389 / 일) — 앤트로픽 공식 Claude 스킬 레퍼런스
+  4. \`stablyai/orca\`: 119,268★ (+1,373 / 일) — 수십 개 병렬 코딩 에이전트 통합 지휘 ADE
+  5. \`Nutlope/hallmark\`: 50,934★ (+1,266 / 일) — 엔터프라이즈 AI 컴포넌트 툴킷
+
+### 2. Claude Code 트렌드 갱신 (cc-trends)
+- **광역 수집 및 설치 진입점 보안 스캔**:
+  - GitHub 및 개발자 커뮤니티에서 총 63건 후보 탐색 (\`candidates.json\`).
+  - \`scan-install-entry.js\` 정적 보안 스캔 63건 전수 실행 결과 1건 악성코드 컷 (\`NousResearch/hermes-agent\`: package.json preinstall 네트워크 인라인 실행 차단).
+- **한국어 정밀 큐레이션 및 정원제 선별**:
+  - Rising 20건 (skill 8, agent 4, mcp 6, harness 2), Classic 12건 (skill 5, agent 2, harness 2, mcp 3) 총 32건 정원제 선별.
+  - 주요 Rising Top 5: \`nateherkai/roast-room\` (1위, 1,990★), \`skills\` (2위, 1,228★), \`morluto/rea\` (3위, 443,674★), \`stablyai/orca\` (4위, 119,268★), \`pixelfx\` (5위, 6,078★).
+  - 품질 게이트(\`curate.js --validate\`) 32건 전원 100% 무결 통과.
+- **아카이브 빌드**: 총 39개 아카이브 엔트리 최신화 완료 (\`data/archive/\` 및 \`site/public/data/archive/\` 동기화).
+
+### 3. AI 점유율 및 프론티어 성능 파이프라인 (cc-benchmarks)
+- **주간 정기 실행 검증**: \`npm run data:benchmarks\`를 통해 OpenRouter API 모델 461개 가격/메타데이터 동기화 완료.
+- **최신성 게이트(Staleness Gate)**: 실행일 기준 7개 출처 기준일 경과일수 전수 통과 (웹 방문 Similarweb 38일 전, 리퍼럴 Trakkr 8일 전, API OpenRouter 15일 전, LMArena 18일 전, AA 16일 전, LiveBench 19일 전).
+- **다중 출처 앙상블 평균**:
+  - 1위 ChatGPT: 54.07% (Similarweb 54.5%, Trakkr 79.2%, OpenRouter 28.5%)
+  - 2위 Claude: 19.53% (Similarweb 9.8%, Trakkr 16.6%, OpenRouter 32.2%)
+  - 3위 Gemini: 17.10% (Similarweb 28.6%, Trakkr 3.1%, OpenRouter 19.6%)
+- **프론티어 벤치마크 모델**:
+  - 1위 Gemini 4 Argon (Google): Arena Elo 1585, Coding Elo 1559, AA 지능 90.4, LiveBench 87.9 (종합 점수 91.2)
+  - 2위 Claude Opus 5 (Anthropic): Arena Elo 1568, Coding Elo 1548, AA 지능 90.8, LiveBench 88.2 (종합 점수 90.9)
+  - 3위 Llama 4 Maverick (Meta): Arena Elo 1572, Coding Elo 1550, AA 지능 88.5, LiveBench 86.2 (종합 점수 89.4)
+
+### 4. 데일리 뉴스 큐레이션 및 배포 (cc-news)
+- **수집 및 선별**: 8대 매체 대상 110건 후보 수집 후 최종 16건 선별.
+- **신호축 분포**: devtool 4, oss 3, research 3, model 2, practice 2, policy 2 (매체별: aitimes 3, geeknews 2, hackernews 2, github 3, reddit 3, bluesky 3).
+- **품질 게이트 검증**: \`node scripts/news/curate_news.js --validate\` 100% 통과.
+- **[MISSING] 매체 보고**: X (쿠키 미등록), HF Daily Papers (주말 목록 비어있음).
+- **[재등장 및 업데이트]**: 최근 7일 중복 2건 차단, \`unslop\` 및 \`vork\` 2건 star 급증에 따른 \`[업데이트]\` 승계 배포.
+
+### 5. 사이트 리소스 및 옵시디언 동기화
+- **RSS & 사이트맵**: \`feed.xml\`, \`news-feed.xml\`, \`sitemap.xml\` 최신화 완료.
+- **AI 라운지**: GitHub Discussions 스레드 최신 스냅샷 갱신 완료.
+- **오픈그래프**: \`og.svg\`, \`og.png\` 자동 재생성 완료.
+- **옵시디언 볼트**: \`npm run sync:obsidian\`을 통해 총괄 대시보드, 아키텍처 명세 및 작업일지 전면 동기화 완료.
+`
+  },
+  {
     filename: "2026-11-05 작업일지.md",
     title: "2026-11-05 작업일지 — 주간 종합 파이프라인(cc-weekly) 완수: 스타보드 610개 최신화, 트렌드 33건 큐레이션·보안 스캔, cc-benchmarks 동기화·게이트 검증, 데일리 뉴스 15건 큐레이션 배포 및 옵시디언 동기화",
     date: "2026-11-05",

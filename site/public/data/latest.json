@@ -1,7 +1,7 @@
 {
-  "generated": "2026-11-05",
-  "generated_at": "2026-11-05",
-  "version": "v2026.11.05",
+  "generated": "2026-11-08",
+  "generated_at": "2026-11-08",
+  "version": "v2026.11.08",
   "rising": [
     {
       "id": "nateherkai/roast-room",
@@ -13,11 +13,11 @@
       "category": "skill",
       "score": 100,
       "trend_score": 100,
-      "stars": 1872,
-      "velocity_7d": 524,
+      "stars": 1990,
+      "velocity_7d": 268,
       "velocity_score": 100,
-      "growth_rate": 0.2799,
-      "v7d_estimated": true,
+      "growth_rate": 0.1347,
+      "v7d_estimated": false,
       "source_count": 2,
       "sources": [
         "github",
@@ -27,7 +27,7 @@
         {
           "source": "github",
           "url": "https://github.com/nateherkai/roast-room",
-          "label": "최근 7일 +524 stars"
+          "label": "최근 7일 +268 stars"
         },
         {
           "source": "hn",
@@ -67,10 +67,10 @@
       "category": "skill",
       "score": 100,
       "trend_score": 100,
-      "stars": 1136,
-      "velocity_7d": 129,
+      "stars": 1228,
+      "velocity_7d": 185,
       "velocity_score": 100,
-      "growth_rate": 0.1136,
+      "growth_rate": 0.1507,
       "v7d_estimated": false,
       "source_count": 2,
       "sources": [
@@ -81,7 +81,7 @@
         {
           "source": "github",
           "url": "https://github.com/juliobsz/skills",
-          "label": "최근 7일 +129 stars"
+          "label": "최근 7일 +185 stars"
         },
         {
           "source": "hn",
@@ -90,8 +90,8 @@
         },
         {
           "source": "hn",
-          "url": "https://news.ycombinator.com/item?id=50359659",
-          "label": "HN 2p · Harneo – a library for Claude Code skills, installed into any repo"
+          "url": "https://news.ycombinator.com/item?id=50364204",
+          "label": "HN 1p · Show HN: Nexity, Claude Code skills to add sections to Next.js + Sanity sites"
         }
       ],
       "status": "rising",
@@ -127,10 +127,10 @@
       "category": "agent",
       "score": 90,
       "trend_score": 90,
-      "stars": 430812,
-      "velocity_7d": 27943,
+      "stars": 443674,
+      "velocity_7d": 28061,
       "velocity_score": 100,
-      "growth_rate": 0.0649,
+      "growth_rate": 0.0632,
       "v7d_estimated": false,
       "source_count": 2,
       "sources": [
@@ -141,7 +141,7 @@
         {
           "source": "github",
           "url": "https://github.com/morluto/rea",
-          "label": "최근 7일 +27,943 stars"
+          "label": "최근 7일 +28,061 stars"
         },
         {
           "source": "hn",
@@ -150,8 +150,8 @@
         },
         {
           "source": "hn",
-          "url": "https://news.ycombinator.com/item?id=50300097",
-          "label": "HN 9p · A Claude Code agent's test escaped into my Mac. I only noticed because it talked"
+          "url": "https://news.ycombinator.com/item?id=50413970",
+          "label": "HN 3p · Show HN: Recalc – Spreadsheet where cells can be Claude Code or Codex terminals"
         }
       ],
       "status": "rising",
@@ -186,10 +186,10 @@
       "category": "agent",
       "score": 90,
       "trend_score": 90,
-      "stars": 115445,
-      "velocity_7d": 6329,
+      "stars": 119268,
+      "velocity_7d": 7514,
       "velocity_score": 100,
-      "growth_rate": 0.0548,
+      "growth_rate": 0.063,
       "v7d_estimated": false,
       "source_count": 2,
       "sources": [
@@ -200,7 +200,7 @@
         {
           "source": "github",
           "url": "https://github.com/stablyai/orca",
-          "label": "최근 7일 +6,329 stars"
+          "label": "최근 7일 +7,514 stars"
         },
         {
           "source": "hn",
@@ -240,10 +240,10 @@
       "category": "skill",
       "score": 70,
       "trend_score": 70,
-      "stars": 4707,
-      "velocity_7d": 5040,
+      "stars": 6078,
+      "velocity_7d": 4120,
       "velocity_score": 100,
-      "growth_rate": 1,
+      "growth_rate": 0.6779,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -253,7 +253,7 @@
         {
           "source": "github",
           "url": "https://github.com/patch-gg/pixelfx",
-          "label": "최근 7일 +5,040 stars"
+          "label": "최근 7일 +4,120 stars"
         }
       ],
       "status": "rising",
@@ -280,153 +280,6 @@
       "thumbnail_url": "https://github.com/patch-gg.png"
     },
     {
-      "id": "haydenschmitty/floorplan",
-      "name": "floorplan",
-      "owner": "haydenschmitty",
-      "title_ko": "floorplan — Claude와 Codex가 그려주는 인터랙티브 코드베이스 아키텍처 청사진",
-      "official_url": "https://github.com/haydenschmitty/floorplan",
-      "repo_url": "https://github.com/haydenschmitty/floorplan",
-      "category": "agent",
-      "score": 70,
-      "trend_score": 70,
-      "stars": 2850,
-      "velocity_7d": 2564,
-      "velocity_score": 100,
-      "growth_rate": 0.8996,
-      "v7d_estimated": false,
-      "source_count": 1,
-      "sources": [
-        "github"
-      ],
-      "evidence": [
-        {
-          "source": "github",
-          "url": "https://github.com/haydenschmitty/floorplan",
-          "label": "최근 7일 +2,564 stars"
-        }
-      ],
-      "status": "rising",
-      "catchphrase": "복잡한 전체 코드베이스 구조와 컴포넌트 연결 관계를 쉬운 설명과 대화형 지도로 시각화",
-      "summary_ko": "Claude Code나 Codex가 전체 코드베이스를 분석하여 애플리케이션의 내부 구조와 파일 간 연결 관계를 쉬운 자연어와 대화형 평면도(Floorplan)로 시각화해주는 개발자 도구입니다. 신규 프로젝트 온보딩 시 거대한 리포지토리의 핵심 흐름과 의존성을 빠르게 파악할 수 있도록 돕습니다.",
-      "key_features": [
-        "전체 코드베이스의 모듈 및 파일 연결망 인터랙티브 맵 자동 생성",
-        "개발자가 이해하기 쉬운 자연어 구조 설명 및 온보딩 가이드 제공",
-        "Claude Code 및 Codex 플러그인 생태계와 자연스러운 통합"
-      ],
-      "use_case": "낯설거나 거대한 레거시 코드베이스의 전체 구조와 데이터 흐름을 한눈에 파악하고 싶을 때",
-      "install_hint": "README 참고",
-      "badge": "🔥 Rising",
-      "badges": [
-        "🔥 Rising"
-      ],
-      "tags": [
-        "codebase-map",
-        "architecture-visualization",
-        "claude-code",
-        "codex",
-        "onboarding"
-      ],
-      "thumbnail_url": "https://github.com/haydenschmitty.png"
-    },
-    {
-      "id": "microsoft/TokenEconomizer",
-      "name": "TokenEconomizer",
-      "owner": "microsoft",
-      "title_ko": "TokenEconomizer — 코딩 에이전트의 토큰 소모와 API 비용을 줄여주는 마이크로소프트의 블랙박스 비용 제어기",
-      "official_url": "https://github.com/microsoft/TokenEconomizer",
-      "repo_url": "https://github.com/microsoft/TokenEconomizer",
-      "category": "agent",
-      "score": 70,
-      "trend_score": 70,
-      "stars": 4776,
-      "velocity_7d": 2093,
-      "velocity_score": 100,
-      "growth_rate": 0.4382,
-      "v7d_estimated": false,
-      "source_count": 1,
-      "sources": [
-        "github"
-      ],
-      "evidence": [
-        {
-          "source": "github",
-          "url": "https://github.com/microsoft/TokenEconomizer",
-          "label": "최근 7일 +2,093 stars"
-        }
-      ],
-      "status": "rising",
-      "catchphrase": "경험 기반 휴리스틱과 블랙박스 압축으로 에이전트 성능 저하 없이 토큰 비용을 대폭 절감",
-      "summary_ko": "마이크로소프트가 공개한 코딩 에이전트 전용 비용 제어 및 토큰 최적화 프레임워크입니다. 과거 에이전트 실행 경험과 패턴을 학습하여 불필요한 컨텍스트 중복을 제거하고, 모델의 추론 성능을 유지하면서도 LLM API 호출 토큰 비용을 최소화하는 블랙박스 컨트롤러를 제공합니다.",
-      "key_features": [
-        "과거 에이전트 궤적 경험을 활용한 동적 프롬프트 및 컨텍스트 압축",
-        "코딩 에이전트의 태스크 성공률을 희생하지 않는 블랙박스 최적화 알고리즘",
-        "Claude Code, Codex, GitHub Copilot 등 대규모 코딩 에이전트 비용 절감"
-      ],
-      "use_case": "팀 단위 코딩 에이전트 운용 시 기하급수적으로 늘어나는 LLM 토큰 비용을 체계적으로 감축하고 싶을 때",
-      "install_hint": "README 참고",
-      "badge": "🔥 Rising",
-      "badges": [
-        "🔥 Rising"
-      ],
-      "tags": [
-        "token-optimization",
-        "cost-control",
-        "microsoft",
-        "coding-agents",
-        "context-compression"
-      ],
-      "thumbnail_url": "https://github.com/microsoft.png"
-    },
-    {
-      "id": "elvarofficial/teardown",
-      "name": "teardown",
-      "owner": "elvarofficial",
-      "title_ko": "teardown — 물리 기계나 장치를 브라우저에서 분해·조립 가능한 3D 시뮬레이터로 변환하는 스킬",
-      "official_url": "https://github.com/elvarofficial/teardown",
-      "repo_url": "https://github.com/elvarofficial/teardown",
-      "category": "skill",
-      "score": 70,
-      "trend_score": 70,
-      "stars": 1907,
-      "velocity_7d": 1907,
-      "velocity_score": 100,
-      "growth_rate": 1,
-      "v7d_estimated": true,
-      "source_count": 1,
-      "sources": [
-        "github"
-      ],
-      "evidence": [
-        {
-          "source": "github",
-          "url": "https://github.com/elvarofficial/teardown",
-          "label": "최근 7일 +1,907 stars"
-        }
-      ],
-      "status": "rising",
-      "catchphrase": "코드와 설계 설명만으로 임의의 기계를 직접 부품 단위로 분해하고 탐색하는 인터랙티브 3D 뷰어 생성",
-      "summary_ko": "Claude Code를 통해 복잡한 기계 장치나 하드웨어 구조를 사용자가 마우스로 직접 분해하고 조작할 수 있는 3D 인터랙티브 시뮬레이터로 자동 변환해주는 스킬입니다. WebGL/Three.js 기반으로 부품 간의 결합 관계와 동작 메커니즘을 3차원으로 시각화합니다. 엔지니어링 학습, 하드웨어 분해 분석, 인터랙티브 제품 설명서 제작에 강력한 직관을 제공합니다.",
-      "key_features": [
-        "임의의 기계 장치 사양을 인터랙티브 3D 분해 시뮬레이터로 즉시 렌더링",
-        "WebGL 및 Three.js 기반의 부품별 결합 구조 및 기구학적 시각화",
-        "Claude Code 명령 한 줄로 시뮬레이션 환경 생성 및 브라우저 프리뷰"
-      ],
-      "use_case": "복잡한 하드웨어나 기계의 내부 구조를 3D로 직접 분해하며 원리를 이해하고 공유하고 싶을 때",
-      "install_hint": "README 참고",
-      "badge": "🔥 Rising",
-      "badges": [
-        "🔥 Rising"
-      ],
-      "tags": [
-        "3d-simulator",
-        "teardown",
-        "claude-skills",
-        "threejs",
-        "webgl"
-      ],
-      "thumbnail_url": "https://github.com/elvarofficial.png"
-    },
-    {
       "id": "qybaihe/bla",
       "name": "bla",
       "owner": "qybaihe",
@@ -436,10 +289,10 @@
       "category": "mcp",
       "score": 70,
       "trend_score": 70,
-      "stars": 2275,
-      "velocity_7d": 1055,
+      "stars": 3775,
+      "velocity_7d": 2277,
       "velocity_score": 100,
-      "growth_rate": 0.4637,
+      "growth_rate": 0.6032,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -449,7 +302,7 @@
         {
           "source": "github",
           "url": "https://github.com/qybaihe/bla",
-          "label": "최근 7일 +1,055 stars"
+          "label": "최근 7일 +2,277 stars"
         }
       ],
       "status": "rising",
@@ -476,6 +329,250 @@
       "thumbnail_url": "https://github.com/qybaihe.png"
     },
     {
+      "id": "haydenschmitty/floorplan",
+      "name": "floorplan",
+      "owner": "haydenschmitty",
+      "title_ko": "floorplan — Claude와 Codex가 그려주는 인터랙티브 코드베이스 아키텍처 청사진",
+      "official_url": "https://github.com/haydenschmitty/floorplan",
+      "repo_url": "https://github.com/haydenschmitty/floorplan",
+      "category": "agent",
+      "score": 70,
+      "trend_score": 70,
+      "stars": 3247,
+      "velocity_7d": 1745,
+      "velocity_score": 100,
+      "growth_rate": 0.5374,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/haydenschmitty/floorplan",
+          "label": "최근 7일 +1,745 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "복잡한 전체 코드베이스 구조와 컴포넌트 연결 관계를 쉬운 설명과 대화형 지도로 시각화",
+      "summary_ko": "Claude Code나 Codex가 전체 코드베이스를 분석하여 애플리케이션의 내부 구조와 파일 간 연결 관계를 쉬운 자연어와 대화형 평면도(Floorplan)로 시각화해주는 개발자 도구입니다. 신규 프로젝트 온보딩 시 거대한 리포지토리의 핵심 흐름과 의존성을 빠르게 파악할 수 있도록 돕습니다.",
+      "key_features": [
+        "전체 코드베이스의 모듈 및 파일 연결망 인터랙티브 맵 자동 생성",
+        "개발자가 이해하기 쉬운 자연어 구조 설명 및 온보딩 가이드 제공",
+        "Claude Code 및 Codex 플러그인 생태계와 자연스러운 통합"
+      ],
+      "use_case": "낯설거나 거대한 레거시 코드베이스의 전체 구조와 데이터 흐름을 한눈에 파악하고 싶을 때",
+      "install_hint": "README 참고",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "codebase-map",
+        "architecture-visualization",
+        "claude-code",
+        "codex",
+        "onboarding"
+      ],
+      "thumbnail_url": "https://github.com/haydenschmitty.png"
+    },
+    {
+      "id": "elvarofficial/teardown",
+      "name": "teardown",
+      "owner": "elvarofficial",
+      "title_ko": "teardown — 물리 기계나 장치를 브라우저에서 분해·조립 가능한 3D 시뮬레이터로 변환하는 스킬",
+      "official_url": "https://github.com/elvarofficial/teardown",
+      "repo_url": "https://github.com/elvarofficial/teardown",
+      "category": "skill",
+      "score": 70,
+      "trend_score": 70,
+      "stars": 2647,
+      "velocity_7d": 1673,
+      "velocity_score": 100,
+      "growth_rate": 0.632,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/elvarofficial/teardown",
+          "label": "최근 7일 +1,673 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "코드와 설계 설명만으로 임의의 기계를 직접 부품 단위로 분해하고 탐색하는 인터랙티브 3D 뷰어 생성",
+      "summary_ko": "Claude Code를 통해 복잡한 기계 장치나 하드웨어 구조를 사용자가 마우스로 직접 분해하고 조작할 수 있는 3D 인터랙티브 시뮬레이터로 자동 변환해주는 스킬입니다. WebGL/Three.js 기반으로 부품 간의 결합 관계와 동작 메커니즘을 3차원으로 시각화합니다. 엔지니어링 학습, 하드웨어 분해 분석, 인터랙티브 제품 설명서 제작에 강력한 직관을 제공합니다.",
+      "key_features": [
+        "임의의 기계 장치 사양을 인터랙티브 3D 분해 시뮬레이터로 즉시 렌더링",
+        "WebGL 및 Three.js 기반의 부품별 결합 구조 및 기구학적 시각화",
+        "Claude Code 명령 한 줄로 시뮬레이션 환경 생성 및 브라우저 프리뷰"
+      ],
+      "use_case": "복잡한 하드웨어나 기계의 내부 구조를 3D로 직접 분해하며 원리를 이해하고 공유하고 싶을 때",
+      "install_hint": "README 참고",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "3d-simulator",
+        "teardown",
+        "claude-skills",
+        "threejs",
+        "webgl"
+      ],
+      "thumbnail_url": "https://github.com/elvarofficial.png"
+    },
+    {
+      "id": "microsoft/TokenEconomizer",
+      "name": "TokenEconomizer",
+      "owner": "microsoft",
+      "title_ko": "TokenEconomizer — 코딩 에이전트의 토큰 소모와 API 비용을 줄여주는 마이크로소프트의 블랙박스 비용 제어기",
+      "official_url": "https://github.com/microsoft/TokenEconomizer",
+      "repo_url": "https://github.com/microsoft/TokenEconomizer",
+      "category": "agent",
+      "score": 70,
+      "trend_score": 70,
+      "stars": 5274,
+      "velocity_7d": 1628,
+      "velocity_score": 100,
+      "growth_rate": 0.3087,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/microsoft/TokenEconomizer",
+          "label": "최근 7일 +1,628 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "경험 기반 휴리스틱과 블랙박스 압축으로 에이전트 성능 저하 없이 토큰 비용을 대폭 절감",
+      "summary_ko": "마이크로소프트가 공개한 코딩 에이전트 전용 비용 제어 및 토큰 최적화 프레임워크입니다. 과거 에이전트 실행 경험과 패턴을 학습하여 불필요한 컨텍스트 중복을 제거하고, 모델의 추론 성능을 유지하면서도 LLM API 호출 토큰 비용을 최소화하는 블랙박스 컨트롤러를 제공합니다.",
+      "key_features": [
+        "과거 에이전트 궤적 경험을 활용한 동적 프롬프트 및 컨텍스트 압축",
+        "코딩 에이전트의 태스크 성공률을 희생하지 않는 블랙박스 최적화 알고리즘",
+        "Claude Code, Codex, GitHub Copilot 등 대규모 코딩 에이전트 비용 절감"
+      ],
+      "use_case": "팀 단위 코딩 에이전트 운용 시 기하급수적으로 늘어나는 LLM 토큰 비용을 체계적으로 감축하고 싶을 때",
+      "install_hint": "README 참고",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "token-optimization",
+        "cost-control",
+        "microsoft",
+        "coding-agents",
+        "context-compression"
+      ],
+      "thumbnail_url": "https://github.com/microsoft.png"
+    },
+    {
+      "id": "DenisSergeevitch/ex-ussr-kinship-research",
+      "name": "ex-ussr-kinship-research",
+      "owner": "DenisSergeevitch",
+      "title_ko": "ex-ussr-kinship-research — 구소련 역사 문서 및 공공 기록 아카이브 정밀 추적 에이전트 스킬",
+      "official_url": "https://github.com/DenisSergeevitch/ex-ussr-kinship-research",
+      "repo_url": "https://github.com/DenisSergeevitch/ex-ussr-kinship-research",
+      "category": "skill",
+      "score": 70,
+      "trend_score": 70,
+      "stars": 2208,
+      "velocity_7d": 1030,
+      "velocity_score": 100,
+      "growth_rate": 0.4665,
+      "v7d_estimated": true,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/DenisSergeevitch/ex-ussr-kinship-research",
+          "label": "최근 7일 +1,030 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "파편화된 다국어 아카이브 기록을 교차 검증하여 인물 관계도와 족보를 증거 기반으로 복원",
+      "summary_ko": "구소련 및 동유럽 지역의 흩어진 역사 공문서, 인구 조사 기록, 묘지 기록 등 다국어 아카이브 데이터를 AI 에이전트가 정밀 추적하고 교차 검증할 수 있도록 돕는 증거 기반 계보학 조사 스킬입니다. 역사학자나 전문 연구자가 방대한 원천 문서를 체계적으로 분석할 수 있는 조사 방법론을 제공합니다.",
+      "key_features": [
+        "러시아어·우크라이나어 등 다국어 고문서 텍스트 정밀 해석 및 정규화",
+        "1차 기록물 간의 인물 및 일자 불일치 자동 감지 및 교차 검증",
+        "가계도 및 인물 관계도 데이터베이스 구조화 출력"
+      ],
+      "use_case": "동유럽 및 구소련 지역의 역사 기록물이나 가족사 아카이브를 전문적으로 조사하고 분석할 때",
+      "install_hint": "README 참고",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "genealogy",
+        "historical-archive",
+        "evidence-first",
+        "claude-skills"
+      ],
+      "thumbnail_url": "https://github.com/DenisSergeevitch.png"
+    },
+    {
+      "id": "Leonxlnx/earshot",
+      "name": "earshot",
+      "owner": "Leonxlnx",
+      "title_ko": "earshot — 코딩 에이전트가 소리를 듣고 분석하며 사운드를 제작할 수 있게 돕는 청각 인터페이스",
+      "official_url": "https://github.com/Leonxlnx/earshot",
+      "repo_url": "https://github.com/Leonxlnx/earshot",
+      "category": "mcp",
+      "score": 70,
+      "trend_score": 70,
+      "stars": 4274,
+      "velocity_7d": 890,
+      "velocity_score": 100,
+      "growth_rate": 0.2082,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/Leonxlnx/earshot",
+          "label": "최근 7일 +890 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "GPU 없이 CPU만으로 오디오 피드백을 듣고 효과음과 배경음을 합성하는 오픈소스 오디오 도구",
+      "summary_ko": "AI 코딩 에이전트에게 귀(Ears)를 달아주어 웹사이트 효과음, 배경 음악, 시스템 알림음을 직접 듣고 리뷰하거나 생성할 수 있도록 지원하는 도구입니다. CPU 전용 경량 아키텍처로 구동되어 고가의 GPU 없이도 로컬 환경에서 안정적으로 동작합니다. 사운드 디자인, 게임 오디오 제작, 웹 접근성 오디오 검증 워크플로우를 대폭 자동화합니다.",
+      "key_features": [
+        "CPU 환경에 최적화된 경량 오디오 분석 및 합성 엔진",
+        "코딩 에이전트가 생성된 사운드를 직접 듣고 평가하는 피드백 루프",
+        "Claude Code 및 MCP 환경에 완벽 대응하는 표준 인터페이스"
+      ],
+      "use_case": "에이전트와 함께 웹/앱 프로젝트의 효과음 및 인터랙션 사운드를 기획하고 다듬을 때",
+      "install_hint": "README 참고",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "audio-agent",
+        "sound-design",
+        "mcp-server",
+        "cpu-only",
+        "claude-code"
+      ],
+      "thumbnail_url": "https://github.com/Leonxlnx.png"
+    },
+    {
       "id": "t3dotgg/tstack",
       "name": "tstack",
       "owner": "t3dotgg",
@@ -485,10 +582,10 @@
       "category": "skill",
       "score": 70,
       "trend_score": 70,
-      "stars": 2971,
-      "velocity_7d": 896,
+      "stars": 3287,
+      "velocity_7d": 817,
       "velocity_score": 100,
-      "growth_rate": 0.3016,
+      "growth_rate": 0.2486,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -498,7 +595,7 @@
         {
           "source": "github",
           "url": "https://github.com/t3dotgg/tstack",
-          "label": "최근 7일 +896 stars"
+          "label": "최근 7일 +817 stars"
         }
       ],
       "status": "rising",
@@ -534,10 +631,10 @@
       "category": "skill",
       "score": 70,
       "trend_score": 70,
-      "stars": 2355,
-      "velocity_7d": 812,
+      "stars": 2522,
+      "velocity_7d": 601,
       "velocity_score": 100,
-      "growth_rate": 0.3448,
+      "growth_rate": 0.2383,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -547,7 +644,7 @@
         {
           "source": "github",
           "url": "https://github.com/alchaincyf/huashu-motion",
-          "label": "최근 7일 +812 stars"
+          "label": "최근 7일 +601 stars"
         }
       ],
       "status": "rising",
@@ -573,201 +670,6 @@
       "thumbnail_url": "https://github.com/alchaincyf.png"
     },
     {
-      "id": "Leonxlnx/earshot",
-      "name": "earshot",
-      "owner": "Leonxlnx",
-      "title_ko": "earshot — 코딩 에이전트가 소리를 듣고 분석하며 사운드를 제작할 수 있게 돕는 청각 인터페이스",
-      "official_url": "https://github.com/Leonxlnx/earshot",
-      "repo_url": "https://github.com/Leonxlnx/earshot",
-      "category": "mcp",
-      "score": 70,
-      "trend_score": 70,
-      "stars": 3894,
-      "velocity_7d": 743,
-      "velocity_score": 100,
-      "growth_rate": 0.1908,
-      "v7d_estimated": false,
-      "source_count": 1,
-      "sources": [
-        "github"
-      ],
-      "evidence": [
-        {
-          "source": "github",
-          "url": "https://github.com/Leonxlnx/earshot",
-          "label": "최근 7일 +743 stars"
-        }
-      ],
-      "status": "rising",
-      "catchphrase": "GPU 없이 CPU만으로 오디오 피드백을 듣고 효과음과 배경음을 합성하는 오픈소스 오디오 도구",
-      "summary_ko": "AI 코딩 에이전트에게 귀(Ears)를 달아주어 웹사이트 효과음, 배경 음악, 시스템 알림음을 직접 듣고 리뷰하거나 생성할 수 있도록 지원하는 도구입니다. CPU 전용 경량 아키텍처로 구동되어 고가의 GPU 없이도 로컬 환경에서 안정적으로 동작합니다. 사운드 디자인, 게임 오디오 제작, 웹 접근성 오디오 검증 워크플로우를 대폭 자동화합니다.",
-      "key_features": [
-        "CPU 환경에 최적화된 경량 오디오 분석 및 합성 엔진",
-        "코딩 에이전트가 생성된 사운드를 직접 듣고 평가하는 피드백 루프",
-        "Claude Code 및 MCP 환경에 완벽 대응하는 표준 인터페이스"
-      ],
-      "use_case": "에이전트와 함께 웹/앱 프로젝트의 효과음 및 인터랙션 사운드를 기획하고 다듬을 때",
-      "install_hint": "README 참고",
-      "badge": "🔥 Rising",
-      "badges": [
-        "🔥 Rising"
-      ],
-      "tags": [
-        "audio-agent",
-        "sound-design",
-        "mcp-server",
-        "cpu-only",
-        "claude-code"
-      ],
-      "thumbnail_url": "https://github.com/Leonxlnx.png"
-    },
-    {
-      "id": "alexgaoth/awesome-reverse-engineered",
-      "name": "awesome-reverse-engineered",
-      "owner": "alexgaoth",
-      "title_ko": "awesome-reverse-engineered — 17,000+ 오픈소스 역공학 도구를 검색·호출하는 MCP 서버 겸 에이전트 스킬",
-      "official_url": "https://github.com/alexgaoth/awesome-reverse-engineered",
-      "repo_url": "https://github.com/alexgaoth/awesome-reverse-engineered",
-      "category": "mcp",
-      "score": 70,
-      "trend_score": 70,
-      "stars": 1219,
-      "velocity_7d": 356,
-      "velocity_score": 100,
-      "growth_rate": 0.292,
-      "v7d_estimated": true,
-      "source_count": 1,
-      "sources": [
-        "github"
-      ],
-      "evidence": [
-        {
-          "source": "github",
-          "url": "https://github.com/alexgaoth/awesome-reverse-engineered",
-          "label": "최근 7일 +356 stars"
-        }
-      ],
-      "status": "rising",
-      "catchphrase": "비공개 앱, 폐쇄형 API, 하드웨어 프로토콜을 분석한 17,000개 이상의 리버스 엔지니어링 도구 통합 색인",
-      "summary_ko": "상용 비공개 앱, 폐쇄형 클라우드 API, IoT 기기, 독자 파일 포맷, 게임 프로토콜을 역공학하여 공개된 17,000개 이상의 오픈소스 도구와 라이브러리를 통합 색인화한 지식 베이스입니다. 매일 밤 자동으로 최신화되며, Claude Code 에이전트 스킬 및 MCP 서버로 제공되어 폐쇄형 인터페이스를 분석할 때 기존의 역공학 결과물을 즉시 검색하고 호출할 수 있습니다. 이미 다른 개발자가 풀어놓은 프로토콜을 중복 분석하는 낭비를 방지합니다.",
-      "key_features": [
-        "17,000개 이상의 역공학 오픈소스 도구 및 프로토콜 규격 매일 밤 자동 색인",
-        "Claude Code 에이전트 스킬 및 MCP 서버를 통한 즉각적인 CLI/자연어 질의",
-        "비공개 API·바이너리 포맷·IoT 제어 프로토콜에 대한 중복 분석 비용 제거"
-      ],
-      "use_case": "비공개 API나 상용 프로토콜을 연동해야 할 때 이미 검증된 오픈소스 역공학 코드를 즉시 찾고 싶을 때",
-      "install_hint": "README 참고",
-      "badge": "🔥 Rising",
-      "badges": [
-        "🔥 Rising"
-      ],
-      "tags": [
-        "reverse-engineering",
-        "mcp-server",
-        "claude-skills",
-        "unofficial-api",
-        "decompilation"
-      ],
-      "thumbnail_url": "https://github.com/alexgaoth.png"
-    },
-    {
-      "id": "Jakeschincariol/founder-skill",
-      "name": "founder-skill",
-      "owner": "Jakeschincariol",
-      "title_ko": "founder-skill — 제품 출시 전 비즈니스 모델과 시장성을 철저히 검증하는 11가지 창업가 스킬셋",
-      "official_url": "https://github.com/Jakeschincariol/founder-skill",
-      "repo_url": "https://github.com/Jakeschincariol/founder-skill",
-      "category": "skill",
-      "score": 70,
-      "trend_score": 70,
-      "stars": 2452,
-      "velocity_7d": 301,
-      "velocity_score": 100,
-      "growth_rate": 0.1228,
-      "v7d_estimated": false,
-      "source_count": 1,
-      "sources": [
-        "github"
-      ],
-      "evidence": [
-        {
-          "source": "github",
-          "url": "https://github.com/Jakeschincariol/founder-skill",
-          "label": "최근 7일 +301 stars"
-        }
-      ],
-      "status": "rising",
-      "catchphrase": "고객 인터뷰 분석, 경쟁사 포지셔닝, 가격 정책 등 사업 가설을 다각도로 스트레스 테스트",
-      "summary_ko": "제품 론칭 전에 창업 아이디어와 비즈니스 모델을 다각도로 스트레스 테스트할 수 있도록 설계된 11가지 무료 Claude Code 스킬 모음입니다. 타깃 고객 세그먼트 분석, 경쟁사 차별점 도출, 지불 용의성 측정, 랜딩 페이지 카피 최적화 등 실전 창업에 필요한 핵심 검증 단계를 에이전트가 단계별로 인터뷰하며 진단합니다.",
-      "key_features": [
-        "제품 시장 적합성(PMF) 검증을 위한 11가지 체계적인 스킬 모듈",
-        "경쟁사 분석 및 유니크 밸류 프로포지션(UVP) 도출 프레임워크",
-        "Claude Code 대화 세션에서 즉시 실행 가능한 창업 코칭 워크플로우"
-      ],
-      "use_case": "새로운 사이드 프로젝트나 스타트업 제품을 출시하기 전에 시장 실패 위험을 줄이고 싶을 때",
-      "install_hint": "README 참고",
-      "badge": "🔥 Rising",
-      "badges": [
-        "🔥 Rising"
-      ],
-      "tags": [
-        "founder-skills",
-        "startup-validation",
-        "business-model",
-        "claude-skills"
-      ],
-      "thumbnail_url": "https://github.com/Jakeschincariol.png"
-    },
-    {
-      "id": "zhuyansen/new-term-radar",
-      "name": "new-term-radar",
-      "owner": "zhuyansen",
-      "title_ko": "new-term-radar — 검색 트렌드 도구에 잡히기 전 신규 AI 모델·제품·저장소 신조어를 포착하는 일일 레이더",
-      "official_url": "https://github.com/zhuyansen/new-term-radar",
-      "repo_url": "https://github.com/zhuyansen/new-term-radar",
-      "category": "skill",
-      "score": 70,
-      "trend_score": 70,
-      "stars": 2099,
-      "velocity_7d": 178,
-      "velocity_score": 100,
-      "growth_rate": 0.0848,
-      "v7d_estimated": false,
-      "source_count": 1,
-      "sources": [
-        "github"
-      ],
-      "evidence": [
-        {
-          "source": "github",
-          "url": "https://github.com/zhuyansen/new-term-radar",
-          "label": "최근 7일 +178 stars"
-        }
-      ],
-      "status": "rising",
-      "catchphrase": "X, Hugging Face, GitHub, 사이트맵에서 새로 등장한 AI 기술 용어와 프로젝트를 가장 먼저 탐지",
-      "summary_ko": "Google Trends나 기존 SEO 키워드 도구가 인덱싱하기 전에 X(트위터), Hugging Face, GitHub 트렌딩, 주요 기술 사이트맵을 매일 스캔하여 새롭게 등장한 AI 모델명, 프레임워크, 오픈소스 프로젝트 명칭을 실시간으로 포착하는 스킬 및 MCP 서버입니다. 기술 트렌드 리서처와 프로덕트 빌더가 초기 시그널을 선점할 수 있도록 돕습니다.",
-      "key_features": [
-        "X·Hugging Face·GitHub·웹 사이트맵 교차 스캔 기반 신조어 조기 탐지",
-        "기존 키워드 도구가 놓치는 신규 출시 모델 및 오픈소스 프로젝트 식별",
-        "Claude Code 스킬 및 MCP 서버 인터페이스로 트렌드 리서치 자동화"
-      ],
-      "use_case": "새롭게 부상하는 AI 모델이나 오픈소스 기술 키워드를 남들보다 가장 먼저 파악하고 분석할 때",
-      "install_hint": "README 참고",
-      "badge": "🔥 Rising",
-      "badges": [
-        "🔥 Rising"
-      ],
-      "tags": [
-        "trend-radar",
-        "keyword-research",
-        "early-signal",
-        "claude-skills",
-        "mcp-server"
-      ],
-      "thumbnail_url": "https://github.com/zhuyansen.png"
-    },
-    {
       "id": "reason-machines/reason-network",
       "name": "reason-network",
       "owner": "reason-machines",
@@ -777,10 +679,10 @@
       "category": "harness",
       "score": 70,
       "trend_score": 70,
-      "stars": 1512,
-      "velocity_7d": 175,
+      "stars": 1676,
+      "velocity_7d": 279,
       "velocity_score": 100,
-      "growth_rate": 0.1157,
+      "growth_rate": 0.1665,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -790,7 +692,7 @@
         {
           "source": "github",
           "url": "https://github.com/reason-machines/reason-network",
-          "label": "최근 7일 +175 stars"
+          "label": "최근 7일 +279 stars"
         }
       ],
       "status": "rising",
@@ -817,6 +719,104 @@
       "thumbnail_url": "https://github.com/reason-machines.png"
     },
     {
+      "id": "alexgaoth/awesome-reverse-engineered",
+      "name": "awesome-reverse-engineered",
+      "owner": "alexgaoth",
+      "title_ko": "awesome-reverse-engineered — 17,000+ 오픈소스 역공학 도구를 검색·호출하는 MCP 서버 겸 에이전트 스킬",
+      "official_url": "https://github.com/alexgaoth/awesome-reverse-engineered",
+      "repo_url": "https://github.com/alexgaoth/awesome-reverse-engineered",
+      "category": "mcp",
+      "score": 70,
+      "trend_score": 70,
+      "stars": 1288,
+      "velocity_7d": 152,
+      "velocity_score": 100,
+      "growth_rate": 0.118,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/alexgaoth/awesome-reverse-engineered",
+          "label": "최근 7일 +152 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "비공개 앱, 폐쇄형 API, 하드웨어 프로토콜을 분석한 17,000개 이상의 리버스 엔지니어링 도구 통합 색인",
+      "summary_ko": "상용 비공개 앱, 폐쇄형 클라우드 API, IoT 기기, 독자 파일 포맷, 게임 프로토콜을 역공학하여 공개된 17,000개 이상의 오픈소스 도구와 라이브러리를 통합 색인화한 지식 베이스입니다. 매일 밤 자동으로 최신화되며, Claude Code 에이전트 스킬 및 MCP 서버로 제공되어 폐쇄형 인터페이스를 분석할 때 기존의 역공학 결과물을 즉시 검색하고 호출할 수 있습니다. 이미 다른 개발자가 풀어놓은 프로토콜을 중복 분석하는 낭비를 방지합니다.",
+      "key_features": [
+        "17,000개 이상의 역공학 오픈소스 도구 및 프로토콜 규격 매일 밤 자동 색인",
+        "Claude Code 에이전트 스킬 및 MCP 서버를 통한 즉각적인 CLI/자연어 질의",
+        "비공개 API·바이너리 포맷·IoT 제어 프로토콜에 대한 중복 분석 비용 제거"
+      ],
+      "use_case": "비공개 API나 상용 프로토콜을 연동해야 할 때 이미 검증된 오픈소스 역공학 코드를 즉시 찾고 싶을 때",
+      "install_hint": "README 참고",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "reverse-engineering",
+        "mcp-server",
+        "claude-skills",
+        "unofficial-api",
+        "decompilation"
+      ],
+      "thumbnail_url": "https://github.com/alexgaoth.png"
+    },
+    {
+      "id": "zhuyansen/new-term-radar",
+      "name": "new-term-radar",
+      "owner": "zhuyansen",
+      "title_ko": "new-term-radar — 검색 트렌드 도구에 잡히기 전 신규 AI 모델·제품·저장소 신조어를 포착하는 일일 레이더",
+      "official_url": "https://github.com/zhuyansen/new-term-radar",
+      "repo_url": "https://github.com/zhuyansen/new-term-radar",
+      "category": "skill",
+      "score": 70,
+      "trend_score": 70,
+      "stars": 2141,
+      "velocity_7d": 139,
+      "velocity_score": 100,
+      "growth_rate": 0.0649,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/zhuyansen/new-term-radar",
+          "label": "최근 7일 +139 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "X, Hugging Face, GitHub, 사이트맵에서 새로 등장한 AI 기술 용어와 프로젝트를 가장 먼저 탐지",
+      "summary_ko": "Google Trends나 기존 SEO 키워드 도구가 인덱싱하기 전에 X(트위터), Hugging Face, GitHub 트렌딩, 주요 기술 사이트맵을 매일 스캔하여 새롭게 등장한 AI 모델명, 프레임워크, 오픈소스 프로젝트 명칭을 실시간으로 포착하는 스킬 및 MCP 서버입니다. 기술 트렌드 리서처와 프로덕트 빌더가 초기 시그널을 선점할 수 있도록 돕습니다.",
+      "key_features": [
+        "X·Hugging Face·GitHub·웹 사이트맵 교차 스캔 기반 신조어 조기 탐지",
+        "기존 키워드 도구가 놓치는 신규 출시 모델 및 오픈소스 프로젝트 식별",
+        "Claude Code 스킬 및 MCP 서버 인터페이스로 트렌드 리서치 자동화"
+      ],
+      "use_case": "새롭게 부상하는 AI 모델이나 오픈소스 기술 키워드를 남들보다 가장 먼저 파악하고 분석할 때",
+      "install_hint": "README 참고",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "trend-radar",
+        "keyword-research",
+        "early-signal",
+        "claude-skills",
+        "mcp-server"
+      ],
+      "thumbnail_url": "https://github.com/zhuyansen.png"
+    },
+    {
       "id": "thedotmack/claude-mem",
       "name": "claude-mem",
       "owner": "thedotmack",
@@ -826,10 +826,10 @@
       "category": "mcp",
       "score": 60,
       "trend_score": 60,
-      "stars": 112826,
-      "velocity_7d": 8776,
+      "stars": 114881,
+      "velocity_7d": 6968,
       "velocity_score": 100,
-      "growth_rate": 0.0778,
+      "growth_rate": 0.0607,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -839,7 +839,7 @@
         {
           "source": "github",
           "url": "https://github.com/thedotmack/claude-mem",
-          "label": "최근 7일 +8,776 stars"
+          "label": "최근 7일 +6,968 stars"
         }
       ],
       "status": "rising",
@@ -865,6 +865,54 @@
       "thumbnail_url": "https://github.com/thedotmack.png"
     },
     {
+      "id": "ccch1mneyyy/dsh-TUI",
+      "name": "dsh-TUI",
+      "owner": "ccch1mneyyy",
+      "title_ko": "dsh-TUI — Claude Code 감성의 실시간 스트리밍 및 롤백을 지원하는 터미널 UI",
+      "official_url": "https://github.com/ccch1mneyyy/dsh-TUI",
+      "repo_url": "https://github.com/ccch1mneyyy/dsh-TUI",
+      "category": "mcp",
+      "score": 60,
+      "trend_score": 60,
+      "stars": 7234,
+      "velocity_7d": 801,
+      "velocity_score": 100,
+      "growth_rate": 0.1107,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/ccch1mneyyy/dsh-TUI",
+          "label": "최근 7일 +801 stars"
+        }
+      ],
+      "status": "rising",
+      "catchphrase": "고래 상단바, 실시간 사고 과정 시각화, 더블 ESC 롤백, TPS 모니터링을 제공하는 TUI",
+      "summary_ko": "DSH(DeepSeek Harness) 환경에 Claude Code 감성의 유려한 인터페이스를 부여하는 터미널 TUI 플러그인입니다. 에이전트의 실시간 사고 과정 스트리밍, 더블 ESC 키를 통한 즉각적인 세션 롤백, 실시간 컨텍스트 및 TPS(초당 토큰 수) 표시 등 뛰어난 조작감을 제공합니다.",
+      "key_features": [
+        "실시간 추론 사고 과정 및 상태 스트리밍 TUI",
+        "더블 ESC 입력 시 이전 명령 즉각 롤백",
+        "컨텍스트 소비율 및 TPS 실시간 시각화"
+      ],
+      "use_case": "DSH 에이전트 실행 과정을 터미널에서 직관적이고 미려하게 제어하고 싶을 때",
+      "install_hint": "README 참고",
+      "badge": "🔥 Rising",
+      "badges": [
+        "🔥 Rising"
+      ],
+      "tags": [
+        "tui",
+        "deepseek-harness",
+        "terminal-ui",
+        "claude-code-style"
+      ],
+      "thumbnail_url": "https://github.com/ccch1mneyyy.png"
+    },
+    {
       "id": "Ryze-AI-Adgent/open-seo-mcp-skills",
       "name": "open-seo-mcp-skills",
       "owner": "Ryze-AI-Adgent",
@@ -874,10 +922,10 @@
       "category": "mcp",
       "score": 60,
       "trend_score": 60,
-      "stars": 8814,
-      "velocity_7d": 999,
+      "stars": 8971,
+      "velocity_7d": 613,
       "velocity_score": 100,
-      "growth_rate": 0.1133,
+      "growth_rate": 0.0683,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -887,7 +935,7 @@
         {
           "source": "github",
           "url": "https://github.com/Ryze-AI-Adgent/open-seo-mcp-skills",
-          "label": "최근 7일 +999 stars"
+          "label": "최근 7일 +613 stars"
         }
       ],
       "status": "rising",
@@ -914,67 +962,19 @@
       "thumbnail_url": "https://github.com/Ryze-AI-Adgent.png"
     },
     {
-      "id": "ccch1mneyyy/dsh-TUI",
-      "name": "dsh-TUI",
-      "owner": "ccch1mneyyy",
-      "title_ko": "dsh-TUI — Claude Code 감성의 실시간 스트리밍 및 롤백을 지원하는 터미널 UI",
-      "official_url": "https://github.com/ccch1mneyyy/dsh-TUI",
-      "repo_url": "https://github.com/ccch1mneyyy/dsh-TUI",
-      "category": "mcp",
-      "score": 60,
-      "trend_score": 60,
-      "stars": 6888,
-      "velocity_7d": 780,
-      "velocity_score": 100,
-      "growth_rate": 0.1132,
-      "v7d_estimated": false,
-      "source_count": 1,
-      "sources": [
-        "github"
-      ],
-      "evidence": [
-        {
-          "source": "github",
-          "url": "https://github.com/ccch1mneyyy/dsh-TUI",
-          "label": "최근 7일 +780 stars"
-        }
-      ],
-      "status": "rising",
-      "catchphrase": "고래 상단바, 실시간 사고 과정 시각화, 더블 ESC 롤백, TPS 모니터링을 제공하는 TUI",
-      "summary_ko": "DSH(DeepSeek Harness) 환경에 Claude Code 감성의 유려한 인터페이스를 부여하는 터미널 TUI 플러그인입니다. 에이전트의 실시간 사고 과정 스트리밍, 더블 ESC 키를 통한 즉각적인 세션 롤백, 실시간 컨텍스트 및 TPS(초당 토큰 수) 표시 등 뛰어난 조작감을 제공합니다.",
-      "key_features": [
-        "실시간 추론 사고 과정 및 상태 스트리밍 TUI",
-        "더블 ESC 입력 시 이전 명령 즉각 롤백",
-        "컨텍스트 소비율 및 TPS 실시간 시각화"
-      ],
-      "use_case": "DSH 에이전트 실행 과정을 터미널에서 직관적이고 미려하게 제어하고 싶을 때",
-      "install_hint": "README 참고",
-      "badge": "🔥 Rising",
-      "badges": [
-        "🔥 Rising"
-      ],
-      "tags": [
-        "tui",
-        "deepseek-harness",
-        "terminal-ui",
-        "claude-code-style"
-      ],
-      "thumbnail_url": "https://github.com/ccch1mneyyy.png"
-    },
-    {
-      "id": "Folkbench/folkbench",
-      "name": "folkbench",
-      "owner": "Folkbench",
-      "title_ko": "folkbench — Claude Code와 Codex용 AI API 릴레이 서버의 가용성·지연시간·단가를 실측 비교하고 전환하는 도구",
-      "official_url": "https://github.com/Folkbench/folkbench",
-      "repo_url": "https://github.com/Folkbench/folkbench",
+      "id": "HarnessRouter/harnessrouter",
+      "name": "harnessrouter",
+      "owner": "HarnessRouter",
+      "title_ko": "HarnessRouter — 모든 코딩 에이전트 하네스를 연결하는 통합 오픈 프로토콜 라우터",
+      "official_url": "https://github.com/HarnessRouter/harnessrouter",
+      "repo_url": "https://github.com/HarnessRouter/harnessrouter",
       "category": "harness",
       "score": 60,
       "trend_score": 60,
-      "stars": 4322,
-      "velocity_7d": 453,
+      "stars": 4295,
+      "velocity_7d": 490,
       "velocity_score": 100,
-      "growth_rate": 0.1048,
+      "growth_rate": 0.1141,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -983,32 +983,31 @@
       "evidence": [
         {
           "source": "github",
-          "url": "https://github.com/Folkbench/folkbench",
-          "label": "최근 7일 +453 stars"
+          "url": "https://github.com/HarnessRouter/harnessrouter",
+          "label": "최근 7일 +490 stars"
         }
       ],
       "status": "rising",
-      "catchphrase": "오픈소스 AI API 중계 서비스의 실제 가용률과 응답 속도를 벤치마킹하고 원클릭으로 전환",
-      "summary_ko": "Claude Code와 OpenAI Codex에서 사용하는 다양한 AI API 릴레이(중계) 서비스들의 실제 가용성, 응답 지연 시간(Latency), 토큰 단가를 실시간으로 벤치마킹하고 순위를 매겨주는 Rust 및 Tauri 기반 데스크톱 도구입니다. 특정 API 공급자에 장애가 발생하거나 응답이 느려질 때 가장 빠르고 안정적인 엔드포인트로 즉시 전환할 수 있습니다.",
+      "catchphrase": "Codex, Claude Code, Hermes, PI를 하나의 일관된 API로 제어하는 UHP 표준 구현체",
+      "summary_ko": "다양한 AI 코딩 에이전트 하네스들을 단일 인터페이스로 통합하는 오픈소스 셀프 호스팅 라우터입니다. Unified Harness Protocol(UHP) 개방형 표준을 구현하여 세션 관리, 스트리밍, 파일 조작, 작업 취소 및 에러 처리를 일관되게 제공합니다. 자체 인프라와 API 키를 유지하면서 여러 하네스를 유연하게 오케스트레이션할 수 있습니다.",
       "key_features": [
-        "AI API 릴레이 서비스별 실시간 가용률·응답 지연 시간·가격 비교 벤치마크",
-        "Claude Code 및 Codex 설정 파일과 연동되는 원클릭 엔드포인트 스위처",
-        "Rust 및 Tauri 기반의 가볍고 빠른 크로스플랫폼 데스크톱 앱 제공"
+        "UHP(Unified Harness Protocol) 개방형 표준 완벽 구현",
+        "Codex·Claude Code·Hermes·PI 등 이기종 하네스 단일 API 제어",
+        "세션 스트리밍·파일 I/O·중단 처리 및 복구 기능 내장"
       ],
-      "use_case": "여러 LLM API 프록시나 라우터를 사용할 때 가장 응답이 빠르고 저렴한 공급자로 즉시 전환하고 싶을 때",
+      "use_case": "이기종 코딩 에이전트들을 자체 서버에서 통합 관리하고 단일 파이프라인으로 제어할 때",
       "install_hint": "README 참고",
       "badge": "🔥 Rising",
       "badges": [
         "🔥 Rising"
       ],
       "tags": [
-        "api-relay",
-        "benchmark",
-        "endpoint-switcher",
-        "claude-code",
-        "codex"
+        "agent-harness",
+        "unified-api",
+        "uhp",
+        "ai-infrastructure"
       ],
-      "thumbnail_url": "https://github.com/Folkbench.png"
+      "thumbnail_url": "https://github.com/HarnessRouter.png"
     }
   ],
   "classic": [
@@ -1020,12 +1019,12 @@
       "official_url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
       "repo_url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
       "category": "skill",
-      "score": 37,
-      "trend_score": 37,
-      "stars": 145220,
-      "velocity_7d": 3115,
-      "velocity_score": 42.8,
-      "growth_rate": 0.0215,
+      "score": 39,
+      "trend_score": 39,
+      "stars": 146905,
+      "velocity_7d": 3474,
+      "velocity_score": 48.6,
+      "growth_rate": 0.0236,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -1035,7 +1034,7 @@
         {
           "source": "github",
           "url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
-          "label": "최근 7일 +3,115 stars"
+          "label": "최근 7일 +3,474 stars"
         }
       ],
       "status": "classic",
@@ -1068,12 +1067,12 @@
       "official_url": "https://github.com/Egonex-AI/Understand-Anything",
       "repo_url": "https://github.com/Egonex-AI/Understand-Anything",
       "category": "agent",
-      "score": 36,
-      "trend_score": 36,
-      "stars": 90594,
-      "velocity_7d": 1834,
-      "velocity_score": 40.4,
-      "growth_rate": 0.0202,
+      "score": 39,
+      "trend_score": 39,
+      "stars": 91547,
+      "velocity_7d": 2123,
+      "velocity_score": 47.6,
+      "growth_rate": 0.0232,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -1083,7 +1082,7 @@
         {
           "source": "github",
           "url": "https://github.com/Egonex-AI/Understand-Anything",
-          "label": "최근 7일 +1,834 stars"
+          "label": "최근 7일 +2,123 stars"
         }
       ],
       "status": "classic",
@@ -1118,10 +1117,10 @@
       "category": "harness",
       "score": 35,
       "trend_score": 35,
-      "stars": 297243,
-      "velocity_7d": 5436,
-      "velocity_score": 36.5,
-      "growth_rate": 0.0183,
+      "stars": 299696,
+      "velocity_7d": 5610,
+      "velocity_score": 38.5,
+      "growth_rate": 0.0187,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -1131,7 +1130,7 @@
         {
           "source": "github",
           "url": "https://github.com/affaan-m/ECC",
-          "label": "최근 7일 +5,436 stars"
+          "label": "최근 7일 +5,610 stars"
         }
       ],
       "status": "classic",
@@ -1157,6 +1156,54 @@
       "thumbnail_url": "https://github.com/affaan-m.png"
     },
     {
+      "id": "garrytan/gstack",
+      "name": "gstack",
+      "owner": "garrytan",
+      "title_ko": "gstack — Y Combinator 대표 Garry Tan의 23가지 Claude Code 개발 환경 셋업",
+      "official_url": "https://github.com/garrytan/gstack",
+      "repo_url": "https://github.com/garrytan/gstack",
+      "category": "skill",
+      "score": 33,
+      "trend_score": 33,
+      "stars": 140782,
+      "velocity_7d": 2300,
+      "velocity_score": 33.6,
+      "growth_rate": 0.0163,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [
+        {
+          "source": "github",
+          "url": "https://github.com/garrytan/gstack",
+          "label": "최근 7일 +2,300 stars"
+        }
+      ],
+      "status": "classic",
+      "catchphrase": "CEO, 디자이너, 엔지니어링 매니저, QA 역할을 수행하는 23개의 검증된 풀스택 도구 모음",
+      "summary_ko": "YC CEO Garry Tan이 실제 프로덕션 개발에서 사용하는 Claude Code 도구 모음입니다. 기획(CEO), UI/UX 디자인, 백엔드 아키텍처, 릴리즈 관리, QA 테스트까지 소프트웨어 개발의 전 단계를 아우르는 23가지 도구가 완벽하게 사전 구성되어 있습니다.",
+      "key_features": [
+        "Garry Tan의 실전 프로덕션 Claude Code 구성 100% 재현",
+        "기획·디자인·엔지니어링·QA 4대 영역 맞춤 툴셋 제공",
+        "빠른 스타트업 MVP 개발 및 제품 출시에 최적화"
+      ],
+      "use_case": "실리콘밸리 최고 수준의 검증된 풀스택 Claude Code 개발 파이프라인을 그대로 도입할 때",
+      "install_hint": "README 참고",
+      "badge": "⭐ Classic",
+      "badges": [
+        "⭐ Classic"
+      ],
+      "tags": [
+        "garry-tan",
+        "gstack",
+        "claude-skills",
+        "startup-stack"
+      ],
+      "thumbnail_url": "https://github.com/garrytan.png"
+    },
+    {
       "id": "addyosmani/agent-skills",
       "name": "agent-skills",
       "owner": "addyosmani",
@@ -1166,10 +1213,10 @@
       "category": "skill",
       "score": 33,
       "trend_score": 33,
-      "stars": 113280,
-      "velocity_7d": 1798,
-      "velocity_score": 31.7,
-      "growth_rate": 0.0159,
+      "stars": 114115,
+      "velocity_7d": 1850,
+      "velocity_score": 33.3,
+      "growth_rate": 0.0162,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -1179,7 +1226,7 @@
         {
           "source": "github",
           "url": "https://github.com/addyosmani/agent-skills",
-          "label": "최근 7일 +1,798 stars"
+          "label": "최근 7일 +1,850 stars"
         }
       ],
       "status": "classic",
@@ -1212,12 +1259,12 @@
       "official_url": "https://github.com/JuliusBrussee/caveman",
       "repo_url": "https://github.com/JuliusBrussee/caveman",
       "category": "skill",
-      "score": 31,
-      "trend_score": 31,
-      "stars": 117510,
-      "velocity_7d": 1681,
-      "velocity_score": 28.5,
-      "growth_rate": 0.0143,
+      "score": 33,
+      "trend_score": 33,
+      "stars": 118367,
+      "velocity_7d": 1832,
+      "velocity_score": 31.8,
+      "growth_rate": 0.0155,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -1227,7 +1274,7 @@
         {
           "source": "github",
           "url": "https://github.com/JuliusBrussee/caveman",
-          "label": "최근 7일 +1,681 stars"
+          "label": "최근 7일 +1,832 stars"
         }
       ],
       "status": "classic",
@@ -1262,9 +1309,9 @@
       "category": "mcp",
       "score": 31,
       "trend_score": 31,
-      "stars": 151827,
-      "velocity_7d": 2073,
-      "velocity_score": 27.2,
+      "stars": 152744,
+      "velocity_7d": 2095,
+      "velocity_score": 28.2,
       "growth_rate": 0.0137,
       "v7d_estimated": false,
       "source_count": 1,
@@ -1275,7 +1322,7 @@
         {
           "source": "github",
           "url": "https://github.com/farion1231/cc-switch",
-          "label": "최근 7일 +2,073 stars"
+          "label": "최근 7일 +2,095 stars"
         }
       ],
       "status": "classic",
@@ -1308,12 +1355,12 @@
       "official_url": "https://github.com/nexu-io/open-design",
       "repo_url": "https://github.com/nexu-io/open-design",
       "category": "mcp",
-      "score": 30,
-      "trend_score": 30,
-      "stars": 105946,
-      "velocity_7d": 1290,
-      "velocity_score": 24.3,
-      "growth_rate": 0.0122,
+      "score": 31,
+      "trend_score": 31,
+      "stars": 106655,
+      "velocity_7d": 1457,
+      "velocity_score": 28.1,
+      "growth_rate": 0.0137,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -1323,7 +1370,7 @@
         {
           "source": "github",
           "url": "https://github.com/nexu-io/open-design",
-          "label": "최근 7일 +1,290 stars"
+          "label": "최근 7일 +1,457 stars"
         }
       ],
       "status": "classic",
@@ -1356,12 +1403,12 @@
       "official_url": "https://github.com/lidge-jun/opencodex",
       "repo_url": "https://github.com/lidge-jun/opencodex",
       "category": "harness",
-      "score": 29,
-      "trend_score": 29,
-      "stars": 18214,
-      "velocity_7d": 199,
-      "velocity_score": 21.8,
-      "growth_rate": 0.0109,
+      "score": 28,
+      "trend_score": 28,
+      "stars": 18301,
+      "velocity_7d": 188,
+      "velocity_score": 21.1,
+      "growth_rate": 0.0103,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -1371,7 +1418,7 @@
         {
           "source": "github",
           "url": "https://github.com/lidge-jun/opencodex",
-          "label": "최근 7일 +199 stars"
+          "label": "최근 7일 +188 stars"
         }
       ],
       "status": "classic",
@@ -1398,102 +1445,6 @@
       "thumbnail_url": "https://github.com/lidge-jun.png"
     },
     {
-      "id": "NousResearch/hermes-agent",
-      "name": "hermes-agent",
-      "owner": "NousResearch",
-      "title_ko": "hermes-agent — 사용자의 워크플로우에 맞춰 자가 적응하고 성장하는 오픈 에이전트",
-      "official_url": "https://github.com/NousResearch/hermes-agent",
-      "repo_url": "https://github.com/NousResearch/hermes-agent",
-      "category": "agent",
-      "score": 28,
-      "trend_score": 28,
-      "stars": 260555,
-      "velocity_7d": 2465,
-      "velocity_score": 18.9,
-      "growth_rate": 0.0095,
-      "v7d_estimated": false,
-      "source_count": 1,
-      "sources": [
-        "github"
-      ],
-      "evidence": [
-        {
-          "source": "github",
-          "url": "https://github.com/NousResearch/hermes-agent",
-          "label": "최근 7일 +2,465 stars"
-        }
-      ],
-      "status": "classic",
-      "catchphrase": "도구 활용과 복합 추론 능력을 갖추고 도메인에 맞게 지속 진화하는 AI 에이전트",
-      "summary_ko": "Nous Research에서 개발한 오픈소스 자율 에이전트 프레임워크입니다. 다양한 도구를 유연하게 연동하고 실패 시 스스로 전략을 수정하는 고급 추론 루프를 갖추고 있습니다. 로컬 모델부터 최상위 클라우드 LLM까지 폭넓게 구동되며 사용자 맞춤형 워크플로우에 최적화됩니다.",
-      "key_features": [
-        "고급 함수 호출 및 다단계 도구 체이닝 추론",
-        "오픈 가중치 모델과 독점 LLM 모두를 지원하는 유연성",
-        "개발자의 특화된 작업 방식에 맞춘 자가 적응 기능"
-      ],
-      "use_case": "폐쇄형 상용 에이전트 대신 자유롭게 커스텀 가능한 강력한 오픈 에이전트를 구축할 때",
-      "install_hint": "README 참고",
-      "badge": "⭐ Classic",
-      "badges": [
-        "⭐ Classic"
-      ],
-      "tags": [
-        "hermes",
-        "autonomous-agent",
-        "open-source",
-        "reasoning"
-      ],
-      "thumbnail_url": "https://github.com/NousResearch.png"
-    },
-    {
-      "id": "garrytan/gstack",
-      "name": "gstack",
-      "owner": "garrytan",
-      "title_ko": "gstack — Y Combinator 대표 Garry Tan의 23가지 Claude Code 개발 환경 셋업",
-      "official_url": "https://github.com/garrytan/gstack",
-      "repo_url": "https://github.com/garrytan/gstack",
-      "category": "skill",
-      "score": 27,
-      "trend_score": 27,
-      "stars": 139317,
-      "velocity_7d": 1240,
-      "velocity_score": 17.8,
-      "growth_rate": 0.0089,
-      "v7d_estimated": false,
-      "source_count": 1,
-      "sources": [
-        "github"
-      ],
-      "evidence": [
-        {
-          "source": "github",
-          "url": "https://github.com/garrytan/gstack",
-          "label": "최근 7일 +1,240 stars"
-        }
-      ],
-      "status": "classic",
-      "catchphrase": "CEO, 디자이너, 엔지니어링 매니저, QA 역할을 수행하는 23개의 검증된 풀스택 도구 모음",
-      "summary_ko": "YC CEO Garry Tan이 실제 프로덕션 개발에서 사용하는 Claude Code 도구 모음입니다. 기획(CEO), UI/UX 디자인, 백엔드 아키텍처, 릴리즈 관리, QA 테스트까지 소프트웨어 개발의 전 단계를 아우르는 23가지 도구가 완벽하게 사전 구성되어 있습니다.",
-      "key_features": [
-        "Garry Tan의 실전 프로덕션 Claude Code 구성 100% 재현",
-        "기획·디자인·엔지니어링·QA 4대 영역 맞춤 툴셋 제공",
-        "빠른 스타트업 MVP 개발 및 제품 출시에 최적화"
-      ],
-      "use_case": "실리콘밸리 최고 수준의 검증된 풀스택 Claude Code 개발 파이프라인을 그대로 도입할 때",
-      "install_hint": "README 참고",
-      "badge": "⭐ Classic",
-      "badges": [
-        "⭐ Classic"
-      ],
-      "tags": [
-        "garry-tan",
-        "gstack",
-        "claude-skills",
-        "startup-stack"
-      ],
-      "thumbnail_url": "https://github.com/garrytan.png"
-    },
-    {
       "id": "ComposioHQ/awesome-claude-skills",
       "name": "awesome-claude-skills",
       "owner": "ComposioHQ",
@@ -1503,10 +1454,10 @@
       "category": "skill",
       "score": 26,
       "trend_score": 26,
-      "stars": 78744,
-      "velocity_7d": 543,
-      "velocity_score": 13.8,
-      "growth_rate": 0.0069,
+      "stars": 79068,
+      "velocity_7d": 614,
+      "velocity_score": 16,
+      "growth_rate": 0.0078,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -1516,7 +1467,7 @@
         {
           "source": "github",
           "url": "https://github.com/ComposioHQ/awesome-claude-skills",
-          "label": "최근 7일 +543 stars"
+          "label": "최근 7일 +614 stars"
         }
       ],
       "status": "classic",
@@ -1543,55 +1494,6 @@
       "thumbnail_url": "https://github.com/ComposioHQ.png"
     },
     {
-      "id": "MaxFreedomPollard/Compartment",
-      "name": "Compartment",
-      "owner": "MaxFreedomPollard",
-      "title_ko": "Compartment — 메모리 맵 GUI를 갖춘 완전 오프라인·암호화 기반의 로컬 에이전트 장기 기억 저장소",
-      "official_url": "https://github.com/MaxFreedomPollard/Compartment",
-      "repo_url": "https://github.com/MaxFreedomPollard/Compartment",
-      "category": "mcp",
-      "score": 24,
-      "trend_score": 24,
-      "stars": 580,
-      "velocity_7d": 3,
-      "velocity_score": 10.3,
-      "growth_rate": 0.0052,
-      "v7d_estimated": false,
-      "source_count": 1,
-      "sources": [
-        "github"
-      ],
-      "evidence": [
-        {
-          "source": "github",
-          "url": "https://github.com/MaxFreedomPollard/Compartment",
-          "label": "최근 7일 +3 stars"
-        }
-      ],
-      "status": "classic",
-      "catchphrase": "클라우드 유출 걱정 없는 100% 오프라인 암호화 메모리와 시각적 메모리 맵 GUI를 원클릭으로 구축",
-      "summary_ko": "모든 운영체제와 코딩 에이전트(Claude Code, Claude Desktop, Gemini CLI 등)에서 사용할 수 있는 완전 오프라인·로컬 암호화 기반 에이전트 장기 기억 시스템입니다. 원클릭 설치와 함께 기억 간의 연결 구조를 눈으로 확인하고 편집할 수 있는 메모리 맵 GUI를 제공하며, 로컬 시맨틱 검색으로 정교한 기억 생성·보관·인출을 수행합니다.",
-      "key_features": [
-        "외부 네트워크 전송 없이 로컬 디스크에서 완전 암호화되어 동작하는 오프라인 메모리",
-        "에이전트가 축적한 지식과 관계를 시각적으로 탐색·편집하는 메모리 맵(Memory Map) GUI",
-        "MCP 표준 인터페이스를 통해 Claude·Gemini 등 모든 에이전트에 원클릭 연동"
-      ],
-      "use_case": "민감한 사내 코드나 개인정보가 포함된 프로젝트 맥락을 외부 클라우드 노출 없이 안전하게 에이전트 장기 기억으로 관리할 때",
-      "install_hint": "README 참고",
-      "badge": "⭐ Classic",
-      "badges": [
-        "⭐ Classic"
-      ],
-      "tags": [
-        "encrypted-memory",
-        "offline-first",
-        "memory-map-gui",
-        "mcp-server",
-        "privacy"
-      ],
-      "thumbnail_url": "https://github.com/MaxFreedomPollard.png"
-    },
-    {
       "id": "google-gemini/gemini-cli",
       "name": "gemini-cli",
       "owner": "google-gemini",
@@ -1601,10 +1503,10 @@
       "category": "agent",
       "score": 21,
       "trend_score": 21,
-      "stars": 108728,
-      "velocity_7d": 126,
-      "velocity_score": 2.3,
-      "growth_rate": 0.0012,
+      "stars": 108785,
+      "velocity_7d": 151,
+      "velocity_score": 2.9,
+      "growth_rate": 0.0014,
       "v7d_estimated": false,
       "source_count": 1,
       "sources": [
@@ -1614,7 +1516,7 @@
         {
           "source": "github",
           "url": "https://github.com/google-gemini/gemini-cli",
-          "label": "최근 7일 +126 stars"
+          "label": "최근 7일 +151 stars"
         }
       ],
       "status": "classic",
@@ -1638,6 +1540,49 @@
         "large-context"
       ],
       "thumbnail_url": "https://github.com/google-gemini.png"
+    },
+    {
+      "id": "MaxFreedomPollard/Compartment",
+      "name": "Compartment",
+      "owner": "MaxFreedomPollard",
+      "title_ko": "Compartment — 메모리 맵 GUI를 갖춘 완전 오프라인·암호화 기반의 로컬 에이전트 장기 기억 저장소",
+      "official_url": "https://github.com/MaxFreedomPollard/Compartment",
+      "repo_url": "https://github.com/MaxFreedomPollard/Compartment",
+      "category": "mcp",
+      "score": 20,
+      "trend_score": 20,
+      "stars": 569,
+      "velocity_7d": -10,
+      "velocity_score": 0,
+      "growth_rate": 0,
+      "v7d_estimated": false,
+      "source_count": 1,
+      "sources": [
+        "github"
+      ],
+      "evidence": [],
+      "status": "classic",
+      "catchphrase": "클라우드 유출 걱정 없는 100% 오프라인 암호화 메모리와 시각적 메모리 맵 GUI를 원클릭으로 구축",
+      "summary_ko": "모든 운영체제와 코딩 에이전트(Claude Code, Claude Desktop, Gemini CLI 등)에서 사용할 수 있는 완전 오프라인·로컬 암호화 기반 에이전트 장기 기억 시스템입니다. 원클릭 설치와 함께 기억 간의 연결 구조를 눈으로 확인하고 편집할 수 있는 메모리 맵 GUI를 제공하며, 로컬 시맨틱 검색으로 정교한 기억 생성·보관·인출을 수행합니다.",
+      "key_features": [
+        "외부 네트워크 전송 없이 로컬 디스크에서 완전 암호화되어 동작하는 오프라인 메모리",
+        "에이전트가 축적한 지식과 관계를 시각적으로 탐색·편집하는 메모리 맵(Memory Map) GUI",
+        "MCP 표준 인터페이스를 통해 Claude·Gemini 등 모든 에이전트에 원클릭 연동"
+      ],
+      "use_case": "민감한 사내 코드나 개인정보가 포함된 프로젝트 맥락을 외부 클라우드 노출 없이 안전하게 에이전트 장기 기억으로 관리할 때",
+      "install_hint": "README 참고",
+      "badge": "⭐ Classic",
+      "badges": [
+        "⭐ Classic"
+      ],
+      "tags": [
+        "encrypted-memory",
+        "offline-first",
+        "memory-map-gui",
+        "mcp-server",
+        "privacy"
+      ],
+      "thumbnail_url": "https://github.com/MaxFreedomPollard.png"
     }
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-05T00:30:24.535Z",
+  "updated_at": "2026-11-08T23:37:45.950Z",
   "policy": {
     "filter_rule": "multi_source_ensemble_average",
     "staleness_gate": {
@@ -369,8 +369,8 @@
       "swe_bench_verified": null,
       "gpqa_diamond": 83.9,
       "mmlu_pro": 86.8,
-      "pricing_in_1m": 0.045,
-      "pricing_out_1m": 0.5,
+      "pricing_in_1m": 0.051,
+      "pricing_out_1m": 0.567,
       "context_window": "128K",
       "badge_type": "open-weights"
     },
