@@ -16,7 +16,7 @@ if (!GH_TOKEN) {
 const WEEK_AGO = new Date(Date.now() - 7 * 24 * 3600 * 1000);
 const WEEK_AGO_ISO = WEEK_AGO.toISOString().slice(0, 10);
 const MONTH_AGO_ISO = new Date(Date.now() - 30 * 24 * 3600 * 1000).toISOString().slice(0, 10);
-const TODAY = new Date().toISOString().slice(0, 10);
+const TODAY = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Seoul" }).format(new Date());
 
 // sort=stars 로만 돌리면 후보 풀이 거대 리포로만 채워진다 — 신생 진입 경로를 함께 둔다
 const GH_QUERIES = [

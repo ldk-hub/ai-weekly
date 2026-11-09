@@ -169,7 +169,7 @@ function validateAndCurate() {
 
   // 4. 주간 아카이빙 및 파일 미러링
   const now = new Date();
-  const today = now.toISOString().slice(0, 10);
+  const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Seoul" }).format(now);
   const nowIso = now.toISOString();
   data.updated_at = nowIso;
 

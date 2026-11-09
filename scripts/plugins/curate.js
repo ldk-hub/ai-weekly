@@ -1328,7 +1328,7 @@ async function main() {
     process.exit(1);
   }
 
-  const today = new Date().toISOString().slice(0, 10);
+  const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Seoul" }).format(new Date());
   const latest = {
     generated: today,
     generated_at: today,

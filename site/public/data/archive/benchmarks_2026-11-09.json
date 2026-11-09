@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-08T23:37:45.950Z",
+  "updated_at": "2026-11-09T00:36:12.051Z",
   "policy": {
     "filter_rule": "multi_source_ensemble_average",
     "staleness_gate": {

@@ -360,7 +360,7 @@ async function main() {
   const signalCounts = {};
   for (const n of news) signalCounts[n.signal_id] = (signalCounts[n.signal_id] || 0) + 1;
 
-  const today = new Date().toISOString().slice(0, 10);
+  const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Seoul" }).format(new Date());
   const latest = {
     generated_at: new Date().toISOString(),
     version: `v${today.replaceAll("-", ".")}`,
