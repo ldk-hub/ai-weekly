@@ -1067,11 +1067,11 @@ function newsCardHTML(item, idx = 0) {
     const growth = Number(item.star_growth_pct);
     const updWord = lang === "en" ? "Updated" : "업데이트";
     const label = Number.isFinite(growth) ? `${updWord} · ★ +${Math.round(growth)}%` : updWord;
-    badges.push(`<span style="font-size:12px; font-weight:700; padding:2px 8px; border-radius:10px; background:var(--pill); color:var(--ink-2); letter-spacing:0.02em;">${label}</span>`);
+    badges.push(`<span style="font-size:12px; font-weight:700; padding:2px 8px; border-radius:var(--radius-badge, 6px); background:var(--pill); color:var(--ink-2); letter-spacing:0.02em;">${label}</span>`);
   }
   const spd = Number(item.metrics && item.metrics.stars_per_day);
   if (item.category_id === "github" && Number.isFinite(spd) && spd > 0) {
-    badges.push(`<span style="font-size:12px; font-weight:600; padding:2px 8px; border-radius:10px; background:var(--pill); color:var(--muted);" title="${lang === "en" ? "Average stars gained per day" : "생성 이후 하루평균 획득 star"}">★ ${spd.toLocaleString()}/day</span>`);
+    badges.push(`<span style="font-size:12px; font-weight:600; padding:2px 8px; border-radius:var(--radius-badge, 6px); background:var(--pill); color:var(--muted);" title="${lang === "en" ? "Average stars gained per day" : "생성 이후 하루평균 획득 star"}">★ ${spd.toLocaleString()}/day</span>`);
   }
   const badgeHtml = badges.length ? `<div style="display:flex; gap:6px; margin-top:6px; flex-wrap:wrap;">${badges.join("")}</div>` : "";
 
@@ -1177,7 +1177,7 @@ function newsCardHTML(item, idx = 0) {
     ? `<div class="card-tags-inline" style="margin-top:10px;">${tagArr.map(t => `<button type="button" class="card-tag-chip" data-tag-filter="${escapeHTML(t)}" title="${lang === "en" ? "Filter by tag" : "이 태그로 필터링"}">#${escapeHTML(t)}</button>`).join("")}</div>`
     : "";
 
-  const related = (item.related_articles && item.related_articles.length > 0) ? `<div style="margin-top:16px; font-size:13px; background:var(--pill); padding:14px; border-radius:12px;"><strong style="color:var(--ink-2); display:flex; align-items:center; gap:6px;">🔗 ${lang === "en" ? "Related Articles" : "관련 기사"}</strong><ul style="margin-top:8px; padding-left:18px; color:var(--muted); list-style-type:circle;">${item.related_articles.map(r => `<li style="margin-bottom:4px;"><a href="${escapeHTML(r.url)}" target="_blank" rel="noopener" style="color:var(--muted); text-decoration:none;">${escapeHTML(r.title)}</a></li>`).join("")}</ul></div>` : "";
+  const related = (item.related_articles && item.related_articles.length > 0) ? `<div style="margin-top:16px; font-size:13px; background:var(--surface); border:1px solid var(--border); padding:14px; border-radius:var(--radius-box, 10px);"><strong style="color:var(--ink-2); display:flex; align-items:center; gap:6px;">🔗 ${lang === "en" ? "Related Articles" : "관련 기사"}</strong><ul style="margin-top:8px; padding-left:18px; color:var(--muted); list-style-type:circle;">${item.related_articles.map(r => `<li style="margin-bottom:4px;"><a href="${escapeHTML(r.url)}" target="_blank" rel="noopener" style="color:var(--muted); text-decoration:none;">${escapeHTML(r.title)}</a></li>`).join("")}</ul></div>` : "";
 
   const copyBtn = `
     <button type="button" class="card-icon-btn" data-action="copy-summary" data-id="${safeId}" title="${lang === 'en' ? 'Copy title, summary & link' : '기사 요약과 원문 링크 복사'}" style="font-size:12px; font-weight:600;">
@@ -2330,7 +2330,7 @@ function openStarboardModal(id) {
   const chartHtml = item.sparklineData.length >= 2
     ? `<div class="m-section">
          <div class="m-label">${lang === "en" ? "Recent Star Trajectory" : "최근 스타 추이 그래프"} (${entries[entries.length - 1]?.date || ""} → ${entries[0]?.date || ""})</div>
-         <div style="background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:16px 14px 10px;">
+         <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-box, 10px); padding:16px 14px 10px;">
            <svg width="100%" height="${height}" viewBox="-4 -10 ${width + 8} ${height + 20}" preserveAspectRatio="none">
              <polyline fill="none" stroke="${velocityColor}" stroke-width="3.5" points="${points}" stroke-linecap="round" stroke-linejoin="round"/>
            </svg>
@@ -2517,7 +2517,7 @@ function starboardCardHTML(item, idx, legendText) {
     ? `<span class="velocity-badge is-anomaly" title="${lang === "en" ? "Estimated, unverified" : "추정치·검증 필요"}" aria-label="${lang === "en" ? "Estimated, unverified" : "추정치·검증 필요"}"><span class="anomaly-icon">⚠️</span> ≈ ${sign}${item.velocity.toLocaleString()}/wk</span>`
     : (isHot 
       ? `<span class="sb-hot-badge sb-velocity">🔥 ${sign}${item.velocity.toLocaleString()}/wk</span>`
-      : `<span class="sb-velocity" style="color:${velocityColor}; font-weight:700; font-size: 14px; background:var(--surface); padding:2px 8px; border-radius:12px; display:inline-block;">${sign}${item.velocity.toLocaleString()}/wk</span>`);
+      : `<span class="sb-velocity" style="color:${velocityColor}; font-weight:700; font-size: 14px; background:var(--surface); padding:2px 8px; border-radius:var(--radius-badge, 6px); display:inline-block;">${sign}${item.velocity.toLocaleString()}/wk</span>`);
 
   // 설명부: EN 모드에서는 영문 원본(descEn)을 우선 노출, KO 모드에서는 한국어(descKo) 우선 노출
   const useKoBox = lang === "en" ? (!descEn && !!descKo) : !!descKo;
