@@ -324,6 +324,65 @@ tags: [ai-weekly, benchmarks, frontier-models, market-share, pipeline, staleness
 // 3. 작업 일지들
 const LOGS = [
   {
+    filename: "2026-11-10 작업일지.md",
+    title: "2026-11-10 작업일지 — 평일 파이프라인(cc-daily) 완수: 스타보드 614개 최신화, 데일리 AI 기술 신호 17건 큐레이션 배포 및 옵시디언 동기화",
+    date: "2026-11-10",
+    content: `---
+title: 2026-11-10 작업일지
+date: 2026-11-10
+type: work-log
+tags: [ai-weekly, work-log, cc-daily, cc-star, cc-news, obsidian-sync]
+status: completed
+author: ldk-hub <orm6711@gmail.com>
+---
+
+# 📅 2026-11-10 작업일지 (평일 파이프라인 cc-daily 완수)
+
+## 📌 주요 작업 요약
+
+### 1. 스타보드 갱신 (cc-star)
+- **추적 대상 및 성공률**: 총 614개 오픈소스 리포지토리 전수 추적 완료 (\`Success: 614 (100%)\`, 404 Gone: 47, Renames: 1, Suspects: 1).
+- **데이터 저장**: \`data/stars/stars_meta.json\` 및 \`data/stars/stars_ledger.json\` 원자적 갱신 및 프론트엔드(\`site/public/data/\`) 미러링 완료.
+- **주요 스타 급상승 Top 5**:
+  1. \`morluto/rea\`: 446,873★ (+3,199 / 일) — 역공학 에이전트
+  2. \`anthropics/skills\`: 190,914★ (+1,324 / 일) — 앤트로픽 공식 Claude 스킬셋
+  3. \`mattpocock/skills\`: 319,704★ (+1,223 / 일) — TypeScript & Claude Code 스킬셋
+  4. \`stablyai/orca\`: 120,384★ (+1,116 / 일) — 대규모 병렬 코딩 에이전트 지휘 ADE
+  5. \`Nutlope/hallmark\`: 51,760★ (+826 / 일) — 엔터프라이즈 AI 컴포넌트 툴킷
+
+### 2. 데일리 뉴스 큐레이션 및 배포 (cc-news)
+- **수집 현황**: 지정 매체 대상 총 105건 수집 (geeknews 5, aitimes 5, hackernews 24, github 50, hfpapers 12, bluesky 9).
+  - \`[MISSING]\` 매체: Reddit (IP 429/403 rate limit), X (자격증명 미설정).
+  - 최근 7일 기배포 URL 중복 4건 차단, \`is_update\` 3건 유지.
+- **정밀 큐레이션 (17건 선별 배포)**:
+  - 신호축 분포: \`oss\` 4건, \`research\` 3건, \`devtool\` 3건, \`model\` 2건, \`product\` 2건, \`policy\` 2건, \`practice\` 1건 (전 축 4건 이하 상한 및 매체별 2~4건 균형).
+  - 핵심 이슈:
+    - \`[model]\` Claude Fable 5.2, 인공지능 분석 인덱스에서 65점 기록하며 1위 달성
+    - \`[product]\` 구글, 자율 에이전트 워크로드를 위해 설계된 신규 TPU 8tx 및 8i Max 발표
+    - \`[product]\` 깃허브 코파일럿, 앤트로픽 최신 모델 Claude Fable 5.2 공식 지원 시작
+    - \`[oss]\` [업데이트] DIYgod/pinky — AI 에이전트 모바일 기기 조작 프레임워크 1,400 스타 돌파 및 기능 강화
+    - \`[oss]\` patch-gg/pixelfx — 244종 픽셀 아트 효과와 Claude Code 커스텀 스킬 제공
+    - \`[oss]\` Nanoutrolley/roblox-studio-mcp — 로블록스 스튜디오를 위한 모델 컨텍스트 프로토콜 브리지
+    - \`[oss]\` shanselman/gputaskman — 프로세스별 VRAM 및 LLM KV 캐시 모니터링 GPU 태스크 매니저
+    - \`[devtool]\` 터미널 코딩 에이전트의 자동화 작업 중 깃허브 시크릿 유출 주의보
+    - \`[devtool]\` explainroo, AI 에이전트가 텍스트 스크립트로 제품 데모 영상을 자동 제작하는 오픈소스 도구
+    - \`[devtool]\` DBDelve, Rust와 GPUI로 구현된 초고속 오픈소스 데이터베이스 클라이언트
+    - \`[research]\` e-means, 동일한 군집화 품질을 유지하며 최대 10배 빠른 수렴 달성
+    - \`[research]\` SplatAnything, 임의 장면에 대응하는 3D 가우시안 간격 정규화 프레임워크
+    - \`[research]\` PCBRouteAgent, 하드웨어 회로 기판 배선 설계를 자율 수행하는 LLM 에이전트
+    - \`[practice]\` 32GB 애플 실리콘 M1 Max에서 120B MoE 모델을 16GB 이하 메모리로 구동하는 최적화 기법
+    - \`[policy]\` 구글 제미나이의 워크스페이스 연동 시 개인 데이터 검토 정책 변경 논란
+    - \`[policy]\` 미국 의회, 엔비디아 AI 가속기 대중국 우회 공급 경로 및 수출 통제 조사 촉구
+    - \`[model]\` 중국 AI 모델들의 벤치마크 추격과 미국 프론티어 랩의 미공개 모델 격차
+- **품질 게이트 검증**: \`node scripts/news/curate_news.js --validate\` 17건 전수 100% 무결 통과.
+
+### 3. 배포 리소스 및 옵시디언 동기화
+- **RSS & 사이트맵**: \`feed.xml\`, \`news-feed.xml\`, \`sitemap.xml\` 최신화 완료.
+- **AI 라운지**: GitHub Discussions 스레드 최신 스냅샷(\`lounge_latest.json\`) 갱신 완료.
+- **옵시디언 볼트**: \`npm run sync:obsidian\`을 통해 총괄 대시보드 및 2026-11-10 작업일지 전면 동기화 완료.
+`
+  },
+  {
     filename: "2026-11-09 작업일지.md",
     title: "2026-11-09 작업일지 — 주간 종합 파이프라인(cc-weekly) 완수: 스타보드 613개 최신화, 트렌드 32건 선별·보안 스캔, cc-benchmarks 검증, 데일리 뉴스 16건 큐레이션 배포 및 옵시디언 동기화",
     date: "2026-11-09",
