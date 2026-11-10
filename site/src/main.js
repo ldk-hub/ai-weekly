@@ -356,7 +356,6 @@ function renderCategoryFilter() {
         const label = lang === "en" ? s.label_en : s.label_ko;
         const active = (!STATE.bookmarksOnly && STATE.signal === s.id) ? "is-active" : "";
         return `<button class="signal-chip ${active}" data-signal="${s.id}" type="button">
-          <span>${s.svg || s.emoji}</span>
           <span>${label}</span>
           <span class="count-badge">${count}</span>
         </button>`;
@@ -367,7 +366,6 @@ function renderCategoryFilter() {
       const bmLabel = lang === "en" ? "Saved" : "저장";
       const bmChipHtml = `
         <button class="signal-chip bookmark-chip ${bmActive}" id="bookmark-filter-chip" type="button" title="${lang === "en" ? "View saved articles" : "저장한 뉴스 모아보기"}">
-          <svg class="chip-svg-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>
           <span>${bmLabel}</span>
           <span class="count-badge">${bmCount}</span>
         </button>
@@ -385,7 +383,6 @@ function renderCategoryFilter() {
       const isActive = STATE.category === c.id && !STATE.pluginBookmarksOnly;
       const active = isActive ? "active is-active" : "";
       return `<button class="cat-chip ${active}" data-cat="${c.id}" type="button" aria-pressed="${isActive ? "true" : "false"}">
-        <span class="cat-emoji" aria-hidden="true">${c.svg || c.emoji}</span>
         <span>${label}</span>
         <span class="cat-count">${count}</span>
       </button>`;
@@ -397,7 +394,6 @@ function renderCategoryFilter() {
     const bmLabel = lang === "en" ? "Saved" : "저장";
     const bmChip = `
       <button class="cat-chip bookmark-chip ${bmActive}" id="plugin-bookmark-filter-chip" type="button" aria-pressed="${bmIsActive ? "true" : "false"}" style="margin-left:4px;">
-        <svg class="chip-svg-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>
         <span>${bmLabel}</span>
         <span class="cat-count">${bmCount}</span>
       </button>
@@ -1075,14 +1071,12 @@ function newsCardHTML(item, idx = 0) {
   }
   const badgeHtml = badges.length ? `<div style="display:flex; gap:6px; margin-top:6px; flex-wrap:wrap;">${badges.join("")}</div>` : "";
 
-  // 신호 배지는 필터 칩과 같은 표를 본다(NEWS_SIGNALS). 예전엔 카드에 별도 매핑이 있어
-  // policy 분기가 빠져 "정책·규제" 기사가 카드에서는 "기술 신호"로 찍혔다.
+  // 신호 배지는 필터 칩과 같은 표를 본다(NEWS_SIGNALS). 이모지 없는 순수 텍스트 배지
   const sig = NEWS_SIGNALS.find(x => x.id === item.signal_id);
-  const sigIcon = sig ? sig.emoji : "📌";
   const sigLabel = sig
     ? (lang === "en" ? sig.label_en : sig.label_ko)
     : (lang === "en" ? "Signal" : "기술 신호");
-  const signalBadgeHtml = `<span class="signal-badge" title="${escapeHTML(item.signal_name || '')}">${sigIcon} ${sigLabel}</span>`;
+  const signalBadgeHtml = `<span class="signal-badge" title="${escapeHTML(item.signal_name || '')}">${sigLabel}</span>`;
 
   const isBookmarked = STATE.bookmarks && STATE.bookmarks.has(item.id);
   const bookmarkIcon = isBookmarked ? "★" : "☆";
