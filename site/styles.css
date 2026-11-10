@@ -226,64 +226,58 @@ body {
 
 /* Mascot Character Avatar & Micro-Animations */
 .mascot-avatar {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   display: block;
   flex-shrink: 0;
-  animation: mascot-float 3s infinite ease-in-out;
   transform-origin: center bottom;
   overflow: visible;
+  transition: transform 0.2s ease;
 }
 .brand-logo:hover .mascot-avatar {
-  animation: mascot-happy 0.5s ease-in-out;
+  transform: scale(1.08) translateY(-2px);
 }
 
-@keyframes mascot-float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-1.5px); }
+@keyframes mascot-float-anim {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
 }
-@keyframes mascot-happy {
-  0%, 100% { transform: translateY(0) rotate(0); }
-  25% { transform: translateY(-3px) rotate(-4deg); }
-  75% { transform: translateY(-2px) rotate(4deg); }
+@keyframes gemini-pulse-anim {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+    filter: drop-shadow(0 0 8px rgba(66, 133, 244, 0.4));
+  }
+  50% {
+    transform: scale(1.15) rotate(8deg);
+    filter: drop-shadow(0 0 18px rgba(155, 114, 203, 0.9));
+  }
 }
-@keyframes mascot-pulse-code {
-  0%, 100% { opacity: 0.85; transform: scaleX(1); }
-  50% { opacity: 1; transform: scaleX(1.03); }
-}
-@keyframes mascot-cursor-blink {
-  0%, 49% { opacity: 1; }
-  50%, 100% { opacity: 0; }
-}
-@keyframes mascot-eye-sparkle {
-  0%, 94%, 98% { transform: scaleY(1); }
-  96% { transform: scaleY(0.1); }
-}
-@keyframes mascot-head-groove {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  33% { transform: translateY(-1.5px) rotate(-1deg); }
-  66% { transform: translateY(0.5px) rotate(1deg); }
-}
-@keyframes mascot-tap-l {
-  0%, 100% { transform: translateY(0) rotate(-4deg); }
-  50% { transform: translateY(2.5px) rotate(6deg); }
-}
-@keyframes mascot-tap-r {
-  0%, 100% { transform: translateY(0) rotate(4deg); }
-  50% { transform: translateY(2.5px) rotate(-6deg); }
-}
-@keyframes mascot-spark-float {
-  0%, 100% { transform: translateY(0) scale(1); opacity: 0.7; }
-  50% { transform: translateY(-3px) scale(1.25); opacity: 1; }
+@keyframes chatgpt-spin-anim {
+  0% {
+    transform: scale(1) rotate(0deg);
+    filter: drop-shadow(0 0 8px rgba(16, 163, 127, 0.4));
+  }
+  50% {
+    transform: scale(1.08) rotate(180deg);
+    filter: drop-shadow(0 0 18px rgba(16, 163, 127, 0.8));
+  }
+  100% {
+    transform: scale(1) rotate(360deg);
+    filter: drop-shadow(0 0 8px rgba(16, 163, 127, 0.4));
+  }
 }
 
-.mascot-head-group { animation: mascot-head-groove 2.4s infinite ease-in-out; }
-.mascot-eyes { transform-origin: 50px 68px; animation: mascot-eye-sparkle 3.6s infinite; }
-.mascot-cursor { animation: mascot-cursor-blink 0.8s infinite; }
-.mascot-code-stream { animation: mascot-pulse-code 2s infinite ease-in-out; transform-origin: left; }
-.mascot-hand-l { transform-origin: 28px 78px; animation: mascot-tap-l 0.16s infinite ease-in-out; }
-.mascot-hand-r { transform-origin: 72px 78px; animation: mascot-tap-r 0.18s infinite ease-in-out; }
-.mascot-sparkle { animation: mascot-spark-float 2s infinite ease-in-out; }
+.mascot-float-motion {
+  animation: mascot-float-anim 3.2s ease-in-out infinite;
+}
+.gemini-sparkle-motion {
+  transform-origin: 0px 0px;
+  animation: gemini-pulse-anim 2.8s ease-in-out infinite;
+}
+.chatgpt-spin-motion {
+  transform-origin: 0px 0px;
+  animation: chatgpt-spin-anim 12s linear infinite;
+}
 
 @media (prefers-reduced-motion: reduce) {
   .mascot-avatar,
