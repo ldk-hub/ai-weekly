@@ -151,17 +151,19 @@ export const CATEGORIES = [
   { id: "mcp",     label_ko: "MCP",      label_en: "MCP" },
 ];
 
-// cc-news 수집 매체 8종과 1:1 로 맞춘다 — 여기 없는 매체는 칩 자체가 안 생겨 필터로 못 고른다
+// cc-news 수집 매체 10종과 1:1 로 맞춘다 — 여기 없는 매체는 칩 자체가 안 생겨 필터로 못 고른다
 export const NEWS_CATEGORIES = [
   { id: "all",       label_ko: "전체",         label_en: "All" },
+  { id: "threads",   label_ko: "Threads",      label_en: "Threads" },
+  { id: "x",         label_ko: "X",            label_en: "X" },
+  { id: "instagram", label_ko: "Instagram",    label_en: "Instagram" },
   { id: "geeknews",  label_ko: "GeekNews",     label_en: "GeekNews" },
   { id: "hackernews",label_ko: "Hacker News",  label_en: "Hacker News" },
   { id: "aitimes",   label_ko: "AI타임스",      label_en: "AI Times" },
   { id: "reddit",    label_ko: "Reddit",       label_en: "Reddit" },
-  { id: "github",    label_ko: "GitHub",       label_en: "GitHub" },
   { id: "bluesky",   label_ko: "Bluesky",      label_en: "Bluesky" },
-  { id: "x",         label_ko: "X",            label_en: "X" },
   { id: "hfpapers",  label_ko: "HF Daily Papers", label_en: "HF Daily Papers" },
+  { id: "github",    label_ko: "GitHub",       label_en: "GitHub" },
 ];
 
 export const NEWS_SIGNALS = [
@@ -169,6 +171,7 @@ export const NEWS_SIGNALS = [
   { id: "model",    label_ko: "새 모델",     label_en: "Models" },
   { id: "product",  label_ko: "제품 신기능", label_en: "Products" },
   { id: "devtool",  label_ko: "개발 도구",   label_en: "Dev Tools" },
+  { id: "insight",  label_ko: "인사이트",     label_en: "Insights" },
   { id: "oss",      label_ko: "오픈소스",    label_en: "Open Source" },
   { id: "research", label_ko: "연구·논문",   label_en: "Research" },
   { id: "practice", label_ko: "실무 팁",     label_en: "Practices" },

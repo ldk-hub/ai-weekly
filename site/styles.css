@@ -2114,30 +2114,41 @@ footer a:hover, footer .foot-link:hover { color: var(--accent); border-bottom-co
   color: var(--muted);
 }
 .db-title {
-  display: inline-block;
-  font-weight: 800;
-  font-size: 14px;
-  color: var(--accent);
-  letter-spacing: -0.3px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono, monospace);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink);
 }
 .db-summary {
-  font-size: 16px;
+  font-size: 14.5px;
   line-height: 1.6;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--ink);
-  margin: 0 0 14px 0;
+  margin: 10px 0 12px 0;
   word-break: keep-all;
 }
 .db-tag {
   display: inline-block;
-  background: rgba(99, 102, 241, 0.12);
-  color: var(--accent);
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: 6px;
-  margin: 0 4px 2px 0;
-  font-size: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--ink);
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  margin: 0 4px 4px 0;
+  font-size: 12px;
   letter-spacing: -0.2px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+.db-tag:hover {
+  border-color: var(--ink);
+  background: var(--surface-2);
 }
 .db-footer {
   margin-top: 12px;
@@ -3232,66 +3243,77 @@ html[data-theme="dark"] .cli-copy-chip {
 .hero-titles .bm-source strong { color: var(--ink-2); font-weight: 600; }
 .hero-titles .bm-source a { color: var(--ink-2); text-decoration: underline; text-underline-offset: 2px; }
 
-/* 요약 칩 */
-.bm-summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin: 0 0 14px; }
+/* 벤치마크 4대 KPI 요약 카드 (Hallmark & shadcn/ui Spec) */
+.bm-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0 0 20px;
+}
 .bm-chip {
-  display: flex; flex-direction: column; gap: 2px; min-width: 0;
-  padding: 9px 14px; border: 1px solid var(--border); border-radius: var(--radius-box, 10px);
-  background: var(--card); color: var(--ink); font: inherit; text-align: left; cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0;
+  min-height: 116px;
+  padding: 18px 20px !important;
+  border: 1px solid var(--border);
+  border-radius: 12px !important;
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: var(--card-shadow, 0 1px 3px rgba(0,0,0,0.04));
   transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
   position: relative;
 }
 .bm-chip:hover {
-  border-color: var(--accent);
+  border-color: var(--border-hover);
   background: var(--card-hover);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
 }
 .bm-chip:active {
   transform: translateY(0);
 }
 .bm-chip.is-active {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 1.5px var(--accent), 0 2px 8px rgba(0,0,0,0.04);
+  border-color: var(--border-strong, #181512);
+  box-shadow: 0 0 0 1px var(--border-strong, #181512);
 }
-.bm-chip:focus-visible, .bm-seg button:focus-visible, .bm-table th button:focus-visible, .bm-link-btn:focus-visible {
-  outline: 2px solid var(--accent); outline-offset: 2px;
+html[data-theme="dark"] .bm-chip.is-active {
+  border-color: var(--ink);
+  box-shadow: 0 0 0 1px var(--ink);
 }
-.bm-chip-top, .bm-chip-bottom { display: flex; align-items: baseline; gap: 8px; min-width: 0; }
-.bm-chip-label {
-  display: inline-flex; align-items: center; gap: 4px;
-  font-size: 12px; color: var(--muted); white-space: nowrap;
+.bm-chip-bottom {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  margin-top: 12px;
 }
-.bm-chip.is-active .bm-chip-label {
-  color: var(--ink);
+.bm-chip-main {
+  font-size: 15px;
   font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  flex: 1 1 auto;
 }
-.bm-chip-dot {
-  display: none;
-  width: 5px; height: 5px; border-radius: 50%;
-  background: var(--accent);
+.bm-chip-num {
+  margin-left: auto;
+  font-family: var(--font-mono, monospace);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
-.bm-chip.is-active .bm-chip-dot {
-  display: inline-block;
-}
-.bm-chip-arrow {
-  font-size: 11px; font-weight: 600; line-height: 1;
-  color: var(--muted); opacity: 0.5;
-  transition: transform 0.15s ease, opacity 0.15s ease, color 0.15s ease;
-}
-.bm-chip:hover .bm-chip-arrow {
-  opacity: 1;
-  color: var(--accent);
-  transform: translate(1px, -1px);
-}
-.bm-chip.is-active .bm-chip-arrow {
-  opacity: 1;
-  color: var(--accent);
-}
-.bm-chip-hint { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.bm-chip-top .bm-chg { margin-left: auto; }
-.bm-chip-main { font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
-.bm-chip-num { margin-left: auto; font-weight: 800; font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 /* 탭 + 정렬 툴바 */
 .bm-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin: 4px 0 12px; }
@@ -3985,30 +4007,45 @@ html[data-theme="dark"] .sb-legend-dot.active { background: #4fd4a3; }
 html[data-theme="dark"] .sb-legend-dot.slowing { background: #e08963; }
 .sb-legend-dot.dormant { background: var(--soft); }
 
-/* 3. 점유율·성능 출처 안내 태그 배지 그리드 */
+/* 3. 점유율·성능 출처 안내 태그 배지 그리드 (Hallmark 캡슐화) */
 .bm-sources-wrap {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 6px;
-  margin-top: 6px;
+  gap: 8px;
+  margin: 8px 0 16px;
+}
+.bm-freshness-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  white-space: nowrap;
 }
 .bm-source-chip {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  font-size: 11.5px;
-  padding: 3px 8px;
-  border-radius: 6px;
-  background: var(--card);
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  background: var(--surface);
   border: 1px solid var(--border);
   color: var(--muted);
   text-decoration: none;
-  transition: border-color 0.15s, color 0.15s;
+  transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+  white-space: nowrap;
 }
 .bm-source-chip:hover {
-  border-color: var(--accent);
+  border-color: var(--ink);
   color: var(--ink);
+  background: var(--surface-2);
 }
 .bm-source-chip strong {
   color: var(--ink);
@@ -4197,6 +4234,7 @@ html:not([data-theme="light"]) .bm-kpi-card {
 }
 
 html[data-theme="dark"] .bm-table-wrap,
+html[data-theme="dark"] .bm-table-wrap,
 html:not([data-theme="light"]) .bm-table-wrap,
 html[data-theme="dark"] .modal-panel,
 html:not([data-theme="light"]) .modal-panel,
@@ -4204,19 +4242,18 @@ html[data-theme="dark"] .unified-nav-box,
 html:not([data-theme="light"]) .unified-nav-box,
 html[data-theme="dark"] .hero-wrapper,
 html:not([data-theme="light"]) .hero-wrapper {
-  border-radius: var(--radius-box, 10px) !important;
+  border-radius: 16px !important;
   border: 1px solid #1e2d40;
   background: #0d131b;
 }
 
+/* Rounded Pill Elements (GNB, Chips, Buttons, Inputs) */
 html[data-theme="dark"] .chip,
 html:not([data-theme="light"]) .chip,
 html[data-theme="dark"] .cat-chip,
 html:not([data-theme="light"]) .cat-chip,
 html[data-theme="dark"] .signal-chip,
 html:not([data-theme="light"]) .signal-chip,
-html[data-theme="dark"] .bm-chip,
-html:not([data-theme="light"]) .bm-chip,
 html[data-theme="dark"] .btn-ctrl,
 html:not([data-theme="light"]) .btn-ctrl,
 html[data-theme="dark"] .theme-toggle,
@@ -4225,8 +4262,6 @@ html[data-theme="dark"] .lang-toggle,
 html:not([data-theme="light"]) .lang-toggle,
 html[data-theme="dark"] .gh-btn,
 html:not([data-theme="light"]) .gh-btn,
-html[data-theme="dark"] .search-input,
-html:not([data-theme="light"]) .search-input,
 html[data-theme="dark"] .unb-search-wrap,
 html:not([data-theme="light"]) .unb-search-wrap,
 html[data-theme="dark"] .search-box,
@@ -4235,23 +4270,22 @@ html[data-theme="dark"] .subscribe-btn-open,
 html:not([data-theme="light"]) .subscribe-btn-open,
 html[data-theme="dark"] .subscribe-submit,
 html:not([data-theme="light"]) .subscribe-submit,
-html[data-theme="dark"] .subscribe-form input,
-html:not([data-theme="light"]) .subscribe-form input,
 html[data-theme="dark"] .page-nav,
 html:not([data-theme="light"]) .page-nav,
 html[data-theme="dark"] .pn-link,
 html:not([data-theme="light"]) .pn-link,
-html[data-theme="dark"] .view-toggle,
-html:not([data-theme="light"]) .view-toggle,
 html[data-theme="dark"] .archive-btn,
 html:not([data-theme="light"]) .archive-btn,
-html[data-theme="dark"] .modal-close,
-html:not([data-theme="light"]) .modal-close,
-html[data-theme="dark"] .sb-legend-popover,
-html:not([data-theme="light"]) .sb-legend-popover,
-html[data-theme="dark"] .sb-legend-btn,
-html:not([data-theme="light"]) .sb-legend-btn {
-  border-radius: var(--radius-btn, 8px) !important;
+html[data-theme="dark"] .tabs,
+html:not([data-theme="light"]) .tabs,
+html[data-theme="dark"] .tab,
+html:not([data-theme="light"]) .tab {
+  border-radius: 9999px !important;
+}
+
+html[data-theme="dark"] .bm-chip,
+html:not([data-theme="light"]) .bm-chip {
+  border-radius: 12px !important;
 }
 
 html[data-theme="dark"] .rank-pill,
@@ -4298,7 +4332,11 @@ html:not([data-theme="light"]) .cat-chip.is-active,
 html[data-theme="dark"] .cat-chip.active,
 html:not([data-theme="light"]) .cat-chip.active,
 html[data-theme="dark"] .signal-chip.is-active,
-html:not([data-theme="light"]) .signal-chip.is-active {
+html:not([data-theme="light"]) .signal-chip.is-active,
+html[data-theme="dark"] .tabs .tab.active,
+html:not([data-theme="light"]) .tabs .tab.active,
+html[data-theme="dark"] .data-tabs-wrap .tab.active,
+html:not([data-theme="light"]) .data-tabs-wrap .tab.active {
   background: #ffffff !important;
   color: #090d13 !important;
   font-weight: 600;
@@ -4311,7 +4349,11 @@ html:not([data-theme="light"]) .cat-chip.is-active *,
 html[data-theme="dark"] .cat-chip.active *,
 html:not([data-theme="light"]) .cat-chip.active *,
 html[data-theme="dark"] .signal-chip.is-active *,
-html:not([data-theme="light"]) .signal-chip.is-active * {
+html:not([data-theme="light"]) .signal-chip.is-active *,
+html[data-theme="dark"] .tabs .tab.active *,
+html:not([data-theme="light"]) .tabs .tab.active *,
+html[data-theme="dark"] .data-tabs-wrap .tab.active *,
+html:not([data-theme="light"]) .data-tabs-wrap .tab.active * {
   color: #090d13 !important;
 }
 
@@ -4320,7 +4362,11 @@ html:not([data-theme="light"]) .cat-chip.is-active .cat-count,
 html[data-theme="dark"] .cat-chip.active .cat-count,
 html:not([data-theme="light"]) .cat-chip.active .cat-count,
 html[data-theme="dark"] .signal-chip.is-active .count-badge,
-html:not([data-theme="light"]) .signal-chip.is-active .count-badge {
+html:not([data-theme="light"]) .signal-chip.is-active .count-badge,
+html[data-theme="dark"] .tabs .tab.active .tab-count,
+html:not([data-theme="light"]) .tabs .tab.active .tab-count,
+html[data-theme="dark"] .data-tabs-wrap .tab.active .tab-count,
+html:not([data-theme="light"]) .data-tabs-wrap .tab.active .tab-count {
   background: rgba(0, 0, 0, 0.12) !important;
   color: #090d13 !important;
 }
@@ -4506,21 +4552,19 @@ html[data-theme="light"] #modal-title,
 html[data-theme="light"] .modal-title,
 html[data-theme="light"] .modal-panel h2,
 html[data-theme="light"] .takeaways-title,
-html[data-theme="light"] .sb-legend-popover-title,
-html[data-theme="light"] .bm-table th,
-html[data-theme="light"] .sb-table th,
-html[data-theme="light"] .sb-history-table th {
-  font-family: var(--font-serif) !important;
+html[data-theme="light"] .sb-legend-popover-title {
+  font-family: var(--font-sans) !important;
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
   color: #181512;
 }
 
 html[data-theme="light"] .hero-h1,
 html[data-theme="light"] .hero-titles h1,
 html[data-theme="light"] .hero-wrapper h1 {
-  font-size: clamp(20px, 2.2vw, 24px);
-  line-height: 1.3;
+  font-size: 28px !important;
+  line-height: 1.3 !important;
+  letter-spacing: -0.03em !important;
 }
 html[data-theme="light"] .hero-h1::before,
 html[data-theme="light"] .hero-h1::after,
@@ -4615,8 +4659,9 @@ html[data-theme="light"] .bm-kpi-card {
 
 html[data-theme="light"] .bm-table-wrap,
 html[data-theme="light"] .modal-panel,
-html[data-theme="light"] .unified-nav-box {
-  border-radius: var(--radius-box, 10px) !important;
+html[data-theme="light"] .unified-nav-box,
+html[data-theme="light"] .hero-wrapper {
+  border-radius: 16px !important;
   border: 1px solid #e0d9cc;
   background: #ffffff;
 }
@@ -4624,12 +4669,22 @@ html[data-theme="light"] .unified-nav-box {
 html[data-theme="light"] .chip,
 html[data-theme="light"] .cat-chip,
 html[data-theme="light"] .signal-chip,
-html[data-theme="light"] .bm-chip,
 html[data-theme="light"] .btn-ctrl,
 html[data-theme="light"] .gh-btn,
 html[data-theme="light"] .archive-btn,
-html[data-theme="light"] .subscribe-btn-open {
-  border-radius: var(--radius-btn, 8px) !important;
+html[data-theme="light"] .subscribe-btn-open,
+html[data-theme="light"] .page-nav,
+html[data-theme="light"] .pn-link,
+html[data-theme="light"] .unb-search-wrap,
+html[data-theme="light"] .theme-toggle,
+html[data-theme="light"] .lang-toggle,
+html[data-theme="light"] .tabs,
+html[data-theme="light"] .tab {
+  border-radius: 9999px !important;
+}
+
+html[data-theme="light"] .bm-chip {
+  border-radius: 12px !important;
 }
 
 html[data-theme="light"] .card:hover,
@@ -4642,11 +4697,41 @@ html[data-theme="light"] .star-card:hover {
 }
 
 html[data-theme="light"] .pn-link.is-active {
-  background: #181512;
-  color: #ffffff;
-  border-color: #181512;
-  font-weight: 700;
-  border-radius: calc(var(--radius-btn, 8px) - 2px) !important;
+  background: #181512 !important;
+  color: #ffffff !important;
+  border-color: #181512 !important;
+  font-weight: 600;
+  border-radius: 9999px !important;
+}
+
+/* Light Mode Active Chips & Tabs */
+html[data-theme="light"] .cat-chip.is-active,
+html[data-theme="light"] .cat-chip.active,
+html[data-theme="light"] .signal-chip.is-active,
+html[data-theme="light"] .tabs .tab.active,
+html[data-theme="light"] .data-tabs-wrap .tab.active {
+  background: #181512 !important;
+  color: #ffffff !important;
+  border-color: #181512 !important;
+  font-weight: 600;
+  border-radius: 9999px !important;
+}
+
+html[data-theme="light"] .cat-chip.is-active *,
+html[data-theme="light"] .cat-chip.active *,
+html[data-theme="light"] .signal-chip.is-active *,
+html[data-theme="light"] .tabs .tab.active *,
+html[data-theme="light"] .data-tabs-wrap .tab.active * {
+  color: #ffffff !important;
+}
+
+html[data-theme="light"] .cat-chip.is-active .cat-count,
+html[data-theme="light"] .cat-chip.active .cat-count,
+html[data-theme="light"] .signal-chip.is-active .count-badge,
+html[data-theme="light"] .tabs .tab.active .tab-count,
+html[data-theme="light"] .data-tabs-wrap .tab.active .tab-count {
+  background: rgba(255, 255, 255, 0.22) !important;
+  color: #ffffff !important;
 }
 
 html[data-theme="light"] .bm-table th,

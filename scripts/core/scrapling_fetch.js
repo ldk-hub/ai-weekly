@@ -69,7 +69,7 @@ function fetchWithScrapling(url, options = {}) {
  * @returns {Array} - 표준 Candidate 객체 배열
  */
 function scrapeSocial(platform, options = {}) {
-  const timeoutMs = options.timeoutMs || 90000;
+  const timeoutMs = options.timeoutMs || 180000;
   const args = [
     "run",
     "--with", "scrapling[ai]",

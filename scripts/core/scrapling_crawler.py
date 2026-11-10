@@ -97,23 +97,25 @@ def handle_fetch(url: str, timeout: int = 10000, force_stealth: bool = False, cs
 
     return {"ok": False, "status": status, "error": "Content too short or fetch failed"}
 
-def handle_threads(users: list[str], tags: list[str], limit_per_target: int = 3) -> dict:
-    """Threads 공신 계정 및 태그 피드 스크레이핑 (비중 확대)"""
+def handle_threads(users: list[str], tags: list[str], limit_per_target: int = 3, max_total: int = 15) -> dict:
+    """Threads 공신 계정 및 태그 피드 스크레이핑 (비중 확대, 조기 완료 최적화)"""
     candidates = []
     now_iso = datetime.now(timezone.utc).isoformat()
     seen_texts = set()
 
     for u in users:
+        if len(candidates) >= max_total:
+            break
         url = f"https://www.threads.net/@{u}"
         try:
-            page = StealthyFetcher.fetch(url, headless=True, network_idle=True, timeout=9000, block_ads=True)
+            page = StealthyFetcher.fetch(url, headless=True, network_idle=True, timeout=6000, block_ads=True)
             if page.status != 200:
                 continue
             
             spans = [s.strip() for s in page.css("span::text").getall() if not is_noise(s)]
             count = 0
             for s in spans:
-                if count >= limit_per_target:
+                if count >= limit_per_target or len(candidates) >= max_total:
                     break
                 if s in seen_texts:
                     continue
@@ -136,55 +138,60 @@ def handle_threads(users: list[str], tags: list[str], limit_per_target: int = 3)
         except Exception:
             continue
 
-    for tag in tags:
-        url = f"https://www.threads.net/tag/{tag}"
-        try:
-            page = StealthyFetcher.fetch(url, headless=True, network_idle=True, timeout=9000, block_ads=True)
-            if page.status != 200:
-                continue
-            spans = [s.strip() for s in page.css("span::text").getall() if not is_noise(s)]
-            count = 0
-            for s in spans:
-                if count >= limit_per_target:
-                    break
-                if s in seen_texts:
+    if len(candidates) < max_total:
+        for tag in tags:
+            if len(candidates) >= max_total:
+                break
+            url = f"https://www.threads.net/tag/{tag}"
+            try:
+                page = StealthyFetcher.fetch(url, headless=True, network_idle=True, timeout=6000, block_ads=True)
+                if page.status != 200:
                     continue
-                seen_texts.add(s)
-                title_sample = s.split("\n")[0][:80]
-                candidates.append({
-                    "source": "threads",
-                    "sourceName": "Threads",
-                    "url": url,
-                    "title": f"[#{tag}] {title_sample}",
-                    "author": f"threads-tag-{tag}",
-                    "publish_date": now_iso,
-                    "lang": "en" if not re.search(r'[가-힣]', s) else "ko",
-                    "body": s,
-                    "body_chars": len(s),
-                    "metrics": {"platform": "threads", "tag": tag}
-                })
-                count += 1
-        except Exception:
-            continue
+                spans = [s.strip() for s in page.css("span::text").getall() if not is_noise(s)]
+                count = 0
+                for s in spans:
+                    if count >= limit_per_target or len(candidates) >= max_total:
+                        break
+                    if s in seen_texts:
+                        continue
+                    seen_texts.add(s)
+                    title_sample = s.split("\n")[0][:80]
+                    candidates.append({
+                        "source": "threads",
+                        "sourceName": "Threads",
+                        "url": url,
+                        "title": f"[#{tag}] {title_sample}",
+                        "author": f"threads-tag-{tag}",
+                        "publish_date": now_iso,
+                        "lang": "en" if not re.search(r'[가-힣]', s) else "ko",
+                        "body": s,
+                        "body_chars": len(s),
+                        "metrics": {"platform": "threads", "tag": tag}
+                    })
+                    count += 1
+            except Exception:
+                continue
 
     return {"ok": True, "platform": "threads", "items": candidates}
 
-def handle_x(users: list[str], limit_per_user: int = 3) -> dict:
-    """X(구 트위터) 공식 AI 연구소 계정 타임라인 스텔스 스크레이핑 (비중 확대)"""
+def handle_x(users: list[str], limit_per_user: int = 3, max_total: int = 12) -> dict:
+    """X(구 트위터) 공식 AI 연구소 계정 타임라인 스텔스 스크레이핑 (비중 확대, 조기 완료 최적화)"""
     candidates = []
     now_iso = datetime.now(timezone.utc).isoformat()
     seen_texts = set()
 
     for u in users:
+        if len(candidates) >= max_total:
+            break
         url = f"https://x.com/{u}"
         try:
-            page = StealthyFetcher.fetch(url, headless=True, network_idle=True, timeout=9000, block_ads=True)
+            page = StealthyFetcher.fetch(url, headless=True, network_idle=True, timeout=6000, block_ads=True)
             if page.status != 200:
                 continue
             spans = [s.strip() for s in page.css("span::text").getall() if not is_noise(s)]
             count = 0
             for s in spans:
-                if count >= limit_per_user:
+                if count >= limit_per_user or len(candidates) >= max_total:
                     break
                 if s in seen_texts:
                     continue
@@ -292,21 +299,27 @@ def main():
         print(json.dumps(res, ensure_ascii=False))
 
     elif args.mode == "threads":
-        default_users = ["openai", "sama", "anthropic", "meta", "googledeepmind", "huggingface", "ylecun", "karpathy", "demishassabis"]
-        default_tags = ["ai", "artificialintelligence", "machinelearning", "llm", "claude"]
+        default_users = [
+            "openai", "sama", "anthropic", "meta", "googledeepmind", "huggingface", "ylecun", "karpathy", "demishassabis",
+            "teddylee777", "subinium", "geeknews", "sung.kim"
+        ]
+        default_tags = ["ai", "artificialintelligence", "machinelearning", "llm", "claude", "인공지능", "생성형ai", "챗gpt"]
         users = [u.strip() for u in args.users.split(",") if u.strip()] or default_users
         tags = [t.strip() for t in args.tags.split(",") if t.strip()] or default_tags
         res = handle_threads(users, tags, limit_per_target=args.limit)
         print(json.dumps(res, ensure_ascii=False))
 
     elif args.mode == "x":
-        default_users = ["OpenAI", "AnthropicAI", "GoogleDeepMind", "sama", "karpathy", "ylecun", "DrJimFan", "demishassabis"]
+        default_users = [
+            "OpenAI", "AnthropicAI", "GoogleDeepMind", "sama", "karpathy", "ylecun", "DrJimFan", "demishassabis",
+            "teddylee777", "subinium", "hada_io", "sung_kim"
+        ]
         users = [u.strip() for u in args.users.split(",") if u.strip()] or default_users
         res = handle_x(users, limit_per_user=args.limit)
         print(json.dumps(res, ensure_ascii=False))
 
     elif args.mode == "instagram":
-        default_users = ["openai", "googledeepmind", "metaai", "nvidia", "microsoft"]
+        default_users = ["openai", "googledeepmind", "metaai", "nvidia", "microsoft", "teddylee777", "subinium"]
         users = [u.strip() for u in args.users.split(",") if u.strip()] or default_users
         res = handle_instagram(users, limit_per_user=args.limit)
         print(json.dumps(res, ensure_ascii=False))
