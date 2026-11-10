@@ -356,7 +356,7 @@ function renderCategoryFilter() {
         const label = lang === "en" ? s.label_en : s.label_ko;
         const active = (!STATE.bookmarksOnly && STATE.signal === s.id) ? "is-active" : "";
         return `<button class="signal-chip ${active}" data-signal="${s.id}" type="button">
-          <span>${s.emoji}</span>
+          <span>${s.svg || s.emoji}</span>
           <span>${label}</span>
           <span class="count-badge">${count}</span>
         </button>`;
@@ -367,7 +367,7 @@ function renderCategoryFilter() {
       const bmLabel = lang === "en" ? "Saved" : "저장";
       const bmChipHtml = `
         <button class="signal-chip bookmark-chip ${bmActive}" id="bookmark-filter-chip" type="button" title="${lang === "en" ? "View saved articles" : "저장한 뉴스 모아보기"}">
-          <span>⭐</span>
+          <svg class="chip-svg-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>
           <span>${bmLabel}</span>
           <span class="count-badge">${bmCount}</span>
         </button>
@@ -385,7 +385,7 @@ function renderCategoryFilter() {
       const isActive = STATE.category === c.id && !STATE.pluginBookmarksOnly;
       const active = isActive ? "active is-active" : "";
       return `<button class="cat-chip ${active}" data-cat="${c.id}" type="button" aria-pressed="${isActive ? "true" : "false"}">
-        <span class="cat-emoji" aria-hidden="true">${c.emoji}</span>
+        <span class="cat-emoji" aria-hidden="true">${c.svg || c.emoji}</span>
         <span>${label}</span>
         <span class="cat-count">${count}</span>
       </button>`;
@@ -397,7 +397,7 @@ function renderCategoryFilter() {
     const bmLabel = lang === "en" ? "Saved" : "저장";
     const bmChip = `
       <button class="cat-chip bookmark-chip ${bmActive}" id="plugin-bookmark-filter-chip" type="button" aria-pressed="${bmIsActive ? "true" : "false"}" style="margin-left:4px;">
-        <span aria-hidden="true">⭐</span>
+        <svg class="chip-svg-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>
         <span>${bmLabel}</span>
         <span class="cat-count">${bmCount}</span>
       </button>
@@ -858,7 +858,7 @@ function render() {
       
       // 출처는 하드코딩하지 않는다 — 실제 수집된 항목의 매체만 표기 (없는 매체를 광고하지 않기 위함)
       const srcNames = [...new Set((d.news || []).map(n => n.category_name).filter(Boolean))];
-      const srcMeta = srcNames.length ? ` · 📡 ${srcNames.join(" · ")}` : "";
+      const srcMeta = srcNames.length ? ` · <svg class="db-svg-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="vertical-align:-1px"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"/></svg> ${srcNames.join(" · ")}` : "";
 
       const lang = getLang();
       if (STATE.category === "all" && STATE.signal === "all" && !STATE.bookmarksOnly && !STATE.query && d.summary) {
@@ -867,17 +867,17 @@ function render() {
           // 점을 포함한 버전 태그(#Gemini3.8Live)가 "#Gemini3" + ".8Live" 로 쪼개지던 것.
           // 끝에 붙은 마침표는 태그에 넣지 않는다. 클릭 시 해당 키워드로 즉시 필터링한다.
           .replace(/#([\w가-힣-]+(?:\.[\w가-힣-]+)*)/g, '<button type="button" class="db-tag clickable-tag" data-tag-filter="$1" title="클릭하여 #$1 키워드 필터링">#$1</button>')
-          .replace(/(🔥\s*오늘의\s*핵심\s*(?:이슈|키워드):)/g, '<strong>$1</strong>');
+          .replace(/(?:🔥\s*)?(오늘의\s*핵심\s*(?:이슈|키워드):)/g, '<span class="db-key-label"><svg class="db-svg-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" aria-hidden="true" style="vertical-align:-1px"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg> $1</span>');
 
         html += `
           <div class="daily-briefing-panel">
             <div class="db-header">
-              <span class="db-title">💡 ${lang === "en" ? "AI Trend Summary" : "AI 트렌드 요약"}</span>
-              <span class="db-meta">🕒 ${kstStr}${escapeHTML(srcMeta)}</span>
+              <span class="db-title"><svg class="db-svg-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="vertical-align:-1px"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg> ${lang === "en" ? "AI Trend Summary" : "AI 트렌드 요약"}</span>
+              <span class="db-meta"><svg class="db-svg-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="vertical-align:-1px"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ${kstStr}${srcMeta}</span>
             </div>
             <p class="db-summary">${formattedSummary}</p>
             <div class="db-footer">
-              ⚠️ ${lang === "en" ? "Financial/investment signals excluded. Model names and figures are verbatim and unverified." : "주식·투자 신호는 제외, 게시물 내 모델명·수치는 원문 그대로이며 교차 검증되지 않았습니다."}
+              <svg class="db-svg-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="vertical-align:-1px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> ${lang === "en" ? "Financial/investment signals excluded. Model names and figures are verbatim and unverified." : "주식·투자 신호는 제외, 게시물 내 모델명·수치는 원문 그대로이며 교차 검증되지 않았습니다."}
             </div>
           </div>
         `;
@@ -885,8 +885,8 @@ function render() {
         html += `
           <div class="daily-briefing-panel is-compact">
             <div class="db-header" style="margin-bottom:0;">
-              <span class="db-title">💡 ${lang === "en" ? "Filtered News Results" : "필터링된 뉴스 결과"}</span>
-              <span class="db-meta">🕒 ${kstStr}</span>
+              <span class="db-title"><svg class="db-svg-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="vertical-align:-1px"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg> ${lang === "en" ? "Filtered News Results" : "필터링된 뉴스 결과"}</span>
+              <span class="db-meta"><svg class="db-svg-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="vertical-align:-1px"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ${kstStr}</span>
             </div>
           </div>
         `;

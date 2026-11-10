@@ -28,10 +28,10 @@
   --bm-down:      #5e584f;
 
   /* Highlighter Tokens (Editorial Light) */
-  --hl-mint:      #dcfce7;
-  --hl-lemon:     #fef08a;
-  --hl-mint-ink:  #14532d;
-  --hl-lemon-ink: #713f12;
+  --hl-mint:      linear-gradient(to top, rgba(16, 185, 129, 0.22) 0%, rgba(16, 185, 129, 0.22) 38%, transparent 38%);
+  --hl-lemon:     linear-gradient(to top, rgba(245, 158, 11, 0.25) 0%, rgba(245, 158, 11, 0.25) 38%, transparent 38%);
+  --hl-mint-ink:  var(--ink);
+  --hl-lemon-ink: var(--ink);
 
   --hover-shadow: 0 10px 28px rgba(24, 21, 18, 0.08);
   --modal-bg:     #ffffff;
@@ -86,8 +86,8 @@ html:not([data-theme="light"]) {
   --bm-down:      #8b949e;
 
   /* Highlighter Tokens (Terminal Dark) */
-  --hl-mint:      linear-gradient(transparent 65%, rgba(16, 185, 129, 0.35) 0);
-  --hl-lemon:     linear-gradient(transparent 65%, rgba(245, 158, 11, 0.4) 0);
+  --hl-mint:      linear-gradient(to top, rgba(16, 185, 129, 0.32) 0%, rgba(16, 185, 129, 0.32) 38%, transparent 38%);
+  --hl-lemon:     linear-gradient(to top, rgba(245, 158, 11, 0.35) 0%, rgba(245, 158, 11, 0.35) 38%, transparent 38%);
   --hl-mint-ink:  #34d399;
   --hl-lemon-ink: #fbbf24;
 
@@ -131,10 +131,11 @@ html[data-theme="light"] {
   --bm-up:        #0f5132;
   --bm-down:      #5e584f;
 
-  --hl-mint:      #dcfce7;
-  --hl-lemon:     #fef08a;
-  --hl-mint-ink:  #14532d;
-  --hl-lemon-ink: #713f12;
+  /* Highlighter Tokens (Editorial Light) */
+  --hl-mint:      linear-gradient(to top, rgba(16, 185, 129, 0.22) 0%, rgba(16, 185, 129, 0.22) 38%, transparent 38%);
+  --hl-lemon:     linear-gradient(to top, rgba(245, 158, 11, 0.25) 0%, rgba(245, 158, 11, 0.25) 38%, transparent 38%);
+  --hl-mint-ink:  var(--ink);
+  --hl-lemon-ink: var(--ink);
 
   --hover-shadow: 0 10px 28px rgba(24, 21, 18, 0.08);
   --modal-bg:     #ffffff;
@@ -321,26 +322,24 @@ body {
   color: var(--ink);
 }
 
+.hl-mint,
+.hl-lemon {
+  display: inline;
+  padding: 0 2px;
+  border-radius: 2px;
+  font-weight: 700;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
 .hl-mint {
   background: var(--hl-mint);
   color: var(--hl-mint-ink);
-  padding: 0 4px;
-  border-radius: 4px;
-  font-weight: 700;
-  display: inline;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
 }
 
 .hl-lemon {
   background: var(--hl-lemon);
   color: var(--hl-lemon-ink);
-  padding: 0 4px;
-  border-radius: 4px;
-  font-weight: 700;
-  display: inline;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
 }
 
 .hero-p,
@@ -918,6 +917,22 @@ html[data-theme="dark"] .src-select-wrap select {
 .cat-chip.active .tab-count {
   color: var(--bg);
   background: rgba(255, 255, 255, 0.22);
+}
+
+.chip-svg-icon,
+.tab-svg-icon,
+.db-svg-icon {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+  stroke: currentColor;
+}
+.cat-chip .chip-svg-icon,
+.signal-chip .chip-svg-icon {
+  margin-right: -1px;
+}
+.tab .tab-svg-icon {
+  margin-right: 2px;
 }
 html[data-theme="dark"] .cat-chip.is-active .cat-count,
 html[data-theme="dark"] .cat-chip.is-active .tab-count,
@@ -4305,10 +4320,6 @@ html[data-theme="dark"] .cat-chip.active,
 html:not([data-theme="light"]) .cat-chip.active,
 html[data-theme="dark"] .signal-chip.is-active,
 html:not([data-theme="light"]) .signal-chip.is-active,
-html[data-theme="dark"] .bm-chip.is-active,
-html:not([data-theme="light"]) .bm-chip.is-active,
-html[data-theme="dark"] .bm-chip[aria-pressed="true"],
-html:not([data-theme="light"]) .bm-chip[aria-pressed="true"],
 html[data-theme="dark"] .subscribe-btn,
 html:not([data-theme="light"]) .subscribe-btn,
 html[data-theme="dark"] .subscribe-submit,
@@ -4329,11 +4340,7 @@ html:not([data-theme="light"]) .cat-chip.is-active *,
 html[data-theme="dark"] .cat-chip.active *,
 html:not([data-theme="light"]) .cat-chip.active *,
 html[data-theme="dark"] .signal-chip.is-active *,
-html:not([data-theme="light"]) .signal-chip.is-active *,
-html[data-theme="dark"] .bm-chip.is-active *,
-html:not([data-theme="light"]) .bm-chip.is-active *,
-html[data-theme="dark"] .bm-chip[aria-pressed="true"] *,
-html:not([data-theme="light"]) .bm-chip[aria-pressed="true"] * {
+html:not([data-theme="light"]) .signal-chip.is-active * {
   color: #090d13 !important;
 }
 
@@ -4710,9 +4717,7 @@ html[data-theme="light"] .rank-pill.is-new {
 html[data-theme="light"] .chip.is-active,
 html[data-theme="light"] .cat-chip.is-active,
 html[data-theme="light"] .cat-chip.active,
-html[data-theme="light"] .signal-chip.is-active,
-html[data-theme="light"] .bm-chip.is-active,
-html[data-theme="light"] .bm-chip[aria-pressed="true"] {
+html[data-theme="light"] .signal-chip.is-active {
   background: #181512 !important;
   color: #ffffff !important;
   border-color: #181512 !important;
@@ -4720,9 +4725,7 @@ html[data-theme="light"] .bm-chip[aria-pressed="true"] {
 html[data-theme="light"] .chip.is-active *,
 html[data-theme="light"] .cat-chip.is-active *,
 html[data-theme="light"] .cat-chip.active *,
-html[data-theme="light"] .signal-chip.is-active *,
-html[data-theme="light"] .bm-chip.is-active *,
-html[data-theme="light"] .bm-chip[aria-pressed="true"] * {
+html[data-theme="light"] .signal-chip.is-active * {
   color: #ffffff !important;
 }
 html[data-theme="light"] .cat-chip.is-active .cat-count,
