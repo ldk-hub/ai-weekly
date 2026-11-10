@@ -51,8 +51,7 @@ const SIGNALS = {
 };
 const SIGNAL_IDS = Object.keys(SIGNALS);
 
-// 수집 매체 8종. 여기 없는 값은 collect 단계에서 이미 버려진다.
-// threads 는 여전히 0건이라 목록에 없다 — 과거 아카이브에는 남아 있으므로 프론트의 해당 아이콘 분기는 유지한다.
+// 수집 매체 목록 (Scrapling 연동으로 Threads · Instagram 지원 확장)
 const SOURCE_NAMES = {
   geeknews: "GeekNews",
   hackernews: "Hacker News",
@@ -62,6 +61,8 @@ const SOURCE_NAMES = {
   bluesky: "Bluesky",
   x: "X",
   hfpapers: "HF Daily Papers",
+  threads: "Threads",
+  instagram: "Instagram",
 };
 
 const PROMPT_RULES = `너는 AI 기술 신호 전문 큐레이터다. 아래 후보 목록(JSON)의 **각 항목을 개별적으로** 판정·번역·요약하라.

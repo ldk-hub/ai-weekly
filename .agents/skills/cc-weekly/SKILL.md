@@ -38,7 +38,7 @@ graph TD
 
 ### 3. Step 3: CC Benchmarks (AI 점유율 및 프론티어 성능 갱신) ⭐ [신규]
 - **명령어:** `npm run data:benchmarks` (동일: `node scripts/benchmarks/curate-benchmarks.js`)
-- **역할:** 주요 AI 챗봇의 3대 출처 점유율과 최신 현행(Active Frontier) 모델 벤치마크를 검증 및 갱신한다.
+- **역할:** 주요 AI 챗봇의 3대 출처 점유율과 최신 현행(Active Frontier) 모델 벤치마크를 검증 및 갱신한다. (JavaScript 동적 렌더링 대시보드인 LMArena, Artificial Analysis, Similarweb 조사는 **Scrapling 플러그인(`scrapling_mcp` 도구 및 `StealthyFetcher`)**을 통해 자가 치유 셀렉터로 크롤링 지원).
 - **핵심 검문 게이트:**
   1. **최신성 게이트(Staleness Gate)**: 실행일(Run Date) 기준 점유율 출처 45일, 성능 출처 30일 이내 최신 데이터인지 검증. 과거 갱신 중단된 구형 링크(`swebench.com` 등) 원천 차단.
   2. **다중 출처 3곳 앙상블 평균**: 점유율은 Similarweb(웹 방문) + Trakkr(AI 리퍼럴) + OpenRouter(개발자 API) 3곳 산술 평균 및 합계 100.0% 검증.
@@ -48,7 +48,7 @@ graph TD
 
 ### 4. Step 4: CC News (AI 기술 신호 큐레이션 및 배포)
 - **절차:**
-  1. 24시간 수집: `GH_TOKEN=... node scripts/news/collect_news.js` (8개 매체 병렬 수집)
+  1. 24시간 수집: `GH_TOKEN=... node scripts/news/collect_news.js` (GeekNews, Hacker News, AI타임스, Reddit, GitHub, Bluesky, HF Papers 및 **Scrapling 연동 X·스레드(Threads)·인스타그램(Instagram)** 병렬 수집)
   2. 큐레이션: 매체당 3~5건, 신호축당 최대 4건, 총 12~18건 균형 선별.
      - `title_ko`: 자연스러운 한국어 번역 (재등장은 `[업데이트]` 시작)
      - `summary_ko`: 3불릿(`• **키워드**: 설명...` 규격 필수)

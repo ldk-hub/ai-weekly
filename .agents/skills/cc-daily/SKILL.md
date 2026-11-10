@@ -28,7 +28,12 @@ graph TD
 
 ### 2. Step 2: CC News (Phase 1 — 24시간 신호 수집)
 - **명령어:** `node scripts/news/collect_news.js`
-- **역할:** 8개 매체(GeekNews, Hacker News, AI타임스, Reddit, GitHub, Bluesky, X, HF Daily Papers)에서 최근 24시간의 기술 신호를 수집하여 `.tmp/news_candidates.json`에 저장한다.
+- **역할:** GeekNews, Hacker News, AI타임스, Reddit, Bluesky, HF Daily Papers와 더불어 **Scrapling 스텔스 크롤러(`scripts/core/scrapling_fetch.js`)**를 통해 **X(구 트위터), 스레드(Threads), 인스타그램(Instagram)**에서 최근 24시간의 기술 신호를 집중 수집하고, 차단 사이트 본문을 스텔스 모드로 보강하여 `.tmp/news_candidates.json`에 저장한다. (GitHub 오픈소스 탐색은 Step 1의 `cc-star` 스타보드로 전담 이관되어 데일리 뉴스 중복을 방지).
+- **소셜 미디어(X·Threads·Instagram) 비중 확대 및 Scrapling 적용 지점:**
+  1. **Threads / Instagram 수집**: Scrapling 스텔스 브라우저로 10개 이상 주요 빅테크/연구소 계정(@openai, @sama, @anthropic, @googledeepmind 등) 및 `#ai` 태그 실시간 크롤링 (상한 15건 확대).
+  2. **X(구 트위터) 수집**: `twitter-cli` 쿠키 만료/부재 시 Scrapling 브라우저 엔진으로 공식 AI 연구소 트윗 직접 수집 폴백 (상한 15건 확대).
+  3. **본문 추출 폴백 (`fetchBody`)**: Cloudflare/SPA/봇 차단 사이트 403 발생 시 Scrapling 고속 TLS/스텔스 엔진으로 자동 2차 수집.
+  4. **GitHub 단순 검색 제외**: 스타보드(`cc-star`) 전담으로 데일리 뉴스에서 50건 이상 차지하던 단순 리포 중복을 배제하여 소셜/기사 신호 집중도 극대화.
 - **점검:** 매체별 수집 건수, 누락(`[MISSING]`), 쿼리 에러(`[QUERY-FAIL]`) 확인.
 
 ### 3. Step 3: CC News (Phase 2 — 큐레이션)

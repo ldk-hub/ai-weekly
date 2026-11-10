@@ -13,4 +13,6 @@ dist/
 .tmp/
 site/test_*.png
 CAREER_META*
+__pycache__/
+*.pyc
 

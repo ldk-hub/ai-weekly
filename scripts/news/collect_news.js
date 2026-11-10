@@ -10,6 +10,7 @@ const cheerio = require("cheerio");
 const moment = require("moment-timezone");
 const { execFileSync } = require("child_process");
 const { searchX } = require("../core/agent_reach");
+const { fetchWithScrapling, scrapeSocial } = require("../core/scrapling_fetch");
 
 const ROOT = path.join(__dirname, "..", "..");
 const OUT = path.join(ROOT, ".tmp", "news_candidates.json");
@@ -240,14 +241,25 @@ async function fetchBody(url) {
   const timer = setTimeout(() => controller.abort(), BODY_FETCH_TIMEOUT_MS);
   try {
     const res = await fetch(url, { headers: { "User-Agent": UA }, signal: controller.signal, redirect: "follow" });
-    if (!res.ok) return null;
-    if (!(res.headers.get("content-type") || "").includes("text/html")) return null;
-    return extractText(await res.text()).slice(0, BODY_MAX_CHARS);
+    if (res.ok && (res.headers.get("content-type") || "").includes("text/html")) {
+      const text = extractText(await res.text());
+      if (text && text.length >= BODY_MIN_CHARS) return text.slice(0, BODY_MAX_CHARS);
+    }
   } catch {
-    return null;
+    // 1차 fetch 실패 시 하단 Scrapling 스텔스 엔진으로 폴백
   } finally {
     clearTimeout(timer);
   }
+
+  // 2차 폴백: Scrapling 고속 적응형 스텔스 엔진 (Cloudflare/SPA/봇 방어 사이트)
+  try {
+    const sRes = fetchWithScrapling(url, { timeoutMs: 12000 });
+    if (sRes && sRes.body && sRes.body.length >= 200) {
+      return sRes.body.slice(0, BODY_MAX_CHARS);
+    }
+  } catch {}
+
+  return null;
 }
 
 async function enrichBodies(candidates) {
@@ -278,10 +290,16 @@ const CURATED_FEEDS = [
   { source: "aitimes", name: "AI타임스", url: "https://www.aitimes.com/rss/allArticle.xml", lang: "ko" },
 ];
 
-// 지정 8매체. 최종 건수가 0인 소스는 main 에서 [MISSING] 으로 보고한다 — 조용한 누락 금지
+// 데일리 뉴스 수집 매체 (GitHub 오픈소스 신호는 cc-star 스타보드로 전담 이관하고 소셜 축을 확대)
 const REQUIRED_SOURCES = {
-  geeknews: "GeekNews", hackernews: "Hacker News", aitimes: "AI타임스",
-  reddit: "Reddit", github: "GitHub", bluesky: "Bluesky", x: "X", hfpapers: "HF Daily Papers",
+  geeknews: "GeekNews",
+  hackernews: "Hacker News",
+  aitimes: "AI타임스",
+  reddit: "Reddit",
+  bluesky: "Bluesky",
+  x: "X",
+  threads: "Threads",
+  hfpapers: "HF Daily Papers",
 };
 
 function normalizeFeedItems(feed) {
@@ -379,6 +397,10 @@ const GH_QUERIES = [
 // 쿼리 실패는 조용히 넘어가면 축 하나가 통째로 죽어도 알 수 없다 — main 에서 보고한다.
 const ghQueryErrors = [];
 async function fetchGitHub(dynamicSeeds = []) {
+  if (process.env.NEWS_SKIP_GITHUB !== "0") {
+    console.log("[github] 데일리 뉴스 파이프라인에서 GitHub 수집 제외 (cc-star 스타보드로 전담 이관)");
+    return [];
+  }
   const token = ghToken();
   if (!token) {
     console.warn("[github] GH_TOKEN/GITHUB_TOKEN/gh auth 없음 — 오픈소스 신호(④) 건너뜀");
@@ -750,8 +772,83 @@ async function fetchX(dynamicSeeds = []) {
     }
   }
   await resolveShortLinks(out);
+
+  // Scrapling 폴백: X 쿠키 만료/미설정으로 0건일 경우 Scrapling 스텔스 브라우저로 주요 연구소 트윗 직접 수집 (비중 확대)
+  if (!out.length) {
+    console.log("[x] searchX 0건 또는 쿠키 부재 → Scrapling 스텔스 크롤러로 X 공식 AI 연구소 트윗 직접 수집 (확대 모드)");
+    try {
+      const fallbackItems = scrapeSocial("x", { limit: 3 });
+      for (const item of fallbackItems) {
+        out.push(makeCandidate({
+          source: "x",
+          sourceName: "X",
+          url: item.url,
+          title: item.title,
+          author: item.author,
+          publishDate: item.publish_date,
+          body: item.body,
+          metrics: item.metrics,
+        }));
+      }
+    } catch (err) {
+      console.warn("[x] Scrapling X 폴백 실패:", err.message);
+    }
+  }
+
   console.log(`[x] ${scanned}건 훑어 링크+좋아요${X_MIN_LIKES} 이상 ${out.length}건`);
   return out;
+}
+
+// ⑦ Threads — Scrapling 스텔스 크롤러 연동 (비중 확대)
+async function fetchThreads() {
+  if (process.env.NEWS_SKIP_THREADS === "1") {
+    console.warn("[threads] NEWS_SKIP_THREADS=1 — 건너뜀");
+    return [];
+  }
+  console.log("[threads] Scrapling 스텔스 크롤러로 Threads 공식 AI 계정 및 #ai 태그 수집 시작 (확대 모드)...");
+  try {
+    const items = scrapeSocial("threads", { limit: 3 });
+    console.log(`[threads] Scrapling 수집 완료: ${items.length}건`);
+    return items.map((i) => makeCandidate({
+      source: "threads",
+      sourceName: "Threads",
+      url: i.url,
+      title: i.title,
+      author: i.author,
+      publishDate: i.publish_date,
+      body: i.body,
+      metrics: i.metrics,
+    }));
+  } catch (e) {
+    console.warn("[threads] 수집 실패:", e.message);
+    return [];
+  }
+}
+
+// ⑧ Instagram — Scrapling 스텔스 크롤러 연동
+async function fetchInstagram() {
+  if (process.env.NEWS_SKIP_INSTAGRAM === "1") {
+    console.warn("[instagram] NEWS_SKIP_INSTAGRAM=1 — 건너뜀");
+    return [];
+  }
+  console.log("[instagram] Scrapling 크롤러로 Instagram AI 채널 수집 시도...");
+  try {
+    const items = scrapeSocial("instagram", { limit: 2 });
+    console.log(`[instagram] Scrapling 수집 완료: ${items.length}건`);
+    return items.map((i) => makeCandidate({
+      source: "instagram",
+      sourceName: "Instagram",
+      url: i.url,
+      title: i.title,
+      author: i.author,
+      publishDate: i.publish_date,
+      body: i.body,
+      metrics: i.metrics,
+    }));
+  } catch (e) {
+    console.warn("[instagram] 수집 실패:", e.message);
+    return [];
+  }
 }
 
 // ── 중복 제거 ─────────────────────────────────────────────────────────
@@ -780,14 +877,17 @@ function dedupe(candidates) {
   return kept;
 }
 
-// ── 소스별 상한 (큐레이션 배치 폭주 방지) ─────────────────────────────
-// GitHub 은 하루치가 수십~수백 건이라 그대로 넘기면 Gemini 호출이 폭증한다.
-// 신호 자체를 죽이지 않도록 상한만 두고, 소스 내부 랭킹으로 상위를 남긴다.
+// ── 소스별 상한 (소셜 축 확대 및 큐레이션 배치 균형) ───────────────────
 const SOURCE_CAPS = {
-  github: Number(process.env.NEWS_CAP_GITHUB || 50),
-  hfpapers: Number(process.env.NEWS_CAP_HFPAPERS || 12),
+  threads: Number(process.env.NEWS_CAP_THREADS || 15),
+  x: Number(process.env.NEWS_CAP_X || 15),
+  instagram: Number(process.env.NEWS_CAP_INSTAGRAM || 10),
   bluesky: Number(process.env.NEWS_CAP_BLUESKY || 12),
-  x: Number(process.env.NEWS_CAP_X || 12),
+  hfpapers: Number(process.env.NEWS_CAP_HFPAPERS || 12),
+  hackernews: Number(process.env.NEWS_CAP_HACKERNEWS || 25),
+  geeknews: Number(process.env.NEWS_CAP_GEEKNEWS || 6),
+  aitimes: Number(process.env.NEWS_CAP_AITIMES || 6),
+  github: Number(process.env.NEWS_CAP_GITHUB || 0),
 };
 // 절대 star 로 정렬하면 창 안의 노장 리포가 매일 상위에 고정된다 (재등장의 직접 원인).
 // "지금 뜨고 있는가" = 하루평균 star 획득량. 직전 배포본과 비교 가능하면 실측 증가분을 쓰고,
@@ -883,16 +983,18 @@ async function main() {
     console.log(`[radar] 1차 피드 기반 신조어/엔터티 시드 (${dynamicSeeds.length}개): ${dynamicSeeds.join(", ")}`);
   }
 
-  // 2단계: 정적 쿼리에 동적 시드를 결합하여 검색형 소스(HN, GitHub, Bluesky, X) 수집
-  const [hnGroup, ghGroup, bskyGroup, xGroup] = await Promise.all([
+  // 2단계: 정적 쿼리에 동적 시드를 결합하여 검색형 및 소셜 소스(HN, GitHub, Bluesky, X, Threads, Instagram) 수집
+  const [hnGroup, ghGroup, bskyGroup, xGroup, threadsGroup, instaGroup] = await Promise.all([
     fetchHackerNews(dynamicSeeds),
     fetchGitHub(dynamicSeeds),
     fetchBluesky(dynamicSeeds),
     fetchX(dynamicSeeds),
+    fetchThreads(),
+    fetchInstagram(),
   ]);
 
-  const labels = [...CURATED_FEEDS.map((f) => f.source), "hackernews", "github", "reddit", "hfpapers", "bluesky", "x"];
-  const groups = [...curatedGroups, hnGroup, ghGroup, redditGroup, hfGroup, bskyGroup, xGroup];
+  const labels = [...CURATED_FEEDS.map((f) => f.source), "hackernews", "github", "reddit", "hfpapers", "bluesky", "x", "threads", "instagram"];
+  const groups = [...curatedGroups, hnGroup, ghGroup, redditGroup, hfGroup, bskyGroup, xGroup, threadsGroup, instaGroup];
   groups.forEach((g, i) => console.log(`[${labels[i]}] ${g.length}건`));
 
   if (Object.keys(dateless).length) {

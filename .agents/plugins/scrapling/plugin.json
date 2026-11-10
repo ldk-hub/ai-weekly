@@ -1,0 +1,13 @@
+{
+  "name": "scrapling",
+  "displayName": "Scrapling Web Scraping & Stealth Browser",
+  "description": "D4Vinci/Scrapling 기반의 고속 적응형 웹 크롤링 및 스텔스 브라우징 플러그인. TLS 위장 HTTP 요청, Camoufox/Patchright 스텔스 브라우징, 자가 치유(Self-healing) 셀렉터 및 17종 전용 MCP 도구를 제공합니다.",
+  "version": "1.0.0",
+  "homepage": "https://github.com/D4Vinci/Scrapling",
+  "repository": "https://github.com/D4Vinci/Scrapling",
+  "suggestedPrompts": [
+    "Scrapling MCP를 사용해 웹페이지 본문과 마크다운을 스텔스 모드로 추출해 줘",
+    "자가 치유 셀렉터(auto_match)를 적용한 Scrapling 파이썬 크롤러를 작성해 줘",
+    "Scrapling CLI를 사용해 동적 웹사이트 콘텐츠를 파일로 덤프해 줘"
+  ]
+}
