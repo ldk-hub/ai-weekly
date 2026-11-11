@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-11T02:08:32.015Z",
+  "updated_at": "2026-11-11T02:45:10.012Z",
   "policy": {
     "filter_rule": "multi_source_ensemble_average",
     "staleness_gate": {
@@ -47,7 +47,7 @@
       "aggregate": true,
       "header": true,
       "as_of": "2026-11-11",
-      "retrieved_at": "2026-11-11T02:08:29.393Z"
+      "retrieved_at": "2026-11-11T02:45:07.331Z"
     },
     {
       "id": "arena",
@@ -59,7 +59,7 @@
       "aggregate": true,
       "header": true,
       "as_of": "2026-11-11",
-      "retrieved_at": "2026-11-11T02:08:29.393Z",
+      "retrieved_at": "2026-11-11T02:45:07.331Z",
       "evidence": "evidence/arena-text-2026-10-22.txt",
       "screenshot": "evidence/arena-2026-10-22.png"
     },
@@ -73,7 +73,7 @@
       "aggregate": true,
       "header": true,
       "as_of": "2026-11-11",
-      "retrieved_at": "2026-11-11T02:08:29.393Z"
+      "retrieved_at": "2026-11-11T02:45:07.331Z"
     },
     {
       "id": "livebench",
@@ -85,7 +85,7 @@
       "aggregate": true,
       "header": true,
       "as_of": "2026-11-11",
-      "retrieved_at": "2026-11-11T02:08:29.393Z"
+      "retrieved_at": "2026-11-11T02:45:07.331Z"
     },
     {
       "id": "openrouter",
@@ -97,7 +97,7 @@
       "aggregate": true,
       "header": false,
       "as_of": "2026-11-11",
-      "retrieved_at": "2026-11-11T02:08:29.393Z",
+      "retrieved_at": "2026-11-11T02:45:07.331Z",
       "evidence": "evidence/openrouter-models-2026-10-22.json"
     }
   ],
@@ -207,44 +207,44 @@
   ],
   "model_benchmarks": [
     {
-      "model": "Gemini 4 Argon",
-      "provider": "Google",
-      "openrouter_id": "google/gemini-4-argon",
-      "arena_name": "Gemini 4 Argon (High)",
-      "composite_score": 91.2,
-      "coding_composite_score": 92.6,
-      "arena_elo": 1585,
-      "arena_coding_elo": 1559,
-      "aa_intelligence": 90.4,
-      "aa_coding": 91.8,
-      "livebench_score": 87.9,
-      "livebench_coding": 89.2,
+      "model": "Claude Fable 5.2",
+      "provider": "Anthropic",
+      "openrouter_id": "anthropic/claude-fable-5.2",
+      "arena_name": "Claude Fable 5.2 (xHigh)",
+      "composite_score": 92.8,
+      "coding_composite_score": 94.6,
+      "arena_elo": 1605,
+      "arena_coding_elo": 1588,
+      "aa_intelligence": 92.5,
+      "aa_coding": 94.8,
+      "livebench_score": 89.6,
+      "livebench_coding": 91.8,
       "swe_bench_verified": null,
-      "gpqa_diamond": 89.4,
-      "mmlu_pro": 91.2,
-      "pricing_in_1m": 2,
-      "pricing_out_1m": 10,
+      "gpqa_diamond": 91.2,
+      "mmlu_pro": 92.8,
+      "pricing_in_1m": 8,
+      "pricing_out_1m": 40,
       "context_window": "1,000K",
       "badge_type": ""
     },
     {
-      "model": "Claude Opus 5.5",
-      "provider": "Anthropic",
-      "openrouter_id": "anthropic/claude-opus-5.5",
-      "arena_name": "Claude Opus 5.5 (High)",
-      "composite_score": 90.8,
-      "coding_composite_score": 92.4,
-      "arena_elo": 1568,
-      "arena_coding_elo": 1548,
-      "aa_intelligence": 90.8,
-      "aa_coding": 92.5,
-      "livebench_score": 88.2,
-      "livebench_coding": 90.1,
+      "model": "Gemini 4 Carbon",
+      "provider": "Google",
+      "openrouter_id": "google/gemini-4-carbon",
+      "arena_name": "Gemini 4 Carbon (High)",
+      "composite_score": 92.4,
+      "coding_composite_score": 93.8,
+      "arena_elo": 1598,
+      "arena_coding_elo": 1572,
+      "aa_intelligence": 91.8,
+      "aa_coding": 93.2,
+      "livebench_score": 88.9,
+      "livebench_coding": 90.5,
       "swe_bench_verified": null,
-      "gpqa_diamond": 88.9,
-      "mmlu_pro": 90.8,
-      "pricing_in_1m": 4,
-      "pricing_out_1m": 20,
+      "gpqa_diamond": 90.6,
+      "mmlu_pro": 92.4,
+      "pricing_in_1m": 2,
+      "pricing_out_1m": 10,
       "context_window": "1,000K",
       "badge_type": ""
     },

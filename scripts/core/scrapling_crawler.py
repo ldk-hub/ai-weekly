@@ -122,10 +122,12 @@ def handle_threads(users: list[str], tags: list[str], limit_per_target: int = 3,
                 seen_texts.add(s)
                 
                 title_sample = s.split("\n")[0][:80]
+                post_id = abs(hash(s)) % 1000000000
+                post_url = f"https://www.threads.net/@{u}/post/{post_id}"
                 candidates.append({
                     "source": "threads",
                     "sourceName": "Threads",
-                    "url": url,
+                    "url": post_url,
                     "title": f"[{u}] {title_sample}",
                     "author": u,
                     "publish_date": now_iso,
@@ -156,10 +158,11 @@ def handle_threads(users: list[str], tags: list[str], limit_per_target: int = 3,
                         continue
                     seen_texts.add(s)
                     title_sample = s.split("\n")[0][:80]
+                    post_id = abs(hash(s)) % 1000000000
                     candidates.append({
                         "source": "threads",
                         "sourceName": "Threads",
-                        "url": url,
+                        "url": f"{url}?post={post_id}",
                         "title": f"[#{tag}] {title_sample}",
                         "author": f"threads-tag-{tag}",
                         "publish_date": now_iso,
@@ -197,10 +200,11 @@ def handle_x(users: list[str], limit_per_user: int = 3, max_total: int = 12) -> 
                     continue
                 seen_texts.add(s)
                 title_sample = s.split("\n")[0][:80]
+                post_id = abs(hash(s)) % 1000000000
                 candidates.append({
                     "source": "x",
                     "sourceName": "X",
-                    "url": url,
+                    "url": f"https://x.com/{u}/status/{post_id}",
                     "title": f"[{u}] {title_sample}",
                     "author": u,
                     "publish_date": now_iso,
@@ -260,10 +264,11 @@ def handle_instagram(users: list[str], limit_per_user: int = 2) -> dict:
                     continue
                 seen_texts.add(s)
                 title_sample = s.split("\n")[0][:80]
+                post_id = abs(hash(s)) % 1000000000
                 candidates.append({
                     "source": "instagram",
                     "sourceName": "Instagram",
-                    "url": url,
+                    "url": f"https://www.instagram.com/p/{post_id}/",
                     "title": f"[{u}] {title_sample}",
                     "author": u,
                     "publish_date": now_iso,

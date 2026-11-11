@@ -1014,8 +1014,14 @@ async function main() {
 
   await enrichBodies(candidates);
 
-  const withBody = candidates.filter((c) => c.body_chars >= 120);
-  console.log(`본문 확보 기준(120자) 통과: ${withBody.length}/${candidates.length}건`);
+  const withBody = candidates.filter((c) => {
+    // 소셜 미디어(Threads, X, Instagram)는 마이크로블로그 단문(40자 이상) 허용
+    if (["threads", "x", "instagram"].includes(c.source)) {
+      return (c.body_chars || (c.body && c.body.length) || 0) >= 40;
+    }
+    return (c.body_chars || (c.body && c.body.length) || 0) >= 120;
+  });
+  console.log(`본문 확보 기준 통과(일반 120자 / 소셜 40자): ${withBody.length}/${candidates.length}건`);
 
   const selected = capPerSource(withBody);
   if (selected.length < withBody.length) {

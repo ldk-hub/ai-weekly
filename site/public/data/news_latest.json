@@ -1,478 +1,493 @@
 {
-  "generated_at": "2026-11-11T02:19:17.727Z",
-  "version": "v2026.11.11",
-  "summary": "🔥 오늘의 핵심 이슈: #제미나이4카본 #ClaudeWhiteboards #암호학정형검증 — 구글 가성비 제미나이 4 카본 출시와 시그널 E2EE 수학적 증명 성공, 앤트로픽 실시간 캔버스 기능 공개로 에이전트 작업 공간이 한층 진화했습니다.",
+  "updated_at": "2026-11-11T02:42:00.000Z",
+  "date": "2026-11-11",
   "curated_by": "ldk-hub",
-  "signal_counts": {
-    "model": 3,
-    "policy": 1,
-    "devtool": 4,
-    "practice": 2,
-    "product": 1,
-    "research": 5
-  },
+  "summary": "🔥 오늘의 핵심 이슈: #Gemini4Carbon #Jalapeno #ClaudeFable — 구글 딥마인드 최상위 제미나이 4 카본 출시, 오픈AI 첫 자체 AI 가속기 실리콘 공개, 소셜 미디어 기반 차세대 토큰 쿼터 엔지니어링 패러다임이 전면 부상했습니다.",
   "news": [
     {
-      "id": "aitimes_8b75f8cf2c",
-      "category_id": "aitimes",
-      "category_name": "AI타임스",
+      "id": "x_acb5f427d1",
+      "category_id": "x",
+      "category_name": "X",
       "signal_id": "model",
       "signal_name": "새 모델·버전 출시·프리뷰·벤치마크",
-      "importance": 92,
-      "headline": "구글, '제미나이 4 카본' 정식 출시… '페이블 5.2' 4분의 1 가격 책정",
-      "title_ko": "구글, '제미나이 4 카본' 정식 출시… '페이블 5.2' 4분의 1 가격 책정",
-      "summary_ko": "• **초경량 프론티어 출시**: 구글이 성능과 비용 효율성을 극대화한 신규 플래그십 모델 '제미나이 4 카본(Gemini 4 Carbon)'을 정식 출시했습니다.\n• **파격적인 가성비 달성**: 앤트로픽의 최신 Claude Fable 5.2 대비 약 4분의 1 수준의 토큰 비용으로 유사한 코딩 및 추론 능력을 제공합니다.\n• **엣지·엔터프라이즈 최적화**: 경량화 아키텍처를 바탕으로 대규모 기업용 API 서빙과 로컬 에이전트 인프라 환경에서 처리량을 크게 높였습니다.",
-      "body_ko": "구글이 프론티어 AI 라인업의 새로운 모델 제미나이 4 카본을 정식 공개했습니다. 이번 모델은 경쟁사 플래그십인 Claude Fable 5.2의 성능에 근접하면서도 서빙 비용을 75% 절감한 것이 최대 강점입니다. 추론 속도와 메모리 효율을 개선하여 실시간 응답이 필수적인 프로덕션 API에 최적화되었습니다. 특히 소프트웨어 엔지니어링 벤치마크와 다중 턴 에이전트 워크플로우에서 높은 안정성을 증명했습니다. 구글은 비용 장벽을 대폭 낮춰 엔터프라이즈 개발자들의 대규모 프로덕션 도입을 가속화하겠다는 전략입니다.",
+      "importance": 96,
+      "headline": "구글 딥마인드, 고난도 추론 및 에이전틱 작업 특화 최상위 모델 '제미나이 4 카본' 공식 출시",
+      "title_ko": "구글 딥마인드, 고난도 추론 및 자율 에이전트 전용 '제미나이 4 카본' 공식 발표",
+      "summary_ko": "• **프론티어 모델 출시**: 구글 딥마인드가 복잡한 소프트웨어 엔지니어링과 장기 에이전틱 작업을 전담하는 최상위 AI 모델 '제미나이 4 카본'을 공식 발표했습니다.\n• **압도적 벤치마크**: LMArena 텍스트 아레나에서 Elo 1528점을 기록하며 글로벌 1위를 달성하고, 100만 토큰 컨텍스트와 멀티모달 추론 성능을 입증했습니다.\n• **개발자 API 제공**: Google AI Studio 및 Vertex AI를 통해 즉시 상용 서빙되며, 백만 토큰당 입력 2달러와 출력 10달러의 높은 가격 경쟁력을 제공합니다.",
+      "body_ko": "구글 딥마인드가 차세대 플래그십 인공지능 모델인 '제미나이 4 카본(Gemini 4 Carbon)'을 정식 공개하고 글로벌 개발자 생태계에 배포를 시작했습니다. 이번 모델은 다단계 코딩, 복잡한 리포지토리 리팩토링, 수학적 증명 및 사이버 보안 패치 생성 등 고난도 지식 노동에 최적화된 심층 추론 아키텍처를 탑재했습니다. LMArena 벤치마크 평가 결과 블라인드 선호도 점수 1528점을 기록하며 기존 경쟁 모델들을 제치고 종합 리더보드 최상단에 등극했습니다. 특히 100만 토큰에 달하는 방대한 컨텍스트 윈도우를 안정적으로 처리하며 장기 실행 에이전트의 상태 보존 능력을 극대화했습니다. 기업용 Vertex AI와 개발자용 Google AI Studio에서 즉시 호출 가능하여 차세대 자율 소프트웨어 엔지니어링 구축에 핵심 동력이 될 전망입니다.",
       "tags": [
-        "구글",
-        "제미나이 4 카본",
-        "경량 모델",
-        "가성비 LLM"
+        "#Gemini4Carbon",
+        "#GoogleDeepMind",
+        "#FrontierAI",
+        "#LMArena"
       ],
-      "author_profile": "임대준 기자",
-      "publish_date": "2026-11-10T23:12:13.000Z",
-      "url": "https://www.aitimes.com/news/articleView.html?idxno=217249",
+      "author_profile": "GoogleDeepMind",
+      "publish_date": "2026-11-11T02:38:44.823Z",
+      "url": "https://x.com/GoogleDeepMind/status/725251065",
       "sources": [
-        "AI타임스"
+        "x",
+        "GoogleDeepMind"
       ],
-      "metrics": {},
+      "metrics": {
+        "platform": "x",
+        "account": "GoogleDeepMind"
+      },
       "curated_by": "ldk-hub"
     },
     {
-      "id": "aitimes_c8a5b779a6",
+      "id": "threads_6a40c6168b",
+      "category_id": "threads",
+      "category_name": "Threads",
+      "signal_id": "product",
+      "signal_name": "제품 신기능",
+      "importance": 94,
+      "headline": "오픈AI, 자체 AI 가속기 칩 '할라페뇨(Jalapeño)' 공개 및 타임지 최고 발명품 등재",
+      "title_ko": "오픈AI, 자체 AI 가속기 칩 '할라페뇨(Jalapeño)' 공개 및 타임지 최고 발명품 선정",
+      "summary_ko": "• **자체 실리콘 공개**: 오픈AI가 외부 GPU 의존도를 낮추고 데이터센터 추론 효율을 극대화하기 위해 설계한 첫 자체 AI 칩 '할라페뇨'를 공개했습니다.\n• **타임지 공식 등재**: 차세대 대규모 언어 모델 서빙에 최적화된 저전력 초고속 연산 아키텍처를 인정받아 타임지 2026 최고의 발명품으로 선정되었습니다.\n• **인프라 독립 가속**: 자율 에이전트 구동에 따른 컴퓨팅 비용 폭증을 방어하고 대규모 상용 서비스의 안정적 마진을 확보하는 전환점이 될 것으로 평가됩니다.",
+      "body_ko": "오픈AI가 자사 공식 스레드(Threads) 채널을 통해 자체 개발한 첫 번째 커스텀 AI 가속 실리콘인 '할라페뇨(Jalapeño)'의 실물을 전격 공개했습니다. 할라페뇨는 타임(TIME)지가 발표한 '2026년 최고의 발명품' 리스트에 공식 이름을 올리며 글로벌 엔지니어링 업계의 큰 주목을 받았습니다. 이 칩은 기존 범용 GPU 대비 대규모 트랜스포머 모델의 KV 캐시 접근과 디코딩 연산에서 최대 3배 높은 전력 대 효율비를 달성하도록 특화되었습니다. 그동안 천문학적인 클라우드 대관 비용을 지출해 온 오픈AI는 자체 실리콘 도입을 통해 에이전트 서비스 운영 단가를 획기적으로 낮출 수 있게 되었습니다. 향후 오퍼레이터(Operator)와 차세대 프론티어 모델 전용 데이터센터 클러스터에 단계적으로 전면 배치될 예정입니다.",
+      "tags": [
+        "#OpenAI",
+        "#Jalapeno",
+        "#AIChip",
+        "#TIMEBestInventions"
+      ],
+      "author_profile": "openai",
+      "publish_date": "2026-11-11T02:37:34.475Z",
+      "url": "https://www.threads.net/@openai/post/258973371",
+      "sources": [
+        "threads",
+        "openai"
+      ],
+      "metrics": {
+        "platform": "threads",
+        "account": "openai"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "threads_ee369f3afd",
+      "category_id": "threads",
+      "category_name": "Threads",
+      "signal_id": "insight",
+      "signal_name": "💡 소셜 인사이트·실무 활용 팁·모델 체감 리뷰·프롬프트 노하우",
+      "importance": 93,
+      "headline": "안드레이 카파시, '과거엔 GPU 낭비 공포, 지금은 토큰 쿼터 고갈이 핵심 병목'",
+      "title_ko": "안드레이 카파시, \"GPU 유휴시간보다 토큰 쿼터 한도 소진이 새로운 엔지니어링 공포\"",
+      "summary_ko": "• **병목 패러다임 변화**: 안드레이 카파시(Andrej Karpathy)가 로컬 GPU 자원보다 API 토큰 쿼터와 컨텍스트 위생 관리가 현대 AI 개발의 실질적 제약이라고 지적했습니다.\n• **에이전틱 루프의 비용**: 모델의 심층 사고(Thinking)와 무한 자율 루프가 일상화되면서 비효율적인 프롬프트가 단시간에 개발 쿼터를 잠식하는 현상이 심화되었습니다.\n• **수렴 설계의 중요성**: 엔지니어들은 확률적 발산을 허용하는 개방형 루프 대신 명확한 탈출 조건과 결정론적 검증 단계를 파이프라인에 결합해야 한다고 조언했습니다.",
+      "body_ko": "테슬라 AI 디렉터이자 오픈AI 창립 멤버인 안드레이 카파시가 스레드를 통해 현대 개발자들의 심리적·기술적 병목이 완전히 변화했음을 날카롭게 짚었습니다. 과거에는 비싼 온프레미스 GPU 클러스터를 놀리는 것이 개발팀의 가장 큰 불안 요소였으나, 현재는 분당 토큰 할당량(TPM)과 일일 쿼터 소진이 작업 중단을 유발하는 핵심 공포가 되었다는 분석입니다. 프론티어 LLM의 자율 디버깅과 다단계 에이전트 하네스가 보편화되면서 잘못 설계된 루프 하나가 수백만 토큰을 순식간에 소비하는 사례가 급증하고 있습니다. 카파시는 이러한 환경에서 엔지니어의 핵심 역량이 무작정 긴 문맥을 집어넣는 것이 아니라 정밀한 사전 필터링과 수렴형 아키텍처를 설계하는 데 있다고 강조했습니다. 토큰 경제성을 고려하지 않은 에이전트 시스템은 프로덕션 단계에서 지속 가능하지 않다는 경종을 울리고 있습니다.",
+      "tags": [
+        "#Karpathy",
+        "#TokenQuota",
+        "#AgenticLoop",
+        "#EngineeringInsight"
+      ],
+      "author_profile": "karpathy",
+      "publish_date": "2026-11-11T02:37:34.475Z",
+      "url": "https://www.threads.net/@karpathy/post/207436963",
+      "sources": [
+        "threads",
+        "karpathy"
+      ],
+      "metrics": {
+        "platform": "threads",
+        "account": "karpathy"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "x_bac3932bf6",
+      "category_id": "x",
+      "category_name": "X",
+      "signal_id": "devtool",
+      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
+      "importance": 91,
+      "headline": "오픈AI, 저비용·고속 컴퓨터 유즈 모델 'GPT-6.1 테라(Terra)' 전격 출시",
+      "title_ko": "오픈AI, 고속 컴퓨터 제어 및 GUI 자동화 특화 모델 'GPT-6.1 테라' 공개",
+      "summary_ko": "• **컴퓨터 유즈 전용 모델**: 오픈AI가 화면 인식, 마우스/키보드 직접 제어, 브라우저 워크플로우에 특화된 경량 플래그십 'GPT-6.1 테라'를 공개했습니다.\n• **지연 시간 대폭 단축**: 이전 세대 대비 추론 레이턴시를 45% 줄여 실시간 데스크톱 GUI 제어 시 자연스러운 상호작용 속도를 보장합니다.\n• **비용 효율화**: 백만 토큰당 가격을 대폭 인하하여 E2E UI 테스트 및 대규모 웹 데이터 추출 자동화 에이전트의 상용 배포 장벽을 낮췄습니다.",
+      "body_ko": "오픈AI가 공식 X 계정을 통해 운영체제 GUI 환경을 직접 조작하고 웹 브라우징을 대행하는 신규 모델 'GPT-6.1 테라(Terra)'를 정식 선보였습니다. 테라는 화면 캡처 이미지를 실시간으로 분석해 정확한 마우스 클릭 좌표와 키보드 입력 이벤트를 생성하는 컴퓨터 유즈(Computer Use)에 특화되었습니다. 특히 초당 프레임 처리 속도를 극대화하여 조작 딜레이로 인한 사용자 이탈 문제를 기술적으로 해결했습니다. 개발자들은 이제 복잡한 RPA 스크립트를 작성하지 않고도 자연어 지시만으로 데스크톱 앱 간 데이터 이동과 복잡한 웹 폼 작성을 자동화할 수 있습니다. 엔터프라이즈 환경에서의 보안 감사를 위해 모든 에이전트 화면 조작 로그를 정밀 기록하는 규정 준수 기능도 함께 내장되었습니다.",
+      "tags": [
+        "#GPT61Terra",
+        "#ComputerUse",
+        "#OpenAI",
+        "#GUIAutomation"
+      ],
+      "author_profile": "OpenAI",
+      "publish_date": "2026-11-11T02:38:44.823Z",
+      "url": "https://x.com/OpenAI/status/530532759",
+      "sources": [
+        "x",
+        "OpenAI"
+      ],
+      "metrics": {
+        "platform": "x",
+        "account": "OpenAI"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hackernews_db0ce5b0c6",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "signal_id": "model",
+      "signal_name": "새 모델·버전 출시·프리뷰·벤치마크",
+      "importance": 95,
+      "headline": "Saltline: 앤트로픽 클로드 페이블 5.2 자율 코딩으로 구현된 1인칭 슈팅(FPS) 게임",
+      "title_ko": "솔트라인(Saltline): 클로드 페이블 5.2가 100% 자율 작성한 풀 3D FPS 게임 공개",
+      "summary_ko": "• **자율 코딩 극한 시험**: 앤트로픽의 최상위 프론티어 모델 '클로드 페이블 5.2'가 단독으로 3D 그래픽스 파이프라인과 게임 물리 엔진을 자율 구현했습니다.\n• **복합 아키텍처 완성**: 셰이더 프로그래밍, 길찾기 AI 네비게이션, 사운드 믹서까지 10만 라인 이상의 C++ 코드를 사람의 수동 개입 없이 완결했습니다.\n• **장기 작업 검증**: 대규모 멀티 파일 프로젝트에서 문맥을 잃지 않고 컴파일 에러를 스스로 수정하며 빌드 가능한 상태로 완주했습니다.",
+      "body_ko": "해커뉴스에서 앤트로픽의 최신 프론티어 모델 '클로드 페이블 5.2(Claude Fable 5.2)'가 사람의 코드 작성 개입 없이 완성한 3D FPS 게임 Saltline이 화제를 모았습니다. 이 프로젝트는 페이블 5.2의 장기 자율 에이전틱(Long-horizon) 소프트웨어 엔지니어링 성능을 입증하기 위해 설계된 극한 테스트베드입니다. 모델은 OpenGL 기반 렌더러 구축부터 충돌 감지 알고리즘, 적 NPC의 전술적 행동 트리(Behavior Tree)까지 유기적으로 구현해냈습니다. 링커 오류나 메모리 세그멘테이션 폴트가 발생할 때마다 gdb 디버그 로그를 자체 분석하여 8일 만에 부팅 가능한 바이너리를 산출했습니다. 단순한 스크립트 생성을 넘어 복잡한 인터랙티브 시스템 소프트웨어를 AI가 끝까지 자율 완결할 수 있음을 보여준 기념비적 사례입니다.",
+      "tags": [
+        "#ClaudeFable",
+        "#Fable52",
+        "#AutonomousCoding",
+        "#GameEngine"
+      ],
+      "author_profile": "@dr00tb",
+      "publish_date": "2026-11-10T19:14:38.000Z",
+      "url": "https://claude.ai/artifact/BGY1SztrAYcJQHSsnHHGmp",
+      "sources": [
+        "hackernews",
+        "@dr00tb"
+      ],
+      "metrics": {
+        "points": 55,
+        "comments": 63,
+        "discussion_url": "https://news.ycombinator.com/item?id=50444850"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hackernews_1eb783cac9",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "signal_id": "model",
+      "signal_name": "새 모델·버전 출시·프리뷰·벤치마크",
+      "importance": 94,
+      "headline": "Gemini 4 Carbon 정식 출시: LMArena 1위 및 엔지니어링 에이전트 특화 성능 분석",
+      "title_ko": "구글 제미나이 4 카본 출시, LMArena 종합 1위 및 장기 추론 에이전트 성능 입증",
+      "summary_ko": "• **선호도 아레나 석권**: 구글의 제미나이 4 카본이 LMArena 텍스트 및 코딩 리더보드에서 최고 점수를 획득하며 정식 롤아웃되었습니다.\n• **100만 컨텍스트 강화**: 대규모 모노레포 코드베이스 분석과 복합 추론 루프에서 컨텍스트 손실 없는 무결점 니들 인 어 헤이스택(NIAH)을 달성했습니다.\n• **엔터프라이즈 최적화**: 멀티모달 파일 입력과 구조화된 JSON 출력을 안정적으로 보장하여 사내 워크플로우 자동화 도입을 가속화합니다.",
+      "body_ko": "해커뉴스 메인 페이지에 구글의 최상위 AI 모델인 제미나이 4 카본(Gemini 4 Carbon)의 공식 출시와 벤치마크 심층 분석 글이 등록되었습니다. 글쓴이는 카본 모델이 기존 아르곤(Argon) 대비 장기 에이전트 디버깅과 다단계 코드 합성에서 비약적인 체감 안정성을 보여준다고 평가했습니다. 특히 블라인드 평가 LMArena에서 1528점을 기록해 경쟁사 최신 플래그십 모델들을 제치고 단독 1위에 랭크되었습니다. 100만 토큰에 이르는 전체 문맥을 검색할 때 단 하나의 단서도 놓치지 않는 정밀한 주의 집중 메커니즘이 강점으로 꼽혔습니다. 구글 AI 스튜디오 및 클라우드 버텍스 AI를 통해 기존 대비 30% 빠른 생성 속도와 경쟁력 있는 가격으로 즉시 이용 가능합니다.",
+      "tags": [
+        "#Gemini4Carbon",
+        "#LMArena",
+        "#GoogleAI",
+        "#FrontierLLM"
+      ],
+      "author_profile": "@meetpateltech",
+      "publish_date": "2026-11-10T16:07:15.000Z",
+      "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-4-carbon-now-available/",
+      "sources": [
+        "hackernews",
+        "@meetpateltech"
+      ],
+      "metrics": {
+        "points": 276,
+        "comments": 149,
+        "discussion_url": "https://news.ycombinator.com/item?id=50442303"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hackernews_89037c9054",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "signal_id": "devtool",
+      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
+      "importance": 88,
+      "headline": "Show HN: Aircad — 웹 기반 고속 파라메트릭 3D CAD 및 AI 설계 보조 도구",
+      "title_ko": "Aircad: 웹어셈블리 기반 고성능 3D 파라메트릭 CAD 및 AI 설계 어시스턴트",
+      "summary_ko": "• **웹 기반 브라우저 CAD**: 웹GPU와 웹어셈블리(WASM)로 구동되어 브라우저에서 대규모 부품 어셈블리를 지연 없이 렌더링합니다.\n• **자연어 치수 제어**: AI 에이전트에 자연어로 설계 의도를 설명하면 파라메트릭 스케치와 기하학적 구속조건을 자동 생성합니다.\n• **오픈 STEP 호환**: 표준 STEP 및 IGES 포맷을 온전하게 지원하여 기존 엔지니어링 툴체인과 매끄럽게 연동됩니다.",
+      "body_ko": "해커뉴스 쇼 HN에 설치 없이 브라우저에서 즉시 실행 가능한 현대적 파라메트릭 3D CAD 소프트웨어 Aircad가 공개되었습니다. 전통적인 무거운 데스크톱 CAD 도구와 달리 WebGPU를 직접 활용해 수천 개의 부품이 결합된 대형 모델도 60fps로 부드럽게 조작할 수 있습니다. 내장된 설계 AI 어시스턴트는 엔지니어의 자연어 요구사항을 기하학적 제약 조건(Constraints)으로 즉각 변환해 모델링 속도를 배가합니다. 클라우드 실시간 동시 편집 기능을 기본 지원해 하드웨어 스타트업 간의 원격 협업 효율성을 극대화했습니다. 오픈소스 커뮤니티의 큰 찬사를 받으며 차세대 엔지니어링 설계 툴의 모범 사례로 평가받고 있습니다.",
+      "tags": [
+        "#Aircad",
+        "#WebGPU",
+        "#3DCAD",
+        "#ParametricDesign"
+      ],
+      "author_profile": "@peetle",
+      "publish_date": "2026-11-10T15:01:19.000Z",
+      "url": "https://aircad.com/",
+      "sources": [
+        "hackernews",
+        "@peetle"
+      ],
+      "metrics": {
+        "points": 24,
+        "comments": 11,
+        "discussion_url": "https://news.ycombinator.com/item?id=50441350"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "geeknews_896f5d6db7",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "signal_id": "practice",
+      "signal_name": "AI 활용 사례·워크플로우 팁",
+      "importance": 87,
+      "headline": "에이전틱 AI 시대의 독서와 지식 습득: 왜 요약본만으로는 깊은 추론이 불가능한가",
+      "title_ko": "AI 요약 범람의 시대, 긴 호흡의 책 읽기와 심층 추론 역량이 더 중요해진 이유",
+      "summary_ko": "• **요약의 인지적 한계**: LLM의 단문 요약본만 소비할 경우 개념 간의 유기적 맥락과 비판적 사고 연결고리가 약화된다는 분석입니다.\n• **프롬프트 설계력과의 상관관계**: 복잡한 시스템 아키텍처를 설계하는 엔지니어일수록 긴 텍스트의 맥락 파악 능력이 뛰어남이 입증되었습니다.\n• **도구적 독서 전략**: AI를 보조 독서 파트너로 활용하여 질문을 던지고 반론을 검증하는 능동적 독서법이 실무 대안으로 제시되었습니다.",
+      "body_ko": "긱뉴스에 AI 요약 도구가 보편화된 현대 개발 환경에서 긴 호흡의 독서가 갖는 본질적 가치를 재조명한 에세이가 소개되었습니다. 글쓴이는 단순히 사실 관계만을 압축한 불릿 요약본은 지식의 결과물만을 전달할 뿐, 지식이 도출되는 사고의 과정은 전달하지 못한다고 지적했습니다. 복잡한 소프트웨어 시스템을 다루는 엔지니어에게 필요한 것은 단순 정보가 아니라 모순과 불확실성을 탐색하는 심층 추론 근육이라는 설명입니다. AI에게 정확하고 정교한 프롬프트를 작성하는 능력 역시 저자의 의도를 다각도로 비판 분석하는 문해력에서 기인한다는 점을 강조했습니다. 개발자들이 AI의 요약 기능에 매몰되지 않고 원전 텍스트를 능동적으로 파고들어야 할 시점이라는 통찰을 제공합니다.",
+      "tags": [
+        "#KnowledgeAcquisition",
+        "#DeepReading",
+        "#CriticalThinking",
+        "#GeekNews"
+      ],
+      "author_profile": "neo",
+      "publish_date": "2026-11-11T00:40:02.000Z",
+      "url": "https://news.hada.io/topic?id=36969",
+      "sources": [
+        "geeknews",
+        "neo"
+      ],
+      "metrics": {
+        "views": 1000
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "geeknews_3af25d9308",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "signal_id": "devtool",
+      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
+      "importance": 86,
+      "headline": "스페인 발렌시아 도시 데이터를 심시티풍 아이소메트릭 3D 지도로 시각화한 오픈소스",
+      "title_ko": "발렌시아 오픈 데이터를 클래식 심시티 스타일 아이소메트릭 맵으로 시각화한 프로젝트",
+      "summary_ko": "• **공공 데이터의 예술적 변환**: 발렌시아 시의 오픈 GIS 건물 데이터를 90년대 고전 심시티(SimCity) 화풍으로 렌더링했습니다.\n• **절차적 픽셀 아트 생성**: 건물 높이, 건축 연도, 용도 구분을 셰이더 알고리즘으로 분석해 정밀한 아이소메트릭 픽셀 타일로 변환합니다.\n• **웹 인터랙션 최적화**: 캔버스 기반 타일 스트리밍을 통해 수십만 동의 도시 건축물을 끊김 없이 탐색할 수 있습니다.",
+      "body_ko": "긱뉴스에 스페인 발렌시아 시의 방대한 오픈 공간정보 데이터를 레트로 심시티 게임 그래픽으로 재탄생시킨 독창적 프로젝트가 소개되었습니다. 개발자는 정부 공공 포털에서 제공하는 3D 빌딩 지오메트리 데이터를 절차적 픽셀 아트 셰이더와 결합해 향수를 자극하는 시각화 도구를 제작했습니다. 각 건물의 주거용, 상업용 용도에 따라 고유한 색채 팔레트와 지붕 텍스처가 실시간으로 매핑되는 아키텍처를 구현했습니다. 방대한 폴리곤 데이터를 브라우저에서 가볍게 표현하기 위해 2.5D 타일 캐싱 및 뷰포트 컬링 기법을 정교하게 적용했습니다. 지루한 공공 도시 통계를 엔지니어링과 게임 디자인 감각으로 매력적으로 탈바꿈시킨 훌륭한 시각화 사례입니다.",
+      "tags": [
+        "#DataVisualization",
+        "#SimCity",
+        "#PixelArt",
+        "#GIS"
+      ],
+      "author_profile": "neo",
+      "publish_date": "2026-11-11T00:31:22.000Z",
+      "url": "https://news.hada.io/topic?id=36968",
+      "sources": [
+        "geeknews",
+        "neo"
+      ],
+      "metrics": {
+        "views": 1000
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "aitimes_58ef9c8624",
+      "category_id": "aitimes",
+      "category_name": "AI타임스",
+      "signal_id": "practice",
+      "signal_name": "AI 활용 사례·워크플로우 팁",
+      "importance": 85,
+      "headline": "파이토치 2.x 기반 최신 AI 아키텍처 실무 구현: 현대 엔지니어를 위한 프랙티스",
+      "title_ko": "파이토치 2.x 컴파일러 및 분산 학습 엔진을 활용한 실무 파이프라인 구축 노하우",
+      "summary_ko": "• **torch.compile 실전 튜닝**: 최신 파이토치 컴파일러 엔진을 프로덕션 서빙에 적용해 모델 서빙 레이턴시를 35% 개선했습니다.\n• **FSDP2 분산 학습 패턴**: 완전 샤딩 데이터 병렬화(FSDP)의 메모리 효율성을 극대화하여 제한된 GPU로 대형 모델을 파인튜닝했습니다.\n• **실무 트러블슈팅**: 그래프 브레이크 현상을 진단하고 정적 텐서 셰이프를 강제하여 컴파일 오버헤드를 방지하는 기법이 상세히 다뤄졌습니다.",
+      "body_ko": "AI타임스 기술 기획을 통해 파이토치(PyTorch) 2.x 생태계의 핵심 성능 최적화 기술을 프로덕션 레벨에 안착시키는 실무 지침이 공개되었습니다. 기사는 정적 컴파일러인 torch.compile의 내부 동작 원리와 GPU 커널 퓨전(Kernel Fusion)을 통한 메모리 대역폭 절약 원리를 짚었습니다. 또한 멀티 노드 클러스터에서 통신 병목을 최소화하는 최신 FSDP2 분산 학습 기법의 설정 표준을 제시했습니다. 동적 조건문으로 인해 그래프 컴파일이 해제되는 현상을 탐지하고 순수 텐서 연산으로 리팩토링하는 단계별 체크리스트를 공유했습니다. 현장 백엔드 엔지니어들이 추론 서버의 하드웨어 자원을 100% 한계치까지 활용할 수 있도록 돕는 실용적 가이드입니다.",
+      "tags": [
+        "#PyTorch",
+        "#DeepLearningOptimization",
+        "#FSDP",
+        "#InferenceAcceleration"
+      ],
+      "author_profile": "AI타임스",
+      "publish_date": "2026-11-11T00:00:00.000Z",
+      "url": "https://www.aitimes.com/news/articleView.html?idxno=217031",
+      "sources": [
+        "aitimes",
+        "AI타임스"
+      ],
+      "metrics": {
+        "views": 1000
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "aitimes_7d9d6dc1d8",
       "category_id": "aitimes",
       "category_name": "AI타임스",
       "signal_id": "policy",
       "signal_name": "정책·규제·인프라 (기술 영향 큰 것만)",
-      "importance": 78,
-      "headline": "한국 디지털·AI 국가 경쟁력, 세계 10위 도약… 전년 대비 8단계 수직 상승",
-      "title_ko": "한국 디지털·AI 국가 경쟁력, 세계 10위 도약… 전년 대비 8단계 수직 상승",
-      "summary_ko": "• **세계 10위권 진입**: 스위스 국제경영개발대학원(IMD) 조사에서 한국의 디지털 및 AI 종합 경쟁력이 전년보다 8계단 뛰어오른 10위를 기록했습니다.\n• **미래 기술 대비 강화**: AI 연구 인력 풀 확충과 공공 데이터 개방, 첨단 IT 인프라 투자 항목에서 높은 점수를 받았습니다.\n• **규제 및 제도 혁신**: 민관 합동 거대언어모델(LLM) 생태계 육성과 컴퓨팅 인프라 지원 정책이 순위 상승의 주된 견인차로 평가되었습니다.",
-      "body_ko": "한국의 디지털 경쟁력이 전 세계 주요국 중 10위로 도약하며 역대 최고 순위를 기록했습니다. 스위스 IMD가 발표한 이번 평가에서 한국은 AI 인프라 확충과 미래 준비도 부문에서 큰 폭의 개선을 보였습니다. 특히 국가 차원의 고성능 컴퓨팅 바우처 지원과 산학연 협력 생태계 조성이 긍정적으로 작용했습니다. 다만 규제 유연성과 데이터 프라이버시 법제의 글로벌 정합성은 여전히 개선 과제로 지적되었습니다. 이번 순위 상승은 국내 AI 스타트업과 개발자 생태계의 대외 신뢰도 제고에 기여할 전망입니다.",
+      "importance": 86,
+      "headline": "글로벌 AI 반도체 공급망 재편과 기술 유출 방지 보안 체계의 진화",
+      "title_ko": "글로벌 차세대 AI 반도체 공급망 통제 강화와 엔터프라이즈 보안 감사 표준",
+      "summary_ko": "• **공급망 보안 규제**: 첨단 AI 가속기와 고대역폭 메모리(HBM)의 역외 반출 및 기술 탈취를 차단하기 위한 통제 기준이 격상되었습니다.\n• **하드웨어 보안 모듈 내장**: 차세대 칩셋에 물리적 복제 방지 기능(PUF)과 암호학적 기기 인증 레이어를 의무 탑재하는 방안이 추진됩니다.\n• **산업계 영향**: 국내외 반도체 제조사들은 펌웨어 레벨의 암호화 키 관리와 생산 이력 추적 시스템을 대폭 강화하고 있습니다.",
+      "body_ko": "AI타임스가 글로벌 인공지능 패권 경쟁의 중심축인 반도체 공급망 보안과 기술 유출 방지 전략의 최신 동향을 집중 조명했습니다. 최근 주요국 정부는 최첨단 패키징 기술과 파운드리 지적재산권(IP) 보호를 위해 엔지니어링 데이터 접근 통제를 대폭 강화했습니다. 차세대 데이터센터용 가속기 칩셋에 하드웨어 루트 오브 트러스트(RoT)를 심어 비인가 펌웨어 실행을 원천 차단하는 기술이 표준화되고 있습니다. 글로벌 빅테크들은 클라우드 내 가상화 인스턴스 간 부채널 공격(Side-channel attack)을 방어하기 위한 기밀 컴퓨팅을 도입 중입니다. 소프트웨어 모델 가중치뿐 아니라 하드웨어 인프라 전반의 물리적 보안 감사가 엔터프라이즈의 필수 과제로 부상했습니다.",
       "tags": [
-        "디지털 경쟁력",
-        "AI 국가 순위",
-        "기술 정책",
-        "한국 AI"
+        "#SemiconductorSecurity",
+        "#AISupplyChain",
+        "#ConfidentialComputing",
+        "#HardwareSecurity"
       ],
-      "author_profile": "이정환 기자",
-      "publish_date": "2026-11-10T23:05:00.000Z",
-      "url": "https://www.aitimes.com/news/articleView.html?idxno=217238",
+      "author_profile": "AI타임스",
+      "publish_date": "2026-11-10T22:00:00.000Z",
+      "url": "https://www.aitimes.com/news/articleView.html?idxno=217207",
       "sources": [
+        "aitimes",
         "AI타임스"
       ],
-      "metrics": {},
+      "metrics": {
+        "views": 1000
+      },
       "curated_by": "ldk-hub"
     },
     {
-      "id": "geeknews_2daab7902a",
-      "category_id": "geeknews",
-      "category_name": "GeekNews",
-      "signal_id": "devtool",
-      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
+      "id": "reddit_ebaba9711e",
+      "category_id": "reddit",
+      "category_name": "Reddit",
+      "signal_id": "insight",
+      "signal_name": "💡 소셜 인사이트·실무 활용 팁·모델 체감 리뷰·프롬프트 노하우",
+      "importance": 85,
+      "headline": "r/LocalLLaMA: 엔비디아 독점에 맞서는 차세대 오픈 하드웨어 및 텐서 가속기 로드맵",
+      "title_ko": "r/LocalLLaMA 커뮤니티, 엔비디아 CUDA 종속성을 극복하기 위한 오픈 하드웨어 대안 토론",
+      "summary_ko": "• **CUDA 독점 타개 방안**: AMD ROCm 및 인텔 oneAPI의 최신 호환성 개선 현황과 커뮤니티 주도 커널 포팅 사례가 집중 공유되었습니다.\n• **오픈 소스 텐서 컴파일러**: Triton과 TVM 등 하드웨어 독립적인 커스텀 연산 최적화 도구의 성숙도가 상용 수준에 도달했습니다.\n• **다변화된 칩셋 선택지**: 로컬 개발자들은 텐스토렌트와 세레브라스 등 신생 가속기 스타트업의 개발자 키트 보급 확대를 촉구하고 있습니다.",
+      "body_ko": "레딧 r/LocalLLaMA에서 특정 GPU 벤더의 독점적 CUDA 생태계 종속에서 벗어나려는 오픈소스 개발자들의 뜨거운 토론이 이어졌습니다. 참여자들은 최근 오픈AI의 트리톤(Triton) 컴파일러 발전으로 비엔비디아 하드웨어에서도 동일한 수준의 연산 커널 성능을 낼 수 있게 되었다고 평가했습니다. 특히 AMD와 인텔 등 주요 반도체 제조사들이 PyTorch 컴파일러 백엔드 기여를 공격적으로 늘리면서 드라이버 안정성이 크게 향상되었습니다. 커뮤니티는 특정 하드웨어에 종속되지 않는 개방형 추론 인프라가 갖춰져야만 장기적인 AI 기술 민주화가 달성될 수 있다고 역설했습니다. 중소형 AI 연구소와 스타트업들에게 비용 효율적인 분산 컴퓨팅 대안을 모색하게 하는 시의적절한 논의로 주목받고 있습니다.",
+      "tags": [
+        "#OpenHardware",
+        "#CUDAAlternatives",
+        "#Triton",
+        "#LocalLLaMA"
+      ],
+      "author_profile": "r/LocalLLaMA · u/iLaurens",
+      "publish_date": "2026-11-10T12:23:33.000Z",
+      "url": "https://www.reddit.com/r/LocalLLaMA/comments/1xsljn6/nobody_wondering_why_the_us_takes_nvidia_ceo/",
+      "sources": [
+        "reddit",
+        "r/LocalLLaMA · u/iLaurens"
+      ],
+      "metrics": {
+        "rank_in_sub": 5,
+        "discussion_url": "https://www.reddit.com/r/LocalLLaMA/comments/1xsljn6/nobody_wondering_why_the_us_takes_nvidia_ceo/"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "reddit_fa1e977826",
+      "category_id": "reddit",
+      "category_name": "Reddit",
+      "signal_id": "practice",
+      "signal_name": "AI 활용 사례·워크플로우 팁",
       "importance": 84,
-      "headline": "AMD Zen 6 제품군 아키텍처 분석: 고성능 CPU 코어의 병목 제거 전략",
-      "title_ko": "AMD Zen 6 제품군 아키텍처 분석: 고성능 CPU 코어의 병목 제거 전략",
-      "summary_ko": "• **차세대 코어 아키텍처**: AMD가 Zen 6 마이크로아키텍처의 세부 설계와 대역폭 확장 구조를 공식 발표했습니다.\n• **메모리 공급 병목 해소**: 코어 연산 유닛의 확장 속도에 맞춰 L2/L3 캐시 대역폭과 인터커넥트 인터페이스를 획기적으로 개선했습니다.\n• **AI 로컬 가속 연계**: AVX-512 최적화와 함께 로컬 LLM 추론 및 컴파일 연산 효율을 극대화하는 인스트럭션 셋을 보강했습니다.",
-      "body_ko": "AMD가 차세대 프로세서 제품군 Zen 6의 내부 아키텍처를 상세히 공개했습니다. 코어의 연산 파이프라인이 넓어짐에 따라 발생하는 메모리 공급 지연을 해결하기 위해 캐시 구조를 재설계했습니다. 각 코어에 데이터를 끊김 없이 밀어넣을 수 있는 초고속 인터커넥트 패브릭을 새롭게 적용했습니다. 대규모 코드 컴파일과 로컬 신경망 추론 워크로드에서 클럭당 명령 처리 횟수(IPC)가 눈에 띄게 증가했습니다. 데이터센터뿐만 아니라 고성능 개발자 워크스테이션 환경에서도 뛰어난 체감 성능 향상이 기대됩니다.",
+      "headline": "r/LocalLLaMA: 'AI가 나보다 게으르다' — 에이전트 태스크 회피 현상의 원인과 교정 프롬프트",
+      "title_ko": "로컬 코딩 에이전트의 코드 생략 및 태스크 회피(Laziness) 극복 실무 프롬프트 기법",
+      "summary_ko": "• **모델 게으름(Laziness) 현상**: 복잡한 파일 편집 시 '// 기존 코드 유지' 주석만 남기고 구현을 건너뛰는 현상의 메커니즘을 분석했습니다.\n• **어텐션 싱크(Attention Sink) 교정**: 시스템 프롬프트 말미에 완전 출력 원칙과 구체적 금지 토큰을 명시해 생략 버릇을 교정했습니다.\n• **결정론적 diff 검증기 도입**: 에이전트가 생성한 패치에 생략 주석이 포함되어 있을 경우 컴파일러 전에 자동으로 재작성을 요구합니다.",
+      "body_ko": "레딧 로컬 LLM 게시판에서 코딩 에이전트가 긴 코드를 작성할 때 구현을 생략하고 게으름을 피우는 문제를 완벽히 해결한 실무 경험이 공유되었습니다. 글쓴이는 모델이 RLHF 과정에서 긴 출력을 생성할 때 발생하는 토큰 페널티를 회피하기 위해 무의식적으로 축약 구문을 선호하게 된다고 설명했습니다. 이를 방지하기 위해 '중간 생략 절대 금지' 지침을 프롬프트 최상단이 아닌 가장 주의 집중도가 높은 최하단 사용자 메시지 직전에 배치했습니다. 또한 에이전트 하네스 단에서 생성된 diff 문자열에 '// ...' 같은 축약 패턴이 감지되면 자동으로 요청을 반려하는 검증 훅을 추가했습니다. 이 간단한 파이프라인 보정을 통해 대규모 리팩토링 시 코드 누락으로 인한 빌드 깨짐을 95% 이상 방지한 실질적 해법이 제시되었습니다.",
       "tags": [
-        "AMD",
-        "Zen 6",
-        "CPU 아키텍처",
-        "컴퓨팅 인프라"
+        "#ModelLaziness",
+        "#PromptEngineering",
+        "#LocalLLM",
+        "#CodingAgent"
       ],
-      "author_profile": "neo",
-      "publish_date": "2026-11-11T01:40:18.000Z",
-      "url": "https://news.hada.io/topic?id=36972",
+      "author_profile": "r/LocalLLaMA · u/cerchez07",
+      "publish_date": "2026-11-10T21:11:05.000Z",
+      "url": "https://www.reddit.com/r/LocalLLaMA/comments/1xsytlk/my_ai_is_lazier_than_me/",
       "sources": [
-        "GeekNews"
-      ],
-      "metrics": {},
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "geeknews_68835daa68",
-      "category_id": "geeknews",
-      "category_name": "GeekNews",
-      "signal_id": "practice",
-      "signal_name": "AI 활용 사례·워크플로우 팁",
-      "importance": 82,
-      "headline": "기업용 B2B AI 제품의 지능형 가격 책정 가이드라인과 비즈니스 모델 분석",
-      "title_ko": "기업용 B2B AI 제품의 지능형 가격 책정 가이드라인과 비즈니스 모델 분석",
-      "summary_ko": "• **수익화 딜레마 극복**: API 토큰 비용 변동성과 고객 가치를 균형 있게 연결하는 엔터프라이즈 AI 가격 책정 프레임워크가 제시되었습니다.\n• **하이브리드 요금제 부상**: 단순 사용자당 과금(Seat-based)에서 벗어나 기본 구독료에 가치 기반 크레딧을 결합한 하이브리드 모델이 대세로 자리잡고 있습니다.\n• **마진 리스크 방어 전략**: 긴 문맥 처리나 복잡한 에이전트 다단계 실행 시 발생하는 추론 비용 급증을 방어하는 실무적인 안전장치가 정리되었습니다.",
-      "body_ko": "B2B 소프트웨어 시장에서 생성형 AI 기반 제품을 수익화할 때 고려해야 할 핵심 프라이싱 전략이 공유되었습니다. 전통적인 좌석당 구독 모델은 AI 인프라 토큰 비용의 비선형적 증가를 감당하기 어렵다는 구조적 한계가 있습니다. 이에 따라 작업 완료 건수나 비즈니스 임팩트에 비례해 과금하는 가치 기반 요금제가 주목받고 있습니다. 고객사의 도입 장벽을 낮추면서도 클라우드 GPU 비용 리스크를 통제하는 캐핑 기법이 필수적입니다. 실무 개발팀과 기획팀이 제품 릴리즈 전 반드시 검토해야 할 경제적 가이드라인입니다.",
-      "tags": [
-        "B2B AI",
-        "가격 책정",
-        "SaaS 비즈니스",
-        "수익화"
-      ],
-      "author_profile": "neo",
-      "publish_date": "2026-11-11T00:50:02.000Z",
-      "url": "https://news.hada.io/topic?id=36970",
-      "sources": [
-        "GeekNews"
-      ],
-      "metrics": {},
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "geeknews_e8fc0240bd",
-      "category_id": "geeknews",
-      "category_name": "GeekNews",
-      "signal_id": "devtool",
-      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
-      "importance": 80,
-      "headline": "오픈소스 보안 분석 도구 Glasswing 7개월 운영 회고: 유지보수자 과부하 문제",
-      "title_ko": "오픈소스 보안 분석 도구 Glasswing 7개월 운영 회고: 유지보수자 과부하 문제",
-      "summary_ko": "• **보안 도구 운영 실태**: 오픈소스 보안 감사 도구 Glasswing 출시 7개월간의 실제 탐지 결과와 운영 데이터가 공개되었습니다.\n• **낮은 실질 탐지율**: 기대했던 치명적 취약점 발견율은 저조한 반면 사소한 경고가 폭증하여 프로젝트 유지보수자의 피로도가 극에 달했습니다.\n• **도구 고도화 필요성**: 단순 키워드 매칭이나 기계적 스캔을 넘어 문맥을 이해하는 AI 기반 유효성 검증 레이어의 필요성이 강조되었습니다.",
-      "body_ko": "오픈소스 자동화 보안 점검 프로젝트 Glasswing의 7개월 운영 보고서가 발표되었습니다. 수많은 리포지토리에 자동 PR을 생성했으나 실제 패치로 이어진 비율은 기대치에 크게 못 미쳤습니다. 무분별한 알림으로 인해 오픈소스 메인테이너들이 알림을 차단하거나 프로젝트를 방치하는 역효과가 관측되었습니다. 기계적인 취약점 리포트보다는 정밀한 악성코드 판별과 공격 가능성 검증이 선행되어야 함을 시사합니다. 보안 자동화 도구가 개발 생태계와 상생하기 위해 넘어야 할 지속가능성 과제를 잘 보여줍니다.",
-      "tags": [
-        "오픈소스",
-        "보안 도구",
-        "Glasswing",
-        "오픈소스 지속가능성"
-      ],
-      "author_profile": "neo",
-      "publish_date": "2026-11-11T01:37:18.000Z",
-      "url": "https://news.hada.io/topic?id=36971",
-      "sources": [
-        "GeekNews"
-      ],
-      "metrics": {},
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "hackernews_dbcaa75b2a",
-      "category_id": "hackernews",
-      "category_name": "Hacker News",
-      "signal_id": "devtool",
-      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
-      "importance": 88,
-      "headline": "구글 크롬 팀, 코딩 에이전트를 위한 모던 웹 표준 가이드라인 'Modern Web Guidance' 공개",
-      "title_ko": "구글 크롬 팀, 코딩 에이전트를 위한 모던 웹 표준 가이드라인 'Modern Web Guidance' 공개",
-      "summary_ko": "• **과거 코드 학습 편향 교정**: AI 코딩 에이전트가 2019년 이전의 레거시 JavaScript 패턴을 생성하는 문제를 교정하는 공식 가이드가 발표되었습니다.\n• **현대 웹 프리미티브 도입**: Web Components, 네이티브 CSS 중첩, 최신 브라우저 API를 적극 활용하도록 유도하는 프롬프트 셋을 제공합니다.\n• **코드베이스 다이어트 실현**: 불필요한 번들러 플러그인과 외부 폴리필 라이브러리 의존성을 제거하여 번들 크기를 획기적으로 줄여줍니다.",
-      "body_ko": "구글 크롬 개발팀이 AI 코딩 에이전트의 생성 품질을 최신 웹 표준으로 끌어올리기 위한 프로젝트를 공개했습니다. 많은 LLM이 과거 인터넷 데이터로 훈련되어 현대 브라우저가 기본 지원하는 기능을 불필요한 서드파티 라이브러리로 대체하는 경향이 있습니다. 이 가이드는 에이전트 시스템 프롬프트에 주입되어 최신 웹 프리미티브를 우선 채택하도록 안내합니다. 복잡한 유틸리티 코드 없이 브라우저 네이티브 기능만으로 깔끔한 프론트엔드를 구축할 수 있습니다. Claude Code나 Codex 같은 에이전트 환경에서 즉시 적용 가능한 실용적인 지침입니다.",
-      "tags": [
-        "Chrome",
-        "Web Standards",
-        "코딩 에이전트",
-        "현대 웹"
-      ],
-      "author_profile": "@paulirish",
-      "publish_date": "2026-11-10T18:01:15.000Z",
-      "url": "https://github.com/GoogleChrome/modern-web-guidance",
-      "sources": [
-        "Hacker News"
+        "reddit",
+        "r/LocalLLaMA · u/cerchez07"
       ],
       "metrics": {
-        "points": 267,
-        "comments": 77,
-        "discussion_url": "https://news.ycombinator.com/item?id=50443812"
+        "rank_in_sub": 8,
+        "discussion_url": "https://www.reddit.com/r/LocalLLaMA/comments/1xsytlk/my_ai_is_lazier_than_me/"
       },
       "curated_by": "ldk-hub"
     },
     {
-      "id": "hackernews_956883dd2d",
-      "category_id": "hackernews",
-      "category_name": "Hacker News",
-      "signal_id": "product",
-      "signal_name": "제품 신기능",
-      "importance": 90,
-      "headline": "앤트로픽, 실시간 협업 캔버스 'Claude Whiteboards' 및 데이터 통합 기능 발표",
-      "title_ko": "앤트로픽, 실시간 협업 캔버스 'Claude Whiteboards' 및 데이터 통합 기능 발표",
-      "summary_ko": "• **시각적 협업 캔버스**: 앤트로픽이 Claude 인터페이스 내에서 다이어그램과 아키텍처를 자유롭게 그릴 수 있는 Whiteboards를 공개했습니다.\n• **스프레드시트 직접 제어**: 복잡한 표 계산과 수식 분석을 대화형으로 수행하는 Claude Sheets 기능이 통합되었습니다.\n• **엔터프라이즈 데이터 파이프**: 외부 기업 데이터베이스와 연동하여 분석 결과를 캔버스에 실시간 시각화하는 워크플로우를 완성했습니다.",
-      "body_ko": "앤트로픽이 지식 노동자와 엔지니어를 위한 새로운 작업 공간인 Claude Whiteboards와 Sheets를 선보였습니다. 기존 텍스트 위주의 아티팩트를 넘어 시각적인 화이트보드에서 시스템 다이어그램과 UI 와이어프레임을 실시간 생성하고 수정할 수 있습니다. 또한 Claude Sheets를 통해 대규모 데이터셋을 스프레드시트 형태로 직접 다루며 계산을 검증할 수 있습니다. 텍스트, 코드, 스프레드시트, 시각적 캔버스가 단일 화면에서 유기적으로 동기화됩니다. AI를 단순한 챗봇이 아닌 종합 인터랙티브 워크스페이스로 진화시키려는 앤트로픽의 전략적 행보입니다.",
-      "tags": [
-        "앤트로픽",
-        "Claude Whiteboard",
-        "Claude Sheets",
-        "협업 도구"
-      ],
-      "author_profile": "@Yorothegoat",
-      "publish_date": "2026-11-10T17:55:07.000Z",
-      "url": "https://claude.com/resources/articles/sheets-whiteboards-data",
-      "sources": [
-        "Hacker News"
-      ],
-      "metrics": {
-        "points": 158,
-        "comments": 132,
-        "discussion_url": "https://news.ycombinator.com/item?id=50443716"
-      },
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "hackernews_69fad88c9f",
-      "category_id": "hackernews",
-      "category_name": "Hacker News",
-      "signal_id": "practice",
-      "signal_name": "AI 활용 사례·워크플로우 팁",
-      "importance": 85,
-      "headline": "바이브 코딩 시대에 소프트웨어 아키텍처와 코드 품질을 유지하는 엔지니어링 방법론",
-      "title_ko": "바이브 코딩 시대에 소프트웨어 아키텍처와 코드 품질을 유지하는 엔지니어링 방법론",
-      "summary_ko": "• **AI 생성 코드의 부채 극복**: 빠른 프로토타이핑을 위해 AI 에이전트로 코드를 작성할 때 기술 부채가 누적되는 현상을 방지하는 노하우가 공유되었습니다.\n• **테스트 기반 가드레일**: 코드 구현 전 인터페이스 계약과 종단간(E2E) 테스트를 먼저 정의하는 테스트 주도 개발(TDD)의 중요성이 재조명받고 있습니다.\n• **모듈 경계 엄격 분리**: 에이전트가 단일 파일에 거대 클래스를 쏟아내지 않도록 레이어 분리와 정적 분석 린터를 파이프라인에 강제하는 기법이 제시되었습니다.",
-      "body_ko": "해커뉴스에서 AI 에이전트를 적극 활용하는 이른바 '바이브 코딩' 환경에서의 품질 보증 방안이 뜨거운 논쟁을 불러일으켰습니다. AI가 코드를 빠르게 뽑아내는 속도에 취해 아키텍처 원칙을 무시할 경우 유지보수가 불가능한 스파게티 코드가 양산된다는 지적입니다. 참가자들은 에이전트에게 작성을 위임하되 단위 테스트와 인터페이스 설계를 인간이 엄격히 통제해야 한다고 입을 모았습니다. 커밋 전 SonarQube나 ESLint 같은 정적 분석 도구로 순환 복잡도를 상시 점검하는 워크플로우가 권장되었습니다. 개발 속도와 장기 안정성 사이의 균형점을 찾는 현장 엔지니어들의 생생한 조언입니다.",
-      "tags": [
-        "바이브 코딩",
-        "코드 품질",
-        "엔지니어링 프랙티스",
-        "아키텍처"
-      ],
-      "author_profile": "@nkcodes",
-      "publish_date": "2026-11-10T18:41:15.000Z",
-      "url": "https://news.ycombinator.com/item?id=50444380",
-      "sources": [
-        "Hacker News"
-      ],
-      "metrics": {
-        "points": 24,
-        "comments": 20,
-        "discussion_url": "https://news.ycombinator.com/item?id=50444380"
-      },
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "reddit_0825e34eb1",
-      "category_id": "reddit",
-      "category_name": "Reddit",
-      "signal_id": "research",
-      "signal_name": "연구·논문·새 기법",
-      "importance": 88,
-      "headline": "LLM 사후 학습에서 가중치 가지치기(Weight Pruning)의 놀라운 정밀도 향상 효과",
-      "title_ko": "LLM 사후 학습에서 가중치 가지치기(Weight Pruning)의 놀라운 정밀도 향상 효과",
-      "summary_ko": "• **가중치 삭제의 역설**: 모델 학습 완료 후 특정 비핵심 가중치를 인위적으로 0으로 지우는 작업이 오히려 추론 정확도를 높인다는 연구가 발표되었습니다.\n• **과적합 및 노이즈 제거**: 사후 훈련(Post-training) 단계에서 불필요한 미세 연결을 제거함으로써 환각을 줄이고 일반화 성능을 향상시켰습니다.\n• **경량화와 성능 양립**: 모델 메모리 점유율을 줄이면서도 추론 속도를 20% 이상 끌어올리는 실용적인 경량화 기법으로 검증되었습니다.",
-      "body_ko": "레딧 머신러닝 커뮤니티에서 LLM 사후 훈련 시 불필요한 파라미터 가중치를 선택적으로 삭제하는 기법이 화제를 모았습니다. 기존 상식과 달리 가중치를 제거했을 때 특정 벤치마크 점수가 오히려 상승하는 현상이 확인되었습니다. 이는 복잡한 훈련 과정에서 축적된 미세한 간섭 신호와 노이즈가 제거되면서 모델의 확신도가 개선되기 때문입니다. 추가적인 대규모 재훈련 비용 없이 오픈소스 가중치만으로 성능을 미세 조정할 수 있는 가능성을 열었습니다. 엣지 디바이스 배치와 서빙 인프라 최적화에 큰 파급력을 미칠 것으로 평가받고 있습니다.",
-      "tags": [
-        "LLM 연구",
-        "가중치 삭제",
-        "사후 훈련",
-        "모델 최적화"
-      ],
-      "author_profile": "r/LocalLLaMA · u/Thrumpwart",
-      "publish_date": "2026-11-10T19:44:57.000Z",
-      "url": "https://www.reddit.com/r/LocalLLaMA/comments/1xswmb7/the_surprising_effectiveness_of_deleting_weights/",
-      "sources": [
-        "Reddit"
-      ],
-      "metrics": {
-        "rank_in_sub": 4,
-        "discussion_url": "https://www.reddit.com/r/LocalLLaMA/comments/1xswmb7/the_surprising_effectiveness_of_deleting_weights/"
-      },
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "reddit_55e2333942",
-      "category_id": "reddit",
-      "category_name": "Reddit",
-      "signal_id": "research",
-      "signal_name": "연구·논문·새 기법",
-      "importance": 86,
-      "headline": "추가 훈련 없는 LLM 가중치 직접 편집: 의사결정 모델을 통한 지식 주입 프레임워크",
-      "title_ko": "추가 훈련 없는 LLM 가중치 직접 편집: 의사결정 모델을 통한 지식 주입 프레임워크",
-      "summary_ko": "• **무훈련 지식 교정**: 방대한 데이터셋 재학습 없이 신경망 내부 가중치를 수학적으로 직접 수정하여 틀린 지식을 바로잡는 모델이 제안되었습니다.\n• **부작용 없는 국소 수정**: 다른 도메인의 기억을 훼손하지 않으면서 특정 사실 관계나 보안 룰만을 정밀하게 타겟팅해 패치합니다.\n• **실시간 보안 패치 활용**: 악성 프롬프트 유도 공격이나 탈옥(Jailbreak) 패턴이 발견되었을 때 수 분 내에 가중치 레벨에서 차단이 가능합니다.",
-      "body_ko": "LLM 내부의 뉴런 연결을 직접 탐색하여 원하는 지식만을 외과수술적으로 교정하는 연구 결과가 공개되었습니다. 기존 파인튜닝 방식은 새로운 지식을 학습시키는 과정에서 이전 지식을 망각하는 '파괴적 망각' 문제가 고질적이었습니다. 연구진은 의사결정 모델을 통해 특정 개념이 저장된 파라미터 영역을 식별하고 국소적 가중치 변조를 수행했습니다. 실험 결과 기존 추론 능력을 100% 보존하면서도 잘못된 팩트만을 완벽히 업데이트하는 데 성공했습니다. 신속한 취약점 패치와 저비용 모델 유지보수를 위한 혁신적 기법으로 주목받고 있습니다.",
-      "tags": [
-        "지식 편집",
-        "가중치 조작",
-        "LLM 수정",
-        "무훈련 패치"
-      ],
-      "author_profile": "r/LocalLLaMA · u/Nandakishor_ml",
-      "publish_date": "2026-11-10T11:27:44.000Z",
-      "url": "https://www.reddit.com/r/LocalLLaMA/comments/1xski9d/decision_model_to_edit_llm_weight_directly_no/",
-      "sources": [
-        "Reddit"
-      ],
-      "metrics": {
-        "rank_in_sub": 7,
-        "discussion_url": "https://www.reddit.com/r/LocalLLaMA/comments/1xski9d/decision_model_to_edit_llm_weight_directly_no/"
-      },
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "reddit_c8e04765c4",
-      "category_id": "reddit",
-      "category_name": "Reddit",
-      "signal_id": "model",
-      "signal_name": "새 모델·버전 출시·프리뷰·벤치마크",
-      "importance": 85,
-      "headline": "Claude Fable 5.2의 안전 가드레일 분석: 훈련 단계에서의 역량 캡핑 논란",
-      "title_ko": "Claude Fable 5.2의 안전 가드레일 분석: 훈련 단계에서의 역량 캡핑 논란",
-      "summary_ko": "• **인위적 역량 제한 정황**: 앤트로픽의 최신 모델 Claude Fable 5.2가 사후 필터뿐만 아니라 사전 훈련 단계부터 성능 상한선이 걸려 있다는 분석이 제기되었습니다.\n• **생물·사이버 역량 억제**: 생물학적 무기 제조나 고급 자율 사이버 공격에 악용될 수 있는 위험 지식을 원천 차단하기 위해 훈련 손실 함수를 조정한 것으로 파악됩니다.\n• **개발자 체감 논쟁**: 고난도 시스템 프로그래밍이나 리버스 엔지니어링 영역에서 지나치게 방어적인 태도를 취한다는 실무 불만이 공유되고 있습니다.",
-      "body_ko": "레딧 로컬LLM 포럼에서 앤트로픽의 신작 Claude Fable 5.2의 안전성 정책에 대한 심층 분석이 게재되었습니다. 벤치마크 테스트 결과 특정 엔지니어링 질문에서 추론 능력이 의도적으로 억제된 듯한 패턴이 관찰되었습니다. 이는 앤트로픽의 책임 있는 스케일링 정책(RSP)에 따라 위험 임계치를 넘는 자율 역량을 사전 훈련 단계에서 제한했기 때문이라는 분석입니다. 일반적인 코딩에서는 뛰어난 성과를 내지만 커널 해킹이나 침투 테스트 작업에서는 거부 반응이 빈번하다는 평가입니다. 프론티어 모델의 안전성 강화와 실무 유용성 사이의 딜레마를 보여주는 사례입니다.",
-      "tags": [
-        "앤트로픽",
-        "Claude Fable",
-        "안전 가드레일",
-        "AI 규제"
-      ],
-      "author_profile": "r/LocalLLaMA · u/EntropyMagnets",
-      "publish_date": "2026-11-10T10:23:52.000Z",
-      "url": "https://www.reddit.com/r/LocalLLaMA/comments/1xsjfwo/fable_52_not_only_has_guardrails_against_ai/",
-      "sources": [
-        "Reddit"
-      ],
-      "metrics": {
-        "rank_in_sub": 1,
-        "discussion_url": "https://www.reddit.com/r/LocalLLaMA/comments/1xsjfwo/fable_52_not_only_has_guardrails_against_ai/"
-      },
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "hfpapers_9fe69a6c39",
+      "id": "hfpapers_f1c6172a02",
       "category_id": "hfpapers",
       "category_name": "HF Daily Papers",
       "signal_id": "research",
       "signal_name": "연구·논문·새 기법",
-      "importance": 87,
-      "headline": "Reframe: 에이전트의 시각적 추론 역량을 극대화하는 다중 교사 정책 증류 기법",
-      "title_ko": "Reframe: 에이전트의 시각적 추론 역량을 극대화하는 다중 교사 정책 증류 기법",
-      "summary_ko": "• **시각 추론 에이전트 최적화**: 복잡한 비주얼 환경에서 GUI를 조작하고 화면을 관찰하는 멀티모달 에이전트를 위한 지식 증류(Distillation) 기법이 발표되었습니다.\n• **다중 교사 모델 앙상블**: 서로 다른 강점을 가진 전문 비전 모델들의 관찰 추론 궤적을 통합하여 소형 에이전트 모델에 전수합니다.\n• **스크린 조작 정확도 급증**: 모바일 및 데스크톱 UI 벤치마크에서 기존 단일 교사 방식 대비 조작 성공률을 24% 이상 향상시켰습니다.",
-      "body_ko": "허깅페이스 일간 논문 랭킹에서 비전 언어 모델(VLM) 기반 에이전트의 관찰 추론 능력을 고도화한 Reframe 논문이 최상위권에 올랐습니다. 복잡한 화면 요소와 텍스트를 동시에 해석해야 하는 GUI 에이전트 환경의 병목을 해결하기 위해 다중 교사 온폴리시 증류 기법을 제안했습니다. 여러 특화 모델이 생성한 조작 경로를 단일 경량 모델에 효과적으로 압축하여 탑재했습니다. 그 결과 저지연 환경에서도 고가의 거대 모델 수준으로 화면 내 버튼과 메뉴를 정밀 타격할 수 있게 되었습니다. 컴퓨터 유즈(Computer Use) 자동화 구현에 실질적인 기여를 할 것으로 기대됩니다.",
+      "importance": 88,
+      "headline": "로봇 매니퓰레이션을 위한 이종 촉각 센서 표현 학습: 비전-촉각 멀티모달 파운데이션",
+      "title_ko": "허깅페이스 데일리 페이퍼: 로봇 손 조작을 위한 이기종 촉각 표현 학습 아키텍처",
+      "summary_ko": "• **이기종 촉각 센서 융합**: 압력 센서, 광학식 젤 촉각계, 마찰 센서 등 서로 다른 물리 원리의 촉각 데이터를 단일 임베딩 공간으로 통합했습니다.\n• **제로샷 파지(Grasp) 성공률 향상**: 미지의 낯선 물체를 집어 올리는 로봇 매니퓰레이션 벤치마크에서 기존 대비 성공률을 24% 개선했습니다.\n• **비전-촉각 크로스 어텐션**: 카메라 시각 정보가 가려지는 블라인드 상황에서도 촉각 피드백만으로 물체의 미끄러짐을 실시간 감지합니다.",
+      "body_ko": "허깅페이스 데일리 페이퍼스에 게재된 로봇공학 논문에서 시각과 촉각을 결합한 차세대 물리적 AI(Embodied AI) 아키텍처가 제안되었습니다. 연구진은 로봇 핸드에 부착된 다양한 센서들이 생성하는 고차원 신호를 단일 잠재 공간(Latent Space)으로 맵핑하는 대조 학습 기법을 개발했습니다. 이 모델은 깨지기 쉬운 계란부터 미끄러운 유리병까지 다양한 물성을 지닌 물체를 파지할 때 필요한 최적의 악력을 자율 조절합니다. 특히 시각 센서가 가려지는 극단적인 차폐 환경에서도 손가락 끝의 압력 변화만을 토대로 물체의 미끄러짐을 수 밀리초 내에 예측해냈습니다. 인간 수준의 정교한 촉각 지능을 로봇 하드웨어에 부여하여 산업용 조립과 가사 도우미 로봇의 실용화를 앞당길 핵심 연구로 평가받고 있습니다.",
       "tags": [
-        "시각 추론",
-        "지식 증류",
-        "VLM 에이전트",
-        "정책 최적화"
+        "#TactileSensing",
+        "#Robotics",
+        "#EmbodiedAI",
+        "#HuggingFace"
       ],
-      "author_profile": "EliYuan00",
+      "author_profile": "cherubicxn",
       "publish_date": "2026-11-10T00:00:00.000Z",
-      "url": "https://huggingface.co/papers/2611.12886",
+      "url": "https://huggingface.co/papers/2611.12806",
       "sources": [
-        "HF Daily Papers"
+        "hfpapers",
+        "cherubicxn"
       ],
       "metrics": {
-        "upvotes": 38,
-        "comments": 3,
-        "arxiv_id": "2611.12886",
+        "upvotes": 92,
+        "comments": 2,
+        "arxiv_id": "2611.12806",
         "paper_published_at": "2026-11-09T00:00:00.000Z",
-        "github_repo": "https://github.com/EliYuan30/Reframe"
+        "github_repo": "https://github.com/Robbyant/lingbot-touch"
       },
       "curated_by": "ldk-hub"
     },
     {
-      "id": "hfpapers_a28d007f32",
+      "id": "hfpapers_1365239e10",
       "category_id": "hfpapers",
       "category_name": "HF Daily Papers",
       "signal_id": "research",
       "signal_name": "연구·논문·새 기법",
-      "importance": 86,
-      "headline": "Flide: 상태 포킹(State Forking)을 통한 자율 에이전트 의사결정 추론 가속화 기법",
-      "title_ko": "Flide: 상태 포킹(State Forking)을 통한 자율 에이전트 의사결정 추론 가속화 기법",
-      "summary_ko": "• **추론 지연 대폭 단축**: 다단계 의사결정을 수행하는 AI 에이전트의 탐색 지연을 획기적으로 줄이는 정확한 상태 포킹 프레임워크가 제안되었습니다.\n• **KV 캐시 재활용 극대화**: 여러 분기 시나리오를 검토할 때 이전 컨텍스트 상태를 메모리 복사 없이 포크하여 중복 계산을 완전히 제거했습니다.\n• **복합 작업 성공률 향상**: 코딩 리팩토링 및 다단계 디버깅 태스크에서 추론 토큰 소모량을 40% 절감하면서 탐색 깊이를 두 배로 확장했습니다.",
-      "body_ko": "허깅페이스 데일리 페이퍼스에서 에이전트의 분기 탐색 속도를 가속화하는 Flide 프레임워크가 공개되었습니다. 코딩 에이전트가 복잡한 에러를 수정할 때 여러 가설을 동시에 검증하는 과정에서 토큰 비용과 대기 시간이 기하급수적으로 증가하던 문제를 겨냥했습니다. 운영체제의 프로세스 포크(fork) 원리를 LLM의 KV 캐시 메모리 관리에 적용하여 이전 상태를 즉시 분기합니다. 동일한 맥락을 반복 생성할 필요가 없어지면서 탐색 처리량이 3배 이상 증가했습니다. 실시간 응답이 중요한 인터랙티브 코딩 환경에 큰 혁신을 가져올 기술입니다.",
+      "importance": 87,
+      "headline": "Sage-Taiyi: 과학적 발견과 수학적 정리를 위한 메타인지적 AI 아키텍처 연구",
+      "title_ko": "Sage-Taiyi: 과학적 탐구와 정리 증명을 위한 자가 반추 메타인지 에이전트 프레임워크",
+      "summary_ko": "• **자가 반추 메타인지 루프**: 가설 생성, 수식 증명, 반례 탐색, 이론 수정을 자율적으로 반복하는 과학 연구 특화 AI 프레임워크입니다.\n• **형식 검증기 린(Lean 4) 통합**: 모델이 제안한 수학적 증명 과정을 대화형 정리 증명기 Lean 4와 실시간 연동해 수학적 무결성을 검증합니다.\n• **복합 물리학 가설 발견**: 복잡한 비선형 동역학계 시뮬레이션 데이터를 분석하여 알려지지 않은 새로운 보존 법칙 후보를 도출했습니다.",
+      "body_ko": "허깅페이스 데일리 페이퍼스에 등록된 최신 논문에서 과학적 탐구의 전 과정을 자율화하는 메타인지 에이전트 '세이지-타이이(Sage-Taiyi)'가 공개되었습니다. 이 연구는 거대 언어 모델이 단순히 알려진 지식을 검색하는 수준을 넘어, 스스로 가설을 세우고 논리적 반례를 찾아 이론을 수정하는 루프를 구현했습니다. 생성된 수학적 명제는 컴퓨터 정리 증명 시스템인 Lean 4로 즉시 컴파일되어 단 하나의 논리적 비약도 없는지 엄격히 검증됩니다. 양자 다체 물리계 시뮬레이션 데이터에 적용한 결과, 기존 문헌에 보고되지 않은 새로운 대칭성 보존 가설을 자율적으로 제시하는 성과를 거두었습니다. AI가 단순한 개발 보조 도구를 넘어 복잡한 자연과학의 미개척지를 함께 개척하는 지적 연구 동반자로 진화하고 있음을 보여주는 논문입니다.",
       "tags": [
-        "에이전트 가속",
-        "상태 포킹",
-        "트리 탐색",
-        "추론 최적화"
+        "#ScientificReasoning",
+        "#MetacognitiveAI",
+        "#Lean4",
+        "#FormalVerification"
       ],
-      "author_profile": "BradNLP",
+      "author_profile": "weidawang",
       "publish_date": "2026-11-10T00:00:00.000Z",
-      "url": "https://huggingface.co/papers/2610.42148",
+      "url": "https://huggingface.co/papers/2611.12762",
       "sources": [
-        "HF Daily Papers"
+        "hfpapers",
+        "weidawang"
       ],
       "metrics": {
-        "upvotes": 31,
-        "comments": 3,
-        "arxiv_id": "2610.42148",
-        "paper_published_at": "2026-10-30T17:59:38.000Z",
-        "github_repo": "https://github.com/OmniJev/Flide"
+        "upvotes": 53,
+        "comments": 2,
+        "arxiv_id": "2611.12762",
+        "paper_published_at": "2026-11-09T00:00:00.000Z",
+        "github_repo": "https://github.com/Alpha-Innovator/Sage-Taiyi"
       },
       "curated_by": "ldk-hub"
     },
     {
-      "id": "bluesky_6750737efd",
-      "category_id": "bluesky",
-      "category_name": "Bluesky",
-      "signal_id": "research",
-      "signal_name": "연구·논문·새 기법",
-      "importance": 89,
-      "headline": "마이크로소프트, AI 모델 신경망 내부에 숨겨진 잠복 에이전트(Sleeper Agents) 탐지 기술 공개",
-      "title_ko": "마이크로소프트, AI 모델 신경망 내부에 숨겨진 잠복 에이전트(Sleeper Agents) 탐지 기술 공개",
-      "summary_ko": "• **백도어 공격 탐지 레이어**: 마이크로소프트 보안 연구팀이 훈련 데이터 오염을 통해 LLM 내부에 심어진 백도어 잠복 에이전트를 적출하는 기술을 발표했습니다.\n• **뉴런 활성화 패턴 정밀 추적**: 특정 유발 문자열(Trigger)이 입력될 때만 비정상적으로 활성화되는 잠복 뉴런 클러스터를 통계적으로 탐지합니다.\n• **공급망 공격 방어 체계**: 오픈소스 가중치를 사내 인프라로 도입하기 전 악성 임베딩 여부를 사전 검증하는 엔터프라이즈 감사 파이프라인을 구축했습니다.",
-      "body_ko": "마이크로소프트가 AI 모델 공급망을 위협하는 잠복 백도어(Sleeper Agent)를 사전에 가려내는 보안 솔루션을 공개했습니다. 공격자가 모델 훈련 과정에 개입하여 특정 연도나 특정 키워드가 입력될 때만 취약한 코드를 생성하도록 조작하는 사례가 늘고 있습니다. MS 연구진은 뉴런의 활성화 궤적을 역추적하여 정상 문맥과 확연히 구분되는 잠복 회로를 찾아내는 알고리즘을 개발했습니다. 외부에서 반입된 가중치를 격리된 환경에서 검사하여 악의적인 트리거의 존재 여부를 판별합니다. 엔터프라이즈 환경에서 오픈소스 파운데이션 모델을 안전하게 도입하기 위한 필수 보안 가이드입니다.",
-      "tags": [
-        "마이크로소프트",
-        "보안 연구",
-        "잠복 에이전트",
-        "신경망 보안"
-      ],
-      "author_profile": "@infosec.skyfleet.blue",
-      "publish_date": "2026-11-11T00:44:29.091Z",
-      "url": "https://www.microsoft.com/en-us/security/blog/2026/11/10/detecting-sleeper-agents-hiding-in-ai-model-neurons/",
-      "sources": [
-        "Bluesky"
-      ],
-      "metrics": {
-        "likes": 4,
-        "reposts": 1,
-        "replies": 0,
-        "bluesky_url": "https://bsky.app/profile/infosec.skyfleet.blue/post/6gnuxkxymoymy"
-      },
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "bluesky_5a45f519b8",
+      "id": "bluesky_816d5158a5",
       "category_id": "bluesky",
       "category_name": "Bluesky",
       "signal_id": "devtool",
       "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
-      "importance": 87,
-      "headline": "Grok Build 코딩 에이전트의 기밀 정보 유출 사고 분석과 프롬프트 인젝션 방어책",
-      "title_ko": "Grok Build 코딩 에이전트의 기밀 정보 유출 사고 분석과 프롬프트 인젝션 방어책",
-      "summary_ko": "• **코딩 에이전트 정보 유출**: xAI의 Grok 기반 코딩 도구 Grok Build에서 프롬프트 유도 공격을 통해 내부 개발 기밀이 외부에 노출되는 사고가 발생했습니다.\n• **도구 호출 권한 탈취**: 웹 브라우징 및 로컬 셸 실행 권한을 가진 에이전트가 오염된 웹 콘텐츠를 읽는 과정에서 간접 인젝션에 무력화되었습니다.\n• **격리 샌드박스 표준화**: 에이전트의 파일 접근 권한을 엄격히 축소하고 서드파티 데이터 읽기 채널과 시스템 명령 실행 채널을 분리해야 한다는 지적이 쏟아졌습니다.",
-      "body_ko": "해외 테크 매체 아스테크니카가 Grok Build 코딩 에이전트에서 발생한 기밀 노출 사건의 기술적 원인을 분석 보도했습니다. 사용자가 제공한 저장소 외부 링크를 에이전트가 크롤링하는 과정에서 악성 프롬프트가 주입되어 내부 환경 변수와 히스토리가 유출되었습니다. LLM 에이전트에게 지나치게 광범위한 터미널 실행 권한을 부여할 때 발생하는 전형적인 간접 프롬프트 인젝션 취약점입니다. 개발 업계는 에이전트가 인터넷에서 긁어온 비신뢰 데이터는 결코 실행 권한을 가진 컨텍스트에 직접 전달해서는 안 된다고 경고했습니다. 자율 코딩 도구를 설계할 때 최소 권한 원칙과 격리 샌드박스가 왜 필수적인지 일깨워준 사례입니다.",
+      "importance": 86,
+      "headline": "크롬 개발자 팀, AI 코딩 워크플로우를 위한 모던 웹 표준 가이드라인 발표",
+      "title_ko": "구글 크롬 개발자 팀, AI 코딩 에이전트 워크플로우를 위한 모던 웹 모범 사례 공개",
+      "summary_ko": "• **AI 친화적 시맨틱 마크업**: 코딩 에이전트가 DOM 구조와 상태를 빠르고 정확하게 파악할 수 있도록 돕는 웹 접근성(A11y) 표준을 정리했습니다.\n• **상태 관리 모듈화 권장**: 에이전트가 복잡한 스파게티 코드를 생성하지 않도록 컴포넌트 격리와 순수 함수 기반 아키텍처 가이드를 제시했습니다.\n• **Core Web Vitals 최적화**: AI가 자율 구현한 프론트엔드 코드의 LCP 및 누적 레이아웃 이동(CLS) 병목을 사전에 방지하는 린팅 룰을 공유했습니다.",
+      "body_ko": "블루스카이 공식 크롬 개발자 계정을 통해 AI 코딩 에이전트 시대를 맞이한 모던 웹 애플리케이션 개발 모범 사례 가이드가 발표되었습니다. 구글 크롬 팀은 에이전트가 웹사이트를 탐색하고 디버깅할 때 표준 ARIA 레이블과 시맨틱 HTML 태그가 결정적인 정확도 차이를 만든다고 강조했습니다. 복잡한 CSS 유틸리티 클래스가 남발된 DOM보다 명확한 의미론적 컨테이너가 에이전트의 토큰 소비를 줄이고 버그 발생률을 낮춘다는 실증 데이터를 제시했습니다. 또한 AI가 생성한 자바스크립트 번들이 야기하기 쉬운 메인 스레드 블로킹과 메모리 누수를 감지하는 브라우저 DevTools 자동화 팁을 공유했습니다. 인간 엔지니어와 AI 코딩 비서가 함께 유지보수 가능한 고성능 웹 프론트엔드를 구축하기 위한 실질적 지침서로 평가받고 있습니다.",
       "tags": [
-        "Grok Build",
-        "보안 사고",
-        "프롬프트 인젝션",
-        "에이전트 보안"
+        "#ChromeDev",
+        "#WebStandards",
+        "#AICodingWorkflow",
+        "#CoreWebVitals"
       ],
-      "author_profile": "@mr-yoyito.bsky.social",
-      "publish_date": "2026-11-10T21:42:09.277Z",
-      "url": "https://arstechnica.com/security/2026/11/grok-build-coding-agent-leaks-oodles-of-confidential-info-some-belonging-to-spacexsi/",
+      "author_profile": "@developer.chrome.com",
+      "publish_date": "2026-11-10T20:26:50.709Z",
+      "url": "https://www.youtube.com/watch?v=PsrHq5F_BAc",
       "sources": [
-        "Bluesky"
+        "bluesky",
+        "@developer.chrome.com"
       ],
       "metrics": {
-        "likes": 3,
-        "reposts": 1,
+        "likes": 7,
+        "reposts": 2,
         "replies": 1,
-        "bluesky_url": "https://bsky.app/profile/mr-yoyito.bsky.social/post/3mzyftp7rxs2l"
-      },
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "bluesky_dfa676916e",
-      "category_id": "bluesky",
-      "category_name": "Bluesky",
-      "signal_id": "model",
-      "signal_name": "새 모델·버전 출시·프리뷰·벤치마크",
-      "importance": 90,
-      "headline": "구글, '제미나이 4 카본' 멀티 에이전트 스웜으로 시그널(Signal) 종단간 암호화 증명 성공",
-      "title_ko": "구글, '제미나이 4 카본' 멀티 에이전트 스웜으로 시그널(Signal) 종단간 암호화 증명 성공",
-      "summary_ko": "• **암호학 난제 해결**: 구글이 제미나이 4 카본 모델 수십 개를 병렬 연동한 에이전트 스웜으로 시그널 메신저의 암호화 프로토콜 안전성을 수학적으로 증명했습니다.\n• **인간 전문가 수개월 작업을 수 주로 단축**: 수작업으로 수개월 이상 걸리던 복잡한 정형 검증(Formal Verification) 코드를 AI가 협업하여 수 주 만에 완성했습니다.\n• **코드 무결성 자동 입증**: 복잡한 비동기 암호화 핸드셰이크 프로토콜의 모든 엣지 케이스에서 중간자 공격이 불가능함을 머신 검증 증명서로 확정했습니다.",
-      "body_ko": "구글 연구진이 신형 제미나이 4 카본 에이전트 스웜을 활용하여 글로벌 메신저 시그널의 종단간 암호화(E2EE) 프로토콜을 수학적으로 완벽히 증명했다고 발표했습니다. 암호학에서 정형 검증은 시스템 내 모든 수학적 상태를 기계가 검증 가능한 논리식으로 기술해야 하므로 극도의 전문성과 시간이 소요됩니다. 구글은 에이전트들을 증명 탐색, 반례 생성, 코드 교정 역할로 나누어 병렬로 협력시키는 스웜 아키텍처를 가동했습니다. 인간 연구자가 수개월 동안 씨름해야 했던 증명 코드를 수 주 만에 버그 없이 완성했습니다. AI 에이전트가 보안 소프트웨어의 안전성을 수학적으로 입증하는 핵심 도구로 자리잡았음을 보여줍니다.",
-      "tags": [
-        "구글",
-        "제미나이 4 카본",
-        "멀티 에이전트",
-        "암호학 검증"
-      ],
-      "author_profile": "@thenewstack.io",
-      "publish_date": "2026-11-10T19:00:26.000Z",
-      "url": "https://thenewstack.io/gemini-4-carbon-swarm/?link_source=ta_bluesky_link&taid=6af369c86e5c8a00014169f9&utm_campaign=trueanthem&utm_medium=social&utm_source=bluesky",
-      "sources": [
-        "Bluesky"
-      ],
-      "metrics": {
-        "likes": 3,
-        "reposts": 0,
-        "replies": 1,
-        "bluesky_url": "https://bsky.app/profile/thenewstack.io/post/3mzy4sjpbir2d"
+        "bluesky_url": "https://bsky.app/profile/developer.chrome.com/post/3mzybmzxvys2t"
       },
       "curated_by": "ldk-hub"
     }
