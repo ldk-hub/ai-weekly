@@ -18,10 +18,10 @@ const CAPS = {
 const PROMPT_RULES = `너는 Claude Code 생태계 주간 트렌드 큐레이터다. 아래 후보 리포 목록(JSON)을 분석해서 이번 주 인덱스를 만들어라.
 
 규칙:
-- score = 0.4*velocity + 0.3*buzz + 0.2*quality + 0.1*recency (0~100). velocity 는 **후보에 이미 들어있는 velocity_score 를 그대로 쓴다** — 직접 산정하지 마라. buzz 는 hn 데이터, quality·recency 는 README/pushed_at 근거로 산정.
+- score = 0.4*velocity + 0.3*buzz + 0.2*quality + 0.1*recency (0~100). velocity 는 **후보에 이미 들어있는 velocity_score 를 그대로 쓴다** — 직접 산정하지 마라. buzz 는 hn/x/threads/instagram/reddit 소셜 데이터, quality·recency 는 README/pushed_at 근거로 산정.
 - velocity_score 는 주간 성장률(growth_rate) 기준이다. stars 절대값이 크다고 velocity 가 높은 게 아니다 — 14만 star 리포가 주 0.6% 성장이면 낮게 나오는 게 정상이니 stars 를 보고 올려잡지 마라.
 - category 는 skill | mcp | agent | harness 중 하나. description/topics 로 판단.
-- status: "rising" = velocity_score 높음(성장률 급등) 또는 신생(created_days_ago ≤ 30) 또는 hn buzz 있음. "classic" = 이미 자리잡은 필수 레퍼런스(stars 높고 velocity_score 낮음).
+- status: "rising" = velocity_score 높음(성장률 급등) 또는 신생(created_days_ago ≤ 30) 또는 커뮤니티 buzz 있음. "classic" = 이미 자리잡은 필수 레퍼런스(stars 높고 velocity_score 낮음).
 - rising 상한: skill 8, mcp 6, agent 4, harness 2. classic 상한: skill 6, mcp 4, agent 4, harness 2. 임계 미달이면 억지로 채우지 마라.
 - Claude Code/에이전트/MCP 생태계와 무관한 리포는 제외.
 - 각 항목의 한글 카피: title_ko ("이름 - 한줄설명"), catchphrase (한 줄 훅, 과장 금지, 숫자는 description 에 있는 것만), summary_ko (3~5문장), key_features (3개), use_case ("이럴 때" 1문장), tags (한글 3~5개).
@@ -918,7 +918,7 @@ async function callGemini(candidates) {
     }
 
     const v_score = c.velocity_score || 0;
-    const buzz = c.hn && c.hn.length > 0 ? 100 : 0;
+    const buzz = buzzScore(c);
     const quality = Math.min(c.stars || 0, 100);
     const recency = (c.created_days_ago != null && c.created_days_ago <= 30) ? 100 : 0;
     const score = Math.round(0.4 * v_score + 0.3 * buzz + 0.2 * quality + 0.1 * recency);
@@ -981,11 +981,19 @@ function groundTruthMerge(items, candMap, status) {
     for (const rdtItem of (fact.reddit || []).slice(0, 2)) {
       evidence.push({ source: "reddit", url: rdtItem.url, label: `Reddit 언급 · ${rdtItem.title}` });
     }
+    for (const thItem of (fact.threads || []).slice(0, 2)) {
+      evidence.push({ source: "threads", url: thItem.url, label: `Threads 언급 · ${thItem.title}` });
+    }
+    for (const igItem of (fact.instagram || []).slice(0, 2)) {
+      evidence.push({ source: "instagram", url: igItem.url, label: `Instagram 언급 · ${igItem.title}` });
+    }
     const sources = [
       "github",
       ...(fact.hn?.length ? ["hn"] : []),
       ...(fact.x?.length ? ["x"] : []),
       ...(fact.reddit?.length ? ["reddit"] : []),
+      ...(fact.threads?.length ? ["threads"] : []),
+      ...(fact.instagram?.length ? ["instagram"] : []),
     ];
     out.push({
       id: fact.id,
@@ -1079,21 +1087,26 @@ function buzzScore(c) {
     if (c.hn && c.hn.length) mentions = c.hn.map(h => ({ platform: "hn", points: h.points || 0, comments: h.comments || 0 }));
     if (c.x && c.x.length) mentions.push(...c.x.map(x => ({ platform: "x", points: (x.likes || 0) + (x.retweets || 0), comments: 0 })));
     if (c.reddit && c.reddit.length) mentions.push(...c.reddit.map(r => ({ platform: "reddit", points: r.points || 0, comments: r.comments || 0 })));
+    if (c.threads && c.threads.length) mentions.push(...c.threads.map(t => ({ platform: "threads", points: t.points || t.likes || 0, comments: t.comments || 0 })));
+    if (c.instagram && c.instagram.length) mentions.push(...c.instagram.map(i => ({ platform: "instagram", points: i.points || i.likes || 0, comments: i.comments || 0 })));
   }
   if (!mentions.length) return 0;
 
+  const weights = { hn: 15, reddit: 14, x: 12, threads: 12, instagram: 10 };
   let raw = 0;
   const platforms = new Set();
   for (const m of mentions) {
     if (m.platform) platforms.add(m.platform);
+    const w = weights[m.platform] || 12;
     const eng = (m.points || 0) + (m.comments || 0) * 2;
     if (eng > 0) {
-      raw += Math.log10(eng + 1) * 15;
+      raw += Math.log10(eng + 1) * w;
     }
   }
 
   let bonus = 0;
-  if (platforms.size >= 3) bonus = 15;
+  if (platforms.size >= 4) bonus = 20;
+  else if (platforms.size === 3) bonus = 15;
   else if (platforms.size === 2) bonus = 10;
 
   return Math.min(100, Math.round(raw + bonus));
@@ -1105,6 +1118,9 @@ function toItem(c) {
   else badges.push("⭐ Classic");
   if (c.created_days_ago != null && c.created_days_ago <= 30) {
     badges.push("🆕 신상");
+  }
+  if (c.is_supernova) {
+    badges.push("🌟 초신성");
   }
 
   const sources = c.sources || ["github"];
@@ -1217,17 +1233,23 @@ function curate(candidates) {
       if (c.hn && c.hn.length) sources.push("hn");
       if (c.x && c.x.length) sources.push("x");
       if (c.reddit && c.reddit.length) sources.push("reddit");
+      if (c.threads && c.threads.length) sources.push("threads");
+      if (c.instagram && c.instagram.length) sources.push("instagram");
     }
     const isSingleSource = sources.length === 1;
 
     // 분류
     const isClassicEligible = (c.stars >= 500) && ((c.created_days_ago ?? 0) >= 60) && ((c.pushed_days_ago ?? 0) <= 30);
     const isNew = (c.created_days_ago != null && c.created_days_ago <= 30);
+    const isSupernova = isNew && !isSingleSource && b >= 35 && (c.stars >= 200 && c.stars < 500);
 
     let status = null;
     let lowConfidence = false;
 
-    if (isNew) {
+    if (isSupernova) {
+      status = "rising";
+      lowConfidence = false;
+    } else if (isNew) {
       if (isSingleSource) {
         if (v >= 90) {
           status = "rising";
@@ -1263,6 +1285,7 @@ function curate(candidates) {
       score,
       trend_score: score,
       status,
+      is_supernova: isSupernova,
       sources,
       source_count: sources.length,
       low_confidence: lowConfidence,

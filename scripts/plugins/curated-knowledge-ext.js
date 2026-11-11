@@ -2,6 +2,32 @@
 // 최신 Claude Code 생태계 핫 리포지토리 한국어 정밀 큐레이션 데이터
 
 module.exports = {
+  "JuneYaooo/rea-video": {
+    category: "skill",
+    title_ko: "rea-video — 영상의 각 샷을 분석해 촬영·AI 생성·코드 여부를 판별하고 복제 프롬프트를 역설계하는 도구",
+    catchphrase: "실사 촬영, AI 비디오, 코드 생성 여부를 샷 단위로 감지하고 복제 파이프라인을 제시하는 에이전트 스킬",
+    summary_ko: "모든 종류의 비디오를 샷(Shot) 단위로 정밀 분해하여 실사 촬영본인지, AI 생성 모델의 결과물인지, Remotion 같은 코드 기반 애니메이션인지 판별해 주는 리버스 엔지니어링 도구입니다. VLM과 프롬프트 엔지니어링 기술을 결합하여 각 장면의 구성 원리를 밝혀내고 동일한 영상을 다시 제작할 수 있는 생성 프롬프트와 편집 워크플로우를 자동 생성합니다. 숏폼 비디오 분석과 벤치마킹 제작에 최적화되어 있습니다.",
+    key_features: [
+      "샷 단위 비디오 분해 및 촬영/AI/코드 생성 유형 자동 분류",
+      "VLM 기반 비주얼 프롬프트 및 비디오 재생성 가이드라인 도출",
+      "Claude Code 및 Codex 연동 자동화 영상 분석 파이프라인"
+    ],
+    use_case: "인기 숏폼 영상이나 AI 비디오의 연출 방식을 샷 단위로 분석하고 재현하고 싶을 때",
+    tags: ["video-analysis", "ai-video", "reverse-engineering", "claude-code"]
+  },
+  "ruvnet/RuView": {
+    category: "mcp",
+    title_ko: "RuView — 상용 와이파이 신호로 카메라 없이 공간 인지 및 생체 신호를 감지하는 공간 지능 도구",
+    catchphrase: "카메라 영상 없이 Wi-Fi RF 신호만으로 실시간 재실 감지와 생체 신호 모니터링을 구현하는 에이전트 인터페이스",
+    summary_ko: "표준 상용 Wi-Fi(RF) 신호의 간섭 패턴을 분석하여 비디오 카메라나 광학 센서 없이도 실내 재실 감지, 동작 인식, 심박·호흡 등 생체 신호를 실시간 모니터링하는 공간 지능 플랫폼입니다. 영상 픽셀을 일절 사용하지 않아 완벽한 프라이버시를 보장하며 ESP32, Home Assistant 등 IoT 생태계와 MCP로 연결됩니다. AI 에이전트가 물리적 공간의 실시간 변화를 직접 인지하고 홈 오토메이션을 제어할 수 있습니다.",
+    key_features: [
+      "카메라 영상 0% 기반 Wi-Fi RF 신호 분석으로 완벽한 프라이버시 보장",
+      "실시간 재실 감지, 제스처 인식, 호흡·심박 등 생체 신호 추적",
+      "MCP 프로토콜 연동을 통한 에이전트 기반 공간 지능 및 IoT 제어"
+    ],
+    use_case: "카메라 설치 없이 사생활을 침해하지 않으면서 실내 재실 및 건강 상태를 에이전트로 모니터링할 때",
+    tags: ["spatial-intelligence", "wifi-sensing", "iot", "mcp-server", "privacy"]
+  },
   "yetone/magpie": {
     category: "agent",
     title_ko: "magpie — 맥 메뉴바에서 코딩 에이전트 모델을 원클릭 교체하는 데스크톱 유틸리티",

@@ -324,6 +324,52 @@ tags: [ai-weekly, benchmarks, frontier-models, market-share, pipeline, staleness
 // 3. 작업 일지들
 const LOGS = [
   {
+    filename: "2026-11-11 작업일지.md",
+    title: "2026-11-11 작업일지 — 주간 종합 파이프라인(cc-weekly) 완수: Scrapling 기반 소셜 트렌드·벤치마크 고도화, 33건 트렌드 큐레이션, 16건 데일리 뉴스 배포 및 옵시디언 동기화",
+    date: "2026-11-11",
+    content: `---
+title: 2026-11-11 작업일지
+date: 2026-11-11
+type: work-log
+tags: [ai-weekly, work-log, cc-weekly, cc-star, cc-trends, cc-benchmarks, cc-news, scrapling, obsidian-sync]
+status: completed
+author: ldk-hub <orm6711@gmail.com>
+---
+
+# 📅 2026-11-11 작업일지 (주간 종합 파이프라인 cc-weekly 완수)
+
+## 📌 주요 작업 요약
+
+### 1. 파이프라인 고도화 (Scrapling 엔진 연동)
+- **cc-trends 소셜 버즈 2.0 & 초신성 패스트트랙**: Threads, Instagram, X 등 멀티 플랫폼 신호 가중치 부여, 플랫폼 다양성 보너스(+20점), 48시간 내 200★ 이상 급상승 시 500★ 하한 자동 면제.
+- **cc-benchmarks 라이브 검증 자동화**: Scrapling을 활용하여 LMArena, Artificial Analysis, LiveBench, OpenRouter의 실시간 상태를 연동하고 최신성 게이트(Staleness Gate) 0일 유지.
+- **cc-news 스텔스 폴백**: 1차 fetch 400자 미만 시 Scrapling StealthyFetcher를 통해 Cloudflare 및 JS 렌더링 사이트 자동 우회 본문 추출.
+
+### 2. 스타보드 갱신 (cc-star)
+- **추적 대상 및 성공률**: 총 614개 오픈소스 리포지토리 전수 추적 완료 (\`Success: 614 (100%)\`).
+- **데이터 저장**: \`data/stars/stars_meta.json\` 및 \`data/stars/stars_ledger.json\` 원자적 갱신 및 프론트엔드(\`site/public/data/\`) 미러링 완료.
+
+### 3. Claude Code 트렌드 갱신 (cc-trends)
+- **광역 수집 및 보안 스캔**: 64건 후보 수집, 설치 진입점 정적 분석 결과 원격 C2 악성 드로퍼 1건(\`NousResearch/hermes-agent\`) 사전 차단.
+- **큐레이션 및 품질 게이트**: 총 33건 엄선 (Rising 17건, Classic 16건) 전원 품질 게이트(Quality Gate) 100% 통과.
+- **아카이브 및 인덱스**: \`data/archive/2026-11-11.json\` 생성 및 아카이브 인덱스(40개 배포본) 빌드 완료.
+
+### 4. AI 점유율 및 프론티어 성능 갱신 (cc-benchmarks)
+- **검증 게이트**: Similarweb + Trakkr + OpenRouter 3곳 합계 100.00% 달성, 6대 출처 최신성(0일) 전원 게이트 통과.
+- **아카이브 저장**: \`data/archive/benchmarks_2026-11-11.json\` 생성 및 프론트엔드 동기화 완료.
+
+### 5. 데일리 기술 신호 큐레이션 (cc-news)
+- **수집 및 선별**: 63건 수집 후 6대 신호축 균형 16건 큐레이션 배포 (\`news_latest.json\`).
+- **규격 검증**: 3개 불릿 (\`• **키워드**: \`), 5~10문장 상세 본문, 금융/투자 배제 규격 통과.
+- **결측 매체 보고**: Threads (검색량 미달로 수집 0건).
+
+### 6. 사이트 리소스 및 프론트엔드 빌드
+- **리소스 갱신**: RSS 피드(\`feed.xml\`, \`news-feed.xml\`), sitemap.xml, 라운지(\`lounge_latest.json\`), OG 이미지 생성 완료.
+- **UI 및 가독성 개선**: 다크/라이트 테마 헤더 일관성(175px), 뱃지 콘트라스트 및 커뮤니티 링크 가독성 최적화.
+- **옵시디언 볼트 동기화**: \`npm run sync:obsidian\` 전면 동기화 완료.
+`,
+  },
+  {
     filename: "2026-11-10 작업일지.md",
     title: "2026-11-10 작업일지 — 평일 파이프라인(cc-daily) 완수: 스타보드 614개 최신화, 데일리 AI 기술 신호 17건 큐레이션 배포 및 옵시디언 동기화",
     date: "2026-11-10",

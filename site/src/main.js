@@ -612,6 +612,7 @@ const SOURCE_LABEL = {
   github: "GitHub", hn: "HN", reddit: "Reddit",
   devto: "dev.to", geeknews: "GeekNews", velog: "velog",
   twitter: "X", x: "X", anthropic: "Anthropic",
+  threads: "Threads", instagram: "Instagram", bluesky: "Bluesky",
 };
 function sourcesLine(item) {
   const srcs = (item.sources || []).slice(0, 5);

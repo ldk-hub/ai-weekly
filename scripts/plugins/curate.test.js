@@ -146,4 +146,33 @@ assert.strictEqual(normalizeName("foo_v2"), normalizeName("foo"));
   assert.ok(item.badges.includes("🆕 신상"), "생성 30일 이내는 신상 배지");
 }
 
+// threads 및 instagram 소셜 버즈 가산점 및 4개 플랫폼 +20 보너스
+{
+  const four = base({
+    mentions: [
+      { platform: "hn", points: 10, comments: 5 },
+      { platform: "x", points: 20, comments: 0 },
+      { platform: "threads", points: 30, comments: 10 },
+      { platform: "instagram", points: 50, comments: 20 },
+    ],
+  });
+  assert.ok(buzzScore(four) >= 60, "4개 플랫폼 통합 인게이지먼트와 +20 보너스로 고점 획득");
+}
+
+// 초신성 패스 (Supernova Fast-Track): 200~499★ 신생 리포가 다중 소셜 버즈를 가질 때 Rising 승격 및 🌟 초신성 배지 부여
+{
+  const supernova = base({
+    stars: 280,
+    created_days_ago: 8,
+    velocity_score: 90,
+    threads: [{ points: 150, comments: 20, url: "https://threads.net/test" }],
+    x: [{ points: 200, comments: 50, url: "https://x.com/test" }],
+  });
+  const res = curate([supernova]);
+  assert.strictEqual(res.rising.length, 1, "280★ 초신성 리포가 Rising으로 승격");
+  assert.strictEqual(res.rising[0].is_supernova, true);
+  const item = toItem(res.rising[0]);
+  assert.ok(item.badges.includes("🌟 초신성"), "🌟 초신성 배지 포함");
+}
+
 console.log("curate.test.js — all assertions passed");

@@ -303,7 +303,7 @@ def main():
             "openai", "sama", "anthropic", "meta", "googledeepmind", "huggingface", "ylecun", "karpathy", "demishassabis",
             "teddylee777", "subinium", "geeknews", "sung.kim"
         ]
-        default_tags = ["ai", "artificialintelligence", "machinelearning", "llm", "claude", "인공지능", "생성형ai", "챗gpt"]
+        default_tags = ["ai", "artificialintelligence", "machinelearning", "llm", "claude", "claudecode", "mcpserver", "agenticai", "인공지능", "생성형ai", "챗gpt"]
         users = [u.strip() for u in args.users.split(",") if u.strip()] or default_users
         tags = [t.strip() for t in args.tags.split(",") if t.strip()] or default_tags
         res = handle_threads(users, tags, limit_per_target=args.limit)
@@ -312,7 +312,7 @@ def main():
     elif args.mode == "x":
         default_users = [
             "OpenAI", "AnthropicAI", "GoogleDeepMind", "sama", "karpathy", "ylecun", "DrJimFan", "demishassabis",
-            "teddylee777", "subinium", "hada_io", "sung_kim"
+            "bshifter", "alexalbert__", "teddylee777", "subinium", "hada_io", "sung_kim"
         ]
         users = [u.strip() for u in args.users.split(",") if u.strip()] or default_users
         res = handle_x(users, limit_per_user=args.limit)

@@ -114,6 +114,8 @@ async function main() {
     hn: [],
     x: [],
     reddit: [],
+    threads: [],
+    instagram: [],
   });
 
   for (const { q, sort } of GH_QUERIES) {
@@ -213,6 +215,59 @@ async function main() {
     }
   }
 
+  // Scrapling & 데일리 아카이브 소셜 미디어(Threads, X, Instagram, Reddit) 주간 크로스 매칭
+  const archiveDir = path.join(ROOT, "data", "archive");
+  const recentNewsItems = [];
+  try {
+    const files = fs.readdirSync(archiveDir)
+      .filter((f) => /^news_\d{4}-\d{2}-\d{2}\.json$/.test(f))
+      .sort()
+      .slice(-7);
+    for (const f of files) {
+      try {
+        const d = JSON.parse(fs.readFileSync(path.join(archiveDir, f), "utf8"));
+        for (const item of d.news || []) recentNewsItems.push(item);
+      } catch {}
+    }
+  } catch {}
+
+  const newsCandidatesPath = path.join(ROOT, ".tmp", "news_candidates.json");
+  if (fs.existsSync(newsCandidatesPath)) {
+    try {
+      const nc = JSON.parse(fs.readFileSync(newsCandidatesPath, "utf8"));
+      for (const item of (nc.candidates || nc || [])) recentNewsItems.push(item);
+    } catch {}
+  }
+
+  for (const n of recentNewsItems) {
+    const text = `${n.headline || n.title || ""} ${n.title_ko || ""} ${n.summary_ko || ""} ${n.body || n.body_ko || ""} ${n.url || ""}`.toLowerCase();
+    const sourceLabel = (n.source || (n.sources && n.sources[0]) || "").toLowerCase();
+
+    for (const repo of repos.values()) {
+      const idLower = repo.id.toLowerCase();
+      const nameLower = repo.name.toLowerCase();
+      if (text.includes(idLower) || text.includes(nameLower)) {
+        const evidenceItem = {
+          title: (n.headline || n.title_ko || n.title || "").slice(0, 100),
+          url: n.url || `https://github.com/${repo.id}`,
+          author: n.author || n.author_profile || "",
+          points: (n.metrics?.likes || n.metrics?.points || 0),
+          comments: (n.metrics?.comments || 0),
+        };
+
+        if (sourceLabel.includes("thread")) {
+          if (!repo.threads.some((t) => t.url === evidenceItem.url)) repo.threads.push(evidenceItem);
+        } else if (sourceLabel.includes("insta")) {
+          if (!repo.instagram.some((i) => i.url === evidenceItem.url)) repo.instagram.push(evidenceItem);
+        } else if (sourceLabel.includes("x") || sourceLabel.includes("twitter")) {
+          if (!repo.x.some((x) => x.url === evidenceItem.url)) repo.x.push(evidenceItem);
+        } else if (sourceLabel.includes("reddit")) {
+          if (!repo.reddit.some((r) => r.url === evidenceItem.url)) repo.reddit.push(evidenceItem);
+        }
+      }
+    }
+  }
+
   const all = [...repos.values()].filter((c) => c.stars >= 3); // 노이즈 컷
   const velMeta = scoreVelocity(all);
   for (const c of all) c.velocity_7d = c.v7d; // 하위 호환 필드명
@@ -221,20 +276,25 @@ async function main() {
   // (2026-08-04 실측: 60/60 이 30일 내 신상, 최대 1,658★, classic 발행 0건)
   // 발행 하한선 — scoreVelocity **뒤**에 적용한다. 위 `all` 풀에서 빼면 코호트 중앙값이
   // 움직여 무관한 항목의 velocity_score 까지 흔들린다 (velocity_score = 33.3*gr/med).
-  // 2026-08-31 풀 214건 실측: 선필터 시 중앙값 2.084→2.020%/wk (-3.1%), 전 항목 점수 +3.2%,
-  // velocity 100 포화 건수는 87→87 로 불변. 영향 자체는 작지만, 후필터로 두면 하한선 숫자를
-  // 조정할 때 임계(55/45)를 재역산할 의무가 생기지 않는다.
   //
-  // 500★ 근거 (2026-08-04~08-31 rising 발행 133건 백테스트):
-  //   20★ → 119 생존(11% 컷) / 500★ → 87 생존(35% 컷) / 1000★ → 48 생존(64% 컷)
-  // 500 은 377★ tokentab 드로퍼를 자르는 가장 싼 지점이다. 1000 은 두 배 비싸면서 그 건에
-  // 대해 추가로 얻는 게 없다. classic 은 문서상 이미 stars >= 500 요구라 무영향.
-  //
-  // ⚠ 이건 큐레이션 정책이지 악성코드 탐지가 아니다. 별은 벌크로 살 수 있으므로 하한선은
-  // 공격자에게 가격일 뿐이고, 이미 큰 리포가 나중에 오염되는 경우엔 0의 보호를 준다.
-  // 실제 탐지는 scripts/plugins/scan-install-entry.js (설치 진입점 코드 검사)가 담당한다.
+  // 500★ 기본 하한선 + 초신성 패스 (Supernova Fast-Track):
+  // 신생 리포(created_days_ago <= 30)이면서 다중 소셜 검증(threads, x, instagram, reddit, hn 중 2곳 이상)을
+  // 획득한 경우 200★ 이상부터 발행 후보에 편입. (악성코드는 Phase 2 scan-install-entry.js에서 전수 차단)
   const MIN_PUBLISH_STARS = 500;
-  const listed = all.filter((c) => c.stars >= MIN_PUBLISH_STARS);
+  const SUPERNOVA_MIN_STARS = 200;
+
+  function isEligibleCandidate(c) {
+    if (c.stars >= MIN_PUBLISH_STARS) return true;
+    const socialSourcesCount = (c.threads?.length ? 1 : 0) +
+      (c.instagram?.length ? 1 : 0) +
+      (c.x?.length ? 1 : 0) +
+      (c.reddit?.length ? 1 : 0) +
+      (c.hn?.length ? 1 : 0);
+    const isNew = c.created_days_ago != null && c.created_days_ago <= 30;
+    return isNew && socialSourcesCount >= 2 && c.stars >= SUPERNOVA_MIN_STARS;
+  }
+
+  const listed = all.filter(isEligibleCandidate);
 
   const pick = new Map();
   const take = (list, n) => list.slice(0, n).forEach((c) => pick.set(c.id, c));

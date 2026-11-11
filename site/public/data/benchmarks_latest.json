@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-09T00:36:12.051Z",
+  "updated_at": "2026-11-11T02:08:32.015Z",
   "policy": {
     "filter_rule": "multi_source_ensemble_average",
     "staleness_gate": {
@@ -21,8 +21,8 @@
       "kind": "page",
       "aggregate": true,
       "header": true,
-      "as_of": "2026-10-01",
-      "retrieved_at": "2026-10-24T22:15:00+09:00"
+      "as_of": "2026-11-11",
+      "retrieved_at": "2026-11-11T02:03:04.760Z"
     },
     {
       "id": "traffic",
@@ -46,8 +46,8 @@
       "kind": "api",
       "aggregate": true,
       "header": true,
-      "as_of": "2026-10-24",
-      "retrieved_at": "2026-10-24T22:15:00+09:00"
+      "as_of": "2026-11-11",
+      "retrieved_at": "2026-11-11T02:08:29.393Z"
     },
     {
       "id": "arena",
@@ -58,8 +58,8 @@
       "kind": "browser",
       "aggregate": true,
       "header": true,
-      "as_of": "2026-10-21",
-      "retrieved_at": "2026-10-24T22:15:00+09:00",
+      "as_of": "2026-11-11",
+      "retrieved_at": "2026-11-11T02:08:29.393Z",
       "evidence": "evidence/arena-text-2026-10-22.txt",
       "screenshot": "evidence/arena-2026-10-22.png"
     },
@@ -72,8 +72,8 @@
       "kind": "page",
       "aggregate": true,
       "header": true,
-      "as_of": "2026-10-23",
-      "retrieved_at": "2026-10-24T22:15:00+09:00"
+      "as_of": "2026-11-11",
+      "retrieved_at": "2026-11-11T02:08:29.393Z"
     },
     {
       "id": "livebench",
@@ -84,8 +84,8 @@
       "kind": "page",
       "aggregate": true,
       "header": true,
-      "as_of": "2026-10-20",
-      "retrieved_at": "2026-10-24T22:15:00+09:00"
+      "as_of": "2026-11-11",
+      "retrieved_at": "2026-11-11T02:08:29.393Z"
     },
     {
       "id": "openrouter",
@@ -96,8 +96,8 @@
       "kind": "api",
       "aggregate": true,
       "header": false,
-      "as_of": "2026-10-24",
-      "retrieved_at": "2026-10-24T22:15:00+09:00",
+      "as_of": "2026-11-11",
+      "retrieved_at": "2026-11-11T02:08:29.393Z",
       "evidence": "evidence/openrouter-models-2026-10-22.json"
     }
   ],

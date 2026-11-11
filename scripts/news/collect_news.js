@@ -239,10 +239,11 @@ async function fetchBody(url) {
 
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), BODY_FETCH_TIMEOUT_MS);
+  let text = null;
   try {
     const res = await fetch(url, { headers: { "User-Agent": UA }, signal: controller.signal, redirect: "follow" });
     if (res.ok && (res.headers.get("content-type") || "").includes("text/html")) {
-      const text = extractText(await res.text());
+      text = extractText(await res.text());
       if (text && text.length >= BODY_MIN_CHARS) return text.slice(0, BODY_MAX_CHARS);
     }
   } catch {
@@ -253,7 +254,11 @@ async function fetchBody(url) {
 
   // 2차 폴백: Scrapling 고속 적응형 스텔스 엔진 (Cloudflare/SPA/봇 방어 사이트)
   try {
-    const sRes = fetchWithScrapling(url, { timeoutMs: 12000 });
+    const isProtectedOrSpa = /substack|medium|theverge|techcrunch|wired|ft\.com|wsj|information|nature|bloomberg/i.test(host);
+    const sRes = fetchWithScrapling(url, {
+      timeoutMs: 12000,
+      forceStealth: isProtectedOrSpa || (text !== null && text.length < 200)
+    });
     if (sRes && sRes.body && sRes.body.length >= 200) {
       return sRes.body.slice(0, BODY_MAX_CHARS);
     }

@@ -55,4 +55,25 @@ assert.ok(!kept.includes("cut/tokentab-like"), "377★ (tokentab 규모) 은 잘
 assert.ok(!kept.some((id) => id.startsWith("junk/")), "실체 없는 신상은 전부 잘린다");
 assert.ok(!kept.some((id) => id.startsWith("tiny/")), "원장 있는 하한선 미달도 발행에서 제외된다");
 
-console.log("publish-floor: 3 assertions groups ok");
+// 4) 초신성 패스 (Supernova Fast-Track): 200★ 이상 신생 리포 중 다중 소셜 검증이 된 건은 살리고, 소셜 없는 저스타는 컷
+const SUPERNOVA_MIN_STARS = 200;
+function isEligibleCandidate(c) {
+  if (c.stars >= MIN_PUBLISH_STARS) return true;
+  const socialSourcesCount = (c.threads?.length ? 1 : 0) +
+    (c.instagram?.length ? 1 : 0) +
+    (c.x?.length ? 1 : 0) +
+    (c.reddit?.length ? 1 : 0) +
+    (c.hn?.length ? 1 : 0);
+  const isNew = c.created_days_ago != null && c.created_days_ago <= 30;
+  return isNew && socialSourcesCount >= 2 && c.stars >= SUPERNOVA_MIN_STARS;
+}
+const supernovaPool = [
+  { id: "supernova/viral", stars: 280, created_days_ago: 5, threads: [1], x: [1] },
+  { id: "cut/single-social", stars: 280, created_days_ago: 5, threads: [1] },
+  { id: "cut/tokentab", stars: 377, created_days_ago: 4 },
+  { id: "cut/old-low", stars: 280, created_days_ago: 90, threads: [1], x: [1] },
+];
+const supernovaKept = supernovaPool.filter(isEligibleCandidate).map(c => c.id);
+assert.deepStrictEqual(supernovaKept, ["supernova/viral"], "다중 소셜 신호가 확인된 200★+ 신생 리포만 초신성으로 생존");
+
+console.log("publish-floor: 4 assertions groups ok");
