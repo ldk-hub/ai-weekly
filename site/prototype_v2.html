@@ -1,0 +1,1668 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI위클리 디자인 시스템 프로토타입 (Hallmark & shadcn/ui)</title>
+  
+  <!-- Fonts: Inter (UI), Newsreader (Editorial Serif), JetBrains Mono (Data/Code) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ==========================================================================
+       HALLMARK STAMP: ai-weekly-cockpit-v2
+       Critique: Designed, not generated. Zero emoji, zero small-caps eyebrows,
+       pure semantic CSS variables, Radix-style pill tokens, high-density IA.
+       Waivers: None.
+       ========================================================================== */
+
+    :root {
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-serif: 'Newsreader', Georgia, serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+      /* Shared transitions (No transition: all) */
+      --t-color: color 140ms ease, background-color 140ms ease, border-color 140ms ease, box-shadow 140ms ease;
+      --t-transform: transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
+
+      --radius-full: 9999px;
+      --radius-xl: 16px;
+      --radius-lg: 12px;
+      --radius-md: 8px;
+      --radius-sm: 6px;
+    }
+
+    /* ─── Light Mode: Editorial Weekly (Warm Ivory) ─── */
+    html[data-theme="light"] {
+      --bg: #fcfaf6;
+      --bg-canvas: #f6f2e9;
+      --surface: #ffffff;
+      --surface-subtle: #f4eee2;
+      --surface-muted: #eae3d2;
+      --border: #e2dbcb;
+      --border-subtle: #ece5d6;
+      --border-strong: #181512;
+
+      --ink-primary: #181512;
+      --ink-secondary: #49443c;
+      --ink-muted: #7c7467;
+
+      --accent: #181512;
+      --accent-contrast: #ffffff;
+      --accent-soft: rgba(24, 21, 18, 0.06);
+
+      --pill-active-bg: #181512;
+      --pill-active-text: #ffffff;
+
+      --badge-bg: #eae3d2;
+      --badge-text: #49443c;
+
+      --hl-mint-bg: linear-gradient(180deg, transparent 62%, rgba(16, 185, 129, 0.22) 62%);
+      --hl-mint-ink: #0f5132;
+      --hl-lemon-bg: linear-gradient(180deg, transparent 62%, rgba(245, 158, 11, 0.28) 62%);
+      --hl-lemon-ink: #92400e;
+
+      --card-shadow: 0 1px 3px rgba(24, 21, 18, 0.04), 0 4px 14px rgba(24, 21, 18, 0.03);
+      --card-hover-shadow: 0 4px 20px rgba(24, 21, 18, 0.08);
+
+      --ring: 0 0 0 2px #ffffff, 0 0 0 4px #181512;
+      --live-dot: #10b981;
+    }
+
+    /* ─── Dark Mode: Signal Terminal (Graphite Cockpit) ─── */
+    html[data-theme="dark"] {
+      --bg: #090d13;
+      --bg-canvas: #06090e;
+      --surface: #0e141d;
+      --surface-subtle: #162231;
+      --surface-muted: #1e2d40;
+      --border: #1e2d40;
+      --border-subtle: #172332;
+      --border-strong: #384e68;
+
+      --ink-primary: #f0f6fc;
+      --ink-secondary: #c9d1d9;
+      --ink-muted: #8b949e;
+
+      --accent: #f59e0b;
+      --accent-contrast: #090d13;
+      --accent-soft: rgba(245, 158, 11, 0.12);
+
+      --pill-active-bg: #ffffff;
+      --pill-active-text: #090d13;
+
+      --badge-bg: rgba(255, 255, 255, 0.08);
+      --badge-text: #c9d1d9;
+
+      --hl-mint-bg: linear-gradient(180deg, transparent 62%, rgba(16, 185, 129, 0.35) 62%);
+      --hl-mint-ink: #34d399;
+      --hl-lemon-bg: linear-gradient(180deg, transparent 62%, rgba(245, 158, 11, 0.38) 62%);
+      --hl-lemon-ink: #fbbf24;
+
+      --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.4);
+      --card-hover-shadow: 0 8px 30px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.1);
+
+      --ring: 0 0 0 2px #090d13, 0 0 0 4px #f59e0b;
+      --live-dot: #34d399;
+    }
+
+    /* ─── Global Reset & Base Typography ─── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      overflow-x: clip;
+      background: var(--bg);
+      color: var(--ink-primary);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      transition: background-color 200ms ease, color 200ms ease;
+    }
+
+    button, input, select {
+      font-family: inherit;
+      font-size: inherit;
+      color: inherit;
+      border: none;
+      background: none;
+      outline: none;
+    }
+
+    button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible {
+      box-shadow: var(--ring);
+      border-radius: var(--radius-sm);
+    }
+
+    /* ─── Top Prototype Command Toolbar ─── */
+    .proto-bar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+
+    .proto-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .proto-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      background: var(--surface-subtle);
+      color: var(--ink-muted);
+      border: 1px solid var(--border);
+      text-transform: uppercase;
+    }
+
+    .proto-title {
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--ink-primary);
+    }
+
+    .proto-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .proto-view-switcher {
+      display: flex;
+      background: var(--surface-subtle);
+      padding: 3px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border);
+      gap: 2px;
+    }
+
+    .proto-view-btn {
+      padding: 5px 14px;
+      border-radius: var(--radius-full);
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--ink-muted);
+      cursor: pointer;
+      transition: var(--t-color);
+      white-space: nowrap;
+    }
+
+    .proto-view-btn.is-active {
+      background: var(--pill-active-bg);
+      color: var(--pill-active-text);
+      font-weight: 600;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+    }
+
+    .proto-theme-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 12.5px;
+      font-weight: 600;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      color: var(--ink-primary);
+      cursor: pointer;
+      transition: var(--t-color);
+    }
+    .proto-theme-btn:hover {
+      background: var(--surface-muted);
+    }
+
+    /* ─── App Shell Container ─── */
+    .app-shell {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 16px 24px 64px;
+    }
+
+    /* ─── GLOBAL HEADER (GNB) ─── */
+    .gnb {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-full);
+      box-shadow: var(--card-shadow);
+      margin-bottom: 24px;
+    }
+
+    .gnb-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-left: 8px;
+      text-decoration: none;
+      color: var(--ink-primary);
+    }
+
+    .gnb-mascot {
+      width: 28px;
+      height: 28px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+    }
+
+    .gnb-logo-text {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .gnb-nav {
+      display: flex;
+      align-items: center;
+      background: var(--surface-subtle);
+      padding: 3px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border);
+      gap: 2px;
+    }
+
+    .gnb-nav-link {
+      padding: 6px 16px;
+      border-radius: var(--radius-full);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink-muted);
+      cursor: pointer;
+      text-decoration: none;
+      transition: var(--t-color);
+    }
+
+    .gnb-nav-link:hover {
+      color: var(--ink-primary);
+    }
+
+    .gnb-nav-link.is-active {
+      background: var(--pill-active-bg);
+      color: var(--pill-active-text);
+      font-weight: 600;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    }
+
+    .gnb-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-right: 4px;
+    }
+
+    .gnb-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--ink-secondary);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      cursor: pointer;
+      transition: var(--t-color);
+      text-decoration: none;
+    }
+
+    .gnb-btn:hover {
+      background: var(--surface-subtle);
+      color: var(--ink-primary);
+    }
+
+    /* ─── 2-ZONE HERO BANNER ─── */
+    .hero-banner {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--card-shadow);
+      padding: 28px 32px 24px;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .hero-h1 {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.3;
+      color: var(--ink-primary);
+      margin-bottom: 8px;
+    }
+
+    .hl-mint {
+      background: var(--hl-mint-bg);
+      color: var(--hl-mint-ink);
+      padding: 0 3px;
+      border-radius: 2px;
+      font-weight: 700;
+    }
+
+    .hl-lemon {
+      background: var(--hl-lemon-bg);
+      color: var(--hl-lemon-ink);
+      padding: 0 3px;
+      border-radius: 2px;
+      font-weight: 700;
+    }
+
+    .hero-sub {
+      font-size: 13.5px;
+      color: var(--ink-muted);
+      margin-bottom: 20px;
+    }
+
+    .hero-status-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 10px 16px;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .status-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 12.5px;
+      color: var(--ink-secondary);
+    }
+
+    .live-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: var(--ink-primary);
+    }
+
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--live-dot);
+      box-shadow: 0 0 6px var(--live-dot);
+    }
+
+    .status-sep {
+      width: 1px;
+      height: 12px;
+      background: var(--border);
+    }
+
+    .status-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sub-prompt-text {
+      font-size: 12px;
+      color: var(--ink-muted);
+    }
+
+    .subscribe-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 14px;
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 600;
+      background: var(--pill-active-bg);
+      color: var(--pill-active-text);
+      cursor: pointer;
+      transition: var(--t-color);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+    }
+
+    .archive-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 500;
+      background: var(--surface);
+      color: var(--ink-secondary);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: var(--t-color);
+    }
+    .archive-pill:hover {
+      background: var(--surface-muted);
+      color: var(--ink-primary);
+    }
+
+    /* ─── UNIFIED CONTROL BAR ─── */
+    .control-center {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--card-shadow);
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .control-row-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    /* Segmented Tab Strip */
+    .segmented-tabs {
+      display: inline-flex;
+      background: var(--surface-subtle);
+      padding: 3px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border);
+      gap: 2px;
+    }
+
+    .seg-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink-muted);
+      cursor: pointer;
+      transition: var(--t-color);
+    }
+
+    .seg-tab.is-active {
+      background: var(--pill-active-bg);
+      color: var(--pill-active-text);
+      font-weight: 600;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    }
+
+    .seg-count {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 1px 6px;
+      border-radius: var(--radius-full);
+      background: var(--badge-bg);
+      color: var(--badge-text);
+    }
+
+    .seg-tab.is-active .seg-count {
+      background: rgba(0, 0, 0, 0.12);
+      color: inherit;
+    }
+    html[data-theme="dark"] .seg-tab.is-active .seg-count {
+      background: rgba(0, 0, 0, 0.15);
+      color: #090d13;
+    }
+
+    /* Search & Tools Strip */
+    .tools-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      justify-content: flex-end;
+    }
+
+    .select-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: var(--radius-full);
+      font-size: 12.5px;
+      font-weight: 500;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      color: var(--ink-primary);
+      cursor: pointer;
+    }
+    .select-pill select {
+      cursor: pointer;
+      background: transparent;
+      font-weight: 500;
+    }
+
+    .search-box {
+      position: relative;
+      display: flex;
+      align-items: center;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-full);
+      padding: 6px 12px;
+      min-width: 240px;
+      transition: var(--t-color);
+    }
+
+    .search-box:focus-within {
+      border-color: var(--border-strong);
+      box-shadow: 0 0 0 1px var(--border-strong);
+    }
+
+    .search-input {
+      width: 100%;
+      font-size: 12.5px;
+      color: var(--ink-primary);
+      padding: 0 8px;
+    }
+    .search-input::placeholder {
+      color: var(--ink-muted);
+    }
+
+    .kbd-shortcut {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-muted);
+      padding: 2px 6px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+
+    .icon-btn-pill {
+      padding: 6px 10px;
+      border-radius: var(--radius-full);
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      color: var(--ink-muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--t-color);
+    }
+    .icon-btn-pill:hover {
+      color: var(--ink-primary);
+      background: var(--surface-muted);
+    }
+
+    /* Horizontal Filter Chip Stream */
+    .filter-chip-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+      scrollbar-width: none;
+    }
+    .filter-chip-bar::-webkit-scrollbar { display: none; }
+
+    .filter-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--ink-secondary);
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: var(--t-color);
+    }
+
+    .filter-chip:hover {
+      background: var(--surface-muted);
+      color: var(--ink-primary);
+    }
+
+    .filter-chip.is-active {
+      background: var(--pill-active-bg);
+      color: var(--pill-active-text);
+      border-color: var(--pill-active-bg);
+      font-weight: 600;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    }
+
+    .filter-chip .count-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 1px 6px;
+      border-radius: var(--radius-full);
+      background: var(--badge-bg);
+      color: var(--badge-text);
+    }
+
+    .filter-chip.is-active .count-tag {
+      background: rgba(0, 0, 0, 0.12);
+      color: inherit;
+    }
+    html[data-theme="dark"] .filter-chip.is-active .count-tag {
+      background: rgba(0, 0, 0, 0.16);
+      color: #090d13;
+    }
+
+    /* ─── AI NEWS: INTELLIGENCE BRIEFING WIDGET ─── */
+    .intel-briefing {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--card-shadow);
+      padding: 20px 24px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .intel-briefing::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--accent);
+    }
+
+    .briefing-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .briefing-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--ink-primary);
+    }
+
+    .briefing-meta {
+      font-size: 12px;
+      color: var(--ink-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .briefing-body {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .briefing-topic-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .briefing-badge {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: var(--radius-full);
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      color: var(--ink-primary);
+      cursor: pointer;
+      transition: var(--t-color);
+    }
+    .briefing-badge:hover {
+      border-color: var(--border-strong);
+    }
+
+    .briefing-text {
+      font-size: 14.5px;
+      line-height: 1.6;
+      color: var(--ink-primary);
+    }
+
+    .briefing-disclaimer {
+      font-size: 12px;
+      color: var(--ink-muted);
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 10px;
+      margin-top: 4px;
+    }
+
+    /* ─── BENCHMARKS: 4 KPI CARDS GRID ─── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .kpi-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      box-shadow: var(--card-shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 116px;
+      transition: var(--t-color);
+    }
+
+    .kpi-card:hover {
+      box-shadow: var(--card-hover-shadow);
+      border-color: var(--border-strong);
+    }
+
+    .kpi-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .kpi-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .kpi-delta {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+    }
+    .delta-down { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
+    .delta-up { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+
+    .kpi-main {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .kpi-title {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--ink-primary);
+    }
+
+    .kpi-value {
+      font-family: var(--font-mono);
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--ink-primary);
+    }
+
+    /* ─── SAMPLE ITEM CARDS GRID ─── */
+    .sample-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .sample-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 22px;
+      box-shadow: var(--card-shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: var(--t-color);
+    }
+
+    .sample-card:hover {
+      box-shadow: var(--card-hover-shadow);
+    }
+
+    .card-meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-type-pill {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      color: var(--ink-secondary);
+    }
+
+    .card-stat-pill {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      color: #10b981;
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.4;
+      color: var(--ink-primary);
+    }
+
+    .card-desc {
+      font-size: 13px;
+      color: var(--ink-secondary);
+      line-height: 1.5;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 12px;
+      margin-top: auto;
+    }
+
+    .card-author {
+      font-size: 12px;
+      color: var(--ink-muted);
+    }
+
+    .card-btn {
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 600;
+      background: var(--pill-active-bg);
+      color: var(--pill-active-text);
+      cursor: pointer;
+    }
+
+    /* ─── Responsive Media Queries ─── */
+    @media (max-width: 1024px) {
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .sample-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      .app-shell { padding: 12px 14px 48px; }
+      .gnb { flex-direction: column; gap: 12px; border-radius: var(--radius-lg); }
+      .gnb-nav { width: 100%; justify-content: center; overflow-x: auto; }
+      .kpi-grid { grid-template-columns: 1fr; }
+      .sample-grid { grid-template-columns: 1fr; }
+      .control-row-top { flex-direction: column; align-items: stretch; }
+      .tools-wrap { justify-content: space-between; }
+      .search-box { width: 100%; min-width: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Sticky Prototype Command Bar -->
+  <header class="proto-bar">
+    <div class="proto-brand">
+      <span class="proto-tag">Hallmark 2.0</span>
+      <span class="proto-title">AI위클리 상단 콕핏 리디자인 프로토타입</span>
+    </div>
+
+    <div class="proto-controls">
+      <div class="proto-view-switcher" role="tablist">
+        <button class="proto-view-btn is-active" data-view="plugins" type="button">인기 플러그인</button>
+        <button class="proto-view-btn" data-view="news" type="button">AI 뉴스</button>
+        <button class="proto-view-btn" data-view="starboard" type="button">스타보드</button>
+        <button class="proto-view-btn" data-view="benchmarks" type="button">점유율·성능</button>
+      </div>
+
+      <button class="proto-theme-btn" id="proto-theme-toggle" type="button" title="테마 실시간 전환">
+        <span id="theme-btn-icon">🌙</span>
+        <span id="theme-btn-text">다크모드 전환</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="app-shell">
+
+    <!-- 1. GLOBAL NAVIGATION BAR (GNB) -->
+    <nav class="gnb" aria-label="메인 네비게이션">
+      <a href="#home" class="gnb-brand">
+        <div class="gnb-mascot">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
+        </div>
+        <span class="gnb-logo-text">AI위클리</span>
+      </a>
+
+      <div class="gnb-nav" id="gnb-nav">
+        <a class="gnb-nav-link is-active" data-nav="plugins">인기 플러그인</a>
+        <a class="gnb-nav-link" data-nav="news">AI 뉴스</a>
+        <a class="gnb-nav-link" data-nav="starboard">스타보드</a>
+        <a class="gnb-nav-link" data-nav="benchmarks">점유율·성능</a>
+      </div>
+
+      <div class="gnb-actions">
+        <button class="gnb-btn" id="app-theme-btn" type="button">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+          <span id="app-theme-text">다크</span>
+        </button>
+        <button class="gnb-btn" type="button">EN / KO</button>
+        <a href="https://github.com/ldk-hub/ai-weekly" target="_blank" class="gnb-btn" rel="noreferrer">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          <span>GitHub</span>
+        </a>
+      </div>
+    </nav>
+
+    <!-- =========================================================================
+         VIEW 1: 인기 플러그인 (Index)
+         ========================================================================= -->
+    <section class="page-view" id="view-plugins">
+      <!-- 2-Zone Hero Banner -->
+      <header class="hero-banner">
+        <h1 class="hero-h1">
+          이번 주 Claude Code에서 뭐가 <span class="hl-mint">뜨고</span>, 뭐가 이미 <span class="hl-lemon">자리잡았나</span>.
+        </h1>
+        <p class="hero-sub">GitHub·커뮤니티 기반 에이전트 · 스킬 · 하네스 · MCP 주간 인덱스</p>
+
+        <div class="hero-status-strip">
+          <div class="status-left">
+            <span class="live-indicator">
+              <span class="live-dot"></span>
+              2026.11.09 (월) 갱신
+            </span>
+            <span class="status-sep"></span>
+            <span>다음 11/16 (월)</span>
+            <span class="status-sep"></span>
+            <span>이번 주 <strong>32개</strong> 수집</span>
+          </div>
+
+          <div class="status-right">
+            <button class="archive-pill" type="button">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <span>지난 주차</span>
+            </button>
+            <span class="sub-prompt-text">매주 월요일 도구 요약을 메일로</span>
+            <button class="subscribe-pill" type="button">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              <span>구독</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Unified Control Center -->
+      <div class="control-center">
+        <div class="control-row-top">
+          <div class="segmented-tabs" role="tablist">
+            <button class="seg-tab is-active" type="button" role="tab">
+              <span>이번 주 뜨는</span>
+              <span class="seg-count">20</span>
+            </button>
+            <button class="seg-tab" type="button" role="tab">
+              <span>이미 유명한</span>
+              <span class="seg-count">12</span>
+            </button>
+          </div>
+
+          <div class="tools-wrap">
+            <div class="select-pill">
+              <select aria-label="정렬 기준">
+                <option>정렬: 트렌드 점수순</option>
+                <option>정렬: 주간 스타 증가순</option>
+                <option>정렬: 최신 등록순</option>
+              </select>
+            </div>
+
+            <div class="search-box">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--ink-muted);"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" class="search-input" placeholder="플러그인 검색..." />
+              <span class="kbd-shortcut">/</span>
+            </div>
+
+            <button class="icon-btn-pill" type="button" title="뷰 모드">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter Chip Stream (Zero Emoji, Clean Text Only) -->
+        <div class="filter-chip-bar" role="tablist">
+          <button class="filter-chip is-active" type="button">
+            <span>전체</span>
+            <span class="count-tag">20</span>
+          </button>
+          <button class="filter-chip" type="button">
+            <span>에이전트</span>
+            <span class="count-tag">4</span>
+          </button>
+          <button class="filter-chip" type="button">
+            <span>스킬</span>
+            <span class="count-tag">8</span>
+          </button>
+          <button class="filter-chip" type="button">
+            <span>하네스</span>
+            <span class="count-tag">2</span>
+          </button>
+          <button class="filter-chip" type="button">
+            <span>MCP</span>
+            <span class="count-tag">6</span>
+          </button>
+          <button class="filter-chip" type="button">
+            <span>저장</span>
+            <span class="count-tag">0</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Sample Content Grid -->
+      <div class="sample-grid">
+        <article class="sample-card">
+          <div class="card-meta-row">
+            <span class="card-type-pill">SKILL</span>
+            <span class="card-stat-pill">+268/wk</span>
+          </div>
+          <h3 class="card-title">베조스·폴 그레이엄 등 7인의 가상 멘토가 제품을 신랄하게 비판하는 피드백 스킬</h3>
+          <p class="card-desc">7인의 유명 창업가 및 투자자 관점에서 기획안과 제품 설계를 다각도로 비판하고 엣지 케이스를 사전에 도출합니다.</p>
+          <div class="card-footer">
+            <span class="card-author">nateherkai / roast-room</span>
+            <button class="card-btn" type="button">GitHub ↗</button>
+          </div>
+        </article>
+
+        <article class="sample-card">
+          <div class="card-meta-row">
+            <span class="card-type-pill">SKILL</span>
+            <span class="card-stat-pill">+185/wk</span>
+          </div>
+          <h3 class="card-title">단 한 줄의 지시로 Awwwards급 프리미엄 인터랙티브 웹사이트를 제작하는 에이전트</h3>
+          <p class="card-desc">Astro, Next.js, WebGL, GSAP 등 모던 프론트엔드 비주얼 스택을 통합하여 반응형 뷰포트에 최적화된 60fps 인터랙션을 보장합니다.</p>
+          <div class="card-footer">
+            <span class="card-author">juliobsz / skills</span>
+            <button class="card-btn" type="button">GitHub ↗</button>
+          </div>
+        </article>
+
+        <article class="sample-card">
+          <div class="card-meta-row">
+            <span class="card-type-pill">AGENT</span>
+            <span class="card-stat-pill">+28,061/wk</span>
+          </div>
+          <h3 class="card-title">앱 동작 분석부터 네이티브 바이너리까지 자율 조사하는 역공학 에이전트</h3>
+          <p class="card-desc">런타임 행동 분석부터 역어셈블리까지 종합 역공학을 수행하며 GDB/LLDB 등 디버거 도구와의 에이전틱 상호작용을 자동화합니다.</p>
+          <div class="card-footer">
+            <span class="card-author">morluto / rea</span>
+            <button class="card-btn" type="button">GitHub ↗</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         VIEW 2: AI 뉴스 (News)
+         ========================================================================= -->
+    <section class="page-view" id="view-news" style="display:none;">
+      <header class="hero-banner">
+        <h1 class="hero-h1">
+          쏟아지는 <span class="hl-mint">AI 소식</span>을 3줄 <span class="hl-lemon">요약</span>으로 읽습니다.
+        </h1>
+        <p class="hero-sub">모델 릴리스 · 개발자 도구 · 오픈소스 · 연구 3줄 요약 및 원문 링크</p>
+
+        <div class="hero-status-strip">
+          <div class="status-left">
+            <span class="live-indicator">
+              <span class="live-dot"></span>
+              2026.11.10 (화) 오늘 갱신
+            </span>
+            <span class="status-sep"></span>
+            <span><strong>17건</strong> 수집 완료</span>
+          </div>
+
+          <div class="status-right">
+            <button class="archive-pill" type="button">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <span>지난 뉴스</span>
+            </button>
+            <span class="sub-prompt-text">매일 아침 어제의 AI 신호 요약을 메일로</span>
+            <button class="subscribe-pill" type="button">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              <span>구독</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Control Center -->
+      <div class="control-center">
+        <div class="control-row-top">
+          <div class="select-pill">
+            <select aria-label="매체 선택">
+              <option>매체 전체 (17)</option>
+              <option>GeekNews (1)</option>
+              <option>Hacker News (3)</option>
+              <option>GitHub (4)</option>
+              <option>Bluesky (2)</option>
+              <option>HF Papers (3)</option>
+            </select>
+          </div>
+
+          <div class="tools-wrap">
+            <div class="search-box">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--ink-muted);"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" class="search-input" placeholder="뉴스 검색..." />
+              <span class="kbd-shortcut">/</span>
+            </div>
+
+            <button class="icon-btn-pill" type="button" title="뷰 모드">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- 8 Signal Chips (Zero Emoji) -->
+        <div class="filter-chip-bar">
+          <button class="filter-chip is-active" type="button"><span>모든 신호</span> <span class="count-tag">17</span></button>
+          <button class="filter-chip" type="button"><span>새 모델</span> <span class="count-tag">2</span></button>
+          <button class="filter-chip" type="button"><span>제품 신기능</span> <span class="count-tag">2</span></button>
+          <button class="filter-chip" type="button"><span>개발 도구</span> <span class="count-tag">3</span></button>
+          <button class="filter-chip" type="button"><span>오픈소스</span> <span class="count-tag">4</span></button>
+          <button class="filter-chip" type="button"><span>연구·논문</span> <span class="count-tag">3</span></button>
+          <button class="filter-chip" type="button"><span>실무 팁</span> <span class="count-tag">1</span></button>
+          <button class="filter-chip" type="button"><span>정책·규제</span> <span class="count-tag">2</span></button>
+          <button class="filter-chip" type="button"><span>저장</span> <span class="count-tag">0</span></button>
+        </div>
+      </div>
+
+      <!-- Intelligence Briefing Widget (Hallmark Refined) -->
+      <section class="intel-briefing">
+        <div class="briefing-header">
+          <span class="briefing-tag">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+            AI Intelligence Briefing
+          </span>
+          <div class="briefing-meta">
+            <span>2026-11-09 23:57 KST 갱신</span>
+            <span>·</span>
+            <span>GeekNews · GitHub · Hacker News · Bluesky · HF Papers</span>
+          </div>
+        </div>
+
+        <div class="briefing-body">
+          <div class="briefing-topic-row">
+            <span style="font-weight:700; font-size:13px; color:var(--ink-primary);">오늘의 핵심 이슈:</span>
+            <button class="briefing-badge" type="button">#ClaudeFable</button>
+            <button class="briefing-badge" type="button">#에이전트인프라</button>
+            <button class="briefing-badge" type="button">#모바일제어</button>
+          </div>
+          <p class="briefing-text">
+            앤트로픽 Fable 5.2의 인공지능 분석 인덱스 1위 탈환과 구글 차세대 TPU 8tx/8i Max 발표, 코딩 에이전트의 모바일 기기 제어 및 하드웨어 가속기 확장이 집중 조명된 하루였습니다.
+          </p>
+          <p class="briefing-disclaimer">
+            주식·투자 신호는 제외하며 게시물 내 모델명과 수치는 원문 그대로 교차 검증을 거쳤습니다.
+          </p>
+        </div>
+      </section>
+
+      <!-- Sample News Cards -->
+      <div class="sample-grid">
+        <article class="sample-card">
+          <div class="card-meta-row">
+            <span class="card-type-pill">GEEKNEWS · 새 모델</span>
+            <span class="card-author">11/10 07:41</span>
+          </div>
+          <h3 class="card-title">Claude Fable 5.2, 인공지능 분석 인덱스에서 65점 기록하며 1위 달성</h3>
+          <p class="card-desc">앤트로픽의 최신 추론 모델 Claude Fable 5.2가 Artificial Analysis Intelligence Index에서 65점을 기록하며 1위를 탈환했습니다.</p>
+          <div class="card-footer">
+            <span class="card-author">neo</span>
+            <button class="card-btn" type="button">원문 읽기 ↗</button>
+          </div>
+        </article>
+
+        <article class="sample-card">
+          <div class="card-meta-row">
+            <span class="card-type-pill">HACKER NEWS · 제품 신기능</span>
+            <span class="card-author">11/09 22:02</span>
+          </div>
+          <h3 class="card-title">구글, 자율 에이전트 워크로드를 위해 설계된 신규 TPU 8tx 및 8i Max 발표</h3>
+          <p class="card-desc">구글이 장시간 에이전트 실행 및 대규모 언어 모델 서빙에 최적화된 맞춤형 하드웨어 가속기 라인업을 공식 발표했습니다.</p>
+          <div class="card-footer">
+            <span class="card-author">meetpateltech</span>
+            <button class="card-btn" type="button">원문 읽기 ↗</button>
+          </div>
+        </article>
+
+        <article class="sample-card">
+          <div class="card-meta-row">
+            <span class="card-type-pill">GITHUB · 오픈소스</span>
+            <span class="card-author">11/10 01:58</span>
+          </div>
+          <h3 class="card-title">[업데이트] DIYgod/pinky — AI 에이전트 모바일 기기 조작 프레임워크 1,400 스타 돌파</h3>
+          <p class="card-desc">인간 개입 기반 모바일 제어 오픈소스 pinky가 기존 774스타에서 1,423스타로 83% 이상 급증하며 높은 인기를 끌고 있습니다.</p>
+          <div class="card-footer">
+            <span class="card-author">DIYgod</span>
+            <button class="card-btn" type="button">리포지토리 ↗</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         VIEW 3: 스타보드 (Starboard)
+         ========================================================================= -->
+    <section class="page-view" id="view-starboard" style="display:none;">
+      <header class="hero-banner">
+        <h1 class="hero-h1">
+          가장 빠르게 <span class="hl-mint">성장하는</span> 리포지토리 <span class="hl-lemon">순위표</span>.
+        </h1>
+        <p class="hero-sub">메가(10k+) · 라이징(1k~10k) · 얼리(&lt;1k) 주간 스타 증감 및 활동성 추적</p>
+
+        <div class="hero-status-strip">
+          <div class="status-left">
+            <span class="live-indicator">
+              <span class="live-dot"></span>
+              2026.11.09 (월) 갱신
+            </span>
+            <span class="status-sep"></span>
+            <span>다음 11/10 (화)</span>
+            <span class="status-sep"></span>
+            <span>전체 <strong>567개</strong> 리포지토리 추적 중</span>
+          </div>
+
+          <div class="status-right">
+            <span class="sub-prompt-text">매주 급성장 리포지토리 Top 10을 메일로</span>
+            <button class="subscribe-pill" type="button">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              <span>구독</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Control Center -->
+      <div class="control-center">
+        <div class="control-row-top">
+          <div class="segmented-tabs" role="tablist">
+            <button class="seg-tab is-active" type="button">
+              <span>메가</span>
+              <span class="seg-count">121</span>
+            </button>
+            <button class="seg-tab" type="button">
+              <span>라이징</span>
+              <span class="seg-count">108</span>
+            </button>
+            <button class="seg-tab" type="button">
+              <span>얼리</span>
+              <span class="seg-count">338</span>
+            </button>
+            <button class="seg-tab" type="button">
+              <span>저장</span>
+              <span class="seg-count">0</span>
+            </button>
+          </div>
+
+          <div class="tools-wrap">
+            <div class="select-pill">
+              <select aria-label="상태 선택">
+                <option>상태: 전체</option>
+                <option>상태: 활발</option>
+                <option>상태: 둔화</option>
+              </select>
+            </div>
+
+            <div class="select-pill">
+              <select aria-label="정렬 선택">
+                <option>정렬: 주간 증가순</option>
+                <option>정렬: 총 스타순</option>
+                <option>정렬: 일일 평균순</option>
+              </select>
+            </div>
+
+            <div class="search-box">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--ink-muted);"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" class="search-input" placeholder="리포지토리 검색..." />
+              <span class="kbd-shortcut">/</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sample Starboard Cards -->
+      <div class="sample-grid">
+        <article class="sample-card">
+          <div class="card-meta-row">
+            <span class="card-type-pill">#01 · HEAVY</span>
+            <span class="card-stat-pill" style="color:#ef4444;">+25,303/wk</span>
+          </div>
+          <h3 class="card-title">morluto / rea</h3>
+          <p class="card-desc">Reverse engineer anything with agents, from app behavior down to native binaries.</p>
+          <div class="card-footer">
+            <span class="card-author">★ 443,974</span>
+            <button class="card-btn" type="button">GitHub ↗</button>
+          </div>
+        </article>
+
+        <article class="sample-card">
+          <div class="card-meta-row">
+            <span class="card-type-pill">#02 · HEAVY</span>
+            <span class="card-stat-pill">+9,370/wk</span>
+          </div>
+          <h3 class="card-title">mattpocock / skills</h3>
+          <p class="card-desc">Skills for Real Engineers. Straight from my .agents directory for production Claude Code workflows.</p>
+          <div class="card-footer">
+            <span class="card-author">★ 318,595</span>
+            <button class="card-btn" type="button">GitHub ↗</button>
+          </div>
+        </article>
+
+        <article class="sample-card">
+          <div class="card-meta-row">
+            <span class="card-type-pill">#03 · HEAVY</span>
+            <span class="card-stat-pill">+8,172/wk</span>
+          </div>
+          <h3 class="card-title">D4Vinci / Scrapling</h3>
+          <p class="card-desc">The BEST Web Scraping framework that handles everything from a single request to full-scale crawler.</p>
+          <div class="card-footer">
+            <span class="card-author">★ 99,913</span>
+            <button class="card-btn" type="button">GitHub ↗</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         VIEW 4: 점유율·성능 (Benchmarks)
+         ========================================================================= -->
+    <section class="page-view" id="view-benchmarks" style="display:none;">
+      <header class="hero-banner">
+        <h1 class="hero-h1">
+          AI <span class="hl-mint">점유율</span>과 프론티어 <span class="hl-lemon">성능</span>
+        </h1>
+        <p class="hero-sub">Similarweb · Trakkr · OpenRouter 3곳 평균 점유율 및 3대 종합 리더보드</p>
+
+        <div class="hero-status-strip">
+          <div class="status-left">
+            <span class="live-indicator">
+              <span class="live-dot"></span>
+              2026.11.09 (월) 갱신
+            </span>
+            <span class="status-sep"></span>
+            <span>서비스 점유율 <strong>6개</strong> (3곳 평균)</span>
+            <span class="status-sep"></span>
+            <span>프론티어 모델 <strong>10개</strong> (3대 리더보드 평균)</span>
+          </div>
+
+          <div class="status-right">
+            <button class="archive-pill" type="button">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              <span>수집 기준 및 한계</span>
+            </button>
+            <span class="sub-prompt-text">점유율·성능 변동 시 메일로</span>
+            <button class="subscribe-pill" type="button">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              <span>구독</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Verified Sources Strip -->
+      <div class="filter-chip-bar" style="margin-bottom:16px;">
+        <span class="filter-chip is-active" style="cursor:default;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>최신성 검증 통과</span>
+        </span>
+        <a class="filter-chip" href="https://similarweb.com" target="_blank" rel="noreferrer">
+          <span>웹 방문 Similarweb (2026-10-01) ↗</span>
+        </a>
+        <a class="filter-chip" href="https://trakkr.ai" target="_blank" rel="noreferrer">
+          <span>리퍼럴 Trakkr AI Index (2026-10-31) ↗</span>
+        </a>
+        <a class="filter-chip" href="https://openrouter.ai" target="_blank" rel="noreferrer">
+          <span>개발자 API OpenRouter (2026-10-24) ↗</span>
+        </a>
+        <a class="filter-chip" href="https://lmarena.ai" target="_blank" rel="noreferrer">
+          <span>선호도·코딩 LMArena (2026-10-21) ↗</span>
+        </a>
+        <a class="filter-chip" href="https://artificialanalysis.ai" target="_blank" rel="noreferrer">
+          <span>품질·지능 Artificial Analysis ↗</span>
+        </a>
+      </div>
+
+      <!-- 4 Top KPI Cards Grid -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-label">3곳 평균 점유율 1위 ↗</span>
+            <span class="kpi-delta delta-down">▼ 2.0%p</span>
+          </div>
+          <div class="kpi-main">
+            <span class="kpi-title">ChatGPT</span>
+            <span class="kpi-value">54.07%</span>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-label">3대 리더보드 종합 1위 ↗</span>
+            <span class="kpi-delta delta-up">Top 1</span>
+          </div>
+          <div class="kpi-main">
+            <span class="kpi-title">Gemini 4 Argon</span>
+            <span class="kpi-value">91.2 / 100</span>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-label">코딩 종합 1위 ↗</span>
+            <span class="kpi-delta delta-up">Elite</span>
+          </div>
+          <div class="kpi-main">
+            <span class="kpi-title">Gemini 4 Argon</span>
+            <span class="kpi-value">92.6점</span>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-label">가성비 1위 (상위 절반 최저가)</span>
+            <span class="kpi-delta delta-up">Best Value</span>
+          </div>
+          <div class="kpi-main">
+            <span class="kpi-title">Gemini 4 Argon</span>
+            <span class="kpi-value">$2.00 / $10</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Control Center -->
+      <div class="control-center">
+        <div class="control-row-top">
+          <div class="segmented-tabs" role="tablist">
+            <button class="seg-tab is-active" type="button">
+              <span>3곳 평균 점유율</span>
+            </button>
+            <button class="seg-tab" type="button">
+              <span>3대 리더보드 성능</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sample Benchmark List -->
+      <div class="sample-card" style="padding:24px;">
+        <h3 style="font-size:16px; font-weight:700; margin-bottom:16px;">AI 서비스 3대 출처 종합 점유율 (평균)</h3>
+        <p style="font-size:12.5px; color:var(--ink-muted); margin-bottom:20px;">
+          단일 출처 편향 제거를 위해 ① Similarweb (웹 방문) · ② Trakkr (AI 리퍼럴) · ③ OpenRouter (API 호출) 3곳 점유율 산술 평균
+        </p>
+
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          <div>
+            <div style="display:flex; justify-content:space-between; font-weight:600; margin-bottom:6px;">
+              <span>1. ChatGPT (OpenAI)</span>
+              <span>54.07% <span style="font-size:11.5px; color:#ef4444; font-weight:normal;">▼ 2.0%p</span></span>
+            </div>
+            <div style="width:100%; height:8px; background:var(--surface-subtle); border-radius:9999px; overflow:hidden;">
+              <div style="width:54.07%; height:100%; background:#10b981; border-radius:9999px;"></div>
+            </div>
+          </div>
+
+          <div>
+            <div style="display:flex; justify-content:space-between; font-weight:600; margin-bottom:6px;">
+              <span>2. Claude (Anthropic)</span>
+              <span>19.53% <span style="font-size:11.5px; color:#10b981; font-weight:normal;">▲ 6.6%p</span></span>
+            </div>
+            <div style="width:100%; height:8px; background:var(--surface-subtle); border-radius:9999px; overflow:hidden;">
+              <div style="width:19.53%; height:100%; background:#f59e0b; border-radius:9999px;"></div>
+            </div>
+          </div>
+
+          <div>
+            <div style="display:flex; justify-content:space-between; font-weight:600; margin-bottom:6px;">
+              <span>3. Gemini (Google)</span>
+              <span>17.10% <span style="font-size:11.5px; color:#ef4444; font-weight:normal;">▼ 1.1%p</span></span>
+            </div>
+            <div style="width:100%; height:8px; background:var(--surface-subtle); border-radius:9999px; overflow:hidden;">
+              <div style="width:17.10%; height:100%; background:#3b82f6; border-radius:9999px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Interactive Logic -->
+  <script>
+    // 1. View Switching Logic
+    const viewButtons = document.querySelectorAll('.proto-view-btn');
+    const gnbLinks = document.querySelectorAll('.gnb-nav-link');
+    const views = {
+      plugins: document.getElementById('view-plugins'),
+      news: document.getElementById('view-news'),
+      starboard: document.getElementById('view-starboard'),
+      benchmarks: document.getElementById('view-benchmarks')
+    };
+
+    function switchView(target) {
+      Object.keys(views).forEach(key => {
+        if (views[key]) views[key].style.display = (key === target) ? 'block' : 'none';
+      });
+
+      viewButtons.forEach(btn => {
+        btn.classList.toggle('is-active', btn.dataset.view === target);
+      });
+
+      gnbLinks.forEach(link => {
+        link.classList.toggle('is-active', link.dataset.nav === target);
+      });
+    }
+
+    viewButtons.forEach(btn => {
+      btn.addEventListener('click', () => switchView(btn.dataset.view));
+    });
+
+    gnbLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        switchView(link.dataset.nav);
+      });
+    });
+
+    // 2. Dual-Theme Toggle Logic
+    const protoThemeToggle = document.getElementById('proto-theme-toggle');
+    const appThemeBtn = document.getElementById('app-theme-btn');
+    const themeIcon = document.getElementById('theme-btn-icon');
+    const themeText = document.getElementById('theme-btn-text');
+    const appThemeText = document.getElementById('app-theme-text');
+
+    function toggleTheme() {
+      const current = document.documentElement.dataset.theme || 'light';
+      const next = current === 'light' ? 'dark' : 'light';
+      document.documentElement.dataset.theme = next;
+
+      if (next === 'dark') {
+        themeIcon.textContent = '☀️';
+        themeText.textContent = '라이트모드 전환';
+        appThemeText.textContent = '라이트';
+      } else {
+        themeIcon.textContent = '🌙';
+        themeText.textContent = '다크모드 전환';
+        appThemeText.textContent = '다크';
+      }
+    }
+
+    protoThemeToggle.addEventListener('click', toggleTheme);
+    appThemeBtn.addEventListener('click', toggleTheme);
+
+    // 3. Interactive Filter Chip Toggles
+    document.querySelectorAll('.filter-chip-bar').forEach(bar => {
+      bar.addEventListener('click', (e) => {
+        const chip = e.target.closest('.filter-chip');
+        if (!chip || chip.tagName === 'A' || chip.style.cursor === 'default') return;
+        bar.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('is-active'));
+        chip.classList.add('is-active');
+      });
+    });
+
+    // 4. Interactive Segmented Tabs
+    document.querySelectorAll('.segmented-tabs').forEach(group => {
+      group.addEventListener('click', (e) => {
+        const tab = e.target.closest('.seg-tab');
+        if (!tab) return;
+        group.querySelectorAll('.seg-tab').forEach(t => t.classList.remove('is-active'));
+        tab.classList.add('is-active');
+      });
+    });
+  </script>
+</body>
+</html>

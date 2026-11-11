@@ -532,7 +532,7 @@ function cardHTML(item, idx) {
   const isSuspicious = isSuspiciousVelocity(item);
   const weeklyStars = (weeklyDelta && weeklyDelta > 0)
     ? (isSuspicious
-      ? `<span class="velocity-badge is-anomaly" title="${lang === "en" ? "Estimated, unverified" : "추정치·검증 필요"}" aria-label="${lang === "en" ? "Estimated, unverified" : "추정치·검증 필요"}"><span class="anomaly-icon">⚠️</span> ≈ +${Number(weeklyDelta).toLocaleString()}/w</span>`
+      ? `<span class="velocity-badge is-anomaly" title="${lang === "en" ? "Estimated, unverified" : "추정치·검증 필요"}" aria-label="${lang === "en" ? "Estimated, unverified" : "추정치·검증 필요"}">+${Number(weeklyDelta).toLocaleString()}/w</span>`
       : `<span class="sb-hot-badge velocity-badge" style="font-size:12px; padding:1px 6px;" title="${lang === "en" ? "7-day star growth" : "최근 7일 스타 증가량"}">★ +${Number(weeklyDelta).toLocaleString()}/w</span>`)
     : "";
 
@@ -544,7 +544,7 @@ function cardHTML(item, idx) {
   // 이런 분께 추천 (use_case) 하이라이트 박스
   const useCaseBox = item.use_case ? `
     <div class="card-usecase-box">
-      <span class="usecase-icon">💡</span>
+      <svg class="usecase-icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
       <span class="usecase-text"><strong class="usecase-label">${lang === "en" ? "Recommended:" : "이런 분께 추천:"}</strong>${escapeHTML(item.use_case)}</span>
     </div>
   ` : "";
@@ -699,13 +699,13 @@ function modalHTML(item, tab, rank) {
     <h2 id="modal-title" class="modal-title">${escapeHTML(modalTitle)}</h2>
     ${item.summary_ko ? `<p class="m-summary">${escapeHTML(item.summary_ko)}</p>` : ""}
     ${feats ? `<div class="m-section"><div class="m-label">${lang === "en" ? "Key features" : "핵심 기능"}</div><ul class="m-features">${feats}</ul></div>` : ""}
-    ${item.use_case ? `<div class="m-usecase"><span class="m-usecase-icon">💡</span><span><strong>${lang === "en" ? "Good for:" : "이럴 때:"}</strong> ${escapeHTML(item.use_case)}</span></div>` : ""}
+    ${item.use_case ? `<div class="m-usecase"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="vertical-align:-1px;margin-right:4px;"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg><span><strong>${lang === "en" ? "Good for:" : "이럴 때:"}</strong> ${escapeHTML(item.use_case)}</span></div>` : ""}
     ${installBlock}
     ${modalSourcesSection(item)}
     ${tags ? `<div class="m-tags">${tags}</div>` : ""}
     <div class="m-cta-row">
       <button type="button" class="m-cta-ghost" data-copy-plugin="${safeId}">
-        📋 ${lang === "en" ? "Copy briefing" : "정보 복사"}
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="vertical-align:-1px;margin-right:4px;"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>${lang === "en" ? "Copy briefing" : "정보 복사"}
       </button>
       <a class="m-cta" href="${escapeHTML(item.official_url || "#")}" target="_blank" rel="noopener">
         ${lang === "en" ? "Open in GitHub →" : "GitHub에서 열기 →"}
@@ -1181,8 +1181,8 @@ function newsCardHTML(item, idx = 0) {
 
   const discussionUrl = item.metrics?.discussion_url && item.metrics.discussion_url !== item.url ? item.metrics.discussion_url : "";
   const discussionLink = discussionUrl ? `
-    <a class="repo-link" href="${escapeHTML(discussionUrl)}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="font-size:12px; color:var(--ink-2);">
-      💬 ${lang === "en" ? "Discussion ↗" : "커뮤니티 반응 ↗"}
+    <a class="card-icon-btn card-discussion-link" href="${escapeHTML(discussionUrl)}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="text-decoration:none; font-size:12px; font-weight:600;">
+      <span>💬</span> <span>${lang === "en" ? "Discussion ↗" : "커뮤니티 반응 ↗"}</span>
     </a>` : "";
 
   const linkBtn = item.url ? `
@@ -1474,10 +1474,10 @@ function copyPluginBriefing(id) {
   const isValidCli = rawHint && !/^(README\s*참고|See\s*README|N\/A|-)$/i.test(rawHint);
   const lines = [
     `[Claude Code 도구] ${it.title_ko || it.id} (${it.id})`,
-    it.catchphrase ? `💡 ${it.catchphrase}` : "",
-    it.use_case ? `🎯 추천: ${it.use_case}` : "",
-    isValidCli ? `💻 설치: ${rawHint}` : "",
-    `🔗 ${it.official_url || it.repo_url || `https://github.com/${it.id}`}`
+    it.catchphrase ? `• ${it.catchphrase}` : "",
+    it.use_case ? `• 추천: ${it.use_case}` : "",
+    isValidCli ? `• 설치: ${rawHint}` : "",
+    `• 링크: ${it.official_url || it.repo_url || `https://github.com/${it.id}`}`
   ].filter(Boolean);
   navigator.clipboard.writeText(lines.join("\n")).then(() => {
     showToast(lang === "en" ? "Tool briefing copied to clipboard!" : "도구 브리핑이 복사되었습니다!");
@@ -1630,17 +1630,17 @@ function getCriteriaHTML(lang) {
     <div class="cr-section-label">Rising vs Classic</div>
     <div class="cr-versus">
       <div class="cr-vs-card cr-rising">
-        <div class="cr-vs-head"><span class="cr-vs-icon">🔥</span><strong>Rising</strong> · Trending this week</div>
+        <div class="cr-vs-head"><span class="cr-vs-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></span><strong>Rising</strong> · Trending this week</div>
         <div class="cr-vs-rule">Satisfy any one condition</div>
         <ul>
           <li>Created within 30 days</li>
           <li>velocity ≥ 60 + 2+ community mentions in 14 days</li>
-          <li>velocity ≥ 80 (Explosive growth) — Regardless of source <span style="opacity:.7">⚠️ Shows single source</span></li>
+          <li>velocity ≥ 80 (Explosive growth) — Regardless of source <span style="opacity:.7">[Single source note]</span></li>
           <li>Reached HN frontpage within 7 days</li>
         </ul>
       </div>
       <div class="cr-vs-card cr-classic">
-        <div class="cr-vs-head"><span class="cr-vs-icon">⭐</span><strong>Classic</strong> · Already famous</div>
+        <div class="cr-vs-head"><span class="cr-vs-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span><strong>Classic</strong> · Already famous</div>
         <div class="cr-vs-rule">Satisfy both conditions</div>
         <ul>
           <li>Total stars ≥ 1000 or Created > 30 days ago</li>
@@ -1738,17 +1738,17 @@ function getCriteriaHTML(lang) {
     <div class="cr-section-label">Rising vs Classic</div>
     <div class="cr-versus">
       <div class="cr-vs-card cr-rising">
-        <div class="cr-vs-head"><span class="cr-vs-icon">🔥</span><strong>Rising</strong> · 이번 주 뜨는</div>
+        <div class="cr-vs-head"><span class="cr-vs-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></span><strong>Rising</strong> · 이번 주 뜨는</div>
         <div class="cr-vs-rule">하나라도 충족하면 OK</div>
         <ul>
           <li>생성 30일 이내</li>
           <li>velocity ≥ 60 + 최근 14일 커뮤니티 언급 2건+</li>
-          <li>velocity ≥ 80 (폭발 성장) — 출처 무관 <span style="opacity:.7">⚠️ 단일출처 표기</span></li>
+          <li>velocity ≥ 80 (폭발 성장) — 출처 무관 <span style="opacity:.7">[단일출처 표기]</span></li>
           <li>HN 프론트페이지 최근 7일 내 도달</li>
         </ul>
       </div>
       <div class="cr-vs-card cr-classic">
-        <div class="cr-vs-head"><span class="cr-vs-icon">⭐</span><strong>Classic</strong> · 이미 유명한</div>
+        <div class="cr-vs-head"><span class="cr-vs-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span><strong>Classic</strong> · 이미 유명한</div>
         <div class="cr-vs-rule">전부 충족해야 OK</div>
         <ul>
           <li>stars ≥ 500</li>
@@ -2502,15 +2502,15 @@ function starboardCardHTML(item, idx, legendText) {
   const avatar = (item.meta && item.meta.owner_avatar) ? item.meta.owner_avatar : `https://github.com/${ownerName}.png?size=80`;
   const descKo = (item.meta && item.meta.desc_ko) ? item.meta.desc_ko : "";
   const descEn = (item.meta && item.meta.description) ? item.meta.description : "";
-  const langTag = (item.meta && item.meta.language) ? `<span class="sb-tech-badge">🏷️ ${escapeHTML(item.meta.language)}</span>` : "";
+  const langTag = (item.meta && item.meta.language) ? `<span class="sb-tech-badge">${escapeHTML(item.meta.language)}</span>` : "";
 
   // 핫 모멘텀 배지 & 비정상 증가량 가드
   const isSuspicious = isSuspiciousVelocity({ stars: item.currentStars, velocity_7d: item.velocity, v7d_estimated: item.v7d_estimated });
   const isHot = item.velocity >= 300;
   const velocityBadge = isSuspicious
-    ? `<span class="velocity-badge is-anomaly" title="${lang === "en" ? "Estimated, unverified" : "추정치·검증 필요"}" aria-label="${lang === "en" ? "Estimated, unverified" : "추정치·검증 필요"}"><span class="anomaly-icon">⚠️</span> ≈ ${sign}${item.velocity.toLocaleString()}/wk</span>`
+    ? `<span class="velocity-badge is-anomaly" title="${lang === "en" ? "Estimated, unverified" : "추정치·검증 필요"}" aria-label="${lang === "en" ? "Estimated, unverified" : "추정치·검증 필요"}">${sign}${item.velocity.toLocaleString()}/wk</span>`
     : (isHot 
-      ? `<span class="sb-hot-badge sb-velocity">🔥 ${sign}${item.velocity.toLocaleString()}/wk</span>`
+      ? `<span class="sb-hot-badge sb-velocity">${sign}${item.velocity.toLocaleString()}/wk</span>`
       : `<span class="sb-velocity" style="color:${velocityColor}; font-weight:700; font-size: 14px; background:var(--surface); padding:2px 8px; border-radius:var(--radius-badge, 6px); display:inline-block;">${sign}${item.velocity.toLocaleString()}/wk</span>`);
 
   // 설명부: EN 모드에서는 영문 원본(descEn)을 우선 노출, KO 모드에서는 한국어(descKo) 우선 노출
@@ -2639,7 +2639,7 @@ function openBenchmarkScopeModal() {
       </table>
 
       <div class="bm-scope-note">
-        <strong>💡 ${isEn ? "Cadence & Refresh Policy" : "수행 주기 및 최신성 검증 정책"}:</strong><br />
+        <strong>${isEn ? "Cadence & Refresh Policy" : "수행 주기 및 최신성 검증 정책"}:</strong><br />
         ${isEn
           ? "• <strong>Market Share (Hybrid)</strong>: Similarweb (Monthly, 45d) + Trakkr AI Index / OpenRouter (Weekly, 21d) ensemble.<br />• <strong>Frontier Benchmarks (Weekly)</strong>: Refreshed every Monday with live OpenRouter pricing & leaderboard rankings (Staleness Gate: 30 days).<br />• <strong>Hotfix</strong>: Major new flagship models are added same-day upon release."
           : "• <strong>점유율 (하이브리드)</strong>: Similarweb(월간, 45일) + Trakkr AI 리퍼럴/OpenRouter(주간·일간, 21일) 앙상블 반영<br />• <strong>성능 벤치마크 (주간)</strong>: OpenRouter 실시간 가격과 3대 리더보드 순위를 <strong>매주 월요일</strong> 동기화 (최신성 게이트: 30일)<br />• <strong>상시 핫픽스</strong>: 주요 프론티어 플래그십 출시 당일 즉시 반영"}
@@ -2714,10 +2714,10 @@ function buildScatterSVG(models, isEn, domainFilter) {
   const quadLabels = `
     <line x1="${midX}" y1="${padTop}" x2="${midX}" y2="${height - padBottom}" class="bm-scatter-quad-line" />
     <line x1="${padLeft}" y1="${midY}" x2="${width - padRight}" y2="${midY}" class="bm-scatter-quad-line" />
-    <text x="${padLeft + 12}" y="${padTop + 18}" class="bm-scatter-quadrant-label" style="fill:var(--mint);opacity:0.85;">★ ${isEn ? "VALUE CHAMPIONS (High Intel · Low Price)" : "가성비 챔피언 (고지능 · 저비용)"}</text>
-    <text x="${width - padRight - 12}" y="${padTop + 18}" text-anchor="end" class="bm-scatter-quadrant-label" style="fill:var(--accent);opacity:0.85;">👑 ${isEn ? "FRONTIER LEADERS (Max Intelligence)" : "프론티어 리더 (최상위 플래그십)"}</text>
-    <text x="${padLeft + 12}" y="${height - padBottom - 10}" class="bm-scatter-quadrant-label">⚡ ${isEn ? "BUDGET & LOCAL (Lightweight)" : "초저비용 · 보편형 (양산/온프레미스)"}</text>
-    <text x="${width - padRight - 12}" y="${height - padBottom - 10}" text-anchor="end" class="bm-scatter-quadrant-label">🎯 ${isEn ? "SPECIALIZED (High Context / Niche)" : "특수 목적 · 대용량 컨텍스트"}</text>
+    <text x="${padLeft + 12}" y="${padTop + 18}" class="bm-scatter-quadrant-label" style="fill:var(--mint);opacity:0.85;">${isEn ? "VALUE CHAMPIONS (High Intel · Low Price)" : "가성비 챔피언 (고지능 · 저비용)"}</text>
+    <text x="${width - padRight - 12}" y="${padTop + 18}" text-anchor="end" class="bm-scatter-quadrant-label" style="fill:var(--accent);opacity:0.85;">${isEn ? "FRONTIER LEADERS (Max Intelligence)" : "프론티어 리더 (최상위 플래그십)"}</text>
+    <text x="${padLeft + 12}" y="${height - padBottom - 10}" class="bm-scatter-quadrant-label">${isEn ? "BUDGET & LOCAL (Lightweight)" : "초저비용 · 보편형 (양산/온프레미스)"}</text>
+    <text x="${width - padRight - 12}" y="${height - padBottom - 10}" text-anchor="end" class="bm-scatter-quadrant-label">${isEn ? "SPECIALIZED (High Context / Niche)" : "특수 목적 · 대용량 컨텍스트"}</text>
   `;
 
   const xTicks = [0.1, 0.5, 1.0, 2.0, 5.0, 10.0, 20.0].filter(t => t >= minP && t <= maxP);
@@ -3172,9 +3172,9 @@ function renderBenchmarks() {
       <span class="bm-domain-label">${isEn ? "Filter by Domain" : "분야별 보기"}:</span>
       <div class="bm-domain-chips" role="group" aria-label="${isEn ? "Filter by Domain" : "분야별 필터"}">
         <button type="button" class="bm-domain-chip ${domainFilter === "all" ? "is-active" : ""}" data-domain-filter="all">${isEn ? "All Models" : "전체 종합"}</button>
-        <button type="button" class="bm-domain-chip ${domainFilter === "coding" ? "is-active" : ""}" data-domain-filter="coding">💻 ${isEn ? "Coding Specialist" : "코딩 특화"}</button>
-        <button type="button" class="bm-domain-chip ${domainFilter === "reasoning" ? "is-active" : ""}" data-domain-filter="reasoning">🧠 ${isEn ? "Reasoning & Science" : "복합 추론·과학"}</button>
-        <button type="button" class="bm-domain-chip ${domainFilter === "open" ? "is-active" : ""}" data-domain-filter="open">🔓 ${isEn ? "Open Weights" : "오픈웨이트"}</button>
+        <button type="button" class="bm-domain-chip ${domainFilter === "coding" ? "is-active" : ""}" data-domain-filter="coding">${isEn ? "Coding Specialist" : "코딩 특화"}</button>
+        <button type="button" class="bm-domain-chip ${domainFilter === "reasoning" ? "is-active" : ""}" data-domain-filter="reasoning">${isEn ? "Reasoning & Science" : "복합 추론·과학"}</button>
+        <button type="button" class="bm-domain-chip ${domainFilter === "open" ? "is-active" : ""}" data-domain-filter="open">${isEn ? "Open Weights" : "오픈웨이트"}</button>
       </div>
     </div>
   `;
@@ -3185,7 +3185,7 @@ function renderBenchmarks() {
     <div class="bm-scatter-card" id="bm-scatter-card">
       <div class="bm-scatter-head">
         <div class="bm-scatter-title">
-          <strong>📊 ${isEn ? "2D Performance vs Price Matrix (Value Quadrant)" : "2D 성능 vs 가격 가성비 매트릭스 (4분면 분석)"}</strong>
+          <strong>${isEn ? "2D Performance vs Price Matrix (Value Quadrant)" : "2D 성능 vs 가격 가성비 매트릭스 (4분면 분석)"}</strong>
           <span>${isEn ? "Identify top performers and cost-effective frontier models · Click any point to view 8-metric details" : "지능 점수 대비 토큰 비용 효율성 시각화 · 모델 점을 클릭하면 8대 세부 지표가 열립니다"}</span>
         </div>
         <div class="bm-scatter-legend">
@@ -3217,7 +3217,7 @@ function renderBenchmarks() {
         </div>
         <div class="bm-table-wrap"><table class="bm-table" id="bm-bench-table"><thead>${head}</thead><tbody>${body}</tbody></table></div>
         <div class="bm-mobile-hint">
-          <span>💡</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="vertical-align:-1px;margin-right:4px;"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
           <span>${isEn ? "Tap any model to view detailed 8 leaderboard metrics" : "모델을 탭하면 3대 리더보드 8개 세부 지표 모달이 열립니다"}</span>
         </div>
         <ol class="bm-mlist" id="bm-mlist">${mlistHTML}</ol>

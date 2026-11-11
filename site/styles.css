@@ -205,90 +205,205 @@ body {
 .brand-logo {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   text-decoration: none;
   color: var(--ink);
   font-weight: 800;
-  font-size: 16px;
+  font-size: 19px;
   letter-spacing: -0.4px;
   margin-right: 4px;
   flex-shrink: 0;
-  transition: opacity 0.15s ease;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.15s ease;
 }
-.brand-logo:hover { opacity: 0.92; }
+.brand-logo:hover {
+  opacity: 1;
+}
+.brand-logo:active {
+  transform: scale(0.97);
+}
 .brand-logo img {
   border-radius: 6px;
   object-fit: contain;
 }
 .brand-name {
   white-space: nowrap;
+  letter-spacing: -0.02em;
+  font-weight: 800;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+.brand-logo:hover .brand-name {
+  color: var(--accent, #d97757);
 }
 
-/* Mascot Character Avatar & Micro-Animations */
+/* ====================================================================
+   Mascot Character Avatar & Dynamic Action Choreography
+   - Animated Terracotta Mascot with Google Gemini & OpenAI ChatGPT
+   - Bouncing, Cheering, Blinking & Interactive Glows
+   ==================================================================== */
 .mascot-avatar {
-  width: 32px;
-  height: 32px;
+  width: 66px;
+  height: 44px;
   display: block;
   flex-shrink: 0;
   transform-origin: center bottom;
   overflow: visible;
-  transition: transform 0.2s ease;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
+  filter: drop-shadow(0 2px 6px rgba(217, 119, 87, 0.28));
+  will-change: transform;
 }
 .brand-logo:hover .mascot-avatar {
-  transform: scale(1.08) translateY(-2px);
+  transform: scale(1.12) translateY(-2px);
+  filter: drop-shadow(0 4px 12px rgba(217, 119, 87, 0.45));
+}
+.brand-logo:active .mascot-avatar {
+  transform: scale(0.96) translateY(1px);
 }
 
-@keyframes mascot-float-anim {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-12px); }
+/* 1. Main Mascot Body Bounce & Tilt Action */
+@keyframes mascot-action-bounce {
+  0%, 100% {
+    transform: translateY(0px) scale(1, 1) rotate(0deg);
+  }
+  18% {
+    transform: translateY(2px) scale(1.05, 0.95) rotate(-1deg);
+  }
+  42% {
+    transform: translateY(-9px) scale(0.97, 1.05) rotate(2.5deg);
+  }
+  65% {
+    transform: translateY(-11px) scale(1.01, 0.99) rotate(-1.5deg);
+  }
+  84% {
+    transform: translateY(-1px) scale(1.02, 0.98) rotate(0.5deg);
+  }
 }
+
+/* 2. Cheering Arms Waving */
+@keyframes arm-cheer-left {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  42% {
+    transform: translateY(-4px) rotate(-3.5deg);
+  }
+  65% {
+    transform: translateY(-2px) rotate(1.5deg);
+  }
+}
+
+@keyframes arm-cheer-right {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  42% {
+    transform: translateY(-1px) rotate(1.5deg);
+  }
+  65% {
+    transform: translateY(-4px) rotate(3.5deg);
+  }
+}
+
+/* 3. Authentic Dot Eye Blink */
+@keyframes eye-blink-anim {
+  0%, 93%, 97%, 100% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.12);
+  }
+}
+
+/* 4. Google Gemini Sparkle Pulse */
 @keyframes gemini-pulse-anim {
   0%, 100% {
     transform: scale(1) rotate(0deg);
-    filter: drop-shadow(0 0 8px rgba(66, 133, 244, 0.4));
+    filter: drop-shadow(0 0 6px rgba(66, 133, 244, 0.45));
   }
-  50% {
-    transform: scale(1.15) rotate(8deg);
-    filter: drop-shadow(0 0 18px rgba(155, 114, 203, 0.9));
+  42% {
+    transform: scale(1.18) rotate(12deg);
+    filter: drop-shadow(0 0 16px rgba(155, 114, 203, 0.95)) brightness(1.2);
   }
-}
-@keyframes chatgpt-spin-anim {
-  0% {
-    transform: scale(1) rotate(0deg);
-    filter: drop-shadow(0 0 8px rgba(16, 163, 127, 0.4));
-  }
-  50% {
-    transform: scale(1.08) rotate(180deg);
-    filter: drop-shadow(0 0 18px rgba(16, 163, 127, 0.8));
-  }
-  100% {
-    transform: scale(1) rotate(360deg);
-    filter: drop-shadow(0 0 8px rgba(16, 163, 127, 0.4));
+  65% {
+    transform: scale(1.05) rotate(-6deg);
+    filter: drop-shadow(0 0 10px rgba(66, 133, 244, 0.65));
   }
 }
 
-.mascot-float-motion {
-  animation: mascot-float-anim 3.2s ease-in-out infinite;
+/* 5. OpenAI ChatGPT Magic Spin */
+@keyframes chatgpt-spin-anim {
+  0% {
+    transform: scale(1) rotate(0deg);
+    filter: drop-shadow(0 0 7px rgba(16, 163, 127, 0.45));
+  }
+  50% {
+    transform: scale(1.12) rotate(180deg);
+    filter: drop-shadow(0 0 18px rgba(16, 163, 127, 0.9)) brightness(1.15);
+  }
+  100% {
+    transform: scale(1) rotate(360deg);
+    filter: drop-shadow(0 0 7px rgba(16, 163, 127, 0.45));
+  }
 }
+
+/* Motion Class Bindings */
+.mascot-action-bounce {
+  transform-origin: 0px 30px;
+  animation: mascot-action-bounce 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  will-change: transform;
+}
+.brand-logo:hover .mascot-action-bounce {
+  animation-duration: 1.8s;
+}
+
+.mascot-arm-left {
+  transform-origin: -100px -5px;
+  animation: arm-cheer-left 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  will-change: transform;
+}
+.mascot-arm-right {
+  transform-origin: 85px -5px;
+  animation: arm-cheer-right 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  will-change: transform;
+}
+
+.mascot-eyes {
+  transform-origin: 0px -5px;
+}
+.mascot-eye {
+  transform-origin: center center;
+  animation: eye-blink-anim 4.2s ease-in-out infinite;
+  will-change: transform;
+}
+
 .gemini-sparkle-motion {
   transform-origin: 0px 0px;
-  animation: gemini-pulse-anim 2.8s ease-in-out infinite;
+  animation: gemini-pulse-anim 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  will-change: transform, filter;
 }
 .chatgpt-spin-motion {
   transform-origin: 0px 0px;
-  animation: chatgpt-spin-anim 12s linear infinite;
+  animation: chatgpt-spin-anim 9s linear infinite;
+  will-change: transform, filter;
+}
+
+/* Legacy fallback support */
+.mascot-float-motion {
+  transform-origin: 0px 50px;
+  animation: mascot-action-bounce 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .mascot-avatar,
   .mascot-avatar *,
-  .mascot-head-group,
-  .mascot-eyes,
-  .mascot-cursor,
-  .mascot-code-stream,
-  .mascot-hand-l,
-  .mascot-hand-r,
-  .mascot-sparkle {
+  .mascot-action-bounce,
+  .mascot-arm-left,
+  .mascot-arm-right,
+  .mascot-eye,
+  .mascot-float-motion,
+  .gemini-sparkle-motion,
+  .chatgpt-spin-motion {
     animation: none !important;
     transform: none !important;
     transition: none !important;
@@ -1897,7 +2012,15 @@ footer a:hover, footer .foot-link:hover { color: var(--accent); border-bottom-co
     flex-wrap: wrap;
     margin-bottom: 0;
   }
-  .brand-logo { order: 1; }
+  .brand-logo {
+    order: 1;
+    font-size: 17px;
+    gap: 10px;
+  }
+  .mascot-avatar {
+    width: 56px;
+    height: 36px;
+  }
   .top-bar .brand-actions { order: 2; margin-left: auto; }
   .page-nav {
     order: 3;
@@ -2406,9 +2529,13 @@ footer a:hover, footer .foot-link:hover { color: var(--accent); border-bottom-co
   .brand-logo {
     order: 1;
     width: auto;
-    font-size: 12px;
-    gap: 4px;
+    font-size: 15px;
+    gap: 8px;
     flex-shrink: 0;
+  }
+  .mascot-avatar {
+    width: 48px;
+    height: 32px;
   }
   .brand-actions {
     order: 2;
@@ -2578,11 +2705,11 @@ footer a:hover, footer .foot-link:hover { color: var(--accent); border-bottom-co
 }
 .takeaway-item {
   display: flex;
-  align-items: baseline;
+  align-items: flex-start;
   gap: 10px;
   font-size: 14px;
   line-height: 1.6;
-  color: var(--text);
+  color: var(--ink);
 }
 .takeaway-bullet {
   display: inline-flex;
@@ -2591,13 +2718,25 @@ footer a:hover, footer .foot-link:hover { color: var(--accent); border-bottom-co
   width: 22px;
   height: 22px;
   border-radius: var(--radius-badge, 6px);
-  background: var(--accent);
-  color: #090d13 !important;
   font-size: 12px;
   font-weight: 800;
   flex-shrink: 0;
   line-height: 1;
-  margin-top: 2px;
+  margin-top: 1px;
+  transition: all 0.15s ease;
+}
+/* 라이트 모드: 테라코타 오렌지 틴트 배경 + 또렷한 고대비 숫자 */
+html[data-theme="light"] .takeaway-bullet {
+  background: rgba(217, 119, 87, 0.16);
+  color: #b95b3d !important;
+  border: 1px solid rgba(217, 119, 87, 0.28);
+}
+/* 다크 모드: 앰버 포스퍼 틴트 배경 + 밝은 네온 앰버 숫자 */
+html[data-theme="dark"] .takeaway-bullet,
+html:not([data-theme="light"]) .takeaway-bullet {
+  background: rgba(245, 158, 11, 0.16);
+  color: #fbbf24 !important;
+  border: 1px solid rgba(245, 158, 11, 0.32);
 }
 .takeaway-text {
   flex: 1;
@@ -2606,10 +2745,19 @@ footer a:hover, footer .foot-link:hover { color: var(--accent); border-bottom-co
 .takeaway-text .bullet-keyword {
   color: var(--ink);
   font-weight: 700;
-  background: rgba(217, 119, 87, 0.1);
-  padding: 1px 6px;
+  background: rgba(217, 119, 87, 0.12);
+  padding: 1px 7px;
   border-radius: var(--radius-badge, 6px);
   margin-right: 4px;
+  display: inline-block;
+  line-height: 1.45;
+}
+html[data-theme="dark"] .takeaway-text strong,
+html[data-theme="dark"] .takeaway-text .bullet-keyword,
+html:not([data-theme="light"]) .takeaway-text strong,
+html:not([data-theme="light"]) .takeaway-text .bullet-keyword {
+  background: rgba(245, 158, 11, 0.14);
+  color: #fbbf24;
 }
 
 /* 뉴스 상세 해설 아코디언 */
@@ -2835,16 +2983,32 @@ html[data-theme="dark"] .cli-copy-chip {
   gap: 3px;
 }
 .velocity-badge.is-anomaly {
-  background: var(--pill);
-  color: var(--muted);
-  border: 1px dashed var(--soft);
+  background: rgba(245, 158, 11, 0.08);
+  color: var(--ink-2);
+  border: 1px solid rgba(245, 158, 11, 0.28);
   padding: 2px 8px;
   border-radius: var(--radius-badge, 6px);
   font-size: 12px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
-.anomaly-icon { color: #f59e0b; }
+html[data-theme="light"] .velocity-badge.is-anomaly {
+  background: rgba(217, 119, 87, 0.08);
+  color: var(--ink-2);
+  border: 1px solid rgba(217, 119, 87, 0.25);
+}
+.anomaly-icon {
+  color: #f59e0b;
+  font-weight: 800;
+  display: inline-block;
+  line-height: 1;
+}
+html[data-theme="light"] .anomaly-icon {
+  color: #d97757;
+}
 
 /* ============ NEWS UI/UX ENHANCEMENTS ============ */
 .signal-chip-bar {
@@ -3010,6 +3174,15 @@ html[data-theme="dark"] .cli-copy-chip {
 }
 .card-icon-btn.is-bookmarked {
   color: #f59e0b;
+}
+.card-discussion-link {
+  text-decoration: none !important;
+  color: var(--ink-2) !important;
+}
+.card-discussion-link:hover {
+  color: var(--ink) !important;
+  background: var(--surface-2) !important;
+  border-color: var(--border-hover) !important;
 }
 
 /* 뉴스 저장 별 — 인기 플러그인 카드의 별과 같은 자리(카드 우측 상단)에 고정한다 */
@@ -4522,9 +4695,6 @@ html:not([data-theme="light"]) .sb-legend-popover-title {
    High-contrast literary newspaper, warm ivory paper background (#fcfaf6),
    serif typography (Newsreader), hairline dividers, WCAG AAA contrast.
    ========================================================================== */
-html[data-theme="light"] .hero-h1,
-html[data-theme="light"] .hero-titles h1,
-html[data-theme="light"] .hero-wrapper h1,
 html[data-theme="light"] h1,
 html[data-theme="light"] h2:not(.sr-only),
 html[data-theme="light"] .section-title,
@@ -4539,8 +4709,6 @@ html[data-theme="light"] .star-card .head-meta h3,
 html[data-theme="light"] .bm-kpi-model,
 html[data-theme="light"] .bm-name,
 html[data-theme="light"] .bm-chip-main,
-html[data-theme="light"] .brand-logo,
-html[data-theme="light"] .brand-name,
 html[data-theme="light"] #logo-text,
 html[data-theme="light"] #modal-title,
 html[data-theme="light"] .modal-title,
@@ -4553,12 +4721,24 @@ html[data-theme="light"] .sb-legend-popover-title {
   color: #181512;
 }
 
+html[data-theme="light"] .brand-logo,
+html[data-theme="light"] .brand-name {
+  font-family: var(--font-sans) !important;
+  font-weight: 800 !important;
+  font-size: 19px !important;
+  letter-spacing: -0.4px !important;
+  color: #181512 !important;
+}
+
 html[data-theme="light"] .hero-h1,
 html[data-theme="light"] .hero-titles h1,
 html[data-theme="light"] .hero-wrapper h1 {
-  font-size: 28px !important;
-  line-height: 1.3 !important;
-  letter-spacing: -0.03em !important;
+  font-family: var(--font-sans) !important;
+  font-size: clamp(19px, 1.7vw, 22px) !important;
+  line-height: 1.25 !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.015em !important;
+  color: #181512 !important;
 }
 html[data-theme="light"] .hero-h1::before,
 html[data-theme="light"] .hero-h1::after,
@@ -4575,11 +4755,10 @@ html[data-theme="light"] .star-card h3 {
 }
 
 html[data-theme="light"] .hero-wrapper {
-  padding: 14px 20px 10px;
-  border-radius: 4px !important;
+  padding: 10px 24px 8px;
+  border-radius: 16px !important;
   border: 1px solid #e0d9cc;
-  border-bottom: 2px solid #181512;
-  background: #fdfcf9;
+  background: #ffffff;
 }
 
 /* Editorial Mascot styling (Letterpress stamp vibe) */
