@@ -4954,3 +4954,122 @@ html[data-theme="light"] .sb-legend-popover {
 
 
 
+
+/* ── Social feed ─────────────────────────────── */
+.social-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr));
+  gap: 16px;
+  margin-top: 8px;
+  align-items: start;
+}
+.social-card {
+  padding: 0;
+  min-height: 0;
+  gap: 0;
+}
+.social-thumb {
+  display: block;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+.social-thumb img {
+  display: block;
+  width: 100%;
+  max-height: 240px;
+  object-fit: cover;
+  transition: transform 0.25s ease;
+}
+.social-card:hover .social-thumb img {
+  transform: scale(1.02);
+}
+.social-body {
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+.social-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--muted);
+  flex-wrap: wrap;
+}
+.social-author {
+  color: var(--ink);
+  font-weight: 600;
+}
+.social-metrics {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+.social-badge {
+  font-weight: 700;
+  font-size: 11.5px;
+  padding: 2px 8px;
+  border-radius: var(--radius-badge, 6px);
+  background: #090d13;
+  color: #ffffff;
+  border: 1px solid var(--border);
+}
+.social-badge.is-x {
+  background: #111827;
+  color: #f9fafb;
+}
+.social-badge.is-threads {
+  background: #18181b;
+  color: #fafafa;
+}
+.social-badge.is-instagram {
+  background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af);
+  border-color: transparent;
+}
+.social-badge.is-reddit {
+  background: #ff4500;
+  color: #ffffff;
+  border-color: transparent;
+}
+.social-title {
+  margin: 0;
+  font-size: 17px !important;
+  line-height: 1.4 !important;
+  min-height: 0 !important;
+  -webkit-line-clamp: unset !important;
+  overflow: visible !important;
+}
+.social-title a {
+  color: var(--ink);
+  text-decoration: none;
+}
+.social-title a:hover {
+  color: var(--accent-text);
+}
+.social-summary {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.62;
+  color: var(--ink-2);
+}
+.social-foot {
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+  margin-top: 4px;
+}
+.social-score {
+  font-size: 12px;
+  font-family: var(--font-mono);
+  color: var(--muted);
+}
+.social-empty,
+.social-note {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--muted);
+  padding: 24px 0;
+  font-size: 13px;
+}

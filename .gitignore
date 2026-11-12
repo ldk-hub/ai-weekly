@@ -6,6 +6,7 @@ node_modules/
 package-lock.json
 node_modules/
 data/candidates.json
+data/social_candidates.json
 .playwright-mcp/
 data/chrome_profile/
 

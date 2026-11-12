@@ -51,6 +51,10 @@ graph TD
   - `node scripts/core/generate-rss.js` (RSS 피드 갱신)
   - `node scripts/community/collect_lounge.js` (라운지 Discussions 스냅샷 갱신)
 
+### 4.5. Step 4.5: CC Social (소셜 피드 갱신)
+
+- `cc-social` 스킬 절차대로 `npm run data:social` 실행. 실패해도 파이프라인을 멈추지 않고 경고만 보고한다.
+
 ### 5. Step 5: 옵시디언 동기화
 - **명령어:** `npm run sync:obsidian`
 - **역할:** 로컬 옵시디언 볼트(`/Users/nhn/Documents/Obsidian Vault/ai-weekly`)에 큐레이션 히스토리 및 대시보드 동기화.

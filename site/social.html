@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI위클리 — 소셜 피드</title>
+<meta name="description" content="X · Threads · Reddit · Instagram의 AI 인플루언서·커뮤니티 프롬프트 · 워크플로우 · 활용 팁 게시물을 매일 골라 한국어 요약과 원문 링크로 정리하는 소셜 피드." />
+<meta name="theme-color" content="#fcfaf6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#090d13" media="(prefers-color-scheme: dark)" />
+<script>try{const t=localStorage.getItem('aiw-theme')||'dark';document.documentElement.dataset.theme=t;document.querySelectorAll('meta[name="theme-color"]').forEach(m=>{m.removeAttribute('media');m.content=t==='dark'?'#090d13':'#fcfaf6';});}catch(e){}</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+
+<link rel="canonical" href="https://ldk-hub.github.io/ai-weekly/social" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="AI위클리 — 소셜 피드" />
+<meta property="og:description" content="X · Threads · Reddit · Instagram의 AI 활용 팁과 프롬프트를 매일 골라 한국어 요약과 원문 링크로 정리합니다." />
+<meta property="og:url" content="https://ldk-hub.github.io/ai-weekly/social" />
+<meta property="og:image" content="https://ldk-hub.github.io/ai-weekly/og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="AI Weekly — AI 인플루언서 소셜 피드" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="AI위클리 — 소셜 피드" />
+<meta name="twitter:description" content="X · Threads · Reddit · Instagram의 AI 활용 팁을 한국어 요약과 원문 링크로 정리합니다." />
+<meta name="twitter:image" content="https://ldk-hub.github.io/ai-weekly/og.png" />
+<meta property="og:locale" content="ko_KR" />
+
+<link rel="icon" type="image/svg+xml" href="claude-code.svg?v=26" />
+<link rel="alternate" type="application/rss+xml" title="AI위클리 — 소셜 피드 RSS" href="https://ldk-hub.github.io/ai-weekly/news-feed.xml" />
+<link rel="alternate" type="application/rss+xml" title="AI위클리 — 주간 플러그인 RSS" href="https://ldk-hub.github.io/ai-weekly/feed.xml" />
+
+<link rel="stylesheet" href="styles.css?v=28" />
+
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YLKMDP5YKQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-YLKMDP5YKQ');
+</script>
+
+<!-- Counter.dev (private dashboard) -->
+</head>
+
+<body>
+<a class="skip-link" href="#main">본문으로 건너뛰기</a>
+
+<div class="layout-wrapper">
+
+  <header class="header-container" role="banner">
+    <div class="top-bar">
+      <a href="./" class="brand-logo" id="brand-logo" aria-label="AI위클리 홈">
+        <svg class="mascot-avatar" width="66" height="44" viewBox="-220 -195 440 285" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="headerGeminiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#4285F4"/>
+              <stop offset="35%" stop-color="#9B72CB"/>
+              <stop offset="70%" stop-color="#D96570"/>
+              <stop offset="100%" stop-color="#1BA1E3"/>
+            </linearGradient>
+          </defs>
+          <g class="mascot-action-bounce">
+            <!-- 4 Legs (Refined Proportions) -->
+            <rect class="mascot-leg-1" x="-70" y="45" width="16" height="30" fill="#B95B3D"/>
+            <rect class="mascot-leg-2" x="-40" y="45" width="16" height="30" fill="#D97757"/>
+            <rect class="mascot-leg-3" x="24" y="45" width="16" height="30" fill="#D97757"/>
+            <rect class="mascot-leg-4" x="54" y="45" width="16" height="30" fill="#B95B3D"/>
+            <!-- Main Terracotta Body (Balanced Triad: 170x110) -->
+            <rect class="mascot-body-base" x="-85" y="-65" width="170" height="110" fill="#D97757"/>
+            <rect class="mascot-body-hi" x="-85" y="-65" width="170" height="15" fill="#E58768"/>
+            <rect class="mascot-body-sh" x="-85" y="30" width="170" height="15" fill="#B95B3D"/>
+            <!-- Cheering Left Arm & Gemini (Prominent Triad Balance) -->
+            <g class="mascot-arm-left">
+              <rect x="-100" y="-20" width="15" height="30" fill="#D97757"/>
+              <rect x="-115" y="-35" width="15" height="30" fill="#E58768"/>
+              <rect x="-115" y="-50" width="15" height="15" fill="#E58768"/>
+              <!-- Google Gemini Logo on Left Hand -->
+              <g transform="translate(-125, -105)">
+                <g class="gemini-sparkle-motion">
+                  <path transform="translate(-74.4, -74.4) scale(6.2)" d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81" fill="url(#headerGeminiGrad)"/>
+                </g>
+              </g>
+            </g>
+            <!-- Cheering Right Arm & ChatGPT (Prominent Triad Balance) -->
+            <g class="mascot-arm-right">
+              <rect x="85" y="-20" width="15" height="30" fill="#D97757"/>
+              <rect x="100" y="-35" width="15" height="30" fill="#E58768"/>
+              <rect x="100" y="-50" width="15" height="15" fill="#E58768"/>
+              <!-- OpenAI ChatGPT Logo on Right Hand -->
+              <g transform="translate(125, -105)">
+                <g class="chatgpt-spin-motion">
+                  <path transform="translate(-74.4, -74.4) scale(6.2)" d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z" fill="#10A37F"/>
+            </g>
+          </g>
+          <!-- Stoic Blank Dot Eyes with Eye Blink Action -->
+          <g class="mascot-eyes">
+            <rect class="mascot-eye mascot-eye-left" x="-42" y="-20" width="15" height="30" fill="#2B2523"/>
+            <rect class="mascot-eye mascot-eye-right" x="27" y="-20" width="15" height="30" fill="#2B2523"/>
+          </g>
+        </g>
+      </svg>
+      <span class="brand-name">AI위클리</span>
+    </a>
+      <nav class="page-nav" aria-label="주요 메뉴">
+        <a href="./" class="pn-link">
+          <span>인기 플러그인</span>
+        </a>
+        <a href="news" class="pn-link">
+          <span>AI 뉴스</span>
+        </a>
+        <a href="social" class="pn-link is-active">
+          <span>소셜 피드</span>
+        </a>
+        <a href="starboard" class="pn-link">
+          <span>스타보드</span>
+        </a>
+        <a href="benchmarks" class="pn-link">
+          <span>점유율·성능</span>
+        </a>
+      </nav>
+      <div class="brand-actions">
+        <button class="theme-toggle" id="theme-toggle" aria-label="테마 전환" type="button">🌙 다크</button>
+        <a class="gh-btn" href="https://github.com/ldk-hub/ai-weekly" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+    <div class="hero-wrapper">
+      <div class="hero-row-1">
+        <h1 class="hero-h1">AI <span class="hl-mint">인플루언서</span>의 오늘 <span class="hl-lemon">한 수</span></h1>
+        <p class="hero-p">X · Threads · Reddit · Instagram의 AI 활용 팁을 매일 골라 <strong class="hero-strong">한국어 요약 + 원문 링크</strong>로 정리합니다.</p>
+      </div>
+      <div class="hero-row-2">
+        <div class="meta-left update-meta" role="status" aria-live="polite">
+          <span class="status-dot"></span>
+          <span class="update-text"><strong id="social-date">—</strong> <span>갱신</span></span>
+          <span class="update-sep"></span>
+          <span class="update-text unb-summary" id="social-summary">불러오는 중…</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="unified-nav-box">
+      <div class="unb-bottom">
+        <nav class="cat-filter" id="social-filter" role="tablist" aria-label="플랫폼 필터"></nav>
+        <div class="filter-right">
+          <div class="src-select-wrap">
+            <label class="src-select-label" for="author-filter">계정</label>
+            <select id="author-filter" aria-label="작성자 필터">
+              <option value="all">전체 계정</option>
+            </select>
+          </div>
+          <div class="unb-search-wrap">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="#A7A199" stroke-width="1.7"><circle cx="7" cy="7" r="4.5"></circle><path d="m10.5 10.5 3 3"></path></svg>
+            <input type="search" id="social-search" placeholder="키워드·태그 검색 (/)" aria-label="소셜 피드 검색" />
+            <button type="button" class="search-clear-btn" id="social-search-clear" hidden aria-label="검색어 지우기" title="검색어 지우기 (Esc)">×</button>
+            <kbd class="kbd-hint" id="social-search-kbd" title="단축키: /">/</kbd>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="sr-only">소셜 피드</h2>
+    <section id="social-list" class="social-grid" aria-live="polite"><p class="social-empty">불러오는 중…</p></section>
+    <p class="social-note">원문 저작권은 각 작성자에게 있으며, 원문 보기를 누르면 원본 게시물로 이동합니다.</p>
+  </main>
+
+  <footer class="site-footer">
+    <span>AI위클리 · Claude Code 주간 인덱스</span>
+    <span><a href="./">인기 플러그인</a> · <a href="news">AI 뉴스</a> · <a href="social">소셜 피드</a> · <a href="starboard">스타보드</a> · <a href="benchmarks">점유율·성능</a></span>
+  </footer>
+</div>
+<script type="module" src="/src/pages/social.js"></script>
+</body>
+</html>

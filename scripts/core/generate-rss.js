@@ -171,6 +171,7 @@ const today = new Date().toISOString().slice(0, 10);
 const pages = [
   { loc: SITE_URL, lastmod: dataDate("site/public/data/latest.json", today), extra: "    <changefreq>weekly</changefreq>\n    <priority>1.0</priority>" },
   { loc: `${SITE_URL}news`, lastmod: dataDate("site/public/data/news_latest.json", today), extra: "    <priority>0.9</priority>" },
+  { loc: `${SITE_URL}social`, lastmod: dataDate("site/public/data/social_latest.json", today), extra: "    <changefreq>daily</changefreq>\n    <priority>0.8</priority>" },
   { loc: `${SITE_URL}starboard`, lastmod: dataDate("site/public/data/stars_meta.json", today), extra: "    <changefreq>daily</changefreq>\n    <priority>0.8</priority>" },
   { loc: `${SITE_URL}benchmarks`, lastmod: dataDate("site/public/data/benchmarks_latest.json", today), extra: "    <changefreq>weekly</changefreq>\n    <priority>0.7</priority>" },
   { loc: `${SITE_URL}lounge`, lastmod: dataDate("site/public/data/lounge_latest.json", today), extra: "    <changefreq>daily</changefreq>\n    <priority>0.3</priority>" },
