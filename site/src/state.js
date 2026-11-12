@@ -63,10 +63,10 @@ export const STATE = {
   sbLimit: 50,
   viewMode: localStorage.getItem("aiw-view") || "card",
   benchmarkTab: "share",      // 'share' | 'bench'
-  benchmarkSort: "composite", // 'composite' | 'coding' | 'arena' | 'aa' | 'livebench' | 'price'
+  benchmarkSort: "composite", // 'composite' | 'coding' | 'gpqa' | 'arena' | 'aa' | 'livebench' | 'price'
   benchmarkOthersOpen: false,
   benchmarkDomainFilter: "all", // 'all' | 'coding' | 'reasoning' | 'open'
-  benchmarkView: "matrix"       // 'matrix' | 'table'
+  benchmarkView: "matrix"       // 'matrix' (expanded chart+table) | 'table' (collapsed chart)
 };
 
 /**
@@ -83,14 +83,22 @@ export function syncStateFromURL() {
     const q = params.get("q");
     const view = params.get("view");
     const saved = params.get("saved");
+    const domain = params.get("domain");
 
     if (q !== null) STATE.query = q;
     if (view === "list" || view === "card") STATE.viewMode = view;
 
     if (isBenchmarksPage) {
       if (tab === "share" || tab === "bench") STATE.benchmarkTab = tab;
-      if (sort && ["composite", "coding", "arena", "aa", "livebench", "price"].includes(sort)) {
+      if (domain && ["all", "coding", "reasoning", "open"].includes(domain)) {
+        STATE.benchmarkDomainFilter = domain;
+      }
+      if (sort && ["composite", "coding", "gpqa", "arena", "aa", "livebench", "price"].includes(sort)) {
         STATE.benchmarkSort = sort;
+      } else if (STATE.benchmarkDomainFilter === "coding") {
+        STATE.benchmarkSort = "coding";
+      } else if (STATE.benchmarkDomainFilter === "reasoning") {
+        STATE.benchmarkSort = "gpqa";
       }
     } else if (isStarboardPage) {
       if (tab && ["heavy", "middle", "light"].includes(tab)) STATE.tab = tab;
@@ -120,6 +128,7 @@ export function syncURLFromState() {
 
     if (isBenchmarksPage) {
       if (STATE.benchmarkTab !== "share") params.set("tab", STATE.benchmarkTab);
+      if (STATE.benchmarkDomainFilter !== "all") params.set("domain", STATE.benchmarkDomainFilter);
       if (STATE.benchmarkSort !== "composite") params.set("sort", STATE.benchmarkSort);
     } else if (isStarboardPage) {
       if (STATE.tab !== "heavy") params.set("tab", STATE.tab);

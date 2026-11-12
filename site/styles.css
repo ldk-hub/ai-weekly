@@ -525,8 +525,7 @@ html[data-theme="dark"] .hero-titles p strong { color: var(--ink); }
   flex-shrink: 0;
 }
 
-.theme-toggle,
-.lang-toggle {
+.theme-toggle {
   display: inline-flex;
   align-items: center;
   height: 28px;
@@ -540,15 +539,10 @@ html[data-theme="dark"] .hero-titles p strong { color: var(--ink); }
   cursor: pointer;
   transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
-.theme-toggle:hover,
-.lang-toggle:hover {
+.theme-toggle:hover {
   background: var(--card-hover);
   border-color: var(--border-hover);
 }
-.lang-toggle .lang-opt { transition: color 0.2s; }
-.lang-toggle .lang-opt.is-active,
-.lang-toggle .lang-opt.active { color: var(--ink); }
-.lang-toggle .lang-sep { color: var(--border); }
 
 .gh-btn {
   display: inline-flex;
@@ -2557,7 +2551,7 @@ footer a:hover, footer .foot-link:hover { color: var(--accent); border-bottom-co
     gap: 2px;
     height: auto;
   }
-  .theme-toggle, .lang-toggle {
+  .theme-toggle {
     padding: 0 4px;
     font-size: 10.5px;
     height: 24px;
@@ -2667,7 +2661,7 @@ footer a:hover, footer .foot-link:hover { color: var(--accent); border-bottom-co
 @media (max-width: 380px) {
   .hero-actions { gap: 10px; }
   .brand-actions { gap: 5px; }
-  .theme-toggle, .lang-toggle, .gh-btn { font-size: 12px; padding: 0 9px; }
+  .theme-toggle, .gh-btn { font-size: 12px; padding: 0 9px; }
   .pn-link { padding: 0 6px; font-size: 12px; }
   .data-tabs-wrap .tab { font-size: 12px; padding: 6px 8px; }
 }
@@ -2962,52 +2956,41 @@ html[data-theme="dark"] .cli-copy-chip {
   color: var(--ink-2);
   border: 1px solid var(--border);
 }
-.sb-hot-badge {
+/* Unified Star Growth / Velocity Badge */
+.velocity-badge {
   display: inline-flex;
   align-items: center;
   gap: 3px;
   font-size: 12px;
-  font-weight: 800;
-  color: #e0533c;
-  background: rgba(224, 83, 60, 0.1);
+  font-weight: 700;
+  color: var(--mint);
+  background: color-mix(in srgb, var(--mint) 11%, transparent);
   padding: 2px 8px;
   border-radius: var(--radius-badge, 6px);
   letter-spacing: -0.02em;
-}
-
-/* A9: Normal vs Suspicious Velocity Badge */
-.velocity-badge {
-  font-size: 11px;
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
+  line-height: 1.3;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 .velocity-badge.is-anomaly {
-  background: rgba(245, 158, 11, 0.08);
-  color: var(--ink-2);
-  border: 1px solid rgba(245, 158, 11, 0.28);
-  padding: 2px 8px;
-  border-radius: var(--radius-badge, 6px);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
+  color: var(--mint);
+  background: color-mix(in srgb, var(--mint) 6%, transparent);
+  border: 1px dashed color-mix(in srgb, var(--mint) 55%, transparent);
 }
-html[data-theme="light"] .velocity-badge.is-anomaly {
-  background: rgba(217, 119, 87, 0.08);
-  color: var(--ink-2);
-  border: 1px solid rgba(217, 119, 87, 0.25);
+.velocity-badge.is-negative {
+  color: var(--coral);
+  background: color-mix(in srgb, var(--coral) 11%, transparent);
+}
+.velocity-badge.is-neutral {
+  color: var(--muted);
+  background: var(--pill);
+  font-weight: 600;
 }
 .anomaly-icon {
-  color: #f59e0b;
+  color: var(--mint);
   font-weight: 800;
   display: inline-block;
   line-height: 1;
-}
-html[data-theme="light"] .anomaly-icon {
-  color: #d97757;
 }
 
 /* ============ NEWS UI/UX ENHANCEMENTS ============ */
@@ -3422,35 +3405,35 @@ html[data-theme="light"] .anomaly-icon {
   flex-direction: column;
   justify-content: space-between;
   min-width: 0;
-  min-height: 116px;
+  min-height: 112px;
   padding: 18px 20px !important;
   border: 1px solid var(--border);
   border-radius: 12px !important;
   background: var(--card);
   color: var(--ink);
-  font: inherit;
   text-align: left;
-  cursor: pointer;
+  cursor: default;
   box-shadow: var(--card-shadow, 0 1px 3px rgba(0,0,0,0.04));
-  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
   position: relative;
 }
-.bm-chip:hover {
-  border-color: var(--border-hover);
-  background: var(--card-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+.bm-chip-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
 }
-.bm-chip:active {
-  transform: translateY(0);
+.bm-chip-label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--muted);
 }
-.bm-chip.is-active {
-  border-color: var(--border-strong, #181512);
-  box-shadow: 0 0 0 1px var(--border-strong, #181512);
-}
-html[data-theme="dark"] .bm-chip.is-active {
-  border-color: var(--ink);
-  box-shadow: 0 0 0 1px var(--ink);
+.bm-chip-hint {
+  font-size: 11.5px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .bm-chip-bottom {
   display: flex;
@@ -3482,7 +3465,7 @@ html[data-theme="dark"] .bm-chip.is-active {
   flex-shrink: 0;
 }
 
-/* 탭 + 정렬 툴바 */
+/* 탭 + 프리셋 툴바 */
 .bm-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin: 4px 0 12px; }
 .bm-seg { display: inline-flex; gap: 2px; padding: 4px; background: var(--pill); border-radius: var(--radius-box, 10px); }
 .bm-seg button {
@@ -3493,9 +3476,11 @@ html[data-theme="dark"] .bm-chip.is-active {
 .bm-seg button[aria-selected="true"], .bm-seg button[aria-pressed="true"] {
   background: var(--card); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.12);
 }
-.bm-sort { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
-.bm-sort .bm-seg button { font-size: 13px; padding: 5px 12px; }
-.bm-sort[hidden] { display: none; }
+.bm-toolbar-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.bm-toolbar-right[hidden] { display: none !important; }
+.bm-preset-group button { font-size: 13px; padding: 6px 13px; }
+.src-select-wrap.bm-mobile-sort { display: none; }
+.bm-mobile-sort select { width: 100%; font-size: 12.5px; }
 
 /* 공통 카드 */
 .bm-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-card, 16px); overflow: hidden; }
@@ -3576,9 +3561,12 @@ table.bm-table { width: 100%; border-collapse: collapse; font-size: 14px; }
   .bm-chip-main { max-width: 100%; }
   .bm-chip-num { margin-left: 0; }
   .bm-toolbar { flex-direction: column; align-items: stretch; }
+  .bm-toolbar-right { flex-direction: column; align-items: stretch; }
   .bm-seg { justify-content: stretch; }
-  .bm-seg button { flex: 1; padding: 7px 8px; }
-  .bm-sort { flex-direction: column; align-items: stretch; gap: 4px; }
+  .bm-seg button { flex: 1; padding: 7px 6px; font-size: 13px; }
+  .bm-preset-group button { font-size: 12.5px; padding: 6px 6px; }
+  .src-select-wrap.bm-mobile-sort { display: flex; width: 100%; }
+  .bm-mobile-sort select { width: 100%; }
   .bm-srow { grid-template-columns: 22px 1fr auto auto; grid-template-areas: "rank name val chg" ". bar bar bar"; gap: 6px 10px; }
   .bm-srow .bm-rank { grid-area: rank; }
   .bm-srow .bm-name { grid-area: name; }
@@ -3617,48 +3605,6 @@ table.bm-table { width: 100%; border-collapse: collapse; font-size: 14px; }
 .bm-scope-trigger svg {
   flex-shrink: 0;
   color: var(--accent);
-}
-
-/* 도메인 특화 필터 바 */
-.bm-domain-bar {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-  flex-wrap: wrap;
-}
-.bm-domain-label {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-.bm-domain-chips {
-  display: inline-flex;
-  gap: 4px;
-  background: var(--pill);
-  padding: 3px;
-  border-radius: 10px;
-}
-.bm-domain-chip {
-  all: unset;
-  cursor: pointer;
-  padding: 4px 12px;
-  border-radius: 7px;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--muted);
-  transition: all 0.15s ease;
-}
-.bm-domain-chip:hover {
-  color: var(--ink);
-}
-.bm-domain-chip.is-active {
-  background: var(--card);
-  color: var(--ink);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  font-weight: 700;
 }
 
 /* 2D 가성비 산점도 매트릭스 (Scatter Plot) */
@@ -3825,28 +3771,41 @@ table.bm-table { width: 100%; border-collapse: collapse; font-size: 14px; }
   display: inline-block;
 }
 
-/* 뷰 모드 토글 (산점도+표 vs 표만) */
-.bm-view-toggle {
+/* 산점도 헤더 액션 및 접기 토글 */
+.bm-scatter-actions {
   display: inline-flex;
-  gap: 2px;
-  background: var(--pill);
-  padding: 2px;
-  border-radius: 8px;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-left: auto;
 }
-.bm-view-toggle button {
-  all: unset;
-  cursor: pointer;
-  padding: 4px 10px;
-  border-radius: 6px;
-  font-size: 11.5px;
-  font-weight: 600;
-  color: var(--muted);
-}
-.bm-view-toggle button[aria-pressed="true"] {
+.bm-chart-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 11px;
+  border-radius: var(--radius-btn, 8px);
+  border: 1px solid var(--border);
   background: var(--card);
+  color: var(--ink-2);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+}
+.bm-chart-toggle:hover {
+  border-color: var(--border-hover);
+  background: var(--card-hover);
   color: var(--ink);
-  font-weight: 700;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+.bm-scatter-card.is-collapsed .bm-scatter-head {
+  border-bottom: 0;
+  padding-bottom: 14px;
+}
+.bm-scatter-card.is-collapsed .bm-scatter-body {
+  display: none;
 }
 
 /* 스코프 모달 세부 스타일 */
@@ -4308,7 +4267,6 @@ html[data-theme="dark"] .sb-legend-dot.slowing { background: #e08963; }
 .pn-link,
 .btn-ctrl,
 .theme-toggle,
-.lang-toggle,
 .view-toggle,
 .chip,
 .cat-chip,
@@ -4425,8 +4383,6 @@ html[data-theme="dark"] .btn-ctrl,
 html:not([data-theme="light"]) .btn-ctrl,
 html[data-theme="dark"] .theme-toggle,
 html:not([data-theme="light"]) .theme-toggle,
-html[data-theme="dark"] .lang-toggle,
-html:not([data-theme="light"]) .lang-toggle,
 html[data-theme="dark"] .gh-btn,
 html:not([data-theme="light"]) .gh-btn,
 html[data-theme="dark"] .unb-search-wrap,
@@ -4850,7 +4806,6 @@ html[data-theme="light"] .page-nav,
 html[data-theme="light"] .pn-link,
 html[data-theme="light"] .unb-search-wrap,
 html[data-theme="light"] .theme-toggle,
-html[data-theme="light"] .lang-toggle,
 html[data-theme="light"] .tabs,
 html[data-theme="light"] .tab {
   border-radius: 9999px !important;

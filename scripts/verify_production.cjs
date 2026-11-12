@@ -72,22 +72,28 @@ const { chromium } = require('playwright');
     console.log(`✅ dist/${pageName}: mascot SVG present, 4 tabs intact, fonts & modal accessible.`);
   }
 
-  // 1.3 Verify context-specific subscription hints
+  // 1.3 Verify context-specific subscription hints and removal of language toggle / i18n attrs
   const subHints = {
-    'index.html': { ko: '매주 월요일, 이번 주 도구 요약을 메일로', en: "Every Monday: this week's tools, by email" },
-    'news.html': { ko: '매일 아침, 어제의 AI 신호 요약을 메일로', en: "Every morning: yesterday's AI signals, by email" },
-    'starboard.html': { ko: '매주, 급성장 리포지토리 Top 10을 메일로', en: "Weekly: top 10 fastest-growing repos, by email" },
-    'benchmarks.html': { ko: '점유율·성능 변동이 생기면 메일로', en: "Email me when share or rankings change" },
+    'index.html': '매주 월요일, 이번 주 도구 요약을 메일로',
+    'news.html': '매일 아침, 어제의 AI 신호 요약을 메일로',
+    'starboard.html': '매주, 급성장 리포지토리 Top 10을 메일로',
+    'benchmarks.html': '점유율·성능 변동이 생기면 메일로',
   };
 
   for (const [pName, hint] of Object.entries(subHints)) {
     const html = fs.readFileSync(path.join(__dirname, '../dist', pName), 'utf8');
     const $ = cheerio.load(html);
-    const hintEl = $('.subscribe-hint');
-    if (hintEl.attr('data-i18n-ko') !== hint.ko || hintEl.attr('data-i18n-en') !== hint.en) {
-      throw new Error(`Subscription hint mismatch in dist/${pName}: ko=${hintEl.attr('data-i18n-ko')}, en=${hintEl.attr('data-i18n-en')}`);
+    if ($('#lang-toggle').length > 0) {
+      throw new Error(`Unexpected #lang-toggle found in dist/${pName}`);
     }
-    console.log(`✅ dist/${pName}: Subscription hint properly contextualized.`);
+    if ($('[data-i18n-ko], [data-i18n-en]').length > 0) {
+      throw new Error(`Leftover data-i18n attribute found in dist/${pName}`);
+    }
+    const hintText = $('.subscribe-hint').text().trim();
+    if (hintText !== hint) {
+      throw new Error(`Subscription hint mismatch in dist/${pName}: got "${hintText}", expected "${hint}"`);
+    }
+    console.log(`✅ dist/${pName}: Korean-only subscription hint & clean HTML verified.`);
   }
 
   // 1.4 Verify Design System MASTER.md highlighter tokens
@@ -324,12 +330,10 @@ const { chromium } = require('playwright');
         }
       }
 
-      // 4. Test language toggle
-      const langBtn = page.locator('#lang-toggle');
-      if (await langBtn.count() > 0) {
-        await langBtn.click();
-        const lang = await page.evaluate(() => document.documentElement.getAttribute('data-lang') || localStorage.getItem('site_lang'));
-        console.log(`  - Lang toggle clicked: current lang = ${lang}`);
+      // 4. Verify language toggle is removed
+      const langCount = await page.locator('#lang-toggle').count();
+      if (langCount !== 0) {
+        throw new Error(`Expected #lang-toggle to be removed on ${p}, found ${langCount}`);
       }
 
       await page.close();

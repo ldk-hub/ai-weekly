@@ -46,7 +46,7 @@
 </head>
 
 <body>
-<a class="skip-link" href="#main" data-i18n-en="Skip to main content" data-i18n-ko="본문으로 건너뛰기">본문으로 건너뛰기</a>
+<a class="skip-link" href="#main">본문으로 건너뛰기</a>
 
 <div class="layout-wrapper">
 
@@ -103,45 +103,40 @@
             </g>
           </g>
         </svg>
-        <span class="brand-name" data-i18n-en="AI Weekly" data-i18n-ko="AI위클리">AI위클리</span>
+        <span class="brand-name">AI위클리</span>
       </a>
       <nav class="page-nav" aria-label="주요 메뉴">
         <a href="./" class="pn-link">
-          <span data-i18n-en="Popular Plugins" data-i18n-ko="인기 플러그인">인기 플러그인</span>
+          <span>인기 플러그인</span>
         </a>
         <a href="news" class="pn-link">
-          <span data-i18n-en="AI News" data-i18n-ko="AI 뉴스">AI 뉴스</span>
+          <span>AI 뉴스</span>
         </a>
         <a href="starboard" class="pn-link is-active">
-          <span data-i18n-en="Starboard" data-i18n-ko="스타보드">스타보드</span>
+          <span>스타보드</span>
         </a>
         <a href="benchmarks" class="pn-link">
-          <span data-i18n-en="Benchmarks" data-i18n-ko="점유율·성능">점유율·성능</span>
+          <span>점유율·성능</span>
         </a>
       </nav>
       <div class="brand-actions">
         <button class="theme-toggle" id="theme-toggle" aria-label="테마 전환" type="button">🌙 다크</button>
-        <button class="lang-toggle" id="lang-toggle" aria-label="언어 전환" type="button">
-          <span class="lang-opt" data-lang="en">EN</span>
-          <span class="lang-sep">/</span>
-          <span class="lang-opt" data-lang="ko">KO</span>
-        </button>
         <a class="gh-btn" href="https://github.com/ldk-hub/ai-weekly" target="_blank" rel="noopener">GitHub</a>
       </div>
     </div>
 
     <div class="hero-wrapper" id="hero-wrapper">
       <div class="hero-row-1">
-        <h1 class="hero-h1" data-i18n-en-html="Tracking the <span class='hl-mint'>growth</span> of top GitHub <span class='hl-lemon'>repositories</span>." data-i18n-ko-html="가장 빠르게 <span class='hl-mint'>성장하는</span> 리포지토리 <span class='hl-lemon'>순위표</span>.">가장 빠르게 <span class="hl-mint">성장하는</span> 리포지토리 <span class="hl-lemon">순위표</span>.</h1>
-        <p class="hero-p" data-i18n-en-html="Weekly star velocity across <strong class='hero-strong'>Mega (10k+) · Rising (1k~10k) · Early (&lt;1k)</strong>" data-i18n-ko-html="<strong class='hero-strong'>메가(10k+) · 라이징(1k~10k) · 얼리(&lt;1k)</strong> 주간 스타 증감 및 활동성"><strong class="hero-strong">메가(10k+) · 라이징(1k~10k) · 얼리(&lt;1k)</strong> 주간 스타 증감 및 활동성</p>
+        <h1 class="hero-h1">가장 빠르게 <span class="hl-mint">성장하는</span> 리포지토리 <span class="hl-lemon">순위표</span>.</h1>
+        <p class="hero-p"><strong class="hero-strong">메가(10k+) · 라이징(1k~10k) · 얼리(&lt;1k)</strong> 주간 스타 증감 및 활동성</p>
       </div>
 
       <div class="hero-row-2">
         <div class="meta-left update-meta" id="update-bar" role="status" aria-live="polite">
           <span class="status-dot"></span>
-          <span class="update-text"><strong id="updated-at">—</strong> <span data-i18n-en="Updated" data-i18n-ko="갱신">갱신</span></span>
+          <span class="update-text"><strong id="updated-at">—</strong> <span>갱신</span></span>
           <span class="update-sep" id="next-at-sep"></span>
-          <span class="update-text" id="next-at-container"><span data-i18n-en="Next" data-i18n-ko="다음">다음</span> <strong id="next-at" style="font-weight:inherit">—</strong></span>
+          <span class="update-text" id="next-at-container"><span>다음</span> <strong id="next-at" style="font-weight:inherit">—</strong></span>
           <span class="update-sep" id="version-sep"></span>
           <span class="version-pill" id="version-pill"></span>
           <span class="update-sep"></span>
@@ -152,23 +147,23 @@
           <div class="archive-wrap" style="display:none">
             <button class="archive-btn" id="archive-btn" type="button" aria-haspopup="listbox" aria-expanded="false">
               <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="3" width="12" height="11" rx="2"></rect><path d="M2 6.5h12M5.5 2v2M10.5 2v2"></path></svg>
-              <span data-i18n-en="Past weeks" data-i18n-ko="지난 주차">지난 주차</span>
+              <span>지난 주차</span>
               <svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg>
             </button>
             <ul class="archive-menu" id="archive-menu" role="listbox" hidden></ul>
           </div>
 
           <div class="subscribe-wrapper" id="subscribe-wrapper">
-            <span class="subscribe-hint" data-i18n-en="Weekly: top 10 fastest-growing repos, by email" data-i18n-ko="매주, 급성장 리포지토리 Top 10을 메일로">매주, 급성장 리포지토리 Top 10을 메일로</span>
+            <span class="subscribe-hint">매주, 급성장 리포지토리 Top 10을 메일로</span>
             <button class="subscribe-btn-open" id="subscribe-open" type="button">
               <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1.5" y="3.5" width="13" height="9" rx="2"></rect><path d="m2 4.5 6 4 6-4"></path></svg>
-              <span data-i18n-en="Subscribe" data-i18n-ko="구독">구독</span>
+              <span>구독</span>
             </button>
             <form class="subscribe-form" id="subscribe-form" style="display:none" action="https://rlaalstn.substack.com/api/v1/free?nojs=true" method="post" target="_blank">
               <input type="hidden" name="first_url" value="https://ldk-hub.github.io/ai-weekly/" />
               <input type="hidden" name="source" value="subscribe_widget" />
-              <input type="email" name="email" required placeholder="이메일 주소" data-i18n-en-placeholder="your@email.com" data-i18n-ko-placeholder="이메일 주소" aria-label="이메일 구독" />
-              <button type="submit" class="subscribe-submit" data-i18n-en="Subscribe" data-i18n-ko="구독하기">구독하기</button>
+              <input type="email" name="email" required placeholder="이메일 주소" aria-label="이메일 구독" />
+              <button type="submit" class="subscribe-submit">구독하기</button>
               <button type="button" class="subscribe-close" id="subscribe-close">×</button>
             </form>
           </div>
@@ -183,58 +178,58 @@
       <div class="unb-bottom sb-controls">
         <nav class="cat-filter" id="sb-league-nav" role="tablist" aria-label="리그 선택">
           <button class="cat-chip active" data-tab="heavy" role="tab" aria-selected="true" aria-controls="starboard-container" title="메가 리그 (스타 10k+)">
-            <span data-i18n-en="Mega" data-i18n-ko="메가">메가</span> <span class="tab-count" id="heavy-count">0</span>
+            <span>메가</span> <span class="tab-count" id="heavy-count">0</span>
           </button>
           <button class="cat-chip" data-tab="middle" role="tab" aria-selected="false" aria-controls="starboard-container" title="라이징 리그 (스타 1k~10k)">
-            <span data-i18n-en="Rising" data-i18n-ko="라이징">라이징</span> <span class="tab-count" id="middle-count">0</span>
+            <span>라이징</span> <span class="tab-count" id="middle-count">0</span>
           </button>
           <button class="cat-chip" data-tab="light" role="tab" aria-selected="false" aria-controls="starboard-container" title="얼리 리그 (스타 1k 미만)">
-            <span data-i18n-en="Early" data-i18n-ko="얼리">얼리</span> <span class="tab-count" id="light-count">0</span>
+            <span>얼리</span> <span class="tab-count" id="light-count">0</span>
           </button>
           <button class="cat-chip bookmark-chip" id="starboard-bookmark-filter-chip" type="button" title="저장한 리포지토리 모아보기">
-            <span data-i18n-en="Saved" data-i18n-ko="저장">저장</span>
+            <span>저장</span>
             <span class="tab-count" id="sb-saved-count">0</span>
           </button>
         </nav>
         <div class="filter-right">
           <div style="display:flex; align-items:center; gap:6px;">
             <label class="src-select-wrap sort-select-wrap" title="활동성 필터">
-              <span class="src-select-label" data-i18n-en="Status" data-i18n-ko="상태">상태</span>
+              <span class="src-select-label">상태</span>
               <select id="starboard-activity-select" aria-label="활동성 필터">
-                <option value="all" data-i18n-en="All" data-i18n-ko="전체">전체</option>
-                <option value="active" data-i18n-en="Active" data-i18n-ko="활발">활발</option>
-                <option value="slowing" data-i18n-en="Slowing" data-i18n-ko="둔화">둔화</option>
+                <option value="all">전체</option>
+                <option value="active">활발</option>
+                <option value="slowing">둔화</option>
               </select>
             </label>
             <div class="sb-legend-popover-wrap">
               <button class="sb-legend-btn" id="sb-legend-btn" type="button" aria-label="활동 상태 범례 안내" aria-haspopup="true" aria-expanded="false">ⓘ</button>
               <div class="sb-legend-popover" id="sb-legend-popover" role="tooltip">
-                <span class="sb-legend-popover-title" data-i18n-en="Activity Status Criteria" data-i18n-ko="활동 상태 판정 기준">활동 상태 판정 기준</span>
+                <span class="sb-legend-popover-title">활동 상태 판정 기준</span>
                 <div class="sb-legend-row">
                   <span class="sb-badge-dot dot-active"></span>
-                  <span><strong data-i18n-en="Active:" data-i18n-ko="활발:">활발:</strong> <span data-i18n-en="Committed within 7 days" data-i18n-ko="최근 7일 이내 커밋">최근 7일 이내 커밋</span></span>
+                  <span><strong>활발:</strong> <span>최근 7일 이내 커밋</span></span>
                 </div>
                 <div class="sb-legend-row">
                   <span class="sb-badge-dot dot-slowing"></span>
-                  <span><strong data-i18n-en="Slowing:" data-i18n-ko="둔화:">둔화:</strong> <span data-i18n-en="Committed 8–90 days ago" data-i18n-ko="8~90일 사이 커밋">8~90일 사이 커밋</span></span>
+                  <span><strong>둔화:</strong> <span>8~90일 사이 커밋</span></span>
                 </div>
                 <div class="sb-legend-row">
                   <span class="sb-badge-dot dot-dormant"></span>
-                  <span><strong data-i18n-en="Dormant:" data-i18n-ko="방치:">방치:</strong> <span data-i18n-en="No commit for >90 days" data-i18n-ko="90일 초과 미커밋">90일 초과 미커밋</span></span>
+                  <span><strong>방치:</strong> <span>90일 초과 미커밋</span></span>
                 </div>
               </div>
             </div>
           </div>
           <label class="src-select-wrap sort-select-wrap" title="정렬 기준">
-            <span class="src-select-label" data-i18n-en="Sort" data-i18n-ko="정렬">정렬</span>
+            <span class="src-select-label">정렬</span>
             <select id="starboard-sort-select" aria-label="스타보드 정렬 기준">
-              <option value="velocity" data-i18n-en="Weekly Velocity" data-i18n-ko="주간 증가순">주간 증가순</option>
-              <option value="stars" data-i18n-en="Total Stars" data-i18n-ko="총 스타순">총 스타순</option>
+              <option value="velocity">주간 증가순</option>
+              <option value="stars">총 스타순</option>
             </select>
           </label>
           <div class="unb-search-wrap">
             <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="#A7A199" stroke-width="1.7"><circle cx="7" cy="7" r="4.5"></circle><path d="m10.5 10.5 3 3"></path></svg>
-            <input type="search" id="search" placeholder="리포지토리 검색 (/)" data-i18n-en-placeholder="Search repositories (/)" data-i18n-ko-placeholder="리포지토리 검색 (/)" aria-label="리포지토리 검색" />
+            <input type="search" id="search" placeholder="리포지토리 검색 (/)" aria-label="리포지토리 검색" />
             <button type="button" class="search-clear-btn" id="search-clear-btn" hidden aria-label="검색어 지우기" title="검색어 지우기 (Esc)">×</button>
             <kbd class="kbd-hint" id="search-kbd-hint" title="단축키: /">/</kbd>
           </div>
@@ -245,7 +240,7 @@
       </div>
     </div>
 
-    <h2 class="sr-only" data-i18n-en="Starboard Leaderboard" data-i18n-ko="스타보드 순위표">스타보드 순위표</h2>
+    <h2 class="sr-only">스타보드 순위표</h2>
     <div id="starboard-container"><div style="text-align:center;padding:60px 0;color:var(--muted);font-size:15px;">스타보드 랭킹표가 여기에 렌더링됩니다.</div></div>
   </main>
 
