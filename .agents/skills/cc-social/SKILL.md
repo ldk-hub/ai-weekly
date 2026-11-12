@@ -17,7 +17,7 @@ description: X·Threads·Reddit·Instagram AI 인플루언서·커뮤니티(시�
    - `GEMINI_API_KEY`가 없으면: `data/social_candidates.json`을 직접 선별·한국어 요약해 `site/public/data/social_latest.json` 및 `data/social/YYYY-MM-DD.json`을 생성한다. (후보에 없는 id/url/author 작성 금지)
    - 배포 전 필수 검증: `node scripts/social/curate_social.js --validate`
 3. **빌드 및 사이트맵**:
-   - `node scripts/core/generate-rss.js && npm run build`
+   - `node scripts/core/generate-og.js && node scripts/core/generate-rss.js && npm run build`
 4. **시드 관리**:
    - 인플루언서 계정 추가/삭제는 `data/social/seeds.json`만 수정한다.
 

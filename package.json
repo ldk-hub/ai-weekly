@@ -7,7 +7,7 @@
     "preview": "vite preview",
     "data:news": "node scripts/news/collect_news.js && node scripts/news/curate_news.js",
     "data:stars": "node scripts/stars/collect-stars.js",
-    "data:social": "node scripts/social/collect_social.js && node scripts/social/curate_social.js",
+    "data:social": "node scripts/social/collect_social.js && node scripts/social/curate_social.js && node scripts/core/generate-og.js",
     "data:lounge": "node scripts/community/collect_lounge.js",
     "sync:obsidian": "node scripts/obsidian_export.js",
     "data:benchmarks": "node scripts/benchmarks/fetch-openrouter.js && node scripts/benchmarks/curate-benchmarks.js",
