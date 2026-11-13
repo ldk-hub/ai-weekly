@@ -11,7 +11,7 @@ const { searchX } = require("../core/agent_reach");
 
 const ROOT = path.join(__dirname, "..", "..");
 const OUT = path.join(ROOT, "data", "social_candidates.json");
-const UV_BIN = "/Users/nhn/.local/bin/uv";
+const UV_BIN = process.env.UV_BIN || (fs.existsSync("/Users/nhn/.local/bin/uv") ? "/Users/nhn/.local/bin/uv" : "uv");
 const THREADS_SCRIPT = path.join(__dirname, "threads_profile.py");
 const X_SCRIPT = path.join(__dirname, "x_profile.py");
 const WINDOW_H = Number(process.env.SOCIAL_WINDOW_HOURS || 24);

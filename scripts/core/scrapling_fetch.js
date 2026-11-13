@@ -4,12 +4,13 @@
  * Node.js 환경에서 Scrapling 기반 스텔스 웹 크롤링 및 소셜 미디어(Threads, X, Instagram) 수집을 실행하는 통합 브릿지.
  */
 
+const fs = require("fs");
 const { execFileSync } = require("child_process");
 const path = require("path");
 
 const ROOT = path.join(__dirname, "..", "..");
 const CRAWLER_SCRIPT = path.join(__dirname, "scrapling_crawler.py");
-const UV_BIN = "/Users/nhn/.local/bin/uv";
+const UV_BIN = process.env.UV_BIN || (fs.existsSync("/Users/nhn/.local/bin/uv") ? "/Users/nhn/.local/bin/uv" : "uv");
 
 /**
  * 일반 웹페이지 본문 수집 (1단계 TLS Fetcher -> 실패 시 3단계 StealthyFetcher 폴백)
