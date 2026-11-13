@@ -64,7 +64,7 @@ graph TD
 
 ### 6. Step 6: 옵시디언 볼트 동기화
 - **명령어:** `npm run sync:obsidian`
-- **역할:** 로컬 옵시디언 볼트(`/Users/nhn/Documents/Obsidian Vault/ai-weekly`)에 주간 종합 작업일지, 아키텍처 명세, 대시보드를 전면 동기화.
+- **역할:** 로컬 옵시디언 볼트(`C:\Users\ok601\OneDrive\문서\Obsidian Vault\ai-weekly`)에 주간 종합 작업일지, 아키텍처 명세, 대시보드를 전면 동기화.
 
 ---
 

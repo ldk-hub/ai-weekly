@@ -6,8 +6,8 @@ CIP Design Generator - Generate corporate identity mockups using Gemini Nano Ban
 Uses Gemini's native image generation (Nano Banana Flash/Pro) for high-quality mockups.
 Supports text-and-image-to-image generation for using actual brand logos.
 
-- gemini-2.5-flash-image: Fast generation, cost-effective (default)
-- gemini-3-pro-image-preview: Pro quality, 4K text rendering
+- gemini-nano-banana-2.1: Fast generation, cost-effective (default)
+- gemini-3-pro-image: Pro quality, 4K text rendering
 
 Image Editing (text-and-image-to-image):
   When --logo is provided, the script uses Gemini's image editing capability
@@ -27,8 +27,8 @@ from core import search, get_cip_brief
 
 # Model options
 MODELS = {
-    "flash": "gemini-2.5-flash-image",      # Nano Banana Flash - fast, default
-    "pro": "gemini-3-pro-image-preview"      # Nano Banana Pro - quality, 4K text
+    "flash": "gemini-nano-banana-2.1",      # Nano Banana Flash - fast, default
+    "pro": "gemini-3-pro-image"      # Nano Banana Pro - quality, 4K text
 }
 DEFAULT_MODEL = "flash"
 
@@ -191,8 +191,8 @@ def generate_with_nano_banana(prompt_data, output_dir=None, model_key="flash", a
     2. Image editing: Text-and-image-to-image using provided logo (logo_image=PIL.Image)
 
     Models:
-    - flash: gemini-2.5-flash-image (fast, cost-effective) - DEFAULT
-    - pro: gemini-3-pro-image-preview (quality, 4K text rendering)
+    - flash: gemini-nano-banana-2.1 (fast, cost-effective) - DEFAULT
+    - pro: gemini-3-pro-image (quality, 4K text rendering)
 
     Args:
         prompt_data: Dict with prompt, deliverable, brand, etc.
@@ -389,8 +389,8 @@ Examples:
   python generate.py --brand "MyBrand" --logo logo.png --deliverable "vehicle" --output ./mockups --ratio 16:9
 
 Models:
-  flash (default): gemini-2.5-flash-image - Fast, cost-effective
-  pro: gemini-3-pro-image-preview - Quality, 4K text rendering
+  flash (default): gemini-nano-banana-2.1 - Fast, cost-effective
+  pro: gemini-3-pro-image - Quality, 4K text rendering
 
 Image Editing Mode:
   When --logo is provided, uses Gemini's text-and-image-to-image capability

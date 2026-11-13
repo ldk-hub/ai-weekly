@@ -102,7 +102,7 @@ python3 ~/.claude/skills/design/scripts/icon/generate.py --list-categories
 
 ## Model
 
-- **gemini-3.1-pro-preview**: Best thinking, token efficiency, factual consistency
+- **gemini-4-argon**: Best thinking, token efficiency, factual consistency
 - Text-only output (SVG is XML text) — no image generation API needed
 - Supports structured output for consistent SVG formatting
 

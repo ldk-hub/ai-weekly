@@ -7,7 +7,7 @@ const ROOT = path.join(__dirname, "..", "..");
 const IN = path.join(ROOT, "data", "social_candidates.json");
 const LATEST = path.join(ROOT, "site", "public", "data", "social_latest.json");
 const ARCHIVE_DIR = path.join(ROOT, "data", "social");
-const MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+const MODEL = process.env.GEMINI_MODEL || "gemini-3.8-flash";
 const API_KEY = process.env.GEMINI_API_KEY;
 const LIMIT = Number(process.env.SOCIAL_LIMIT || 20);
 const MIN_RELEVANCE = Number(process.env.SOCIAL_MIN_RELEVANCE || 40);
@@ -61,7 +61,7 @@ async function callGemini(posts) {
     headers: { "Content-Type": "application/json", "x-goog-api-key": API_KEY },
     body: JSON.stringify({
       contents: [{ role: "user", parts: [{ text: `${PROMPT}\n\n게시물:\n${JSON.stringify(payload)}` }] }],
-      generationConfig: { responseMimeType: "application/json", temperature: 0.3 },
+      generationConfig: { responseMimeType: "application/json" },
     }),
   });
   if (!res.ok) throw new Error(`Gemini API error: HTTP ${res.status}`); // 본문에 키가 섞이지 않도록 상태코드만

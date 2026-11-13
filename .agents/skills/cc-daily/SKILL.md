@@ -57,7 +57,7 @@ graph TD
 
 ### 5. Step 5: 옵시디언 동기화
 - **명령어:** `npm run sync:obsidian`
-- **역할:** 로컬 옵시디언 볼트(`/Users/nhn/Documents/Obsidian Vault/ai-weekly`)에 큐레이션 히스토리 및 대시보드 동기화.
+- **역할:** 로컬 옵시디언 볼트(`C:\Users\ok601\OneDrive\문서\Obsidian Vault\ai-weekly`)에 큐레이션 히스토리 및 대시보드 동기화.
 
 ---
 

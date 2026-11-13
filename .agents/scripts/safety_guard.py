@@ -156,12 +156,17 @@ def check_sql_destructive(text):
 
 
 def check_git_force_push(command_line):
-    """git push --force 또는 -f 검사."""
+    """git push --force/-f 및 git reset --hard 검사."""
     git_push_pattern = r"(?i)\bgit\s+push\b.*(\s+-[a-zA-Z]*f[a-zA-Z]*|\s+--force\b|\s+--force-with-lease\b)"
     if re.search(git_push_pattern, command_line):
         return (
             True,
             "원격 이력 덮어쓰기 위험 감지: 'git push --force' 계열 명령은 원격 커밋 손실 위험으로 자동 실행이 차단됩니다. 명시적 사용자 승인을 받으십시오.",
+        )
+    if re.search(r"(?i)\bgit\s+reset\b.*\s+--hard\b", command_line):
+        return (
+            True,
+            "작업 트리 영구 손실 위험 감지: 'git reset --hard' 명령은 자동 실행이 차단됩니다. 명시적 사용자 승인을 받으십시오.",
         )
     return False, ""
 

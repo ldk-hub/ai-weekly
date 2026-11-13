@@ -79,7 +79,7 @@ GitHub 출처 항목은 **왜 지금 뜨는지**를 한 문장 넣는다 — 근
 - **출처 표기:** 최상위 `summary` 와 `curated_by` 에 **"ldk-hub에서 큐레이션 하였습니다"** 로 명시한다. "AI 에이전트"·"봇"이 작성했다는 표현은 쓰지 않는다 (검증기가 이 표현을 잡는다).
 
 **과거 작업 이력 및 스펙 참조:**
-과거 큐레이션 히스토리나 시스템 아키텍처는 옵시디언 볼트(`/Users/nhn/Documents/Obsidian Vault/ai-weekly`) 및 `ai-weekly-vault` 스킬을 참조한다. 작업 완료 후에는 `npm run sync:obsidian`으로 볼트를 동기화한다.
+과거 큐레이션 히스토리나 시스템 아키텍처는 옵시디언 볼트(`C:\Users\ok601\OneDrive\문서\Obsidian Vault\ai-weekly`) 및 `ai-weekly-vault` 스킬을 참조한다. 작업 완료 후에는 `npm run sync:obsidian`으로 볼트를 동기화한다.
 
 ## 실행
 

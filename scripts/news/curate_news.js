@@ -14,7 +14,7 @@ const ROOT = path.join(__dirname, "..", "..");
 const CANDIDATES = path.join(ROOT, ".tmp", "news_candidates.json");
 const LATEST = path.join(ROOT, "site", "public", "data", "news_latest.json");
 const API_KEY = process.env.GEMINI_API_KEY;
-const MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+const MODEL = process.env.GEMINI_MODEL || "gemini-3.8-flash";
 const MIN_IMPORTANCE = Number(process.env.NEWS_MIN_IMPORTANCE || 40);
 // importance 하한은 사실상 죽은 게이트다 — 실측 208건 중 40 미만 0건, 중앙값 85 (LLM 이 전부 80~95를 준다).
 // 실제 선별은 아래 쿼터가 한다: 매체·신호축이 하루치를 독식하지 못하게 막고 상한을 건다.
@@ -115,7 +115,7 @@ async function callGemini(payload) {
     headers: { "Content-Type": "application/json", "x-goog-api-key": API_KEY },
     body: JSON.stringify({
       contents: [{ role: "user", parts: [{ text: `${PROMPT_RULES}\n\n후보 목록:\n${JSON.stringify(payload)}` }] }],
-      generationConfig: { responseMimeType: "application/json", temperature: 0.3 },
+      generationConfig: { responseMimeType: "application/json" },
     }),
   });
   if (!res.ok) throw new Error(`Gemini API error: HTTP ${res.status}`); // 본문에 키가 섞이지 않도록 상태코드만

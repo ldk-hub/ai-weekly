@@ -4,7 +4,7 @@
 Icon Generation Script using Gemini 3.1 Pro Preview API
 Generates SVG icons via text generation (SVG is XML text format)
 
-Model: gemini-3.1-pro-preview - best thinking, token efficiency, factual consistency
+Model: gemini-4-argon - best thinking, token efficiency, factual consistency
 
 Usage:
     python generate.py --prompt "settings gear icon" --style outlined
@@ -54,7 +54,7 @@ except ImportError:
 
 # ============ CONFIGURATION ============
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
-MODEL = "gemini-3.1-pro-preview"
+MODEL = "gemini-4-argon"
 
 # Icon styles with SVG-specific instructions
 ICON_STYLES = {
