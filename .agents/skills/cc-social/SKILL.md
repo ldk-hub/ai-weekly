@@ -11,11 +11,11 @@ description: X·Threads·Reddit·Instagram AI 인플루언서·커뮤니티(시�
    - Threads는 `scripts/social/threads_profile.py`로 비로그인 SSR 수집한다.
    - Reddit은 시드 서브레딧의 일간 TOP RSS(`/top/.rss?t=day`)를 순차 수집한다 (`SOCIAL_REDDIT_DELAY_MS` 대기 및 429 재시도 포함).
    - Instagram은 `ego-browser`(`scripts/social/ig_profile.js`)에 로그인된 세션을 사용해 시드 프로필의 비고정 최신 게시물을 수집한다 (`SOCIAL_SKIP_INSTAGRAM=1`로 건너뛰기 가능).
-   - 기본 창은 최근 24시간이며 0건이면 48시간으로 1회 자동 확장된다.
+   - 기본 창은 최근 24시간이며 전체 0건이거나 `instagram`·`x`·`threads` 중 3건 미만인 플랫폼이 있으면 해당 플랫폼에 한해 48시간 창까지 자동 보충된다.
 2. **큐레이션 및 검증**:
-   - `GEMINI_API_KEY`가 있으면: `node scripts/social/curate_social.js`
+   - `GEMINI_API_KEY`가 있으면: `node scripts/social/curate_social.js` (`instagram`·`x`·`threads` 각 최소 3건씩 우선 할당 후 점수순/라운드로빈 균형 선별)
    - `GEMINI_API_KEY`가 없으면: `data/social_candidates.json`을 직접 선별·한국어 요약해 `site/public/data/social_latest.json` 및 `data/social/YYYY-MM-DD.json`을 생성한다. (후보에 없는 id/url/author 작성 금지)
-   - 배포 전 필수 검증: `node scripts/social/curate_social.js --validate`
+   - 배포 전 필수 검증: `node scripts/social/curate_social.js --validate` (후보 2건 이상 보유 필수 플랫폼에서 최소 2건 이상 선별 여부 검증)
 3. **빌드 및 사이트맵**:
    - `node scripts/core/generate-og.js && node scripts/core/generate-rss.js && npm run build`
 4. **시드 관리**:

@@ -11,6 +11,8 @@ const MODEL = process.env.GEMINI_MODEL || "gemini-3.8-flash";
 const API_KEY = process.env.GEMINI_API_KEY;
 const LIMIT = Number(process.env.SOCIAL_LIMIT || 20);
 const MIN_RELEVANCE = Number(process.env.SOCIAL_MIN_RELEVANCE || 40);
+const MIN_PER_PLATFORM = Number(process.env.SOCIAL_MIN_PER_PLATFORM || 3);
+const REQUIRED_PLATFORMS = ["instagram", "x", "threads"];
 
 const PROMPT = `너는 AI 활용 팁 큐레이터다. 각 게시물에 대해 판단하라.
 - drop: AI(생성형 AI, 프롬프트, AI 도구 활용, 에이전트, 모델 소식)와 무관하거나 광고·잡담·단순홍보면 true
@@ -30,10 +32,49 @@ function popularity(m = {}) {
 }
 
 function rank(items, limit = LIMIT) {
-  return items
+  const scored = items
     .map((it) => ({ ...it, score: Math.round(0.6 * (it.relevance || 0) + 0.4 * popularity(it.metrics)) }))
-    .sort((a, b) => b.score - a.score)
-    .slice(0, limit);
+    .sort((a, b) => b.score - a.score);
+
+  const byPlatform = new Map();
+  for (const it of scored) {
+    if (!byPlatform.has(it.platform)) byPlatform.set(it.platform, []);
+    byPlatform.get(it.platform).push(it);
+  }
+
+  const picked = [];
+  const pickedIds = new Set();
+
+  // 1차: 필수 플랫폼(instagram, x, threads)에서 최소 MIN_PER_PLATFORM건씩 우선 보장
+  for (const p of REQUIRED_PLATFORMS) {
+    const list = byPlatform.get(p) || [];
+    for (const it of list.slice(0, MIN_PER_PLATFORM)) {
+      if (picked.length >= limit) break;
+      if (!pickedIds.has(it.id)) {
+        picked.push(it);
+        pickedIds.add(it.id);
+      }
+    }
+  }
+
+  // 2차: 나머지 슬롯은 전체 플랫폼 간 라운드로빈 + 점수순으로 채움
+  const queues = [...byPlatform.values()].map((list) => list.filter((it) => !pickedIds.has(it.id)));
+  let progressed = true;
+  while (picked.length < limit && progressed) {
+    progressed = false;
+    for (const q of queues) {
+      if (picked.length >= limit) break;
+      if (!q.length) continue;
+      const it = q.shift();
+      if (!pickedIds.has(it.id)) {
+        picked.push(it);
+        pickedIds.add(it.id);
+        progressed = true;
+      }
+    }
+  }
+
+  return picked.sort((a, b) => b.score - a.score);
 }
 
 function qualityIssues(item, fact) {
@@ -99,7 +140,17 @@ function validate(file = LATEST) {
     for (const issue of qualityIssues(it, fact)) violations.push(`${it.id}: ${issue}`);
   }
 
-  console.log(`검증 대상 ${items.length}건 (${file})`);
+  const dist = items.reduce((acc, it) => ({ ...acc, [it.platform]: (acc[it.platform] || 0) + 1 }), {});
+  console.log(`검증 대상 ${items.length}건 (${file}) · 플랫폼 분포: ${JSON.stringify(dist)}`);
+  for (const reqPlatform of REQUIRED_PLATFORMS) {
+    const candidateCount = posts.filter((p) => p.platform === reqPlatform).length;
+    const pickedCount = dist[reqPlatform] || 0;
+    if (candidateCount >= 2 && pickedCount < 2) {
+      violations.push(`(전체) ${reqPlatform} 후보가 ${candidateCount}건 있는데 최종 ${pickedCount}건만 선별됨 (최소 2건 필수)`);
+    } else if (candidateCount === 0) {
+      console.warn(`[social:warn] ${reqPlatform} 후보 0건 — 수집 상태 점검 필요`);
+    }
+  }
   if (violations.length) {
     console.error(`❌ 규격 위반 ${violations.length}건:`);
     for (const v of violations) console.error(`  - ${v}`);

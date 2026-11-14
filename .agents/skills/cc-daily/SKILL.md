@@ -54,6 +54,10 @@ graph TD
 ### 4.5. Step 4.5: CC Social (소셜 피드 갱신)
 
 - `cc-social` 스킬 절차대로 `npm run data:social` 실행. 실패해도 파이프라인을 멈추지 않고 경고만 보고한다.
+- **소셜 필수 균형 규칙 (`Instagram · X · Threads` 각 여러 건 보장):**
+  - `collect_social.js`는 24시간 창 내 `instagram`, `x`, `threads` 중 3건 미만인 플랫폼에 대해 48시간 창까지 플랫폼별 보충 수집을 자동 수행한다.
+  - `curate_social.js`의 `rank()` 및 `curate_news.js`의 `selectBalanced()`는 `instagram`, `x`, `threads` 각 플랫폼이 최소 2~3건 이상 최종 피드에 포함되도록 우선 할당한다.
+  - `--validate` 및 최종 결과 보고 시 `instagram`, `x`, `threads` 각각의 게시 건수를 반드시 확인한다.
 
 ### 5. Step 5: 옵시디언 동기화
 - **명령어:** `npm run sync:obsidian`

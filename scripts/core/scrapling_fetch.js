@@ -11,6 +11,7 @@ const path = require("path");
 const ROOT = path.join(__dirname, "..", "..");
 const CRAWLER_SCRIPT = path.join(__dirname, "scrapling_crawler.py");
 const UV_BIN = process.env.UV_BIN || (fs.existsSync("/Users/nhn/.local/bin/uv") ? "/Users/nhn/.local/bin/uv" : "uv");
+const PYTHON_CMD = process.platform === "win32" ? "python" : "python3";
 
 /**
  * 일반 웹페이지 본문 수집 (1단계 TLS Fetcher -> 실패 시 3단계 StealthyFetcher 폴백)
@@ -23,7 +24,7 @@ function fetchWithScrapling(url, options = {}) {
   const args = [
     "run",
     "--with", "scrapling[ai]",
-    "python3",
+    PYTHON_CMD,
     CRAWLER_SCRIPT,
     "--mode", "fetch",
     "--url", url,
@@ -74,7 +75,7 @@ function scrapeSocial(platform, options = {}) {
   const args = [
     "run",
     "--with", "scrapling[ai]",
-    "python3",
+    PYTHON_CMD,
     CRAWLER_SCRIPT,
     "--mode", platform,
     "--limit", String(options.limit || 3)

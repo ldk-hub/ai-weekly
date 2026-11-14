@@ -12,10 +12,12 @@ const { searchX } = require("../core/agent_reach");
 const ROOT = path.join(__dirname, "..", "..");
 const OUT = path.join(ROOT, "data", "social_candidates.json");
 const UV_BIN = process.env.UV_BIN || (fs.existsSync("/Users/nhn/.local/bin/uv") ? "/Users/nhn/.local/bin/uv" : "uv");
+const PYTHON_CMD = process.platform === "win32" ? "python" : "python3";
 const THREADS_SCRIPT = path.join(__dirname, "threads_profile.py");
 const X_SCRIPT = path.join(__dirname, "x_profile.py");
 const WINDOW_H = Number(process.env.SOCIAL_WINDOW_HOURS || 24);
 const FALLBACK_WINDOW_H = Number(process.env.SOCIAL_FALLBACK_HOURS || 48);
+const MIN_PER_REQUIRED_PLATFORM = Number(process.env.SOCIAL_MIN_PER_PLATFORM || 3);
 const X_DELAY_MS = Number(process.env.SOCIAL_X_DELAY_MS || 4000);
 const REDDIT_DELAY_MS = Number(process.env.SOCIAL_REDDIT_DELAY_MS || 8000);
 const REDDIT_PER_SUB = Number(process.env.SOCIAL_REDDIT_LIMIT || 5);
@@ -147,7 +149,7 @@ async function runPythonScraper(scriptPath, handles, limit = 3) {
   if (!handles.length) return [];
   const { stdout } = await execFileAsync(
     UV_BIN,
-    ["run", "--with", "scrapling[ai]", "python3", scriptPath, "--users", handles.join(","), "--limit", String(limit)],
+    ["run", "--with", "scrapling[ai]", PYTHON_CMD, scriptPath, "--users", handles.join(","), "--limit", String(limit)],
     { cwd: ROOT, timeout: 600000, maxBuffer: 15 * 1024 * 1024 },
   );
   const line = stdout.trim().split("\n").reverse().find((l) => l.startsWith("{"));
@@ -163,16 +165,23 @@ async function collectX(handles, since) {
       out.push(...(tweets || []).map(normalizeTweet));
     } catch (e) {
       console.warn(`[social:x] ${h} 실패: ${e.message}`);
-      if (e.message.includes("쿠키 없음") || e.message.includes("not_authenticated")) {
-        console.log("[social:x] Scrapling X 프로필 폴백 실행...");
-        try {
-          const scraped = await runPythonScraper(X_SCRIPT, handles, 5);
-          return scraped.map(normalizeScrapedX);
-        } catch (err) {
-          console.warn(`[social:x] Scrapling 폴백 실패: ${err.message}`);
-        }
+      if (
+        e.message.includes("쿠키 없음") ||
+        e.message.includes("not_authenticated") ||
+        e.message.includes("ENOENT") ||
+        e.message.includes("실행 실패")
+      ) {
         break;
       }
+    }
+  }
+  if (!out.length) {
+    console.log("[social:x] Scrapling X 프로필 폴백 실행...");
+    try {
+      const scraped = await runPythonScraper(X_SCRIPT, handles, 5);
+      return scraped.map(normalizeScrapedX);
+    } catch (err) {
+      console.warn(`[social:x] Scrapling 폴백 실패: ${err.message}`);
     }
   }
   return out;
@@ -207,14 +216,14 @@ async function collect() {
     process.env.SOCIAL_SKIP_X === "1" ? [] : collectX(seeds.x, since),
     process.env.SOCIAL_SKIP_THREADS === "1"
       ? []
-      : runPythonScraper(THREADS_SCRIPT, seeds.threads, 3).then((items) => items.map(normalizeThread)).catch((e) => {
+      : runPythonScraper(THREADS_SCRIPT, seeds.threads, 5).then((items) => items.map(normalizeThread)).catch((e) => {
           console.warn(`[social:threads] 실패: ${e.message}`);
           return [];
         }),
     process.env.SOCIAL_SKIP_REDDIT === "1" ? [] : collectReddit(seeds.reddit || []),
     process.env.SOCIAL_SKIP_INSTAGRAM === "1"
       ? []
-      : collectInstagramEgo(seeds.instagram || [], 3, maxWindow)
+      : collectInstagramEgo(seeds.instagram || [], 4, maxWindow)
           .then((items) => items.map(normalizeInstagram))
           .catch((e) => {
             console.warn(`[social:instagram] 실패: ${e.message}`);
@@ -229,8 +238,27 @@ async function collect() {
     windowUsed = FALLBACK_WINDOW_H;
     posts = filterByWindow(unique, FALLBACK_WINDOW_H);
     console.log(`[social] ${WINDOW_H}h 창 0건 → ${FALLBACK_WINDOW_H}h 창으로 1회 확장`);
+  } else if (FALLBACK_WINDOW_H > WINDOW_H) {
+    const fallbackPool = filterByWindow(unique, FALLBACK_WINDOW_H);
+    const seenIds = new Set(posts.map((p) => p.id));
+    for (const reqPlatform of ["instagram", "x", "threads"]) {
+      const currentCount = posts.filter((p) => p.platform === reqPlatform).length;
+      if (currentCount < MIN_PER_REQUIRED_PLATFORM) {
+        const extras = fallbackPool
+          .filter((p) => p.platform === reqPlatform && !seenIds.has(p.id))
+          .slice(0, MIN_PER_REQUIRED_PLATFORM - currentCount);
+        for (const ex of extras) {
+          posts.push(ex);
+          seenIds.add(ex.id);
+        }
+        if (extras.length) {
+          console.log(`[social:${reqPlatform}] ${WINDOW_H}h 창 ${currentCount}건 → ${FALLBACK_WINDOW_H}h 보충 +${extras.length}건`);
+        }
+      }
+    }
   }
-  console.log(`[social] x=${xPosts.length} threads=${threadPosts.length} reddit=${redditPosts.length} instagram=${igPosts.length} → ${windowUsed}h 창 내 ${posts.length}건`);
+  const finalDist = posts.reduce((acc, p) => ({ ...acc, [p.platform]: (acc[p.platform] || 0) + 1 }), {});
+  console.log(`[social] 수집 원본 x=${xPosts.length} threads=${threadPosts.length} reddit=${redditPosts.length} instagram=${igPosts.length} → ${windowUsed}h 최종 ${posts.length}건 (${JSON.stringify(finalDist)})`);
   return posts;
 }
 

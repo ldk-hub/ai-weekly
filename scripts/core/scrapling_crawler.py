@@ -98,125 +98,61 @@ def handle_fetch(url: str, timeout: int = 10000, force_stealth: bool = False, cs
     return {"ok": False, "status": status, "error": "Content too short or fetch failed"}
 
 def handle_threads(users: list[str], tags: list[str], limit_per_target: int = 3, max_total: int = 15) -> dict:
-    """Threads 공신 계정 및 태그 피드 스크레이핑 (비중 확대, 조기 완료 최적화)"""
+    """Threads 공신 계정 스크레이핑 (threads_profile.StealthySession 재사용)"""
+    social_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "social"))
+    if social_dir not in sys.path:
+        sys.path.insert(0, social_dir)
+    from threads_profile import scrape as scrape_threads_profiles
+
+    raw_items = scrape_threads_profiles(users, limit=limit_per_target)
     candidates = []
-    now_iso = datetime.now(timezone.utc).isoformat()
-    seen_texts = set()
-
-    for u in users:
-        if len(candidates) >= max_total:
-            break
-        url = f"https://www.threads.net/@{u}"
-        try:
-            page = StealthyFetcher.fetch(url, headless=True, network_idle=True, timeout=6000, block_ads=True)
-            if page.status != 200:
-                continue
-            
-            spans = [s.strip() for s in page.css("span::text").getall() if not is_noise(s)]
-            count = 0
-            for s in spans:
-                if count >= limit_per_target or len(candidates) >= max_total:
-                    break
-                if s in seen_texts:
-                    continue
-                seen_texts.add(s)
-                
-                title_sample = s.split("\n")[0][:80]
-                post_id = abs(hash(s)) % 1000000000
-                post_url = f"https://www.threads.net/@{u}/post/{post_id}"
-                candidates.append({
-                    "source": "threads",
-                    "sourceName": "Threads",
-                    "url": post_url,
-                    "title": f"[{u}] {title_sample}",
-                    "author": u,
-                    "publish_date": now_iso,
-                    "lang": "en" if not re.search(r'[가-힣]', s) else "ko",
-                    "body": s,
-                    "body_chars": len(s),
-                    "metrics": {"platform": "threads", "account": u}
-                })
-                count += 1
-        except Exception:
+    for it in raw_items[:max_total]:
+        body = (it.get("body") or "").strip()
+        if not body or is_noise(body):
             continue
-
-    if len(candidates) < max_total:
-        for tag in tags:
-            if len(candidates) >= max_total:
-                break
-            url = f"https://www.threads.net/tag/{tag}"
-            try:
-                page = StealthyFetcher.fetch(url, headless=True, network_idle=True, timeout=6000, block_ads=True)
-                if page.status != 200:
-                    continue
-                spans = [s.strip() for s in page.css("span::text").getall() if not is_noise(s)]
-                count = 0
-                for s in spans:
-                    if count >= limit_per_target or len(candidates) >= max_total:
-                        break
-                    if s in seen_texts:
-                        continue
-                    seen_texts.add(s)
-                    title_sample = s.split("\n")[0][:80]
-                    post_id = abs(hash(s)) % 1000000000
-                    candidates.append({
-                        "source": "threads",
-                        "sourceName": "Threads",
-                        "url": f"{url}?post={post_id}",
-                        "title": f"[#{tag}] {title_sample}",
-                        "author": f"threads-tag-{tag}",
-                        "publish_date": now_iso,
-                        "lang": "en" if not re.search(r'[가-힣]', s) else "ko",
-                        "body": s,
-                        "body_chars": len(s),
-                        "metrics": {"platform": "threads", "tag": tag}
-                    })
-                    count += 1
-            except Exception:
-                continue
-
+        u = it.get("author") or "threads"
+        title_sample = body.split("\n")[0][:80]
+        candidates.append({
+            "source": "threads",
+            "sourceName": "Threads",
+            "url": it.get("url") or "",
+            "title": f"[{u}] {title_sample}",
+            "author": f"@{u.lstrip('@')}",
+            "publish_date": it.get("publish_date") or datetime.now(timezone.utc).isoformat(),
+            "lang": "en" if not re.search(r'[가-힣]', body) else "ko",
+            "body": body,
+            "body_chars": len(body),
+            "metrics": {**(it.get("metrics") or {}), "platform": "threads", "account": u}
+        })
     return {"ok": True, "platform": "threads", "items": candidates}
 
-def handle_x(users: list[str], limit_per_user: int = 3, max_total: int = 12) -> dict:
-    """X(구 트위터) 공식 AI 연구소 계정 타임라인 스텔스 스크레이핑 (비중 확대, 조기 완료 최적화)"""
+def handle_x(users: list[str], limit_per_user: int = 3, max_total: int = 15) -> dict:
+    """X(구 트위터) 공식 AI 연구소 계정 타임라인 스텔스 스크레이핑 (x_profile.StealthySession 재사용)"""
+    social_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "social"))
+    if social_dir not in sys.path:
+        sys.path.insert(0, social_dir)
+    from x_profile import scrape as scrape_x_profiles
+
+    raw_items = scrape_x_profiles(users, limit=limit_per_user)
     candidates = []
-    now_iso = datetime.now(timezone.utc).isoformat()
-    seen_texts = set()
-
-    for u in users:
-        if len(candidates) >= max_total:
-            break
-        url = f"https://x.com/{u}"
-        try:
-            page = StealthyFetcher.fetch(url, headless=True, network_idle=True, timeout=6000, block_ads=True)
-            if page.status != 200:
-                continue
-            spans = [s.strip() for s in page.css("span::text").getall() if not is_noise(s)]
-            count = 0
-            for s in spans:
-                if count >= limit_per_user or len(candidates) >= max_total:
-                    break
-                if s in seen_texts:
-                    continue
-                seen_texts.add(s)
-                title_sample = s.split("\n")[0][:80]
-                post_id = abs(hash(s)) % 1000000000
-                candidates.append({
-                    "source": "x",
-                    "sourceName": "X",
-                    "url": f"https://x.com/{u}/status/{post_id}",
-                    "title": f"[{u}] {title_sample}",
-                    "author": u,
-                    "publish_date": now_iso,
-                    "lang": "en" if not re.search(r'[가-힣]', s) else "ko",
-                    "body": s,
-                    "body_chars": len(s),
-                    "metrics": {"platform": "x", "account": u}
-                })
-                count += 1
-        except Exception:
+    for it in raw_items[:max_total]:
+        body = (it.get("body") or "").strip()
+        if not body or is_noise(body):
             continue
-
+        u = it.get("author") or "x"
+        title_sample = body.split("\n")[0][:80]
+        candidates.append({
+            "source": "x",
+            "sourceName": "X",
+            "url": it.get("url") or "",
+            "title": f"[{u}] {title_sample}",
+            "author": f"@{u.lstrip('@')}",
+            "publish_date": it.get("publish_date") or datetime.now(timezone.utc).isoformat(),
+            "lang": "en" if not re.search(r'[가-힣]', body) else "ko",
+            "body": body,
+            "body_chars": len(body),
+            "metrics": {**(it.get("metrics") or {}), "platform": "x", "account": u}
+        })
     return {"ok": True, "platform": "x", "items": candidates}
 
 def handle_instagram(users: list[str], limit_per_user: int = 2) -> dict:
@@ -305,10 +241,10 @@ def main():
 
     elif args.mode == "threads":
         default_users = [
-            "openai", "sama", "anthropic", "meta", "googledeepmind", "huggingface", "ylecun", "karpathy", "demishassabis",
-            "teddylee777", "subinium", "geeknews", "sung.kim"
+            "prompt_what", "ekke.now", "choi.openai", "rowancheung",
+            "openai", "sama", "anthropic", "googledeepmind", "huggingface", "teddylee777", "subinium"
         ]
-        default_tags = ["ai", "artificialintelligence", "machinelearning", "llm", "claude", "claudecode", "mcpserver", "agenticai", "인공지능", "생성형ai", "챗gpt"]
+        default_tags = ["ai", "artificialintelligence", "llm", "claude", "claudecode", "mcpserver", "agenticai"]
         users = [u.strip() for u in args.users.split(",") if u.strip()] or default_users
         tags = [t.strip() for t in args.tags.split(",") if t.strip()] or default_tags
         res = handle_threads(users, tags, limit_per_target=args.limit)
@@ -316,8 +252,8 @@ def main():
 
     elif args.mode == "x":
         default_users = [
-            "OpenAI", "AnthropicAI", "GoogleDeepMind", "sama", "karpathy", "ylecun", "DrJimFan", "demishassabis",
-            "bshifter", "alexalbert__", "teddylee777", "subinium", "hada_io", "sung_kim"
+            "rowancheung", "minchoi", "godofprompt", "heyBarsee", "omarsar0",
+            "OpenAI", "AnthropicAI", "GoogleDeepMind", "sama", "karpathy", "DrJimFan"
         ]
         users = [u.strip() for u in args.users.split(",") if u.strip()] or default_users
         res = handle_x(users, limit_per_user=args.limit)

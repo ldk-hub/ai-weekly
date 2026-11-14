@@ -35,6 +35,9 @@ def parse_x_metrics(article) -> dict:
 
 
 def parse_article(article, handle: str):
+    ctx = " ".join(t.strip() for t in article.css('[data-testid="socialContext"] *::text').getall() if t.strip())
+    if re.search(r"pinned|고정", ctx, re.I):
+        return None  # 고정 게시물 제외
     href = article.css('a[href*="/status/"]::attr(href)').get() or ""
     m = re.search(r"/([^/]+)/status/(\d+)", href)
     if not m or m.group(1).lower() != handle.lower():
