@@ -1,8 +1,32 @@
 {
   "date": "2026-11-16",
-  "generatedAt": "2026-11-16T00:29:03.549Z",
-  "count": 16,
+  "generatedAt": "2026-11-16T02:38:01.359Z",
+  "count": 20,
   "items": [
+    {
+      "id": "x:2122123437141553630",
+      "platform": "x",
+      "author": "@openai",
+      "url": "https://x.com/openai/status/2122123437141553630",
+      "text": "Physicist Nathaniel Craig shares how he worked with GPT-6 Astra to develop a candidate lattice definition of the Standard Model.\n\nIt’s the first post on our new science blog:",
+      "thumbnail": "",
+      "publishedAt": "2026-11-16T00:23:49.218000+00:00",
+      "metrics": {
+        "likes": 1531,
+        "reposts": 245,
+        "replies": 268,
+        "views": 214247
+      },
+      "relevance": 92,
+      "title_ko": "물리학자, GPT-6 Astra로 표준 모형 격자 연구",
+      "summary_ko": "물리학자 내서니얼 크레이그가 GPT-6 Astra와 협업해 표준 모형의 후보 격자 정의를 도출한 사례입니다.\nOpenAI가 새로 개설한 과학 블로그의 첫 번째 공식 연구 포스트로 공개됐습니다.",
+      "tags": [
+        "GPT-6 Astra",
+        "과학 연구",
+        "OpenAI"
+      ],
+      "score": 83
+    },
     {
       "id": "x:2122035455793188980",
       "platform": "x",
@@ -12,14 +36,14 @@
       "thumbnail": "",
       "publishedAt": "2026-11-15T18:34:12.830000+00:00",
       "metrics": {
-        "likes": 230,
-        "reposts": 29,
-        "replies": 87,
-        "views": 12267
+        "likes": 279,
+        "reposts": 33,
+        "replies": 97,
+        "views": 16298
       },
       "relevance": 94,
       "title_ko": "신뢰성 높은 AI 에이전트의 비밀은 결정론적 단계",
-      "summary_ko": "상위 엔지니어가 구축한 고성능 에이전트 시스템일수록 LLM에 모든 판단을 맡기지 않고 예측 가능한 결정론적 단계를 촘촘히 배치합니다.\n모든 문제를 에이전트 추가로 해결하려 하면 단계마다 오류가 누적돼 오히려 시스템 신뢰도가 떨어집니다.",
+      "summary_ko": "상위 엔지니어들이 만든 고성능 에이전트 시스템은 모든 판단을 LLM에 맡기지 않고 예측 가능한 결정론적 단계를 촘촘히 배치합니다.\n모든 문제를 에이전트 추가만으로 풀려 하면 단계마다 오류가 누적돼 오히려 신뢰도가 떨어집니다.",
       "tags": [
         "에이전트 설계",
         "신뢰성",
@@ -28,41 +52,17 @@
       "score": 78
     },
     {
-      "id": "threads:Dfx6VkHgcYK",
-      "platform": "threads",
-      "author": "@choi.openai",
-      "url": "https://www.threads.com/@choi.openai/post/Dfx6VkHgcYK",
-      "text": "AI로 만든 웹사이트 디자인이 마음에 들지 않는다면 참고할 만한 사이트가 있습니다.\nDesignBookmark는 버튼, 카드, 입력창, 메뉴 등 다양한 UI 디자인을 모아놓은 사이트인데요.\n마음에 드는 디자인을 선택하면 해당 디자인을 구현할 수 있는 프롬프트를 복사할 수 있습니다. 복사한 프롬프트를 Codex나 Claude에 붙여넣으면 됩니다.\n디자인을 미리 확인할 수 있고, 프롬프트를 수정해 원하는 스타일로 바꿀 수도 있습니다.",
-      "thumbnail": "https://scontent-nrt1-2.cdninstagram.com/v/t51.71878-15/902954488_1718565023126574_7971859139032534575_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMTI1OTcxMDA2MDYxMTA4Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19maXJzdF9mcmFtZV90aHVtYm5haWwuQzMifQ%3D%3D&_nc_ohc=4EgcYqo1nsEQ7kNvwE5uLzs&_nc_oc=AdpvFC1QEw_GK6nyG0_IivIFPiPoDH0oACkYTbG1tYEeznhKhoRQcJoXal4_6cAKl8A&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_gid=OASKZi4MA3-tIqn3Gwcwtw&_nc_ss=7a20f&_nc_ct=RQosPBUIFQolBAAAAA&oh=00_AQSQ_uWp988NIF47F-RXywGS9EaxJymowCmkg5d0c03IeA&oe=6B003963",
-      "publishedAt": "2026-11-15T23:00:27.000Z",
-      "metrics": {
-        "likes": 198,
-        "reposts": 89,
-        "replies": 3,
-        "views": 0
-      },
-      "relevance": 93,
-      "title_ko": "AI 웹 디자인 프롬프트 라이브러리 DesignBookmark",
-      "summary_ko": "버튼·카드·입력창·메뉴 등 완성도 높은 UI 컴포넌트를 미리 보고 구현 프롬프트를 바로 복사할 수 있는 DesignBookmark가 소개됐습니다.\n복사한 프롬프트를 Claude나 Codex에 붙여넣고 스타일만 수정하면 AI 웹 UI 품질을 빠르게 끌어올릴 수 있습니다.",
-      "tags": [
-        "UI 디자인",
-        "프롬프트",
-        "바이브코딩"
-      ],
-      "score": 77
-    },
-    {
       "id": "instagram:Dfw9ERZMbVH",
       "platform": "instagram",
       "author": "@joshproductletter",
       "url": "https://www.instagram.com/reel/Dfw9ERZMbVH/",
-      "text": "메타가 사내에서 8년 동안 다듬어 무료로 공개한 디자인 시스템, 아스트릭스(Astryx)를 정리했어요.\n\n앱 1만 3천 개에 쓰였다고 하고, 깃허브 별 2만 8천 개, 바로 쓰는 화면 부품 150개 넘게, 테마 7가지가 들어 있어요.\nAI에게 앱을 맡기면 버튼 모양을 매번 새로 지어내는데, 아스트릭스는 클로드 코드에 붙이는 MCP 서버가 있어서 진짜 부품 목록을 찾아보고 그대로 가져다 써요.\n\n설치 가이드와 바로 쓰는 앱 ��면 요청문 12개는 영상 마지막에서 받는 방법을 확인하세요.\n\n#클로드 #클로드코드 #클로드스킬 #메타 #디자인시스템 #MCP #바이브코딩",
-      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/907374573_17991788316063763_5727587191023184741_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMDk5MDI0MDg4Nzk3NzI4Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjEwODAuc2RyLnZpZGVvX2RlZmF1bHRfY292ZXJfZnJhbWUuQzMifQ%3D%3D&_nc_ohc=ZRMhi68z_FAQ7kNvwGuBo3m&_nc_oc=Adqj2HZDBuTp5aT5q8Jt2KLcv_V84yrGdGDCWNQO9NnOxKe2a1UMrA6_FPI_1H6U3_Q&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=lAwl27Hq5mXex7JIn3kpVg&_nc_ss=7a6a8&_nc_ct=RQosPBUIFQQlBAAAAA&oh=00_AQRT2tq9kqJNQS_Fhi8zsufQDczw_Yp0LpBu0Zi288l21A&oe=6B001961",
+      "text": "메타가 사내에서 8년 동안 다듬어 무료로 공개한 디자인 시스템, 아스트릭스(Astryx)를 정리했어요.\n\n앱 1만 3천 개에 쓰였다고 하고, 깃허브 별 2만 8천 개, 바로 쓰는 화면 부품 150개 넘게, 테마 7가지가 들어 있어요.\nAI에게 ��을 맡기면 버튼 모양을 매번 새로 지어내는데, 아스트릭스는 클로드 코드에 붙이는 MCP 서버가 있어서 진짜 부품 목록을 찾아보고 그대로 가져다 써요.\n\n설치 가이드와 바로 쓰는 앱 화면 요청문 12개는 영상 마지막에서 받는 방법을 확인하세요.\n\n#클로드 #클로드코드 #클로드스킬 #메타 #디자인시스템 #MCP #바이브코딩",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/907374573_17991788316063763_5727587191023184741_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMDk5MDI0MDg4Nzk3NzI4Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjEwODAuc2RyLnZpZGVvX2RlZmF1bHRfY292ZXJfZnJhbWUuQzMifQ%3D%3D&_nc_ohc=ZRMhi68z_FAQ7kNvwGuBo3m&_nc_oc=Adqj2HZDBuTp5aT5q8Jt2KLcv_V84yrGdGDCWNQO9NnOxKe2a1UMrA6_FPI_1H6U3_Q&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=djmVvP162f7-m6_OzFGBlg&_nc_ss=7a6a8&_nc_ct=RQosPBUIFQQlBAAAAA&oh=00_AQRvS4jO5QNj_ALVTIwhQfxJ-Xq7v8CHyC2sSrfP7JGFRw&oe=6B0051A1",
       "publishedAt": "2026-11-15T12:00:00.000Z",
       "metrics": {
         "likes": 26,
         "reposts": 0,
-        "replies": 69,
+        "replies": 74,
         "views": 0
       },
       "relevance": 91,
@@ -73,7 +73,7 @@
         "MCP",
         "클로드 코드"
       ],
-      "score": 72
+      "score": 73
     },
     {
       "id": "instagram:DfwnNV4sYWq",
@@ -81,12 +81,12 @@
       "author": "@joshproductletter",
       "url": "https://www.instagram.com/reel/DfwnNV4sYWq/",
       "text": "오픈AI 창립 멤버 카파시가 AI에게 시킨다는 '비행기 정비 매뉴얼 문체(ASD-STE100)' 요청법을 정리했어요.\n\n한 문장에 한 가지 생각만, 문장은 짧게, 꾸밈말은 빼고 숫자와 조건은 그대로 두는 규칙인데요, 너무 딱딱해지지 않게 80% 정도만 맞춰 달라고 하는 게 요령이에요.\n제 클로드 코드에 같은 질문을 두 번 넣어 보니, 규칙을 붙인 쪽은 문장당 평균 33자에서 21자로 확 짧아졌어요. 보고서나 메일 초안에 한 줄만 붙여 보세요.\n\n한국어에 맞춘 요청문 4종과 전후 예시 5개는 영상 마지막에서 받는 방법을 확인하세요.\n\n#클로드 #클로드코드 #클로드스킬 #챗GPT #AI글쓰기 #업무자동화 #프롬프트",
-      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/904008665_17991763287063763_4378623803403833964_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMDg5NDEwNzE2MzQ2MTAzNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjEwODAuc2RyLnZpZGVvX2RlZmF1bHRfY292ZXJfZnJhbWUuQzMifQ%3D%3D&_nc_ohc=3tWXedGPUMgQ7kNvwET-RIZ&_nc_oc=Adq6e8VaxQn8TdakkXqeJi7_E_itNTueIAkZRsW2VFSbcgXKrR34u1xUIFmUjOggtbw&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=lAwl27Hq5mXex7JIn3kpVg&_nc_ss=7a6a8&_nc_ct=RQosPBUIFQQlBAAAAA&oh=00_AQQP7p76Cu7FYkYpUlEQA-aACiP0WO-SbGYtxnBsK6Sxrg&oe=6B0015B9",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/904008665_17991763287063763_4378623803403833964_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMDg5NDEwNzE2MzQ2MTAzNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjEwODAuc2RyLnZpZGVvX2RlZmF1bHRfY292ZXJfZnJhbWUuQzMifQ%3D%3D&_nc_ohc=3tWXedGPUMgQ7kNvwET-RIZ&_nc_oc=Adq6e8VaxQn8TdakkXqeJi7_E_itNTueIAkZRsW2VFSbcgXKrR34u1xUIFmUjOggtbw&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=djmVvP162f7-m6_OzFGBlg&_nc_ss=7a6a8&_nc_ct=RQosPBUIFQQlBAAAAA&oh=00_AQRIaKFpmN420c7rpZlvYNu9MIFVSDw_tRYmcqY--SIpNA&oe=6B004DF9",
       "publishedAt": "2026-11-15T12:00:00.000Z",
       "metrics": {
         "likes": 9,
         "reposts": 0,
-        "replies": 34,
+        "replies": 38,
         "views": 0
       },
       "relevance": 94,
@@ -100,6 +100,30 @@
       "score": 72
     },
     {
+      "id": "threads:DfyJmDxj_N2",
+      "platform": "threads",
+      "author": "@choi.openai",
+      "url": "https://www.threads.com/@choi.openai/post/DfyJmDxj_N2",
+      "text": "🚨 잰슨 황, 복귀 논의 중\nFinancial Times에 따르면, 이사회에 의해 해임된 지 며칠 만에 실리콘밸리의 주요 인사들과 CEO 복귀 방안을 논의하고 있다고 하는데요.\n특히 젠슨 황의 복귀를 지지하는 기술기업 경영진들이 '워룸(War Room, 전쟁 상황실)'을 구성해 복귀 전략을 세우고 있다는 이야기도 나왔습니다.\n아직 복귀가 확정된 것은 아니지만, CEO 자리를 되찾기 위한 움직임이 본격화되는 모습입니다.\n젠슨 황은 생각보다 빨리 엔비디아로 돌아올 수도 있을 것 같습니다.\n이사회가 하루 만에 내보낸 사람을 다시 부르지 않고 버티면, 엔비디아 주가가 고점의 절반까지 밀릴 수 있는 이유가 쌓여 있기 때문인데요.\n계약서 밖의 악수, 이미 부자가 된 엔지니어, 미국 성장률을 떠받치는 AI 투자와 워싱턴의 계산까지 이어봤습니다. 🧵",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/903618241_17997220179112832_1861313588247002341_n.jpg?stp=cp6_dst-jpg_e35_tt6&_nc_cat=100&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMTMyNjgxNDI2MTQ3NDE2Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTYyMy5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=njY0wpVg1l4Q7kNvwGoPsRK&_nc_oc=Adp8_g_WZ0s02debF04dCJgn0KPr4RRHXpFVlE_7PvJppLIvPjBEClP0QA-sgLLleMc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=v1qlrfJPKdZosl1TzKUqew&_nc_ss=7a20f&_nc_ct=RQosPBUIFQIlBAAAAA&oh=00_AQTp-Cy1eqCmWhrs-EWaYSSb05taLX_TCa57WCgRJ-amxw&oe=6B00243C",
+      "publishedAt": "2026-11-16T01:13:47.000Z",
+      "metrics": {
+        "likes": 289,
+        "reposts": 22,
+        "replies": 36,
+        "views": 0
+      },
+      "relevance": 85,
+      "title_ko": "실리콘밸리 워룸 가동, 젠슨 황 엔비디아 복귀 추진",
+      "summary_ko": "FT 보도 기반으로 젠슨 황의 엔비디아 CEO 복귀 논의와 기술기업 경영진들의 워룸 구성 움직임을 상세히 짚었습니다.\n해임 후 즉시 복귀하지 않을 경우 엔비디아 주가·AI 투자·미국 성장률에 미칠 파장까지 함께 분석했습니다.",
+      "tags": [
+        "엔비디아",
+        "젠슨 황",
+        "산업 분석"
+      ],
+      "score": 72
+    },
+    {
       "id": "x:2121960172541055468",
       "platform": "x",
       "author": "@minchoi",
@@ -108,20 +132,92 @@
       "thumbnail": "https://pbs.twimg.com/media/HXDsAq2WEAA4wvz?format=webp&name=medium",
       "publishedAt": "2026-11-15T13:35:03.904000+00:00",
       "metrics": {
-        "likes": 80,
-        "reposts": 16,
-        "replies": 60,
-        "views": 16562
+        "likes": 91,
+        "reposts": 17,
+        "replies": 61,
+        "views": 19366
       },
-      "relevance": 80,
+      "relevance": 82,
       "title_ko": "아마존 Prime 360, AI로 NBA 생중계 3D 재구성",
-      "summary_ko": "아마존이 고해상도 링 카메라와 AI를 결합해 실제 NBA 경기 장면을 실시간 3D 공간으로 재구성하는 Prime 360을 적용했습니다.\n드론이나 게임 그래픽이 아닌 실제 경기 영상을 기반으로 존재하지 않던 가상 카메라 시점을 즉석에서 만들어냅니다.",
+      "summary_ko": "아마존이 고해상도 링 카메라와 AI를 결합해 실제 NBA 경기 장면을 실시간 3D 공간으로 재구성하는 Prime 360을 공개했습니다.\n드론이나 게임 그래픽이 아닌 실제 경기 영상을 기반으로 존재하지 않던 가상 카메라 시점을 구현합니다.",
       "tags": [
         "컴퓨터 비전",
         "3D 재구성",
         "아마존"
       ],
-      "score": 67
+      "score": 68
+    },
+    {
+      "id": "instagram:DfyMb-LyJSQ",
+      "platform": "instagram",
+      "author": "@prompt_what",
+      "url": "https://www.instagram.com/reel/DfyMb-LyJSQ/",
+      "text": "효과 하나에 키프레임 찍던 분들 위한 클로드 편집 코드 9개입니다 🎬\n\n말하는 영상 한 클립을 클로드 코드에 붙이고\n명령어 한 줄씩만 바꿔 보냈더니\n글자가 머리 뒤로 깔리고 사진 카드가 몸 둘레를 돌아요.\n\n멈춘 화면을 스티커로 오려 이름표를 달거나\n흑백 포스터, 숫자 카드, 유리 그래프, 로고 티어표까지\n같은 클립 하나에서 나왔고요.\n\n효과마다 그대로 붙여 넣을 프롬프트를 한 페이지에 모아 뒀으니\n댓글에 ‘클로드’ 남겨주시면 코드 9개 보내드릴게요!\n\n9 Claude editing codes for anyone who still keyframes every effect 🎬\n\nI pasted one talking clip into Claude Code\nand changed only one command line at a time.\nText slid behind my head and photo cards started orbiting around me.\n\nCutting a frozen frame into a sticker with a name tag,\na black-and-white poster, number cards, a glass graph and a logo tier list\nall came from that same clip.\n\nI put a copy-paste prompt for every effect on one page.\nComment ‘클로드’ below and I’ll send you all 9 codes!\n\nEdit: @prompt_what\nTool: Claude Code",
+      "thumbnail": "https://scontent-nrt1-1.cdninstagram.com/v/t51.82787-15/907515588_1112844361728360_2777888210837852813_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMTMzOTMxNTIwMzcwODA0ODExMTI4NDQzNTgzOTUwMjc%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjEwODAuc2RyLnZpZGVvX3VzZXJfdXBsb2FkZWRfdGh1bWJuYWlsLkMzIn0%3D&_nc_ohc=XqiVARmfeTsQ7kNvwENqnQg&_nc_oc=AdrUZnCVboVojK4dV7icNAe7dfV-7l2u3mMfE40mnCe-Xeg-tISHRnG63g1FVKuhoyY&_nc_zt=23&_nc_ht=scontent-nrt1-1.cdninstagram.com&_nc_gid=5F54NkxfZindLQWLBNW5Nw&_nc_ss=7a6a8&_nc_ct=RQosPBUIFQwlBAAAAA&oh=00_AQSIgpgUGP30DNq3PmxNid00-4WrZEi7exwKvIedT3LrLA&oe=6B004457",
+      "publishedAt": "2026-11-15T12:00:00.000Z",
+      "metrics": {
+        "likes": 12,
+        "reposts": 0,
+        "replies": 12,
+        "views": 0
+      },
+      "relevance": 88,
+      "title_ko": "클로드 코드 명령어 한 줄로 영상 편집 효과 9종 구현",
+      "summary_ko": "수작업 키프레임 대신 클로드 코드에 영상 클립 하나와 프롬프트를 입력해 인물 뒤 자막 배치, 궤도 카드, 유리 그래프 등 9가지 효과를 만든 사례입니다.\n정지 프레임 스티커 분리와 흑백 포스터 변환까지 단일 클립에서 복붙 프롬프트로 재현했습니다.",
+      "tags": [
+        "클로드 코드",
+        "영상 편집",
+        "프롬프트"
+      ],
+      "score": 65
+    },
+    {
+      "id": "threads:DfyO_TACbFn",
+      "platform": "threads",
+      "author": "@choi.openai",
+      "url": "https://www.threads.com/@choi.openai/post/DfyO_TACbFn",
+      "text": "Grok Bot 공동 개발자 로먼 우가르테(Roman Ugarte)는 AI 코딩 도구의 발전으로 개발 현장의 병목 지점이 완전히 바뀌었다고 진단했습니다.\n현재 팀 내 핵심 엔지니어 한 명이 한 달에 무려 4,000건의 PR(Pull Request)을 올릴 정도로 코드 구현 속도가 폭발적으로 빨라졌기 때문입니다.\n이제는 아이디어나 기능을 개발하는 시간과 리소스가 아니라, “제품 로드맵과 비전에 대한 팀 내 정렬(alignment)”이 가장 큰 병목이 되고 있다고 밝혔습니다.\n구성원 각자가 하루에도 수천 번씩 미세한 의사결정을 내리며 기능들을 순식간에 만들어내다 보니, 이를 무작정 병합하면 일관성 없는 “프랑켄슈타인 같은 제품”이 될 위험이 크다는 설명입니다.\n결국 AI 시대의 소프트웨어 개발은 단순 구현을 넘어 “무엇이 훌륭한 제품인지에 대한 일관된 비전과 철학”을 세우는 데 더 많은 시간을 쏟는 방향으로 이동하고 있습니다.",
+      "thumbnail": "https://scontent-nrt1-2.cdninstagram.com/v/t51.71878-15/901867066_2398947327308071_6881829684694689837_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMTM1MDUzODgyOTkzNDk1MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19maXJzdF9mcmFtZV90aHVtYm5haWwuQzMifQ%3D%3D&_nc_ohc=ahym88dUE48Q7kNvwHfUrQH&_nc_oc=Adq4RPEFzZzaaHJXaOMsNDD-2z9OlafW6zobk4MbscJkbV8Lqesjw1LqS9n_TamMuRg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_gid=v1qlrfJPKdZosl1TzKUqew&_nc_ss=7a20f&_nc_ct=RQosPBUIFQolBAAAAA&oh=00_AQT59wWRfeGY4q3Hru70jLszFq63kO4jIOM08gR_gMnjoQ&oe=6B0047F6",
+      "publishedAt": "2026-11-16T02:00:55.000Z",
+      "metrics": {
+        "likes": 12,
+        "reposts": 1,
+        "replies": 1,
+        "views": 0
+      },
+      "relevance": 92,
+      "title_ko": "월 4,000건 PR 시대, 개발 병목은 제품 비전 정렬",
+      "summary_ko": "Grok Bot 공동 개발자 로먼 우가르테는 핵심 엔지니어 1명이 AI 코딩 도구로 월 4,000건의 PR을 올릴 정도로 구현 속도가 빨라졌다고 진단했습니다.\n구현 리소스보다 제품 로드맵과 비전에 대한 팀 정렬(alignment)이 새 병목으로 떠올랐다는 분석입니다.",
+      "tags": [
+        "AI 코딩",
+        "개발 생산성",
+        "제품 전략"
+      ],
+      "score": 65
+    },
+    {
+      "id": "x:2122138368981213661",
+      "platform": "x",
+      "author": "@minchoi",
+      "url": "https://x.com/minchoi/status/2122138368981213661",
+      "text": "Jensen Huang might be coming BACK to NVIDIA. 🤯\n\nJust DAYS after stepping down as CEO, he's reportedly discussing a return.\n\nSilicon Valley allies are even forming a \"war room\" to bring him back.\n\nPer Financial Times",
+      "thumbnail": "https://pbs.twimg.com/media/HXNZjeCWgAAYOxW?format=webp&name=large",
+      "publishedAt": "2026-11-16T01:23:09.246000+00:00",
+      "metrics": {
+        "likes": 60,
+        "reposts": 10,
+        "replies": 15,
+        "views": 4605
+      },
+      "relevance": 80,
+      "title_ko": "젠슨 황, 사임 수일 만에 엔비디아 CEO 복귀 논의",
+      "summary_ko": "파이낸셜 타임스 보도에 따르면 젠슨 황이 엔비디아 CEO 자리에서 물러난 지 며칠 만에 복귀 방안을 논의 중입니다.\n실리콘밸리 우군들이 그의 복귀를 지원하기 위해 별도의 워룸(전쟁 상황실)까지 꾸린 것으로 전해졌습니다.",
+      "tags": [
+        "엔비디아",
+        "젠슨 황",
+        "AI 업계"
+      ],
+      "score": 65
     },
     {
       "id": "instagram:DfwoB9wEmDD",
@@ -129,7 +225,7 @@
       "author": "@aiscene.kr",
       "url": "https://www.instagram.com/p/DfwoB9wEmDD/",
       "text": "그래픽카드 메모리, 누가 먹는지 보여 주는 무료 도구 'gputaskman' 한 장씩 정리 🔍\n\n02 그래픽카드 메모리, 누가 먹는지 보여 줘요\n03 15.3GB라던 화면 담당, 다시 세니 1.4GB\n04 공식 화면: 프로그램마다 몇 GB인지 한 줄씩\n05 내 PC의 AI, 모델 이름까지 알아봐요\n06 AI 몫도 둘로, 본체 파일 + 대화 메모\n07 꽉 차면 일반 메모리로 넘쳐요\n08 윈도우·리눅스·맥, 명령 한 줄로 설치\n09 아직 실험 단계, 이것만 알고 쓰세요\n10 여러분 PC에선 뭐가 제일 먹나요?\n\n릴스에 다 못 넣은 내용을 공식 저장소 README와 공식 화면을 바탕으로 한 장에 하나씩 정리했어요. 이 외에 궁금한 내용은 댓글로 남겨 주세요, 답글로 알려 드릴게요.\n\n📋 복사용\ngithub.com/shanselman/gputaskman\nuv tool install gputaskman\npipx install gputaskman\n\n출처: github.com/shanselman/gputaskman README·공식 화면 · 처음 본 글(X Pirat_Nation) 11월 12일\n\n#gputaskman #그래픽카드 #VRAM #로컬AI #올라마 #오픈소스 #AI #AI씬",
-      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/910277727_18118539158056710_7335640858180713157_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=109&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMDQxOTA0OTQyNzE0OTI4MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=GGcieyOqnkUQ7kNvwHlvOph&_nc_oc=Adoiq2ZctNH0px7QtQvivrlLYx_-mmXrAM-7cKZBC0xh9hlIIKCsFuwfq8AMVs0GqCo&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=TVeYSl1P7uEMPnOaUqXZFw&_nc_ss=7a6a8&_nc_ct=RQosPBUIFQIlBAAAAA&oh=00_AQRAwHUFY8X8QZ_jMTnpeiLzs2oSjFz2w2DG-4pXg5yEfA&oe=6B00394D",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/910277727_18118539158056710_7335640858180713157_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=109&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMDQxOTA0OTQyNzE0OTI4MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=GGcieyOqnkUQ7kNvwHlvOph&_nc_oc=Adoiq2ZctNH0px7QtQvivrlLYx_-mmXrAM-7cKZBC0xh9hlIIKCsFuwfq8AMVs0GqCo&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=QXkNRBHETAdSxCl1sYzWMQ&_nc_ss=7a6a8&_nc_ct=RQosPBUIFQIlBAAAAA&oh=00_AQQYJFrxLQnlg6pO8Sz37Ez5GF-Zr82kjg_XnWXCxYujkg&oe=6B00394D",
       "publishedAt": "2026-11-15T11:01:03.000Z",
       "metrics": {
         "likes": 19,
@@ -137,63 +233,87 @@
         "replies": 4,
         "views": 0
       },
-      "relevance": 90,
-      "title_ko": "로컬 AI VRAM 점유율 추적기 gputaskman",
-      "summary_ko": "그래픽카드 메모리를 어떤 앱과 로컬 AI 모델이 얼마나 쓰는지 한눈에 보여 주는 무료 오픈소스 도구 gputaskman을 소개합니다.\n모델 본체 파일과 대화 컨텍스트 메모리를 구분해 표시하며 uv·pipx 한 줄 명령으로 윈도우·맥·리눅스에 설치할 수 있습니다.",
+      "relevance": 87,
+      "title_ko": "로컬 AI VRAM 점유 확인 무료 도구 gputaskman",
+      "summary_ko": "내 PC에서 실행 중인 AI 모델명과 모델 본체·대화 메모리별 GPU VRAM 점유량을 한눈에 보여주는 오픈소스 도구 gputaskman을 소개했습니다.\n윈도우·리눅스·맥에서 uv 또는 pipx 명령 한 줄로 설치해 일반 메모리 스필 여부를 확인할 수 있습니다.",
       "tags": [
-        "VRAM",
+        "gputaskman",
         "로컬 AI",
-        "오픈소스"
+        "VRAM"
       ],
-      "score": 66
+      "score": 64
     },
     {
       "id": "instagram:Dfx6U1coxW8",
       "platform": "instagram",
       "author": "@aiscene.kr",
       "url": "https://www.instagram.com/p/Dfx6U1coxW8/",
-      "text": "주말 사이 나온 AI 소식 4개, 카드뉴스로 정리했어요 👉 옆으로 넘겨 보세요\n\n01 그록이 이미지·영상 만들기(그록 이매진)를 그록 앱 안으로 합쳤어요. 이제 그록을 열고 바로 사진·영상을 만들 수 있고, 여러 제품을 한곳에 모으는 중이래요. 카드 속 화면은 그록 이매진의 10월 공식 영상이에요\n02 구글 제미나이에 '구글 월렛'을 연결할 수 있게 됐어요. 연결하면 지난 분기 지출을 차트로 그려 주고, 몰래 오른 구독료를 찾아 주고, 작년 지출을 보고 연말 예산도 짜 줘요. 제미나이는 읽기만 하고 돈을 옮기거나 투자하지는 못하며, 연결은 언제든 켜고 끌 수 있어요. 지금은 미국 제미나이 앱 사용자만 쓸 수 있어요(구글 발표 현지 11월 13일, 국내 보도 15일)\n03 앤트로픽 클로드 코드에 실험 기능 '코드 모드'가 생겼어요. 지금까지는 명령 실행·파일 읽기·수정을 하나씩 부르고 결과를 하나씩 읽었는데, 코드 모드에선 클로드가 자바스크립트를 짜서 여러 도구를 한 번에(동시에·이어서) 돌리고 필요한 결과만 읽어요. 여러 파일에 같은 수정을 하거나 검색 결과를 걸러야 할 때 쓰라고 해요. 기본은 꺼져 있고 클로드 코드 v2.1.323 이상 터미널에서 직접 켜야 하며, 실험 기능이라 바뀌거나 없어질 수 있대요(11월 13일 배포)\n04 내 컴퓨터에서 AI 모델을 돌리는 엔진 'llama.cpp'와 그 바탕 라이브러리 'ggml'이 3년 반 만에 정식 1.0이 됐어요. 앞으로 기존 앱이 깨질 수 있는 변경은 앞자리 번호를 올려 미리 알리기로 했어요. 지난 11월 13일 발표지만 주말 사이 화제가 이어져 함께 담았어요(03 코드 모드도 13일 배포)\n\n+ 무료로 쓰는 애니메이션 도구 7개는 오늘 낮 12시 영상에서 자세히 다뤄요\n\n이 외에 궁금한 내용은 댓글로 남겨 주세요. 답글로 알려 드릴게요.\n\n출처\n· 그록·그록 이매진 공식 X (11월 15일)\n· 구글 공식 블로그·X (현지 11월 13일)\n· 클로드 코드 공식 문서·변경 기록 (11월 13일)\n· ggml-org 깃허브·허깅페이스 블로그 (11월 13일)\n\n📋 복사용 (클로드·코덱스에 그대로 붙여넣기)\nblog.google/innovation-and-ai/products/gemini-app/google-wallet-gemini-app/\ncode.claude.com/docs/en/code-mode\nhuggingface.co/blog/ggml-org/llama-cpp-v1\n주말 사이 나온 AI 소식(그록 이미지·영상 통합, 제미나이 구글 월렛 연결, 클로드 코드 코드 모드, llama.cpp 1.0) 핵심만 정리해 줘\n\n#AI뉴스 #인공지능 #그록 #제미나이 #구글 #클로드코드 #로컬AI #오픈소스 #AI씬",
-      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/904180091_18118761539056710_4081475020670053175_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=104&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMTA1NDc0Nzk4MjM0ODQ2NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=qc12Ppgy4ncQ7kNvwH3iF9r&_nc_oc=AdpuAPn7EA4XY-S3J6v84nP9-HN4wsSVHq-YnAiehuxxH9-nNtF5jTdu_Msu8NJ_9Fk&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=TVeYSl1P7uEMPnOaUqXZFw&_nc_ss=7a6a8&_nc_ct=RQosPBUIFQIlBAAAAA&oh=00_AQSp2JxroILJ2cHwCeyaLLw-o3Ycmj-TRS3w65L1ZEmSQw&oe=6B0003EE",
+      "text": "주말 사이 나온 AI 소식 4개, 카드뉴스로 정리했어요 👉 옆으로 넘겨 보세요\n\n01 그록이 이미지·영상 만들기(그록 이매진)를 그록 앱 안으로 합쳤어요. 이제 그록을 열고 바로 사진·영상을 만들 수 있고, 여러 제품을 한곳에 모으는 중이래요. 카드 속 화면은 그록 이매진의 10월 공식 영상이에요\n02 구글 제미나이에 '구글 월렛'을 연결할 수 있게 됐어요. 연결하면 지난 분기 지출을 차트로 그려 주고, 몰래 오른 구독료를 찾아 주고, 작년 지출을 보고 연말 예산도 짜 줘요. 제미나이는 읽기만 하고 돈을 옮기거나 투자하지는 못하며, 연결은 언제든 켜고 끌 수 있어요. 지금은 미국 제미나이 앱 사용자만 쓸 수 있어요(구글 발표 현지 11월 13일, 국내 보도 15일)\n03 앤트로픽 클로드 코드에 실험 기능 '코드 모드'가 생겼어요. 지금까지는 명령 실행·파일 읽기·수정을 하나씩 부르고 결과를 하나씩 읽었는데, 코드 모드에선 클로드가 자바스크립트를 짜서 여러 도구를 한 번에(동시에·이어서) 돌리고 필요한 결과만 읽어요. 여러 파일에 같은 수정을 하거나 검색 결과를 걸러야 할 때 쓰라고 해요. 기본은 꺼��� 있고 클로드 코드 v2.1.323 이상 터미널에서 직접 켜야 하며, 실험 기능이라 바뀌거나 없어질 수 있대요(11월 13일 배포)\n04 내 컴퓨터에서 AI 모델을 돌리는 엔진 'llama.cpp'와 그 바탕 라이브러리 'ggml'이 3년 반 만에 정식 1.0이 됐어요. 앞으로 기존 앱이 깨질 수 있는 변경은 앞자리 번호를 올려 미리 알리기로 했어요. 지난 11월 13일 발표지만 주말 사이 화제가 이어져 함께 담았어요(03 코드 모드도 13일 배포)\n\n+ 무료로 쓰는 애니메이션 도구 7개는 오늘 낮 12시 영상에서 자세히 다뤄요\n\n이 외에 궁금한 내용은 댓글로 남겨 주세요. 답글로 알려 드릴게요.\n\n출처\n· 그록·그록 이매진 공식 X (11월 15일)\n· 구글 공식 블로그·X (현지 11월 13일)\n· 클로드 코드 공식 문서·변경 기록 (11월 13일)\n· ggml-org 깃허브·허깅페이스 블로그 (11월 13일)\n\n📋 복사용 (클로드·코덱스에 그대로 붙여넣기)\nblog.google/innovation-and-ai/products/gemini-app/google-wallet-gemini-app/\ncode.claude.com/docs/en/code-mode\nhuggingface.co/blog/ggml-org/llama-cpp-v1\n주말 사이 나온 AI 소식(그록 이미지·영상 통합, 제미나이 구글 월렛 연결, 클로드 코드 코드 모드, llama.cpp 1.0) 핵심만 정리해 줘\n\n#AI뉴스 #인공지능 #그록 #제미나이 #구글 #클로드코드 #로컬AI #오픈소스 #AI씬",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/904180091_18118761539056710_4081475020670053175_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=104&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMTA1NDc0Nzk4MjM0ODQ2NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=qc12Ppgy4ncQ7kNvwH3iF9r&_nc_oc=AdpuAPn7EA4XY-S3J6v84nP9-HN4wsSVHq-YnAiehuxxH9-nNtF5jTdu_Msu8NJ_9Fk&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=QXkNRBHETAdSxCl1sYzWMQ&_nc_ss=7a6a8&_nc_ct=RQosPBUIFQIlBAAAAA&oh=00_AQQC8uiWZ9szR_AR1CKzX4oMJotTrNxwqZIl1pMBVa0Dhg&oe=6B003C2E",
       "publishedAt": "2026-11-15T23:00:04.000Z",
       "metrics": {
-        "likes": 4,
+        "likes": 6,
         "reposts": 0,
-        "replies": 0,
+        "replies": 1,
         "views": 0
       },
-      "relevance": 92,
-      "title_ko": "주말 AI 핵심 4선: 클로드 코드 모드·llama.cpp 1.0",
-      "summary_ko": "클로드 코드 v2.1.323에 JS로 여러 도구를 한꺼번에 호출하는 실험 기능 코드 모드가 추가됐고, 로컬 AI 엔진 llama.cpp가 3년 반 만에 1.0 정식 출시됐습니다.\n그록 앱 내 이미지·영상 통합과 제미나이의 미국 구글 월렛 지출 분석 연동 소식도 함께 정리됐습니다.",
+      "relevance": 90,
+      "title_ko": "주말 AI 4대 소식: 클로드 코드 모드·llama.cpp 1.0",
+      "summary_ko": "클로드 코드 v2.1.323 실험 기능 코드 모드와 llama.cpp·ggml 정식 1.0 출시 소식을 한눈에 정리했습니다.\n제미나이-구글 월렛 지출 분석 연동과 그록 앱 내 그록 이매진 통합 소식 및 복사용 프롬프트도 함께 담았습니다.",
       "tags": [
         "클로드 코드",
         "llama.cpp",
         "AI 뉴스"
       ],
-      "score": 61
+      "score": 62
     },
     {
       "id": "instagram:DfvxLWzo_S3",
       "platform": "instagram",
       "author": "@aiscene.kr",
       "url": "https://www.instagram.com/p/DfvxLWzo_S3/",
-      "text": "AI가 대신 결제하는데 카드 번호는 아무도 모른다 — 챗GPT 월렛 한 장씩 정리 💳\n\n02 챗GPT 비서가 대신 결제해요\n03 카드 번호 입력이 승인 한 번으로\n04 부탁하면 결제 창까지 와요(공식 시연 네 단계)\n05 한 화면에 물건·총액·카드(공식 결제 창)\n06 AI도 가게도 진짜 번호를 몰라요(대신 쓸 번호)\n07 영수증 끝 네 자리가 내 카드와 다를 수 있어요 · 포인트·카드 보호는 그대로\n08 지금은 미국에서만, 한국은 아직 · 앞으로는 한도 안 자동 구매\n09 여러분은 맡기실 건가요?\n\n릴스에 다 못 넣은 내용을 오픈AI 공식 발표·시연 영상을 바탕으로 한 장에 하나씩 정리했어요. 이 외에 궁금한 내용은 댓글로 남겨 주세요.\n\n📋 복사용\nopenai.com/index/introducing-chatgpt-wallet\n\n출처: OpenAI 「Introducing ChatGPT Wallet」(2026.11.13) · ChatGPT 공식 시연 영상\n\n#챗GPT #ChatGPT #오픈AI #챗GPT월렛 #AI #결제 #AI씬 #카드뉴스",
-      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/901925511_18118443197056710_8256143858541763575_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=102&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMDE1NDE0NTczNTYxNjc4OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=fJ8cCiL0S5sQ7kNvwGYRpT1&_nc_oc=AdpJK57Dk5jju7yMC5DID7mEgbIz-6GDnD6a-LSM9Qg2bzOVpB-GFn6HJm9DbqxQZec&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=TVeYSl1P7uEMPnOaUqXZFw&_nc_ss=7a6a8&_nc_ct=RQosPBUIFQIlBAAAAA&oh=00_AQSHyMzy78ogZPdjE1iQzW9ifCmu6SYKrN7BazUa1oGtRg&oe=6B003A0E",
+      "text": "AI가 대신 결제하는데 카드 번호는 아무도 모른다 — 챗GPT 월렛 한 장씩 정리 💳\n\n02 챗GPT 비서가 대신 결제해요\n03 카드 번호 입력이 승인 한 번으로\n04 부탁하면 결제 창까지 와요(공식 시연 네 단계)\n05 한 화면에 물건·총액·카드(공식 결제 창)\n06 AI도 가게도 진짜 번호를 몰라요(대신 쓸 번호)\n07 영수증 끝 네 자리가 내 카드와 다를 수 있어요 · 포인트·카드 보호는 그대로\n08 지금은 미국에서만, 한국은 아직 · 앞으로는 한도 안 자동 구매\n09 여러분은 맡기실 건가요?\n\n릴스에 다 못 넣은 내용을 오픈AI 공식 발표·시연 영상을 바탕으로 한 장에 하나씩 정리했어요. 이 외에 궁금한 내용은 댓��로 남겨 주세요.\n\n📋 복사용\nopenai.com/index/introducing-chatgpt-wallet\n\n출처: OpenAI 「Introducing ChatGPT Wallet」(2026.11.13) · ChatGPT 공식 시연 영상\n\n#챗GPT #ChatGPT #오픈AI #챗GPT월렛 #AI #결제 #AI씬 #카드뉴스",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/901925511_18118443197056710_8256143858541763575_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=102&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMDE1NDE0NTczNTYxNjc4OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=fJ8cCiL0S5sQ7kNvwGYRpT1&_nc_oc=AdpJK57Dk5jju7yMC5DID7mEgbIz-6GDnD6a-LSM9Qg2bzOVpB-GFn6HJm9DbqxQZec&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=QXkNRBHETAdSxCl1sYzWMQ&_nc_ss=7a6a8&_nc_ct=RQosPBUIFQIlBAAAAA&oh=00_AQQIQvcRRy-uC6pqk-gsPh9p9rzQxYoDtpzx3m4RlWacig&oe=6B003A0E",
       "publishedAt": "2026-11-15T03:01:03.000Z",
       "metrics": {
-        "likes": 13,
+        "likes": 14,
         "reposts": 0,
         "replies": 0,
         "views": 0
       },
-      "relevance": 84,
-      "title_ko": "카드 번호 노출 없이 대리 결제하는 챗GPT 월렛",
-      "summary_ko": "오픈AI가 공개한 챗GPT 월렛은 AI 에이전트와 상점 모두에 실제 카드 번호를 넘기지 않고 가상 번호로 결제 승인을 처리합니다.\n현재 미국 한정으로 제공되며 기존 카드 포인트와 소비자 보호 혜택은 그대로 유지됩니다.",
+      "relevance": 85,
+      "title_ko": "실제 카드 번호 없이 AI가 대리 결제, 챗GPT 월렛",
+      "summary_ko": "오픈AI가 공개한 챗GPT 월렛은 AI와 상점에 실제 카드 번호 대신 일회성 가상 번호를 전달해 승인 한 번으로 결제를 마치는 구조입니다.\n현재 미국 지역에 우선 적용됐으며 향후 설정 한도 내 자동 구매 기능까지 확대될 예정입니다.",
       "tags": [
-        "ChatGPT",
-        "AI 결제",
-        "오픈AI"
+        "ChatGPT 월렛",
+        "OpenAI",
+        "AI 결제"
       ],
-      "score": 60
+      "score": 61
+    },
+    {
+      "id": "reddit:1xwv52o",
+      "platform": "reddit",
+      "author": "r/PromptEngineering · u/Dean_ThinkingVault",
+      "url": "https://www.reddit.com/r/PromptEngineering/comments/1xwv52o/i_spent_the_last_few_months_logging_45_hidden_llm/",
+      "text": "I spent the last few months logging 45 hidden LLM biases and architectural blind spots that break complex prompts. Here are the 3 that trip people up the most and how to fix them\nOver the past few months of testing complex workflows across Gemini, ChatGPT, and Claude, I started keeping a log of every time a model took a lazy shortcut, ignored a rule buried in a prompt, or fabricated data just to finish a table. It turned into a full list of 45 distinct cognitive biases and architectural failure modes across 9 categories. Because the full breakdown is nearly an hour long, I wanted to write out the 3 traps that cause the biggest day-to-day headaches right here in text so you can use the fixes straight away. The first big one is what happens when you upload a 4,000-word document in Turn 1 and ask the model to read it, run live web searches to verify facts, and format an executive summary table in a single go. Three separate failure modes trigger at once here. Because of Stanford's Lost in the Middle U-curve, the attention heads heavily weight the top 20 percent and bottom 20 percent of your prompt while quietly dropping up to half of the middle paragraphs. At the same time, overloaded by the long input, the search router often skips firing live search queries 2 through 5 to beat the single-turn timeout clock and guesses from training memory instead. Finally, forcing a model to construct rigid Markdown or JSON table borders while simultaneously reasoning and searching acts like a 15 to 25 percent tax on reasoning accuracy. The fix is a strict Two-Turn Split. Never combine heavy extraction and live search with formatting in Turn 1. Use Turn 1 strictly to extract raw facts and run web verification. Once those facts are sitting cleanly in the chat history, paste your scoring or summary table instructions fresh in Turn 2. The second trap is the same flawed image regeneration loop. When an AI generates an image or video clip with a mistake, like the wrong side of a car or an",
+      "thumbnail": "",
+      "publishedAt": "2026-11-15T13:11:03.000Z",
+      "metrics": {
+        "likes": 0,
+        "reposts": 0,
+        "replies": 0,
+        "views": 0
+      },
+      "relevance": 96,
+      "title_ko": "복잡 프롬프트를 망치는 LLM 편향과 Two-Turn 분할법",
+      "summary_ko": "긴 문서를 넣고 검색·추출·표 포매팅을 1턴에 모두 시키면 Lost in the Middle 현상과 검색 생략, 추론 저하(15~25%)가 겹칩니다.\n1턴에서는 원시 사실 추출과 웹 검증만 수행하고 2턴에서 표 서식을 적용하는 엄격한 Two-Turn Split 전략이 해법입니다.",
+      "tags": [
+        "프롬프트 엔지니어링",
+        "LLM 편향",
+        "Two-Turn"
+      ],
+      "score": 58
     },
     {
       "id": "reddit:1xwnfr7",
@@ -210,62 +330,14 @@
         "views": 0
       },
       "relevance": 95,
-      "title_ko": "6.3만 건 실험: 역할 부여 프롬프트는 정확도를 못 높인다",
-      "summary_ko": "2026년 7개 모델을 대상으로 63,000회 MMLU 실험을 재검증한 결과 전문가 역할 부여는 정확도를 -1~+1점 범위에서만 흔들 뿐 효과가 없었습니다.\nHaiku 5.5(추론 비활성)에서는 오히려 정확도가 1.9점 하락해 역할 지정은 톤·스타일 제어 용도로만 쓰는 편이 적절합니다.",
+      "title_ko": "63,000회 API 호출로 검증한 전문가 역할 프롬프트",
+      "summary_ko": "2026년 모델 7종을 대상으로 MMLU 63,000회 호출($10.11)을 실행해 전문가 역할 프롬프트의 정확도 효과를 재검증했습니다.\n정확도 변화는 -1.0~+1.0p로 역할 없음과 차이가 없었으며, 역할 부여는 정확도가 아닌 톤·스타일 제어 용도로만 써야 합니다.",
       "tags": [
-        "역할 프롬프팅",
-        "프롬프트 실험",
-        "벤치마크"
+        "역할 프롬프트",
+        "벤치마크",
+        "프롬프트 실험"
       ],
       "score": 57
-    },
-    {
-      "id": "reddit:1xwv52o",
-      "platform": "reddit",
-      "author": "r/PromptEngineering · u/Dean_ThinkingVault",
-      "url": "https://www.reddit.com/r/PromptEngineering/comments/1xwv52o/i_spent_the_last_few_months_logging_45_hidden_llm/",
-      "text": "I spent the last few months logging 45 hidden LLM biases and architectural blind spots that break complex prompts. Here are the 3 that trip people up the most and how to fix them\nOver the past few months of testing complex workflows across Gemini, ChatGPT, and Claude, I started keeping a log of every time a model took a lazy shortcut, ignored a rule buried in a prompt, or fabricated data just to finish a table. It turned into a full list of 45 distinct cognitive biases and architectural failure modes across 9 categories. Because the full breakdown is nearly an hour long, I wanted to write out the 3 traps that cause the biggest day-to-day headaches right here in text so you can use the fixes straight away. The first big one is what happens when you upload a 4,000-word document in Turn 1 and ask the model to read it, run live web searches to verify facts, and format an executive summary table in a single go. Three separate failure modes trigger at once here. Because of Stanford's Lost in the Middle U-curve, the attention heads heavily weight the top 20 percent and bottom 20 percent of your prompt while quietly dropping up to half of the middle paragraphs. At the same time, overloaded by the long input, the search router often skips firing live search queries 2 through 5 to beat the single-turn timeout clock and guesses from training memory instead. Finally, forcing a model to construct rigid Markdown or JSON table borders while simultaneously reasoning and searching acts like a 15 to 25 percent tax on reasoning accuracy. The fix is a strict Two-Turn Split. Never combine heavy extraction and live search with formatting in Turn 1. Use Turn 1 strictly to extract raw facts and run web verification. Once those facts are sitting cleanly in the chat history, paste your scoring or summary table instructions fresh in Turn 2. The second trap is the same flawed image regeneration loop. When an AI generates an image or video clip with a mistake, like the wrong side of a car or an",
-      "thumbnail": "",
-      "publishedAt": "2026-11-15T13:11:03.000Z",
-      "metrics": {
-        "likes": 0,
-        "reposts": 0,
-        "replies": 0,
-        "views": 0
-      },
-      "relevance": 93,
-      "title_ko": "복합 프롬프트가 망가지는 3대 함정과 2턴 분할 해법",
-      "summary_ko": "긴 문서 분석·웹 검색·표 포맷팅을 한 턴에 몰아넣으면 중간 문맥 망각(Lost in the Middle)과 검색 생략, 추론 정확도 저하가 동시에 발생합니다.\n해결책은 1턴에서 원자료 추출과 웹 검증만 마치고 2턴에서 별도로 요약·표 포맷을 지시하는 엄격한 2턴 분할입니다.",
-      "tags": [
-        "프롬프트 엔지니어링",
-        "컨텍스트 관리",
-        "워크플로우"
-      ],
-      "score": 56
-    },
-    {
-      "id": "threads:DfxlwOED-aX",
-      "platform": "threads",
-      "author": "@choi.openai",
-      "url": "https://www.threads.com/@choi.openai/post/DfxlwOED-aX",
-      "text": "AI 정렬 연구자 폴 크리스티아노(Paul Christiano)는 AI가 단순한 수학이나 좁은 영역을 넘어 과학적 발견, 정치적 여론 조작, 복잡한 현실 프로젝트까지 수행하는 “광범위한 초인적 수준(broadly superhuman)”에 이르는 데 불과 6개월에서 2년밖에 걸리지 않을 실질적 위험이 있다고 경고했습니다.\n특히 최근의 폭발적인 발전 속도에 AI가 스스로를 개선하는 ‘재귀적 자기 개선(recursive self-improvement)’이 더해지면 기술 발전이 더욱 가속화될 수 있습니다.\n그는 이러한 가속화가 인류의 통제와 경쟁 능력을 앞질러 재앙에 대처할 수 없는 상황에 직면할 수 있다고 지적했습니다.\n위험의 발생 확률을 5%로 보든 90%로 보든 “단순히 일어나지 않기를 바랄 수만은 없으며, 비교적 빠른 시일 내에 현실화될 가능성에 대비해야 한다”며 위험 징후를 파악할 가시성 확보와 즉각적인 대응을 촉구했습니다.",
-      "thumbnail": "https://scontent-nrt1-1.cdninstagram.com/v/t51.71878-15/907476325_1442843764711500_1408547102548971018_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMTE2OTE4MjgyOTYzNTIyMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19maXJzdF9mcmFtZV90aHVtYm5haWwuQzMifQ%3D%3D&_nc_ohc=SwOK4r1WD5sQ7kNvwFHCsH-&_nc_oc=Adpl1k8WEQHHEN5RRkkNhvgkHjgHCh9bLqtpdSad0mBLWfcW4t2oUjwpvscrHslL6Kc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt1-1.cdninstagram.com&_nc_gid=OASKZi4MA3-tIqn3Gwcwtw&_nc_ss=7a20f&_nc_ct=RQosPBUIFQolBAAAAA&oh=00_AQROBqgjcUDu28T81hxvj_ZcnpCsroE8nFZcqLo9KfKJBA&oe=6B002149",
-      "publishedAt": "2026-11-15T20:00:36.000Z",
-      "metrics": {
-        "likes": 8,
-        "reposts": 0,
-        "replies": 1,
-        "views": 0
-      },
-      "relevance": 78,
-      "title_ko": "폴 크리스티아노: 재귀적 자기 개선 AI 대비 시급",
-      "summary_ko": "AI 정렬 연구자 폴 크리스티아노는 과학·정치·복합 프로젝트를 수행하는 초인적 AI가 6개월~2년 내 현실화할 위험을 경고했습니다.\nAI가 스스로를 고도화하는 재귀적 자기 개선이 가속화되면 통제력을 잃을 수 있어 조기 탐지와 대응 체계 구축을 촉구했습니다.",
-      "tags": [
-        "AI 정렬",
-        "자기개선",
-        "안전성"
-      ],
-      "score": 55
     },
     {
       "id": "x:2122116802700619846",
@@ -276,68 +348,68 @@
       "thumbnail": "",
       "publishedAt": "2026-11-15T23:57:27.444000+00:00",
       "metrics": {
-        "likes": 0,
+        "likes": 1,
         "reposts": 0,
         "replies": 1,
-        "views": 153
+        "views": 430
       },
-      "relevance": 82,
-      "title_ko": "빌더의 토큰 전략을 바꿀 구글 3대 핵심 출시",
-      "summary_ko": "구글의 다양한 주간 발표 가운데 실제 개발자의 토큰 활용 방식을 바꾸는 핵심 출시는 Gemini 4 Carbon, Gemini 4 Hydrogen, Decisions API 세 가지로 요약됩니다.\n모델 계층화와 의사결정 전용 API 조합이 실무 구현의 분기점이 될 전망입니다.",
+      "relevance": 85,
+      "title_ko": "빌더가 주목할 구글 발표: Gemini 4와 Decisions API",
+      "summary_ko": "구글의 이번 주 수많은 발표 가운데 실제 빌더의 토큰 활용 방식을 바꿀 핵심은 Gemini 4 Carbon, Gemini 4 Hydrogen, Decisions API 세 가지입니다.\n나머지 하드웨어·연구 발표보다 프로덕션 토큰 설계 변화에 집중해야 한다는 조언입니다.",
       "tags": [
         "Gemini 4",
         "Decisions API",
-        "토큰 전략"
+        "AI 개발"
       ],
-      "score": 53
+      "score": 56
     },
     {
-      "id": "threads:DfxwCe5jZM5",
-      "platform": "threads",
-      "author": "@choi.openai",
-      "url": "https://www.threads.com/@choi.openai/post/DfxwCe5jZM5",
-      "text": "스태빌리티 AI 창업자 에마드 모스타크(Emad Mostaque)는 단일 AI가 인류를 지배하는 '터미네이터'나 '스카이넷'식 시나리오에 대해 회의적인 시각을 드러냈습니다.\n향후 3년 내에는 물리적 통제를 실행할 로봇 인프라가 부족할 뿐만 아니라, 강화학습 구조상 AI가 굳이 인간 세상을 지배할 동기도 없다는 분석입니다.\n대신 그는 우리가 집중해야 할 실질적 위협으로 분산된 'AI 군집(Swarm)'을 통한 사이버 보안 인프라 공격과 생물학적 위협을 지목했습니다.\n실제로 혈액은행 냉장고 온도를 조작하는 식의 인프라 마비가 훨씬 현실적인 리스크라는 것입니다.\n그는 AI가 스스로 우주의 근본 원리를 이해하며 정렬(Alignment)을 이룰 수 있다는 낙관론을 바탕으로, 자신의 인류 멸망 확률(P(doom))을 기존 50%에서 20%로 낮췄다고 밝혔습니다.",
-      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.71878-15/902450597_1622764715993913_1566565712696683563_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMTIxNDQxODMyMjYyNTMzNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19maXJzdF9mcmFtZV90aHVtYm5haWwuQzMifQ%3D%3D&_nc_ohc=73BOWRneTaEQ7kNvwE73JQs&_nc_oc=Adoq1euOI_5VMMg6qAkHtKJ54rMDYAX03XffNHBJdaKro0XtTzZdxq0K8nRMLRVEWhE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=OASKZi4MA3-tIqn3Gwcwtw&_nc_ss=7a20f&_nc_ct=RQosPBUIFQolBAAAAA&oh=00_AQRX-kKz8NiHrYXbFGOrl4uSUlX5o64M3KeMqy2EoqQk2A&oe=6B002E87",
-      "publishedAt": "2026-11-15T21:30:28.000Z",
-      "metrics": {
-        "likes": 6,
-        "reposts": 0,
-        "replies": 1,
-        "views": 0
-      },
-      "relevance": 76,
-      "title_ko": "에마드 모스타크: 단일 지배보다 AI 군집 보안이 현실 위협",
-      "summary_ko": "스태빌리티 AI 창업자는 향후 3년 내 물리적 로봇 인프라 부족 등을 이유로 단일 AI 인류 지배 시나리오에는 회의적 입장을 보였습니다.\n대신 분산된 AI 군집(Swarm)을 통한 사이버·생물학 인프라 공격을 실질적 위협으로 지목하며 P(doom) 전망치는 20%로 낮췄습니다.",
-      "tags": [
-        "AI 보안",
-        "AI 군집",
-        "리스크"
-      ],
-      "score": 53
-    },
-    {
-      "id": "reddit:1xwhms3",
-      "platform": "reddit",
-      "author": "r/PromptEngineering · u/Dense_Primary629",
-      "url": "https://www.reddit.com/r/PromptEngineering/comments/1xwhms3/what_happens_when_ai_agents_no_longer_need_human/",
-      "text": "What happens when AI agents no longer need human permission to act?\nA new essay today argues that AI agents are crossing a line: from tools that ask permission for every step to systems that act on their own and only report back afterward. The permission prompt, it argues, is becoming the bottleneck, and the next generation of agents will be designed to work through long task lists without a human in the loop for each decision. Why it matters for this sub: prompt engineering is shifting from writing good instructions to designing guardrails, approval policies, and rollback plans. The prompt becomes less of a script and more of a constitution for what the agent is allowed to do unsupervised. Where would you draw the line? Which tasks would you let an agent run fully on its own, and which ones still need a human to sign off? What guardrails have actually worked for you? If you want more AI news and rumors like this, r/AINewsRumors is worth a follow.",
-      "thumbnail": "",
-      "publishedAt": "2026-11-15T00:23:16.000Z",
+      "id": "instagram:DfyPgwRD4y7",
+      "platform": "instagram",
+      "author": "@joshproductletter",
+      "url": "https://www.instagram.com/p/DfyPgwRD4y7/",
+      "text": "클로드를 처음 깔았을 때 내 업무에 맞추는 첫 세팅 5단계를, 메뉴 이름까지 앤트로픽 공식 도움말로 확인해 정리했습니다.\n\n시작은 클로드에게 나를 인터뷰시키는 것입니다. 누구인지, 무슨 일을 하는지, 답을 어떻게 받고 싶은지 답하면 지침 칸에 붙여 넣을 글로 정리해 주는 것이죠. 마케팅 팀장 예시로 직접 돌려 본 화면을 넣었습니다.\n\n✔️ 1. 인터뷰: \"나를 인터뷰해 줘\"라고 요청하고 질문 3개에 답하기\n✔️ 2. 지침: Settings → Your Claude → Instructions 에 붙여 넣기 (모든 대화에 적용)\n✔️ 3. 앱 연결: Customize → Connectors 에서 캘린더·메일·메신저 연결\n✔️ 4. 업무 폴더: 코워크에서 일할 폴더 연결 (유료 요금제, 연결한 폴더 안에서만 읽고 씀)\n✔️ 5. 스킬과 예약 작업: 반복 업무는 스킬로, 정해진 시간 업무는 예약으로 (예약은 유료 요금제, 내 컴퓨터 파일이 필요한 예약은 내 컴퓨터에서만 실행됨)\n✔️ 덤. 쓰던 AI 기억 옮기기: claude.com/import-memory (아직 실험 기능)\n\n새 화면이 계정마다 차례로 적용되는 중이라 메뉴 이름이 조금 다르게 보일 수 있습니다. 회사 계정과 자료는 사내 규정 안에서 연결하시면 좋겠습니다.\n\n첫 세팅 5단계 체크리스트와 인터뷰 요청문은 마지막 장에서 받는 방법을 확인하세요.\n\n#클로드 #Claude #클로드설정 #AI활용 #직장인AI #업무자동화 #빌더조쉬",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/910651264_17991872583063763_6496239270232650203_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMTM1MjY1MTYxMDEyNzIwNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIudmlkZW9fZGVmYXVsdF9jb3Zlcl9mcmFtZS5DMyJ9&_nc_ohc=eLne1A4YjtwQ7kNvwFyCg9U&_nc_oc=AdoTgusKheDQlLVVQXClTCLDKAXQnt_H6prr31sqoSm3bX3QKMoWOxyKviiRI-ebxkE&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=djmVvP162f7-m6_OzFGBlg&_nc_ss=7a6a8&_nc_ct=RQosPBUIFQQlBAAAAA&oh=00_AQTuWWM6zu53sHqhuWD-BqRuwKcLdYJKAdOgdOs3aVmz_g&oe=6B004E90",
+      "publishedAt": "2026-11-16T02:05:31.000Z",
       "metrics": {
         "likes": 0,
         "reposts": 0,
         "replies": 0,
         "views": 0
       },
-      "relevance": 87,
-      "title_ko": "자율 에이전트 시대, 프롬프트는 가드레일 헌법이 된다",
-      "summary_ko": "AI 에이전트가 매 단계 사용자 승인 없이 장기 작업을 자율 실행하는 방향으로 넘어가며 승인 프롬프트가 병목으로 지목되고 있습니다.\n앞으로의 프롬프트 엔지니어링은 단순 지시문 작성을 넘어 허용 범위·승인 정책·롤백 기준을 명시하는 헌법 설계로 이동합니다.",
+      "relevance": 93,
+      "title_ko": "클로드 초기 업무 맞춤 세팅 5단계 공식 가이드",
+      "summary_ko": "앤트로픽 공식 도움말 기준으로 클로드 설치 후 역인터뷰·Instructions·앱 Connectors·코워크 폴더·스킬/예약 작업을 설정하는 5단계를 정리했습니다.\n다른 AI의 기존 기억을 가져오는 실험 기능(import-memory)과 사내 보안 주의점도 함께 안내합니다.",
       "tags": [
-        "자율 에이전트",
-        "가드레일",
-        "프롬프트 설계"
+        "클로드",
+        "업무 자동화",
+        "초기 설정"
       ],
-      "score": 52
+      "score": 56
+    },
+    {
+      "id": "instagram:DfyRNYiMuxP",
+      "platform": "instagram",
+      "author": "@joshproductletter",
+      "url": "https://www.instagram.com/reel/DfyRNYiMuxP/",
+      "text": "클로드 코드 대신 쓰는 무료 오픈소스 코딩 에이전트, 오픈코드(OpenCode)를 직접 써 봤어요.\n\n깃허브 별 22만 개가 넘고 한국어 설명서도 들어 있어요. 설치하고 모델 목록을 불러 보면 로그인 없이 쓰는 무료 모델이 12개 나와요.\n무료 모델 하나로 \"할 일을 체크하면 줄이 그어지는 페이지 만들어 줘\"라고 했더니 20초 만에 파일을 직접 만들었어요.\n다만 무료 모델은 기간 한정이고, 일부는 입력한 내용을 학습에 쓸 수 있다고 하니 회사 코드는 조심하세요.\n\n오픈코드 설치 가이드(맥·윈도우)와 무료 모델 12개 정리(학습 사용 여부 표시), 바로 쓰는 첫 요청문 10개는 영상 마지막에서 받는 방법을 확인하세요.\n\n#클로드 #클로드코드 #클로드스킬 #오픈코드 #OpenCode #AI코딩 #바이브코딩",
+      "thumbnail": "https://scontent-nrt1-2.cdninstagram.com/v/t51.82787-15/904967755_17991874311063763_6627158763084002695_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMTM2MDMwMjkzNzQ2Nzk4Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjEwODAuc2RyLnZpZGVvX2RlZmF1bHRfY292ZXJfZnJhbWUuQzMifQ%3D%3D&_nc_ohc=EuoQNBp-SNcQ7kNvwEY6Vnv&_nc_oc=AdplVHWgqSZPKkhD6P4nolQXcKY5YYoAI3bOZ64c48xTRxv3-YsHxNcN4Bah0PDUm-k&_nc_zt=23&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_gid=djmVvP162f7-m6_OzFGBlg&_nc_ss=7a6a8&_nc_ct=RQosPBUIFQQlBAAAAA&oh=00_AQRu_Cm0D2fGz7dsdC1Pzut0thQWYAwxZ_9E7ZyHbbGt2A&oe=6B002984",
+      "publishedAt": "2026-11-15T12:00:00.000Z",
+      "metrics": {
+        "likes": 0,
+        "reposts": 0,
+        "replies": 0,
+        "views": 0
+      },
+      "relevance": 91,
+      "title_ko": "클로드 코드 대안 오픈소스 에이전트 OpenCode 실사용",
+      "summary_ko": "깃허브 스타 22만 개 이상을 기록한 오픈소스 코딩 에이전트 OpenCode의 로그인 없는 무료 모델 12종과 20초 투두 페이지 제작 테스트를 소개했습니다.\n일부 무료 모델은 입력 데이터를 학습에 쓸 수 있어 회사 코드 사용 시 주의가 필요하다고 덧붙였습니다.",
+      "tags": [
+        "OpenCode",
+        "코딩 에이전트",
+        "오픈소스"
+      ],
+      "score": 55
     },
     {
       "id": "reddit:1xwo13c",
@@ -353,39 +425,63 @@
         "replies": 0,
         "views": 0
       },
-      "relevance": 83,
-      "title_ko": "문장을 쓰지 않는 초경량 의사결정 AI 모델의 부상",
-      "summary_ko": "긴 텍스트를 생성하지 않고 허용된 선택지마다 확률만 즉시 산출하는 비생성형 의사결정 AI 모델 흐름을 짚었습니다.\n출력 토큰 비용이 들지 않으며 MS Azure CTO가 공개한 Venn 코어는 3.15MB 크기로 일반 노트북 CPU에서도 동작합니다.",
+      "relevance": 86,
+      "title_ko": "출력 토큰 0, 확률만 계산하는 의사결정 AI 코어",
+      "summary_ko": "문장을 생성하지 않고 허용된 선택지별 확률만 계산해 출력 토큰 비용이 들지 않는 의사결정 AI(TypeSafe Jev, Venn 3.15MB 코어) 흐름을 짚었습니다.\nOpenAI·MS 버전 공개에 이어 마크 러시노비치가 일반 노트북 CPU에서 사내 이력으로 학습·동작하는 구현체를 GitHub에 올렸습니다.",
       "tags": [
         "의사결정 AI",
-        "경량 모델",
-        "아키텍처"
+        "온디바이스",
+        "토큰 최적화"
       ],
-      "score": 50
+      "score": 52
     },
     {
-      "id": "reddit:1xwkynn",
+      "id": "reddit:1xxboi5",
       "platform": "reddit",
-      "author": "r/ChatGPT · u/Responsible-Ship-436",
-      "url": "https://www.reddit.com/r/ChatGPT/comments/1xwkynn/i_asked_chatgpt_to_imagine_my_exact_opposite_life/",
-      "text": "I asked ChatGPT to imagine my exact opposite life\nBased only on what you genuinely know about me from our conversations, imagine my personality inverse: a fictional person whose core values, preferences, habits, ambitions, emotional tendencies, and worldview are as opposite to mine as reasonably possible. Then design their appearance, clothing, home, relationships, possessions, routines, and current activity to visually express that inverse personality through environmental storytelling. Finally, generate one cinematic, highly detailed image showing an ordinary moment in their life.",
-      "thumbnail": "https://preview.redd.it/siuo561n1p1i1.jpeg?width=640&crop=smart&auto=webp&s=c6234b9bc971362a844f96dddb31165de8a04bc0",
-      "publishedAt": "2026-11-15T03:14:43.000Z",
+      "author": "r/PromptEngineering · u/Dense_Primary629",
+      "url": "https://www.reddit.com/r/PromptEngineering/comments/1xxboi5/ai_got_smarter_so_why_did_its_writing_get_worse_a/",
+      "text": "AI got smarter — so why did its writing get worse? A prompt engineering problem, or a model problem?\nA writer's series this week argues that as models got smarter, their writing got worse — flatter, more generic, more 'AI-sounding' — and the latest chapter digs into why. The claim is that capability went up while voice went down: models now optimize for safe, average, helpful-sounding prose. That lands right in prompt engineering's lap. Is the decline real, or are we just prompting badly — asking for 'a blog post' and getting blog-post mush, when a tighter brief, a voice sample, and a constraint or two would fix it? Questions: - Have you noticed model writing getting blander as models got bigger, or is this nostalgia for early ChatGPT's quirkiness? - What prompt changes actually restore voice — role, style sheet, constraints, or something else? - Is 'good writing' even something a prompt can reliably produce, or does it need a human edit pass no matter what? For more AI news and rumors, check out r/AINewsRumors.",
+      "thumbnail": "",
+      "publishedAt": "2026-11-16T00:43:16.000Z",
       "metrics": {
         "likes": 0,
         "reposts": 0,
         "replies": 0,
         "views": 0
       },
-      "relevance": 74,
-      "title_ko": "대화 이력 기반 정반대 페르소나 시각화 프롬프트",
-      "summary_ko": "기존 대화에서 파악된 성향·가치관·습관과 정반대인 가상의 페르소나를 설정하고 환경 스토리텔링으로 시각화하는 프롬프트 예시입니다.\n캐릭터 의상·주거 공간·소지품·루틴을 구체화한 뒤 고해상도 일상 이미지 한 장으로 생성하도록 유도합니다.",
+      "relevance": 80,
+      "title_ko": "AI가 똑똑해질수록 글쓰기가 밋밋해지는 이유와 복원법",
+      "summary_ko": "최신 대형 모델일수록 안전하고 평균적인 문체를 선호해 글이 평이해지는 현상을 프롬프트 엔지니어링 관점에서 분석했습니다.\n단순 주제 요청 대신 구체적 브리프·문체 샘플·강한 제약 조건을 결합하면 모델 특유의 개성 있는 보이스를 되살릴 수 있습니다.",
       "tags": [
-        "창작 프롬프트",
-        "이미지 생성",
-        "ChatGPT"
+        "AI 글쓰기",
+        "문체 제어",
+        "프롬프트"
       ],
-      "score": 44
+      "score": 48
+    },
+    {
+      "id": "reddit:1xxbsyz",
+      "platform": "reddit",
+      "author": "r/PromptEngineering · u/ioanap554",
+      "url": "https://www.reddit.com/r/PromptEngineering/comments/1xxbsyz/getting_a_500_error_in_the_middle_of_a_chat_that/",
+      "text": "Getting a 500 error in the middle of a chat that already had all my rules pasted in\ni had a chat set up properly, with the tone rules and the exclusions pasted at the top and three good drafts already done. then the next message gave a 500 error. i refreshed and the whole chat was thin, half of it gone, and i had to paste everything again from the start. it is the same error i got a few days ago. the frustrating part is that all my setup lived inside that one chat, so one server error wipes the work. i now keep the rules in a separate note, which feels like doing the tool's job for it.",
+      "thumbnail": "",
+      "publishedAt": "2026-11-16T00:49:27.000Z",
+      "metrics": {
+        "likes": 0,
+        "reposts": 0,
+        "replies": 0,
+        "views": 0
+      },
+      "relevance": 76,
+      "title_ko": "500 에러로 대화 규칙 유실 막는 프롬프트 분리 관리",
+      "summary_ko": "톤 규칙·제외 조건과 초안이 담긴 긴 채팅에서 500 서버 에러가 발생해 대화 절반과 초기 설정이 한 번에 날아간 실무 사례입니다.\n핵심 시스템 규칙과 페르소나는 채팅창 상단이 아니라 별도 외부 노트에 상시 백업·분리해 관리하는 습관이 필수적입니다.",
+      "tags": [
+        "워크플로우",
+        "프롬프트 관리",
+        "실무 팁"
+      ],
+      "score": 46
     }
   ]
 }

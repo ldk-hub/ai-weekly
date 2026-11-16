@@ -10,7 +10,7 @@
   <g transform="translate(910, 58)">
     <rect x="0" y="0" width="230" height="36" rx="18" fill="#162032" stroke="#243044" stroke-width="1"/>
     <circle cx="20" cy="18" r="4.5" fill="#3dd6b5"/>
-    <text x="124" y="23" font-size="13" font-weight="600" fill="#f8fafc" text-anchor="middle">2026-11-16 · 선별 16건</text>
+    <text x="124" y="23" font-size="13" font-weight="600" fill="#f8fafc" text-anchor="middle">2026-11-16 · 선별 20건</text>
   </g>
   <text x="60" y="186" font-size="44" font-weight="700" fill="#f8fafc" letter-spacing="-1.2">AI <tspan fill="#3dd6b5">인플루언서</tspan>의 오늘 <tspan fill="#f8e473">한 수</tspan></text>
   <text x="60" y="230" font-size="17" font-weight="500" fill="#94a3b8">매일 골라 정리하는 실전 프롬프트 · 워크플로우 · AI 활용 팁</text>
@@ -20,31 +20,31 @@
       <g clip-path="url(#socCardClip0)">
         <rect x="22" y="22" width="46" height="24" rx="6" fill="#0284c7"/>
         <text x="45" y="38" font-size="11.5" font-weight="700" fill="#ffffff" text-anchor="middle">X</text>
-        <text x="78" y="38" font-size="13" font-weight="600" fill="#94a3b8">@omarsar0</text>
-        <text x="22" y="82" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">신뢰성 높은 AI</text>
-      <text x="22" y="109" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">에이전트의 비밀…</text>
-        <text x="22" y="148" font-size="13" font-weight="500" fill="#cbd5e1">상위 엔지니어가 구축한 고성능</text>
-      <text x="22" y="169" font-size="13" font-weight="500" fill="#cbd5e1">에이전트 시스템일수록 LLM에 모든</text>
-      <text x="22" y="190" font-size="13" font-weight="500" fill="#cbd5e1">판단을 맡기지 않고 예측 가능…</text>
+        <text x="78" y="38" font-size="13" font-weight="600" fill="#94a3b8">@openai</text>
+        <text x="22" y="82" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">물리학자, GPT-6 Astra로</text>
+      <text x="22" y="109" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">표준 모형 격자 연구</text>
+        <text x="22" y="148" font-size="13" font-weight="500" fill="#cbd5e1">물리학자 내서니얼 크레이그가 GPT-6</text>
+      <text x="22" y="169" font-size="13" font-weight="500" fill="#cbd5e1">Astra와 협업해 표준 모형의 후보</text>
+      <text x="22" y="190" font-size="13" font-weight="500" fill="#cbd5e1">격자 정의를 도출한 사례입니다…</text>
         <line x1="22" y1="244" x2="325" y2="244" stroke="#243044" stroke-width="1"/>
-        <text x="22" y="270" font-size="12.5" font-weight="700" fill="#3dd6b5">점수 78</text>
-        <text x="325" y="270" font-size="12.5" font-weight="600" fill="#f8e473" text-anchor="end">♥ 230</text>
+        <text x="22" y="270" font-size="12.5" font-weight="700" fill="#3dd6b5">점수 83</text>
+        <text x="325" y="270" font-size="12.5" font-weight="600" fill="#f8e473" text-anchor="end">♥ 1,531</text>
       </g>
     </g>
     <g transform="translate(427, 276)">
       <rect x="0" y="0" width="347" height="292" rx="18" fill="#111827" stroke="#243044" stroke-width="1.5"/>
       <g clip-path="url(#socCardClip1)">
-        <rect x="22" y="22" width="85" height="24" rx="6" fill="#6d28d9"/>
-        <text x="64.5" y="38" font-size="11.5" font-weight="700" fill="#ffffff" text-anchor="middle">Threads</text>
-        <text x="117" y="38" font-size="13" font-weight="600" fill="#94a3b8">@choi.openai</text>
-        <text x="22" y="82" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">AI 웹 디자인 프롬프트</text>
-      <text x="22" y="109" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">라이브러리 DesignBookma…</text>
-        <text x="22" y="148" font-size="13" font-weight="500" fill="#cbd5e1">버튼·카드·입력창·메뉴 등 완성도</text>
-      <text x="22" y="169" font-size="13" font-weight="500" fill="#cbd5e1">높은 UI 컴포넌트를 미리 보고 구현</text>
-      <text x="22" y="190" font-size="13" font-weight="500" fill="#cbd5e1">프롬프트를 바로 복사할 수 있…</text>
+        <rect x="22" y="22" width="46" height="24" rx="6" fill="#0284c7"/>
+        <text x="45" y="38" font-size="11.5" font-weight="700" fill="#ffffff" text-anchor="middle">X</text>
+        <text x="78" y="38" font-size="13" font-weight="600" fill="#94a3b8">@omarsar0</text>
+        <text x="22" y="82" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">신뢰성 높은 AI</text>
+      <text x="22" y="109" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">에이전트의 비밀…</text>
+        <text x="22" y="148" font-size="13" font-weight="500" fill="#cbd5e1">상위 엔지니어들이 만든 고성능</text>
+      <text x="22" y="169" font-size="13" font-weight="500" fill="#cbd5e1">에이전트 시스템은 모든 판단을</text>
+      <text x="22" y="190" font-size="13" font-weight="500" fill="#cbd5e1">LLM에 맡기지 않고 예측 가능…</text>
         <line x1="22" y1="244" x2="325" y2="244" stroke="#243044" stroke-width="1"/>
-        <text x="22" y="270" font-size="12.5" font-weight="700" fill="#3dd6b5">점수 77</text>
-        <text x="325" y="270" font-size="12.5" font-weight="600" fill="#f8e473" text-anchor="end">♥ 198</text>
+        <text x="22" y="270" font-size="12.5" font-weight="700" fill="#3dd6b5">점수 78</text>
+        <text x="325" y="270" font-size="12.5" font-weight="600" fill="#f8e473" text-anchor="end">♥ 279</text>
       </g>
     </g>
     <g transform="translate(794, 276)">
@@ -59,7 +59,7 @@
       <text x="22" y="169" font-size="13" font-weight="500" fill="#cbd5e1">오픈소스 디자인 시스템 Astryx(150개</text>
       <text x="22" y="190" font-size="13" font-weight="500" fill="#cbd5e1">이상 컴포넌트·7개 테마)와 클로…</text>
         <line x1="22" y1="244" x2="325" y2="244" stroke="#243044" stroke-width="1"/>
-        <text x="22" y="270" font-size="12.5" font-weight="700" fill="#3dd6b5">점수 72</text>
+        <text x="22" y="270" font-size="12.5" font-weight="700" fill="#3dd6b5">점수 73</text>
         <text x="325" y="270" font-size="12.5" font-weight="600" fill="#f8e473" text-anchor="end">♥ 26</text>
       </g>
     </g>

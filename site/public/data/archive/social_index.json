@@ -1,19 +1,19 @@
 {
-  "updated_at": "2026-11-16T00:29:03.549Z",
+  "updated_at": "2026-11-16T02:38:01.359Z",
   "total_days": 4,
-  "total_items": 61,
+  "total_items": 65,
   "days": [
     {
       "date": "2026-11-16",
       "file": "social_2026-11-16.json",
-      "count": 16,
+      "count": 20,
       "platforms": {
-        "x": 3,
-        "threads": 3,
-        "instagram": 5,
+        "x": 5,
+        "instagram": 8,
+        "threads": 2,
         "reddit": 5
       },
-      "generatedAt": "2026-11-16T00:29:03.549Z"
+      "generatedAt": "2026-11-16T02:38:01.359Z"
     },
     {
       "date": "2026-11-14",
