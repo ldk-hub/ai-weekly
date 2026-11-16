@@ -1,11 +1,11 @@
 ---
 name: cc-weekly
-description: "주간(주말/월요일) AI Weekly 종합 갱신 파이프라인. 스타보드(cc-star), 트렌드(cc-trends), AI 점유율·프론티어 성능(cc-benchmarks), 데일리 AI 뉴스(cc-news)를 통합 실행하고 옵시디언 볼트를 동기화합니다. 트리거: cc-weekly, cc-weekend, 주간 파이프라인, 주간 업데이트, 위클리 업데이트"
+description: "주간(주말/월요일) AI Weekly 종합 갱신 파이프라인. 스타보드(cc-star), 트렌드(cc-trends), AI 점유율·프론티어 성능(cc-benchmarks), 데일리 AI 뉴스(cc-news), 소셜 피드(cc-social)를 통합 실행하고 옵시디언 볼트를 동기화합니다. 트리거: cc-weekly, cc-weekend, 주간 파이프라인, 주간 업데이트, 위클리 업데이트"
 ---
 
 # CC Weekly — 주간 AI Weekly 종합 파이프라인
 
-**목적:** 주간(주말/월요일) 정기 종합 파이프라인으로, AI Weekly의 5대 라이브 서비스 영역인 **스타보드(`cc-star`)**, **Claude Code 트렌드(`cc-trends`)**, **AI 점유율·프론티어 성능(`cc-benchmarks`)**, **데일리 AI 뉴스(`cc-news`)**, 그리고 **AI 라운지 및 사이트 리소스**를 통합 갱신하고 옵시디언 볼트에 전체 이력을 동기화한다.
+**목적:** 주간(주말/월요일) 정기 종합 파이프라인으로, AI Weekly의 6대 라이브 서비스 영역인 **스타보드(`cc-star`)**, **Claude Code 트렌드(`cc-trends`)**, **AI 점유율·프론티어 성능(`cc-benchmarks`)**, **데일리 AI 뉴스(`cc-news`)**, **AI 소셜 피드(`cc-social`)**, 그리고 **AI 라운지 및 사이트 리소스**를 통합 갱신하고 옵시디언 볼트에 전체 이력을 동기화한다.
 
 ---
 
@@ -17,9 +17,10 @@ graph TD
     B --> C[Step 2: CC Trends - 트렌드 수집/스캔/큐레이션/빌드]
     C --> D[Step 3: CC Benchmarks - AI 점유율·성능 검증 및 갱신]
     D --> E[Step 4: CC News - 데일리 24시간 뉴스 수집/큐레이션/검증]
-    E --> F[Step 5: 사이트 리소스 갱신 RSS·Sitemap·Lounge·OG]
-    F --> G[Step 6: 옵시디언 볼트 동기화 sync:obsidian]
-    G --> H[완료 및 종합 리포트]
+    E --> F[Step 5: CC Social - 소셜 피드 수집/큐레이션/아카이브]
+    F --> G[Step 6: 사이트 리소스 갱신 RSS·Sitemap·Lounge·OG 및 빌드]
+    G --> H[Step 7: 옵시디언 볼트 동기화 sync:obsidian]
+    H --> I[완료 및 종합 리포트]
 ```
 
 ### 1. Step 1: CC Star (스타보드 갱신)
@@ -57,19 +58,30 @@ graph TD
   3. 품질 게이트 검증: `node scripts/news/curate_news.js --validate` (통과 필수)
 - **산출물:** `site/public/data/news_latest.json`, `data/archive/news_YYYY-MM-DD.json`, `data/archive/news_index.json`
 
-### 5. Step 5: 사이트 리소스 갱신
+### 5. Step 5: CC Social (소셜 피드 갱신)
+- **절차 (`cc-social` 스킬 연계):**
+  1. 시드 화이트리스트 수집: `node scripts/social/collect_social.js` (X·Threads·Reddit·Instagram 시드 최신 게시물 수집, `instagram`·`x`·`threads` 중 24시간 내 3건 미만 플랫폼은 48시간 창까지 자동 보충)
+  2. 큐레이션 및 아카이브 갱신:
+     - `GEMINI_API_KEY`가 있으면: `node scripts/social/curate_social.js` (최근 7일 중복 차단 및 `build_social_archive.js` 자동 실행)
+     - `GEMINI_API_KEY`가 없으면: `data/social_candidates.json`을 직접 선별·한국어 요약해 `site/public/data/social_latest.json` 및 `data/social/YYYY-MM-DD.json` 생성 후 `node scripts/social/build_social_archive.js` 실행
+     - 필수 균형 규칙: 후보 2건 이상 보유 필수 플랫폼(`instagram`·`x`·`threads`)에서 각 최소 2~3건 선별, 후보에 없는 id/url/author 작성 금지
+  3. 품질 게이트 검증: `node scripts/social/curate_social.js --validate` (통과 필수, 로그인월/CAPTCHA·수집 실패 시 우회하지 않고 경고 보고 후 다음 단계 계속 진행)
+- **산출물:** `site/public/data/social_latest.json`, `data/social/YYYY-MM-DD.json`, `site/public/data/archive/social_index.json`, `site/public/data/archive/social_YYYY-MM-DD.json`
+
+### 6. Step 6: 사이트 리소스 갱신 및 빌드
 - **RSS 피드 & 사이트맵:** `node scripts/core/generate-rss.js`
 - **AI 라운지 Discussions:** `GH_TOKEN=... node scripts/community/collect_lounge.js`
 - **오픈그래프(OG) 이미지:** `node scripts/core/generate-og.js`
+- **프로덕션 빌드:** `npm run build` (`vite build` 정적 번들 무결성 확인)
 
-### 6. Step 6: 옵시디언 볼트 동기화
+### 7. Step 7: 옵시디언 볼트 동기화
 - **명령어:** `npm run sync:obsidian`
 - **역할:** 로컬 옵시디언 볼트(`C:\Users\ok601\OneDrive\문서\Obsidian Vault\ai-weekly`)에 주간 종합 작업일지, 아키텍처 명세, 대시보드를 전면 동기화.
 
 ---
 
 ## 결과 보고 규격
-주간 종합 파이프라인 완료 후 아래 5개 항목을 표준 3단 구조(`Executive Summary`, `Detailed Solution`, `Takeaways & Action Items`)에 맞춰 통합 요약 보고합니다:
+주간 종합 파이프라인 완료 후 아래 6개 항목을 표준 3단 구조(`Executive Summary`, `Detailed Solution`, `Takeaways & Action Items`)에 맞춰 통합 요약 보고합니다:
 
 1. **스타보드 갱신 요약 (`cc-star`)**:
    - 총 추적 대상 리포지토리 수 및 성공률(%)
@@ -87,6 +99,9 @@ graph TD
    - 6대 기술 신호축(`model`, `product`, `devtool`, `oss`, `research`, `practice`) 분포
    - 매체별 선별 건수 및 결측(`[MISSING]`) 매체 보고
    - 재등장 중복 차단 건수 및 `[업데이트]` 반영 건수
-5. **빌드, 배포 및 옵시디언 동기화 상태**:
+5. **소셜 피드 큐레이션 요약 (`cc-social`)**:
+   - 플랫폼별(`x`, `threads`, `reddit`, `instagram`) 수집·게시 건수 및 7일 중복 제거 건수
+   - `--validate` 통과 여부, 일별 아카이브 샤드(`social_index.json`) 누적 일수·건수 및 경고/미수집 플랫폼 보고
+6. **빌드, 배포 및 옵시디언 동기화 상태**:
    - 전체 검증 게이트 통과 여부 및 정적 빌드(`vite build`) 무결성
    - 옵시디언 볼트 작업일지 생성 및 Git 커밋/푸시 해시

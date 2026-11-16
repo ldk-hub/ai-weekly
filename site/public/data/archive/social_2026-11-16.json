@@ -1,0 +1,375 @@
+{
+  "date": "2026-11-16",
+  "generatedAt": "2026-11-16T00:29:03.549Z",
+  "count": 16,
+  "items": [
+    {
+      "id": "x:2122035455793188980",
+      "platform": "x",
+      "author": "@omarsar0",
+      "url": "https://x.com/omarsar0/status/2122035455793188980",
+      "thumbnail": "",
+      "publishedAt": "2026-11-15T18:34:12.830000+00:00",
+      "metrics": {
+        "likes": 230,
+        "reposts": 29,
+        "replies": 87,
+        "views": 12267
+      },
+      "relevance": 94,
+      "title_ko": "신뢰성 높은 AI 에이전트의 비밀은 결정론적 단계",
+      "summary_ko": "상위 엔지니어가 구축한 고성능 에이전트 시스템일수록 LLM에 모든 판단을 맡기지 않고 예측 가능한 결정론적 단계를 촘촘히 배치합니다.\n모든 문제를 에이전트 추가로 해결하려 하면 단계마다 오류가 누적돼 오히려 시스템 신뢰도가 떨어집니다.",
+      "tags": [
+        "에이전트 설계",
+        "신뢰성",
+        "아키텍처"
+      ],
+      "score": 78
+    },
+    {
+      "id": "threads:Dfx6VkHgcYK",
+      "platform": "threads",
+      "author": "@choi.openai",
+      "url": "https://www.threads.com/@choi.openai/post/Dfx6VkHgcYK",
+      "thumbnail": "https://scontent-nrt1-2.cdninstagram.com/v/t51.71878-15/902954488_1718565023126574_7971859139032534575_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMTI1OTcxMDA2MDYxMTA4Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19maXJzdF9mcmFtZV90aHVtYm5haWwuQzMifQ%3D%3D&_nc_ohc=4EgcYqo1nsEQ7kNvwE5uLzs&_nc_oc=AdpvFC1QEw_GK6nyG0_IivIFPiPoDH0oACkYTbG1tYEeznhKhoRQcJoXal4_6cAKl8A&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_gid=OASKZi4MA3-tIqn3Gwcwtw&_nc_ss=7a20f&_nc_ct=RQosPBUIFQolBAAAAA&oh=00_AQSQ_uWp988NIF47F-RXywGS9EaxJymowCmkg5d0c03IeA&oe=6B003963",
+      "publishedAt": "2026-11-15T23:00:27.000Z",
+      "metrics": {
+        "likes": 198,
+        "reposts": 89,
+        "replies": 3,
+        "views": 0
+      },
+      "relevance": 93,
+      "title_ko": "AI 웹 디자인 프롬프트 라이브러리 DesignBookmark",
+      "summary_ko": "버튼·카드·입력창·메뉴 등 완성도 높은 UI 컴포넌트를 미리 보고 구현 프롬프트를 바로 복사할 수 있는 DesignBookmark가 소개됐습니다.\n복사한 프롬프트를 Claude나 Codex에 붙여넣고 스타일만 수정하면 AI 웹 UI 품질을 빠르게 끌어올릴 수 있습니다.",
+      "tags": [
+        "UI 디자인",
+        "프롬프트",
+        "바이브코딩"
+      ],
+      "score": 77
+    },
+    {
+      "id": "instagram:Dfw9ERZMbVH",
+      "platform": "instagram",
+      "author": "@joshproductletter",
+      "url": "https://www.instagram.com/reel/Dfw9ERZMbVH/",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/907374573_17991788316063763_5727587191023184741_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMDk5MDI0MDg4Nzk3NzI4Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjEwODAuc2RyLnZpZGVvX2RlZmF1bHRfY292ZXJfZnJhbWUuQzMifQ%3D%3D&_nc_ohc=ZRMhi68z_FAQ7kNvwGuBo3m&_nc_oc=Adqj2HZDBuTp5aT5q8Jt2KLcv_V84yrGdGDCWNQO9NnOxKe2a1UMrA6_FPI_1H6U3_Q&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=lAwl27Hq5mXex7JIn3kpVg&_nc_ss=7a6a8&_nc_ct=RQosPBUIFQQlBAAAAA&oh=00_AQRT2tq9kqJNQS_Fhi8zsufQDczw_Yp0LpBu0Zi288l21A&oe=6B001961",
+      "publishedAt": "2026-11-15T12:00:00.000Z",
+      "metrics": {
+        "likes": 26,
+        "reposts": 0,
+        "replies": 69,
+        "views": 0
+      },
+      "relevance": 91,
+      "title_ko": "메타 디자인 시스템 Astryx MCP로 클로드 코드 연동",
+      "summary_ko": "메타가 사내에서 8년간 다듬어 공개한 오픈소스 디자인 시스템 Astryx(150개 이상 컴포넌트·7개 테마)와 클로드 코드 MCP 연동법을 다뤘습니다.\nMCP 서버를 연결하면 AI가 버튼을 매번 새로 그리지 않고 실제 검증된 컴포넌트 목록을 조회해 그대로 재사용합니다.",
+      "tags": [
+        "디자인 시스템",
+        "MCP",
+        "클로드 코드"
+      ],
+      "score": 72
+    },
+    {
+      "id": "instagram:DfwnNV4sYWq",
+      "platform": "instagram",
+      "author": "@joshproductletter",
+      "url": "https://www.instagram.com/reel/DfwnNV4sYWq/",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/904008665_17991763287063763_4378623803403833964_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMDg5NDEwNzE2MzQ2MTAzNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjEwODAuc2RyLnZpZGVvX2RlZmF1bHRfY292ZXJfZnJhbWUuQzMifQ%3D%3D&_nc_ohc=3tWXedGPUMgQ7kNvwET-RIZ&_nc_oc=Adq6e8VaxQn8TdakkXqeJi7_E_itNTueIAkZRsW2VFSbcgXKrR34u1xUIFmUjOggtbw&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=lAwl27Hq5mXex7JIn3kpVg&_nc_ss=7a6a8&_nc_ct=RQosPBUIFQQlBAAAAA&oh=00_AQQP7p76Cu7FYkYpUlEQA-aACiP0WO-SbGYtxnBsK6Sxrg&oe=6B0015B9",
+      "publishedAt": "2026-11-15T12:00:00.000Z",
+      "metrics": {
+        "likes": 9,
+        "reposts": 0,
+        "replies": 34,
+        "views": 0
+      },
+      "relevance": 94,
+      "title_ko": "카파시 추천 ASD-STE100 간결 문체 프롬프트 기법",
+      "summary_ko": "한 문장에 한 가지 생각만 담고 수식어를 배제하는 항공 정비 매뉴얼 문체(ASD-STE100)를 AI 글쓰기 요청에 80% 강도로 적용하는 요령입니다.\n실험 결과 클로드 코드 응답의 문장당 평균 길이가 33자에서 21자로 줄어 보고서·메일 초안 가독성이 크게 개선됐습니다.",
+      "tags": [
+        "프롬프트 팁",
+        "AI 글쓰기",
+        "클로드 코드"
+      ],
+      "score": 72
+    },
+    {
+      "id": "x:2121960172541055468",
+      "platform": "x",
+      "author": "@minchoi",
+      "url": "https://x.com/minchoi/status/2121960172541055468",
+      "thumbnail": "https://pbs.twimg.com/media/HXDsAq2WEAA4wvz?format=webp&name=medium",
+      "publishedAt": "2026-11-15T13:35:03.904000+00:00",
+      "metrics": {
+        "likes": 80,
+        "reposts": 16,
+        "replies": 60,
+        "views": 16562
+      },
+      "relevance": 80,
+      "title_ko": "아마존 Prime 360, AI로 NBA 생중계 3D 재구성",
+      "summary_ko": "아마존이 고해상도 링 카메라와 AI를 결합해 실제 NBA 경기 장면을 실시간 3D 공간으로 재구성하는 Prime 360을 적용했습니다.\n드론이나 게임 그래픽이 아닌 실제 경기 영상을 기반으로 존재하지 않던 가상 카메라 시점을 즉석에서 만들어냅니다.",
+      "tags": [
+        "컴퓨터 비전",
+        "3D 재구성",
+        "아마존"
+      ],
+      "score": 67
+    },
+    {
+      "id": "instagram:DfwoB9wEmDD",
+      "platform": "instagram",
+      "author": "@aiscene.kr",
+      "url": "https://www.instagram.com/p/DfwoB9wEmDD/",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/910277727_18118539158056710_7335640858180713157_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=109&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMDQxOTA0OTQyNzE0OTI4MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=GGcieyOqnkUQ7kNvwHlvOph&_nc_oc=Adoiq2ZctNH0px7QtQvivrlLYx_-mmXrAM-7cKZBC0xh9hlIIKCsFuwfq8AMVs0GqCo&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=TVeYSl1P7uEMPnOaUqXZFw&_nc_ss=7a6a8&_nc_ct=RQosPBUIFQIlBAAAAA&oh=00_AQRAwHUFY8X8QZ_jMTnpeiLzs2oSjFz2w2DG-4pXg5yEfA&oe=6B00394D",
+      "publishedAt": "2026-11-15T11:01:03.000Z",
+      "metrics": {
+        "likes": 19,
+        "reposts": 0,
+        "replies": 4,
+        "views": 0
+      },
+      "relevance": 90,
+      "title_ko": "로컬 AI VRAM 점유율 추적기 gputaskman",
+      "summary_ko": "그래픽카드 메모리를 어떤 앱과 로컬 AI 모델이 얼마나 쓰는지 한눈에 보여 주는 무료 오픈소스 도구 gputaskman을 소개합니다.\n모델 본체 파일과 대화 컨텍스트 메모리를 구분해 표시하며 uv·pipx 한 줄 명령으로 윈도우·맥·리눅스에 설치할 수 있습니다.",
+      "tags": [
+        "VRAM",
+        "로컬 AI",
+        "오픈소스"
+      ],
+      "score": 66
+    },
+    {
+      "id": "instagram:Dfx6U1coxW8",
+      "platform": "instagram",
+      "author": "@aiscene.kr",
+      "url": "https://www.instagram.com/p/Dfx6U1coxW8/",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/904180091_18118761539056710_4081475020670053175_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=104&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMTA1NDc0Nzk4MjM0ODQ2NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=qc12Ppgy4ncQ7kNvwH3iF9r&_nc_oc=AdpuAPn7EA4XY-S3J6v84nP9-HN4wsSVHq-YnAiehuxxH9-nNtF5jTdu_Msu8NJ_9Fk&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=TVeYSl1P7uEMPnOaUqXZFw&_nc_ss=7a6a8&_nc_ct=RQosPBUIFQIlBAAAAA&oh=00_AQSp2JxroILJ2cHwCeyaLLw-o3Ycmj-TRS3w65L1ZEmSQw&oe=6B0003EE",
+      "publishedAt": "2026-11-15T23:00:04.000Z",
+      "metrics": {
+        "likes": 4,
+        "reposts": 0,
+        "replies": 0,
+        "views": 0
+      },
+      "relevance": 92,
+      "title_ko": "주말 AI 핵심 4선: 클로드 코드 모드·llama.cpp 1.0",
+      "summary_ko": "클로드 코드 v2.1.323에 JS로 여러 도구를 한꺼번에 호출하는 실험 기능 코드 모드가 추가됐고, 로컬 AI 엔진 llama.cpp가 3년 반 만에 1.0 정식 출시됐습니다.\n그록 앱 내 이미지·영상 통합과 제미나이의 미국 구글 월렛 지출 분석 연동 소식도 함께 정리됐습니다.",
+      "tags": [
+        "클로드 코드",
+        "llama.cpp",
+        "AI 뉴스"
+      ],
+      "score": 61
+    },
+    {
+      "id": "instagram:DfvxLWzo_S3",
+      "platform": "instagram",
+      "author": "@aiscene.kr",
+      "url": "https://www.instagram.com/p/DfvxLWzo_S3/",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/901925511_18118443197056710_8256143858541763575_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=102&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMDE1NDE0NTczNTYxNjc4OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=fJ8cCiL0S5sQ7kNvwGYRpT1&_nc_oc=AdpJK57Dk5jju7yMC5DID7mEgbIz-6GDnD6a-LSM9Qg2bzOVpB-GFn6HJm9DbqxQZec&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=TVeYSl1P7uEMPnOaUqXZFw&_nc_ss=7a6a8&_nc_ct=RQosPBUIFQIlBAAAAA&oh=00_AQSHyMzy78ogZPdjE1iQzW9ifCmu6SYKrN7BazUa1oGtRg&oe=6B003A0E",
+      "publishedAt": "2026-11-15T03:01:03.000Z",
+      "metrics": {
+        "likes": 13,
+        "reposts": 0,
+        "replies": 0,
+        "views": 0
+      },
+      "relevance": 84,
+      "title_ko": "카드 번호 노출 없이 대리 결제하는 챗GPT 월렛",
+      "summary_ko": "오픈AI가 공개한 챗GPT 월렛은 AI 에이전트와 상점 모두에 실제 카드 번호를 넘기지 않고 가상 번호로 결제 승인을 처리합니다.\n현재 미국 한정으로 제공되며 기존 카드 포인트와 소비자 보호 혜택은 그대로 유지됩니다.",
+      "tags": [
+        "ChatGPT",
+        "AI 결제",
+        "오픈AI"
+      ],
+      "score": 60
+    },
+    {
+      "id": "reddit:1xwnfr7",
+      "platform": "reddit",
+      "author": "r/PromptEngineering · u/mrtac96",
+      "url": "https://www.reddit.com/r/PromptEngineering/comments/1xwnfr7/i_always_started_prompts_with_you_are_an_expert_i/",
+      "thumbnail": "",
+      "publishedAt": "2026-11-15T05:30:40.000Z",
+      "metrics": {
+        "likes": 0,
+        "reposts": 0,
+        "replies": 0,
+        "views": 0
+      },
+      "relevance": 95,
+      "title_ko": "6.3만 건 실험: 역할 부여 프롬프트는 정확도를 못 높인다",
+      "summary_ko": "2026년 7개 모델을 대상으로 63,000회 MMLU 실험을 재검증한 결과 전문가 역할 부여는 정확도를 -1~+1점 범위에서만 흔들 뿐 효과가 없었습니다.\nHaiku 5.5(추론 비활성)에서는 오히려 정확도가 1.9점 하락해 역할 지정은 톤·스타일 제어 용도로만 쓰는 편이 적절합니다.",
+      "tags": [
+        "역할 프롬프팅",
+        "프롬프트 실험",
+        "벤치마크"
+      ],
+      "score": 57
+    },
+    {
+      "id": "reddit:1xwv52o",
+      "platform": "reddit",
+      "author": "r/PromptEngineering · u/Dean_ThinkingVault",
+      "url": "https://www.reddit.com/r/PromptEngineering/comments/1xwv52o/i_spent_the_last_few_months_logging_45_hidden_llm/",
+      "thumbnail": "",
+      "publishedAt": "2026-11-15T13:11:03.000Z",
+      "metrics": {
+        "likes": 0,
+        "reposts": 0,
+        "replies": 0,
+        "views": 0
+      },
+      "relevance": 93,
+      "title_ko": "복합 프롬프트가 망가지는 3대 함정과 2턴 분할 해법",
+      "summary_ko": "긴 문서 분석·웹 검색·표 포맷팅을 한 턴에 몰아넣으면 중간 문맥 망각(Lost in the Middle)과 검색 생략, 추론 정확도 저하가 동시에 발생합니다.\n해결책은 1턴에서 원자료 추출과 웹 검증만 마치고 2턴에서 별도로 요약·표 포맷을 지시하는 엄격한 2턴 분할입니다.",
+      "tags": [
+        "프롬프트 엔지니어링",
+        "컨텍스트 관리",
+        "워크플로우"
+      ],
+      "score": 56
+    },
+    {
+      "id": "threads:DfxlwOED-aX",
+      "platform": "threads",
+      "author": "@choi.openai",
+      "url": "https://www.threads.com/@choi.openai/post/DfxlwOED-aX",
+      "thumbnail": "https://scontent-nrt1-1.cdninstagram.com/v/t51.71878-15/907476325_1442843764711500_1408547102548971018_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMTE2OTE4MjgyOTYzNTIyMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19maXJzdF9mcmFtZV90aHVtYm5haWwuQzMifQ%3D%3D&_nc_ohc=SwOK4r1WD5sQ7kNvwFHCsH-&_nc_oc=Adpl1k8WEQHHEN5RRkkNhvgkHjgHCh9bLqtpdSad0mBLWfcW4t2oUjwpvscrHslL6Kc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt1-1.cdninstagram.com&_nc_gid=OASKZi4MA3-tIqn3Gwcwtw&_nc_ss=7a20f&_nc_ct=RQosPBUIFQolBAAAAA&oh=00_AQROBqgjcUDu28T81hxvj_ZcnpCsroE8nFZcqLo9KfKJBA&oe=6B002149",
+      "publishedAt": "2026-11-15T20:00:36.000Z",
+      "metrics": {
+        "likes": 8,
+        "reposts": 0,
+        "replies": 1,
+        "views": 0
+      },
+      "relevance": 78,
+      "title_ko": "폴 크리스티아노: 재귀적 자기 개선 AI 대비 시급",
+      "summary_ko": "AI 정렬 연구자 폴 크리스티아노는 과학·정치·복합 프로젝트를 수행하는 초인적 AI가 6개월~2년 내 현실화할 위험을 경고했습니다.\nAI가 스스로를 고도화하는 재귀적 자기 개선이 가속화되면 통제력을 잃을 수 있어 조기 탐지와 대응 체계 구축을 촉구했습니다.",
+      "tags": [
+        "AI 정렬",
+        "자기개선",
+        "안전성"
+      ],
+      "score": 55
+    },
+    {
+      "id": "x:2122116802700619846",
+      "platform": "x",
+      "author": "@godofprompt",
+      "url": "https://x.com/godofprompt/status/2122116802700619846",
+      "thumbnail": "",
+      "publishedAt": "2026-11-15T23:57:27.444000+00:00",
+      "metrics": {
+        "likes": 0,
+        "reposts": 0,
+        "replies": 1,
+        "views": 153
+      },
+      "relevance": 82,
+      "title_ko": "빌더의 토큰 전략을 바꿀 구글 3대 핵심 출시",
+      "summary_ko": "구글의 다양한 주간 발표 가운데 실제 개발자의 토큰 활용 방식을 바꾸는 핵심 출시는 Gemini 4 Carbon, Gemini 4 Hydrogen, Decisions API 세 가지로 요약됩니다.\n모델 계층화와 의사결정 전용 API 조합이 실무 구현의 분기점이 될 전망입니다.",
+      "tags": [
+        "Gemini 4",
+        "Decisions API",
+        "토큰 전략"
+      ],
+      "score": 53
+    },
+    {
+      "id": "threads:DfxwCe5jZM5",
+      "platform": "threads",
+      "author": "@choi.openai",
+      "url": "https://www.threads.com/@choi.openai/post/DfxwCe5jZM5",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.71878-15/902450597_1622764715993913_1566565712696683563_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMTIxNDQxODMyMjYyNTMzNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19maXJzdF9mcmFtZV90aHVtYm5haWwuQzMifQ%3D%3D&_nc_ohc=73BOWRneTaEQ7kNvwE73JQs&_nc_oc=Adoq1euOI_5VMMg6qAkHtKJ54rMDYAX03XffNHBJdaKro0XtTzZdxq0K8nRMLRVEWhE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=OASKZi4MA3-tIqn3Gwcwtw&_nc_ss=7a20f&_nc_ct=RQosPBUIFQolBAAAAA&oh=00_AQRX-kKz8NiHrYXbFGOrl4uSUlX5o64M3KeMqy2EoqQk2A&oe=6B002E87",
+      "publishedAt": "2026-11-15T21:30:28.000Z",
+      "metrics": {
+        "likes": 6,
+        "reposts": 0,
+        "replies": 1,
+        "views": 0
+      },
+      "relevance": 76,
+      "title_ko": "에마드 모스타크: 단일 지배보다 AI 군집 보안이 현실 위협",
+      "summary_ko": "스태빌리티 AI 창업자는 향후 3년 내 물리적 로봇 인프라 부족 등을 이유로 단일 AI 인류 지배 시나리오에는 회의적 입장을 보였습니다.\n대신 분산된 AI 군집(Swarm)을 통한 사이버·생물학 인프라 공격을 실질적 위협으로 지목하며 P(doom) 전망치는 20%로 낮췄습니다.",
+      "tags": [
+        "AI 보안",
+        "AI 군집",
+        "리스크"
+      ],
+      "score": 53
+    },
+    {
+      "id": "reddit:1xwhms3",
+      "platform": "reddit",
+      "author": "r/PromptEngineering · u/Dense_Primary629",
+      "url": "https://www.reddit.com/r/PromptEngineering/comments/1xwhms3/what_happens_when_ai_agents_no_longer_need_human/",
+      "thumbnail": "",
+      "publishedAt": "2026-11-15T00:23:16.000Z",
+      "metrics": {
+        "likes": 0,
+        "reposts": 0,
+        "replies": 0,
+        "views": 0
+      },
+      "relevance": 87,
+      "title_ko": "자율 에이전트 시대, 프롬프트는 가드레일 헌법이 된다",
+      "summary_ko": "AI 에이전트가 매 단계 사용자 승인 없이 장기 작업을 자율 실행하는 방향으로 넘어가며 승인 프롬프트가 병목으로 지목되고 있습니다.\n앞으로의 프롬프트 엔지니어링은 단순 지시문 작성을 넘어 허용 범위·승인 정책·롤백 기준을 명시하는 헌법 설계로 이동합니다.",
+      "tags": [
+        "자율 에이전트",
+        "가드레일",
+        "프롬프트 설계"
+      ],
+      "score": 52
+    },
+    {
+      "id": "reddit:1xwo13c",
+      "platform": "reddit",
+      "author": "r/PromptEngineering · u/galratner",
+      "url": "https://www.reddit.com/r/PromptEngineering/comments/1xwo13c/not_all_ai_sounds_human/",
+      "thumbnail": "",
+      "publishedAt": "2026-11-15T06:05:43.000Z",
+      "metrics": {
+        "likes": 0,
+        "reposts": 0,
+        "replies": 0,
+        "views": 0
+      },
+      "relevance": 83,
+      "title_ko": "문장을 쓰지 않는 초경량 의사결정 AI 모델의 부상",
+      "summary_ko": "긴 텍스트를 생성하지 않고 허용된 선택지마다 확률만 즉시 산출하는 비생성형 의사결정 AI 모델 흐름을 짚었습니다.\n출력 토큰 비용이 들지 않으며 MS Azure CTO가 공개한 Venn 코어는 3.15MB 크기로 일반 노트북 CPU에서도 동작합니다.",
+      "tags": [
+        "의사결정 AI",
+        "경량 모델",
+        "아키텍처"
+      ],
+      "score": 50
+    },
+    {
+      "id": "reddit:1xwkynn",
+      "platform": "reddit",
+      "author": "r/ChatGPT · u/Responsible-Ship-436",
+      "url": "https://www.reddit.com/r/ChatGPT/comments/1xwkynn/i_asked_chatgpt_to_imagine_my_exact_opposite_life/",
+      "thumbnail": "https://preview.redd.it/siuo561n1p1i1.jpeg?width=640&crop=smart&auto=webp&s=c6234b9bc971362a844f96dddb31165de8a04bc0",
+      "publishedAt": "2026-11-15T03:14:43.000Z",
+      "metrics": {
+        "likes": 0,
+        "reposts": 0,
+        "replies": 0,
+        "views": 0
+      },
+      "relevance": 74,
+      "title_ko": "대화 이력 기반 정반대 페르소나 시각화 프롬프트",
+      "summary_ko": "기존 대화에서 파악된 성향·가치관·습관과 정반대인 가상의 페르소나를 설정하고 환경 스토리텔링으로 시각화하는 프롬프트 예시입니다.\n캐릭터 의상·주거 공간·소지품·루틴을 구체화한 뒤 고해상도 일상 이미지 한 장으로 생성하도록 유도합니다.",
+      "tags": [
+        "창작 프롬프트",
+        "이미지 생성",
+        "ChatGPT"
+      ],
+      "score": 44
+    }
+  ]
+}
