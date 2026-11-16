@@ -8,7 +8,7 @@ const ROOT = path.join(__dirname, "..", "..");
 const CANDIDATES = path.join(ROOT, ".tmp", "candidates.json");
 const LATEST = path.join(ROOT, "site", "public", "data", "latest.json");
 const API_KEY = process.env.GEMINI_API_KEY;
-const MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+const MODEL = process.env.GEMINI_MODEL || "gemini-3.8-flash";
 
 const CAPS = {
   rising: { skill: 8, mcp: 6, agent: 4, harness: 2 },
@@ -875,7 +875,7 @@ async function callGemini(candidates) {
             parts: [{ text: `${PROMPT_RULES}\n\n후보 목록:\n${JSON.stringify(candidates)}` }],
           },
         ],
-        generationConfig: { responseMimeType: "application/json", temperature: 0.4 },
+        generationConfig: { responseMimeType: "application/json" },
       };
       const res = await fetch(url, {
         method: "POST",

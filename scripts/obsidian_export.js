@@ -102,6 +102,7 @@ graph TD
 - [[05-benchmarks 점유율·성능 파이프라인|📊 benchmarks 점유율·성능 파이프라인 명세]]
 
 ### 📅 날짜별 작업 일지 (Work Logs)
+- [[2026-11-13 작업일지|📅 2026-11-13 작업일지 (평일 cc-daily: 스타보드 618개 100% 갱신, 데일리 AI 뉴스 18건·소셜 피드 6건 큐레이션 및 검증, RSS/OG/라운지·옵시디언 동기화)]]
 - [[2026-11-05 작업일지|📅 2026-11-05 작업일지 (주간 cc-weekly: 스타보드 610개 최신화, 트렌드 33건 큐레이션·보안 스캔, cc-benchmarks 동기화·게이트 검증, 데일리 뉴스 15건 큐레이션 배포 및 옵시디언 동기화)]]
 - [[2026-11-02 작업일지|📅 2026-11-02 작업일지 (주간 cc-weekly: 스타보드 601개 최신화, 트렌드 35건 큐레이션·보안 스캔, cc-benchmarks 동기화·게이트 검증, 데일리 뉴스 16건 큐레이션 배포 및 옵시디언 동기화)]]
 - [[2026-10-30 작업일지|📅 2026-10-30 작업일지 (평일 cc-daily: 스타보드 601개 100% 최신화, cc-benchmarks 가격/메타 검증, 17건 전 매체 균형 큐레이션 및 배포, 옵시디언 동기화)]]
@@ -325,7 +326,7 @@ tags: [ai-weekly, benchmarks, frontier-models, market-share, pipeline, staleness
 const LOGS = [
   {
     filename: "2026-11-16 작업일지.md",
-    title: "2026-11-16 작업일지 — 주간 종합 파이프라인(cc-weekly) 완수: 스타보드 618개 추적, 트렌드 33건(신규 7종 사전 확충), 벤치마크 검증, 데일리 뉴스 18건 배포 및 옵시디언 동기화",
+    title: "2026-11-16 작업일지 — 주간 종합 파이프라인(cc-weekly) 완수: 스타보드 622개 추적, 트렌드 33건(신규 7종 사전 확충), 벤치마크 검증, 데일리 뉴스 18건 배포 및 옵시디언 동기화",
     date: "2026-11-16",
     content: `---
 title: 2026-11-16 작업일지
@@ -341,8 +342,8 @@ author: ldk-hub <orm6711@gmail.com>
 ## 📌 주요 작업 요약
 
 ### 1. 스타보드 갱신 (cc-star)
-- **추적 대상 및 성공률**: 총 618개 오픈소스 리포지토리 전수 추적 완료 (\`Success: 618 (100%)\`, 404 Gone 48건, Rename 1건, Suspect 0건).
-- **주요 상승 리포 Top 5 (일평균)**: \`morluto/rea\`(+2,832.9/일), \`mattpocock/skills\`(+997.6/일), \`stablyai/orca\`(+934.6/일), \`anthropics/skills\`(+816.6/일), \`Nutlope/hallmark\`(+694.0/일).
+- **추적 대상 및 성공률**: 총 622개 오픈소스 리포지토리 전수 추적 완료 (\`Success: 622 (100%)\`, 404 Gone 48건, Rename 0건, Suspect 0건).
+- **주요 상승 리포 Top 5 (7일 일평균)**: \`morluto/rea\`(+2,564.9/일), \`mattpocock/skills\`(+938.4/일), \`stablyai/orca\`(+911.3/일), \`anthropics/skills\`(+804.9/일), \`yetone/magpie\`(+651.6/일). (최근 1일 기준: \`morluto/rea\` +1,936, \`affaan-m/ECC\` +708, \`anthropics/skills\` +696, \`mattpocock/skills\` +640, \`stablyai/orca\` +637)
 
 ### 2. Claude Code 트렌드 갱신 (cc-trends)
 - **광역 수집 및 보안 스캔**: 65/160건 후보 수집, 설치 진입점 정적 스캔 결과 원격 코드 실행 의심 1건(\`NousResearch/hermes-agent\`) 차단.
@@ -360,6 +361,39 @@ author: ldk-hub <orm6711@gmail.com>
 ### 5. 사이트 리소스 및 빌드·동기화
 - **리소스 갱신**: \`feed.xml\`, \`news-feed.xml\`, \`sitemap.xml\`, \`lounge_latest.json\`(스레드 1·댓글 1), \`og.png\`/\`og-social.png\` 생성 완료.
 - **프로덕션 빌드**: \`vite build\` 에러 없이 완료 (\`dist/\` 번들 생성) 및 옵시디언 볼트 동기화 완료.
+`,
+  },
+  {
+    filename: "2026-11-13 작업일지.md",
+    title: "2026-11-13 작업일지 — 평일 파이프라인(cc-daily) 완수: 스타보드 618개 갱신, 데일리 AI 뉴스 18건·소셜 피드 6건 큐레이션, RSS/OG/라운지 및 옵시디언 동기화",
+    date: "2026-11-13",
+    content: `---
+title: 2026-11-13 작업일지
+date: 2026-11-13
+type: work-log
+tags: [ai-weekly, work-log, cc-daily, cc-star, cc-news, cc-social, obsidian-sync]
+status: completed
+author: ldk-hub <orm6711@gmail.com>
+---
+
+# 📅 2026-11-13 작업일지 (평일 파이프라인 cc-daily 완수)
+
+## 📌 주요 작업 요약
+
+### 1. 스타보드 갱신 (cc-star)
+- **추적 대상 및 성공률**: 총 618개 오픈소스 리포지토리 전수 추적 완료 (\`Success: 618 (100%)\`, 404 Gone: 47, Renames: 0, Suspects: 0).
+- **데이터 저장**: \`data/stars/stars_meta.json\`, \`data/stars/stars_ledger.json\` 및 \`site/public/data/\` 동기화 완료.
+
+### 2. 데일리 기술 신호 큐레이션 (cc-news)
+- **수집 및 균형 선별**: 73건 후보 수집 후 6개 수집 매체(AI타임스·GeekNews·Hacker News·Reddit·HF Daily Papers·Bluesky 각 3건) 균형 배분으로 총 18건 큐레이션 완료.
+- **신호축 분포**: \`model\` 2 · \`product\` 2 · \`devtool\` 3 · \`oss\` 3 · \`research\` 3 · \`practice\` 1 · \`insight\` 1 · \`policy\` 3.
+- **결측 매체 보고**: \`X\` (Windows 환경 \`twitter\` CLI 부재 및 Scrapling \`python3\` 경로 문제), \`Threads\` (Scrapling \`python3\` 환경 문제).
+- **중복/업데이트 및 검증**: 최근 7일 중복 차단 0건, 업데이트 0건. \`curate_news.js --validate\` 및 \`--selfcheck\` 100% 통과, 아카이브(\`news_2026-11-13.json\`) 양쪽 동기화 완료.
+
+### 3. 소셜 피드 및 배포 리소스 갱신 (cc-social · RSS · 라운지)
+- **소셜 피드 (cc-social)**: \`ego-browser\`로 Instagram 14건 수집(24h 창 내 10건) 후 AI 실무 팁/뉴스 6건 엄선 및 \`curate_social.js --validate\` 통과 (\`social_latest.json\`, \`data/social/2026-11-13.json\`).
+- **배포 리소스**: \`generate-og.js\` (OG 이미지 4종), \`generate-rss.js\` (\`feed.xml\`, \`news-feed.xml\`, \`sitemap.xml\`), \`collect_lounge.js\` (스레드 1개·댓글 1개) 갱신 완료.
+- **옵시디언 볼트 동기화**: \`npm run sync:obsidian\` 실행 완료.
 `,
   },
   {

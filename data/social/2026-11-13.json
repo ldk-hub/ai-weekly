@@ -1,0 +1,151 @@
+{
+  "date": "2026-11-13",
+  "generatedAt": "2026-11-13T00:21:48.875Z",
+  "count": 6,
+  "items": [
+    {
+      "id": "instagram:DfjP7c2nxB0",
+      "platform": "instagram",
+      "author": "@sebia.ai",
+      "url": "https://www.instagram.com/p/DfjP7c2nxB0/",
+      "text": "💡 사람들이 이 한마디를 붙이자 클로드가 달라졌대요\n\n앤트로픽에서 클로드 앱 개발을 이끄는 펠릭스 리즈버그는 팟캐스트 진행자가 「리서치 하는 에이전트, 세금 신고하는 에이전트가 따로 있는 건 아니죠?」 하고 묻자 없다고 했어요. 일감은 나눠도 역할로는 안 나누고, 클로드한테 「넌 뛰어난 ○○야」라는 말도 절대 안 쓴대요.\n\n「아주 뛰어난 회계사처럼 해」라고 하면 지금도 많은 모델이 역할극을 좀 한다는 거예요. 펠릭스가 원하는 건 회계사 말투가 아니라 회계사가 실제로 쓰는 기법과 도구고요.\n\n그래서 펠릭스는 역할 자리에 질문을 넣는대요. 이 일을 그 분야 최고인 사람이 한다면 어떤 도구를 쓸지 먼저 묻고, 그 도구 그대로 직접 하게 하고, 설명만 다섯 살한테 하듯 쉬운 말로 받는 거죠.\n모르는 분야 일일수록 역할보다 도구를 먼저 묻는 쪽이 결과가 달라져요.\n\n💬 아무 댓글 남겨 주시면 펠릭스가 블로그에 직접 공개한 프롬프트 6개를 원문·한글로 정리한 자료 보내 드릴게요.\n최근 게시물 10편의 자료는 프로필 링크 「최신 자료」에도 있어요. 댓글 없이 바로 보셔도 됩니다.\n\n#클로드 #claude #anthropic\n\n🩵 더 많은 팁 @sebia.ai",
+      "thumbnail": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/895362171_17893827519620457_8541006763610215661_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&_nc_map=urlgen_bucketless&ig_cache_key=NDAyNzEzMDk5NDQ5Nzc5MTU3MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuNzIwLnNkci52aWRlb19maXJzdF9mcmFtZV90aHVtYm5haWwuQzMifQ%3D%3D&_nc_ohc=mhrAcAP7Os8Q7kNvwGj_Zzg&_nc_oc=AdpE2MQLqQNrLC4TjIpipgSNK-OlB2kCySxoFqYGWd-fFOnxXNM8j-d4CzJQA7bx4iY&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Pk2Hz_eRs1bBxOKTKH5Csw&_nc_ss=7a2a8&oh=00_AQS-ev9FLtqV0-C9or1W0ztk98-5ZqWfit14mNmtTnKlIg&oe=6AFC397F",
+      "publishedAt": "2026-11-12T12:13:55.000Z",
+      "metrics": {
+        "likes": 446,
+        "reposts": 0,
+        "replies": 3031,
+        "views": 0
+      },
+      "relevance": 92,
+      "title_ko": "클로드 앱 리드: 역할극 대신 전문가 도구를 물어라",
+      "summary_ko": "앤트로픽 클로드 앱 개발을 이끄는 펠릭스 리즈버그는 뛰어난 회계사처럼 말하라는 역할 부여 대신 실제 전문가가 쓰는 기법과 도구를 먼저 묻는 방식을 권장합니다.\n낯선 영역일수록 페르소나 연기보다 도구와 작업 절차를 지정하는 편이 결과 완성도를 크게 끌어올립니다.",
+      "tags": [
+        "프롬프트 팁",
+        "클로드",
+        "앤트로픽"
+      ],
+      "score": 86
+    },
+    {
+      "id": "instagram:DfolXu5jwIV",
+      "platform": "instagram",
+      "author": "@joshproductletter",
+      "url": "https://www.instagram.com/p/DfolXu5jwIV/",
+      "text": "클로드 '비밀 코드' 5개, 공식 문서와 직접 입력으로 확인해 봤습니다. 진짜는 1개였습니다.\n\n\"앞에 붙이기만 하면 클로드의 숨은 모드가 켜진다\"는 코드 5개가 돌고 있습니다. 공식 문서와 대조하고 클로드 코드에 직접 입력해 봤습니다. 공식 문서에 있는 것은 1개였습니다.\n\n✖️ ① L99: 공식 명령어 목록과 프롬프트 가이드에 없습니다. 입력해도 아무 표시가 없습니다. '한 가지로 결론 내 줘'처럼 원하는 답의 형태를 직접 쓰면 됩니다\n✖️ ② OODA: 관찰·판단·결정·행동의 앞 글자를 딴, 널리 알려진 의사결정 틀 이름입니다. 클로드의 기능은 아니니 'OODA 순서로 분석해 줘'라고 풀어 쓰면 됩니다\n✖️ ③ /ghost: 클로드 코드에 입력하면 'Unknown command'가 뜹니다. 대신 스킬 파일(SKILL.md)에 글쓰기 규칙을 적어 두면 나만의 명령어로 만들 수 있습니다\n✖️ ④ scaffold: 이 이름의 키워드는 없습니다. 공식 기능은 클로드 코드의 계획 모드(/plan)입니다. 승인하기 전에는 파일을 고치지 않고 계획만 보여 줍니다\n✔️ ⑤ ultrathink: 유일하게 공식 문서에 있습니다. 클로드 코드가 알아보고 그 질문만 더 깊이 추론합니다(터미널의 무지개색 표시는 v2.1.311 이상, 지원 모델에서). 다만 '10배 깊이'라는 수치는 문서에 없습니다\n➕ 매번 깊게 생각하게 하고 싶다면: 클로드 코드는 /effort, 클로드 앱은 모델 메뉴의 Effort에서 고릅니다. 높일수록 느려지고 사용량이 빨리 찹니다\n\n'없음'은 공식 기능이 아니라 일반 문장으로 읽힌다는 뜻입니다. 2026-11-11 기준, Claude Code v2.1.322에서 확인했습니다.\n\n출처: code.claude.com/docs (model-config · commands · skills · common-workflows) · support.claude.com 'Change the model, effort, and thinking settings' · 앤트로픽 프롬프트 가이드 · 위키백과 OODA loop\n\n확인 결과표와 공식 기능 사용법은 마지막 장에서 받는 방법을 확인하세요.\n\n#클로드 #클로드코드 #ClaudeCode #프롬프트 #AI활용 #팩트체크 #직장인AI #빌더조쉬",
+      "thumbnail": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/898799672_17991271902063763_3909629240782353839_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&_nc_map=urlgen_bucketless&ig_cache_key=NDAyODYzNDAzNDE0OTc4NzQ5MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIudmlkZW9fZGVmYXVsdF9jb3Zlcl9mcmFtZS5DMyJ9&_nc_ohc=olu7hJxBmcgQ7kNvwFCl78w&_nc_oc=Adow728hGTjERA99zXG7RmiVQD5hRbGtjhDC2RgNyC_v35GzYPKcefjOd8AWy_pApJo&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=ac8v3P6pvH8las5J8MKNyg&_nc_ss=7a2a8&oh=00_AQSs7tsnrBXg4_B-GdfT5V6VloYV412Ds8OAkSnaAyi-nA&oe=6AFC3023",
+      "publishedAt": "2026-11-12T08:04:08.000Z",
+      "metrics": {
+        "likes": 6,
+        "reposts": 0,
+        "replies": 9,
+        "views": 0
+      },
+      "relevance": 90,
+      "title_ko": "클로드 비밀 코드 5종 팩트체크: 공식은 ultrathink 1개뿐",
+      "summary_ko": "온라인에 퍼진 클로드 숨은 명령어 5종을 공식 문서와 Claude Code v2.1.322에서 직접 대조한 결과, 실제 공식 키워드는 깊은 추론을 켜는 ultrathink 하나뿐이었습니다.\nL99·/ghost·scaffold 등은 일반 문장으로 처리되므로 나만의 워크플로우는 SKILL.md나 /plan·/effort 공식 기능으로 구성하는 편이 안전합니다.",
+      "tags": [
+        "클로드 코드",
+        "팩트체크",
+        "프롬프트"
+      ],
+      "score": 65
+    },
+    {
+      "id": "instagram:DfpIQvuD96O",
+      "platform": "instagram",
+      "author": "@joshproductletter",
+      "url": "https://www.instagram.com/p/DfpIQvuD96O/",
+      "text": "코드를 직접 쓰지 않는 개발자가 꼽은 AI 시대에 가장 값진 능력 6가지입니다.\n\n이제 코드를 한 줄도 직접 쓰지 않고 AI 에이전트에게 맡긴다는 개발자 맷 포칵의 인터뷰(조회 52만)에서, 직장인에게 바로 쓸모 있는 6가지를 골랐습니다. 6가지 모두 인터뷰에서 본인이 한 말에서 골랐습니다.\n\n✔️ ① 무엇이 중요한지 말하기: 모델이 아무리 똑똑해도 내가 뭘 중요하게 여기는지는 말해 줘야 압니다\n✔️ ② 모르는 것 끌어내기: 말하지 않은 건 AI가 지어내거나 빼 버립니다. 그래서 AI가 나를 인터���하게 합니다\n✔️ ③ AI 답은 원문으로 확인: AI로 주제를 소개받고, 원문은 직접 읽습니다\n✔️ ④ 소통이 곧 실력: 생각의 질과 말의 질이 결과를 가릅니다. 개발자가 아니어도 같습니다\n✔️ ⑤ 지루한 일부터 맡기기: 결과를 잴 수 있고, 틀려도 바로 고칠 수 있는 일부터\n✔️ ⑥ 신뢰는 한 칸씩 쌓기: 운전도 브레이크부터 배웁니다. 작게 시작해 지켜보며 넓혀 갑니다\n\n그의 이야기는 주로 코드 작업 경험에서 나왔고, 카드의 발언은 인터뷰 영상(2026년 10월 16일 공개)의 음성을 받아써 옮긴 것입니다.\n\n인터뷰 원문과 바로 쓰는 프롬프트 18개는 마지막 장에서 받는 방법을 확인하세요.\n\n#AI활용 #클로드 #클로드코드 #AI에이전트 #직장인AI #업무효율 #프롬프트 #빌더조쉬",
+      "thumbnail": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/903536359_17991303837063763_1627362056164489038_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&_nc_map=urlgen_bucketless&ig_cache_key=NDAyODc4NzQ3ODM1NzYwNjcyNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIudmlkZW9fZGVmYXVsdF9jb3Zlcl9mcmFtZS5DMyJ9&_nc_ohc=KoqU8QEaWWwQ7kNvwEivlAe&_nc_oc=Adox0G-Ts-Vca1OP5Gz-Kuz283fFaainQeCsaQYbFZPfri_6zgqK8A9lbeJ3qUk1j-c&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=ac8v3P6pvH8las5J8MKNyg&_nc_ss=7a2a8&oh=00_AQS5I30RU80onlnDfcx-1ij3NVhGxN3plTWHj0qN_yiL5g&oe=6AFC2A57",
+      "publishedAt": "2026-11-12T13:09:00.000Z",
+      "metrics": {
+        "likes": 6,
+        "reposts": 0,
+        "replies": 7,
+        "views": 0
+      },
+      "relevance": 88,
+      "title_ko": "에이전트 시대 개발자 맷 포칵이 꼽은 핵심 역량 6가지",
+      "summary_ko": "직접 코드를 쓰지 않고 AI 에이전트에 구현을 맡기는 맷 포칵의 인터뷰에서 중요한 기준 명확화, 인터뷰 역질문으로 가정 끌어내기, 원문 직접 검증 등 6가지 원칙을 추렸습니다.\n작고 검증 가능한 지루한 작업부터 위임하며 신뢰를 단계적으로 넓히는 태도가 핵심 역량으로 꼽혔습니다.",
+      "tags": [
+        "AI 활용법",
+        "에이전트 워크플로우",
+        "개발자 역량"
+      ],
+      "score": 63
+    },
+    {
+      "id": "instagram:Dfo5ofAkglc",
+      "platform": "instagram",
+      "author": "@aiscene.kr",
+      "url": "https://www.instagram.com/p/Dfo5ofAkglc/",
+      "text": "AI가 못 읽던 한글 파일, 공무원이 뚫었다 — 무료 오픈소스 코닥(kordoc) 한 장씩 정리 📄\n\n02 AI가 한글 파일을 읽게 해 주는 도구\n03 그냥 넣으면 깨지고\n04 합친 칸도 모양 그대로 옮겨요\n05 \"이 양식 채워 줘\" 한마디면\n06 옛 파일은 새 형식으로, 메모는 보고서로\n07 정부도 공문서를 AI가 읽는 형식으로\n08 설치는 두 단계\n09 쓰기 전에 알아 둘 것 3가지\n10 궁금한 건 댓글로\n\n릴스에 다 못 넣은 내용을 공식 저장소(README·보안 문서)를 바탕으로 한 장에 하나씩 정리했어요. 이 외에 궁금한 내용은 댓글로 남겨 주세요, 답글로 알려 드릴게요.\n\n📋 복사용\ngithub.com/chrisryugj/kordoc\nnpx -y kordoc setup\n\n출처: github.com/chrisryugj/kordoc README·SECURITY.md · 조선비즈 11월 9일 보도\n\n#한글파일 #HWP #kordoc #클로드 #공무원 #업무자동화 #AI #AI씬",
+      "thumbnail": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/898537362_18117843002056710_4670030945251387300_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=107&_nc_map=urlgen_bucketless&ig_cache_key=NDAyODE5Nzg1ODIxNzk2ODY5NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=vW_JXZlxeQsQ7kNvwGBPj3y&_nc_oc=AdqgDV5afBAYUEIQXTA20VLKuAiggu3itKHcFCU_CiRWp9YjjwtldsOoYeCjkKrhI6g&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=cgH1BH7E_HnJEvlnFJtjQQ&_nc_ss=7a6a8&oh=00_AQQGZWzRMOSUCh9HO4nFAaT6j5tHCY82tvxccb0rZ0HPOQ&oe=6AFC1534",
+      "publishedAt": "2026-11-12T11:01:05.000Z",
+      "metrics": {
+        "likes": 13,
+        "reposts": 0,
+        "replies": 0,
+        "views": 0
+      },
+      "relevance": 86,
+      "title_ko": "AI가 한글(HWP) 문서를 읽게 해 주는 오픈소스 도구 kordoc",
+      "summary_ko": "현직 공무원이 공개한 무료 오픈소스 kordoc은 깨지기 쉬운 한글(HWP) 문서와 병합된 표 구조까지 온전하게 추출해 AI가 이해하고 양식을 채울 수 있도록 돕습니다.\nnpx 명령 두 단계로 간편히 설치할 수 있어 공문서·보고서 자동화 수요에 실무적으로 바로 활용하기 좋습니다.",
+      "tags": [
+        "한글 HWP",
+        "kordoc",
+        "오픈소스"
+      ],
+      "score": 61
+    },
+    {
+      "id": "instagram:DfpOcFnMhHP",
+      "platform": "instagram",
+      "author": "@joshproductletter",
+      "url": "https://www.instagram.com/reel/DfpOcFnMhHP/",
+      "text": "앤트로픽이 직접 운영하는 무료 공식 강의 23개를 정리했어요.\n\n클로드를 만든 앤트로픽이 직접 운영하는 강의 사이트, 앤트로픽 아카데미에 공식 강의가 23개 올라와 있어요. 클로드 101, 클로드 코드 101, 에이전트 스킬, 서브에이전트, MCP 입문에 소상공인·비영리·창작 작업용 강의까지 전부 무료예요.\n다만 전부 영어라서, 가이드에 강의 23개 한글 정리랑 직무별 수강 순서, 영어 강의를 클로드랑 같이 공부하는 프롬프트까지 넣어 뒀어요.\n\n강의 23개 한글 정리와 직무별 수강 순서는 영상 마지막에서 받는 방법을 확인하세요.\n\n#클로드 #클로드코드 #클로드스킬 #앤트로픽 #AI공부",
+      "thumbnail": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/900370893_17991311028063763_1509014470290373912_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&_nc_map=urlgen_bucketless&ig_cache_key=NDAyODgxNDg0NDQ4MjQyNTI5NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjEwODAuc2RyLnZpZGVvX2RlZmF1bHRfY292ZXJfZnJhbWUuQzMifQ%3D%3D&_nc_ohc=fYf98yUP-vUQ7kNvwEggYC3&_nc_oc=AdqTX0BXiwJBFeg8EwUyo31awDdKR5ooB9kQiUN0l1L4rdpRhQHIVmxTpt7gJfEv9wM&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=ac8v3P6pvH8las5J8MKNyg&_nc_ss=7a6a8&oh=00_AQSO60htlVlAAUNXxhq13cqUHhwzlhdH_W736y_3rJvPXw&oe=6AFC3B5D",
+      "publishedAt": "2026-11-12T12:00:00.000Z",
+      "metrics": {
+        "likes": 6,
+        "reposts": 0,
+        "replies": 9,
+        "views": 0
+      },
+      "relevance": 82,
+      "title_ko": "앤트로픽 아카데미 무료 공식 AI·클로드 강의 23선 안내",
+      "summary_ko": "앤트로픽이 직접 운영하는 교육 사이트에 클로드 101부터 클로드 코드, 에이전트 스킬, 서브에이전트, MCP 입문까지 23개 무료 강좌가 제공되고 있습니다.\n영어로 진행되는 만큼 직무별 학습 순서 가이드와 클로드를 튜터로 활용해 함께 학습하는 프롬프트를 곁들이면 효율을 높일 수 있습니다.",
+      "tags": [
+        "앤트로픽 아카데미",
+        "무료 강의",
+        "MCP"
+      ],
+      "score": 60
+    },
+    {
+      "id": "instagram:DfqL56iEnqp",
+      "platform": "instagram",
+      "author": "@aiscene.kr",
+      "url": "https://www.instagram.com/p/DfqL56iEnqp/",
+      "text": "11월 12일 AI 소식 6개, 카드뉴스로 정리했어요 👉 옆으로 넘겨 보세요\n\n01 그록을 만든 회사가 'AI 팀 동료' 그록 봇 1.0을 정식으로 냈어요. 봇을 팀에 공유하면 슬랙·팀즈 대화방과 화상 회의에 함께 들어와 일을 맡고, 할 일을 먼저 찾아 제안해요. 팀 공유는 Team·Enterprise 요금제예요. 회사 도구에 로그인해 일하는 방식이라 연결할 권한은 꼭 따져 보고 쓰세요\n02 구글이 삼성·젠틀몬스터와 만든 제미나이 AI 안경 사전 예약을 열었어요. \"헤이 제미나이\" 하고 보고 있는 걸 물으면 답해 주고, 70개 넘는 언어 실시간 통역도 돼요. 젠틀몬스터 판은 한국·미국에서 팔고(미국 가격 449달러부터), 판매는 12월 10일부터예요. 행인 얼굴 자동 가림·촬영 표시등 같은 사생활 보호 장치도 넣었대요\n03 아이폰 사용자는 이제 차 화면(애플 카플레이)에서 제미나이 라이브와 손 안 대고 대화할 수 있어요. 오늘부터 전 세계에 순차로 열리고, 앱을 최신으로 올린 뒤 폰에서 라이브를 한 번 써 봐야 차에 떠요\n04 클로드 페이블 5.2가 아레나의 '에이전트 아레나'에서 1위를 했어요. 실제 에이전트 작업 4,700번 평가에서 기준보다 30.4% 좋아졌고, 2위 오퍼스 5.5의 약 1.6배 차이래요(아레나 자체 평가)\n05 구글 코딩 앱 안티그래비티의 AI가 브라우저를 직접 쓰기 시작했어요. 여러 탭을 동시에 열어 조사·확인하고, 로그인할 곳은 내가 고르고 다운로드는 내가 허락해야 돼요(순차 적용 중)\n06 구글 딥마인드 '알파지놈 2'는 DNA 한 글자 차이가 어떤 세포에서 병으로 이어지는지 예측해요. 이전 최고 모델보다 이런 변이를 2배 가까이 찾아냈고, 비상업 연구는 API로 바로 쓸 수 있어요\n\n+ 구글 '제미나이 결정 API'는 오늘 낮 12시 영상에서 자세히 다뤄요\n\n이 외에 궁금한 내용은 댓글로 남겨 주세요. 답글로 알려 드릴게요.\n\n출처\n· Grok Bot·SpaceXSI 공식 X 영상, x.ai 발표 글 (11월 12일)\n· 구글 블로그 공식 영상·발표 글 (현지 11월 12일)\n· 구글 공식 X 영상·구글 블로그 (현지 11월 11일)\n· Arena(arena.ai) 공식 X 글·이미지 (11월 12일)\n· 구글 안티그래비티 공식 X 영상 (11월 12일)\n· 구글 딥마인드 공식 X 영상·블로그 (현지 11월 11일)\n\n📋 복사용 (클로드·코덱스에 그대로 붙여넣기)\nx.ai/news/grok-bot-1-0\nblog.google/innovation-and-ai/technology/xr-ar/google-intelligent-eyewear-collections-pre-order/\nblog.google/innovation-and-ai/products/gemini-app/gemini-on-apple-carplay/\narena.ai/leaderboard/agent\ndeepmind.google/blog/alphagenome-2-deciphering-how-cells-read-dna-to-better-understand-disease/\n11월 12일 나온 AI 소식(그록 봇 1.0, 구글 제미나이 AI 안경, 제미나이 카플레이, 클로드 페이블 5.2 에이전트 아레나 1위, 안티그래비티 브라우저 사용, 알파지놈 2) 핵심만 정리해 줘\n\n#AI뉴스 #인공지능 #그록 #제미나이 #구글 #AI안경 #젠틀몬스터 #클로드 #딥마인드 #AI씬",
+      "thumbnail": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/902559288_18118056644056710_3642120949814091686_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=110&_nc_map=urlgen_bucketless&ig_cache_key=NDAyODg3MzcwODAwNTM5ODAwOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=CnjFx7ye_8oQ7kNvwF_Zxe5&_nc_oc=AdqYqWzxksuqDo-F8CfG25-6TyWNOKu61RzlRXlBeCnOZGKmZDseslK4obPAiE3CPJs&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=cgH1BH7E_HnJEvlnFJtjQQ&_nc_ss=7a6a8&oh=00_AQQlZ0Lldkegvy_E5jB1bEN9rRRRrewqGhBDBPUXWLlF_A&oe=6AFC1378",
+      "publishedAt": "2026-11-12T23:00:09.000Z",
+      "metrics": {
+        "likes": 0,
+        "reposts": 0,
+        "replies": 0,
+        "views": 0
+      },
+      "relevance": 87,
+      "title_ko": "11월 12일 AI 핵심 소식 6선: Grok Bot·AI 안경·Fable 5.2",
+      "summary_ko": "그록 봇 1.0 정식 출시와 구글·젠틀몬스터 제미나이 AI 안경 사전예약, 애플 카플레이 제미나이 라이브 지원 등 11월 12일 주요 신기능이 공개됐습니다.\n클로드 페이블 5.2의 에이전트 아레나 1위 달성과 안티그래비티 브라우저 직접 제어, 알파지놈 2 API 개방 소식도 함께 정리했습니다.",
+      "tags": [
+        "AI 뉴스",
+        "제미나이",
+        "클로드"
+      ],
+      "score": 52
+    }
+  ]
+}

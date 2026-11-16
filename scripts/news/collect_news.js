@@ -304,6 +304,7 @@ const REQUIRED_SOURCES = {
   bluesky: "Bluesky",
   x: "X",
   threads: "Threads",
+  instagram: "Instagram",
   hfpapers: "HF Daily Papers",
 };
 
@@ -782,7 +783,7 @@ async function fetchX(dynamicSeeds = []) {
   if (!out.length) {
     console.log("[x] searchX 0건 또는 쿠키 부재 → Scrapling 스텔스 크롤러로 X 공식 AI 연구소 트윗 직접 수집 (확대 모드)");
     try {
-      const fallbackItems = scrapeSocial("x", { limit: 3 });
+      const fallbackItems = scrapeSocial("x", { limit: 4 });
       for (const item of fallbackItems) {
         out.push(makeCandidate({
           source: "x",
@@ -810,9 +811,9 @@ async function fetchThreads() {
     console.warn("[threads] NEWS_SKIP_THREADS=1 — 건너뜀");
     return [];
   }
-  console.log("[threads] Scrapling 스텔스 크롤러로 Threads 공식 AI 계정 및 #ai 태그 수집 시작 (확대 모드)...");
+  console.log("[threads] Scrapling 스텔스 크롤러로 Threads 공식 AI 계정 수집 시작 (확대 모드)...");
   try {
-    const items = scrapeSocial("threads", { limit: 3 });
+    const items = scrapeSocial("threads", { limit: 4 });
     console.log(`[threads] Scrapling 수집 완료: ${items.length}건`);
     return items.map((i) => makeCandidate({
       source: "threads",
@@ -830,16 +831,34 @@ async function fetchThreads() {
   }
 }
 
-// ⑧ Instagram — Scrapling 스텔스 크롤러 연동
+// ⑧ Instagram — Scrapling 크롤러 우선 + ego-browser 로그인 세션 폴백
 async function fetchInstagram() {
   if (process.env.NEWS_SKIP_INSTAGRAM === "1") {
     console.warn("[instagram] NEWS_SKIP_INSTAGRAM=1 — 건너뜀");
     return [];
   }
-  console.log("[instagram] Scrapling 크롤러로 Instagram AI 채널 수집 시도...");
+  console.log("[instagram] Instagram AI 채널 수집 시작...");
   try {
-    const items = scrapeSocial("instagram", { limit: 2 });
-    console.log(`[instagram] Scrapling 수집 완료: ${items.length}건`);
+    let items = scrapeSocial("instagram", { limit: 3 });
+    if (!items.length) {
+      const { loadSeeds } = require("../social/seeds");
+      const { collectInstagramEgo, parseMetaCounts } = require("../social/ig_profile");
+      const seeds = loadSeeds();
+      const egoItems = await collectInstagramEgo(seeds.instagram || [], 3, 48);
+      items = egoItems.map((raw) => {
+        const body = String(raw.body || "").trim();
+        const m = raw.metrics || parseMetaCounts(raw.metaDesc, raw.likesText);
+        return {
+          url: raw.url,
+          title: `[${raw.author}] ${body.split("\n")[0].slice(0, 80)}`,
+          author: `@${String(raw.author || "").replace(/^@/, "")}`,
+          publish_date: raw.publish_date || new Date().toISOString(),
+          body,
+          metrics: { ...m, platform: "instagram" },
+        };
+      });
+    }
+    console.log(`[instagram] 수집 완료: ${items.length}건`);
     return items.map((i) => makeCandidate({
       source: "instagram",
       sourceName: "Instagram",

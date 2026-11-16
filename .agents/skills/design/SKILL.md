@@ -103,7 +103,7 @@ python3 ~/.claude/skills/design/scripts/cip/generate.py --brand "TopGroup" --log
 python3 ~/.claude/skills/design/scripts/cip/generate.py --brand "TechFlow" --deliverable "business card" --no-logo-prompt
 ```
 
-Models: `flash` (default, `gemini-2.5-flash-image`), `pro` (`gemini-3-pro-image-preview`)
+Models: `flash` (default, `gemini-nano-banana-2.1`), `pro` (`gemini-3-pro-image`)
 
 ### CIP: Render HTML Presentation
 
@@ -212,7 +212,7 @@ python3 ~/.claude/skills/design/scripts/icon/generate.py --prompt "user profile"
 | flat | Material design, Google-style |
 | gradient | Modern brands, SaaS |
 
-**Model:** `gemini-3.1-pro-preview` — text-only output (SVG is XML text). No image generation API needed.
+**Model:** `gemini-4-argon` — text-only output (SVG is XML text). No image generation API needed.
 
 ## Social Photos (Built-in)
 

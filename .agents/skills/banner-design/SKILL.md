@@ -68,7 +68,7 @@ For each art direction option:
    **b) Generate with Standard model** (fast, good for backgrounds/patterns):
    ```bash
    .claude/skills/.venv/bin/python3 .claude/skills/ai-multimodal/scripts/gemini_batch_process.py \
-     --task generate --model gemini-2.5-flash-image \
+     --task generate --model gemini-nano-banana-2.1 \
      --prompt "<banner visual prompt>" --aspect-ratio <platform-ratio> \
      --size 2K --output assets/banners/
    ```
@@ -76,7 +76,7 @@ For each art direction option:
    **c) Generate with Pro model** (4K, complex illustrations/hero visuals):
    ```bash
    .claude/skills/.venv/bin/python3 .claude/skills/ai-multimodal/scripts/gemini_batch_process.py \
-     --task generate --model gemini-3-pro-image-preview \
+     --task generate --model gemini-3-pro-image \
      --prompt "<creative banner prompt>" --aspect-ratio <platform-ratio> \
      --size 4K --output assets/banners/
    ```

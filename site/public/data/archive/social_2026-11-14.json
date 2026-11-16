@@ -1,0 +1,467 @@
+{
+  "date": "2026-11-14",
+  "generatedAt": "2026-11-14T11:32:00.000Z",
+  "count": 20,
+  "items": [
+    {
+      "id": "x:2121278004550672407",
+      "platform": "x",
+      "author": "@minchoi",
+      "url": "https://x.com/minchoi/status/2121278004550672407",
+      "thumbnail": "",
+      "publishedAt": "2026-11-13T16:24:22.381000+00:00",
+      "metrics": {
+        "likes": 74,
+        "reposts": 4,
+        "replies": 31,
+        "views": 10677
+      },
+      "relevance": 95,
+      "title_ko": "구글 안티그래비티 오케스트레이터 카본·하이드로젠 팀 협업",
+      "summary_ko": "구글 안티그래비티 오케스트레이터는 단일 프롬프트 안에서 상위 모델 카본이 계획을 짜고 하이드로젠이 구현과 테스트를 맡도록 자동 조율합니다. 실행 도중 난관에 부딪히면 다시 카본에게 제어권을 넘겨 재설계하는 양방향 협업 구조로 동작합니다. 벤치마크 기준 단일 모델 대비 작업 속도는 19% 빨라지고 할당량 소모는 24% 줄어들었습니다.",
+      "tags": [
+        "안티그래비티",
+        "오케스트레이터",
+        "멀티모델"
+      ],
+      "score": 74
+    },
+    {
+      "id": "x:2121277499673895121",
+      "platform": "x",
+      "author": "@omarsar0",
+      "url": "https://x.com/omarsar0/status/2121277499673895121",
+      "thumbnail": "https://pbs.twimg.com/media/HXBJ34sXEAAkWV2?format=webp&name=large",
+      "publishedAt": "2026-11-13T16:22:22.009000+00:00",
+      "metrics": {
+        "likes": 127,
+        "reposts": 19,
+        "replies": 19,
+        "views": 11604
+      },
+      "relevance": 89,
+      "title_ko": "하네스 엔지니어링·자가개선 논문 매일 큐레이션 공개",
+      "summary_ko": "사내 논문 큐레이션 도구를 기반으로 매일 갱신되는 신규 AI 논문 컬렉션이 공개됐습니다. 특히 에이전트 하네스 엔지니어링과 재귀적 자기 개선 분야의 핵심 논문과 도구를 집중적으로 추적할 수 있습니다. 전용 논문 채팅 인터페이스와 MCP 도구 연동도 함께 제공돼 연구 내용을 대화형으로 탐색할 수 있습니다.",
+      "tags": [
+        "하네스엔지니어링",
+        "AI논문",
+        "MCP"
+      ],
+      "score": 72
+    },
+    {
+      "id": "x:2121464601946578989",
+      "platform": "x",
+      "author": "@minchoi",
+      "url": "https://x.com/minchoi/status/2121464601946578989",
+      "thumbnail": "",
+      "publishedAt": "2026-11-14T04:45:50.667000+00:00",
+      "metrics": {
+        "likes": 25,
+        "reposts": 3,
+        "replies": 19,
+        "views": 6612
+      },
+      "relevance": 94,
+      "title_ko": "엔비디아 로보틱스 모델 GR00T 2 이기종 스킬 전이 구현",
+      "summary_ko": "엔비디아의 차세대 로보틱스 모델 GR00T 2가 인간 작업 시연을 학습해 다음 물리 행동을 예측하는 역량을 대폭 강화했습니다. 특히 하드웨어 규격이 서로 다른 로봇 바디 간에도 한 기종에서 익힌 제어 기술을 그대로 전이할 수 있는 것이 핵심입니다. 매번 기기별로 새로 학습시키던 과정을 건너뛸 수 있어 범용 자율 로봇 상용화를 앞당길 기술로 주목받습니다.",
+      "tags": [
+        "GR00T2",
+        "엔비디아",
+        "로보틱스"
+      ],
+      "score": 71
+    },
+    {
+      "id": "x:2121319716648284529",
+      "platform": "x",
+      "author": "@minchoi",
+      "url": "https://x.com/minchoi/status/2121319716648284529",
+      "thumbnail": "",
+      "publishedAt": "2026-11-13T19:10:07.320000+00:00",
+      "metrics": {
+        "likes": 34,
+        "reposts": 0,
+        "replies": 25,
+        "views": 8689
+      },
+      "relevance": 90,
+      "title_ko": "ChatGPT Dot 생체 인증·카드 토큰 기반 대리 결제",
+      "summary_ko": "ChatGPT Dot이 사용자를 대신해 상품을 탐색하고 구매 체크아웃까지 수행하는 에이전트 결제 기능을 선보였습니다. 모든 거래는 사용자가 Face ID나 지문으로 직접 최종 승인해야 하며 비자·마스터카드·아멕스 토큰 방식을 통해 실제 카드 번호를 가립니다. 현재는 미국 내 Pro 구독자 대상으로 먼저 개방된 상태입니다.",
+      "tags": [
+        "ChatGPTDot",
+        "에이전트결제",
+        "생체인증"
+      ],
+      "score": 70
+    },
+    {
+      "id": "x:2121335666457944226",
+      "platform": "x",
+      "author": "@omarsar0",
+      "url": "https://x.com/omarsar0/status/2121335666457944226",
+      "thumbnail": "https://pbs.twimg.com/media/HXA5rnWa8AAenLP?format=webp&name=large",
+      "publishedAt": "2026-11-13T20:13:30.051000+00:00",
+      "metrics": {
+        "likes": 98,
+        "reposts": 5,
+        "replies": 27,
+        "views": 7282
+      },
+      "relevance": 85,
+      "title_ko": "모델과 하네스 공동 진화·연속 학습 메모리 쓰기 연구",
+      "summary_ko": "에이전트 모델과 실행 하네스를 분리하지 않고 함께 진화시키는 공동 진화 모델 연구 노트가 공유됐습니다. 핵심 초점은 일회성 컨텍스트 소비가 아니라 장기 작업 전반에서 지속 학습이 가능하도록 메모리를 기록·갱신하는 메커니즘에 있습니다. 실무 에이전트가 사용 이력을 축적하며 점진적으로 똑똑해지는 구조 설계의 단서를 제공합니다.",
+      "tags": [
+        "공동진화모델",
+        "연속학습",
+        "에이전트메모리"
+      ],
+      "score": 69
+    },
+    {
+      "id": "x:2121395136026353740",
+      "platform": "x",
+      "author": "@minchoi",
+      "url": "https://x.com/minchoi/status/2121395136026353740",
+      "thumbnail": "",
+      "publishedAt": "2026-11-14T00:09:48.701000+00:00",
+      "metrics": {
+        "likes": 37,
+        "reposts": 4,
+        "replies": 28,
+        "views": 22373
+      },
+      "relevance": 86,
+      "title_ko": "할리우드 촬영장 씨댄스 2.5 기반 30초 실시간 AI VFX",
+      "summary_ko": "영화 영 워싱턴 연출진 존 어윈 감독이 실제 촬영 현장에 AI 시각효과 파이프라인을 도입한 사례가 화제입니다. AI 팀이 카메라 컷 신호 직후 30초 만에 결과 영상을 받아보고, 촬영 전에 씨댄스 2.5로 장면을 미리 시각화해 현장 판단 속도를 높이고 있습니다. 생성형 비디오가 후반 작업을 넘어 실시간 프리비즈와 현장 제작 단계로 들어선 모습입니다.",
+      "tags": [
+        "씨댄스2.5",
+        "할리우드VFX",
+        "영상제작"
+      ],
+      "score": 68
+    },
+    {
+      "id": "threads:Dft1arcEdH1",
+      "platform": "threads",
+      "author": "@choi.openai",
+      "url": "https://www.threads.com/@choi.openai/post/Dft1arcEdH1",
+      "thumbnail": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/902961874_2616175398895999_4452408598505277367_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMDExMjE3MTM3OTc3Mzk0MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19maXJzdF9mcmFtZV90aHVtYm5haWwuQzMifQ%3D%3D&_nc_ohc=jTeSt7tkyIkQ7kNvwHmq3LV&_nc_oc=Adqja6s_GQOlzZ5AX6nI3CAU-L8x_0GQ-ADmGWUmSRODIB0whZBu6KnoAc_LIUkw7cU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=_mAlDWdHMa53A9xyepU9wQ&_nc_ss=7a20f&_nc_ct=RQosPBUIFQolBAAAAA&oh=00_AQR8WeADFGeDsdEPMpjeuLAr6pxoe3PPtDb0lVWLVcR2Lg&oe=6AFE0079",
+      "publishedAt": "2026-11-14T09:00:30.000Z",
+      "metrics": {
+        "likes": 38,
+        "reposts": 5,
+        "replies": 1,
+        "views": 0
+      },
+      "relevance": 90,
+      "title_ko": "구글 안티그래비티 Dynamic Workflows 동적 파이썬 실행",
+      "summary_ko": "구글이 안티그래비티 환경에 `/run-workflow` 명령 기반의 Dynamic Workflows 기능을 도입했습니다. 명령을 입력하면 여러 하위 에이전트를 병렬 또는 순차 제어하는 파이썬 오케스트레이션 코드를 AI가 자동 생성합니다. 사용자는 실행 전 코드 구조를 직접 검증할 수 있고, 완성된 흐름을 저장해 반복 업무에 재사용할 수 있습니다.",
+      "tags": [
+        "안티그래비티",
+        "DynamicWorkflows",
+        "에이전트"
+      ],
+      "score": 68
+    },
+    {
+      "id": "instagram:DftMRKKA029",
+      "platform": "instagram",
+      "author": "@aiscene.kr",
+      "url": "https://www.instagram.com/reel/DftMRKKA029/",
+      "thumbnail": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/905575144_18118295855056710_4615970755780947024_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&_nc_map=urlgen_bucketless&ig_cache_key=NDAyOTkzMTE5NzI2MTEwNjYyMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjEwODAuc2RyLnZpZGVvX2RlZmF1bHRfY292ZXJfZnJhbWUuQzMifQ%3D%3D&_nc_ohc=cEe-WdBeYZkQ7kNvwEvoCUR&_nc_oc=AdqTAvwZw6Jb69eSc7o321bn18iwrRwN0SBpgwYcCceUcqI7r82xCXsHG8sDN4kGZyU&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=OpiJ2abVY5SWq6ikgWX_3w&_nc_ss=7a6a8&_nc_ct=RQosPBUIFQQlBAAAAA&oh=00_AQQrVIcN4WJ6OULsr91KQeXeJ8OSZzN6o9TqkliCXUzcMg&oe=6AFE132C",
+      "publishedAt": "2026-11-13T12:00:00.000Z",
+      "metrics": {
+        "likes": 28,
+        "reposts": 0,
+        "replies": 1,
+        "views": 0
+      },
+      "relevance": 91,
+      "title_ko": "앤트로픽 클로드 미팅스 베타 화상회의 실시간 협업",
+      "summary_ko": "앤트로픽이 11월 12일 공개한 클로드 미팅스 베타로 클로드가 화상 통화에 직접 참여해 대화를 실시간으로 추적합니다. 말이나 채팅으로 요청하면 회의 중 문서와 화이트보드를 즉시 만들고, 초대된 팀원이 같은 페이지에서 바로 이어서 수정할 수 있습니다. 녹음 파일 없이 전사본과 요약만 저장되며 외부인 입장 시 기본 설정으로 자동 퇴장합니다.",
+      "tags": [
+        "클로드미팅스",
+        "화상회의AI",
+        "실시간협업"
+      ],
+      "score": 67
+    },
+    {
+      "id": "threads:DfuDG6oiceI",
+      "platform": "threads",
+      "author": "@choi.openai",
+      "url": "https://www.threads.com/@choi.openai/post/DfuDG6oiceI",
+      "thumbnail": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/904339123_1918445726228488_9071992068195451017_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMDE3MjM4NTk1NjcxMDI4MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19maXJzdF9mcmFtZV90aHVtYm5haWwuQzMifQ%3D%3D&_nc_ohc=yqRI2B5fiAoQ7kNvwGRghib&_nc_oc=AdqBiPe6t6XSDjuSONo0N-lkbcn_a6xcf7F5Yx3OiTpcKR6Om4ufVkGv4EndOoW0cRc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=_mAlDWdHMa53A9xyepU9wQ&_nc_ss=7a20f&_nc_ct=RQosPBUIFQolBAAAAA&oh=00_AQSzWGWpT0eLwSb0UQ2NCvMWWinmAoG2GlA-HmhVBRAlRQ&oe=6AFE29FC",
+      "publishedAt": "2026-11-14T11:00:08.000Z",
+      "metrics": {
+        "likes": 23,
+        "reposts": 1,
+        "replies": 0,
+        "views": 0
+      },
+      "relevance": 93,
+      "title_ko": "클로드 코드 Projects 병렬 작업 조율 및 링크 공유 업데이트",
+      "summary_ko": "앤트로픽이 클로드 코드의 Projects 기능을 고도화해 클로드가 여러 하위 작업을 동시에 관리하는 프로젝트 매니저 역할을 맡도록 했습니다. 병렬 처리 중 사용자 질문에 답하고 단계별 진행 현황을 알려주며, 중간에 새 요청을 넣거나 알림 설정 뒤 작업을 재개할 수도 있습니다. 개별 작업 단위 링크 공유까지 더해져 Pro·Max 요금제에서 공개 베타로 쓰입니다.",
+      "tags": [
+        "클로드코드",
+        "병렬작업",
+        "프로젝트관리"
+      ],
+      "score": 67
+    },
+    {
+      "id": "threads:Dft8PC7DflW",
+      "platform": "threads",
+      "author": "@choi.openai",
+      "url": "https://www.threads.com/@choi.openai/post/Dft8PC7DflW",
+      "thumbnail": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/907515594_28924001033939117_3571952636398164659_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMDE0MjE1ODI4NzUzNDQyMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19maXJzdF9mcmFtZV90aHVtYm5haWwuQzMifQ%3D%3D&_nc_ohc=hax4RFURyWsQ7kNvwGFXPJv&_nc_oc=Adq9b8gzO8f-JoiYQe2jF_v2ukI5yDL6w9sliFfgbKkTiZdtAOmS9GMk4Gb-Hi__RBk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=_mAlDWdHMa53A9xyepU9wQ&_nc_ss=7a20f&_nc_ct=RQosPBUIFQolBAAAAA&oh=00_AQRMtv09H9mdlZi5sp1LRC46i7S86OuNU6ey3jzo550nDQ&oe=6AFDFD78",
+      "publishedAt": "2026-11-14T10:00:05.000Z",
+      "metrics": {
+        "likes": 22,
+        "reposts": 5,
+        "replies": 2,
+        "views": 0
+      },
+      "relevance": 88,
+      "title_ko": "코그니션, 클라우드 무서버 사내 앱 공유 Devin Apps 공개",
+      "summary_ko": "코그니션이 AI로 제작한 사내 웹 도구를 별도 서버 구축 없이 데빈 클라우드 컴퓨터에서 즉시 띄워 공유하는 Devin Apps를 공개했습니다. 팀원들은 매출 대시보드나 업무 관리 도구를 만들어 기존 사내 코드 및 MCP 도구와 바로 연결해 쓸 수 있습니다. 데이터가 외부 서비스로 빠져나가지 않도록 격리 설계를 적용해 코딩에서 운영 영역까지 확장했습니다.",
+      "tags": [
+        "DevinApps",
+        "코그니션",
+        "사내자동화"
+      ],
+      "score": 66
+    },
+    {
+      "id": "instagram:DftpeaQsod_",
+      "platform": "instagram",
+      "author": "@joshproductletter",
+      "url": "https://www.instagram.com/reel/DftpeaQsod_/",
+      "thumbnail": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/903594420_17991571221063763_6041876523482605853_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMDA1OTY1MTI1NTE0MjI3MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjEwODAuc2RyLnZpZGVvX2RlZmF1bHRfY292ZXJfZnJhbWUuQzMifQ%3D%3D&_nc_ohc=DaepOseHo38Q7kNvwEKodGa&_nc_oc=AdoQIJICJhinROhg7G2g4TVijeJ-P0zv9wcPUmF6gOC7mzWiNqLgPbbLOj1MhRnPZ5s&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=h1Ha6t4-Z717-oCBqSikVQ&_nc_ss=7a6a8&_nc_ct=RQosPBUIFQQlBAAAAA&oh=00_AQR_jeehNYyk9DTY3qkP3xnWXp47hKZa3Z_DUddcFP9bTw&oe=6AFE1AA3",
+      "publishedAt": "2026-11-13T12:00:00.000Z",
+      "metrics": {
+        "likes": 17,
+        "reposts": 0,
+        "replies": 37,
+        "views": 0
+      },
+      "relevance": 81,
+      "title_ko": "클로드 코드로 맥북 성능 저하 원인 숫자 기반 진단",
+      "summary_ko": "정리 앱 대신 클로드 코드에 파일 삭제 없이 원인만 조사하라고 지시해 맥북 속도 저하 요인을 수치로 파악하는 활용법입니다. 메모리와 저장 공간 점유율, CPU 과다 사용 프로세스, 로그인 자동 실행 앱을 순서대로 점검해 근거 숫자와 대응 순서를 정리해 줍니다. 자동 수정이 아닌 보고 전용으로 활용해 사용자가 직접 안전하게 조치할 수 있습니다.",
+      "tags": [
+        "클로드코드",
+        "시스템진단",
+        "업무자동화"
+      ],
+      "score": 64
+    },
+    {
+      "id": "instagram:Dft85y-D-BA",
+      "platform": "instagram",
+      "author": "@joshproductletter",
+      "url": "https://www.instagram.com/p/Dft85y-D-BA/",
+      "thumbnail": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/903238550_17991587793063763_2281462470690139816_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMDE0NDk3NDQzNTM4NjIwMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIudmlkZW9fZGVmYXVsdF9jb3Zlcl9mcmFtZS5DMyJ9&_nc_ohc=A58fzZKPIpkQ7kNvwHbPXmX&_nc_oc=Adq6AYn74rLDdQko6SoIgGux6bEnFcWKxQCbey5-MpOFF8RQSRyq6HJpxnALo0RYyYg&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=h1Ha6t4-Z717-oCBqSikVQ&_nc_ss=7a6a8&_nc_ct=RQosPBUIFQQlBAAAAA&oh=00_AQQ-kMRULfhrl7iNyNEpE6gxoQI0c9e43dxur0zjuwxrrA&oe=6AFE153F",
+      "publishedAt": "2026-11-14T10:05:57.000Z",
+      "metrics": {
+        "likes": 7,
+        "reposts": 0,
+        "replies": 7,
+        "views": 0
+      },
+      "relevance": 87,
+      "title_ko": "직무별 무료 클로드 스킬 415개 저장소 실전 테스트",
+      "summary_ko": "마케팅·제품·재무·경영진 자문 등 20개 분야의 클로드 스킬 415개를 MIT 라이선스로 모은 claude-skills 저장소가 주목받고 있습니다. 필요한 직무 묶음만 골라 클로드 코드에 두 줄 명령으로 설치하면 SKILL.md 작업 순서와 점검 스크립트, 양식을 즉시 쓸 수 있습니다. 389개 테스트 결과 회의 비용 계산과 월말 결산 시산표 검증 등 실무 자동화 활용도가 높게 나타났습니다.",
+      "tags": [
+        "클로드스킬",
+        "직무자동화",
+        "오픈소스"
+      ],
+      "score": 63
+    },
+    {
+      "id": "instagram:Dft4jpbyQ37",
+      "platform": "instagram",
+      "author": "@prompt_what",
+      "url": "https://www.instagram.com/reel/Dft4jpbyQ37/",
+      "thumbnail": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/902021588_1449899157301482_5715339742908220506_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMDEyNTk4MTg0MjM0NTQ2NzE0NDk4OTkxNTM5NjgxNDk%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjEwODAuc2RyLnZpZGVvX3VzZXJfdXBsb2FkZWRfdGh1bWJuYWlsLkMzIn0%3D&_nc_ohc=lqMh_osh4wgQ7kNvwGylBBU&_nc_oc=Adrkxe6mVsdJOs1DPfl0D_9H25uZZCPsMJyjd5aKpCIT0TrM7FiqxMDUW2RX9cDipMI&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=FbtTa_Ub-rWZb1WrIkN8pw&_nc_ss=7a6a8&_nc_ct=RQosPBUIFQwlBAAAAA&oh=00_AQSb3ddCu3mC5uItHg8AxIRRkaFE3SRVvKGdDq16FK-Qog&oe=6AFE0D92",
+      "publishedAt": "2026-11-14T12:00:00.000Z",
+      "metrics": {
+        "likes": 12,
+        "reposts": 0,
+        "replies": 5,
+        "views": 0
+      },
+      "relevance": 85,
+      "title_ko": "바이트댄스 드리미나 캔버스·씨댄스 2.5 원스톱 4K 편집",
+      "summary_ko": "바이트댄스 드리미나 캔버스에서 이미지 한 장으로 여러 장면을 생성한 뒤 하단 타임라인에 끌어다 놓으면 초벌 영상 편집까지 한 화면에서 끝낼 수 있습니다. 같은 바이트댄스 계열인 씨댄스 2.5의 4K 화질 생성을 공식 지원해 작은 글자와 질감 표현이 선명합니다. 편집한 컷 구성을 그대로 내보내 어도비 프리미어 프로에서 후속 보정할 수 있습니다.",
+      "tags": [
+        "드리미나",
+        "씨댄스2.5",
+        "AI영상편집"
+      ],
+      "score": 62
+    },
+    {
+      "id": "threads:DftumQGDpk6",
+      "platform": "threads",
+      "author": "@choi.openai",
+      "url": "https://www.threads.com/@choi.openai/post/DftumQGDpk6",
+      "thumbnail": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/903929945_1432761752347963_3453399059535971828_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMDA4MjE4MDMyNzU3NzkxNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19maXJzdF9mcmFtZV90aHVtYm5haWwuQzMifQ%3D%3D&_nc_ohc=PDx1n9aAkxQQ7kNvwEl-Pks&_nc_oc=Ado5UQ6if0thE7ICV-ebsSXNPcy2E8wijGOV1o5EaAzvhcNbL6ID92P-d3NEF0mg-tQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=_mAlDWdHMa53A9xyepU9wQ&_nc_ss=7a20f&_nc_ct=RQosPBUIFQolBAAAAA&oh=00_AQRYOxIKk6UfgeLdzs1mYfXYPWfVveq3Vui4_mY8rHoSaQ&oe=6AFE242E",
+      "publishedAt": "2026-11-14T08:00:55.000Z",
+      "metrics": {
+        "likes": 19,
+        "reposts": 2,
+        "replies": 2,
+        "views": 0
+      },
+      "relevance": 84,
+      "title_ko": "xAI Grok Bot 화상회의 참여·업무 배정 기능 출시",
+      "summary_ko": "앤트로픽의 클로드 미팅스 발표 직후 xAI도 Grok Bot을 온라인 회의에 직접 초대하는 협업 기능을 내놨습니다. 회의 중 참석자 질문에 실시간 응답하고 결정 사항을 기록하며 후속 업무를 배정받는 AI 팀원 역할을 수행합니다. Super·Ultra·Team·Enterprise 요금제 사용자 대상으로 제공되며 실시간 회의 비서 시장 경쟁이 본격화되고 있습니다.",
+      "tags": [
+        "GrokBot",
+        "xAI",
+        "회의AI"
+      ],
+      "score": 62
+    },
+    {
+      "id": "instagram:DfuDHBigNbj",
+      "platform": "instagram",
+      "author": "@aiscene.kr",
+      "url": "https://www.instagram.com/reel/DfuDHBigNbj/",
+      "thumbnail": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/905266703_18118320806056710_753902189349397982_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMDE3MjM5MzM3MTY1Mzg1OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjEwODAuc2RyLnZpZGVvX2RlZmF1bHRfY292ZXJfZnJhbWUuQzMifQ%3D%3D&_nc_ohc=Z_jiQXkEhYAQ7kNvwGP0rEf&_nc_oc=AdoK2tX3XtwzjQhtTPWIQzABWa_c3nqQKg-MpHDsbv25ns9nIxiNz2F3YzS9sYE5CWM&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=OpiJ2abVY5SWq6ikgWX_3w&_nc_ss=7a6a8&_nc_ct=RQosPBUIFQQlBAAAAA&oh=00_AQTLMr4W3bVFQdvthtKWoEH08ucVD_nbd9ZS6I199mXqyg&oe=6AFE1BF2",
+      "publishedAt": "2026-11-13T12:00:00.000Z",
+      "metrics": {
+        "likes": 1,
+        "reposts": 0,
+        "replies": 0,
+        "views": 0
+      },
+      "relevance": 92,
+      "title_ko": "구글 깃허브 코끼리-금붕어 모델(EGM) 플러그인 급상승",
+      "summary_ko": "구글 깃허브에 올라온 무료 플러그인 코끼리-금붕어 모델(EGM)이 주간 스타 5,000개 이상을 얻으며 총 1만 8,000개를 돌파했습니다. 맥락을 다 기억하는 코끼리 AI가 작성한 계획서를 사전 대화가 없는 금붕어 AI들이 다섯 단계로 검토해 누락과 모호한 조건을 짚어내는 방식입니다. 챗GPT 데스크톱부터 클로드 코드, 안티그래비티까지 폭넓게 설치할 수 있습니다.",
+      "tags": [
+        "구글깃허브",
+        "EGM플러그인",
+        "계획검토"
+      ],
+      "score": 58
+    },
+    {
+      "id": "instagram:DfuEC08sLxM",
+      "platform": "instagram",
+      "author": "@joshproductletter",
+      "url": "https://www.instagram.com/reel/DfuEC08sLxM/",
+      "thumbnail": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/901681868_17991595287063763_4814653944603184274_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMDE3NjUwMzAyMDk2MDg0NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjEwODAuc2RyLnZpZGVvX2RlZmF1bHRfY292ZXJfZnJhbWUuQzMifQ%3D%3D&_nc_ohc=TmKi2JTe-f8Q7kNvwHvPre3&_nc_oc=AdqEHsufZKAGSWXtSQHc1pMYN64IWOpuPcItmJcc6JYebVJ_sqZEw59ujbKJiTuvWbA&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=h1Ha6t4-Z717-oCBqSikVQ&_nc_ss=7a6a8&_nc_ct=RQosPBUIFQQlBAAAAA&oh=00_AQS78E0DYT0gOE1uNJt1aPw4-BkTg2Ud39cF2P_alv1wDA&oe=6AFE13CE",
+      "publishedAt": "2026-11-14T12:00:00.000Z",
+      "metrics": {
+        "likes": 2,
+        "reposts": 0,
+        "replies": 3,
+        "views": 0
+      },
+      "relevance": 83,
+      "title_ko": "비개발자를 위한 클로드 핵심 개념 25개 5단 구조 정리",
+      "summary_ko": "해외에서 26만 회 이상 조회된 일반인용 클로드 개념 가이드를 앤트로픽 공식 문서와 대조해 다섯 묶음으로 재정리했습니다. 모델·토큰·effort를 다루는 두뇌 영역부터 채팅·코워크·클로드 코드 실행 환경, 메모리·스킬·커넥터 기억 구조, 서브에이전트·예약 작업 위임까지 한눈에 파악할 수 있습니다. 처음 접하는 비개발 직군도 용어 간 관계를 빠르게 익히기 좋습니다.",
+      "tags": [
+        "클로드입문",
+        "비개발자AI",
+        "공식문서정리"
+      ],
+      "score": 57
+    },
+    {
+      "id": "reddit:1xvsu2v",
+      "platform": "reddit",
+      "author": "r/PromptEngineering · u/ikasumi_works",
+      "url": "https://www.reddit.com/r/PromptEngineering/comments/1xvsu2v/i_made_a_free_browseronly_checker_for_hidden_text/",
+      "thumbnail": "",
+      "publishedAt": "2026-11-14T04:08:10.000Z",
+      "metrics": {
+        "likes": 0,
+        "reposts": 0,
+        "replies": 0,
+        "views": 0
+      },
+      "relevance": 86,
+      "title_ko": "프롬프트 내 유니코드 숨김·인젝션 브라우저 전용 검사기",
+      "summary_ko": "블로그나 README에서 복사한 프롬프트에 사람 눈에는 안 보이지만 AI만 읽는 유니코드 태그 문자 인젝션이 숨어 있는지를 검사하는 무료 브라우저 도구가 공개됐습니다. 서버 전송 없이 브라우저 안에서 제로 너비 공백과 숨겨진 문자열을 해독하고 영문·일문 명령 탈취 패턴을 탐지합니다. 클로드 코드 등에 외부 프롬프트를 붙여넣기 전 사전 방어 용도로 쓰기 적합합니다.",
+      "tags": [
+        "프롬프트인젝션",
+        "유니코드보안",
+        "클로드코드"
+      ],
+      "score": 52
+    },
+    {
+      "id": "reddit:1xveugv",
+      "platform": "reddit",
+      "author": "r/ClaudeAI · u/SuccessfulCress7441",
+      "url": "https://www.reddit.com/r/ClaudeAI/comments/1xveugv/claude_code_limits_in_a_desktop_pet/",
+      "thumbnail": "https://preview.redd.it/haj77wvn4f1i1.gif?width=640&crop=smart&s=03be12352d9e07840c4ec5dfa3ee1a5742e70e86",
+      "publishedAt": "2026-11-13T17:59:12.000Z",
+      "metrics": {
+        "likes": 0,
+        "reposts": 0,
+        "replies": 0,
+        "views": 0
+      },
+      "relevance": 84,
+      "title_ko": "클로드 코드 세션·주간 한도 추적 픽셀 펫 Clauddy 공개",
+      "summary_ko": "화면 한쪽에 상주하며 클로드 코드의 세션 및 주간 사용 한도와 리셋 시각을 실시간으로 보여주는 픽셀 데스크톱 펫 Clauddy가 화제입니다. 작업 중에는 책상에서 타자를 치고 사용량이 90%를 넘기면 불타는 애니메이션을 표시하며, Codex와 Cursor 한도도 함께 모니터링합니다. 개발자 자신이 클로드 코드와의 장시간 협업만으로 전체 기능을 구현했습니다.",
+      "tags": [
+        "클로드코드",
+        "사용량모니터",
+        "데스크톱펫"
+      ],
+      "score": 50
+    },
+    {
+      "id": "reddit:1xvnq0t",
+      "platform": "reddit",
+      "author": "r/ClaudeAI · u/KarmaEmperor",
+      "url": "https://www.reddit.com/r/ClaudeAI/comments/1xvnq0t/psa_using_fable_as_an_advisor_doesnt_touch_your/",
+      "thumbnail": "https://preview.redd.it/mxgnvoznwg1i1.png?width=320&crop=smart&auto=webp&s=e583b93bdee7892b16be784d75285c0ec81486b4",
+      "publishedAt": "2026-11-13T23:54:29.000Z",
+      "metrics": {
+        "likes": 0,
+        "reposts": 0,
+        "replies": 0,
+        "views": 0
+      },
+      "relevance": 82,
+      "title_ko": "클로드 /advisor 설정 시 주간 한도 비차감 실사용 팁",
+      "summary_ko": "r/ClaudeAI 사용자가 Opus 5.5 메인 세션에 Fable 5.2를 어드바이저로 연결해 쓰면 Fable 주간 사용량 한도가 차감되지 않는다는 실전 팁을 공유했습니다. `/advisor` 명령으로 10초 만에 설정한 뒤 리서치 요청 시 어드바이저 활용을 지시하면 일관되게 동작한다는 경험담입니다. 고성능 모델 조합으로 할당량을 절약하려는 사용자들 사이에서 유용한 팁으로 주목받았습니다.",
+      "tags": [
+        "클로드어드바이저",
+        "한도절약",
+        "레딧팁"
+      ],
+      "score": 49
+    },
+    {
+      "id": "reddit:1xva8jq",
+      "platform": "reddit",
+      "author": "r/PromptEngineering · u/Davnys",
+      "url": "https://www.reddit.com/r/PromptEngineering/comments/1xva8jq/our_agents_share_one_account_history_but_each/",
+      "thumbnail": "",
+      "publishedAt": "2026-11-13T15:05:37.000Z",
+      "metrics": {
+        "likes": 0,
+        "reposts": 0,
+        "replies": 0,
+        "views": 0
+      },
+      "relevance": 80,
+      "title_ko": "Git 밖 영업·CS 에이전트 프롬프트 버전 드리프트 사례",
+      "summary_ko": "영업과 고객지원 담당자들이 직접 구성한 에이전트들이 MCP로 동일한 고객 이력을 공유하면서도 각자 수정한 프롬프트 복사본이 어긋나는 문제를 다룬 경험기입니다. 프롬프트가 코드 저장소에 있지 않은 비개발 현업 환경에서는 기존 Git 기반 버전 관리 조언이 통하지 않는다는 현실을 짚었습니다. 현업 에이전트 확산에 따른 프롬프트 거버넌스와 변경 추적 필요성을 보여줍니다.",
+      "tags": [
+        "프롬프트관리",
+        "MCP",
+        "현업에이전트"
+      ],
+      "score": 48
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "updated_at": "2026-11-14T11:32:00.000Z",
+  "total_days": 3,
+  "total_items": 45,
+  "days": [
+    {
+      "date": "2026-11-14",
+      "file": "social_2026-11-14.json",
+      "count": 20,
+      "platforms": {
+        "x": 6,
+        "threads": 4,
+        "instagram": 6,
+        "reddit": 4
+      },
+      "generatedAt": "2026-11-14T11:32:00.000Z"
+    },
+    {
+      "date": "2026-11-13",
+      "file": "social_2026-11-13.json",
+      "count": 5,
+      "platforms": {
+        "instagram": 5
+      },
+      "generatedAt": "2026-11-13T00:21:48.875Z"
+    },
+    {
+      "date": "2026-11-12",
+      "file": "social_2026-11-12.json",
+      "count": 20,
+      "platforms": {
+        "instagram": 6,
+        "x": 10,
+        "threads": 2,
+        "reddit": 2
+      },
+      "generatedAt": "2026-11-12T05:10:17.322Z"
+    }
+  ]
+}

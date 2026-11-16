@@ -29,7 +29,9 @@ const LEGACY_PATTERNS = [
   /llama-2/i,
   /llama-3/i,
   /gemini\s*1\.5/i,
+  /gemini\s*2\.0/i,
   /gemini\s*2\.5/i,
+  /gemini\s*3\.1\s*(?:pro|flash-lite)/i,
   /mistral-7b-instruct-v0\.1/i,
 ];
 

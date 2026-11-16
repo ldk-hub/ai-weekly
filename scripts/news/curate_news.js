@@ -14,7 +14,7 @@ const ROOT = path.join(__dirname, "..", "..");
 const CANDIDATES = path.join(ROOT, ".tmp", "news_candidates.json");
 const LATEST = path.join(ROOT, "site", "public", "data", "news_latest.json");
 const API_KEY = process.env.GEMINI_API_KEY;
-const MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+const MODEL = process.env.GEMINI_MODEL || "gemini-3.8-flash";
 const MIN_IMPORTANCE = Number(process.env.NEWS_MIN_IMPORTANCE || 40);
 // importance 하한은 사실상 죽은 게이트다 — 실측 208건 중 40 미만 0건, 중앙값 85 (LLM 이 전부 80~95를 준다).
 // 실제 선별은 아래 쿼터가 한다: 매체·신호축이 하루치를 독식하지 못하게 막고 상한을 건다.
@@ -96,7 +96,7 @@ ${SIGNAL_IDS.map((k) => `  - ${k}: ${SIGNALS[k]}`).join("\n")}
     publish_date 는 "HF 가 오늘 데일리 목록에 올린 시각" 이고 metrics.paper_published_at 이 원 논문 발행일이다 — 둘을 혼동해 "오늘 공개된 논문" 이라 쓰지 말 것.
   - Bluesky·X·Threads·Instagram 출처 항목:
     - 외부 기술 링크가 공유된 경우, 해당 원문 링크 내용을 우선하여 요약한다.
-    - 외부 링크가 없더라도 작성자의 실무 테스트 후기, 신규 모델 체감 분석, 프롬프트 엔지니어링 팁, AI 기술 코멘터리가 담긴 경우 절대 drop 하지 말고 signal_id 를 "insight" 로 배정한다.
+    - 외부 링크가 없더라도 작성자의 실무 테스트 후기, 신규 모델 체감 분석, 프롬프트 엔지니어링 팁, AI 기술 코멘터리가 담긴 경우 절대 drop 하지 않는다. 내용에 맞는 축(model·product·devtool·practice·research) 또는 일반 체감·코멘터리는 "insight" 로 배정한다.
     - insight 항목은 본문 핵심 노하우를 바탕으로 3줄 불릿 요약(1번째=핵심 주장/팁, 2번째=비교 수치 및 실제 동작 맥락, 3번째=실무 적용 가치)과 5~10문장의 친절한 한국어 해설을 작성한다.
   - 본문에 없는 수치·기능·인용은 만들어내지 말 것. 근거가 없으면 그 문장을 쓰지 않는다.
 
@@ -115,7 +115,7 @@ async function callGemini(payload) {
     headers: { "Content-Type": "application/json", "x-goog-api-key": API_KEY },
     body: JSON.stringify({
       contents: [{ role: "user", parts: [{ text: `${PROMPT_RULES}\n\n후보 목록:\n${JSON.stringify(payload)}` }] }],
-      generationConfig: { responseMimeType: "application/json", temperature: 0.3 },
+      generationConfig: { responseMimeType: "application/json" },
     }),
   });
   if (!res.ok) throw new Error(`Gemini API error: HTTP ${res.status}`); // 본문에 키가 섞이지 않도록 상태코드만
@@ -270,6 +270,9 @@ async function curateBatch(batch, factMap, idx, total) {
 // 이전 구현은 "매체별 상위 3건에 importance +1000" 가중치 해킹이었다. 정렬만 흔들 뿐 상한이 없어
 // 특정 축이 하루를 독식했고(실측 08-25 devtool 6 / oss 1, 08-20 oss 7), importance 하한 40 은 아무것도 거르지 못했다.
 // 매체별로 importance 내림차순 큐를 만들고 라운드로빈으로 뽑아 쿼터를 강제한다.
+const SOCIAL_PRIORITY_SOURCES = ["instagram", "x", "threads"];
+const MIN_PER_SOCIAL = Number(process.env.NEWS_MIN_PER_SOCIAL || 2);
+
 function selectBalanced(items) {
   const queues = new Map();
   for (const it of items) {
@@ -282,24 +285,40 @@ function selectBalanced(items) {
   const perSignal = {};
   const picked = [];
   const skipped = [];
+
+  const takeNext = (source, q) => {
+    while (q.length) {
+      const it = q.shift();
+      if ((perSignal[it.signal_id] || 0) >= MAX_PER_SIGNAL) {
+        skipped.push(`${it.signal_id} 축 상한(${MAX_PER_SIGNAL}) 초과: ${it.headline.slice(0, 32)}`);
+        continue;
+      }
+      perSource[source] = (perSource[source] || 0) + 1;
+      perSignal[it.signal_id] = (perSignal[it.signal_id] || 0) + 1;
+      picked.push(it);
+      return true;
+    }
+    return false;
+  };
+
+  // 1차: Instagram, X, Threads 필수 소셜 축에서 최소 MIN_PER_SOCIAL건씩 우선 확보
+  for (let round = 0; round < MIN_PER_SOCIAL; round++) {
+    for (const source of SOCIAL_PRIORITY_SOURCES) {
+      if (picked.length >= MAX_ITEMS) break;
+      const q = queues.get(source);
+      if (!q || (perSource[source] || 0) >= MAX_PER_SOURCE) continue;
+      takeNext(source, q);
+    }
+  }
+
+  // 2차: 전체 매체 라운드로빈 선별
   let progressed = true;
   while (picked.length < MAX_ITEMS && progressed) {
     progressed = false;
     for (const [source, q] of queues) {
       if (picked.length >= MAX_ITEMS) break;
       if ((perSource[source] || 0) >= MAX_PER_SOURCE) continue;
-      while (q.length) {
-        const it = q.shift();
-        if ((perSignal[it.signal_id] || 0) >= MAX_PER_SIGNAL) {
-          skipped.push(`${it.signal_id} 축 상한(${MAX_PER_SIGNAL}) 초과: ${it.headline.slice(0, 32)}`);
-          continue;
-        }
-        perSource[source] = (perSource[source] || 0) + 1;
-        perSignal[it.signal_id] = (perSignal[it.signal_id] || 0) + 1;
-        picked.push(it);
-        progressed = true;
-        break;
-      }
+      if (takeNext(source, q)) progressed = true;
     }
   }
 

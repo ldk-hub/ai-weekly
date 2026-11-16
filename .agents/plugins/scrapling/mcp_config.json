@@ -1,7 +1,7 @@
 {
   "mcpServers": {
     "mcp": {
-      "command": "/Users/nhn/.local/bin/uvx",
+      "command": "uvx",
       "args": [
         "--from",
         "scrapling[ai]",
