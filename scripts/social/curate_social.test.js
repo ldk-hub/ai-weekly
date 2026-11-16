@@ -1,5 +1,8 @@
 const assert = require("assert");
-const { popularity, rank, qualityIssues } = require("./curate_social");
+const fs = require("fs");
+const os = require("os");
+const path = require("path");
+const { popularity, rank, qualityIssues, loadRecentCuratedIds } = require("./curate_social");
 
 assert.strictEqual(popularity({}), 0);
 assert.ok(popularity({ likes: 10000, reposts: 1000 }) > popularity({ likes: 100 }));
@@ -17,5 +20,18 @@ assert.deepStrictEqual(qualityIssues(good, fact), []);
 assert.ok(qualityIssues({ ...good, title_ko: "English only title" }, fact).includes("title_ko 미번역"));
 assert.ok(qualityIssues({ ...good, relevance: 20 }, fact).some((s) => s.includes("relevance")));
 assert.ok(qualityIssues({ ...good, tags: [] }, fact).includes("tags 누락"));
+
+// loadRecentCuratedIds excludes today and collects prior archive IDs
+const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "aiw-curate-test-"));
+try {
+  fs.writeFileSync(path.join(tmpDir, "2026-11-12.json"), JSON.stringify({ items: [{ id: "x:1" }, { id: "ig:1" }] }));
+  fs.writeFileSync(path.join(tmpDir, "2026-11-13.json"), JSON.stringify({ items: [{ id: "th:1" }] }));
+  const recent = loadRecentCuratedIds(tmpDir, "2026-11-13");
+  assert.strictEqual(recent.has("x:1"), true);
+  assert.strictEqual(recent.has("ig:1"), true);
+  assert.strictEqual(recent.has("th:1"), false);
+} finally {
+  fs.rmSync(tmpDir, { recursive: true, force: true });
+}
 
 console.log("✅ curate_social.test.js 통과");

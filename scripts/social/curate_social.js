@@ -2,6 +2,7 @@
 const fs = require("fs");
 const path = require("path");
 const moment = require("moment-timezone");
+const { buildSocialArchive } = require("./build_social_archive");
 
 const ROOT = path.join(__dirname, "..", "..");
 const IN = path.join(ROOT, "data", "social_candidates.json");
@@ -159,11 +160,39 @@ function validate(file = LATEST) {
   console.log("✅ 규격 통과 — 배포 가능");
 }
 
+function loadRecentCuratedIds(archiveDir = ARCHIVE_DIR, excludeDate = "", lookbackDays = 7) {
+  const seen = new Set();
+  if (!fs.existsSync(archiveDir)) return seen;
+  const files = fs
+    .readdirSync(archiveDir)
+    .filter((f) => /^\d{4}-\d{2}-\d{2}\.json$/.test(f) && f !== `${excludeDate}.json`)
+    .sort()
+    .slice(-lookbackDays);
+  for (const f of files) {
+    try {
+      const data = JSON.parse(fs.readFileSync(path.join(archiveDir, f), "utf-8"));
+      for (const it of data.items || []) {
+        if (it && it.id) seen.add(it.id);
+      }
+    } catch {
+      // 손상된 과거 아카이브 파일은 건너뜀
+    }
+  }
+  return seen;
+}
+
 async function main() {
   if (!API_KEY) {
     throw new Error("GEMINI_API_KEY 미설정 — `GEMINI_API_KEY=... node scripts/social/curate_social.js` 로 실행하거나 수동 큐레이션 후 `--validate` 를 실행하세요.");
   }
-  const { posts = [] } = JSON.parse(fs.readFileSync(IN, "utf-8"));
+  const date = moment().tz("Asia/Seoul").format("YYYY-MM-DD");
+  const recentIds = loadRecentCuratedIds(ARCHIVE_DIR, date);
+  const { posts: rawPosts = [] } = JSON.parse(fs.readFileSync(IN, "utf-8"));
+  const posts = rawPosts.filter((p) => !recentIds.has(p.id));
+  const skippedDupes = rawPosts.length - posts.length;
+  if (skippedDupes > 0) {
+    console.log(`[social:curate] 최근 아카이브 중복 ${skippedDupes}건 제외 (${rawPosts.length} → ${posts.length})`);
+  }
   const byId = new Map(posts.map((p) => [p.id, p]));
   const judged = [];
   for (let i = 0; i < posts.length; i += 15) {
@@ -187,16 +216,16 @@ async function main() {
     kept.push(merged);
   }
   const items = rank(kept);
-  const date = moment().tz("Asia/Seoul").format("YYYY-MM-DD");
   const out = { date, generatedAt: new Date().toISOString(), count: items.length, items };
   fs.mkdirSync(path.dirname(LATEST), { recursive: true });
   fs.mkdirSync(ARCHIVE_DIR, { recursive: true });
   fs.writeFileSync(LATEST, JSON.stringify(out, null, 2));
   fs.writeFileSync(path.join(ARCHIVE_DIR, `${date}.json`), JSON.stringify(out, null, 2));
-  console.log(`[social:curate] ${posts.length} → 유지 ${kept.length} → 게시 ${items.length}`);
+  const archiveStats = buildSocialArchive();
+  console.log(`[social:curate] ${posts.length} → 유지 ${kept.length} → 게시 ${items.length} (누적 ${archiveStats.total_days}일 · ${archiveStats.total_items}건)`);
 }
 
-module.exports = { popularity, rank, qualityIssues, validate };
+module.exports = { popularity, rank, qualityIssues, validate, loadRecentCuratedIds };
 
 if (require.main === module) {
   const args = process.argv.slice(2);

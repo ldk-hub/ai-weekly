@@ -4956,17 +4956,166 @@ html[data-theme="light"] .sb-legend-popover {
 
 
 /* ── Social feed ─────────────────────────────── */
+.social-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  margin-top: 12px;
+}
+.social-day-group {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 480px;
+}
+.social-day-group.is-collapsed .social-grid {
+  display: none;
+}
+.social-day-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: var(--radius-box, 10px);
+  border: 1px solid var(--border);
+  background: var(--card);
+  flex-wrap: wrap;
+}
+.social-day-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.social-day-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.social-day-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--pill);
+  color: var(--accent-text);
+  border: 1px solid var(--border);
+}
+.social-day-badge.is-latest {
+  background: var(--accent-glow);
+  border-color: var(--accent);
+}
+.social-day-count {
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  color: var(--ink-2);
+}
+.social-day-platforms {
+  font-size: 12px;
+  color: var(--muted);
+}
+.social-day-toggle {
+  padding: 5px 11px;
+  border-radius: var(--radius-btn, 8px);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--ink-2);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.social-day-toggle:hover {
+  border-color: var(--border-hover);
+  color: var(--ink);
+}
+.social-status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  padding: 10px 14px;
+  border-radius: var(--radius-box, 10px);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-size: 13px;
+  color: var(--ink-2);
+}
+.social-status-action {
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+.social-status-action:hover:not(:disabled) {
+  border-color: var(--border-hover);
+}
+.social-status-action:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+.social-pagination {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 24px;
+}
+.social-load-more-btn {
+  padding: 10px 20px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
+}
+.social-load-more-btn:hover:not(:disabled) {
+  border-color: var(--border-hover);
+  background: var(--surface);
+  transform: translateY(-1px);
+}
+.social-load-more-btn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+.social-pagination-meta {
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+}
+.social-sentinel {
+  height: 1px;
+  width: 100%;
+}
 .social-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr));
   gap: 16px;
-  margin-top: 8px;
   align-items: start;
 }
 .social-card {
   padding: 0;
   min-height: 0;
   gap: 0;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 340px;
 }
 .social-thumb {
   display: block;

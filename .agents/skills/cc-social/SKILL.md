@@ -15,7 +15,8 @@ description: X·Threads·Reddit·Instagram AI 인플루언서·커뮤니티(시�
 2. **큐레이션 및 검증**:
    - `GEMINI_API_KEY`가 있으면: `node scripts/social/curate_social.js` (`instagram`·`x`·`threads` 각 최소 3건씩 우선 할당 후 점수순/라운드로빈 균형 선별)
    - `GEMINI_API_KEY`가 없으면: `data/social_candidates.json`을 직접 선별·한국어 요약해 `site/public/data/social_latest.json` 및 `data/social/YYYY-MM-DD.json`을 생성한다. (후보에 없는 id/url/author 작성 금지)
-   - 배포 전 필수 검증: `node scripts/social/curate_social.js --validate` (후보 2건 이상 보유 필수 플랫폼에서 최소 2건 이상 선별 여부 검증)
+   - 배포 전 필수 검증: `node scripts/social/curate_social.js --validate`
+   - 아카이브 인덱스·일별 샤드 갱신: `node scripts/social/build_social_archive.js` (`curate_social.js` 직접 실행 시에는 자동 호출되며, 수동 큐레이션 시 반드시 실행해 `site/public/data/archive/social_index.json` 및 `social_YYYY-MM-DD.json`을 동기화한다) (후보 2건 이상 보유 필수 플랫폼에서 최소 2건 이상 선별 여부 검증)
 3. **빌드 및 사이트맵**:
    - `node scripts/core/generate-og.js && node scripts/core/generate-rss.js && npm run build`
 4. **시드 관리**:
