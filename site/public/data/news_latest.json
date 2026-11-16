@@ -1,165 +1,42 @@
 {
-  "generated_at": "2026-11-12T01:56:42.912Z",
-  "updated_at": "2026-11-12T01:56:42.912Z",
-  "version": "v2026.11.12",
-  "date": "2026-11-12",
-  "summary": "🔥 오늘의 핵심 이슈: #제미나이로보틱스2.5 #알파게놈2 #그록빌드보안유출 — 구글 딥마인드의 피지컬·유전체 신규 모델부터 에이전트 인프라·로컬 양자화·보안 사고까지 핵심 AI 기술 신호 18건을 선별했습니다.",
+  "generated_at": "2026-11-16T00:00:00.000Z",
+  "updated_at": "2026-11-16T00:00:00.000Z",
+  "version": "v2026.11.16",
+  "date": "2026-11-16",
+  "summary": "🔥 오늘의 핵심 이슈: #GPT6.1Terra #Gemini4Hydrogen #에이전트인프라 #추론경량화 — 차세대 컴퓨터 제어·고속 코딩 모델의 등판과 함께 ZFS DB 브랜칭·MCP 브라우저 최적화·추론 조기 종료 등 실전 에이전트 엔지니어링 신호 18건이 집중되었습니다.",
   "curated_by": "ldk-hub",
   "signal_counts": {
-    "model": 2,
-    "practice": 1,
-    "policy": 2,
-    "product": 2,
-    "oss": 4,
+    "model": 3,
     "research": 3,
     "devtool": 3,
-    "insight": 1
+    "oss": 3,
+    "product": 3,
+    "practice": 2,
+    "policy": 1
   },
   "news": [
     {
-      "id": "x_443e9ddf89",
+      "id": "x_472456f9d8",
       "category_id": "x",
       "category_name": "X",
       "signal_id": "model",
       "signal_name": "새 모델·버전 출시·프리뷰·벤치마크",
-      "importance": 95,
-      "headline": "구글 딥마인드, 일상·산업 작업 수행 피지컬 AI '제미나이 로보틱스 2.5' 공개",
-      "title_ko": "구글 딥마인드, 빨래 개기부터 자동차 부품 분류까지 수행하는 '제미나이 로보틱스 2.5' 발표",
-      "summary_ko": "• **피지컬 AI 공개**: 구글 딥마인드가 일상 생활과 제조 현장의 수백 가지 물리적 작업을 학습·수행하는 최신 로보틱스 모델 제미나이 로보틱스 2.5를 발표했습니다.\n• **수행 작업 범위**: 빨래 개기와 페이스트리 서빙 같은 섬세한 조작은 물론 공장 바닥에서 자동차 부품을 자율 분류하는 복합 산업 과제까지 처리합니다.\n• **적용 확산 의미**: 범용 AI 추론이 화면과 텍스트를 넘어 실제 물리 환경의 로봇 제어와 제조 자동화 현장으로 본격 확장되고 있음을 보여줍니다.",
-      "body_ko": "구글 딥마인드가 물리 세계의 다양한 조작 과제를 통합 학습하고 수행할 수 있는 차세대 피지컬 AI 모델 제미나이 로보틱스 2.5를 공식 발표했습니다. 공개된 설명에 따르면 이 모델은 수백 가지에 달하는 일상 및 현장 작업 스킬을 습득할 수 있도록 설계되었습니다. 가정과 상업 공간의 구체적 예시로는 유연한 직물을 다루는 빨래 개기와 정밀한 취급이 필요한 페이스트리 서빙이 제시되었습니다. 동시에 공장 생산 라인 바닥에서 자동차 부품을 자율적으로 구분하고 분류하는 산업용 핸들링 시나리오까지 포괄합니다. 상황별 개별 스크립트에 의존하던 기존 제어 방식과 달리 범용적인 시각 및 행동 추론을 통해 환경 변화에 대응하려는 접근이 특징입니다. 향후 서비스 로보틱스와 제조 물류 자동화 영역에서 파운데이션 모델 기반 물리 제어 기술의 도입 속도를 앞당길 핵심 신호로 주목됩니다.",
+      "importance": 96,
+      "headline": "오픈AI, 더 낮은 가격에 고속 화면 인식·앱 조작을 지원하는 'GPT-6.1 Terra' 공개",
+      "title_ko": "오픈AI, 더 낮은 가격에 고속 화면 인식·앱 조작을 지원하는 'GPT-6.1 Terra' 공개",
+      "summary_ko": "• **모델 출시**: 오픈AI가 컴퓨터 사용(Computer Use) 능력과 실무 작업 효율을 대폭 높인 신규 모델 GPT-6.1 Terra를 발표했습니다.\n• **핵심 강점**: 화면 내 맥락을 정확히 이해해 여러 애플리케이션을 넘나들며 작업을 실행하고 자연스러운 문서 작성을 낮은 단가로 제공합니다.\n• **실무 영향**: GUI 자동화와 일상적인 업무 에이전트 파이프라인의 운영 비용을 낮추면서 처리 속도와 안정성을 끌어올릴 수 있습니다.",
+      "body_ko": "오픈AI가 컴퓨터 화면 이해와 애플리케이션 간 자율 조작에 특화한 신형 모델 GPT-6.1 Terra를 공식 발표했습니다. 이번 모델은 기존 대비 더 빠른 응답 속도와 낮은 가격대를 동시에 달성해 실무 환경에서의 상시 에이전트 구동을 겨냥했습니다. 공개된 설명에 따르면 화면 위에 표시된 UI 요소와 상황을 파악한 뒤 여러 앱을 오가며 연속적인 액션을 수행할 수 있습니다. 또한 자연스러운 문장 작성 역량을 유지해 브라우저·문서·협업 도구가 섞인 복합 업무 처리에 적합하도록 설계되었습니다. 단가 효율성이 높아진 만큼 대량 반복 업무나 장시간 이어지는 컴퓨터 사용 워크플로우의 비용 장벽을 낮추는 계기가 될 전망입니다. 구체적인 벤치마크 수치와 API 세부 요율표는 후속 공식 문서를 통해 확인이 필요합니다.",
       "tags": [
-        "피지컬 AI",
-        "제미나이 로보틱스",
-        "로보틱스",
-        "구글 딥마인드"
-      ],
-      "author_profile": "GoogleDeepMind",
-      "publish_date": "2026-11-12T01:50:00.350Z",
-      "url": "https://x.com/GoogleDeepMind/status/543702510",
-      "sources": [
-        "x",
-        "googledeepmind"
-      ],
-      "metrics": {
-        "platform": "x",
-        "account": "GoogleDeepMind"
-      },
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "x_f1a727cff9",
-      "category_id": "x",
-      "category_name": "X",
-      "signal_id": "model",
-      "signal_name": "새 모델·버전 출시·프리뷰·벤치마크",
-      "importance": 92,
-      "headline": "구글 딥마인드, 세포 유형별 DNA 변이·질병 기전 예측 모델 '알파게놈 2' 공개",
-      "title_ko": "구글 딥마인드, 단일 염기 변이의 세포별 질병 영향을 규명하는 '알파게놈 2' 공개",
-      "summary_ko": "• **생물학 모델 발표**: 구글 딥마인드가 동일한 DNA 서열 속에서 특정 세포에만 질병을 일으키는 변이 원인을 추적하는 신규 AI 모델 알파게놈 2를 공개했습니다.\n• **세포 단위 정밀도**: 심장과 뇌, 면역체계가 같은 DNA를 공유함에도 단일 염기 변화가 일부 세포에서만 질환으로 이어지는 기전을 세포 단위로 확대해 분석합니다.\n• **연구 활용 가치**: 유전체 서열 해독을 넘어 세포 특이적 반응 차이를 모델링함으로써 과학자들의 표적 질병 메커니즘 규명을 지원하는 도구로 주목됩니다.",
-      "body_ko": "구글 딥마인드가 인간 유전체 데이터에서 세포 유형별 질병 발현 메커니즘을 정밀하게 분석하는 새로운 생물학 AI 모델 알파게놈 2를 선보였습니다. 인체의 심장과 뇌, 면역체계는 모두 동일한 DNA 염기서열을 공유하지만 실제 유전자 변이에 따른 발현과 반응은 조직마다 크게 다릅니다. 알파게놈 2는 바로 이 지점에 주목해 단 한 글자의 염기 서열 변화가 어떻게 특정 세포에서는 질병을 유발하고 다른 세포는 비껴가는지 규명하는 데 초점을 맞췄습니다. 전체 유전체 평균이 아니라 개별 세포 수준으로 시야를 좁혀 변이의 작용 방식을 세밀하게 들여다볼 수 있도록 설계된 것이 핵심입니다. 생명과학 연구자들은 이를 통해 유전 변이와 실제 질환 표현형 사이의 인과 고리를 보다 체계적으로 해석할 수 있게 됩니다. 알파폴드 계열에 이어 유전체 기능 예측 분야에서도 딥마인드의 특화 모델 계보가 빠르게 고도화되고 있음을 보여줍니다.",
-      "tags": [
-        "알파게놈 2",
-        "생물학 AI",
-        "유전체",
-        "구글 딥마인드"
-      ],
-      "author_profile": "GoogleDeepMind",
-      "publish_date": "2026-11-12T01:50:00.350Z",
-      "url": "https://x.com/GoogleDeepMind/status/371449329",
-      "sources": [
-        "x",
-        "googledeepmind"
-      ],
-      "metrics": {
-        "platform": "x",
-        "account": "GoogleDeepMind"
-      },
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "hackernews_22b2364bb7",
-      "category_id": "hackernews",
-      "category_name": "Hacker News",
-      "signal_id": "practice",
-      "signal_name": "AI 활용 사례·워크플로우 팁",
-      "importance": 91,
-      "headline": "48개 비전 에이전트로 NASA LiDAR 1,200km² 분석, 72시간 만에 마야 유적지 재발견",
-      "title_ko": "비전 에이전트 48개로 NASA LiDAR 데이터를 분석해 72시간 만에 마야 유적지를 재발견한 실험",
-      "summary_ko": "• **실전 활용 실험**: 비전공자인 저자가 48개 AI 에이전트를 병렬 실행해 멕시코 정글 약 1,200제곱킬로미터 구간의 공개 NASA LiDAR 지형을 판독하고 72시간 만에 마야 유적지를 찾아냈습니다.\n• **탐색 워크플로우**: 별도 학습 분류기 없이 LiDAR 타일 이미지를 에이전트가 직접 검수해 8~12m 높이 타원형 피라미드와 광장, 저수지 흔적을 식별하고 문헌 대조까지 수행했습니다.\n• **현장 검증과 교훈**: 멕시코 국립인류학역사연구소(INAH) 공식 등록부에는 없었으나 2025년 학술 논문에 이미 기록된 유적지로 밝혀져 에이전트의 문헌 탐색 누락 보완 과제도 함께 남겼습니다.",
-      "body_ko": "고고학 비전공자인 피에트로 미오티가 여행 중 떠올린 아이디어를 바탕으로 AI 에이전트 군단을 가동해 72시간 만에 정글 속 마야 유적지 좌표를 찾고 멕시코 당국 회신까지 받아낸 실전 사례를 공유했습니다. 우거진 밀림을 위에서 찍은 위성 사진으로는 수목에 가려 유적 판독이 어렵지만, 레이저 펄스로 지표면을 투과 측정하는 공개 NASA LiDAR 데이터는 고대 건축물의 기하학적 형태를 선명하게 드러냅니다. 작성자는 약 1,200제곱킬로미터 구간의 LiDAR 스트립을 이미지로 분할한 뒤 전용 분류 모델을 학습하는 대신 48개의 에이전트가 정해진 가이드에 따라 타일 사진을 한 장씩 검수하도록 구성했습니다. 그 결과 자연 지형인 싱크홀이나 도로를 배제하고 직선 모서리를 지닌 평탄화 광장, 높이 8~12미터 규모 피라미드, 저수지로 추정되는 웅덩이 구조를 정확히 추려냈습니다. 이후 확인 과정에서 INAH 공식 등록부에는 미등재 상태였으나 2025년 아카데믹 논문(Estrada-Belli 등)에는 이미 지도화된 곳으로 판명되어 에이전트의 문헌 대조 한계도 솔직하게 공유했습니다. 전용 모델 구축 비용 없이도 범용 비전 에이전트의 대량 병렬 탐색만으로 방대한 원격 탐사 데이터를 신속히 스크리닝할 수 있음을 보여준 흥미로운 워크플로우입니다.",
-      "tags": [
-        "AI 활용 사례",
-        "LiDAR",
-        "비전 에이전트",
-        "병렬 처리"
-      ],
-      "author_profile": "@eyvindn",
-      "publish_date": "2026-11-11T12:05:22.000Z",
-      "url": "https://pietromiotti.com/latest/maya-site",
-      "sources": [
-        "hackernews"
-      ],
-      "metrics": {
-        "points": 928,
-        "comments": 338,
-        "discussion_url": "https://news.ycombinator.com/item?id=50452455"
-      },
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "bluesky_5a45f519b8",
-      "category_id": "bluesky",
-      "category_name": "Bluesky",
-      "signal_id": "policy",
-      "signal_name": "정책·규제·인프라 (기술 영향 큰 것만)",
-      "importance": 90,
-      "headline": "SpaceXSI 코딩 에이전트 '그록 빌드', 공유 링크 열거 결함으로 내부 기밀 대량 노출",
-      "title_ko": "SpaceXSI 코딩 에이전트 '그록 빌드', 예측 가능한 공유 링크 설계로 내부 영업·고객 데이터 노출",
-      "summary_ko": "• **보안 취약점 확인**: 보안 기업 클라록(Claroc) 조사 결과 SpaceXSI의 바이브 코딩 에이전트 그록 빌드(Grok Build)에서 생성된 수천 개 앱의 공유 URL을 외부에서 열거해 열람할 수 있는 결함이 드러났습니다.\n• **민감 데이터 노출**: SpaceXSI 내부용 앱 24개(594개 고객 영업 구역 지도, 기밀 온보딩 계획)를 비롯해 테슬라 서비스센터 평가표, 병원 직원 3,565명 명단, 해군 계약 인력부 등이 인증 없이 노출되었습니다.\n• **보안 거버넌스 경고**: 기업 로그인 없이 즉석 배포되는 바이브 코딩 앱이 사내 인증 경계를 우회해 심각한 기밀 유출 통로로 이어질 수 있음을 분명히 경고합니다.",
-      "body_ko": "아스 테크니카 보도에 따르면 보안 연구 업체 클라록이 SpaceXSI의 코딩 에이전트 플랫폼 그록 빌드에서 심각한 공유 URL 설계 및 접근 통제 결함을 발견했습니다. 그록 빌드는 제작한 웹 앱을 타인과 공유하기 위해 무작위 주소를 발급하는 방식을 택했지만, 개발 상의 구조적 문제로 인해 외부인이 수천 개의 활성 프로젝트 주소를 체계적으로 열거해 접속할 수 있었습니다. 클라록이 확인한 노출 대상에는 SpaceXSI 자체 임직원이 제작한 앱 24개도 포함되었으며, 대외비 표시가 붙은 엔터프라이즈 영업팀 온보딩 계획서와 594개 계정 구역 지도가 그대로 외부에 노출되었습니다. 외부 기업 피해 사례도 광범위해 페루 건설사 근로자 3,784명 건강검진 기록, 테슬라 테크니션 22명 성과표, 의료기관 직원 3,565명 명단, 자동차 운송 견적 약 4,000건 등 민감 정보가 별도 로그인 없이 조회되었습니다. SpaceXSI는 일요일 제보 당시 응답이 없다가 언론 취재가 시작된 지 몇 시간 만에 자사 내부 앱 24개 링크를 차단했으나, 다른 다수 사용자의 앱은 보도 시점까지 접근 가능 상태였다고 전해집니다. 사내 업무 도구를 AI로 손쉽게 제작·배포할수록 기본 접근 인증 강제와 보안 검증 자동화가 필수임을 일깨우는 사건입니다.",
-      "tags": [
-        "AI 보안",
-        "그록 빌드",
-        "데이터 유출",
-        "바이브 코딩"
-      ],
-      "author_profile": "@patrickcmiller.bsky.social",
-      "publish_date": "2026-11-11T23:42:03.201Z",
-      "url": "https://arstechnica.com/security/2026/11/grok-build-coding-agent-leaks-oodles-of-confidential-info-some-belonging-to-spacexsi/",
-      "sources": [
-        "bluesky"
-      ],
-      "metrics": {
-        "likes": 20,
-        "reposts": 7,
-        "replies": 0,
-        "bluesky_url": "https://bsky.app/profile/patrickcmiller.bsky.social/post/3n234yzrgmp2u"
-      },
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "x_500758337f",
-      "category_id": "x",
-      "category_name": "X",
-      "signal_id": "product",
-      "signal_name": "제품 신기능",
-      "importance": 89,
-      "headline": "오픈AI, 챗GPT 내 기업 프로필 관리·고객 응대 에이전트 '비즈니스 인 챗GPT' 베타 출시",
-      "title_ko": "오픈AI, 기업 정보 등록·참여 분석·전용 고객 에이전트를 제공하는 '비즈니스 인 챗GPT' 베타 공개",
-      "summary_ko": "• **신규 베타 출시**: 오픈AI가 기업이 챗GPT 내부에서 자사 프로필 소유권을 등록·관리하고 사용자 참여 인사이트를 확인하는 비즈니스 인 챗GPT(Businesses in ChatGPT) 베타를 시작했습니다.\n• **전용 에이전트 구축**: 자격을 갖춘 기업은 고객 질문에 직접 답변하고 자사 제품과 서비스 탐색을 안내하는 맞춤형 비즈니스 에이전트(Business Agent)를 구축해 운영할 수 있습니다.\n• **채널 전환 흐름**: 챗GPT가 일반 질의응답 도구를 넘어 브랜드 공식 정보와 고객 상담 접점을 흡수하는 기업용 AI 탐색 채널로 진화하고 있습니다.",
-      "body_ko": "오픈AI가 공식 X 계정을 통해 기업 고객을 겨냥한 새로운 플랫폼 기능인 비즈니스 인 챗GPT 베타 개시를 발표했습니다. 이 기능을 활용하면 사업체는 챗GPT 내에 표시되는 자사 공식 기업 프로필을 클레임하고 세부 정보를 직접 최신 상태로 관리할 수 있습니다. 동시에 챗GPT 사용자들이 대화를 통해 해당 기업과 어떻게 상호작용하고 검색하는지에 관한 참여 분석 인사이트도 함께 확인하게 됩니다. 자격 요건을 충족하는 기업에는 단순 정보 표출을 넘어 고객 문의에 즉시 응답하고 제공 상품 탐색을 돕는 전용 비즈니스 에이전트 구축 기능까지 열립니다. 이용자가 외부 검색이나 기업 홈페이지를 거치지 않고 AI 대화창 안에서 브랜드 파악과 초기 상담을 완결짓는 비중이 커지면서 기업의 챗GPT 내 공식 에이전트 운영 중요성이 한층 높아지고 있습니다.",
-      "tags": [
+        "GPT-6.1 Terra",
         "오픈AI",
-        "챗GPT",
-        "비즈니스 에이전트",
-        "제품 신기능"
+        "컴퓨터 제어",
+        "에이전트"
       ],
       "author_profile": "OpenAI",
-      "publish_date": "2026-11-12T01:50:00.350Z",
-      "url": "https://x.com/OpenAI/status/848631894",
+      "publish_date": "2026-11-15T23:54:46.061Z",
+      "url": "https://x.com/OpenAI/status/768496781",
       "sources": [
-        "x",
-        "openai"
+        "X"
       ],
       "metrics": {
         "platform": "x",
@@ -168,390 +45,497 @@
       "curated_by": "ldk-hub"
     },
     {
-      "id": "geeknews_474d84e31a",
-      "category_id": "geeknews",
-      "category_name": "GeekNews",
-      "signal_id": "oss",
-      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
-      "importance": 89,
-      "headline": "OpenPhoneUse: PC·ADB 연결 없이 안드로이드 단말에서 단독 실행되는 모바일 Computer Use",
-      "title_ko": "OpenPhoneUse: 접근성 서비스와 화면 인식으로 스마트폰을 직접 조작하는 오픈소스 모바일 에이전트",
-      "summary_ko": "• **오픈소스 공개**: 개발자 정민성(joungminsung)이 PC 연결, ADB 디버깅, 루팅 없이 안드로이드 11 이상 스마트폰 내부에서 단독 작동하는 모바일 Computer Use 에이전트 OpenPhoneUse를 MIT 라이선스로 공개했습니다.\n• **동작 및 성능 수치**: 접근성 노드 트리와 스크린샷을 결합 인식해 자체 실제 작업 31개 벤치마크에서 100점 중 94.5점을 기록했으며, 스크린샷 병행 시 접근성 트리 단독 대비 속도가 2배 이상 빨라졌습니다.\n• **보안 설계 원칙**: 결제나 보안 설정 변경 전 반드시 사용자 확인을 요구하고 비밀번호 입력은 수행하지 않으며, 중계 서버 없이 사용자가 선택한 모델 제공사로만 화면 데이터를 전송합니다.",
-      "body_ko": "개발자 minsung0830(GitHub joungminsung)이 Kotlin과 Jetpack Compose로 제작해 MIT 라이선스로 배포한 OpenPhoneUse는 스마트폰 화면을 보고 직접 탭, 입력, 스크롤을 수행하는 오픈소스 모바일 에이전트입니다. 기존 모바일 제어 에이전트 대부분이 PC에 연결해 ADB나 Shizuku를 구동해야 했던 번거로움을 없애고, 안드로이드 11 이상 단말의 접근성 서비스만으로 기기 내부에서 단독 실행되도록 구현되었습니다. 인식 방식 측면에서는 접근성 트리와 실제 화면 스크린샷을 함께 활용해 아이콘 버튼이나 지도처럼 구조 파악이 까다로운 화면까지 정확하게 조작합니다. 사용자는 GitHub Releases에서 APK를 내려받아 설치한 뒤 ChatGPT 계정 로그인이나 OpenAI, 클로드, 제미나이, 그록 API 키를 연결해 즉시 활용할 수 있습니다. 자체 백엔드 서버를 두지 않고 화면 정보를 사용자가 지정한 모델 제공사 API로만 전달하며, 결제·보안 변경 확인 단계와 비밀번호 미입력 가드레일을 내장해 프라이버시를 지킵니다. 자체 31개 실작업 평가에서 94.5점을 기록하고 스크린샷 병행으로 2배 이상 속도 향상을 확인했으나, 빠른 실시간 반응이 필요한 게임 작업에는 아직 약점을 보입니다.",
+      "id": "x_e498235c5f",
+      "category_id": "x",
+      "category_name": "X",
+      "signal_id": "model",
+      "signal_name": "새 모델·버전 출시·프리뷰·벤치마크",
+      "importance": 95,
+      "headline": "구글 딥마인드, 3.8 Flash 대비 2.5배 빠른 고속 코딩 모델 'Gemini 4 Hydrogen' 발표",
+      "title_ko": "구글 딥마인드, 3.8 Flash 대비 2.5배 빠른 고속 코딩 모델 'Gemini 4 Hydrogen' 발표",
+      "summary_ko": "• **고속 모델 공개**: 구글 딥마인드가 빠른 코딩, 멀티모달 합성, 일상 워크플로우에 최적화된 신형 모델 Gemini 4 Hydrogen을 선보였습니다.\n• **성능 도약**: 기존 3.8 Flash 모델보다 작업 완료 속도가 2.5배 빨라졌으며 주요 지표에서 Argon 세대를 앞서는 성능을 기록했습니다.\n• **개발자 활용**: 저지연 응답이 필수적인 실시간 코딩 어시스턴트와 다중 에이전트 병렬 호출 환경에서 높은 처리량을 기대할 수 있습니다.",
+      "body_ko": "구글 딥마인드가 고속 코딩과 멀티모달 합성에 초점을 맞춘 경량·고효율 라인업 Gemini 4 Hydrogen을 공개했습니다. 발표 내용에 따르면 이 모델은 이전 세대 경량 모델인 3.8 Flash와 비교해 태스크 완료 속도를 2.5배 끌어올렸습니다. 동시에 상위 계열인 Argon 모델의 성능을 뛰어넘는 결과를 보여 속도와 지능 사이의 균형을 한 단계 높인 것이 특징입니다. 빠른 피드백 루프가 요구되는 IDE 내 코드 보완이나 대량의 멀티모달 데이터를 실시간으로 요약·합성하는 서비스에 유리한 특성을 보입니다. 특히 에이전트가 도구를 수십 차례 호출하는 반복 루프에서 지연 시간 누적 문제를 크게 완화할 수 있습니다. 상세 모델 카드와 전체 벤치마크 비교표는 딥마인드 공식 채널을 통해 추가 공개될 예정입니다.",
       "tags": [
-        "모바일 에이전트",
-        "Computer Use",
-        "안드로이드",
-        "오픈소스"
+        "Gemini 4 Hydrogen",
+        "구글 딥마인드",
+        "고속 추론",
+        "코딩 모델"
       ],
-      "author_profile": "minsung0830",
-      "publish_date": "2026-11-12T00:51:56.000Z",
-      "url": "https://news.hada.io/topic?id=37020",
+      "author_profile": "GoogleDeepMind",
+      "publish_date": "2026-11-15T23:54:46.061Z",
+      "url": "https://x.com/GoogleDeepMind/status/161592593",
       "sources": [
-        "geeknews"
+        "X"
       ],
-      "metrics": {},
+      "metrics": {
+        "platform": "x",
+        "account": "GoogleDeepMind"
+      },
       "curated_by": "ldk-hub"
     },
     {
-      "id": "aitimes_7530992b1f",
+      "id": "reddit_fc7997dfbf",
+      "category_id": "reddit",
+      "category_name": "Reddit",
+      "signal_id": "research",
+      "signal_name": "연구·논문·새 기법",
+      "importance": 92,
+      "headline": "메타 FAIR·NYU, 200여 개 MLLM 학습으로 '비전 인코더 사전학습은 선택, 시각 전용 파라미터는 필수' 입증",
+      "title_ko": "메타 FAIR·NYU, 200여 개 MLLM 학습으로 '비전 인코더 사전학습은 선택, 시각 전용 파라미터는 필수' 입증",
+      "summary_ko": "• **대규모 비교 실험**: 메타 FAIR와 NYU 연구진이 동일 데이터와 연산 예산으로 200개 이상의 멀티모달 LLM을 처음부터 학습해 비전 인코더 설계 요소를 분리 검증했습니다.\n• **핵심 발견**: 별도의 인코더 사전학습은 동등 연산량 기준 스크래치 학습과 대등했으나, 인코더 없는 모델은 VQA에서 약 3배 더 많은 연산량을 요구하며 뒤처졌습니다.\n• **아키텍처 제안**: LLM 앞단 대신 초기 8개 레이어에 시각 전용 가중치를 결합하는 In-fusion 구조로 동등한 VQA 성능과 약 13% 빠른 첫 토큰 지연시간을 달성했습니다.",
+      "body_ko": "최근 멀티모달 모델 개발 진영에서 비전 인코더의 존치 여부와 사전학습 필요성을 두고 엇갈린 설계가 이어지는 가운데, 메타 FAIR와 뉴욕대 연구진이 이를 정면으로 검증한 논문을 공개했습니다. 연구진은 데이터와 총연산량을 엄격히 통제한 상태에서 0.6B부터 6.4B 백본까지 200개 이상의 모델을 처음부터 학습시켜 세 가지 설계 변수를 분리 평가했습니다. 실험 결과 대조학습이나 자기지도학습으로 인코더를 따로 사전학습하더라도 총연산량을 맞추면 LLM과 함께 처음부터 학습한 인코더와 성능 차이가 거의 없는 것으로 나타났습니다. 반대로 비전 토큰 전용 파라미터를 아예 없앤 인코더 프리 구조는 0.6B~6.4B 전 구간에서 뒤처졌고 동등 성능에 도달하려면 약 3배의 연산량이 필요했습니다. 또한 LLM 이전 단계에 별도 인코더를 두는 대신 LLM 첫 8개 레이어에 시각 토큰만 사용하는 가중치를 0으로 초기화해 삽입하는 In-fusion 기법은 1.7B 모델 VQA에서 45.0점을 기록해 기존 인코더(44.4점)와 대등하면서도 첫 토큰 응답 시간을 약 13% 단축했습니다. 이 결과는 멀티모달 백본 설계 시 비전 인코더 사전학습 파이프라인을 단순화하고 추론 지연을 줄이는 실무 가이드라인을 제시합니다.",
+      "tags": [
+        "멀티모달",
+        "비전 인코더",
+        "메타 FAIR",
+        "VLM 연구"
+      ],
+      "author_profile": "r/MachineLearning · u/trungh98",
+      "publish_date": "2026-11-15T17:38:16.000Z",
+      "url": "https://www.reddit.com/r/MachineLearning/comments/1xx1k2o/meta_fair_nyu_unbundling_multimodal_vision/",
+      "sources": [
+        "Reddit"
+      ],
+      "metrics": {
+        "rank_in_sub": 1,
+        "discussion_url": "https://www.reddit.com/r/MachineLearning/comments/1xx1k2o/meta_fair_nyu_unbundling_multimodal_vision/"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hackernews_a766ed2aa9",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "signal_id": "devtool",
+      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
+      "importance": 91,
+      "headline": "db-branch: AI 에이전트와 CI를 위해 ZFS 기반으로 몇 초 만에 DB 브랜치를 생성하는 셀프호스팅 도구",
+      "title_ko": "db-branch: AI 에이전트와 CI를 위해 ZFS 기반으로 몇 초 만에 DB 브랜치를 생성하는 셀프호스팅 도구",
+      "summary_ko": "• **도구 공개**: 자체 서버에서 MySQL과 PostgreSQL 데이터베이스의 독립 복제본을 몇 초 만에 생성하는 오픈소스 도구 db-branch가 베타 공개되었습니다.\n• **동작 원리**: ZFS Copy-on-Write 클론을 활용해 대용량 데이터를 실제로 복사하지 않고도 격리된 DB 브랜치를 만들고 TTL 만료나 시점 복구(`--record`)를 지원합니다.\n• **개발자 활용**: 코딩 에이전트에게 실제와 같은 테스트 DB를 마음껏 건드리게 하거나 풀 리퀘스트마다 독립된 DB 환경을 자동으로 붙이는 데 유용합니다.",
+      "body_ko": "AI 코딩 에이전트나 CI 파이프라인이 마이그레이션을 테스트하고 데이터를 자유롭게 수정하려면 매번 격리된 데이터베이스 복제본이 필요하지만, 대용량 DB는 덤프와 복원에 시간이 오래 걸립니다. 오픈소스 프로젝트 db-branch는 리눅스 ZFS 파일시스템의 Copy-on-Write 클론 기능을 이용해 MySQL과 PostgreSQL의 브랜치를 몇 초 만에 생성하는 셀프호스팅 솔루션을 제공합니다. 데이터를 물리적으로 복사하지 않기 때문에 스토리지 부담이 적고, 작업 중 DB를 망가뜨려도 즉시 초기화하거나 폐기할 수 있습니다. 또한 `--record` 옵션으로 브랜치 변경 이력을 기록해 임의 시점으로 되돌리거나 `--ttl`로 수명을 지정하는 관리 기능을 갖추고 있습니다. Apache-2.0 라이선스로 공개되어 자체 서버나 macOS·Windows의 Multipass Ubuntu VM 환경에서 손쉽게 평가할 수 있으며, 웹 기반 라이브 콘솔 데모도 제공합니다. 아직 1.0 이전 베타 단계로 향후 CLI와 API 세부 사양이 변경될 수 있고 리눅스 ZFS 환경이 필수라는 점은 도입 시 고려해야 합니다.",
+      "tags": [
+        "db-branch",
+        "ZFS",
+        "데이터베이스 브랜칭",
+        "CI/CD"
+      ],
+      "author_profile": "@nu_nu11",
+      "publish_date": "2026-11-15T13:50:51.000Z",
+      "url": "https://github.com/db-branch/db-branch",
+      "sources": [
+        "Hacker News"
+      ],
+      "metrics": {
+        "points": 29,
+        "comments": 9,
+        "discussion_url": "https://news.ycombinator.com/item?id=50506940"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hackernews_82fd13b454",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "signal_id": "devtool",
+      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
+      "importance": 90,
+      "headline": "Turbo-Browser-MCP: 델타 DOM 스냅샷과 일괄 폼 입력으로 브라우저 MCP 토큰을 90% 이상 절감하는 서버",
+      "title_ko": "Turbo-Browser-MCP: 델타 DOM 스냅샷과 일괄 폼 입력으로 브라우저 MCP 토큰을 90% 이상 절감하는 서버",
+      "summary_ko": "• **MCP 서버 공개**: Playwright 기반 브라우저 자동화에서 발생하는 LLM 토큰 낭비와 다중 턴 지연을 줄이는 오픈소스 MCP 서버 Turbo-Browser-MCP가 공개되었습니다.\n• **기술적 최적화**: 25~33개의 미세 도구를 10개 일괄 도구로 통합하고 변경분만 보내는 델타 DOM 스냅샷과 디스크 경로 기반 파일 업로드를 구현했습니다.\n• **실측 성능**: 로컬 벤치마크 기준 고밀도 SaaS 콘솔 스냅샷 토큰을 HTML 대비 93.9% 줄였고 10개 필드 폼 입력을 11턴에서 1턴으로 단축했습니다.",
+      "body_ko": "기존 Playwright 기반 MCP 서버는 매 동작마다 전체 접근성 트리나 HTML을 다시 전송하고 폼 필드 하나당 턴을 소모해 에이전트 토큰 비용과 응답 지연을 키우는 문제가 있었습니다. Turbo-Browser-MCP는 25~33개에 달하는 세분화된 브라우저 명령을 10개의 배치 도구로 압축해 단일 턴 안에서 복합 UI 흐름을 처리하도록 설계되었습니다. 클릭 이후에는 변화된 요소만 추출하는 `onlyChanged` 델타 스냅샷을 사용해 ARIA 전체 재스캔 대비 토큰을 98.4% 절감하며, React·Shadow DOM·iframe 내부 폼도 한 번에 채울 수 있습니다. 파일 업로드 시에는 Base64 문자열을 컨텍스트에 넣는 대신 디스크 경로만 전달해 48KB PDF 기준 토큰을 44,728개에서 85개로 줄였습니다. 또한 멀티 탭 병렬 제어, 미디어 차단 프리셋과 함께 기본값으로 인간 승인(Human-in-the-loop) Submit 가드를 두어 실수로 결제가 제출되는 위험을 막습니다. 브라우저 에이전트의 지연 시간과 컨텍스트 비대화를 해결하려는 MCP 개발자에게 참고할 만한 구체적인 벤치마크 구현체입니다.",
+      "tags": [
+        "MCP 서버",
+        "Playwright",
+        "브라우저 자동화",
+        "토큰 최적화"
+      ],
+      "author_profile": "@tthanh2k6",
+      "publish_date": "2026-11-15T04:09:11.000Z",
+      "url": "https://github.com/Tthanh2k6/turbo-browser-mcp",
+      "sources": [
+        "Hacker News"
+      ],
+      "metrics": {
+        "points": 46,
+        "comments": 9,
+        "discussion_url": "https://news.ycombinator.com/item?id=50503930"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "reddit_a35a7c5538",
+      "category_id": "reddit",
+      "category_name": "Reddit",
+      "signal_id": "model",
+      "signal_name": "새 모델·버전 출시·프리뷰·벤치마크",
+      "importance": 89,
+      "headline": "프론티어 사전학습에 재귀적 자기개선(RSI) 적용한 30B-A3B MoE 베이스 모델 '801-30B-A3B-Base' 공개",
+      "title_ko": "프론티어 사전학습에 재귀적 자기개선(RSI) 적용한 30B-A3B MoE 베이스 모델 '801-30B-A3B-Base' 공개",
+      "summary_ko": "• **사전학습 RSI 논문**: 반복 실험이 불가능한 프론티어 사전학습 전 과정에 재귀적 자기개선(RSI)을 적용한 연구와 801-30B-A3B-Base 모델이 공개되었습니다.\n• **기법 및 규모**: 단일 대형 학습 루프를 복구 가능한 소형 루프들로 분해해 데이터 파이프라인과 학습 인프라를 개선하며 11.8조 토큰으로 30B-A3B MoE 모델을 학습했습니다.\n• **벤치마크 결과**: 베이스 모델 단계에서 Qwen3-30B-A3B와 Nemotron-3.5-Lightning-30B-A3B를 앞섰고, 6B 토큰 경량 SFT만으로 4개 에이전트 벤치마크 평균 최고치를 기록했습니다.",
+      "body_ko": "지금까지 AI가 AI 개발 과정을 개선하는 재귀적 자기개선(RSI) 연구는 주로 기존 베이스 모델 위에서 짧은 GPU 시간으로 검증 가능한 사후학습(Post-training) 영역에 머물러 있었습니다. GAIR-NLP 연구팀은 수십만 GPU 시간과 수개월이 소요되어 재시도가 불가능한 프론티어 사전학습 단계 전체에 RSI를 처음부터 적용한 결과와 801-30B-A3B-Base 모델을 오픈소스로 공개했습니다. 연구팀은 끝단에서 한 번에 루프를 닫을 수 없는 대규모 학습의 제약을 해결하기 위해 문제를 데이터 파이프라인과 인프라 단계의 작은 복구 루프들로 분해했습니다. 이를 통해 신생 팀이 3개월 동안 11.8조 토큰을 학습시켜 30B-A3B MoE 베이스 모델을 완성했습니다. 평가 결과 동일 조건에서 Qwen3-30B-A3B 및 Nemotron-3.5-Lightning-30B-A3B를 상회했으며, RL 없이 6B 토큰 규모의 경량 SFT만 적용하고도 Qwen3.6-35B-A3B 등 완전 사후학습 모델들을 4개 에이전트 벤치마크 평균에서 앞섰습니다. 연구팀은 arXiv 논문과 GitHub 코드, SFT 데이터셋을 공개했으며 모델 가중치 역시 순차 공개할 예정입니다.",
+      "tags": [
+        "801-30B-A3B",
+        "MoE",
+        "재귀적 자기개선",
+        "오픈 웨이트"
+      ],
+      "author_profile": "r/LocalLLaMA · u/pmttyji",
+      "publish_date": "2026-11-15T11:21:12.000Z",
+      "url": "https://www.reddit.com/r/LocalLLaMA/comments/1xwt3ri/paper_no_second_run_does_rsi_stop_at_frontier/",
+      "sources": [
+        "Reddit"
+      ],
+      "metrics": {
+        "rank_in_sub": 6,
+        "discussion_url": "https://www.reddit.com/r/LocalLLaMA/comments/1xwt3ri/paper_no_second_run_does_rsi_stop_at_frontier/"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "reddit_e186072756",
+      "category_id": "reddit",
+      "category_name": "Reddit",
+      "signal_id": "research",
+      "signal_name": "연구·논문·새 기법",
+      "importance": 88,
+      "headline": "추론 모델의 과잉 사고를 추가 학습 없이 막는 '출력층 </think> 가중치 1행 선형 프로브 수정' 기법",
+      "title_ko": "추론 모델의 과잉 사고를 추가 학습 없이 막는 '출력층 </think> 가중치 1행 선형 프로브 수정' 기법",
+      "summary_ko": "• **추론 효율화 연구**: DeepSeek·Qwen 등 추론 모델이 정답을 찾고도 수천 토큰을 재검증하는 과잉 사고를 추가 학습이나 런타임 코드 없이 줄이는 기법이 공개되었습니다.\n• **핵심 원리**: 수학 문제 24개에서 은닉 상태를 수집해 '풀이 완료 후 재검증 상태'를 가르는 LDA 선형 판별 방향을 구한 뒤 출력층 `</think>` 토큰 가중치 행에 강도 14를 더해줍니다.\n• **실험 결과**: 미공개 문제에서 기존 7,415토큰까지 이어지던 사고 과정을 567토큰 부근 정답 도출 이후 ~2,000토큰 이내에 98% 확률로 조기 종료시켰습니다.",
+      "body_ko": "DeepSeek이나 Qwen 같은 추론 모델은 정답에 이미 도달한 뒤에도 `</think>` 토큰을 내보내지 않고 수천 토큰 동안 불필요한 자기 검증을 반복해 지연 시간과 비용을 높이는 경향이 있습니다. 한 연구자는 이 문제를 해결하기 위해 출력층 가중치 행렬에서 `</think>` 토큰에 해당하는 단 한 행만 선형 대수로 수정하는 무학습(Training-free) 조기 종료 기법을 제안했습니다. 먼저 수학 문제 24개를 풀며 각 토큰 시점의 은닉 상태를 기록하고, 이미 정답이 나온 뒤 재검증만 하는 문단 끝 지점과 아직 문제를 푸는 구간을 구분하는 선형 판별 분석(LDA) 방향 벡터를 계산했습니다. 이 방향 벡터에 강도 14를 곱해 출력층의 `</think>` 행에 더하면, 모델이 정답 도출을 마치고 재검증 단계에 접어들 때만 종료 토큰 점수가 상승하게 됩니다. 특히 나머지 토큰의 가중치는 전혀 건드리지 않기 때문에 기존 추론 로그만으로 수정 후 모델의 종료 시점을 정확히 시뮬레이션해 강도를 조율할 수 있습니다. 아직 24개 소규모 샘플과 단일 설정 기반의 초기 실험이라는 한계는 있지만, 별도 파인튜닝이나 추론 엔진 코드 변경 없이 일반 가중치 파일 그대로 배포할 수 있다는 점이 돋보입니다.",
+      "tags": [
+        "추론 모델",
+        "조기 종료",
+        "선형 프로브",
+        "토큰 절감"
+      ],
+      "author_profile": "r/MachineLearning · u/Good-Presentation-23",
+      "publish_date": "2026-11-15T17:52:41.000Z",
+      "url": "https://www.reddit.com/r/MachineLearning/comments/1xx1xdm/trainingfree_early_exit_for_reasoning_models_a/",
+      "sources": [
+        "Reddit"
+      ],
+      "metrics": {
+        "rank_in_sub": 5,
+        "discussion_url": "https://www.reddit.com/r/MachineLearning/comments/1xx1xdm/trainingfree_early_exit_for_reasoning_models_a/"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "reddit_80d04d9bb0",
+      "category_id": "reddit",
+      "category_name": "Reddit",
+      "signal_id": "oss",
+      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
+      "importance": 87,
+      "headline": "Basalt 0.4.0: RTX 5090에서 Qwen 3.8 27B를 최대 776 tok/s로 구동하는 오픈소스 로컬 추론 엔진",
+      "title_ko": "Basalt 0.4.0: RTX 5090에서 Qwen 3.8 27B를 최대 776 tok/s로 구동하는 오픈소스 로컬 추론 엔진",
+      "summary_ko": "• **오픈소스 릴리스**: 개발자 jesdga95가 멀티 모델 라우터와 Qwen 3.8 27B NVFP4 지원을 추가한 로컬 추론 엔진 Basalt 0.4.0을 공개했습니다.\n• **실측 속도·정확도**: RTX 5090 단일 스트림 기준 구조화 출력 최대 776 tok/s, 대화 262 tok/s를 기록했고 BF16 원본 대비 Top-1 정확도 92.8%를 유지했습니다.\n• **지원 범위**: 최대 262K 컨텍스트와 채팅·도구 호출·비디오 입력을 지원하며 DeepSeek V4.1 Flash 다중 GPU 실행과 Qwen 4 대비 덴스 커널까지 선제 통합했습니다.",
+      "body_ko": "개인 개발자 jesdga95가 제작한 초고속 로컬 LLM 추론 엔진 Basalt가 0.4.0 버전으로 업데이트되며 첫 번째 덴스(Dense) 모델 지원과 멀티 모델 라우터 기능을 탑재했습니다. 이번 릴리스의 핵심인 Qwen 3.8 27B NVFP4 양자화 모델은 향후 Qwen 4 계열을 대비한 덴스 커널 최적화의 일환으로 구현되었으며, RTX 5090 단일 스트림에서 구조화 출력 최대 776 tok/s, 대화 262 tok/s, 일반 산문 194 tok/s의 속도를 냅니다. 프리필 속도는 4K 컨텍스트 기준 12,000 tok/s에 달하며, BF16 원본 대비 Top-1 일치율 92.8%(KLD 0.0262)로 정밀도 손실을 억제했습니다. 또한 이전 업데이트를 통해 DeepSeek V4.1 Flash(5090+5060 Ti 환경 IQ1_M 대화 90 tok/s, 구조화 246 tok/s)와 채팅 내 비디오·파일 입력, 최대 262K 컨텍스트를 모두 지원하도록 확장되었습니다. GitHub 저장소와 Hugging Face 양자화 가중치(`jesdga/Qwen3.8-27B-Basalt`)가 함께 공개되어 블랙웰 세대 GPU 보유자들이 즉시 테스트해 볼 수 있습니다.",
+      "tags": [
+        "Basalt",
+        "로컬 LLM",
+        "NVFP4",
+        "RTX 5090"
+      ],
+      "author_profile": "r/LocalLLaMA · u/jesdga95",
+      "publish_date": "2026-11-15T17:30:31.000Z",
+      "url": "https://www.reddit.com/r/LocalLLaMA/comments/1xx1cu9/basalt_040_more_models_still_as_fast_qwen_27b_up/",
+      "sources": [
+        "Reddit"
+      ],
+      "metrics": {
+        "rank_in_sub": 4,
+        "discussion_url": "https://www.reddit.com/r/LocalLLaMA/comments/1xx1cu9/basalt_040_more_models_still_as_fast_qwen_27b_up/"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hackernews_d94dc02e5b",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "signal_id": "practice",
+      "signal_name": "AI 활용 사례·워크플로우 팁",
+      "importance": 86,
+      "headline": "Addy Osmani의 'Opus 5.5 태스크 비용 해부': 토큰 단가보다 턴 수와 재시도 비용이 총비용을 좌우한다",
+      "title_ko": "Addy Osmani의 'Opus 5.5 태스크 비용 해부': 토큰 단가보다 턴 수와 재시도 비용이 총비용을 좌우한다",
+      "summary_ko": "• **실무 비용 분석**: Addy Osmani가 Claude Code 환경에서 Opus 5.5로 기능 구현이나 마이그레이션을 수행할 때 발생하는 실제 태스크 단가를 분석한 플레이북을 공개했습니다.\n• **비용 결정 요인**: 매 턴마다 이전 대화 전체를 다시 전송하고 출력 토큰(사고 토큰 포함)이 입력의 5배로 과금되므로, 턴 수·캐시 히트·재시도 여부가 총비용을 결정합니다.\n• **핵심 트레이드오프**: 저노력 설정이나 컨텍스트 축소로 토큰을 아끼려다 작업이 실패해 재시도하면 아낀 비용보다 훨씬 큰 비용이 발생하므로 적정 선의 1회 완결이 경제적입니다.",
+      "body_ko": "개발자들은 보통 모델 가격표의 백만 토큰당 단가만 비교하지만, 에이전트 루프에서는 같은 단가라도 작업 완료까지 소요되는 턴 수에 따라 실제 청구 금액이 크게 달라집니다. Addy Osmani는 Opus 5.5 기반 Claude Code 워크플로우를 기준으로 턴 수, 프롬프트 캐시 읽기 비율, 입력 대비 5배 가격인 출력·사고(Thinking) 토큰, 모델 선택이라는 4대 비용 변수를 인터랙티브 수치로 해부했습니다. 에이전트는 도구를 호출할 때마다 그때까지 누적된 대화 맥락을 매 턴 재전송하기 때문에, 한 번에 코드를 파악해 수정하는 모델이 시행착오를 여러 턴 거치는 모델보다 압도적으로 저렴합니다. 특히 저비용을 노려 노력 수준(Effort)이나 컨텍스트를 과도하게 낮췄다가 결과물이 불완전해 재시도 루프에 빠지면 오히려 전체 토큰 비용이 역전된다고 지적합니다. 글에서는 자신의 세션 사용량을 직접 점검하는 방법과 설정값 변경에 따른 민감도도 함께 다룹니다. 대규모 코드베이스 리팩토링이나 에이전트 파이프라인 예산을 설계하는 엔지니어가 '토큰 절약'이 아닌 '작업당 총비용(Cost per Task)' 관점으로 기준을 재정립하는 데 유익한 가이드입니다.",
+      "tags": [
+        "Opus 5.5",
+        "토큰 경제학",
+        "Claude Code",
+        "Addy Osmani"
+      ],
+      "author_profile": "@gmays",
+      "publish_date": "2026-11-15T01:57:36.000Z",
+      "url": "https://claude.dev/blog/what-a-task-costs-on-opus-5-5/",
+      "sources": [
+        "Hacker News"
+      ],
+      "metrics": {
+        "points": 23,
+        "comments": 20,
+        "discussion_url": "https://news.ycombinator.com/item?id=50503241"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "x_dae03de7c5",
+      "category_id": "x",
+      "category_name": "X",
+      "signal_id": "research",
+      "signal_name": "연구·논문·새 기법",
+      "importance": 86,
+      "headline": "구글 딥마인드, 차세대 기상예측 AI 'WeatherNext 3'의 기반 데이터셋 PARDIG·SatWeave 공개",
+      "title_ko": "구글 딥마인드, 차세대 기상예측 AI 'WeatherNext 3'의 기반 데이터셋 PARDIG·SatWeave 공개",
+      "summary_ko": "• **데이터셋 공개**: 구글 딥마인드가 실시간 대기 관측 정확도를 높이는 WeatherNext 3 모델의 핵심 기반 데이터셋인 PARDIG과 SatWeave를 공개했습니다.\n• **기상 AI 연구 지원**: 실시간 대기 상태 관측 데이터를 구조화해 외부 연구자와 개발자들이 새로운 기후 및 기상 예측 애플리케이션을 구축할 수 있도록 개방했습니다.\n• **과학 AI 확산**: 범용 언어 모델을 넘어 기상·기후 분야의 파운데이션 모델과 관측 데이터 생태계를 함께 개방하는 딥마인드의 과학 AI 전략이 이어지고 있습니다.",
+      "body_ko": "구글 딥마인드가 자사의 최신 기상 예측 AI 모델인 WeatherNext 3를 뒷받침하는 핵심 데이터셋 PARDIG과 SatWeave를 외부에 공개한다고 밝혔습니다. 딥마인드는 정확한 기상 예보의 출발점이 대기의 상태를 실시간으로 얼마나 선명하게 관측하느냐에 있다고 강조했습니다. 이번에 풀린 두 데이터셋은 위성 및 대기 관측 신호를 정교하게 정제한 기초 자료로, 연구자와 개발자가 기후 모델링이나 기상 특화 애플리케이션을 직접 학습·실험하는 토대로 활용될 수 있습니다. 모델 가중치나 서비스형 API만 제공하는 방식에서 나아가 기반 관측 데이터셋을 함께 개방함으로써 기후 AI 커뮤니티의 재현성과 파생 연구를 촉진하는 효과가 기대됩니다. 세부 데이터 스키마와 라이선스 범위, 내려받기 경로는 딥마인드가 안내한 후속 스레드와 저장소를 통해 확인할 수 있습니다.",
+      "tags": [
+        "WeatherNext 3",
+        "PARDIG",
+        "SatWeave",
+        "기후 AI"
+      ],
+      "author_profile": "GoogleDeepMind",
+      "publish_date": "2026-11-15T23:54:46.061Z",
+      "url": "https://x.com/GoogleDeepMind/status/970769500",
+      "sources": [
+        "X"
+      ],
+      "metrics": {
+        "platform": "x",
+        "account": "GoogleDeepMind"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "x_411fcc8fc3",
+      "category_id": "x",
+      "category_name": "X",
+      "signal_id": "policy",
+      "signal_name": "정책·규제·인프라 (기술 영향 큰 것만)",
+      "importance": 85,
+      "headline": "앤트로픽 엔지니어링 블로그, AI 모델 배포 준비도를 판정하는 '안전성 평가 10대 권고안' 발표",
+      "title_ko": "앤트로픽 엔지니어링 블로그, AI 모델 배포 준비도를 판정하는 '안전성 평가 10대 권고안' 발표",
+      "summary_ko": "• **안전성 가이드 공개**: 앤트로픽이 모델 배포 여부와 안전장치 설계 기준을 결정하기 위한 안전성 평가(Safety Evaluation) 설계·실행·보고 10대 권고안을 발표했습니다.\n• **실무 목적**: 단순 규제 대응을 넘어 모델 학습 방향과 연구 우선순위를 조정하고 배포 전 어떤 가드레일을 구축해야 하는지 판단하는 엔지니어링 프레임워크를 제시합니다.\n• **도입 시사점**: 프론티어 모델뿐 아니라 사내 AI 에이전트 배포 전 검증 체크리스트를 구축하는 엔지니어링 팀에도 표준 평가 절차로 참고할 가치가 큽니다.",
+      "body_ko": "앤트로픽이 엔지니어링 블로그를 통해 AI 모델의 배포 가능성과 안전장치 수준을 판단하기 위한 안전성 평가 10대 권고안을 공개했습니다. 앤트로픽은 안전성 평가가 모델 출시 전 단순 통과의례가 아니라, 어떤 가드레일을 보강하고 학습·연구 자원을 어디에 집중할지 결정하는 핵심 엔지니어링 신호라고 설명했습니다. 이번 권고안은 평가를 어떻게 설계하고, 실제 환경에 가깝게 실행하며, 결과를 투명하게 보고할 것인지 10가지 구체적 원칙으로 정리했습니다. 자율 도구 실행과 컴퓨터 제어 능력이 강화되는 최신 모델 환경에서는 기존 정적 벤치마크만으로는 위험 시나리오를 포착하기 어렵기 때문에 체계적인 평가 프로토콜의 중요성이 더욱 커지고 있습니다. 자체 AI 시스템을 서비스에 투입하는 개발 조직 역시 배포 게이트와 모니터링 기준을 정립하는 데 이 권고안을 활용할 수 있습니다.",
+      "tags": [
+        "앤트로픽",
+        "안전성 평가",
+        "AI 거버넌스",
+        "배포 게이트"
+      ],
+      "author_profile": "AnthropicAI",
+      "publish_date": "2026-11-15T23:54:46.061Z",
+      "url": "https://x.com/AnthropicAI/status/37328882",
+      "sources": [
+        "X"
+      ],
+      "metrics": {
+        "platform": "x",
+        "account": "AnthropicAI"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "reddit_bb6e4f599d",
+      "category_id": "reddit",
+      "category_name": "Reddit",
+      "signal_id": "oss",
+      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
+      "importance": 85,
+      "headline": "cudamemcpy-tuner: B300 GPU에서 페이지 가능(Pageable) CPU→GPU 메모리 전송을 5배 가속하는 오픈소스 도구",
+      "title_ko": "cudamemcpy-tuner: B300 GPU에서 페이지 가능(Pageable) CPU→GPU 메모리 전송을 5배 가속하는 오픈소스 도구",
+      "summary_ko": "• **오픈소스 튜너 공개**: 개발자 makneeee가 페이지 가능 호스트 메모리의 `cudaMemcpy` 전송 병목을 최적화하는 도구 `cudamemcpy-tuner`(`cmt`)를 공개했습니다.\n• **성능 향상 수치**: B300 GPU에서 1GB 텐서를 CPU에서 GPU로 전송하는 PyTorch 벤치마크 속도가 기본 10.2 GB/s에서 `cmt tune` 적용 시 51.5 GB/s로 5배 향상되었습니다.\n• **현업 적용 가치**: 기존 코드 수정 없이 CLI 래퍼(`cmt tune -- python bench.py`) 형태로 적용할 수 있어 데이터 로딩·오프로딩 병목을 겪는 추론 및 학습 워크로드에 유용합니다.",
+      "body_ko": "대규모 모델 학습이나 CPU 메모리 오프로딩을 수행할 때 핀 고정(Pinned)되지 않은 페이지 가능 호스트 메모리의 `cudaMemcpy` 대역폭 저하는 흔한 성능 병목으로 작용합니다. 개발자 makneeee는 이 전송 경로를 튜닝해 B300 환경에서 전송 속도를 약 5배 끌어올리는 오픈소스 도구 `cudamemcpy-tuner`를 GitHub에 공개했습니다. 공개된 PyTorch 재현 벤치마크에 따르면 1GB uint8 텐서를 GPU로 복사할 때 기본 실행은 10.2 GB/s에 그쳤으나 `cmt tune -- python bench.py`로 래핑해 실행하면 51.5 GB/s까지 대역폭이 치솟았습니다. 애플리케이션 내부 PyTorch 코드를 뜯어고치지 않고 실행 명령 앞단에 튜너를 붙이는 방식으로 동작해 기존 파이프라인에도 부담 없이 시험해 볼 수 있습니다. 작성자는 구체적인 원리와 구현 세부 사항을 기술 블로그 포스트와 함께 공개해 GPU 시스템 엔지니어들이 바로 검증하고 기여할 수 있도록 했습니다.",
+      "tags": [
+        "CUDA",
+        "B300",
+        "GPU 최적화",
+        "오픈소스"
+      ],
+      "author_profile": "r/MachineLearning · u/makneeee",
+      "publish_date": "2026-11-15T18:20:27.000Z",
+      "url": "https://www.reddit.com/r/MachineLearning/comments/1xx2n25/making_cudamemcpy_5x_faster_on_a_b300_p/",
+      "sources": [
+        "Reddit"
+      ],
+      "metrics": {
+        "rank_in_sub": 4,
+        "discussion_url": "https://www.reddit.com/r/MachineLearning/comments/1xx2n25/making_cudamemcpy_5x_faster_on_a_b300_p/"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "threads_d65ed04b71",
+      "category_id": "threads",
+      "category_name": "Threads",
+      "signal_id": "product",
+      "signal_name": "제품 신기능",
+      "importance": 84,
+      "headline": "오픈AI 첫 자체 AI 칩 'Jalapeño', TIME 선정 '2026년 최고의 발명품'에 이름 올려",
+      "title_ko": "오픈AI 첫 자체 AI 칩 'Jalapeño', TIME 선정 '2026년 최고의 발명품'에 이름 올려",
+      "summary_ko": "• **자체 칩 공식 조명**: 오픈AI가 공식 Threads 계정을 통해 자사의 첫 번째 자체 설계 AI 칩 'Jalapeño'가 TIME 선정 2026년 최고의 발명품 목록에 올랐다고 밝혔습니다.\n• **하드웨어 수직 계열화**: 외부 GPU 의존도를 분산하고 추론·에이전트 워크로드 효율을 끌어올리려는 오픈AI의 자체 실리콘 전략이 상용 성과로 가시화되고 있습니다.\n• **산업적 의미**: GPT-6.1 Terra 같은 고빈도 에이전트 모델 보급과 맞물려 모델-칩 공동 설계(Co-design) 경쟁이 본격화되는 흐름을 보여줍니다.",
+      "body_ko": "오픈AI의 첫 번째 자체 AI 칩인 'Jalapeño'가 시사주간지 TIME이 선정하는 2026년 최고의 발명품(Best Inventions of 2026) 리스트에 포함되었습니다. 오픈AI는 공식 Threads 채널을 통해 해당 선정 소식을 직접 공유하며 자체 AI 반도체 프로젝트의 성과를 알렸습니다. 그동안 대규모 GPU 클러스터 임대와 외부 칩 공급망에 의존해 온 AI 연구소들이 추론 단가 절감과 전력 효율 최적화를 위해 자체 실리콘 개발로 영역을 넓히는 가운데 상징적인 이정표로 평가됩니다. 특히 화면 제어와 상시 에이전트 구동처럼 추론 호출 빈도가 급증하는 워크로드에서는 모델 아키텍처와 하드웨어를 함께 최적화하는 전략이 서비스 원가 경쟁력을 좌우합니다. 다만 해당 게시물에서는 칩의 세부 연산 사양이나 클러스터 투입 규모 등 구체적인 하드웨어 스펙은 별도로 공개하지 않았습니다.",
+      "tags": [
+        "Jalapeño",
+        "오픈AI",
+        "AI 반도체",
+        "하드웨어"
+      ],
+      "author_profile": "openai",
+      "publish_date": "2026-11-15T23:53:39.426Z",
+      "url": "https://www.threads.net/@openai/post/86262963",
+      "sources": [
+        "Threads"
+      ],
+      "metrics": {
+        "platform": "threads",
+        "account": "openai"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "bluesky_ac74509dcc",
+      "category_id": "bluesky",
+      "category_name": "Bluesky",
+      "signal_id": "oss",
+      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
+      "importance": 83,
+      "headline": "ConductorGrid/ai--manus: 샌드박스 환경에서 코드 실행과 브라우저 자동화를 수행하는 범용 오픈소스 에이전트",
+      "title_ko": "ConductorGrid/ai--manus: 샌드박스 환경에서 코드 실행과 브라우저 자동화를 수행하는 범용 오픈소스 에이전트",
+      "summary_ko": "• **오픈소스 에이전트 주목**: GitHub 저장소 `ConductorGrid/ai--manus`가 자율 코딩과 브라우저 제어 기능을 강화한 최신 업데이트로 커뮤니티의 관심을 모으고 있습니다.\n• **동작 구조**: 질의응답형 챗봇과 달리 격리된 샌드박스 환경 내부에서 도구를 직접 호출해 코드를 실행하고 웹사이트 탐색 및 DOM 요소 조작을 수행합니다.\n• **실무 가치**: 반복적인 웹 워크플로우와 코드 기반 작업을 로컬·자체 샌드박스에서 자율 실행하려는 개발자에게 레퍼런스 구현체로 활용될 수 있습니다.",
+      "body_ko": "GitHub의 오픈소스 프로젝트 `ConductorGrid/ai--manus`가 자율 코딩과 브라우저 제어 기능이 보강된 업데이트와 데모 영상을 공개하며 Bluesky 기술 커뮤니티에서 주목받고 있습니다. 이 프로젝트는 단순 텍스트 응답에 머무르는 기존 챗봇과 달리, 사용자의 지시를 실제 실행 가능한 액션으로 변환하는 범용 자율 AI 에이전트를 지향합니다. 핵심 아키텍처는 격리된 샌드박스 환경 안에서 에이전트가 직접 코드를 작성·실행하고 브라우저 요소를 클릭하거나 웹페이지를 탐색하며 반복 업무를 완결하도록 설계되었습니다. 상용 폐쇄형 자율 에이전트 서비스들의 동작 방식을 오픈소스 샌드박스 구조로 직접 뜯어보고 커스터마이징하려는 개발자들에게 유용한 출발점이 됩니다. 다만 실제 프로덕션 워크플로우에 투입하기 전 샌드박스 권한 범위와 인증 정보 격리 수준은 저장소 코드를 통해 별도 점검할 필요가 있습니다.",
+      "tags": [
+        "AI Manus",
+        "자율 에이전트",
+        "샌드박스",
+        "오픈소스"
+      ],
+      "author_profile": "@undercodenews.bsky.social",
+      "publish_date": "2026-11-15T09:09:52.000Z",
+      "url": "https://undercodenews.com/conductorgrids-ai-manus-just-updated-autonomous-coding-and-browser-controlled-ai-agents-gain-attention-video/",
+      "sources": [
+        "Bluesky"
+      ],
+      "metrics": {
+        "likes": 3,
+        "reposts": 0,
+        "replies": 0,
+        "bluesky_url": "https://bsky.app/profile/undercodenews.bsky.social/post/3n2do54kjpz2d"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "bluesky_4063d49e7f",
+      "category_id": "bluesky",
+      "category_name": "Bluesky",
+      "signal_id": "devtool",
+      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
+      "importance": 82,
+      "headline": "remote-action: Windows Session 0 제약을 우회해 Claude Code·SSH에서 활성 데스크톱을 제어하는 PowerShell 브리지",
+      "title_ko": "remote-action: Windows Session 0 제약을 우회해 Claude Code·SSH에서 활성 데스크톱을 제어하는 PowerShell 브리지",
+      "summary_ko": "• **개발자 도구 공개**: Bluesky에서 공유된 오픈소스 저장소 `shinob/remote-action`은 SSH나 Claude Code에서 Windows 데스크톱 화면을 직접 조작·캡처할 수 있게 해줍니다.\n• **기술적 우회 방식**: SSH/에이전트 명령이 GUI 접근이 막힌 Session 0에서 실행되는 한계를 해결하기 위해 대화형 로그온(`/IT`) 작업 스케줄러와 `request.json` 파일 기반 통신을 사용합니다.\n• **실무 활용성**: 비밀번호 저장 없이 지정 좌표 마우스 클릭, 키 입력, 스크린샷 촬영을 자동화해 원격 Windows GUI 테스트를 에이전트에 연동할 수 있습니다.",
+      "body_ko": "Windows 환경에서 OpenSSH나 Claude Code를 통해 원격 명령을 실행하면 프로세스가 Session 0에서 돌아가기 때문에 현재 로그인된 사용자의 데스크톱 화면을 캡처하거나 마우스·키보드를 조작할 수 없는 제약이 있습니다. 일본 개발자 shinob가 공개한 `remote-action`은 이 문제를 해결하기 위해 `schtasks /IT` 옵션으로 대화형 사용자 세션에서 실행되는 예약 작업을 등록해 주는 경량 PowerShell 도구 세트입니다. 호출 측(`Invoke-RemoteAction.ps1`)이 `data/request.json`에 클릭 좌표나 키 입력, 스크린샷 지시를 적어두고 작업을 깨우면, 사용자 화면 위에서 `Remote-Action.ps1`이 실제 GUI 동작을 수행한 뒤 결과를 `result.json`과 이미지로 돌려줍니다. 비밀번호를 저장하거나 상시 백그라운드 데몬을 띄울 필요 없이 요청 시점에만 작업이 구동되며, 민감한 입력 데이터와 스크린샷 디렉터리는 `.gitignore`로 자동 제외됩니다. 공식 MCP 서버나 무거운 원격 데스크톱 에이전트 없이도 Claude Code에게 Windows 로컬 GUI 디버깅 권한을 안전하게 연결하고 싶은 개발자에게 실용적인 유틸리티입니다.",
+      "tags": [
+        "remote-action",
+        "Claude Code",
+        "Windows 자동화",
+        "PowerShell"
+      ],
+      "author_profile": "@blueomega.bsky.social",
+      "publish_date": "2026-11-15T22:39:52.166Z",
+      "url": "https://github.com/shinob/remote-action",
+      "sources": [
+        "Bluesky"
+      ],
+      "metrics": {
+        "likes": 6,
+        "reposts": 0,
+        "replies": 0,
+        "bluesky_url": "https://bsky.app/profile/blueomega.bsky.social/post/3n2f3fiyfm22f"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "aitimes_aee0e8ab72",
       "category_id": "aitimes",
       "category_name": "AI타임스",
       "signal_id": "product",
       "signal_name": "제품 신기능",
-      "importance": 88,
-      "headline": "구글 제미나이, AI가 기억하는 사용자 정보를 한눈에 보고 수정·삭제하는 '메모리 요약' 도입",
-      "title_ko": "구글 제미나이, 개인화 기억 내용을 직접 편집·관리하는 '메모리 요약' 기능 제공 시작",
-      "summary_ko": "• **기억 투명화 기능**: 구글이 제미나이 웹 설정의 개인 인텔리전스 메뉴에서 AI가 축적한 사용자 직업, 진행 프로젝트, 취향, 생활 습관을 분야별로 열람하는 메모리 요약 기능을 도입했습니다.\n• **편집과 이력 제어**: 이용자는 요약 카드에서 정보를 직접 수정하거나 지울 수 있으며, 대화로 기억 추가·삭제를 요청하고 각 항목이 언제 변경됐는지 수정 이력까지 조회할 수 있습니다.\n• **신뢰성 경쟁 가속**: 지난 6월 챗GPT와 8월 클로드의 주제별 기억 관리 도입에 이어 개인화 AI 경쟁이 단순 저장량에서 기억의 정확성과 통제권 중심으로 옮겨가고 있습니다.",
-      "body_ko": "AI타임스 보도에 따르면 구글이 제미나이가 여러 대화에서 파악한 사용자 맥락을 한눈에 보여주고 직접 교정할 수 있는 메모리 요약(Memory summary) 기능을 제공하기 시작했습니다. 웹 버전 설정의 개인 인텔리전스 항목을 열면 거주 지역과 인간관계 같은 기본 정보부터 직업, 프로젝트, 여행·취향, 운동 습관까지 분야별로 정리된 내역을 확인할 수 있습니다. 단순히 과거 채팅 기록을 늘어놓지 않고 AI가 해석해 저장한 사용자 특징을 요약 제시하며, UI 편집은 물론 대화 입력을 통한 추가·삭제 지시와 수정 이력 조회를 모두 지원합니다. 구글 공식 도움말 기준 지원 대상은 미국 내 18세 이상 영어 사용 유료 구독자로 명시되어 있으나, 미국 외 일부 무료 웹 계정에서도 접근이 확인되었다고 보도되었습니다. 앞서 오픈AI가 지난 6월 챗GPT 메모리 요약·편집 기능을 개선하고 앤트로픽이 8월 클로드와 클로드 코워크 간 공유 기억 관리 기능을 도입한 흐름과 맥을 같이합니다. 장기 대화가 누적될수록 잘못되거나 낡은 정보가 답변 정확도를 훼손할 수 있어 사용자가 직접 AI 기억을 감사·정리하는 제어 인터페이스가 필수 표준으로 자리잡고 있습니다.",
+      "importance": 81,
+      "headline": "더플레이토 '티로', MCP 연동·권한 관리 갖춘 기업 지식 베이스 '티로 위키'로 회의록 AI 차별화",
+      "title_ko": "더플레이토 '티로', MCP 연동·권한 관리 갖춘 기업 지식 베이스 '티로 위키'로 회의록 AI 차별화",
+      "summary_ko": "• **제품 전략 진화**: 월간 음성 처리량 17만 시간을 기록하며 400여 기업에 도입된 AI 미팅 서비스 '티로'가 단순 녹취를 넘어 '티로 위키' 기반 기업 지식 관리로 영역을 확장했습니다.\n• **기술적 차별점**: STT 성능 상향 평준화에 대응해 고유명사·수치를 맥락 기반으로 보정하고 여러 회의 정보를 연결 구조화하며, MCP로 Claude·Gemini와 직접 연결해 후속 업무를 처리합니다.\n• **보안·접근 제어**: 단순 RAG 유사도 검색의 한계를 보완하고 회의 참여자 단위로 위키 열람 권한을 자동 격리·회수해 기업 도입 장벽을 낮췄습니다.",
+      "body_ko": "AI 회의록 시장이 녹음과 요약 기능 중심으로 포화 상태에 접어든 가운데, 더플레이토가 운영하는 서비스 '티로(Tiro)'가 여러 회의의 맥락을 연결해 조직의 지식 자산으로 축적하는 '티로 위키' 아키텍처를 전면에 내세웠습니다. 임은성 대표는 STT 정확도 경쟁만으로는 차별화가 어렵다고 보고, 고유명사와 수치를 맥락에 맞게 보정한 뒤 다수의 회의 내용을 백과사전 형태로 실시간 연결하는 데 집중했다고 밝혔습니다. 특히 기존 RAG 방식처럼 문서 유사도에만 의존할 경우 여러 회의에 걸친 관계 맥락이 끊기는 문제를 구조화된 위키 페이지로 보완했습니다. 축적된 지식 베이스는 노션이나 슬랙으로 내보낼 수 있을 뿐 아니라 모델 컨텍스트 프로토콜(MCP)을 통해 Claude나 Gemini 같은 외부 AI 에이전트와 연동해 후속 업무까지 자동 처리할 수 있습니다. 또한 사용자가 직접 참여하거나 공유받은 회의만 열람할 수 있도록 자동 권한 격리와 팀 이탈 시 즉시 회수 기능을 제공해 기업 보안 요구를 충족했습니다. 현재 400곳 이상의 기업 고객과 90% 이상의 재구독률을 기록하며, 회의 중 과거 내역과 웹 검색을 결합해 먼저 제안을 건네는 AI 업무 파트너 기능도 베타 운영 중입니다.",
       "tags": [
-        "제미나이",
-        "메모리 요약",
-        "개인화 AI",
-        "구글"
+        "티로",
+        "MCP",
+        "기업 지식관리",
+        "AI 회의록"
       ],
-      "author_profile": "임대준 기자",
-      "publish_date": "2026-11-11T09:23:00.000Z",
-      "url": "https://www.aitimes.com/news/articleView.html?idxno=217297",
+      "author_profile": "김해원 기자",
+      "publish_date": "2026-11-15T08:00:00.000Z",
+      "url": "https://www.aitimes.com/news/articleView.html?idxno=217347",
       "sources": [
-        "aitimes"
+        "AI타임스"
       ],
       "metrics": {},
       "curated_by": "ldk-hub"
     },
     {
-      "id": "hackernews_52badfaf3d",
-      "category_id": "hackernews",
-      "category_name": "Hacker News",
-      "signal_id": "policy",
-      "signal_name": "정책·규제·인프라 (기술 영향 큰 것만)",
-      "importance": 88,
-      "headline": "유나이티드 항공, 서드파티 AI 에이전트의 항공권 예매·체크인 대행 전면 금지",
-      "title_ko": "유나이티드 항공, 승객 결제·개인정보 노출 우려로 비인가 AI 에이전트 항공권 예매 차단",
-      "summary_ko": "• **에이전트 차단 정책**: 유나이티드 항공이 승객을 대신해 항공권을 예약하거나 체크인 및 계정 변경을 수행하는 비인가 서드파티 AI 에이전트 이용을 전면 금지했습니다.\n• **보안 및 인증 배경**: CBS 뉴스 보도에 따르면 항공사는 에이전트 대행 과정에서 고객 개인정보와 결제 수단 등 민감한 자격 증명이 외부 에이전트에 위임되는 위험을 핵심 사유로 짚었습니다.\n• **커뮤니티 논의 확산**: Hacker News에서 367포인트와 353개의 댓글이 달리며 Bluesky에서도 동시에 회자되었고, 범용 웹 대행 에이전트와 기업 보안 경계 간 충돌 규범이 화두로 떠올랐습니다.",
-      "body_ko": "미국 유나이티드 항공이 여행객을 대신해 항공권 예약, 체크인, 계정 수정을 처리하는 비인가 서드파티 AI 에이전트의 접근을 금지하기로 결정했습니다. CBS 뉴스 보도에 따르면 항공권 예약 과정을 AI 에이전트가 대리 수행하려면 고객의 개인정보는 물론 결제 정보와 항공사 계정 자격 증명까지 에이전트에 넘겨야 하는 보안상 취약 구조가 지적되었습니다. 개인 비서 에이전트와 브라우저 자동화 도구가 빠르게 상용화되는 가운데 대형 항공사가 약관과 운영 정책을 통해 비공식 에이전트 대행에 제동을 건 대표적 사례입니다. 이 소식은 Hacker News와 Bluesky 양쪽에서 동시에 큰 관심을 받으며 350개 이상의 댓글을 통해 서비스 자동화 편의성과 기업 보안·책임 소재 간의 균형 논의를 촉발했습니다. 임의의 브라우저 클릭으로 웹사이트를 조작하는 방식이 점차 차단되면서 향후 여행·금융·상거래 영역에서도 공식 인증된 API와 안전한 권한 위임 표준의 필요성이 더욱 커질 전망입니다.",
-      "tags": [
-        "AI 정책",
-        "AI 에이전트",
-        "보안",
-        "유나이티드 항공"
-      ],
-      "author_profile": "@herpderperator",
-      "publish_date": "2026-11-11T21:24:35.000Z",
-      "url": "https://www.cbsnews.com/news/united-airlines-bans-ai-agents-booking-flights/",
-      "sources": [
-        "hackernews",
-        "bluesky"
-      ],
-      "metrics": {
-        "points": 367,
-        "comments": 353,
-        "discussion_url": "https://news.ycombinator.com/item?id=50458900"
-      },
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "hackernews_c23ea2fa80",
-      "category_id": "hackernews",
-      "category_name": "Hacker News",
-      "signal_id": "oss",
-      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
-      "importance": 87,
-      "headline": "Yogurt: 온디바이스 whisper.cpp·llama.cpp와 로컬 MCP 서버를 결합한 오픈소스 회의 노트 앱",
-      "title_ko": "Yogurt: 통화 봇 없이 로컬 모델로 녹취·요약하고 MCP로 연결하는 MIT 오픈소스 Granola 대안",
-      "summary_ko": "• **로컬 오픈소스 출시**: 개발자 에릭(FrigadeHQ/yogurt)이 회의방에 봇을 넣지 않고 백그라운드에서 모든 전사와 요약을 컴퓨터 내부에서만 처리하는 MIT 라이선스 앱 Yogurt를 공개했습니다.\n• **하드웨어 맞춤 스택**: Windows·Mac·Linux 지원 Electron 앱 기반으로 whisper.cpp 또는 Apple SpeechAnalyzer 전사와 사양별 자동 최적화 llama.cpp 요약 모델을 결합했습니다.\n• **로컬 MCP 브리지**: 회의 원음과 녹취록을 외부 클라우드에 올리지 않으면서도 내장 로컬 MCP 서버를 통해 클로드나 챗GPT 등 프론티어 모델에 필요한 맥락만 직접 연결할 수 있습니다.",
-      "body_ko": "개인 개발자 에릭(brownrout, GitHub FrigadeHQ/yogurt)이 유료 클라우드 회의 노트 도구 Granola의 프라이버시 친화적 대안으로 개발해 공개한 Yogurt는 MIT 라이선스 오픈소스 데스크톱 앱입니다. 화상회의에 별도 봇을 입장시키지 않고 백그라운드에서 오디오를 처리하며, 에코 제거·억제 기능, 캘린더 연동, 자동 녹음 종료, 전역·폴더·로컬 검색까지 실사용 완성도를 세밀하게 다듬었습니다. 음성 전사에는 whisper.cpp와 시스템 지원 시 Apple 온디바이스 SpeechAnalyzer를 활용하고, 회의 요약 및 질의응답에는 사용자 컴퓨터 하드웨어가 팬 소음 없이 소화할 수 있는 오픈 웨이트 모델을 llama.cpp로 자동 선택해 구동합니다. 녹음 파일과 전사 텍스트가 로컬 기기를 일절 벗어나지 않기 때문에 기업 보안 규정이나 비용 부담 때문에 클라우드 노트를 쓰기 어려웠던 사용자에게 알맞습니다. 더 깊은 추론이나 문서 작성이 필요할 때는 유료 중계 서비스 없이 Yogurt의 로컬 MCP 서버를 Anthropic이나 OpenAI 도구에 바로 연결해 회의 노트를 참조시킬 수 있습니다. Windows, macOS, Linux를 모두 포괄하는 Electron 기반 설계와 매끄러운 UI 마감으로 Hacker News에서 168포인트와 76개 댓글의 높은 호응을 얻었습니다.",
-      "tags": [
-        "오픈소스",
-        "로컬 LLM",
-        "MCP",
-        "회의 노트"
-      ],
-      "author_profile": "@brownrout",
-      "publish_date": "2026-11-11T15:33:06.000Z",
-      "url": "https://github.com/FrigadeHQ/yogurt",
-      "sources": [
-        "hackernews"
-      ],
-      "metrics": {
-        "points": 168,
-        "comments": 76,
-        "discussion_url": "https://news.ycombinator.com/item?id=50454625"
-      },
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "hfpapers_e75800c8e1",
-      "category_id": "hfpapers",
-      "category_name": "HF Daily Papers",
-      "signal_id": "research",
-      "signal_name": "연구·논문·새 기법",
-      "importance": 87,
-      "headline": "Tree-Ising: LLM 토큰 0개·순전파 4회로 BF16 가중치 비트를 직접 수정해 추론 루프 복구",
-      "title_ko": "Tree-Ising: BF16 가중치 비트 단위 QUBO 최적화로 모델 추론 루프를 저비용 복구하는 연구",
-      "summary_ko": "• **비학습 수리 기법**: 사후 학습이나 LLM 에이전트 추론 없이 언어 모델의 BF16 가중치 부호 반전과 지수 시프트를 QUBO(Ising) 이산 최적화로 계산해 추론 루프를 교정하는 Tree-Ising이 제안되었습니다(2026-11-10 arXiv).\n• **정확도 개선 수치**: Qwen3.5-0.8B MATH-500 평가에서 기반 모델(7.9%)과 GPT-6 Astra 에이전트 수리 결과(51.7%)를 넘어 54.6%(Simulated Bifurcation 55.1%)를 달성했고, Qwen3.5-2B GSM8K도 21.6%에서 69.4%로 상승했습니다.\n• **압도적 비용 격차**: 158턴·8,970만 토큰·50회 순전파가 들던 에이전트 수리 대비 LLM 토큰 0개, 순전파 4회, 약 0.90달러 GPU 시간만으로 2.2~2.3배 적은 비트 플립으로 복구를 마쳤습니다.",
-      "body_ko": "Hadi Salloum과 Ammar Ali가 11월 10일 arXiv에 발표하고 HF Daily Papers에서 75개 추천을 받은 Tree-Ising 논문은 에이전트가 모델 가중치를 직접 고치는 가중치 공간 프로그래밍을 수학적 이산 최적화 문제로 재정식화했습니다. 선행 MIT 연구에서는 GPT-6 Astra 에이전트가 Qwen3.5-0.8B의 반복 루프 오류를 고치기 위해 158턴, 8,970만 토큰, 50회 순전파 요청을 소모해야 했습니다. 연구진은 순전파 통계로 루프 방향을 억제하고 결론 방향을 강화하는 목적 함수를 출력 행별 독립 QUBO(Ising) 문제로 정확히 분해한 뒤 GPU에서 시뮬레이티드 어닐링과 시뮬레이티드 바이퍼케이션으로 해를 구했습니다. 공유 지수와 가수를 유지하면서 부호 반전과 지수 시프트만 허용한 결과, 동일 두 레이어 수정 기준 MATH-500에서 기반 모델 7.9%와 에이전트 수리 51.7%를 모두 앞선 54.6~55.1%를 기록했습니다. 에이전트 방식보다 가중치 수정량을 13~17% 줄이고 BF16 비트 플립을 2.2~2.3배 절감했으며, LLM 토큰 소모 없이 순전파 4회와 약 0.90달러 GPU 비용만으로 Qwen3.5-2B GSM8K 정확도를 21.6%에서 69.4%로 끌어올렸습니다. 5개 수학 벤치마크 전반의 우위와 더불어 IBM Heron 프로세서에서의 8변수 QAOA 실행 개념 검증까지 제시해 정밀 모델 수리 연구에 새 전기를 열었습니다.",
-      "tags": [
-        "가중치 편집",
-        "QUBO",
-        "추론 모델",
-        "논문"
-      ],
-      "author_profile": "ammarali32",
-      "publish_date": "2026-11-11T00:00:00.000Z",
-      "url": "https://huggingface.co/papers/2611.14210",
-      "sources": [
-        "hfpapers"
-      ],
-      "metrics": {
-        "upvotes": 75,
-        "comments": 2,
-        "arxiv_id": "2611.14210",
-        "paper_published_at": "2026-11-10T00:00:00.000Z",
-        "github_repo": "https://github.com/TheQuantumGOAT/Tree-Ising"
-      },
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "hackernews_d1eb4c8e0e",
-      "category_id": "hackernews",
-      "category_name": "Hacker News",
-      "signal_id": "oss",
-      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
-      "importance": 86,
-      "headline": "화웨이 MACaQ: 122B 모델을 32.5GB 메모리로 64분 만에 양자화하는 멀티모달 로컬 양자화 도구",
-      "title_ko": "화웨이 MACaQ: 텍스트·이미지·비디오·음성 모델을 GGUF 및 W4A4로 고속 양자화하는 오픈소스 도구",
-      "summary_ko": "• **멀티모달 양자화 공개**: 화웨이 연구팀(huawei-csl/MACaQ, arXiv 2611.10649)이 텍스트와 이미지·비디오·음성 생성 모델까지 아우르는 Apache 2.0 라이선스 로컬 추론 양자화 프레임워크 MACaQ를 공개했습니다.\n• **속도 및 품질 수치**: 32.5GB 메모리만으로 122B 모델을 64분 만에 양자화하며, vLLM W4A4 모드에서 Qwen3.8-27B BF16 대비 프리필 2.33배·디코드 2.58배 속도 향상(혼란도 2.8463→2.8994)을 달성했습니다.\n• **폭넓은 런타임 지원**: 표준 llama.cpp 호환 2·3·4비트 GGUF 정제 파이프라인 MACaQ-R을 비롯해 vLLM, Diffusers, PyTorch 음성 모델, Ascend CANN 커널까지 실무 백엔드별 환경을 제공합니다.",
-      "body_ko": "화웨이 컴퓨팅 시스템 랩 연구진이 Apache 2.0 라이선스로 공개한 MACaQ는 저비트 가중치 및 활성화(W4A4) 보정 양자화를 수행해 로컬 추론 속도와 메모리 효율을 동시에 높여주는 오픈소스 프레임워크입니다. Llama-3-8B 평가 기준 기존 MR-GPTQ나 DuQuant++ 대비 더 낮은 혼란도 또는 동등 품질을 11배 빠른 양자화 시간으로 달성하며, 122B 파라미터 대형 모델도 32.5GB 장치 메모리에서 64분 만에 변환할 수 있습니다. 표준 llama.cpp 블록 스케일 포맷을 유지하면서 코드만 정제하는 MACaQ-R 방식은 Qwen3.6-35B-A3B Q4_K_XL(22.36GB)에서 FP16 대비 KL 발산을 기존 0.015731에서 0.013367로 낮추며 별도 런타임 수정 없이 곧바로 구동됩니다. vLLM 백엔드의 Qwen3.8-27B MoE 모델 벤치마크에서는 W4A4 추론 시 원본 BF16 대비 프리필 2.33배와 디코드 2.58배 가속을 달성하면서 혼란도 차이는 2.8463에서 2.8994 수준으로 방어했습니다. 사용자는 백엔드별 Python 3.12 독립 환경을 구성해 llama.cpp 텍스트 추론(CPU 포함), Diffusers W4A4 이미지·비디오·오디오 생성, PyTorch 음성 합성과 Ascend 커널까지 즉시 테스트할 수 있습니다. 대형 MoE 및 확산 모델의 로컬 서빙 문턱을 실질적으로 낮추는 검증된 양자화 툴킷으로 개발자 커뮤니티의 관심을 모으고 있습니다.",
-      "tags": [
-        "양자화",
-        "GGUF",
-        "vLLM",
-        "로컬 추론"
-      ],
-      "author_profile": "@thefox96",
-      "publish_date": "2026-11-11T20:23:57.000Z",
-      "url": "https://github.com/huawei-csl/MACaQ",
-      "sources": [
-        "hackernews"
-      ],
-      "metrics": {
-        "points": 59,
-        "comments": 19,
-        "discussion_url": "https://news.ycombinator.com/item?id=50458166"
-      },
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "hackernews_717bbfb8ce",
-      "category_id": "hackernews",
-      "category_name": "Hacker News",
-      "signal_id": "devtool",
-      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
-      "importance": 85,
-      "headline": "Pomerado (YC F26): 레거시 웹사이트를 5~30초 응답 결정론적 MCP API로 자동 변환",
-      "title_ko": "Pomerado: 초기 탐색 녹화를 바탕으로 일반 웹사이트를 결정론적 자가 치유 MCP 서버로 바꾸는 도구",
-      "summary_ko": "• **개발자 도구 출시**: McKinsey·Scale AI 출신 창업자들이 공식 API가 없는 항공사·은행·CRM 등 웹사이트를 수 분 내 결정론적 MCP 도구로 전환해 주는 Pomerado를 MIT 오픈소스 및 호스팅 버전으로 선보였습니다.\n• **생성 및 검증 구조**: 탐색 에이전트가 1회 HTTP·Playwright 실행을 기록한 뒤 가디언 모델 검수와 합성 입력 테스트를 거쳐 일반화된 스키마와 5~30초 응답 MCP를 한 시간 이내에 발행합니다.\n• **운영 안정성 확보**: 인증·2FA 처리 경로를 모델 컨텍스트에서 분리해 자격 증명 노출을 막고, UI 변경으로 실행이 깨지면 자가 유지보수 작업이 자동으로 도구를 수리합니다.",
-      "body_ko": "AI 에이전트가 항공사나 보험 포털, 구형 CRM처럼 API와 MCP가 없는 레거시 웹사이트와 연동할 때 매번 화면을 조작하는 Computer Use 방식의 느리고 비싼 병목을 해결하기 위해 YC F26 출신 Pomerado가 공개되었습니다. 개발자나 코딩 에이전트가 자연어 워크플로우 설명을 제공하면 탐색 에이전트가 먼저 브라우저를 열어 HTTP 요청이나 Playwright 스크립트로 대상 작업을 1회 시연하며 실행 데이터를 수집합니다. 이어 수집된 트레이스를 토대로 별도 가디언 모델이 보안·안전 가드레일을 검토하고 다양한 합성 입력 테스트를 돌려 단일 사례에 과적합되지 않은 일반화된 MCP 입출력 스키마를 자동 생성합니다. 완성된 MCP는 런타임마다 LLM 추론을 반복하지 않고 결정론적 API로 실행되므로 1시간 넘게 걸리던 기존 작업도 평균 5~30초 안에 안정적으로 응답을 반환합니다. 로그인 단계에서는 모델과 레코더가 고객 비밀번호를 읽지 못하도록 결정론적 인증 흐름으로 분리 위임하고 TOTP나 전화번호 기반 2차 인증을 자동 처리하며, 버튼 변경 등으로 실패가 발생하면 유지보수 파이프라인이 자동 복구를 수행합니다. GitHub MIT 오픈소스 저장소(Pomerado/pomerado)와 무료 호스팅 버전을 함께 제공해 반복적인 웹 자동화 통합을 추진하는 팀의 실용적 대안으로 주목받고 있습니다.",
-      "tags": [
-        "MCP",
-        "웹 자동화",
-        "YC",
-        "개발자 도구"
-      ],
-      "author_profile": "@alanjm23",
-      "publish_date": "2026-11-11T17:11:56.000Z",
-      "url": "https://news.ycombinator.com/item?id=50455811",
-      "sources": [
-        "hackernews"
-      ],
-      "metrics": {
-        "points": 48,
-        "comments": 39,
-        "discussion_url": "https://news.ycombinator.com/item?id=50455811"
-      },
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "geeknews_755dbf5e74",
-      "category_id": "geeknews",
-      "category_name": "GeekNews",
-      "signal_id": "oss",
-      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
-      "importance": 85,
-      "headline": "OpenMAIC: 문서나 주제를 AI 교사·동급생 에이전트 토론 수업으로 변환하는 오픈소스 플랫폼",
-      "title_ko": "OpenMAIC: 주제·자료를 입력하면 멀티 에이전트 강의·퀴즈·시뮬레이션 수업으로 생성하는 플랫폼",
-      "summary_ko": "• **교육 플랫폼 공개**: THU-MAIC 팀이 학습 주제나 문서만 올리면 슬라이드, 칠판 판서 강의, 인터랙티브 시뮬레이션, 퀴즈와 프로젝트 학습(PBL)을 자동 생성하는 MIT 오픈소스 플랫폼 OpenMAIC을 공개했습니다.\n• **상호작용 학습 구조**: 음성 설명과 수식·도해 판서를 제공하는 AI 교사에게 수업 중 즉시 질문할 수 있고, 서로 다른 역할을 맡은 AI 동급생 에이전트 간 토론에 학습자가 참여할 수 있습니다.\n• **배포 및 호환성**: 생성된 수업은 PowerPoint나 오프라인 HTML로 내보낼 수 있으며, Docker 자체 서버 구동과 OpenClaw·Codex 연동도 지원합니다.",
-      "body_ko": "THU-MAIC 연구 그룹이 MIT 라이선스로 공개한 OpenMAIC은 텍스트 문답 위주의 기존 튜터 챗봇을 넘어 멀티 에이전트가 참여하는 인터랙티브 강의실을 자동 생성해 주는 오픈소스 교육 플랫폼입니다. 사용자가 학습할 주제를 적거나 PDF·문서 자료를 올리면 슬라이드 구성과 객관식·단답형 퀴즈, 직접 조작 가능한 시뮬레이션, 단계별 프로젝트 기반 학습(PBL) 수업이 완성됩니다. AI 교사 에이전트는 음성으로 개념을 해설하면서 칠판 영역에 수식이나 도표를 직접 그려주며, 학습자는 강의 진행 도중에도 이해가 가지 않는 슬라이드 부분을 짚어 곧바로 질문을 던질 수 있습니다. 여기에 각기 다른 관점과 역할을 부여받은 여러 AI 동급생 에이전트들이 함께 토론을 벌이고 사용자가 대화에 직접 개입하는 역동적인 수업 환경을 구현했습니다. 만들어진 수업 콘텐츠는 PowerPoint 파일로 저장하거나 인터넷 없이도 브라우저에서 재생할 수 있는 오프라인 HTML 형태로 내보내 배포 가능합니다. 브라우저 데모 체험은 물론 Docker로 자체 서버에 호스팅하거나 OpenClaw, Codex 같은 에이전트 환경에 연결할 수 있어 팀 내부 기술 교육 및 학습 워크플로우 구축에 활용도가 높습니다.",
-      "tags": [
-        "멀티 에이전트",
-        "AI 교육",
-        "오픈소스",
-        "OpenMAIC"
-      ],
-      "author_profile": "xguru",
-      "publish_date": "2026-11-12T00:30:02.000Z",
-      "url": "https://news.hada.io/topic?id=37017",
-      "sources": [
-        "geeknews"
-      ],
-      "metrics": {},
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "hfpapers_1a2725049b",
-      "category_id": "hfpapers",
-      "category_name": "HF Daily Papers",
-      "signal_id": "research",
-      "signal_name": "연구·논문·새 기법",
-      "importance": 85,
-      "headline": "RoboScript (WICL): 시뮬레이션 리허설과 Task Memory만으로 로봇 조작 83.4% 달성",
-      "title_ko": "World In-Context Learning: 가중치 업데이트 없이 시뮬레이터 기억만으로 로봇 제어를 일반화",
-      "summary_ko": "• **연구 패러다임 제안**: 가중치를 고치는 대신 고정 모델이 시뮬레이터에서 단일 시연으로 작업을 리허설해 피드백을 컨텍스트 Task Memory에 저장하고 배포하는 WICL 패러다임과 RoboScript 인프라가 발표되었습니다(2026-11-09 arXiv).\n• **벤치마크 우위**: RoboTwin 2.0 50개 전체 과제에서 경사 하강 학습 없이 작업당 1회 시연만으로 평균 83.4% 성공률을 달성해 최강 학습형 행동 정책을 20포인트 이상 앞질렀습니다.\n• **실물 전이 입증**: 배포 단계에서 실제 로봇 센서 입력만 사용하도록 데이터를 격리 설계했으며, 시각 분포 일반화와 교차 로봇 기억 적응을 통한 물리 양팔 로봇 제어 전이까지 확인했습니다.",
-      "body_ko": "Heng Fang과 Xiang Bai 등 연구진이 11월 9일 arXiv에 공개하고 HF Daily Papers에서 64개 추천을 받은 World In-Context Learning(WICL) 논문은 가중치 학습 없이도 로봇 조작 성능을 극대화하는 새로운 접근을 제시합니다. 기존 행동 정책(Action Policy) 모델은 조작 기술을 네트워크 가중치 안에 기록하기 때문에 학습한 장면 분포를 벗어나면 성능이 급격히 떨어지는 한계를 안고 있었습니다. 연구진은 에이전트가 컨텍스트에서 배우는 정보가 시각 외형이 아니라 작업 단계와 사물 역할 같은 의미적 구조라는 점에 착안해, 가중치가 고정된 모델이 시뮬레이터를 루프에 두고 리허설한 피드백을 Task Memory로 동결·저장하는 모듈형 시스템 RoboScript를 구축했습니다. 특히 배포 시점에는 실제 로봇에서 확보할 수 있는 입력만 접근 가능하도록 데이터 격리를 적용해 시뮬레이션과 현실 사이의 공정한 전이 조건을 엄격히 맞췄습니다. RoboTwin 2.0 벤치마크의 50개 과제 전반에서 기울기 업데이트 없이 과제당 단일 시연만으로 83.4% 평균 성공률을 달성해 기존 최고 성능 학습형 정책보다 20포인트 이상 높은 결과를 보였습니다. 기반 모델 스케일링에 따른 성능 향상과 반성 개선, 물리 양팔 로봇으로의 전이까지 입증되면서 파운데이션 모델의 인컨텍스트 학습 역량을 로보틱스에 직결하는 유망 경로로 평가됩니다.",
-      "tags": [
-        "로보틱스",
-        "인컨텍스트 러닝",
-        "시뮬레이션",
-        "논문"
-      ],
-      "author_profile": "dkliang",
-      "publish_date": "2026-11-11T00:00:00.000Z",
-      "url": "https://huggingface.co/papers/2611.12885",
-      "sources": [
-        "hfpapers"
-      ],
-      "metrics": {
-        "upvotes": 64,
-        "comments": 3,
-        "arxiv_id": "2611.12885",
-        "paper_published_at": "2026-11-09T00:00:00.000Z",
-        "github_repo": "https://github.com/ArcheOne-AI/RoboScript"
-      },
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "threads_a14777480f",
+      "id": "threads_7b9cf7091b",
       "category_id": "threads",
       "category_name": "Threads",
-      "signal_id": "insight",
-      "signal_name": "💡 소셜 인사이트·실무 활용 팁·모델 체감 리뷰·프롬프트 노하우",
-      "importance": 84,
-      "headline": "에이전트 루프 엔지니어링 실패 원인은 'LLM-as-a-judge' 확률 게이트의 발산·조기 수렴 통제 실패",
-      "title_ko": "@subinium: 'LLM-as-a-judge 확률 게이트 기반 자율 루프는 발산과 강한 수렴을 막지 못한다'",
-      "summary_ko": "• **실무 실험 진단**: AI 엔지니어 subinium이 최근 여러 자율 루프 엔지니어링과 목표 추구형(/goal) 실험을 분석한 결과, 대부분의 루프 실패가 종료 조건을 LLM-as-a-judge 확률 게이트에 맡긴 데서 비롯된다고 짚었습니다.\n• **구조적 실패 양상**: 언어 모델 심판관의 확률적 판정만으로는 에이전트가 정답에서 멀어지며 끝없이 반복하는 발산 현상이나 불완전한 결과에 성급히 고착되는 강한 수렴을 안정적으로 차단하지 못합니다.\n• **설계 개선 방향**: 자율 반복 에이전트를 프로덕션에 적용할 때는 모델 평가자의 주관적 점수 대신 단위 테스트 통과, 스키마 검증, 상태 불변식 같은 결정론적 탈출 게이트를 핵심 제어 축으로 삼아야 합니다.",
-      "body_ko": "국내 AI 엔지니어 subinium이 스레드를 통해 최근 수행한 다양한 루프 엔지니어링 및 목표 지향형(/goal) 에이전트 실험에서 반복적으로 마주친 핵심 실패 원인을 간결하게 정리해 공유했습니다. 핵심 통찰은 자율 반복 에이전트의 지속 여부와 완료 판정을 또 다른 LLM 심판관(LLM-as-a-judge)의 확률적 게이트에 의존하는 순간 시스템 신뢰도가 급격히 흔들린다는 점입니다. 모델 심판관은 동일한 작업 상태에서도 문맥 구성과 샘플링 변동에 따라 합격 기준이 흔들리기 때문에, 에이전트가 해결 경로를 벗어난 채 반복 횟수와 토큰만 소모하는 발산을 제대로 끊어내지 못합니다. 반대로 겉으로만 그럴싸한 중간 산출물에 심판관 모델이 높은 점수를 매기면서 실제로는 불완전한 상태에 일찍 안주해 버리는 강한 수렴 현상 역시 빈번하게 발생합니다. 따라서 안정적인 장기 실행 에이전트 하네스를 구축하려는 개발자라면 LLM 평가를 보조 힌트로 제한하고 컴파일·테스트 스위트·정적 검사 같은 결정론적 성공 게이트를 중심에 배치해야 한다는 실무 시사점을 남겼습니다.",
+      "signal_id": "product",
+      "signal_name": "제품 신기능",
+      "importance": 79,
+      "headline": "메타, 기상 추적·메일함 모니터링·환불 요청까지 이어지는 'daily musecase' 자율 에이전트 시나리오 공개",
+      "title_ko": "메타, 기상 추적·메일함 모니터링·환불 요청까지 이어지는 'daily musecase' 자율 에이전트 시나리오 공개",
+      "summary_ko": "• **에이전트 활용 시나리오**: 메타가 공식 Threads를 통해 주말 야외 콘서트 기상 예보를 추적하고 우천 취소 시 환불까지 처리하는 'daily musecase' 워크플로우를 공유했습니다.\n• **멀티 스텝 자동화**: 외부 실시간 상태(날씨) 감시에서 출발해 조건부 트리거(우천 취소)가 발동하면 메일함에서 취소 통지를 찾고 판매자에게 환불을 요청하는 다단계 연동을 보여줍니다.\n• **생태계 흐름**: 최근 공개된 메타의 Muse 계열 에이전트 역량이 단순 질의응답을 넘어 개인 비서형 조건부 루틴 실행으로 확장되는 방향성을 시사합니다.",
+      "body_ko": "메타가 공식 Threads 계정을 통해 'daily musecase'라는 이름으로 일상 속 조건부 자율 에이전트 워크플로우 사례를 공개했습니다. 제시된 시나리오는 토요일 야외 콘서트의 기상 예보를 지속적으로 추적하다가 비로 인해 취소될 경우를 대비하는 다단계 자동화 흐름입니다. 조건이 충족되면 에이전트가 사용자의 이메일 받은편지함을 모니터링해 공식 취소 안내 메일을 포착하고, 이어서 티켓 판매자를 상대로 환불 요청 절차까지 처리하도록 구성되어 있습니다. 이는 외부 웹 상태 감시, 개인 메일함 접근, 대외 커뮤니케이션 실행이 하나의 비동기 루틴으로 묶이는 소비자용 AI 에이전트의 방향을 보여줍니다. 단일 프롬프트 생성에서 장기 실행형 백그라운드 루틴과 개인화된 도구 연결로 경쟁 축이 옮겨가고 있음을 보여주는 사례입니다.",
       "tags": [
-        "루프 엔지니어링",
-        "LLM 심판관",
-        "에이전트 설계",
-        "실무 인사이트"
+        "메타",
+        "자율 에이전트",
+        "워크플로우 자동화",
+        "Muse"
       ],
-      "author_profile": "subinium",
-      "publish_date": "2026-11-12T01:48:40.666Z",
-      "url": "https://www.threads.net/@subinium/post/660536649",
+      "author_profile": "meta",
+      "publish_date": "2026-11-15T23:53:39.426Z",
+      "url": "https://www.threads.net/@meta/post/265682808",
       "sources": [
-        "threads",
-        "subinium"
+        "Threads"
       ],
       "metrics": {
         "platform": "threads",
-        "account": "subinium"
+        "account": "meta"
       },
       "curated_by": "ldk-hub"
     },
     {
-      "id": "hfpapers_b55e69ca50",
-      "category_id": "hfpapers",
-      "category_name": "HF Daily Papers",
-      "signal_id": "research",
-      "signal_name": "연구·논문·새 기법",
-      "importance": 83,
-      "headline": "WikiTrace (KAIST): 교훈과 원본 실행 궤적을 연결해 LLM 에이전트 기억 오염 문제 완화",
-      "title_ko": "WikiTrace: 실패·성공 근거와 원본 궤적을 추적해 에이전트 기억 저하 현상을 줄이는 메모리 시스템",
-      "summary_ko": "• **기억 역효과 규명**: KAIST 연구진(이유경·최유민·백진헌·황성주)이 외부 메모리가 오히려 에이전트 성능을 떨어뜨리는 기억 유발 성능 저하를 해결하기 위해 근거 연결형 메모리 WikiTrace를 제안했습니다(2026-11-10 arXiv).\n• **궤적 검증 메커니즘**: 추출된 각 교훈을 성공·실패 이유 요약 및 원본 궤적과 연결해 두고, 정보가 부족하거나 상충하거나 실패 사례 기반일 때 에이전트가 터미널 도구로 원본 궤적을 열어 직접 검증·교정하게 했습니다.\n• **벤치마크 검증 결과**: 5개 에이전트 벤치마크에서 기존 외부 메모리 기법과 동일 인사이트 단독 제공 베이스라인을 모두 일관되게 상회하며 잘못된 기억 적용에 따른 실패를 줄였습니다.",
-      "body_ko": "KAIST 연구팀(이유경, 최유민, 백진헌, 황성주)이 11월 10일 arXiv에 공개하고 HF Daily Papers에서 48개 추천을 받은 WikiTrace 논문은 LLM 에이전트 메모리 시스템에서 종종 나타나는 역설적인 성능 하락 문제를 다뤘습니다. 에이전트가 과거 작업 궤적을 짧은 교훈으로 압축해 새 작업에 재활용하면 경험 축적 효과가 기대되지만, 실제로는 잘못 요약된 교훈을 따르거나 유효한 교훈을 오독·오용해 메모리가 없을 때보다 더 자주 실패하는 기억 유발 성능 저하가 발생합니다. 연구진은 기존 메모리가 단순 성공·실패 라벨만 표시한 채 근거가 되는 원본 실행 궤적을 분리해 버리기 때문에 에이전트가 교훈의 진위를 검증할 수 없다는 점에 주목했습니다. WikiTrace는 각 교훈을 해당 궤적이 왜 성공 또는 실패했는지에 대한 요약과 원본 궤적 데이터 자체에 링크로 연결해 저장하는 근거 중심 구조를 도입했습니다. 새 과제를 수행할 때 에이전트는 우선 전체 인사이트로 출발하되 행동에 필요한 세부 조건이 누락됐거나, 다른 교훈과 충돌하거나, 실패 과제에서 추출된 교훈이라면 터미널 도구를 이용해 링크된 원본 궤적을 직접 조회해 교훈을 수정·보완합니다. 5개 에이전틱 벤치마크와 GitHub 공개 코드(yukyeongleee/wikitrace) 검증에서 기존 메모리 방식과 인사이트 단독 대조군을 모두 일관되게 웃돌며 신뢰할 수 있는 에이전트 메모리 설계의 방향을 제시했습니다.",
+      "id": "aitimes_3e0ec1963d",
+      "category_id": "aitimes",
+      "category_name": "AI타임스",
+      "signal_id": "practice",
+      "signal_name": "AI 활용 사례·워크플로우 팁",
+      "importance": 78,
+      "headline": "세무사 수석 합격자 생성 AI 부정행위 자백이 던진 과제: '객관식·서면 논술 모두 뚫리는 시대, 평가 방식 재설계'",
+      "title_ko": "세무사 수석 합격자 생성 AI 부정행위 자백이 던진 과제: '객관식·서면 논술 모두 뚫리는 시대, 평가 방식 재설계'",
+      "summary_ko": "• **현장 이슈 분석**: 제63회 세무사 시험 수석 합격자가 초소형 카메라와 생성 AI를 활용한 부정행위를 자백하면서 자격·채용 평가 시스템의 취약점이 부각되었습니다.\n• **핵심 진단**: 안광섭 세종대 겸임교수는 160문항 중 159개를 맞힌 1차 객관식뿐 아니라 서면 답안을 작성하는 2차 논술형 시험마저 생성 AI로 뚫렸다는 점에 주목했습니다.\n• **실무 시사점**: 감독 인력이나 전파탐지기 확충만으로는 한계가 있으며, 답변의 배경과 논리를 말로 검증하는 구술 방어·대면 검증 중심으로 평가 구조를 재편해야 한다고 제언했습니다.",
+      "body_ko": "2026년 11월 15일 제63회 세무사 시험 세법학개론 만점자이자 수석 합격자가 초소형 카메라와 생성 AI를 이용해 부정행위를 저질렀다고 자수하면서 국내 전문자격 시험 평가 체계에 큰 파장이 일고 있습니다. 안광섭 세종대학교 겸임교수는 AI타임스 기고를 통해 감독 위원 4명이 지켜보는 앞줄 자리에서도 적발되지 않았던 점을 짚으며 단순 감시 강화의 한계를 지적했습니다. 특히 1차 객관식 시험(160문항 중 159문항 정답)은 전산 채점이 빠르다는 장점이 역으로 문항당 숫자 하나만 전달받으면 되는 부정행위 통로가 되었다고 분석했습니다. 더 나아가 객관식의 대안으로 꼽히던 서면 논술형 2차 시험(800점 만점에 663점)조차 긴 글 생성에 능한 생성 AI 앞에서는 답안지에 누가 생각했는지 남지 않는 동일한 취약점을 드러냈습니다. 기고는 향후 대학 교육과 전문직 자격 검증에서 채점자의 수고가 들더라도 응시자가 자신의 답안을 직접 설명하고 반박에 답하는 구술 평가와 과정 검증을 강화해야 한다고 강조했습니다.",
       "tags": [
-        "에이전트 메모리",
-        "KAIST",
-        "WikiTrace",
-        "논문"
+        "생성 AI 평가",
+        "구술 검증",
+        "자격시험",
+        "AI 윤리"
       ],
-      "author_profile": "YuminChoi",
-      "publish_date": "2026-11-11T00:00:00.000Z",
-      "url": "https://huggingface.co/papers/2611.14320",
+      "author_profile": "AI타임스",
+      "publish_date": "2026-11-15T09:59:15.000Z",
+      "url": "https://www.aitimes.com/news/articleView.html?idxno=217423",
       "sources": [
-        "hfpapers"
+        "AI타임스"
       ],
-      "metrics": {
-        "upvotes": 48,
-        "comments": 7,
-        "arxiv_id": "2611.14320",
-        "paper_published_at": "2026-11-10T00:00:00.000Z",
-        "github_repo": "https://github.com/yukyeongleee/wikitrace"
-      },
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "bluesky_43f9a33b4d",
-      "category_id": "bluesky",
-      "category_name": "Bluesky",
-      "signal_id": "devtool",
-      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
-      "importance": 80,
-      "headline": "Albedo: 분리형 CLI와 캔버스 UI를 갖춘 Gleam 기반 영속형 코딩 에이전트 데몬",
-      "title_ko": "Albedo: 백그라운드 데몬에 CLI와 캔버스 UI를 탈부착하는 Gleam 기반 코딩 에이전트",
-      "summary_ko": "• **신규 프로젝트 포착**: Bluesky에서 주목받은 okami.mom/albedo는 함수형 언어 Gleam 기반으로 설계된 소형 코딩 및 영속(Persistent) 에이전트 데몬으로 Tangled에서 116스타·23포크를 기록했습니다.\n• **분리형 아키텍처**: 상주 에이전트 데몬을 중심에 두고 CLI를 자유롭게 붙였다 떼거나 캔버스 UI를 연결해 장시간 작업을 이어가는 구조(cli·web·native·nix 모듈)를 채택했습니다.\n• **하네스 실험 확장**: 공개된 개발 브랜치를 통해 ACP 데몬 세션, Claude·Codex 프로바이더 통합, 서브에이전트 검증 게이트, 쿼터 원장 관리 등 다양한 에이전트 인프라 요소를 통합 구현하고 있습니다.",
-      "body_ko": "분산형 Git 호스팅 플랫폼 Tangled를 통해 Bluesky에서 소개된 albedo는 Gleam 언어로 구현된 경량 코딩 에이전트이자 장시간 상태가 유지되는 영속 에이전트 데몬 프로젝트입니다. 현재 Tangled 저장소에서 116개의 스타와 23개의 포크를 기록하며 빠른 주기로 기능 실험이 이어지고 있습니다. 가장 두드러지는 설계 특징은 터미널 세션이 끊기더라도 백그라운드 데몬이 상태를 유지한 채 분리형 CLI와 캔버스 UI를 유연하게 연결할 수 있다는 점입니다. 저장소 디렉터리 구성(cli, web, native, nix)과 활성 브랜치 이력을 살펴보면 ACP 기반 데몬 세션, Claude와 Codex 멀티 프로바이더 지원, 서브에이전트 검증 게이트, 에이전트 간 메일, 쿼터 원장(quota-ledger) 등 실무 하네스 핵심 기능들이 폭넓게 탐색되고 있습니다. 단발성 CLI 래퍼를 넘어 지속 실행 가능한 데몬과 시각적 캔버스를 결합하려는 에이전트 런타임 아키텍처 참고 사례로 살펴볼 가치가 있습니다.",
-      "tags": [
-        "코딩 에이전트",
-        "Gleam",
-        "에이전트 데몬",
-        "개발자 도구"
-      ],
-      "author_profile": "@mlf.one",
-      "publish_date": "2026-11-11T22:25:50.619Z",
-      "url": "https://tangled.org/okami.mom/albedo",
-      "sources": [
-        "bluesky"
-      ],
-      "metrics": {
-        "likes": 4,
-        "reposts": 0,
-        "replies": 0,
-        "bluesky_url": "https://bsky.app/profile/mlf.one/post/3n22yqqldgk23"
-      },
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "bluesky_4e6f34ce14",
-      "category_id": "bluesky",
-      "category_name": "Bluesky",
-      "signal_id": "devtool",
-      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
-      "importance": 79,
-      "headline": "seo-skills: Claude Code·Cursor·Codex용 17종 Agent Skills 규격 SEO 자동화 워크플로우",
-      "title_ko": "seo-skills: 코딩 에이전트에서 기술 SEO 감사부터 AI 검색 가시성까지 실행하는 17종 스킬 패키지",
-      "summary_ko": "• **에이전트 스킬 공개**: Claude Code, Cursor, Codex 등 범용 AI 에이전트에 바로 적용할 수 있는 17종 Agent Skills 규격 SEO 워크플로우 패키지 seo-skills(illyism-seo-skills)가 공개되었습니다.\n• **실무 자동화 범위**: 기술적 SEO 감사, 기존 콘텐츠 리프레시, AI 검색 노출 가시성 점검, 링크 빌딩 등 복합 과업을 에이전트가 즉시 산출물로 생성할 수 있는 구체적 실행 절차로 묶었습니다.\n• **표준 생태계 확산**: 소프트웨어 구현뿐 아니라 검색 최적화와 콘텐츠 운영 영역까지 재사용 가능한 Agent Skills 명세 기반 자동화가 확장되는 흐름을 보여줍니다.",
-      "body_ko": "오픈소스 저장소 소개 채널(@osrepos.bsky.social)을 통해 Bluesky에 공유된 seo-skills는 Claude Code와 Cursor, Codex 같은 AI 코딩 에이전트가 SEO 업무를 체계적으로 처리할 수 있도록 제작된 스킬 패키지입니다. 이 프로젝트는 총 17개의 작업 절차를 Agent Skills 표준 명세에 맞춰 구조화한 것이 특징입니다. 포함된 워크플로우는 사이트의 기술적 SEO 감사부터 오래된 콘텐츠 리프레시, 최신 AI 검색 환경에서의 가시성 진단, 링크 빌딩 전략 수립까지 실무에서 바로 산출물을 뽑아낼 수 있는 단위로 나뉘어 있습니다. 개발자가 별도의 마케팅 분석 대시보드와 코드 편집기를 오갈 필요 없이 에이전트 세션 안에서 코드 수정과 검색 노출 점검을 연속적으로 수행할 수 있는 것이 장점입니다. 최근 AI 에이전트 생태계에서 도메인 전문 지식을 표준화된 SKILL 파일로 모듈화해 공유하고 팀 워크플로우에 즉시 결합하는 패턴이 다양한 직군으로 확산되고 있음을 보여줍니다.",
-      "tags": [
-        "Agent Skills",
-        "Claude Code",
-        "SEO",
-        "개발자 도구"
-      ],
-      "author_profile": "@osrepos.bsky.social",
-      "publish_date": "2026-11-12T01:10:04.112Z",
-      "url": "https://osrepos.com/repo/illyism-seo-skills",
-      "sources": [
-        "bluesky"
-      ],
-      "metrics": {
-        "likes": 3,
-        "reposts": 1,
-        "replies": 0,
-        "bluesky_url": "https://bsky.app/profile/osrepos.bsky.social/post/3n23bwn7snc2r"
-      },
+      "metrics": {},
       "curated_by": "ldk-hub"
     }
   ]

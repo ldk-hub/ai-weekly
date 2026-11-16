@@ -324,6 +324,45 @@ tags: [ai-weekly, benchmarks, frontier-models, market-share, pipeline, staleness
 // 3. 작업 일지들
 const LOGS = [
   {
+    filename: "2026-11-16 작업일지.md",
+    title: "2026-11-16 작업일지 — 주간 종합 파이프라인(cc-weekly) 완수: 스타보드 618개 추적, 트렌드 33건(신규 7종 사전 확충), 벤치마크 검증, 데일리 뉴스 18건 배포 및 옵시디언 동기화",
+    date: "2026-11-16",
+    content: `---
+title: 2026-11-16 작업일지
+date: 2026-11-16
+type: work-log
+tags: [ai-weekly, work-log, cc-weekly, cc-star, cc-trends, cc-benchmarks, cc-news, obsidian-sync]
+status: completed
+author: ldk-hub <orm6711@gmail.com>
+---
+
+# 📅 2026-11-16 작업일지 (주간 종합 파이프라인 cc-weekly 완수)
+
+## 📌 주요 작업 요약
+
+### 1. 스타보드 갱신 (cc-star)
+- **추적 대상 및 성공률**: 총 618개 오픈소스 리포지토리 전수 추적 완료 (\`Success: 618 (100%)\`, 404 Gone 48건, Rename 1건, Suspect 0건).
+- **주요 상승 리포 Top 5 (일평균)**: \`morluto/rea\`(+2,832.9/일), \`mattpocock/skills\`(+997.6/일), \`stablyai/orca\`(+934.6/일), \`anthropics/skills\`(+816.6/일), \`Nutlope/hallmark\`(+694.0/일).
+
+### 2. Claude Code 트렌드 갱신 (cc-trends)
+- **광역 수집 및 보안 스캔**: 65/160건 후보 수집, 설치 진입점 정적 스캔 결과 원격 코드 실행 의심 1건(\`NousResearch/hermes-agent\`) 차단.
+- **신규 사전 등록 및 큐레이션**: \`curated-knowledge-ext.js\`에 7종(\`DIYgod/pinky\`, \`agentes-chat/agentes-chat\`, \`shinyobjectz/raea\`, \`emanuele-em/kanzo\`, \`mdiri-ai/SoduWork\`, \`caru-ini/stack-diagram\`, \`N1nEmAn/sapper-v2\`) 정밀 한국어 사전 추가 후 Rising 20건(\`skill\` 8, \`mcp\` 6, \`agent\` 4, \`harness\` 2) + Classic 13건(\`skill\` 4, \`mcp\` 4, \`agent\` 3, \`harness\` 2) 총 33건 품질 게이트 통과.
+- **아카이브 및 인덱스**: \`data/archive/2026-11-16.json\` 생성 및 아카이브 인덱스(41개) 갱신 완료.
+
+### 3. AI 점유율 및 프론티어 성능 갱신 (cc-benchmarks)
+- **실시간 검증**: OpenRouter API(467개 모델 가격/컨텍스트 동기화, GPT-5.6 Sol 및 GLM-5.3 단가 최신화) 및 Scrapling 기반 LMArena·Artificial Analysis·LiveBench·OpenRouter Rankings 실시간 검증 통과.
+- **게이트 통과**: 3곳 점유율 합계 100.00%, 7개 출처 최신성 게이트(4~15일 이내) 전원 통과 및 \`benchmarks_2026-11-16.json\` 아카이빙 완료.
+
+### 4. 데일리 뉴스 큐레이션 (cc-news)
+- **수집 및 선별**: 85건 후보 수집 후 7개 신호축 균형 18건(\`model\` 3, \`research\` 3, \`devtool\` 3, \`oss\` 3, \`product\` 3, \`practice\` 2, \`policy\` 1) 큐레이션 및 \`--validate\` 규격 통과.
+- **결측·쿼리 보고**: \`HF Daily Papers (hfpapers)\` 주말 목록 부재로 0건(\`[MISSING]\`), HN "LLM" 쿼리 1건 타임아웃.
+
+### 5. 사이트 리소스 및 빌드·동기화
+- **리소스 갱신**: \`feed.xml\`, \`news-feed.xml\`, \`sitemap.xml\`, \`lounge_latest.json\`(스레드 1·댓글 1), \`og.png\`/\`og-social.png\` 생성 완료.
+- **프로덕션 빌드**: \`vite build\` 에러 없이 완료 (\`dist/\` 번들 생성) 및 옵시디언 볼트 동기화 완료.
+`,
+  },
+  {
     filename: "2026-11-11 작업일지.md",
     title: "2026-11-11 작업일지 — 주간 종합 파이프라인(cc-weekly) 완수: Scrapling 기반 소셜 트렌드·벤치마크 고도화, 33건 트렌드 큐레이션, 16건 데일리 뉴스 배포 및 옵시디언 동기화",
     date: "2026-11-11",

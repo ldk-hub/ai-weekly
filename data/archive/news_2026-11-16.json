@@ -1,0 +1,542 @@
+{
+  "generated_at": "2026-11-16T00:00:00.000Z",
+  "updated_at": "2026-11-16T00:00:00.000Z",
+  "version": "v2026.11.16",
+  "date": "2026-11-16",
+  "summary": "🔥 오늘의 핵심 이슈: #GPT6.1Terra #Gemini4Hydrogen #에이전트인프라 #추론경량화 — 차세대 컴퓨터 제어·고속 코딩 모델의 등판과 함께 ZFS DB 브랜칭·MCP 브라우저 최적화·추론 조기 종료 등 실전 에이전트 엔지니어링 신호 18건이 집중되었습니다.",
+  "curated_by": "ldk-hub",
+  "signal_counts": {
+    "model": 3,
+    "research": 3,
+    "devtool": 3,
+    "oss": 3,
+    "product": 3,
+    "practice": 2,
+    "policy": 1
+  },
+  "news": [
+    {
+      "id": "x_472456f9d8",
+      "category_id": "x",
+      "category_name": "X",
+      "signal_id": "model",
+      "signal_name": "새 모델·버전 출시·프리뷰·벤치마크",
+      "importance": 96,
+      "headline": "오픈AI, 더 낮은 가격에 고속 화면 인식·앱 조작을 지원하는 'GPT-6.1 Terra' 공개",
+      "title_ko": "오픈AI, 더 낮은 가격에 고속 화면 인식·앱 조작을 지원하는 'GPT-6.1 Terra' 공개",
+      "summary_ko": "• **모델 출시**: 오픈AI가 컴퓨터 사용(Computer Use) 능력과 실무 작업 효율을 대폭 높인 신규 모델 GPT-6.1 Terra를 발표했습니다.\n• **핵심 강점**: 화면 내 맥락을 정확히 이해해 여러 애플리케이션을 넘나들며 작업을 실행하고 자연스러운 문서 작성을 낮은 단가로 제공합니다.\n• **실무 영향**: GUI 자동화와 일상적인 업무 에이전트 파이프라인의 운영 비용을 낮추면서 처리 속도와 안정성을 끌어올릴 수 있습니다.",
+      "body_ko": "오픈AI가 컴퓨터 화면 이해와 애플리케이션 간 자율 조작에 특화한 신형 모델 GPT-6.1 Terra를 공식 발표했습니다. 이번 모델은 기존 대비 더 빠른 응답 속도와 낮은 가격대를 동시에 달성해 실무 환경에서의 상시 에이전트 구동을 겨냥했습니다. 공개된 설명에 따르면 화면 위에 표시된 UI 요소와 상황을 파악한 뒤 여러 앱을 오가며 연속적인 액션을 수행할 수 있습니다. 또한 자연스러운 문장 작성 역량을 유지해 브라우저·문서·협업 도구가 섞인 복합 업무 처리에 적합하도록 설계되었습니다. 단가 효율성이 높아진 만큼 대량 반복 업무나 장시간 이어지는 컴퓨터 사용 워크플로우의 비용 장벽을 낮추는 계기가 될 전망입니다. 구체적인 벤치마크 수치와 API 세부 요율표는 후속 공식 문서를 통해 확인이 필요합니다.",
+      "tags": [
+        "GPT-6.1 Terra",
+        "오픈AI",
+        "컴퓨터 제어",
+        "에이전트"
+      ],
+      "author_profile": "OpenAI",
+      "publish_date": "2026-11-15T23:54:46.061Z",
+      "url": "https://x.com/OpenAI/status/768496781",
+      "sources": [
+        "X"
+      ],
+      "metrics": {
+        "platform": "x",
+        "account": "OpenAI"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "x_e498235c5f",
+      "category_id": "x",
+      "category_name": "X",
+      "signal_id": "model",
+      "signal_name": "새 모델·버전 출시·프리뷰·벤치마크",
+      "importance": 95,
+      "headline": "구글 딥마인드, 3.8 Flash 대비 2.5배 빠른 고속 코딩 모델 'Gemini 4 Hydrogen' 발표",
+      "title_ko": "구글 딥마인드, 3.8 Flash 대비 2.5배 빠른 고속 코딩 모델 'Gemini 4 Hydrogen' 발표",
+      "summary_ko": "• **고속 모델 공개**: 구글 딥마인드가 빠른 코딩, 멀티모달 합성, 일상 워크플로우에 최적화된 신형 모델 Gemini 4 Hydrogen을 선보였습니다.\n• **성능 도약**: 기존 3.8 Flash 모델보다 작업 완료 속도가 2.5배 빨라졌으며 주요 지표에서 Argon 세대를 앞서는 성능을 기록했습니다.\n• **개발자 활용**: 저지연 응답이 필수적인 실시간 코딩 어시스턴트와 다중 에이전트 병렬 호출 환경에서 높은 처리량을 기대할 수 있습니다.",
+      "body_ko": "구글 딥마인드가 고속 코딩과 멀티모달 합성에 초점을 맞춘 경량·고효율 라인업 Gemini 4 Hydrogen을 공개했습니다. 발표 내용에 따르면 이 모델은 이전 세대 경량 모델인 3.8 Flash와 비교해 태스크 완료 속도를 2.5배 끌어올렸습니다. 동시에 상위 계열인 Argon 모델의 성능을 뛰어넘는 결과를 보여 속도와 지능 사이의 균형을 한 단계 높인 것이 특징입니다. 빠른 피드백 루프가 요구되는 IDE 내 코드 보완이나 대량의 멀티모달 데이터를 실시간으로 요약·합성하는 서비스에 유리한 특성을 보입니다. 특히 에이전트가 도구를 수십 차례 호출하는 반복 루프에서 지연 시간 누적 문제를 크게 완화할 수 있습니다. 상세 모델 카드와 전체 벤치마크 비교표는 딥마인드 공식 채널을 통해 추가 공개될 예정입니다.",
+      "tags": [
+        "Gemini 4 Hydrogen",
+        "구글 딥마인드",
+        "고속 추론",
+        "코딩 모델"
+      ],
+      "author_profile": "GoogleDeepMind",
+      "publish_date": "2026-11-15T23:54:46.061Z",
+      "url": "https://x.com/GoogleDeepMind/status/161592593",
+      "sources": [
+        "X"
+      ],
+      "metrics": {
+        "platform": "x",
+        "account": "GoogleDeepMind"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "reddit_fc7997dfbf",
+      "category_id": "reddit",
+      "category_name": "Reddit",
+      "signal_id": "research",
+      "signal_name": "연구·논문·새 기법",
+      "importance": 92,
+      "headline": "메타 FAIR·NYU, 200여 개 MLLM 학습으로 '비전 인코더 사전학습은 선택, 시각 전용 파라미터는 필수' 입증",
+      "title_ko": "메타 FAIR·NYU, 200여 개 MLLM 학습으로 '비전 인코더 사전학습은 선택, 시각 전용 파라미터는 필수' 입증",
+      "summary_ko": "• **대규모 비교 실험**: 메타 FAIR와 NYU 연구진이 동일 데이터와 연산 예산으로 200개 이상의 멀티모달 LLM을 처음부터 학습해 비전 인코더 설계 요소를 분리 검증했습니다.\n• **핵심 발견**: 별도의 인코더 사전학습은 동등 연산량 기준 스크래치 학습과 대등했으나, 인코더 없는 모델은 VQA에서 약 3배 더 많은 연산량을 요구하며 뒤처졌습니다.\n• **아키텍처 제안**: LLM 앞단 대신 초기 8개 레이어에 시각 전용 가중치를 결합하는 In-fusion 구조로 동등한 VQA 성능과 약 13% 빠른 첫 토큰 지연시간을 달성했습니다.",
+      "body_ko": "최근 멀티모달 모델 개발 진영에서 비전 인코더의 존치 여부와 사전학습 필요성을 두고 엇갈린 설계가 이어지는 가운데, 메타 FAIR와 뉴욕대 연구진이 이를 정면으로 검증한 논문을 공개했습니다. 연구진은 데이터와 총연산량을 엄격히 통제한 상태에서 0.6B부터 6.4B 백본까지 200개 이상의 모델을 처음부터 학습시켜 세 가지 설계 변수를 분리 평가했습니다. 실험 결과 대조학습이나 자기지도학습으로 인코더를 따로 사전학습하더라도 총연산량을 맞추면 LLM과 함께 처음부터 학습한 인코더와 성능 차이가 거의 없는 것으로 나타났습니다. 반대로 비전 토큰 전용 파라미터를 아예 없앤 인코더 프리 구조는 0.6B~6.4B 전 구간에서 뒤처졌고 동등 성능에 도달하려면 약 3배의 연산량이 필요했습니다. 또한 LLM 이전 단계에 별도 인코더를 두는 대신 LLM 첫 8개 레이어에 시각 토큰만 사용하는 가중치를 0으로 초기화해 삽입하는 In-fusion 기법은 1.7B 모델 VQA에서 45.0점을 기록해 기존 인코더(44.4점)와 대등하면서도 첫 토큰 응답 시간을 약 13% 단축했습니다. 이 결과는 멀티모달 백본 설계 시 비전 인코더 사전학습 파이프라인을 단순화하고 추론 지연을 줄이는 실무 가이드라인을 제시합니다.",
+      "tags": [
+        "멀티모달",
+        "비전 인코더",
+        "메타 FAIR",
+        "VLM 연구"
+      ],
+      "author_profile": "r/MachineLearning · u/trungh98",
+      "publish_date": "2026-11-15T17:38:16.000Z",
+      "url": "https://www.reddit.com/r/MachineLearning/comments/1xx1k2o/meta_fair_nyu_unbundling_multimodal_vision/",
+      "sources": [
+        "Reddit"
+      ],
+      "metrics": {
+        "rank_in_sub": 1,
+        "discussion_url": "https://www.reddit.com/r/MachineLearning/comments/1xx1k2o/meta_fair_nyu_unbundling_multimodal_vision/"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hackernews_a766ed2aa9",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "signal_id": "devtool",
+      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
+      "importance": 91,
+      "headline": "db-branch: AI 에이전트와 CI를 위해 ZFS 기반으로 몇 초 만에 DB 브랜치를 생성하는 셀프호스팅 도구",
+      "title_ko": "db-branch: AI 에이전트와 CI를 위해 ZFS 기반으로 몇 초 만에 DB 브랜치를 생성하는 셀프호스팅 도구",
+      "summary_ko": "• **도구 공개**: 자체 서버에서 MySQL과 PostgreSQL 데이터베이스의 독립 복제본을 몇 초 만에 생성하는 오픈소스 도구 db-branch가 베타 공개되었습니다.\n• **동작 원리**: ZFS Copy-on-Write 클론을 활용해 대용량 데이터를 실제로 복사하지 않고도 격리된 DB 브랜치를 만들고 TTL 만료나 시점 복구(`--record`)를 지원합니다.\n• **개발자 활용**: 코딩 에이전트에게 실제와 같은 테스트 DB를 마음껏 건드리게 하거나 풀 리퀘스트마다 독립된 DB 환경을 자동으로 붙이는 데 유용합니다.",
+      "body_ko": "AI 코딩 에이전트나 CI 파이프라인이 마이그레이션을 테스트하고 데이터를 자유롭게 수정하려면 매번 격리된 데이터베이스 복제본이 필요하지만, 대용량 DB는 덤프와 복원에 시간이 오래 걸립니다. 오픈소스 프로젝트 db-branch는 리눅스 ZFS 파일시스템의 Copy-on-Write 클론 기능을 이용해 MySQL과 PostgreSQL의 브랜치를 몇 초 만에 생성하는 셀프호스팅 솔루션을 제공합니다. 데이터를 물리적으로 복사하지 않기 때문에 스토리지 부담이 적고, 작업 중 DB를 망가뜨려도 즉시 초기화하거나 폐기할 수 있습니다. 또한 `--record` 옵션으로 브랜치 변경 이력을 기록해 임의 시점으로 되돌리거나 `--ttl`로 수명을 지정하는 관리 기능을 갖추고 있습니다. Apache-2.0 라이선스로 공개되어 자체 서버나 macOS·Windows의 Multipass Ubuntu VM 환경에서 손쉽게 평가할 수 있으며, 웹 기반 라이브 콘솔 데모도 제공합니다. 아직 1.0 이전 베타 단계로 향후 CLI와 API 세부 사양이 변경될 수 있고 리눅스 ZFS 환경이 필수라는 점은 도입 시 고려해야 합니다.",
+      "tags": [
+        "db-branch",
+        "ZFS",
+        "데이터베이스 브랜칭",
+        "CI/CD"
+      ],
+      "author_profile": "@nu_nu11",
+      "publish_date": "2026-11-15T13:50:51.000Z",
+      "url": "https://github.com/db-branch/db-branch",
+      "sources": [
+        "Hacker News"
+      ],
+      "metrics": {
+        "points": 29,
+        "comments": 9,
+        "discussion_url": "https://news.ycombinator.com/item?id=50506940"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hackernews_82fd13b454",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "signal_id": "devtool",
+      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
+      "importance": 90,
+      "headline": "Turbo-Browser-MCP: 델타 DOM 스냅샷과 일괄 폼 입력으로 브라우저 MCP 토큰을 90% 이상 절감하는 서버",
+      "title_ko": "Turbo-Browser-MCP: 델타 DOM 스냅샷과 일괄 폼 입력으로 브라우저 MCP 토큰을 90% 이상 절감하는 서버",
+      "summary_ko": "• **MCP 서버 공개**: Playwright 기반 브라우저 자동화에서 발생하는 LLM 토큰 낭비와 다중 턴 지연을 줄이는 오픈소스 MCP 서버 Turbo-Browser-MCP가 공개되었습니다.\n• **기술적 최적화**: 25~33개의 미세 도구를 10개 일괄 도구로 통합하고 변경분만 보내는 델타 DOM 스냅샷과 디스크 경로 기반 파일 업로드를 구현했습니다.\n• **실측 성능**: 로컬 벤치마크 기준 고밀도 SaaS 콘솔 스냅샷 토큰을 HTML 대비 93.9% 줄였고 10개 필드 폼 입력을 11턴에서 1턴으로 단축했습니다.",
+      "body_ko": "기존 Playwright 기반 MCP 서버는 매 동작마다 전체 접근성 트리나 HTML을 다시 전송하고 폼 필드 하나당 턴을 소모해 에이전트 토큰 비용과 응답 지연을 키우는 문제가 있었습니다. Turbo-Browser-MCP는 25~33개에 달하는 세분화된 브라우저 명령을 10개의 배치 도구로 압축해 단일 턴 안에서 복합 UI 흐름을 처리하도록 설계되었습니다. 클릭 이후에는 변화된 요소만 추출하는 `onlyChanged` 델타 스냅샷을 사용해 ARIA 전체 재스캔 대비 토큰을 98.4% 절감하며, React·Shadow DOM·iframe 내부 폼도 한 번에 채울 수 있습니다. 파일 업로드 시에는 Base64 문자열을 컨텍스트에 넣는 대신 디스크 경로만 전달해 48KB PDF 기준 토큰을 44,728개에서 85개로 줄였습니다. 또한 멀티 탭 병렬 제어, 미디어 차단 프리셋과 함께 기본값으로 인간 승인(Human-in-the-loop) Submit 가드를 두어 실수로 결제가 제출되는 위험을 막습니다. 브라우저 에이전트의 지연 시간과 컨텍스트 비대화를 해결하려는 MCP 개발자에게 참고할 만한 구체적인 벤치마크 구현체입니다.",
+      "tags": [
+        "MCP 서버",
+        "Playwright",
+        "브라우저 자동화",
+        "토큰 최적화"
+      ],
+      "author_profile": "@tthanh2k6",
+      "publish_date": "2026-11-15T04:09:11.000Z",
+      "url": "https://github.com/Tthanh2k6/turbo-browser-mcp",
+      "sources": [
+        "Hacker News"
+      ],
+      "metrics": {
+        "points": 46,
+        "comments": 9,
+        "discussion_url": "https://news.ycombinator.com/item?id=50503930"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "reddit_a35a7c5538",
+      "category_id": "reddit",
+      "category_name": "Reddit",
+      "signal_id": "model",
+      "signal_name": "새 모델·버전 출시·프리뷰·벤치마크",
+      "importance": 89,
+      "headline": "프론티어 사전학습에 재귀적 자기개선(RSI) 적용한 30B-A3B MoE 베이스 모델 '801-30B-A3B-Base' 공개",
+      "title_ko": "프론티어 사전학습에 재귀적 자기개선(RSI) 적용한 30B-A3B MoE 베이스 모델 '801-30B-A3B-Base' 공개",
+      "summary_ko": "• **사전학습 RSI 논문**: 반복 실험이 불가능한 프론티어 사전학습 전 과정에 재귀적 자기개선(RSI)을 적용한 연구와 801-30B-A3B-Base 모델이 공개되었습니다.\n• **기법 및 규모**: 단일 대형 학습 루프를 복구 가능한 소형 루프들로 분해해 데이터 파이프라인과 학습 인프라를 개선하며 11.8조 토큰으로 30B-A3B MoE 모델을 학습했습니다.\n• **벤치마크 결과**: 베이스 모델 단계에서 Qwen3-30B-A3B와 Nemotron-3.5-Lightning-30B-A3B를 앞섰고, 6B 토큰 경량 SFT만으로 4개 에이전트 벤치마크 평균 최고치를 기록했습니다.",
+      "body_ko": "지금까지 AI가 AI 개발 과정을 개선하는 재귀적 자기개선(RSI) 연구는 주로 기존 베이스 모델 위에서 짧은 GPU 시간으로 검증 가능한 사후학습(Post-training) 영역에 머물러 있었습니다. GAIR-NLP 연구팀은 수십만 GPU 시간과 수개월이 소요되어 재시도가 불가능한 프론티어 사전학습 단계 전체에 RSI를 처음부터 적용한 결과와 801-30B-A3B-Base 모델을 오픈소스로 공개했습니다. 연구팀은 끝단에서 한 번에 루프를 닫을 수 없는 대규모 학습의 제약을 해결하기 위해 문제를 데이터 파이프라인과 인프라 단계의 작은 복구 루프들로 분해했습니다. 이를 통해 신생 팀이 3개월 동안 11.8조 토큰을 학습시켜 30B-A3B MoE 베이스 모델을 완성했습니다. 평가 결과 동일 조건에서 Qwen3-30B-A3B 및 Nemotron-3.5-Lightning-30B-A3B를 상회했으며, RL 없이 6B 토큰 규모의 경량 SFT만 적용하고도 Qwen3.6-35B-A3B 등 완전 사후학습 모델들을 4개 에이전트 벤치마크 평균에서 앞섰습니다. 연구팀은 arXiv 논문과 GitHub 코드, SFT 데이터셋을 공개했으며 모델 가중치 역시 순차 공개할 예정입니다.",
+      "tags": [
+        "801-30B-A3B",
+        "MoE",
+        "재귀적 자기개선",
+        "오픈 웨이트"
+      ],
+      "author_profile": "r/LocalLLaMA · u/pmttyji",
+      "publish_date": "2026-11-15T11:21:12.000Z",
+      "url": "https://www.reddit.com/r/LocalLLaMA/comments/1xwt3ri/paper_no_second_run_does_rsi_stop_at_frontier/",
+      "sources": [
+        "Reddit"
+      ],
+      "metrics": {
+        "rank_in_sub": 6,
+        "discussion_url": "https://www.reddit.com/r/LocalLLaMA/comments/1xwt3ri/paper_no_second_run_does_rsi_stop_at_frontier/"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "reddit_e186072756",
+      "category_id": "reddit",
+      "category_name": "Reddit",
+      "signal_id": "research",
+      "signal_name": "연구·논문·새 기법",
+      "importance": 88,
+      "headline": "추론 모델의 과잉 사고를 추가 학습 없이 막는 '출력층 </think> 가중치 1행 선형 프로브 수정' 기법",
+      "title_ko": "추론 모델의 과잉 사고를 추가 학습 없이 막는 '출력층 </think> 가중치 1행 선형 프로브 수정' 기법",
+      "summary_ko": "• **추론 효율화 연구**: DeepSeek·Qwen 등 추론 모델이 정답을 찾고도 수천 토큰을 재검증하는 과잉 사고를 추가 학습이나 런타임 코드 없이 줄이는 기법이 공개되었습니다.\n• **핵심 원리**: 수학 문제 24개에서 은닉 상태를 수집해 '풀이 완료 후 재검증 상태'를 가르는 LDA 선형 판별 방향을 구한 뒤 출력층 `</think>` 토큰 가중치 행에 강도 14를 더해줍니다.\n• **실험 결과**: 미공개 문제에서 기존 7,415토큰까지 이어지던 사고 과정을 567토큰 부근 정답 도출 이후 ~2,000토큰 이내에 98% 확률로 조기 종료시켰습니다.",
+      "body_ko": "DeepSeek이나 Qwen 같은 추론 모델은 정답에 이미 도달한 뒤에도 `</think>` 토큰을 내보내지 않고 수천 토큰 동안 불필요한 자기 검증을 반복해 지연 시간과 비용을 높이는 경향이 있습니다. 한 연구자는 이 문제를 해결하기 위해 출력층 가중치 행렬에서 `</think>` 토큰에 해당하는 단 한 행만 선형 대수로 수정하는 무학습(Training-free) 조기 종료 기법을 제안했습니다. 먼저 수학 문제 24개를 풀며 각 토큰 시점의 은닉 상태를 기록하고, 이미 정답이 나온 뒤 재검증만 하는 문단 끝 지점과 아직 문제를 푸는 구간을 구분하는 선형 판별 분석(LDA) 방향 벡터를 계산했습니다. 이 방향 벡터에 강도 14를 곱해 출력층의 `</think>` 행에 더하면, 모델이 정답 도출을 마치고 재검증 단계에 접어들 때만 종료 토큰 점수가 상승하게 됩니다. 특히 나머지 토큰의 가중치는 전혀 건드리지 않기 때문에 기존 추론 로그만으로 수정 후 모델의 종료 시점을 정확히 시뮬레이션해 강도를 조율할 수 있습니다. 아직 24개 소규모 샘플과 단일 설정 기반의 초기 실험이라는 한계는 있지만, 별도 파인튜닝이나 추론 엔진 코드 변경 없이 일반 가중치 파일 그대로 배포할 수 있다는 점이 돋보입니다.",
+      "tags": [
+        "추론 모델",
+        "조기 종료",
+        "선형 프로브",
+        "토큰 절감"
+      ],
+      "author_profile": "r/MachineLearning · u/Good-Presentation-23",
+      "publish_date": "2026-11-15T17:52:41.000Z",
+      "url": "https://www.reddit.com/r/MachineLearning/comments/1xx1xdm/trainingfree_early_exit_for_reasoning_models_a/",
+      "sources": [
+        "Reddit"
+      ],
+      "metrics": {
+        "rank_in_sub": 5,
+        "discussion_url": "https://www.reddit.com/r/MachineLearning/comments/1xx1xdm/trainingfree_early_exit_for_reasoning_models_a/"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "reddit_80d04d9bb0",
+      "category_id": "reddit",
+      "category_name": "Reddit",
+      "signal_id": "oss",
+      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
+      "importance": 87,
+      "headline": "Basalt 0.4.0: RTX 5090에서 Qwen 3.8 27B를 최대 776 tok/s로 구동하는 오픈소스 로컬 추론 엔진",
+      "title_ko": "Basalt 0.4.0: RTX 5090에서 Qwen 3.8 27B를 최대 776 tok/s로 구동하는 오픈소스 로컬 추론 엔진",
+      "summary_ko": "• **오픈소스 릴리스**: 개발자 jesdga95가 멀티 모델 라우터와 Qwen 3.8 27B NVFP4 지원을 추가한 로컬 추론 엔진 Basalt 0.4.0을 공개했습니다.\n• **실측 속도·정확도**: RTX 5090 단일 스트림 기준 구조화 출력 최대 776 tok/s, 대화 262 tok/s를 기록했고 BF16 원본 대비 Top-1 정확도 92.8%를 유지했습니다.\n• **지원 범위**: 최대 262K 컨텍스트와 채팅·도구 호출·비디오 입력을 지원하며 DeepSeek V4.1 Flash 다중 GPU 실행과 Qwen 4 대비 덴스 커널까지 선제 통합했습니다.",
+      "body_ko": "개인 개발자 jesdga95가 제작한 초고속 로컬 LLM 추론 엔진 Basalt가 0.4.0 버전으로 업데이트되며 첫 번째 덴스(Dense) 모델 지원과 멀티 모델 라우터 기능을 탑재했습니다. 이번 릴리스의 핵심인 Qwen 3.8 27B NVFP4 양자화 모델은 향후 Qwen 4 계열을 대비한 덴스 커널 최적화의 일환으로 구현되었으며, RTX 5090 단일 스트림에서 구조화 출력 최대 776 tok/s, 대화 262 tok/s, 일반 산문 194 tok/s의 속도를 냅니다. 프리필 속도는 4K 컨텍스트 기준 12,000 tok/s에 달하며, BF16 원본 대비 Top-1 일치율 92.8%(KLD 0.0262)로 정밀도 손실을 억제했습니다. 또한 이전 업데이트를 통해 DeepSeek V4.1 Flash(5090+5060 Ti 환경 IQ1_M 대화 90 tok/s, 구조화 246 tok/s)와 채팅 내 비디오·파일 입력, 최대 262K 컨텍스트를 모두 지원하도록 확장되었습니다. GitHub 저장소와 Hugging Face 양자화 가중치(`jesdga/Qwen3.8-27B-Basalt`)가 함께 공개되어 블랙웰 세대 GPU 보유자들이 즉시 테스트해 볼 수 있습니다.",
+      "tags": [
+        "Basalt",
+        "로컬 LLM",
+        "NVFP4",
+        "RTX 5090"
+      ],
+      "author_profile": "r/LocalLLaMA · u/jesdga95",
+      "publish_date": "2026-11-15T17:30:31.000Z",
+      "url": "https://www.reddit.com/r/LocalLLaMA/comments/1xx1cu9/basalt_040_more_models_still_as_fast_qwen_27b_up/",
+      "sources": [
+        "Reddit"
+      ],
+      "metrics": {
+        "rank_in_sub": 4,
+        "discussion_url": "https://www.reddit.com/r/LocalLLaMA/comments/1xx1cu9/basalt_040_more_models_still_as_fast_qwen_27b_up/"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hackernews_d94dc02e5b",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "signal_id": "practice",
+      "signal_name": "AI 활용 사례·워크플로우 팁",
+      "importance": 86,
+      "headline": "Addy Osmani의 'Opus 5.5 태스크 비용 해부': 토큰 단가보다 턴 수와 재시도 비용이 총비용을 좌우한다",
+      "title_ko": "Addy Osmani의 'Opus 5.5 태스크 비용 해부': 토큰 단가보다 턴 수와 재시도 비용이 총비용을 좌우한다",
+      "summary_ko": "• **실무 비용 분석**: Addy Osmani가 Claude Code 환경에서 Opus 5.5로 기능 구현이나 마이그레이션을 수행할 때 발생하는 실제 태스크 단가를 분석한 플레이북을 공개했습니다.\n• **비용 결정 요인**: 매 턴마다 이전 대화 전체를 다시 전송하고 출력 토큰(사고 토큰 포함)이 입력의 5배로 과금되므로, 턴 수·캐시 히트·재시도 여부가 총비용을 결정합니다.\n• **핵심 트레이드오프**: 저노력 설정이나 컨텍스트 축소로 토큰을 아끼려다 작업이 실패해 재시도하면 아낀 비용보다 훨씬 큰 비용이 발생하므로 적정 선의 1회 완결이 경제적입니다.",
+      "body_ko": "개발자들은 보통 모델 가격표의 백만 토큰당 단가만 비교하지만, 에이전트 루프에서는 같은 단가라도 작업 완료까지 소요되는 턴 수에 따라 실제 청구 금액이 크게 달라집니다. Addy Osmani는 Opus 5.5 기반 Claude Code 워크플로우를 기준으로 턴 수, 프롬프트 캐시 읽기 비율, 입력 대비 5배 가격인 출력·사고(Thinking) 토큰, 모델 선택이라는 4대 비용 변수를 인터랙티브 수치로 해부했습니다. 에이전트는 도구를 호출할 때마다 그때까지 누적된 대화 맥락을 매 턴 재전송하기 때문에, 한 번에 코드를 파악해 수정하는 모델이 시행착오를 여러 턴 거치는 모델보다 압도적으로 저렴합니다. 특히 저비용을 노려 노력 수준(Effort)이나 컨텍스트를 과도하게 낮췄다가 결과물이 불완전해 재시도 루프에 빠지면 오히려 전체 토큰 비용이 역전된다고 지적합니다. 글에서는 자신의 세션 사용량을 직접 점검하는 방법과 설정값 변경에 따른 민감도도 함께 다룹니다. 대규모 코드베이스 리팩토링이나 에이전트 파이프라인 예산을 설계하는 엔지니어가 '토큰 절약'이 아닌 '작업당 총비용(Cost per Task)' 관점으로 기준을 재정립하는 데 유익한 가이드입니다.",
+      "tags": [
+        "Opus 5.5",
+        "토큰 경제학",
+        "Claude Code",
+        "Addy Osmani"
+      ],
+      "author_profile": "@gmays",
+      "publish_date": "2026-11-15T01:57:36.000Z",
+      "url": "https://claude.dev/blog/what-a-task-costs-on-opus-5-5/",
+      "sources": [
+        "Hacker News"
+      ],
+      "metrics": {
+        "points": 23,
+        "comments": 20,
+        "discussion_url": "https://news.ycombinator.com/item?id=50503241"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "x_dae03de7c5",
+      "category_id": "x",
+      "category_name": "X",
+      "signal_id": "research",
+      "signal_name": "연구·논문·새 기법",
+      "importance": 86,
+      "headline": "구글 딥마인드, 차세대 기상예측 AI 'WeatherNext 3'의 기반 데이터셋 PARDIG·SatWeave 공개",
+      "title_ko": "구글 딥마인드, 차세대 기상예측 AI 'WeatherNext 3'의 기반 데이터셋 PARDIG·SatWeave 공개",
+      "summary_ko": "• **데이터셋 공개**: 구글 딥마인드가 실시간 대기 관측 정확도를 높이는 WeatherNext 3 모델의 핵심 기반 데이터셋인 PARDIG과 SatWeave를 공개했습니다.\n• **기상 AI 연구 지원**: 실시간 대기 상태 관측 데이터를 구조화해 외부 연구자와 개발자들이 새로운 기후 및 기상 예측 애플리케이션을 구축할 수 있도록 개방했습니다.\n• **과학 AI 확산**: 범용 언어 모델을 넘어 기상·기후 분야의 파운데이션 모델과 관측 데이터 생태계를 함께 개방하는 딥마인드의 과학 AI 전략이 이어지고 있습니다.",
+      "body_ko": "구글 딥마인드가 자사의 최신 기상 예측 AI 모델인 WeatherNext 3를 뒷받침하는 핵심 데이터셋 PARDIG과 SatWeave를 외부에 공개한다고 밝혔습니다. 딥마인드는 정확한 기상 예보의 출발점이 대기의 상태를 실시간으로 얼마나 선명하게 관측하느냐에 있다고 강조했습니다. 이번에 풀린 두 데이터셋은 위성 및 대기 관측 신호를 정교하게 정제한 기초 자료로, 연구자와 개발자가 기후 모델링이나 기상 특화 애플리케이션을 직접 학습·실험하는 토대로 활용될 수 있습니다. 모델 가중치나 서비스형 API만 제공하는 방식에서 나아가 기반 관측 데이터셋을 함께 개방함으로써 기후 AI 커뮤니티의 재현성과 파생 연구를 촉진하는 효과가 기대됩니다. 세부 데이터 스키마와 라이선스 범위, 내려받기 경로는 딥마인드가 안내한 후속 스레드와 저장소를 통해 확인할 수 있습니다.",
+      "tags": [
+        "WeatherNext 3",
+        "PARDIG",
+        "SatWeave",
+        "기후 AI"
+      ],
+      "author_profile": "GoogleDeepMind",
+      "publish_date": "2026-11-15T23:54:46.061Z",
+      "url": "https://x.com/GoogleDeepMind/status/970769500",
+      "sources": [
+        "X"
+      ],
+      "metrics": {
+        "platform": "x",
+        "account": "GoogleDeepMind"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "x_411fcc8fc3",
+      "category_id": "x",
+      "category_name": "X",
+      "signal_id": "policy",
+      "signal_name": "정책·규제·인프라 (기술 영향 큰 것만)",
+      "importance": 85,
+      "headline": "앤트로픽 엔지니어링 블로그, AI 모델 배포 준비도를 판정하는 '안전성 평가 10대 권고안' 발표",
+      "title_ko": "앤트로픽 엔지니어링 블로그, AI 모델 배포 준비도를 판정하는 '안전성 평가 10대 권고안' 발표",
+      "summary_ko": "• **안전성 가이드 공개**: 앤트로픽이 모델 배포 여부와 안전장치 설계 기준을 결정하기 위한 안전성 평가(Safety Evaluation) 설계·실행·보고 10대 권고안을 발표했습니다.\n• **실무 목적**: 단순 규제 대응을 넘어 모델 학습 방향과 연구 우선순위를 조정하고 배포 전 어떤 가드레일을 구축해야 하는지 판단하는 엔지니어링 프레임워크를 제시합니다.\n• **도입 시사점**: 프론티어 모델뿐 아니라 사내 AI 에이전트 배포 전 검증 체크리스트를 구축하는 엔지니어링 팀에도 표준 평가 절차로 참고할 가치가 큽니다.",
+      "body_ko": "앤트로픽이 엔지니어링 블로그를 통해 AI 모델의 배포 가능성과 안전장치 수준을 판단하기 위한 안전성 평가 10대 권고안을 공개했습니다. 앤트로픽은 안전성 평가가 모델 출시 전 단순 통과의례가 아니라, 어떤 가드레일을 보강하고 학습·연구 자원을 어디에 집중할지 결정하는 핵심 엔지니어링 신호라고 설명했습니다. 이번 권고안은 평가를 어떻게 설계하고, 실제 환경에 가깝게 실행하며, 결과를 투명하게 보고할 것인지 10가지 구체적 원칙으로 정리했습니다. 자율 도구 실행과 컴퓨터 제어 능력이 강화되는 최신 모델 환경에서는 기존 정적 벤치마크만으로는 위험 시나리오를 포착하기 어렵기 때문에 체계적인 평가 프로토콜의 중요성이 더욱 커지고 있습니다. 자체 AI 시스템을 서비스에 투입하는 개발 조직 역시 배포 게이트와 모니터링 기준을 정립하는 데 이 권고안을 활용할 수 있습니다.",
+      "tags": [
+        "앤트로픽",
+        "안전성 평가",
+        "AI 거버넌스",
+        "배포 게이트"
+      ],
+      "author_profile": "AnthropicAI",
+      "publish_date": "2026-11-15T23:54:46.061Z",
+      "url": "https://x.com/AnthropicAI/status/37328882",
+      "sources": [
+        "X"
+      ],
+      "metrics": {
+        "platform": "x",
+        "account": "AnthropicAI"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "reddit_bb6e4f599d",
+      "category_id": "reddit",
+      "category_name": "Reddit",
+      "signal_id": "oss",
+      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
+      "importance": 85,
+      "headline": "cudamemcpy-tuner: B300 GPU에서 페이지 가능(Pageable) CPU→GPU 메모리 전송을 5배 가속하는 오픈소스 도구",
+      "title_ko": "cudamemcpy-tuner: B300 GPU에서 페이지 가능(Pageable) CPU→GPU 메모리 전송을 5배 가속하는 오픈소스 도구",
+      "summary_ko": "• **오픈소스 튜너 공개**: 개발자 makneeee가 페이지 가능 호스트 메모리의 `cudaMemcpy` 전송 병목을 최적화하는 도구 `cudamemcpy-tuner`(`cmt`)를 공개했습니다.\n• **성능 향상 수치**: B300 GPU에서 1GB 텐서를 CPU에서 GPU로 전송하는 PyTorch 벤치마크 속도가 기본 10.2 GB/s에서 `cmt tune` 적용 시 51.5 GB/s로 5배 향상되었습니다.\n• **현업 적용 가치**: 기존 코드 수정 없이 CLI 래퍼(`cmt tune -- python bench.py`) 형태로 적용할 수 있어 데이터 로딩·오프로딩 병목을 겪는 추론 및 학습 워크로드에 유용합니다.",
+      "body_ko": "대규모 모델 학습이나 CPU 메모리 오프로딩을 수행할 때 핀 고정(Pinned)되지 않은 페이지 가능 호스트 메모리의 `cudaMemcpy` 대역폭 저하는 흔한 성능 병목으로 작용합니다. 개발자 makneeee는 이 전송 경로를 튜닝해 B300 환경에서 전송 속도를 약 5배 끌어올리는 오픈소스 도구 `cudamemcpy-tuner`를 GitHub에 공개했습니다. 공개된 PyTorch 재현 벤치마크에 따르면 1GB uint8 텐서를 GPU로 복사할 때 기본 실행은 10.2 GB/s에 그쳤으나 `cmt tune -- python bench.py`로 래핑해 실행하면 51.5 GB/s까지 대역폭이 치솟았습니다. 애플리케이션 내부 PyTorch 코드를 뜯어고치지 않고 실행 명령 앞단에 튜너를 붙이는 방식으로 동작해 기존 파이프라인에도 부담 없이 시험해 볼 수 있습니다. 작성자는 구체적인 원리와 구현 세부 사항을 기술 블로그 포스트와 함께 공개해 GPU 시스템 엔지니어들이 바로 검증하고 기여할 수 있도록 했습니다.",
+      "tags": [
+        "CUDA",
+        "B300",
+        "GPU 최적화",
+        "오픈소스"
+      ],
+      "author_profile": "r/MachineLearning · u/makneeee",
+      "publish_date": "2026-11-15T18:20:27.000Z",
+      "url": "https://www.reddit.com/r/MachineLearning/comments/1xx2n25/making_cudamemcpy_5x_faster_on_a_b300_p/",
+      "sources": [
+        "Reddit"
+      ],
+      "metrics": {
+        "rank_in_sub": 4,
+        "discussion_url": "https://www.reddit.com/r/MachineLearning/comments/1xx2n25/making_cudamemcpy_5x_faster_on_a_b300_p/"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "threads_d65ed04b71",
+      "category_id": "threads",
+      "category_name": "Threads",
+      "signal_id": "product",
+      "signal_name": "제품 신기능",
+      "importance": 84,
+      "headline": "오픈AI 첫 자체 AI 칩 'Jalapeño', TIME 선정 '2026년 최고의 발명품'에 이름 올려",
+      "title_ko": "오픈AI 첫 자체 AI 칩 'Jalapeño', TIME 선정 '2026년 최고의 발명품'에 이름 올려",
+      "summary_ko": "• **자체 칩 공식 조명**: 오픈AI가 공식 Threads 계정을 통해 자사의 첫 번째 자체 설계 AI 칩 'Jalapeño'가 TIME 선정 2026년 최고의 발명품 목록에 올랐다고 밝혔습니다.\n• **하드웨어 수직 계열화**: 외부 GPU 의존도를 분산하고 추론·에이전트 워크로드 효율을 끌어올리려는 오픈AI의 자체 실리콘 전략이 상용 성과로 가시화되고 있습니다.\n• **산업적 의미**: GPT-6.1 Terra 같은 고빈도 에이전트 모델 보급과 맞물려 모델-칩 공동 설계(Co-design) 경쟁이 본격화되는 흐름을 보여줍니다.",
+      "body_ko": "오픈AI의 첫 번째 자체 AI 칩인 'Jalapeño'가 시사주간지 TIME이 선정하는 2026년 최고의 발명품(Best Inventions of 2026) 리스트에 포함되었습니다. 오픈AI는 공식 Threads 채널을 통해 해당 선정 소식을 직접 공유하며 자체 AI 반도체 프로젝트의 성과를 알렸습니다. 그동안 대규모 GPU 클러스터 임대와 외부 칩 공급망에 의존해 온 AI 연구소들이 추론 단가 절감과 전력 효율 최적화를 위해 자체 실리콘 개발로 영역을 넓히는 가운데 상징적인 이정표로 평가됩니다. 특히 화면 제어와 상시 에이전트 구동처럼 추론 호출 빈도가 급증하는 워크로드에서는 모델 아키텍처와 하드웨어를 함께 최적화하는 전략이 서비스 원가 경쟁력을 좌우합니다. 다만 해당 게시물에서는 칩의 세부 연산 사양이나 클러스터 투입 규모 등 구체적인 하드웨어 스펙은 별도로 공개하지 않았습니다.",
+      "tags": [
+        "Jalapeño",
+        "오픈AI",
+        "AI 반도체",
+        "하드웨어"
+      ],
+      "author_profile": "openai",
+      "publish_date": "2026-11-15T23:53:39.426Z",
+      "url": "https://www.threads.net/@openai/post/86262963",
+      "sources": [
+        "Threads"
+      ],
+      "metrics": {
+        "platform": "threads",
+        "account": "openai"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "bluesky_ac74509dcc",
+      "category_id": "bluesky",
+      "category_name": "Bluesky",
+      "signal_id": "oss",
+      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
+      "importance": 83,
+      "headline": "ConductorGrid/ai--manus: 샌드박스 환경에서 코드 실행과 브라우저 자동화를 수행하는 범용 오픈소스 에이전트",
+      "title_ko": "ConductorGrid/ai--manus: 샌드박스 환경에서 코드 실행과 브라우저 자동화를 수행하는 범용 오픈소스 에이전트",
+      "summary_ko": "• **오픈소스 에이전트 주목**: GitHub 저장소 `ConductorGrid/ai--manus`가 자율 코딩과 브라우저 제어 기능을 강화한 최신 업데이트로 커뮤니티의 관심을 모으고 있습니다.\n• **동작 구조**: 질의응답형 챗봇과 달리 격리된 샌드박스 환경 내부에서 도구를 직접 호출해 코드를 실행하고 웹사이트 탐색 및 DOM 요소 조작을 수행합니다.\n• **실무 가치**: 반복적인 웹 워크플로우와 코드 기반 작업을 로컬·자체 샌드박스에서 자율 실행하려는 개발자에게 레퍼런스 구현체로 활용될 수 있습니다.",
+      "body_ko": "GitHub의 오픈소스 프로젝트 `ConductorGrid/ai--manus`가 자율 코딩과 브라우저 제어 기능이 보강된 업데이트와 데모 영상을 공개하며 Bluesky 기술 커뮤니티에서 주목받고 있습니다. 이 프로젝트는 단순 텍스트 응답에 머무르는 기존 챗봇과 달리, 사용자의 지시를 실제 실행 가능한 액션으로 변환하는 범용 자율 AI 에이전트를 지향합니다. 핵심 아키텍처는 격리된 샌드박스 환경 안에서 에이전트가 직접 코드를 작성·실행하고 브라우저 요소를 클릭하거나 웹페이지를 탐색하며 반복 업무를 완결하도록 설계되었습니다. 상용 폐쇄형 자율 에이전트 서비스들의 동작 방식을 오픈소스 샌드박스 구조로 직접 뜯어보고 커스터마이징하려는 개발자들에게 유용한 출발점이 됩니다. 다만 실제 프로덕션 워크플로우에 투입하기 전 샌드박스 권한 범위와 인증 정보 격리 수준은 저장소 코드를 통해 별도 점검할 필요가 있습니다.",
+      "tags": [
+        "AI Manus",
+        "자율 에이전트",
+        "샌드박스",
+        "오픈소스"
+      ],
+      "author_profile": "@undercodenews.bsky.social",
+      "publish_date": "2026-11-15T09:09:52.000Z",
+      "url": "https://undercodenews.com/conductorgrids-ai-manus-just-updated-autonomous-coding-and-browser-controlled-ai-agents-gain-attention-video/",
+      "sources": [
+        "Bluesky"
+      ],
+      "metrics": {
+        "likes": 3,
+        "reposts": 0,
+        "replies": 0,
+        "bluesky_url": "https://bsky.app/profile/undercodenews.bsky.social/post/3n2do54kjpz2d"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "bluesky_4063d49e7f",
+      "category_id": "bluesky",
+      "category_name": "Bluesky",
+      "signal_id": "devtool",
+      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
+      "importance": 82,
+      "headline": "remote-action: Windows Session 0 제약을 우회해 Claude Code·SSH에서 활성 데스크톱을 제어하는 PowerShell 브리지",
+      "title_ko": "remote-action: Windows Session 0 제약을 우회해 Claude Code·SSH에서 활성 데스크톱을 제어하는 PowerShell 브리지",
+      "summary_ko": "• **개발자 도구 공개**: Bluesky에서 공유된 오픈소스 저장소 `shinob/remote-action`은 SSH나 Claude Code에서 Windows 데스크톱 화면을 직접 조작·캡처할 수 있게 해줍니다.\n• **기술적 우회 방식**: SSH/에이전트 명령이 GUI 접근이 막힌 Session 0에서 실행되는 한계를 해결하기 위해 대화형 로그온(`/IT`) 작업 스케줄러와 `request.json` 파일 기반 통신을 사용합니다.\n• **실무 활용성**: 비밀번호 저장 없이 지정 좌표 마우스 클릭, 키 입력, 스크린샷 촬영을 자동화해 원격 Windows GUI 테스트를 에이전트에 연동할 수 있습니다.",
+      "body_ko": "Windows 환경에서 OpenSSH나 Claude Code를 통해 원격 명령을 실행하면 프로세스가 Session 0에서 돌아가기 때문에 현재 로그인된 사용자의 데스크톱 화면을 캡처하거나 마우스·키보드를 조작할 수 없는 제약이 있습니다. 일본 개발자 shinob가 공개한 `remote-action`은 이 문제를 해결하기 위해 `schtasks /IT` 옵션으로 대화형 사용자 세션에서 실행되는 예약 작업을 등록해 주는 경량 PowerShell 도구 세트입니다. 호출 측(`Invoke-RemoteAction.ps1`)이 `data/request.json`에 클릭 좌표나 키 입력, 스크린샷 지시를 적어두고 작업을 깨우면, 사용자 화면 위에서 `Remote-Action.ps1`이 실제 GUI 동작을 수행한 뒤 결과를 `result.json`과 이미지로 돌려줍니다. 비밀번호를 저장하거나 상시 백그라운드 데몬을 띄울 필요 없이 요청 시점에만 작업이 구동되며, 민감한 입력 데이터와 스크린샷 디렉터리는 `.gitignore`로 자동 제외됩니다. 공식 MCP 서버나 무거운 원격 데스크톱 에이전트 없이도 Claude Code에게 Windows 로컬 GUI 디버깅 권한을 안전하게 연결하고 싶은 개발자에게 실용적인 유틸리티입니다.",
+      "tags": [
+        "remote-action",
+        "Claude Code",
+        "Windows 자동화",
+        "PowerShell"
+      ],
+      "author_profile": "@blueomega.bsky.social",
+      "publish_date": "2026-11-15T22:39:52.166Z",
+      "url": "https://github.com/shinob/remote-action",
+      "sources": [
+        "Bluesky"
+      ],
+      "metrics": {
+        "likes": 6,
+        "reposts": 0,
+        "replies": 0,
+        "bluesky_url": "https://bsky.app/profile/blueomega.bsky.social/post/3n2f3fiyfm22f"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "aitimes_aee0e8ab72",
+      "category_id": "aitimes",
+      "category_name": "AI타임스",
+      "signal_id": "product",
+      "signal_name": "제품 신기능",
+      "importance": 81,
+      "headline": "더플레이토 '티로', MCP 연동·권한 관리 갖춘 기업 지식 베이스 '티로 위키'로 회의록 AI 차별화",
+      "title_ko": "더플레이토 '티로', MCP 연동·권한 관리 갖춘 기업 지식 베이스 '티로 위키'로 회의록 AI 차별화",
+      "summary_ko": "• **제품 전략 진화**: 월간 음성 처리량 17만 시간을 기록하며 400여 기업에 도입된 AI 미팅 서비스 '티로'가 단순 녹취를 넘어 '티로 위키' 기반 기업 지식 관리로 영역을 확장했습니다.\n• **기술적 차별점**: STT 성능 상향 평준화에 대응해 고유명사·수치를 맥락 기반으로 보정하고 여러 회의 정보를 연결 구조화하며, MCP로 Claude·Gemini와 직접 연결해 후속 업무를 처리합니다.\n• **보안·접근 제어**: 단순 RAG 유사도 검색의 한계를 보완하고 회의 참여자 단위로 위키 열람 권한을 자동 격리·회수해 기업 도입 장벽을 낮췄습니다.",
+      "body_ko": "AI 회의록 시장이 녹음과 요약 기능 중심으로 포화 상태에 접어든 가운데, 더플레이토가 운영하는 서비스 '티로(Tiro)'가 여러 회의의 맥락을 연결해 조직의 지식 자산으로 축적하는 '티로 위키' 아키텍처를 전면에 내세웠습니다. 임은성 대표는 STT 정확도 경쟁만으로는 차별화가 어렵다고 보고, 고유명사와 수치를 맥락에 맞게 보정한 뒤 다수의 회의 내용을 백과사전 형태로 실시간 연결하는 데 집중했다고 밝혔습니다. 특히 기존 RAG 방식처럼 문서 유사도에만 의존할 경우 여러 회의에 걸친 관계 맥락이 끊기는 문제를 구조화된 위키 페이지로 보완했습니다. 축적된 지식 베이스는 노션이나 슬랙으로 내보낼 수 있을 뿐 아니라 모델 컨텍스트 프로토콜(MCP)을 통해 Claude나 Gemini 같은 외부 AI 에이전트와 연동해 후속 업무까지 자동 처리할 수 있습니다. 또한 사용자가 직접 참여하거나 공유받은 회의만 열람할 수 있도록 자동 권한 격리와 팀 이탈 시 즉시 회수 기능을 제공해 기업 보안 요구를 충족했습니다. 현재 400곳 이상의 기업 고객과 90% 이상의 재구독률을 기록하며, 회의 중 과거 내역과 웹 검색을 결합해 먼저 제안을 건네는 AI 업무 파트너 기능도 베타 운영 중입니다.",
+      "tags": [
+        "티로",
+        "MCP",
+        "기업 지식관리",
+        "AI 회의록"
+      ],
+      "author_profile": "김해원 기자",
+      "publish_date": "2026-11-15T08:00:00.000Z",
+      "url": "https://www.aitimes.com/news/articleView.html?idxno=217347",
+      "sources": [
+        "AI타임스"
+      ],
+      "metrics": {},
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "threads_7b9cf7091b",
+      "category_id": "threads",
+      "category_name": "Threads",
+      "signal_id": "product",
+      "signal_name": "제품 신기능",
+      "importance": 79,
+      "headline": "메타, 기상 추적·메일함 모니터링·환불 요청까지 이어지는 'daily musecase' 자율 에이전트 시나리오 공개",
+      "title_ko": "메타, 기상 추적·메일함 모니터링·환불 요청까지 이어지는 'daily musecase' 자율 에이전트 시나리오 공개",
+      "summary_ko": "• **에이전트 활용 시나리오**: 메타가 공식 Threads를 통해 주말 야외 콘서트 기상 예보를 추적하고 우천 취소 시 환불까지 처리하는 'daily musecase' 워크플로우를 공유했습니다.\n• **멀티 스텝 자동화**: 외부 실시간 상태(날씨) 감시에서 출발해 조건부 트리거(우천 취소)가 발동하면 메일함에서 취소 통지를 찾고 판매자에게 환불을 요청하는 다단계 연동을 보여줍니다.\n• **생태계 흐름**: 최근 공개된 메타의 Muse 계열 에이전트 역량이 단순 질의응답을 넘어 개인 비서형 조건부 루틴 실행으로 확장되는 방향성을 시사합니다.",
+      "body_ko": "메타가 공식 Threads 계정을 통해 'daily musecase'라는 이름으로 일상 속 조건부 자율 에이전트 워크플로우 사례를 공개했습니다. 제시된 시나리오는 토요일 야외 콘서트의 기상 예보를 지속적으로 추적하다가 비로 인해 취소될 경우를 대비하는 다단계 자동화 흐름입니다. 조건이 충족되면 에이전트가 사용자의 이메일 받은편지함을 모니터링해 공식 취소 안내 메일을 포착하고, 이어서 티켓 판매자를 상대로 환불 요청 절차까지 처리하도록 구성되어 있습니다. 이는 외부 웹 상태 감시, 개인 메일함 접근, 대외 커뮤니케이션 실행이 하나의 비동기 루틴으로 묶이는 소비자용 AI 에이전트의 방향을 보여줍니다. 단일 프롬프트 생성에서 장기 실행형 백그라운드 루틴과 개인화된 도구 연결로 경쟁 축이 옮겨가고 있음을 보여주는 사례입니다.",
+      "tags": [
+        "메타",
+        "자율 에이전트",
+        "워크플로우 자동화",
+        "Muse"
+      ],
+      "author_profile": "meta",
+      "publish_date": "2026-11-15T23:53:39.426Z",
+      "url": "https://www.threads.net/@meta/post/265682808",
+      "sources": [
+        "Threads"
+      ],
+      "metrics": {
+        "platform": "threads",
+        "account": "meta"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "aitimes_3e0ec1963d",
+      "category_id": "aitimes",
+      "category_name": "AI타임스",
+      "signal_id": "practice",
+      "signal_name": "AI 활용 사례·워크플로우 팁",
+      "importance": 78,
+      "headline": "세무사 수석 합격자 생성 AI 부정행위 자백이 던진 과제: '객관식·서면 논술 모두 뚫리는 시대, 평가 방식 재설계'",
+      "title_ko": "세무사 수석 합격자 생성 AI 부정행위 자백이 던진 과제: '객관식·서면 논술 모두 뚫리는 시대, 평가 방식 재설계'",
+      "summary_ko": "• **현장 이슈 분석**: 제63회 세무사 시험 수석 합격자가 초소형 카메라와 생성 AI를 활용한 부정행위를 자백하면서 자격·채용 평가 시스템의 취약점이 부각되었습니다.\n• **핵심 진단**: 안광섭 세종대 겸임교수는 160문항 중 159개를 맞힌 1차 객관식뿐 아니라 서면 답안을 작성하는 2차 논술형 시험마저 생성 AI로 뚫렸다는 점에 주목했습니다.\n• **실무 시사점**: 감독 인력이나 전파탐지기 확충만으로는 한계가 있으며, 답변의 배경과 논리를 말로 검증하는 구술 방어·대면 검증 중심으로 평가 구조를 재편해야 한다고 제언했습니다.",
+      "body_ko": "2026년 11월 15일 제63회 세무사 시험 세법학개론 만점자이자 수석 합격자가 초소형 카메라와 생성 AI를 이용해 부정행위를 저질렀다고 자수하면서 국내 전문자격 시험 평가 체계에 큰 파장이 일고 있습니다. 안광섭 세종대학교 겸임교수는 AI타임스 기고를 통해 감독 위원 4명이 지켜보는 앞줄 자리에서도 적발되지 않았던 점을 짚으며 단순 감시 강화의 한계를 지적했습니다. 특히 1차 객관식 시험(160문항 중 159문항 정답)은 전산 채점이 빠르다는 장점이 역으로 문항당 숫자 하나만 전달받으면 되는 부정행위 통로가 되었다고 분석했습니다. 더 나아가 객관식의 대안으로 꼽히던 서면 논술형 2차 시험(800점 만점에 663점)조차 긴 글 생성에 능한 생성 AI 앞에서는 답안지에 누가 생각했는지 남지 않는 동일한 취약점을 드러냈습니다. 기고는 향후 대학 교육과 전문직 자격 검증에서 채점자의 수고가 들더라도 응시자가 자신의 답안을 직접 설명하고 반박에 답하는 구술 평가와 과정 검증을 강화해야 한다고 강조했습니다.",
+      "tags": [
+        "생성 AI 평가",
+        "구술 검증",
+        "자격시험",
+        "AI 윤리"
+      ],
+      "author_profile": "AI타임스",
+      "publish_date": "2026-11-15T09:59:15.000Z",
+      "url": "https://www.aitimes.com/news/articleView.html?idxno=217423",
+      "sources": [
+        "AI타임스"
+      ],
+      "metrics": {},
+      "curated_by": "ldk-hub"
+    }
+  ]
+}

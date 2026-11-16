@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-11T02:45:10.012Z",
+  "updated_at": "2026-11-15T23:49:26.720Z",
   "policy": {
     "filter_rule": "multi_source_ensemble_average",
     "staleness_gate": {
@@ -47,7 +47,7 @@
       "aggregate": true,
       "header": true,
       "as_of": "2026-11-11",
-      "retrieved_at": "2026-11-11T02:45:07.331Z"
+      "retrieved_at": "2026-11-15T23:49:20.458Z"
     },
     {
       "id": "arena",
@@ -59,7 +59,7 @@
       "aggregate": true,
       "header": true,
       "as_of": "2026-11-11",
-      "retrieved_at": "2026-11-11T02:45:07.331Z",
+      "retrieved_at": "2026-11-15T23:49:20.458Z",
       "evidence": "evidence/arena-text-2026-10-22.txt",
       "screenshot": "evidence/arena-2026-10-22.png"
     },
@@ -73,7 +73,7 @@
       "aggregate": true,
       "header": true,
       "as_of": "2026-11-11",
-      "retrieved_at": "2026-11-11T02:45:07.331Z"
+      "retrieved_at": "2026-11-15T23:49:20.458Z"
     },
     {
       "id": "livebench",
@@ -85,7 +85,7 @@
       "aggregate": true,
       "header": true,
       "as_of": "2026-11-11",
-      "retrieved_at": "2026-11-11T02:45:07.331Z"
+      "retrieved_at": "2026-11-15T23:49:20.458Z"
     },
     {
       "id": "openrouter",
@@ -96,8 +96,8 @@
       "kind": "api",
       "aggregate": true,
       "header": false,
-      "as_of": "2026-11-11",
-      "retrieved_at": "2026-11-11T02:45:07.331Z",
+      "as_of": "2026-11-16",
+      "retrieved_at": "2026-11-15T23:49:20.458Z",
       "evidence": "evidence/openrouter-models-2026-10-22.json"
     }
   ],
@@ -285,8 +285,8 @@
       "swe_bench_verified": null,
       "gpqa_diamond": 88.1,
       "mmlu_pro": 89.9,
-      "pricing_in_1m": 4,
-      "pricing_out_1m": 20,
+      "pricing_in_1m": 4.4,
+      "pricing_out_1m": 22,
       "context_window": "256K",
       "badge_type": ""
     },
@@ -390,8 +390,8 @@
       "swe_bench_verified": null,
       "gpqa_diamond": 83.5,
       "mmlu_pro": 86.4,
-      "pricing_in_1m": 0.0699,
-      "pricing_out_1m": 1.4,
+      "pricing_in_1m": 0.084,
+      "pricing_out_1m": 3.6,
       "context_window": "128K",
       "badge_type": "open-weights"
     },

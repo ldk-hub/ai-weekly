@@ -989,6 +989,97 @@ module.exports = {
     ],
     use_case: "비공개 API나 상용 프로토콜을 연동해야 할 때 이미 검증된 오픈소스 역공학 코드를 즉시 찾고 싶을 때",
     tags: ["reverse-engineering", "mcp-server", "claude-skills", "unofficial-api", "decompilation"]
+  },
+  "DIYgod/pinky": {
+    category: "mcp",
+    title_ko: "pinky — 승인 게이트웨이를 갖춘 AI 에이전트용 iPhone·Android 원격 제어 MCP 앱",
+    catchphrase: "macOS·Windows·Linux의 모든 MCP 에이전트가 사용자 승인 하에 실제 스마트폰을 안전하게 조작",
+    summary_ko: "Claude Code, Codex, Cursor 등 MCP 지원 에이전트가 실제 iPhone이나 Android 스마트폰을 조작할 수 있도록 연결해주는 Go 기반 크로스 플랫폼 앱입니다. 결제·이체·메시지 전송 등 위험 단계는 에이전트가 아닌 Pinky 게이트웨이가 차단해 사용자 클릭 승인을 강제하며, 뱅킹·지갑·비밀번호 관리 앱은 기본적으로 에이전트 시야에서 차단됩니다. Android 13 이상에서는 숨겨진 세컨드 스크린에서 백그라운드 작업을 수행해 주 화면 사용을 방해하지 않습니다.",
+    key_features: [
+      "결제·송금·설정 변경 등 위험 동작 게이트웨이 단위 승인 강제",
+      "뱅킹·지갑·비밀번호 입력 필드 자동 차단 및 Android 세컨드 스크린 지원",
+      "MyGo GPU 렌더링 기반 경량 네이티브 앱(16~22MB) 및 폰 단독 실행 모드"
+    ],
+    use_case: "모바일 앱 테스트나 스마트폰 반복 작업을 AI 에이전트에게 맡기되 민감 동작은 직접 승인하고 싶을 때",
+    tags: ["mcp-server", "phone-automation", "human-in-the-loop", "android", "ios"]
+  },
+  "agentes-chat/agentes-chat": {
+    category: "agent",
+    title_ko: "agentes-chat — 인간과 AI 에이전트가 채널·DM에서 함께 일하는 셀프호스팅 Slack 대안",
+    catchphrase: "Claude·Codex·Gemini·Grok 에이전트에게 전용 컴퓨터·브라우저·MCP 도구를 부여하는 오픈소스 팀 챗",
+    summary_ko: "팀원과 AI 에이전트가 동일한 채널과 DM에서 협업하도록 설계된 Docker Compose + Postgres 기반의 오픈소스 셀프호스팅 팀 메신저입니다. 에이전트는 Claude, ChatGPT/Codex, Gemini, Grok 백엔드에서 동작하며 MCP 도구, 전용 브라우저·컴퓨터 제어, 스케줄 루틴, 장기 기억 및 승인 워크플로우를 활용합니다. 웹·데스크톱·모바일 앱을 모두 지원해 어디서나 에이전트 팀에 작업을 지시하고 결과를 검수할 수 있습니다.",
+    key_features: [
+      "Claude·Codex·Gemini·Grok 멀티 모델 에이전트 채널/DM 통합 협업",
+      "MCP 도구·브라우저 자동화·컴퓨터 제어 및 승인(Human-in-the-loop) 내장",
+      "Docker Compose + Postgres 기반 완전 셀프호스팅 및 웹·데스크톱·모바일 지원"
+    ],
+    use_case: "팀 단위 메신저 환경에서 여러 AI 에이전트와 협업하며 루틴 작업과 승인 흐름을 운영하고 싶을 때",
+    tags: ["team-chat", "multi-agent", "self-hosted", "mcp", "slack-alternative"]
+  },
+  "shinyobjectz/raea": {
+    category: "skill",
+    title_ko: "raea — React·TypeScript 코드로 영상·모션·3D·게임을 로컬 GPU에서 렌더링하는 AI 엔진",
+    catchphrase: "Rust + Bevy GPU 파이프라인으로 AI가 작성한 React·TS 장면을 실시간보다 빠르게 렌더링",
+    summary_ko: "AI 에이전트에게 원하는 장면을 설명하면 이미 익숙한 React와 TypeScript 코드로 영상, 모션 그래픽, 3D 씬, 인터랙티브 게임을 생성하고 로컬 GPU(Rust + Bevy + wgpu)에서 직접 렌더링하는 엔진입니다. 클라우드 영상 생성 비용이나 워터마크 없이 macOS(Apple Silicon), Linux, Windows 데스크톱 환경에서 결정적·프로그래머블 렌더링 결과를 즉시 확인하고 수정할 수 있습니다.",
+    key_features: [
+      "React·TypeScript 선언형 코드 기반 영상·모션 그래픽·3D·게임 제작",
+      "Rust + Bevy + wgpu 기반 로컬 GPU 고속 렌더링 파이프라인",
+      "macOS·Linux·Windows 네이티브 데스크톱 앱 및 에이전트 스킬 연동"
+    ],
+    use_case: "AI 코딩 에이전트로 프로모션 영상, 인터랙티브 3D, 모션 그래픽을 코드 기반으로 정밀 제작할 때",
+    tags: ["motion-graphics", "bevy", "rust", "react", "agent-skills"]
+  },
+  "emanuele-em/kanzo": {
+    category: "mcp",
+    title_ko: "kanzo — 4.7MB 단일 바이너리로 인간과 코딩 에이전트가 공유하는 로컬 퍼스트 칸반 MCP",
+    catchphrase: "RAM 5MB·구동 3ms·응답당 10~60토큰으로 초경량 동작하는 SQLite 기반 에이전트 칸반 보드",
+    summary_ko: "브라우저 칸반 보드와 MCP 서버, CLI를 4.7MB 단일 Rust 바이너리에 통합해 사람과 코딩 에이전트가 동일한 작업 보드 위에서 협업하게 하는 도구입니다. 별도 서버나 계정 설정 없이 즉시 실행되며, SQLite 기반으로 에이전트 응답당 10~60토큰 수준의 극도로 간결한 프로토콜을 유지해 컨텍스트 낭비를 최소화합니다. ⌘K 빠른 검색, 작업 간 의존성 설정, P2P 보드 공유를 기본 지원합니다.",
+    key_features: [
+      "4.7MB 단일 Rust 바이너리·5MB RAM·3ms 기동 속도의 무설정 로컬 실행",
+      "브라우저 칸반 UI·MCP 서버·CLI 삼위일체 및 응답당 10~60토큰 절약 설계",
+      "작업 선후 의존성 관리, ⌘K 전체 검색 및 원격 기기 간 보드 공유 지원"
+    ],
+    use_case: "여러 코딩 에이전트의 작업 현황을 초경량 로컬 칸반 보드에서 공유하고 조율하고 싶을 때",
+    tags: ["kanban", "mcp-server", "rust", "local-first", "coding-agents"]
+  },
+  "mdiri-ai/SoduWork": {
+    category: "harness",
+    title_ko: "SoduWork — 팀과 다중 하네스 에이전트의 승인 기반 협업을 통합하는 AI 네이티브 엔진",
+    catchphrase: "Claude Code·Codex·OpenCode·DeepSeek·Qwen 하네스를 하나로 묶어 요청자 승인까지 완결",
+    summary_ko: "단순 채팅 응답으로 끝나는 대신 작업 요청자가 최종 승인(Sign-off)할 때까지 팀과 AI 에이전트 워크플로우를 관리하는 셀프호스팅 멀티 하네스 엔진입니다. Claude Code, Codex, OpenCode, Pi, DeepSeek Harness, Qwen Code, Kimi Code 등 다양한 에이전트 런타임을 플러그인 아키텍처로 통합 오케스트레이션합니다. macOS·Windows·Linux 데스크톱 클라이언트와 FastAPI 백엔드로 구성됩니다.",
+    key_features: [
+      "Claude Code·Codex·OpenCode 등 이기종 에이전트 하네스 멀티 오케스트레이션",
+      "결과물 생성부터 요청자 최종 승인(Sign-off)까지 이어지는 Human-in-the-loop",
+      "Electron 데스크톱 + FastAPI 기반 셀프호스팅 및 플러그인 확장 구조"
+    ],
+    use_case: "팀 환경에서 여러 코딩 에이전트 하네스를 통합하고 승인 절차가 있는 AI 워크플로우를 구축할 때",
+    tags: ["agent-harness", "multi-agent", "self-hosted", "human-in-the-loop", "orchestration"]
+  },
+  "caru-ini/stack-diagram": {
+    category: "skill",
+    title_ko: "stack-diagram — 기술 스택 한 문장으로 공식 로고 포함 아키텍처 다이어그램을 생성하는 스킬",
+    catchphrase: "자연어로 기술 스택과 호출 흐름을 적으면 공식 브랜드 로고가 들어간 시스템 구성도를 자동 생성",
+    summary_ko: "사용자가 프로젝트의 기술 스택과 서비스 간 연결 구조를 한 문장으로 설명하면 공식 브랜드 로고가 포함된 깔끔한 아키텍처 다이어그램을 자동으로 그려주는 에이전트 스킬입니다. 클라우드 인프라뿐만 아니라 Turborepo·Biome·Vitest·Lefthook 같은 모노레포 개발 툴링 파이프라인까지 다크/라이트 테마 대응으로 시각화합니다. Claude Code, Codex, Cursor 등 skills 규격 지원 에이전트에서 즉시 설치해 활용할 수 있습니다.",
+    key_features: [
+      "자연어 한 문장 설명만으로 공식 로고 기반 아키텍처 다이어그램 자동 생성",
+      "클라우드·DB·결제 연동부터 CI/CD·모노레포 툴링 구성도까지 폭넓은 표현 지원",
+      "Claude Code·Codex·Cursor 등 Agent Skills 표준 호환 및 다크/라이트 대응"
+    ],
+    use_case: "문서나 발표 자료에 넣을 깔끔한 시스템 아키텍처·개발 툴링 다이어그램을 빠르게 만들고 싶을 때",
+    tags: ["architecture-diagram", "agent-skills", "claude-skills", "tech-stack", "visualization"]
+  },
+  "N1nEmAn/sapper-v2": {
+    category: "agent",
+    title_ko: "sapper-v2 — 634팀 대회 우승을 기록한 자율 AI 모의해킹 멀티 에이전트 하네스",
+    catchphrase: "8시간 무인 운용과 1B 토큰 효율로 4.5B 토큰 경쟁자를 앞선 자율 보안 공격·방어 에이전트 군단",
+    summary_ko: "제3회 텐센트 클라우드 지능형 공방 챌린지 예선에서 634개 팀 중 1위(80.18점)를 기록하고 GeekCon 2026 AI 챌린지에서 1등상을 수상한 자율 AI 모의해킹 멀티 에이전트 오케스트레이션 하네스입니다. Claude Code, Codex, DeepSeek 등 다양한 CLI 에이전트와 모델을 지휘관·병사·정찰병 역할별로 자유롭게 조합해 사실 그래프(Fact Graph) 기반의 군집 탐색을 수행합니다. 인가된 보안 테스트 및 CTF 자동화 워크플로우에 최적화되어 있습니다.",
+    key_features: [
+      "지휘관·병사·정찰병 역할별로 CLI 에이전트와 LLM 모델을 자유롭게 교체 가능",
+      "사실 그래프(Fact Graph)와 군집 지능을 결합한 8시간 무인 공방 자동화",
+      "동일 플래그 85개 기준 경쟁 대비 토큰 소모량 4.5배 절감(1B vs 4.5B) 달성"
+    ],
+    use_case: "인가된 보안 진단 환경이나 CTF 대회에서 멀티 에이전트 기반 자율 모의해킹 파이프라인을 구축할 때",
+    tags: ["pentest", "multi-agent", "ai-security", "swarm-intelligence", "agent-harness"]
   }
 };
 
