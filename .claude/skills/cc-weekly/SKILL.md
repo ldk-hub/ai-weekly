@@ -58,9 +58,10 @@ graph TD
   3. 품질 게이트 검증: `node scripts/news/curate_news.js --validate` (통과 필수)
 - **산출물:** `site/public/data/news_latest.json`, `data/archive/news_YYYY-MM-DD.json`, `data/archive/news_index.json`
 
-### 5. Step 5: CC Social (소셜 피드 갱신)
+### 5. Step 5: CC Social (소셜 피드 갱신 및 주간 계정 발굴)
 - **절차 (`cc-social` 스킬 연계):**
-  1. 시드 화이트리스트 수집: `node scripts/social/collect_social.js` (X·Threads·Reddit·Instagram 시드 최신 게시물 수집, `instagram`·`x`·`threads` 중 24시간 내 3건 미만 플랫폼은 48시간 창까지 자동 보충)
+  1. 주간 신규 계정 발굴·검증: `npm run data:social:discover` (최초 `core` 시드 기반 그래프·코퍼스 탐색 → 샘플 AI 실용성/스팸 검증 게이트 통과 계정만 `seeds.json` 승격 및 무효/비AI 계정 퇴출)
+  2. 시드 풀 수집: `node scripts/social/collect_social.js` (X·Threads·Reddit·Instagram `core`+`discovered` 활성 풀 수집, `instagram`·`x`·`threads` 중 24시간 내 3건 미만 플랫폼은 48시간 창까지 자동 보충)
   2. 큐레이션 및 아카이브 갱신:
      - `GEMINI_API_KEY`가 있으면: `node scripts/social/curate_social.js` (최근 7일 중복 차단 및 `build_social_archive.js` 자동 실행)
      - `GEMINI_API_KEY`가 없으면: `data/social_candidates.json`을 직접 선별·한국어 요약해 `site/public/data/social_latest.json` 및 `data/social/YYYY-MM-DD.json` 생성 후 `node scripts/social/build_social_archive.js` 실행

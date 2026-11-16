@@ -7,6 +7,11 @@ from datetime import datetime, timezone
 from scrapling.fetchers import StealthySession
 
 TWITTER_EPOCH_MS = 1288834974657
+X_RESERVED_HANDLES = {
+    "i", "home", "explore", "search", "notifications", "messages", "settings",
+    "compose", "intent", "hashtag", "share", "login", "signup", "tos", "privacy",
+}
+MENTION_RE = re.compile(r"(?<![A-Za-z0-9_])@([A-Za-z0-9_]{2,25})\b")
 
 
 def snowflake_to_iso(status_id: str) -> str:
@@ -69,8 +74,29 @@ def parse_article(article, handle: str):
     }
 
 
-def scrape(users, limit):
+def extract_handles_from_article(article, source_handle: str) -> list[str]:
+    found = []
+    seen = {source_handle.lower()}
+    for href in article.css("a::attr(href)").getall():
+        m = re.match(r"^(?:https?://(?:www\.)?(?:x|twitter)\.com)?/([A-Za-z0-9_]{2,25})(?:/status/\d+|/?$)", href or "", re.I)
+        if m:
+            h = m.group(1).lower()
+            if h not in seen and h not in X_RESERVED_HANDLES:
+                seen.add(h)
+                found.append(h)
+    raw_text = " ".join(t.strip() for t in article.css('[data-testid="tweetText"] *::text').getall() if t.strip())
+    for m in MENTION_RE.finditer(raw_text):
+        h = m.group(1).lower()
+        if h not in seen and h not in X_RESERVED_HANDLES:
+            seen.add(h)
+            found.append(h)
+    return found
+
+
+def scrape(users, limit, discover=False):
     items = []
+    discovered = []
+    discovered_seen = {u.lower() for u in users}
     with StealthySession(headless=True) as session:
         for u in users:
             try:
@@ -88,6 +114,11 @@ def scrape(users, limit):
                 continue
             seen, count = set(), 0
             for art in page.css("article"):
+                if discover:
+                    for h in extract_handles_from_article(art, u):
+                        if h not in discovered_seen:
+                            discovered_seen.add(h)
+                            discovered.append({"handle": h, "source": f"x_graph:@{u}"})
                 post = parse_article(art, u)
                 if not post or post["id"] in seen:
                     continue
@@ -96,12 +127,18 @@ def scrape(users, limit):
                 count += 1
                 if count >= limit:
                     break
-    return items
+    return (items, discovered) if discover else items
 
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--users", required=True)
     ap.add_argument("--limit", type=int, default=3)
+    ap.add_argument("--discover", action="store_true")
     a = ap.parse_args()
-    print(json.dumps({"ok": True, "items": scrape([u for u in a.users.split(",") if u], a.limit)}, ensure_ascii=False))
+    users = [u for u in a.users.split(",") if u]
+    if a.discover:
+        items, discovered = scrape(users, a.limit, discover=True)
+        print(json.dumps({"ok": True, "items": items, "discovered_handles": discovered}, ensure_ascii=False))
+    else:
+        print(json.dumps({"ok": True, "items": scrape(users, a.limit)}, ensure_ascii=False))

@@ -7,6 +7,7 @@ from scrapling.fetchers import StealthySession
 
 NOISE_TEXTS = {"작성자", "번역하기", "Translate", "스레드 보기", "See more"}
 TIME_RE = re.compile(r"\d+(분|시간|일|주|[smhdw])|\d+")
+MENTION_RE = re.compile(r"(?<![A-Za-z0-9_.])@([A-Za-z0-9_.]{2,30})\b")
 
 
 def parse_count(text: str) -> int:
@@ -58,8 +59,29 @@ def parse_post(c, handle):
     }
 
 
-def scrape(users, limit):
+def extract_handles_from_container(c, source_handle: str) -> list[str]:
+    found = []
+    seen = {source_handle.lower()}
+    for href in c.css("a::attr(href)").getall():
+        m = re.search(r"/@([A-Za-z0-9_.]{2,30})(?:/post/|/?$)", href or "")
+        if m:
+            h = m.group(1).lower()
+            if h not in seen:
+                seen.add(h)
+                found.append(h)
+    raw_text = " ".join(t.strip() for t in c.css("span::text").getall() if t.strip())
+    for m in MENTION_RE.finditer(raw_text):
+        h = m.group(1).lower().rstrip(".")
+        if h and h not in seen:
+            seen.add(h)
+            found.append(h)
+    return found
+
+
+def scrape(users, limit, discover=False):
     items = []
+    discovered = []
+    discovered_seen = {u.lower() for u in users}
     with StealthySession(headless=True) as session:
         for u in users:
             try:
@@ -77,6 +99,11 @@ def scrape(users, limit):
                 continue
             seen, count = set(), 0
             for c in page.css("div[data-pressable-container=true]"):
+                if discover:
+                    for h in extract_handles_from_container(c, u):
+                        if h not in discovered_seen:
+                            discovered_seen.add(h)
+                            discovered.append({"handle": h, "source": f"threads_graph:@{u}"})
                 post = parse_post(c, u)
                 if not post or post["url"] in seen or len(post["body"]) < 8:
                     continue
@@ -85,12 +112,18 @@ def scrape(users, limit):
                 count += 1
                 if count >= limit:
                     break
-    return items
+    return (items, discovered) if discover else items
 
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--users", required=True)
     ap.add_argument("--limit", type=int, default=3)
+    ap.add_argument("--discover", action="store_true")
     a = ap.parse_args()
-    print(json.dumps({"ok": True, "items": scrape([u for u in a.users.split(",") if u], a.limit)}, ensure_ascii=False))
+    users = [u for u in a.users.split(",") if u]
+    if a.discover:
+        items, discovered = scrape(users, a.limit, discover=True)
+        print(json.dumps({"ok": True, "items": items, "discovered_handles": discovered}, ensure_ascii=False))
+    else:
+        print(json.dumps({"ok": True, "items": scrape(users, a.limit)}, ensure_ascii=False))

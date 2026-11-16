@@ -20,7 +20,7 @@ let autoLoadedBatches = 0;
 let isLoadingMore = false;
 let searchTimer = null;
 
-const state = { date: "all", platform: "all", author: "all", query: "" };
+const state = { date: "all", platform: "all", query: "" };
 
 function formatDayHeader(dateStr) {
   const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(dateStr || "");
@@ -64,7 +64,6 @@ function syncFromURL() {
     const p = new URLSearchParams(window.location.search);
     if (p.get("date")) state.date = p.get("date");
     if (p.get("platform")) state.platform = p.get("platform");
-    if (p.get("author")) state.author = p.get("author");
     if (p.get("q") !== null) {
       state.query = p.get("q");
       const searchEl = document.getElementById("social-search");
@@ -78,7 +77,6 @@ function syncToURL() {
     const p = new URLSearchParams();
     if (state.date && state.date !== "all") p.set("date", state.date);
     if (state.platform && state.platform !== "all") p.set("platform", state.platform);
-    if (state.author && state.author !== "all") p.set("author", state.author);
     if (state.query.trim()) p.set("q", state.query.trim());
     const qs = p.toString();
     const next = qs ? `${window.location.pathname}?${qs}` : window.location.pathname;
@@ -119,12 +117,11 @@ function card(it) {
 }
 
 function hasActiveFilters() {
-  return state.platform !== "all" || state.author !== "all" || state.query.trim().length > 0;
+  return state.platform !== "all" || state.query.trim().length > 0;
 }
 
 function matchesItem(it, q) {
   if (state.platform !== "all" && it.platform !== state.platform) return false;
-  if (state.author !== "all" && it.author !== state.author) return false;
   if (!q) return true;
   const hay = [it.title_ko, it.summary_ko, it.author, ...(it.tags || [])].join(" ").toLowerCase();
   return hay.includes(q);
@@ -273,17 +270,6 @@ function renderFilters(scopedItems) {
     filterEl.innerHTML = tabs
       .map(([f, label, count]) => `<button type="button" class="cat-chip${f === state.platform ? " is-active" : ""}" role="tab" aria-selected="${f === state.platform}" data-f="${esc(f)}"><span>${esc(label)}</span><span class="cat-count">${count}</span></button>`)
       .join("");
-  }
-
-  const authors = [...new Set(scopedItems.map((it) => it.author).filter(Boolean))].sort();
-  if (state.author !== "all" && !authors.includes(state.author)) {
-    authors.unshift(state.author);
-  }
-  const sel = document.getElementById("author-filter");
-  if (sel) {
-    sel.innerHTML = `<option value="all">전체 계정 (${authors.length})</option>` +
-      authors.map((a) => `<option value="${esc(a)}">${esc(a)}</option>`).join("");
-    sel.value = state.author;
   }
 }
 
@@ -454,11 +440,6 @@ function bindEvents() {
     const btn = e.target.closest("button[data-f]");
     if (!btn) return;
     state.platform = btn.dataset.f;
-    render();
-  });
-
-  document.getElementById("author-filter")?.addEventListener("change", (e) => {
-    state.author = e.target.value;
     render();
   });
 

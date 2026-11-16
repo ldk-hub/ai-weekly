@@ -19,8 +19,13 @@ description: X·Threads·Reddit·Instagram AI 인플루언서·커뮤니티(시�
    - 아카이브 인덱스·일별 샤드 갱신: `node scripts/social/build_social_archive.js` (`curate_social.js` 직접 실행 시에는 자동 호출되며, 수동 큐레이션 시 반드시 실행해 `site/public/data/archive/social_index.json` 및 `social_YYYY-MM-DD.json`을 동기화한다) (후보 2건 이상 보유 필수 플랫폼에서 최소 2건 이상 선별 여부 검증)
 3. **빌드 및 사이트맵**:
    - `node scripts/core/generate-og.js && node scripts/core/generate-rss.js && npm run build`
-4. **시드 관리**:
-   - 인플루언서 계정 추가/삭제는 `data/social/seeds.json`만 수정한다.
+4. **주간 신규 계정 발굴·검증 (Seed Discovery & Verification)**:
+   - 최초 제시 시드(`core`)와 누적 큐레이션 이력의 토픽/선별률을 기준선(Anchor)으로 삼아 매주 신규 계정을 발굴·검증하고 저효율/비AI 계정을 자동 퇴출한다.
+   - 단독 실행: `npm run data:social:discover` (또는 `node scripts/social/collect_social.js --discover`)
+   - 동작 절차:
+     1) 코퍼스(`data/social/`, `news_latest.json`) + X·Threads 그래프(`--discover`) + Reddit 토픽 풀에서 후보 계정 추출
+     2) 후보 계정당 최근 게시물 샘플 검증(`sampleCount >= 2`, `aiRatio >= 0.5`, `verifyScore >= 60`, 최근 21일 내 활동, 스팸/홍보 차단)
+     3) 통과 계정만 `data/social/seeds.json`의 `discovered` 및 활성 목록에 승격, 검증 리포트는 `data/social/seed_discovery_report.json`에 저장
 
 ## 주의 사항
 

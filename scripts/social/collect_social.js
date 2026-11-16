@@ -5,7 +5,7 @@ const { execFile } = require("child_process");
 const { promisify } = require("util");
 const Parser = require("rss-parser");
 const cheerio = require("cheerio");
-const { loadSeeds } = require("./seeds");
+const { loadSeeds, loadSeedRegistry } = require("./seeds");
 const { collectInstagramEgo, parseMetaCounts } = require("./ig_profile");
 const { searchX } = require("../core/agent_reach");
 
@@ -210,6 +210,13 @@ function filterByWindow(posts, hours) {
 
 async function collect() {
   const seeds = loadSeeds();
+  try {
+    const reg = loadSeedRegistry();
+    const discoveredCounts = Object.fromEntries(
+      ["x", "threads", "instagram", "reddit"].map((p) => [p, (reg.discovered?.[p] || []).length]),
+    );
+    console.log(`[social] 활성 시드 (core+discovered): ${JSON.stringify({ x: seeds.x.length, threads: seeds.threads.length, instagram: seeds.instagram.length, reddit: seeds.reddit.length })} · 신규발굴 포함 ${JSON.stringify(discoveredCounts)}`);
+  } catch {}
   const maxWindow = Math.max(WINDOW_H, FALLBACK_WINDOW_H);
   const since = new Date(Date.now() - maxWindow * 3600 * 1000).toISOString().slice(0, 10);
   const [xPosts, threadPosts, redditPosts, igPosts] = await Promise.all([
@@ -265,8 +272,13 @@ async function collect() {
 module.exports = { normalizeTweet, normalizeScrapedX, normalizeThread, normalizeRedditItem, normalizeInstagram, dedupe, filterByWindow, collect };
 
 if (require.main === module) {
-  collect().then((posts) => {
+  (async () => {
+    if (process.argv.includes("--discover")) {
+      const { discoverSeeds } = require("./discover_seeds");
+      await discoverSeeds();
+    }
+    const posts = await collect();
     fs.writeFileSync(OUT, JSON.stringify({ collectedAt: new Date().toISOString(), posts }, null, 2));
     console.log(`[social] 저장: ${OUT}`);
-  });
+  })();
 }
