@@ -7,14 +7,25 @@ const ARCHIVE_DIRS = [
   path.join(__dirname, "..", "..", "data", "archive"),
 ];
 
-const sourceDir = ARCHIVE_DIRS[0];
-if (!fs.existsSync(sourceDir)) {
-  console.error("archive dir not found:", sourceDir);
-  process.exit(0);
+const DATE_JSON_RE = /^\d{4}-\d{2}-\d{2}\.json$/;
+
+// 양쪽 아카이브 디렉터리 간 누락된 스냅샷을 상호 동기화한다.
+for (const dir of ARCHIVE_DIRS) fs.mkdirSync(dir, { recursive: true });
+for (const srcDir of ARCHIVE_DIRS) {
+  for (const dstDir of ARCHIVE_DIRS) {
+    if (srcDir === dstDir) continue;
+    for (const f of fs.readdirSync(srcDir).filter(n => DATE_JSON_RE.test(n))) {
+      const dstFile = path.join(dstDir, f);
+      if (!fs.existsSync(dstFile)) {
+        fs.copyFileSync(path.join(srcDir, f), dstFile);
+      }
+    }
+  }
 }
 
+const sourceDir = ARCHIVE_DIRS[0];
 const files = fs.readdirSync(sourceDir)
-  .filter(f => /^\d{4}-\d{2}-\d{2}\.json$/.test(f))
+  .filter(f => DATE_JSON_RE.test(f))
   .sort()
   .reverse();
 

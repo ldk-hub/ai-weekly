@@ -9,7 +9,7 @@
   <g transform="translate(930, 64)">
     <rect x="0" y="0" width="210" height="36" rx="18" fill="#f2efe5"/>
     <circle cx="22" cy="18" r="4" fill="#d97757"/>
-    <text x="112" y="23" font-size="13" font-weight="600" fill="#0e0e0e" text-anchor="middle">2026.11.16 · v2026.11.16</text>
+    <text x="112" y="23" font-size="13" font-weight="600" fill="#0e0e0e" text-anchor="middle">2026.11.17 · v2026.11.17</text>
   </g>
   <text x="60" y="200" font-size="48" font-weight="700" fill="#0e0e0e" letter-spacing="-1.5">이번 주 뜨는 도구 TOP 3</text>
   <text x="60" y="245" font-size="18" font-weight="500" fill="#6b6860">매주 월요일 자동 갱신 · ldk-hub.github.io/ai-weekly</text>
@@ -25,7 +25,7 @@
       <text x="24" y="186" font-size="13.5" font-weight="500" fill="#0e0e0e" opacity="0.85">무력화</text>
         <g transform="translate(24, 228)">
           <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">qybaihe/bla</text>
-          <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 5.8k</text>
+          <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 5.9k</text>
         </g>
       </g>
     </g>
@@ -40,7 +40,7 @@
       <text x="24" y="186" font-size="13.5" font-weight="500" fill="#0e0e0e" opacity="0.85">파고들어 분석</text>
         <g transform="translate(24, 228)">
           <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">morluto/rea</text>
-          <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 462k</text>
+          <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 464k</text>
         </g>
       </g>
     </g>

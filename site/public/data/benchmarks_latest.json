@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-16T00:03:07.227Z",
+  "updated_at": "2026-11-17T00:02:05.105Z",
   "policy": {
     "filter_rule": "multi_source_ensemble_average",
     "staleness_gate": {
@@ -33,8 +33,8 @@
       "kind": "page",
       "aggregate": true,
       "header": true,
-      "as_of": "2026-10-31",
-      "retrieved_at": "2026-11-04T13:00:00+09:00",
+      "as_of": "2026-11-17",
+      "retrieved_at": "2026-11-16T23:59:12.800Z",
       "evidence": "evidence/trakkr-ai-index-2026-10.json"
     },
     {
@@ -47,7 +47,7 @@
       "aggregate": true,
       "header": true,
       "as_of": "2026-11-11",
-      "retrieved_at": "2026-11-15T23:49:20.458Z"
+      "retrieved_at": "2026-11-16T23:59:12.800Z"
     },
     {
       "id": "arena",
@@ -59,7 +59,7 @@
       "aggregate": true,
       "header": true,
       "as_of": "2026-11-11",
-      "retrieved_at": "2026-11-15T23:49:20.458Z",
+      "retrieved_at": "2026-11-16T23:59:12.800Z",
       "evidence": "evidence/arena-text-2026-10-22.txt",
       "screenshot": "evidence/arena-2026-10-22.png"
     },
@@ -73,7 +73,7 @@
       "aggregate": true,
       "header": true,
       "as_of": "2026-11-11",
-      "retrieved_at": "2026-11-15T23:49:20.458Z"
+      "retrieved_at": "2026-11-16T23:59:12.800Z"
     },
     {
       "id": "livebench",
@@ -85,7 +85,7 @@
       "aggregate": true,
       "header": true,
       "as_of": "2026-11-11",
-      "retrieved_at": "2026-11-15T23:49:20.458Z"
+      "retrieved_at": "2026-11-16T23:59:12.800Z"
     },
     {
       "id": "openrouter",
@@ -96,8 +96,8 @@
       "kind": "api",
       "aggregate": true,
       "header": false,
-      "as_of": "2026-11-16",
-      "retrieved_at": "2026-11-15T23:49:20.458Z",
+      "as_of": "2026-11-17",
+      "retrieved_at": "2026-11-16T23:59:12.800Z",
       "evidence": "evidence/openrouter-models-2026-10-22.json"
     }
   ],
@@ -245,7 +245,7 @@
       "mmlu_pro": 92.4,
       "pricing_in_1m": 2,
       "pricing_out_1m": 10,
-      "context_window": "1,000K",
+      "context_window": "1,049K",
       "badge_type": ""
     },
     {
@@ -266,7 +266,7 @@
       "mmlu_pro": 89.5,
       "pricing_in_1m": 4,
       "pricing_out_1m": 20,
-      "context_window": "1,000K",
+      "context_window": "1,049K",
       "badge_type": "open-weights"
     },
     {
@@ -285,9 +285,9 @@
       "swe_bench_verified": null,
       "gpqa_diamond": 88.1,
       "mmlu_pro": 89.9,
-      "pricing_in_1m": 4.4,
-      "pricing_out_1m": 22,
-      "context_window": "256K",
+      "pricing_in_1m": 4,
+      "pricing_out_1m": 20,
+      "context_window": "1,050K",
       "badge_type": ""
     },
     {
@@ -308,7 +308,7 @@
       "mmlu_pro": 88.2,
       "pricing_in_1m": 0.192,
       "pricing_out_1m": 16,
-      "context_window": "256K",
+      "context_window": "1,049K",
       "badge_type": "open-weights"
     },
     {
@@ -371,7 +371,7 @@
       "mmlu_pro": 86.8,
       "pricing_in_1m": 0.051,
       "pricing_out_1m": 0.567,
-      "context_window": "128K",
+      "context_window": "1,049K",
       "badge_type": "open-weights"
     },
     {
@@ -390,9 +390,9 @@
       "swe_bench_verified": null,
       "gpqa_diamond": 83.5,
       "mmlu_pro": 86.4,
-      "pricing_in_1m": 0.084,
-      "pricing_out_1m": 3.6,
-      "context_window": "128K",
+      "pricing_in_1m": 0.0699,
+      "pricing_out_1m": 1.4,
+      "context_window": "1,049K",
       "badge_type": "open-weights"
     },
     {

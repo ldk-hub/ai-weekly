@@ -156,18 +156,26 @@ if (newsXml) {
   console.warn("· news_latest.json 없음/빈 배열 — 뉴스 피드 생략");
 }
 
+function kstDate(d = new Date()) {
+  return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Seoul" }).format(d);
+}
+
 // sitemap 의 lastmod 를 각 페이지의 실제 데이터 갱신일로 다시 쓴다.
 // 하드코딩해 두면 데이터만 갱신될 때 lastmod 가 거짓이 된다.
 function dataDate(relPath, fallback) {
   try {
     const d = JSON.parse(fs.readFileSync(path.join(ROOT, relPath), "utf8"));
-    const ts = d.generated_at || d.generated;
-    if (ts) return new Date(ts).toISOString().slice(0, 10);
+    const ts = d.date || d.generated_at || d.generated || d.generatedAt || d.updated_at;
+    if (typeof ts === "string" && /^\d{4}-\d{2}-\d{2}$/.test(ts)) return ts;
+    if (ts) {
+      const parsed = new Date(ts);
+      if (!Number.isNaN(parsed.getTime())) return kstDate(parsed);
+    }
   } catch { /* 파일 없으면 fallback */ }
   return fallback;
 }
 
-const today = new Date().toISOString().slice(0, 10);
+const today = kstDate();
 const pages = [
   { loc: SITE_URL, lastmod: dataDate("site/public/data/latest.json", today), extra: "    <changefreq>weekly</changefreq>\n    <priority>1.0</priority>" },
   { loc: `${SITE_URL}news`, lastmod: dataDate("site/public/data/news_latest.json", today), extra: "    <priority>0.9</priority>" },

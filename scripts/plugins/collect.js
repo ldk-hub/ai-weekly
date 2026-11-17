@@ -36,31 +36,42 @@ const HN_QUERIES = ["claude code", "mcp server", "claude skill", "claude agent"]
 
 async function ghSearch(q, sort = "stars") {
   const url = `https://api.github.com/search/repositories?q=${encodeURIComponent(q)}&sort=${sort}&order=desc&per_page=30`;
-  const res = await fetch(url, {
-    headers: {
-      ...(GH_TOKEN ? { Authorization: `Bearer ${GH_TOKEN}` } : {}),
-      Accept: "application/vnd.github+json",
-      "X-GitHub-Api-Version": "2022-11-28",
-    },
-  });
-  if (!res.ok) {
-    console.warn(`gh search failed (${res.status}): ${q}`);
+  try {
+    const res = await fetch(url, {
+      headers: {
+        ...(GH_TOKEN ? { Authorization: `Bearer ${GH_TOKEN}` } : {}),
+        Accept: "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+      },
+      signal: AbortSignal.timeout(12000),
+    });
+    if (!res.ok) {
+      console.warn(`gh search failed (${res.status}): ${q}`);
+      return [];
+    }
+    const body = await res.json();
+    return body.items || [];
+  } catch (e) {
+    console.warn(`gh search error (${e.message}): ${q}`);
     return [];
   }
-  const body = await res.json();
-  return body.items || [];
 }
 
 async function hnSearch(q) {
   const since = Math.floor(WEEK_AGO.getTime() / 1000);
   const url = `https://hn.algolia.com/api/v1/search?query=${encodeURIComponent(q)}&tags=story&numericFilters=created_at_i>${since}&hitsPerPage=30`;
-  const res = await fetch(url);
-  if (!res.ok) {
-    console.warn(`hn search failed (${res.status}): ${q}`);
+  try {
+    const res = await fetch(url, { signal: AbortSignal.timeout(12000) });
+    if (!res.ok) {
+      console.warn(`hn search failed (${res.status}): ${q}`);
+      return [];
+    }
+    const body = await res.json();
+    return body.hits || [];
+  } catch (e) {
+    console.warn(`hn search error (${e.message}): ${q}`);
     return [];
   }
-  const body = await res.json();
-  return body.hits || [];
 }
 
 function loadPrevStars() {
@@ -137,13 +148,18 @@ async function main() {
       continue;
     }
     if (repos.has(id)) continue;
-    const res = await fetch(`https://api.github.com/repos/${id}`, {
-      headers: { ...(GH_TOKEN ? { Authorization: `Bearer ${GH_TOKEN}` } : {}), Accept: "application/vnd.github+json" },
-    });
-    if (!res.ok) continue; // 404 = 죽은 리포, 자연 탈락
-    const r = await res.json();
-    if (r.fork || r.archived) continue;
-    repos.set(r.full_name, toCandidate(r));
+    try {
+      const res = await fetch(`https://api.github.com/repos/${id}`, {
+        headers: { ...(GH_TOKEN ? { Authorization: `Bearer ${GH_TOKEN}` } : {}), Accept: "application/vnd.github+json" },
+        signal: AbortSignal.timeout(12000),
+      });
+      if (!res.ok) continue; // 404 = 죽은 리포, 자연 탈락
+      const r = await res.json();
+      if (r.fork || r.archived) continue;
+      repos.set(r.full_name, toCandidate(r));
+    } catch (e) {
+      console.warn(`[collect] prev repo fetch failed (${id}): ${e.message}`);
+    }
   }
 
   // HN buzz 매칭: 스토리 URL/제목에 리포가 언급되면 evidence 로 붙임
@@ -305,6 +321,11 @@ async function main() {
   take(byStars, 20); // classic 후보 (성장률 낮아도 풀에 남긴다)
   const candidates = [...pick.values()].sort((a, b) => b.velocity_score - a.velocity_score);
 
+  if (candidates.length === 0) {
+    console.error("no candidates collected — aborting so last week's data stays intact");
+    process.exit(1);
+  }
+
   fs.mkdirSync(path.dirname(OUT), { recursive: true });
   fs.writeFileSync(
     OUT,
@@ -320,13 +341,9 @@ async function main() {
       `(median growth ${(velMeta.median_growth_rate * 100).toFixed(2)}%/week, ` +
       `${velMeta.measured} measured) → ${OUT}`
   );
-  if (candidates.length === 0) {
-    console.error("no candidates collected — aborting so last week's data stays intact");
-    
-  }
 }
 
 main().catch((e) => {
   console.error(e);
-  
+  process.exit(1);
 });

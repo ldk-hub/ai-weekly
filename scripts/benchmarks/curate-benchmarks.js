@@ -58,9 +58,10 @@ function validateAndCurate() {
     process.exit(1);
   }
 
-  // 기준 시각: 현재 실행 시각 기준
+  // 기준 시각: 현재 실행 시각 기준 (KST 날짜 기준 비교로 UTC 시차 오차 방지)
   const runDate = new Date();
-  console.log(`📅 검문 기준 일시 (Run Date): ${runDate.toISOString()}`);
+  const todayKst = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Seoul" }).format(runDate);
+  console.log(`📅 검문 기준 일시 (Run Date): ${runDate.toISOString()} (KST ${todayKst})`);
 
   // 1. 출처 최신성 게이트 (Staleness Gate) 검증
   const sources = data.sources || [];
@@ -82,10 +83,14 @@ function validateAndCurate() {
       process.exit(1);
     }
 
-    const asOfDate = new Date(src.as_of);
-    const ageDays = Math.floor((runDate - asOfDate) / (1000 * 60 * 60 * 24));
+    const ageDays = Math.floor((Date.parse(todayKst) - Date.parse(src.as_of)) / (1000 * 60 * 60 * 24));
     // 리퍼럴/API 등 일간·주간 출처는 최대 21일, 월간 출처(Similarweb)는 최대 45일, 벤치마크는 30일
-    const maxDays = src.id === "trakkr" || src.id === "openrouter_rankings" ? 21 : src.category === "share" ? 45 : 30;
+    const maxDays =
+      src.id === "trakkr" || src.id === "traffic" || src.id === "openrouter_rankings"
+        ? 21
+        : src.category === "share"
+        ? 45
+        : 30;
 
     if (ageDays > maxDays) {
       console.error(
@@ -141,6 +146,7 @@ function validateAndCurate() {
   const benchmarks = data.model_benchmarks || [];
   console.log(`🏆 프론티어 벤치마크 모델 수: ${benchmarks.length}개`);
 
+  const seenProviders = new Set();
   for (const item of benchmarks) {
     if (
       !item.model ||
@@ -155,6 +161,14 @@ function validateAndCurate() {
     ) {
       console.error(`❌ [Benchmarks] 3대 리더보드 필수 지표가 누락된 모델 발견: ${JSON.stringify(item)}`);
       process.exit(1);
+    }
+
+    if (item.provider) {
+      if (seenProviders.has(item.provider)) {
+        console.error(`❌ [Benchmarks 정책 위반] 동일 벤더(${item.provider}) 대표 모델 중복 수록: "${item.model}"`);
+        process.exit(1);
+      }
+      seenProviders.add(item.provider);
     }
 
     for (const pattern of LEGACY_PATTERNS) {

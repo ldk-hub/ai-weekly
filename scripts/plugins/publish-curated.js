@@ -10,7 +10,7 @@ const { execFileSync } = require("child_process");
 const ROOT = path.join(__dirname, "..", "..");
 const CURATED = path.join(ROOT, ".tmp", "04_curated.json");
 const LATEST = path.join(ROOT, "site", "public", "data", "latest.json");
-const TODAY = process.argv[2] || new Date().toISOString().slice(0, 10);
+const TODAY = process.argv[2] || new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Seoul" }).format(new Date());
 if (!/^\d{4}-\d{2}-\d{2}$/.test(TODAY)) {
   console.error(`bad date: ${TODAY} (expected YYYY-MM-DD)`);
   process.exit(1);

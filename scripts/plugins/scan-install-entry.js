@@ -42,6 +42,7 @@ const RE = {
   dynamicExec: /(?<![.\w])(exec|eval|compile)\s*\(|new\s+Function\s*\(|vm\.runIn/,
   opaqueDecode: /b64decode|base64\.b64|atob\s*\(|zlib\.decompress|codecs\.decode|marshal\.loads|pickle\.loads/,
   fileRead: /open\s*\(|fs\.readFileSync|fs\.readFile|Path\([^)]+\)\.read_text|read_bytes/,
+  shellPipeExec: /\beval\s+["'`]?\$\(\s*(?:curl|wget)\b|\b(?:base64\s+(?:-d|--decode)|xxd\s+-r)\b[^\n|]*\|\s*(?:sudo\s+)?(?:ba|z|da|k)?sh\b|\b(?:curl|wget)\b[^\n|]*\bhttp:\/\/[^\n|]*\|\s*(?:sudo\s+)?(?:ba|z|da|k)?sh\b/i,
 };
 
 const IPV4 = /\b(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\b/g;
@@ -97,6 +98,17 @@ function scanContent(filePath, text) {
     hit("file_read_exec", "외부/로컬 데이터 파일(YAML/데이터)을 읽어 in-process 동적 실행(exec/eval/compile)한다");
   }
 
+  if (!isManifest) {
+    const execShellPipe = text.split(/\r?\n/).some((rawLine) => {
+      const line = rawLine.trim();
+      if (!line || /^(?:#|\/\/|info\s+|Usage:)/i.test(line)) return false;
+      return RE.shellPipeExec.test(line);
+    });
+    if (execShellPipe) {
+      hit("shell_pipe_exec", "원격 스크립트(비암호화 HTTP/eval) 또는 디코드 페이로드를 쉘로 즉시 실행한다");
+    }
+  }
+
   if (filePath.endsWith("package.json")) {
     let pkg;
     try {
@@ -106,7 +118,14 @@ function scanContent(filePath, text) {
     }
     for (const key of ["preinstall", "install", "postinstall"]) {
       const cmd = pkg.scripts?.[key];
-      if (typeof cmd === "string" && (RE.remoteFetch.test(cmd) || /https?:\/\//.test(cmd) || /node\s+-e/.test(cmd))) {
+      if (
+        typeof cmd === "string" &&
+        (RE.remoteFetch.test(cmd) ||
+          RE.shellPipeExec.test(cmd) ||
+          /https?:\/\//.test(cmd) ||
+          /node\s+-e/.test(cmd) ||
+          /\bpython3?\s+-c\b/.test(cmd))
+      ) {
         hit("install_script_network", `${key} 스크립트가 외부에서 코드를 받거나 인라인 실행한다: ${cmd.slice(0, 120)}`);
       }
     }
@@ -118,7 +137,10 @@ async function fetchText(owner, repo, p) {
   const url = `https://raw.githubusercontent.com/${owner}/${repo}/HEAD/${p}`;
   let res;
   try {
-    res = await fetch(url, { headers: { "User-Agent": "ai-weekly-install-scan" } });
+    res = await fetch(url, {
+      headers: { "User-Agent": "ai-weekly-install-scan" },
+      signal: AbortSignal.timeout(10000),
+    });
   } catch {
     return null; // 네트워크 실패는 판정 불가 — 컷하지 않는다
   }

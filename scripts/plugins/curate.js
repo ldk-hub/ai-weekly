@@ -903,6 +903,7 @@ async function callGemini(candidates) {
     "simbasjungles/free-my-tv",
     "Ansub/tv-detox",
     "Arekejoker/qwen21-nsfw-pose-skill",
+    "Seagey/couch-tv",
   ]);
 
   for (const c of candidates) {
@@ -1374,16 +1375,43 @@ async function main() {
 }
 
 /**
- * latest.json 품질 검증: 한글 미번역 제목 및 제네릭 폴백 문구가 포함된 항목을 차단합니다.
+ * latest.json 품질 검증: 한글 미번역, 제네릭 폴백 문구, ID 중복, 정원 상한 초과를 차단합니다.
  */
 function validateLatest() {
   const latest = JSON.parse(fs.readFileSync(LATEST, "utf8"));
-  const items = [...(latest.rising || []), ...(latest.classic || [])];
-  const GENERIC = /기능을 프로젝트 개발 환경에 도입하고 싶을 때/;
+  const rising = latest.rising || [];
+  const classic = latest.classic || [];
+  const items = [...rising, ...classic];
+  const GENERIC = /기능을 프로젝트 개발 환경에 도입하고 싶을 때|프로젝트에 대한 오픈소스 도구입니다|고유 개발 기능/;
   const errors = [];
-  for (const it of items) {
-    if (!/[가-힣]/.test(it.title_ko || "")) errors.push(`${it.id}: title_ko 미번역`);
-    if (GENERIC.test(it.use_case || "") || GENERIC.test(it.summary_ko || "")) errors.push(`${it.id}: 제네릭 폴백 문구`);
+  const seenIds = new Set();
+
+  for (const [status, list] of [["rising", rising], ["classic", classic]]) {
+    const catCounts = {};
+    for (const it of list) {
+      if (seenIds.has(it.id)) errors.push(`${it.id}: 중복 id`);
+      seenIds.add(it.id);
+
+      const cat = it.category || "skill";
+      catCounts[cat] = (catCounts[cat] || 0) + 1;
+      if (CAPS[status]?.[cat] != null && catCounts[cat] > CAPS[status][cat]) {
+        errors.push(`${it.id}: ${status}.${cat} 상한(${CAPS[status][cat]}) 초과`);
+      }
+
+      if (!/[가-힣]/.test(it.title_ko || "")) errors.push(`${it.id}: title_ko 미번역`);
+      if (!/[가-힣]/.test(it.summary_ko || "")) errors.push(`${it.id}: summary_ko 미번역`);
+      if (!/[가-힣]/.test(it.catchphrase || "")) errors.push(`${it.id}: catchphrase 미번역`);
+
+      const joinedFeatures = (it.key_features || []).join(" ");
+      if (
+        GENERIC.test(it.use_case || "") ||
+        GENERIC.test(it.summary_ko || "") ||
+        GENERIC.test(it.catchphrase || "") ||
+        GENERIC.test(joinedFeatures)
+      ) {
+        errors.push(`${it.id}: 제네릭 폴백 문구`);
+      }
+    }
   }
   if (errors.length) {
     console.error(`✗ validate 실패 (${errors.length}건)\n` + errors.join("\n"));

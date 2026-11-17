@@ -93,31 +93,39 @@ const REPEAT_LOOKBACK_DAYS = Number(process.env.NEWS_REPEAT_LOOKBACK_DAYS || 7);
 // 같은 리포라도 그동안 이만큼 더 컸으면 "업데이트" 로 다시 다룰 가치가 있다 (신규 발표로 위장하지 않는다).
 const UPDATE_STAR_GROWTH = Number(process.env.NEWS_UPDATE_STAR_GROWTH || 0.3);
 
-function loadRecentlyPublished() {
-  const dir = path.join(ROOT, "site", "public", "data", "archive");
+function loadRecentlyPublished(dirs = [
+  path.join(ROOT, "site", "public", "data", "archive"),
+  path.join(ROOT, "data", "archive"),
+]) {
   const seen = new Map(); // normalizeUrl(url) → { date, stars }
-  if (!fs.existsSync(dir)) return seen;
-  const cutoff = new Date(Date.now() - REPEAT_LOOKBACK_DAYS * 864e5).toISOString().slice(0, 10);
-  const files = fs.readdirSync(dir)
-    .filter((f) => /^news_\d{4}-\d{2}-\d{2}\.json$/.test(f))
-    .filter((f) => f.slice(5, 15) >= cutoff);
-  for (const f of files) {
-    let data;
-    try {
-      data = JSON.parse(fs.readFileSync(path.join(dir, f), "utf8"));
-    } catch (e) {
-      console.warn(`[repeat] ${f} 파싱 실패: ${e.message}`);
-      continue;
-    }
-    const date = f.slice(5, 15);
-    for (const n of data.news || []) {
-      if (!n.url) continue;
-      const key = normalizeUrl(n.url);
-      const prev = seen.get(key);
-      if (!prev || date > prev.date) seen.set(key, { date, stars: Number(n.metrics && n.metrics.stars) || 0 });
+  const cutoff = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Seoul" })
+    .format(new Date(Date.now() - REPEAT_LOOKBACK_DAYS * 864e5));
+  let fileCount = 0;
+
+  for (const dir of dirs) {
+    if (!fs.existsSync(dir)) continue;
+    const files = fs.readdirSync(dir)
+      .filter((f) => /^news_\d{4}-\d{2}-\d{2}\.json$/.test(f))
+      .filter((f) => f.slice(5, 15) >= cutoff);
+    fileCount += files.length;
+    for (const f of files) {
+      let data;
+      try {
+        data = JSON.parse(fs.readFileSync(path.join(dir, f), "utf8"));
+      } catch (e) {
+        console.warn(`[repeat] ${f} 파싱 실패: ${e.message}`);
+        continue;
+      }
+      const date = f.slice(5, 15);
+      for (const n of data.news || []) {
+        if (!n.url) continue;
+        const key = normalizeUrl(n.url);
+        const prev = seen.get(key);
+        if (!prev || date > prev.date) seen.set(key, { date, stars: Number(n.metrics && n.metrics.stars) || 0 });
+      }
     }
   }
-  console.log(`[repeat] 최근 ${REPEAT_LOOKBACK_DAYS}일 배포본 ${files.length}개 → URL ${seen.size}건 로드`);
+  console.log(`[repeat] 최근 ${REPEAT_LOOKBACK_DAYS}일 배포본 ${fileCount}개 → URL ${seen.size}건 로드`);
   return seen;
 }
 
@@ -203,6 +211,7 @@ function ghToken() {
 function makeCandidate({ source, sourceName, url, title, author, publishDate, body, metrics, signalHint, lang }) {
   const text = (body || "").trim();
   const cleanUrl = stripTracking(url);
+  const pubMs = Date.parse(publishDate || "");
   return {
     id: `${source}_${sha(normalizeUrl(cleanUrl) || title)}`,
     source,
@@ -210,7 +219,7 @@ function makeCandidate({ source, sourceName, url, title, author, publishDate, bo
     url: cleanUrl,
     title: (title || "").trim(),
     author: author || sourceName,
-    publish_date: new Date(publishDate || Date.now()).toISOString(),
+    publish_date: Number.isFinite(pubMs) ? new Date(pubMs).toISOString() : "",
     lang: lang || "en",
     body: text,
     body_chars: text.length,
@@ -785,6 +794,7 @@ async function fetchX(dynamicSeeds = []) {
     try {
       const fallbackItems = scrapeSocial("x", { limit: 4 });
       for (const item of fallbackItems) {
+        if (!inWindow(item.publish_date, "x")) continue;
         out.push(makeCandidate({
           source: "x",
           sourceName: "X",
@@ -813,7 +823,8 @@ async function fetchThreads() {
   }
   console.log("[threads] Scrapling 스텔스 크롤러로 Threads 공식 AI 계정 수집 시작 (확대 모드)...");
   try {
-    const items = scrapeSocial("threads", { limit: 4 });
+    const items = scrapeSocial("threads", { limit: 4 })
+      .filter((i) => inWindow(i.publish_date, "threads"));
     console.log(`[threads] Scrapling 수집 완료: ${items.length}건`);
     return items.map((i) => makeCandidate({
       source: "threads",
@@ -839,24 +850,27 @@ async function fetchInstagram() {
   }
   console.log("[instagram] Instagram AI 채널 수집 시작...");
   try {
-    let items = scrapeSocial("instagram", { limit: 3 });
+    let items = scrapeSocial("instagram", { limit: 3 })
+      .filter((i) => inWindow(i.publish_date, "instagram"));
     if (!items.length) {
       const { loadSeeds } = require("../social/seeds");
       const { collectInstagramEgo, parseMetaCounts } = require("../social/ig_profile");
       const seeds = loadSeeds();
-      const egoItems = await collectInstagramEgo(seeds.instagram || [], 3, 48);
-      items = egoItems.map((raw) => {
-        const body = String(raw.body || "").trim();
-        const m = raw.metrics || parseMetaCounts(raw.metaDesc, raw.likesText);
-        return {
-          url: raw.url,
-          title: `[${raw.author}] ${body.split("\n")[0].slice(0, 80)}`,
-          author: `@${String(raw.author || "").replace(/^@/, "")}`,
-          publish_date: raw.publish_date || new Date().toISOString(),
-          body,
-          metrics: { ...m, platform: "instagram" },
-        };
-      });
+      const egoItems = await collectInstagramEgo(seeds.instagram || [], 3, WINDOW_HOURS);
+      items = egoItems
+        .map((raw) => {
+          const body = String(raw.body || "").trim();
+          const m = raw.metrics || parseMetaCounts(raw.metaDesc, raw.likesText);
+          return {
+            url: raw.url,
+            title: `[${raw.author}] ${body.split("\n")[0].slice(0, 80)}`,
+            author: `@${String(raw.author || "").replace(/^@/, "")}`,
+            publish_date: raw.publish_date || "",
+            body,
+            metrics: { ...m, platform: "instagram" },
+          };
+        })
+        .filter((i) => inWindow(i.publish_date, "instagram"));
     }
     console.log(`[instagram] 수집 완료: ${items.length}건`);
     return items.map((i) => makeCandidate({
@@ -1090,4 +1104,6 @@ if (require.main === module) {
 module.exports = {
   extractDynamicSeeds,
   RADAR_STOPWORDS,
+  inWindow,
+  loadRecentlyPublished,
 };

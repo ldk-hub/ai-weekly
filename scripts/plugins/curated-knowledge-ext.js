@@ -1080,6 +1080,175 @@ module.exports = {
     ],
     use_case: "인가된 보안 진단 환경이나 CTF 대회에서 멀티 에이전트 기반 자율 모의해킹 파이프라인을 구축할 때",
     tags: ["pentest", "multi-agent", "ai-security", "swarm-intelligence", "agent-harness"]
+  },
+  "morganlinton/BeautifulRust": {
+    category: "skill",
+    title_ko: "BeautifulRust — 코딩 에이전트가 관용적인 Rust 코드를 작성·리뷰하도록 가르치는 스킬",
+    catchphrase: "Claude Code·Codex·Cursor·Gemini CLI용 Rust 작성·리뷰·포팅 스킬 및 검증된 clippy 설정",
+    summary_ko: "AI 코딩 에이전트가 비효율적이거나 억지스러운 코드 대신 Rust다운 관용적(idiomatic) 코드 작성, 코드 리뷰, 타 언어 포팅을 수행하도록 안내하는 에이전트 스킬 모음입니다. 실전에서 검증된 clippy 린트 설정이 함께 제공되어 메모리 안전성과 코드 품질을 일정하게 유지합니다. Claude Code, Codex, Copilot, Cursor, Gemini CLI 환경에서 모두 동작합니다.",
+    key_features: [
+      "관용적 Rust 코드 작성·리뷰·포팅을 유도하는 전용 에이전트 스킬",
+      "실무 검증을 거친 엄격한 clippy 린트 규칙 세트 기본 포함",
+      "Claude Code·Codex·Copilot·Cursor·Gemini CLI 멀티 에이전트 호환"
+    ],
+    use_case: "코딩 에이전트로 Rust 프로젝트를 신규 개발하거나 기존 코드를 안전하게 포팅·리뷰할 때",
+    tags: ["rust", "clippy", "code-review", "agent-skills", "claude-code"]
+  },
+  "ZiChuanLan/agent-purge": {
+    category: "harness",
+    title_ko: "agent-purge — 여러 코딩 에이전트의 시스템 프롬프트를 통합 교체·주입하는 로컬 웹 콘솔",
+    catchphrase: "하나의 페르소나를 Codex·Claude Code·OpenCode·Grok·Hermes·Pi에 일괄 적용",
+    summary_ko: "서로 다른 코딩 에이전트마다 개별적으로 관리해야 했던 시스템 프롬프트와 작업 페르소나를 하나의 로컬 웹 콘솔에서 통합 교체하거나 주입할 수 있는 하네스 도구입니다. Codex, Claude Code, OpenCode, Grok, OMP, Hermes, Pi, ZCode 등 다양한 런타임을 지원하여 어떤 도구를 열더라도 일관된 행동 규범과 코딩 스타일을 유지하게 합니다.",
+    key_features: [
+      "하나의 페르소나·시스템 프롬프트를 8종 이상 코딩 에이전트에 동시 적용",
+      "직관적인 로컬 웹 콘솔을 통한 프롬프트 주입 및 관리",
+      "Claude Code·Codex·Hermes·Pi 등 다중 하네스 일관성 유지"
+    ],
+    use_case: "여러 AI 코딩 에이전트를 번갈아 쓰면서 동일한 시스템 프롬프트와 규칙을 일괄 적용할 때",
+    tags: ["system-prompt", "agent-harness", "claude-code", "codex", "web-console"]
+  },
+  "daveebbelaar/bama": {
+    category: "skill",
+    title_ko: "bama — Swift와 SwiftUI로 네이티브 macOS 앱을 설계·구축·테스트하는 에이전트 스킬",
+    catchphrase: "Build Any Mac App: 리서치부터 클론, Liquid Glass UI 설계, 최적화·테스트까지 일괄 지원",
+    summary_ko: "Swift와 SwiftUI 기반의 네이티브 macOS 애플리케이션을 처음부터 설계하고 완성할 수 있도록 지원하는 Claude Code 및 Codex 전용 에이전트 스킬입니다. 기존 앱 리서치와 클론 분석, SwiftData 연동, 최신 macOS 디자인 감각을 반영한 UI 구성, 성능 최적화 및 테스트 파이프라인까지 단계별 가이드라인을 제공합니다.",
+    key_features: [
+      "Swift·SwiftUI·SwiftData 기반 네이티브 macOS 앱 종단간 구축 스킬",
+      "앱 리서치·디자인·성능 최적화·자동 테스트 단계별 워크플로우",
+      "Claude Code·Codex 환경에서 네이티브 맥 앱 개발 품질 향상"
+    ],
+    use_case: "AI 코딩 에이전트와 함께 완성도 높은 네이티브 macOS SwiftUI 앱을 빠르게 제작하고 싶을 때",
+    tags: ["macos", "swiftui", "swift", "agent-skills", "native-apps"]
+  },
+  "ersinkoc/phonebox": {
+    category: "mcp",
+    title_ko: "phonebox — 구형 Android 폰을 AI 코딩·시스템 제어용 터치 데스크 덱으로 바꾸는 도구",
+    catchphrase: "클라우드 없이 USB·Wi-Fi로 연결해 115개 위젯으로 시스템 상태와 AI 코딩을 터치 제어",
+    summary_ko: "서랍 속에 방치된 구형 Android 스마트폰을 Windows, Linux, macOS용 커스텀 데스크 패널 및 터치 컨트롤 덱으로 재활용하는 프로젝트입니다. AI 코딩(Claude Code·Codex) 단축 제어, 시스템 자원 모니터링, 미디어 및 웹훅 자동화를 위한 115종의 위젯을 제공하며, 외부 클라우드 없이 USB나 로컬 Wi-Fi 페어링으로 안전하게 작동합니다.",
+    key_features: [
+      "AI 코딩·시스템 통계·미디어·자동화용 115개 맞춤형 터치 위젯 제공",
+      "클라우드 의존성 없는 USB 및 로컬 Wi-Fi·Tailscale 직접 연결",
+      "Windows·Linux·macOS 크로스 플랫폼 데스크톱 연동 지원"
+    ],
+    use_case: "안 쓰는 Android 폰을 개발자 책상 위 AI 코딩 보조 터치 패널 및 스트림 덱으로 활용하고 싶을 때",
+    tags: ["desk-panel", "stream-deck", "claude-code", "widgets", "local-first"]
+  },
+  "NiazMorshed2007/reanimate": {
+    category: "skill",
+    title_ko: "reanimate — 웹 애니메이션을 프레임 단위로 역설계하고 동일 동작을 검증하는 스킬",
+    catchphrase: "레퍼런스 모션을 프레임별 분해 분석한 뒤 Playwright로 원본과 동일하게 움직이는지 입증",
+    summary_ko: "레퍼런스 웹페이지나 UI에서 보이는 정교한 애니메이션을 프레임 단위로 역공학해 코드로 재구현하고, 실제 렌더링된 복제본이 원본과 동일하게 동작하는지 검증하는 Claude Code 스킬입니다. Playwright 기반 브라우저 측정을 결합해 모션 타이밍과 이징(easing) 곡선 오차를 줄여 프론트엔드 모션 구현 정확도를 높입니다.",
+    key_features: [
+      "임의 웹 애니메이션의 프레임 단위 키프레임·타이밍 역공학 분석",
+      "Playwright 연동을 통한 원본 대비 모션 일치 여부 자동 검증",
+      "프론트엔드 모션 그래픽 재현에 특화된 Claude Code 스킬"
+    ],
+    use_case: "마음에 드는 웹 애니메이션을 프레임 단위까지 정확히 분석해 내 프로젝트에 재현할 때",
+    tags: ["animation", "reverse-engineering", "playwright", "claude-skills", "frontend"]
+  },
+  "davidondrej/cloudroom": {
+    category: "harness",
+    title_ko: "cloudroom — Claude Code·Codex·Pi 세션을 맥과 클라우드 샌드박스 간 자유롭게 이동하는 하네스",
+    catchphrase: "격리된 클라우드 샌드박스에서 백그라운드 에이전트를 실행하고 라이브 세션을 실시간 이관",
+    summary_ko: "Claude Code, Codex, Pi, OpenCode 등 다양한 코딩 에이전트 하네스를 격리된 클라우드 샌드박스에서 실행하고, 작업 중인 라이브 세션을 로컬 Mac과 클라우드 서버 사이에서 끊김 없이 오가며 이어갈 수 있게 하는 Rust 기반 셀프호스팅 런타임입니다. 장시간 백그라운드 에이전트 작업을 로컬 기기 부하 없이 안정적으로 운영할 수 있습니다.",
+    key_features: [
+      "Claude Code·Codex·Pi·OpenCode 다중 하네스 격리 샌드박스 실행",
+      "로컬 Mac과 클라우드 환경 간 라이브 에이전트 세션 실시간 이동",
+      "Rust 기반 경량 셀프호스팅 아키텍처 및 백그라운드 에이전트 지원"
+    ],
+    use_case: "노트북에서 시작한 코딩 에이전트 세션을 클라우드 샌드박스로 넘겨 백그라운드로 이어서 돌릴 때",
+    tags: ["cloud-agents", "sandbox", "agent-harness", "rust", "self-hosted"]
+  },
+  "JosssphZhou/poki": {
+    category: "mcp",
+    title_ko: "poki — 실제 iPhone 화면을 보고 터치·입력·스와이프를 수행하는 로컬 MCP 모바일 에이전트",
+    catchphrase: "Claude Code 및 모든 MCP 에이전트와 연동해 실제 iOS 기기의 모든 앱을 직접 조작",
+    summary_ko: "사용자가 스마트폰을 다루듯 실제 iPhone 화면을 시각적으로 인식하고 임의의 앱 위에서 탭, 타이핑, 스와이프 동작을 수행하는 오픈소스 로컬 모바일 에이전트입니다. 외부 클라우드 중계 없이 로컬 환경에서 실행되며, Claude Code를 비롯한 표준 MCP(Model Context Protocol) 호환 에이전트에 즉시 연결할 수 있습니다.",
+    key_features: [
+      "실제 iPhone 화면 인식 기반 탭·텍스트 입력·스와이프 자동화",
+      "클라우드 전송 없는 100% 로컬 실행으로 프라이버시 보호",
+      "Claude Code 및 표준 MCP 에이전트 즉시 플러그인 연동"
+    ],
+    use_case: "실제 iPhone 기기 위에서 동작하는 iOS 앱 테스트나 모바일 반복 작업을 MCP 에이전트에 맡길 때",
+    tags: ["ios", "iphone", "mcp", "mobile-automation", "ai-agents"]
+  },
+  "cutetailbud/ff-ruyijs": {
+    category: "mcp",
+    title_ko: "ff-ruyijs — 안티봇 우회·로그인·역공학 작업을 위해 AI 에이전트용으로 설계된 경량 브라우저",
+    catchphrase: "Codex·Claude Code의 웹 자동화 및 보호 시스템 우회 탐색을 위한 Firefox 기반 헤드리스 엔진",
+    summary_ko: "Codex나 Claude Code 같은 AI 에이전트가 웹 자동화, 복잡한 로그인 절차 통과, 웹 보호 메커니즘 분석 및 리버스 엔지니어링 작업을 안정적으로 수행하도록 특수 설계된 경량 헤드리스 브라우저입니다. SpiderMonkey·Firefox 기반 환경을 Python/JavaScript 제어와 결합해 일반 자동화 도구가 막히는 웹 환경에 대응합니다.",
+    key_features: [
+      "AI 에이전트 웹 자동화 및 역공학 시나리오에 맞춘 경량 헤드리스 브라우저",
+      "안티봇 보호 체계 및 로그인 플로우 탐색·디버깅 지원",
+      "Python·JavaScript 기반 에이전트 툴체인 간편 통합"
+    ],
+    use_case: "코딩 에이전트가 보호된 웹페이지의 로그인 흐름을 테스트하거나 구조를 분석·자동화해야 할 때",
+    tags: ["headless-browser", "automation", "firefox", "anti-bot", "reverse-engineering"]
+  },
+  "synchopate/llama-modchip": {
+    category: "skill",
+    title_ko: "llama-modchip — GPU 없이 64GB CPU 메모리만으로 284B DeepSeek-V4-Flash를 구동하는 추론 킷",
+    catchphrase: "59GiB 미만 RAM에서 284B 모델과 30B MoE를 초당 최대 111.6토큰으로 실행하는 CPU 최적화",
+    summary_ko: "고가의 GPU 없이 64GB RAM CPU 환경(Apple Silicon, Zen5 AVX-512 등)만으로 284B 규모의 DeepSeek-V4-Flash 및 30B MoE 모델을 구동할 수 있도록 최적화한 로컬 LLM 추론 프로젝트입니다. 양자화와 추측 디코딩(Speculative Decoding)을 결합해 284B 모델에서 최대 25.3 tok/s, 30B MoE에서 최대 111.6 tok/s의 실용적인 속도를 달성했습니다.",
+    key_features: [
+      "GPU 0개·64GB CPU 환경에서 284B DeepSeek-V4-Flash(<59GiB RAM) 구동",
+      "추측 디코딩 적용 시 284B 최대 25.3 tok/s · 30B MoE 최대 111.6 tok/s",
+      "Apple Silicon 및 AVX-512 CPU 양자화·로컬 에이전트 백엔드 최적화"
+    ],
+    use_case: "고용량 GPU 서버 없이 로컬 워크스테이션이나 맥북 CPU 메모리로 대형 MoE 모델을 돌릴 때",
+    tags: ["local-llm", "cpu-inference", "deepseek-v4", "moe", "speculative-decoding"]
+  },
+  "XiaoyeCodes/code-animation-prompts": {
+    category: "skill",
+    title_ko: "code-animation-prompts — 341종 코드 애니메이션 프롬프트와 HTML 비디오 렌더러 스킬",
+    catchphrase: "196장 레퍼런스 정지 프레임과 오프라인 피커를 내장한 Claude Code·Codex 애니메이션 스킬",
+    summary_ko: "341가지 코드 기반 애니메이션 스타일 프롬프트와 196장의 참고 정지 이미지, 오프라인 스타일 선택기를 하나로 묶어 제공하는 Claude Code 및 Codex 전용 스킬입니다. 원하는 모션 스타일을 시각적으로 고른 뒤 원클릭으로 프롬프트를 가져와 HTML 기반 비디오 렌더링으로 즉시 변환할 수 있습니다.",
+    key_features: [
+      "341종 코드 애니메이션 스타일 프롬프트 및 196장 레퍼런스 스틸 수록",
+      "네트워크 없이 탐색 가능한 오프라인 스타일 피커 및 원클릭 임포트",
+      "Claude Code·Codex 연동 HTML 기반 비디오 자동 렌더링 지원"
+    ],
+    use_case: "프로그래밍 방식 모션 그래픽이나 HTML 기반 홍보 영상을 만들 때 검증된 스타일을 골라 쓸 때",
+    tags: ["animation", "creative-coding", "prompts", "claude-code", "video-generation"]
+  },
+  "Vibha-Ramprakash/claude-video-effects": {
+    category: "skill",
+    title_ko: "claude-video-effects — 슬래시 명령 하나로 토킹헤드 영상에 51종 효과를 입히는 스킬",
+    catchphrase: "얼굴 추적과 인물 뒤 레이어 합성까지 `/effects orbit` 명령으로 자동 적용하는 영상 편집 스킬",
+    summary_ko: "발표자나 크리에이터의 토킹헤드(talking-head) 영상 클립을 넣고 `/effects orbit` 같은 명령을 입력하면 51가지 무료 비디오 효과를 자동으로 적용해주는 Claude Code 스킬입니다. 얼굴 추적(Face Tracking)과 인물 뒤 배경 레이어 분리(behind-your-head layers)를 코드 기반으로 처리해 릴스·쇼츠·틱톡 영상 편집을 단축합니다.",
+    key_features: [
+      "51종 무료 비디오 이펙트 및 `/effects` 슬래시 명령 기반 즉시 적용",
+      "정밀 얼굴 추적(Face Tracking) 및 피사체 후면 레이어 합성 지원",
+      "인스타그램 릴스·유튜브 쇼츠·틱톡 숏폼 제작 워크플로우 최적화"
+    ],
+    use_case: "복잡한 영상 편집 툴 없이 Claude Code 명령만으로 숏폼 토킹헤드 영상에 화려한 효과를 줄 때",
+    tags: ["video-effects", "face-tracking", "claude-skills", "shorts-editor", "claude-code"]
+  },
+  "EricJujianZou/rederive": {
+    category: "skill",
+    title_ko: "rederive — 설계 결정을 스스로 재유도하며 코드베이스를 학습하는 소크라테스식 스킬",
+    catchphrase: "단순 요약 대신 아키텍처 선택의 이유를 문답으로 추론해 코드 구조를 체득하는 학습 스킬",
+    summary_ko: "낯선 코드베이스를 단순히 읽고 요약해 주는 대신, 개발자가 핵심 설계 결정과 트레이드오프를 스스로 다시 도출해 보도록 소크라테스식 문답으로 이끌어주는 Claude Code 학습 스킬입니다. 코드가 왜 그런 구조로 작성되었는지 능동적으로 추론하게 만들어 시스템 설계 이해도를 깊게 높여줍니다.",
+    key_features: [
+      "소크라테스식 문답을 통한 능동적 코드베이스 설계 재유도 학습",
+      "아키텍처 트레이드오프 및 모듈 경계 판단 근거 심층 탐구",
+      "Claude Code 플러그인·스킬 규격으로 기존 리포에 즉시 적용"
+    ],
+    use_case: "새로운 오픈소스나 대형 사내 코드베이스의 설계 철학을 깊이 있게 자기 것으로 학습하고 싶을 때",
+    tags: ["learning", "socratic-method", "system-design", "claude-skills", "codebase"]
+  },
+  "alexeyw/lot-map": {
+    category: "mcp",
+    title_ko: "lot-map — Claude Code의 도구 호출·스킬·서브에이전트 동작을 실시간 지도로 시각화하는 도구",
+    catchphrase: "채팅창 옆에서 모델 스텝, 훅, 스킬, 서브에이전트 활성화를 7개 국어 로컬 지도로 라이브 표시",
+    summary_ko: "Claude Code가 작업하는 동안 내부에서 어떤 도구 호출, 모델 추론 단계, 훅(Hooks), 스킬, 서브에이전트가 실행되고 있는지 채팅 옆 라이브 맵(Live Map) 위에서 실시간 불빛으로 시각화해 주는 관측(Observability) 플러그인입니다. 외부 서버 전송 없이 100% 로컬에서 동작하며 한국어를 포함한 7개 언어를 지원합니다.",
+    key_features: [
+      "도구 호출·모델 스텝·훅·스킬·서브에이전트 동작 실시간 SVG 지도 시각화",
+      "외부 텔레메트리 없는 완전 로컬 구동 및 7개 언어 인터페이스 지원",
+      "Claude Code 실행 흐름 디버깅과 에이전트 관측성(Observability) 강화"
+    ],
+    use_case: "Claude Code가 작업 중 어떤 스킬과 서브에이전트를 거쳐 도구를 호출하는지 실시간으로 관찰할 때",
+    tags: ["agent-observability", "visualization", "claude-code-plugin", "typescript", "local-first"]
   }
 };
 

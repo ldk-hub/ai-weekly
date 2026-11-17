@@ -118,7 +118,7 @@ def handle_threads(users: list[str], tags: list[str], limit_per_target: int = 3,
             "url": it.get("url") or "",
             "title": f"[{u}] {title_sample}",
             "author": f"@{u.lstrip('@')}",
-            "publish_date": it.get("publish_date") or datetime.now(timezone.utc).isoformat(),
+            "publish_date": it.get("publish_date") or "",
             "lang": "en" if not re.search(r'[가-힣]', body) else "ko",
             "body": body,
             "body_chars": len(body),
@@ -147,7 +147,7 @@ def handle_x(users: list[str], limit_per_user: int = 3, max_total: int = 15) -> 
             "url": it.get("url") or "",
             "title": f"[{u}] {title_sample}",
             "author": f"@{u.lstrip('@')}",
-            "publish_date": it.get("publish_date") or datetime.now(timezone.utc).isoformat(),
+            "publish_date": it.get("publish_date") or "",
             "lang": "en" if not re.search(r'[가-힣]', body) else "ko",
             "body": body,
             "body_chars": len(body),
@@ -158,7 +158,6 @@ def handle_x(users: list[str], limit_per_user: int = 3, max_total: int = 15) -> 
 def handle_instagram(users: list[str], limit_per_user: int = 2) -> dict:
     """Instagram AI 연구소 게시물 스크레이핑 (인증 세션 쿠키 연동 지원)"""
     candidates = []
-    now_iso = datetime.now(timezone.utc).isoformat()
     seen_texts = set()
 
     session_cookie = os.environ.get("INSTAGRAM_SESSIONID")
@@ -186,9 +185,14 @@ def handle_instagram(users: list[str], limit_per_user: int = 2) -> dict:
                 fetch_kwargs["cookies"] = cookies
 
             page = StealthyFetcher.fetch(url, **fetch_kwargs)
+            post_hrefs = [
+                h for h in page.css("a[href*='/p/']::attr(href), a[href*='/reel/']::attr(href)").getall()
+                if h
+            ]
             meta_desc = page.css("meta[name='description']::attr(content)").get() or ""
             spans = [s.strip() for s in page.css("span::text, div::text").getall() if not is_noise(s)]
-            
+            pub_dt = page.css("time::attr(datetime)").get() or ""
+
             extracted = [meta_desc] if (meta_desc and not is_noise(meta_desc)) else []
             extracted.extend(spans)
 
@@ -200,14 +204,14 @@ def handle_instagram(users: list[str], limit_per_user: int = 2) -> dict:
                     continue
                 seen_texts.add(s)
                 title_sample = s.split("\n")[0][:80]
-                post_id = abs(hash(s)) % 1000000000
+                post_url = f"https://www.instagram.com{post_hrefs[count]}" if count < len(post_hrefs) else url
                 candidates.append({
                     "source": "instagram",
                     "sourceName": "Instagram",
-                    "url": f"https://www.instagram.com/p/{post_id}/",
+                    "url": post_url,
                     "title": f"[{u}] {title_sample}",
                     "author": u,
-                    "publish_date": now_iso,
+                    "publish_date": pub_dt,
                     "lang": "en" if not re.search(r'[가-힣]', s) else "ko",
                     "body": s,
                     "body_chars": len(s),

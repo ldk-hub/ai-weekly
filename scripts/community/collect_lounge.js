@@ -138,9 +138,10 @@ async function main() {
   }
   comments.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
+  const todayKst = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Seoul" }).format(new Date());
   const out = {
     generated_at: new Date().toISOString(),
-    version: `v${new Date().toISOString().slice(0, 10).replaceAll("-", ".")}`,
+    version: `v${todayKst.replaceAll("-", ".")}`,
     repo: `${REPO_OWNER}/${REPO_NAME}`,
     thread_total: discussions.totalCount || 0,
     threads,

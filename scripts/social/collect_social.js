@@ -7,6 +7,7 @@ const Parser = require("rss-parser");
 const cheerio = require("cheerio");
 const { loadSeeds, loadSeedRegistry } = require("./seeds");
 const { collectInstagramEgo, parseMetaCounts } = require("./ig_profile");
+const { loadRecentCuratedIds } = require("./curate_social");
 const { searchX } = require("../core/agent_reach");
 
 const ROOT = path.join(__dirname, "..", "..");
@@ -205,11 +206,17 @@ function normalizeInstagram(item) {
 
 function filterByWindow(posts, hours) {
   const sinceMs = Date.now() - hours * 3600 * 1000;
-  return posts.filter((p) => !p.publishedAt || Date.parse(p.publishedAt) >= sinceMs);
+  return posts.filter((p) => {
+    const ms = Date.parse(p.publishedAt || "");
+    return Number.isFinite(ms) && ms >= sinceMs;
+  });
 }
 
-async function collect() {
+async function collect(opts = {}) {
   const seeds = loadSeeds();
+  const archiveDir = opts.archiveDir || path.join(ROOT, "data", "social");
+  const todayKst = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Seoul" }).format(new Date());
+  const recentIds = loadRecentCuratedIds(archiveDir, todayKst);
   try {
     const reg = loadSeedRegistry();
     const discoveredCounts = Object.fromEntries(
@@ -238,7 +245,12 @@ async function collect() {
           }),
   ]);
 
-  const unique = dedupe([...xPosts, ...threadPosts, ...redditPosts, ...igPosts]);
+  const deduped = dedupe([...xPosts, ...threadPosts, ...redditPosts, ...igPosts]);
+  const unique = deduped.filter((p) => !recentIds.has(p.id));
+  const recentSkipped = deduped.length - unique.length;
+  if (recentSkipped > 0) {
+    console.log(`[social] 최근 7일 기배포 중복 ${recentSkipped}건 제외`);
+  }
   let windowUsed = WINDOW_H;
   let posts = filterByWindow(unique, WINDOW_H);
   if (posts.length === 0 && FALLBACK_WINDOW_H > WINDOW_H) {

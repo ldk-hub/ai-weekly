@@ -113,15 +113,18 @@ async function callGemini(posts) {
   return JSON.parse(text).items || [];
 }
 
-function validate(file = LATEST) {
-  if (!fs.existsSync(IN)) {
-    console.error(`검증 불가: ${IN} 없음 — collect_social.js 를 먼저 실행할 것`);
+function validate(file = LATEST, opts = {}) {
+  const candidatesFile = opts.candidatesFile || IN;
+  const archiveDir = opts.archiveDir || ARCHIVE_DIR;
+  if (!fs.existsSync(candidatesFile)) {
+    console.error(`검증 불가: ${candidatesFile} 없음 — collect_social.js 를 먼저 실행할 것`);
     process.exit(1);
   }
-  const { posts = [] } = JSON.parse(fs.readFileSync(IN, "utf-8"));
+  const { posts = [] } = JSON.parse(fs.readFileSync(candidatesFile, "utf-8"));
   const factMap = new Map(posts.map((p) => [p.id, p]));
   const data = JSON.parse(fs.readFileSync(file, "utf-8"));
   const items = data.items || [];
+  const recentIds = loadRecentCuratedIds(archiveDir, data.date || "");
   const violations = [];
 
   if (!items.length) violations.push("(전체) items 0건");
@@ -130,6 +133,7 @@ function validate(file = LATEST) {
   const seen = new Set();
   for (const it of items) {
     if (seen.has(it.id)) violations.push(`${it.id}: 중복 id`);
+    if (recentIds.has(it.id)) violations.push(`${it.id}: 최근 7일 아카이브와 중복된 id`);
     seen.add(it.id);
     const fact = factMap.get(it.id);
     if (!fact) {

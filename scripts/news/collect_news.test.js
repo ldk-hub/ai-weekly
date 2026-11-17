@@ -1,7 +1,10 @@
 #!/usr/bin/env node
 // scripts/news/collect_news.test.js
 const assert = require("assert");
-const { extractDynamicSeeds, RADAR_STOPWORDS } = require("./collect_news");
+const fs = require("fs");
+const os = require("os");
+const path = require("path");
+const { extractDynamicSeeds, RADAR_STOPWORDS, inWindow, loadRecentlyPublished } = require("./collect_news");
 
 console.log("🧪 [collect_news.test.js] 단위 테스트 시작...");
 
@@ -55,5 +58,28 @@ assert.ok(extracted.includes("SwaT"), "SwaT 포함");
 // 5. maxSeeds 상한 제한 검증
 const max1 = extractDynamicSeeds(techCandidates, 1);
 assert.strictEqual(max1.length, 1, "maxSeeds 1개 요청 시 정확히 1개 반환");
+
+// 6. inWindow 시간창 및 날짜 누락 차단 검증
+assert.strictEqual(inWindow("", "instagram"), false, "빈 날짜는 시간창 통과 금지");
+assert.strictEqual(inWindow("not-a-date", "x"), false, "잘못된 날짜는 시간창 통과 금지");
+assert.strictEqual(inWindow(new Date().toISOString(), "threads"), true, "현재 시각은 24시간 창 통과");
+assert.strictEqual(inWindow(new Date(Date.now() - 48 * 3600 * 1000).toISOString(), "threads"), false, "48시간 전 게시물은 24시간 창 차단");
+
+// 7. loadRecentlyPublished 양쪽 아카이브 디렉터리 합산 검증
+const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), "aiw-news-repeat-"));
+try {
+  const dirA = path.join(tmpRoot, "a");
+  const dirB = path.join(tmpRoot, "b");
+  fs.mkdirSync(dirA);
+  fs.mkdirSync(dirB);
+  const todayStr = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Seoul" }).format(new Date());
+  fs.writeFileSync(path.join(dirA, `news_${todayStr}.json`), JSON.stringify({ news: [{ url: "https://example.com/a" }] }));
+  fs.writeFileSync(path.join(dirB, `news_${todayStr}.json`), JSON.stringify({ news: [{ url: "https://example.com/b" }] }));
+  const seen = loadRecentlyPublished([dirA, dirB]);
+  assert.strictEqual(seen.has("example.com/a"), true);
+  assert.strictEqual(seen.has("example.com/b"), true);
+} finally {
+  fs.rmSync(tmpRoot, { recursive: true, force: true });
+}
 
 console.log("✅ [collect_news.test.js] 모든 단위 테스트 통과 (PASS)");

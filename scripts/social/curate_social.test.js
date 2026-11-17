@@ -2,7 +2,7 @@ const assert = require("assert");
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
-const { popularity, rank, qualityIssues, loadRecentCuratedIds } = require("./curate_social");
+const { popularity, rank, qualityIssues, loadRecentCuratedIds, validate } = require("./curate_social");
 
 assert.strictEqual(popularity({}), 0);
 assert.ok(popularity({ likes: 10000, reposts: 1000 }) > popularity({ likes: 100 }));
@@ -30,6 +30,28 @@ try {
   assert.strictEqual(recent.has("x:1"), true);
   assert.strictEqual(recent.has("ig:1"), true);
   assert.strictEqual(recent.has("th:1"), false);
+
+  // validate rejects item already curated within prior 7 days
+  const candFile = path.join(tmpDir, "candidates.json");
+  const latestFile = path.join(tmpDir, "latest.json");
+  const candFact = { id: "x:1", platform: "x", author: "@a", url: "https://x.com/a/status/1", text: "Prompt engineering guide." };
+  fs.writeFileSync(candFile, JSON.stringify({ posts: [candFact] }));
+  fs.writeFileSync(latestFile, JSON.stringify({
+    date: "2026-11-13",
+    items: [{ ...candFact, title_ko: "프롬프트 가이드", summary_ko: "프롬프트 요약 문장입니다.", tags: ["프롬프트"], relevance: 85 }],
+  }));
+  const origExit = process.exit;
+  let exitCode = 0;
+  process.exit = (code) => { exitCode = code; throw new Error("EXIT"); };
+  try {
+    validate(latestFile, { candidatesFile: candFile, archiveDir: tmpDir });
+    assert.fail("7일 중복 항목은 validate 를 통과하면 안 됨");
+  } catch (e) {
+    if (e.message !== "EXIT") throw e;
+    assert.strictEqual(exitCode, 1);
+  } finally {
+    process.exit = origExit;
+  }
 } finally {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 }

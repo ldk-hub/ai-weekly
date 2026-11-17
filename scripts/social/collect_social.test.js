@@ -34,6 +34,7 @@ assert.strictEqual(th.metrics.likes, 120);
 assert.strictEqual(dedupe([t, t, th]).length, 2);
 assert.strictEqual(filterByWindow([t, sx], 24).length, 1);
 assert.strictEqual(filterByWindow([t, sx], 48).length, 2);
+assert.strictEqual(filterByWindow([{ ...t, publishedAt: "" }, { ...t, publishedAt: "invalid-date" }], 48).length, 0, "날짜 누락/파싱 불가 게시물은 시간창 통과 금지");
 
 const rd = normalizeRedditItem({
   id: "t3_1xtgkhj",

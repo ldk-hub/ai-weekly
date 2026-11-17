@@ -181,7 +181,7 @@ async function main() {
   }
   meta.generated_at = new Date().toISOString();
   
-  const today = new Date().toISOString().slice(0, 10);
+  const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Seoul" }).format(new Date());
   
   let successCount = 0;
   let notFoundCount = 0;

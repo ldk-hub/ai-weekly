@@ -22,6 +22,8 @@ async function syncLeaderboards(data) {
     { id: "artificial_analysis", url: "https://artificialanalysis.ai/leaderboards/models", name: "Artificial Analysis", maxDays: 30 },
     { id: "livebench", url: "https://livebench.ai/", name: "LiveBench", maxDays: 30 },
     { id: "openrouter_rankings", url: "https://openrouter.ai/rankings", name: "OpenRouter Rankings", maxDays: 21 },
+    { id: "traffic", url: "https://trakkr.ai/", name: "Trakkr AI Index", maxDays: 21 },
+    { id: "similarweb", url: "https://www.similarweb.com/top-websites/computers-electronics-and-technology/ai-chatbots-and-tools/", name: "Similarweb", maxDays: 45 },
   ];
 
   let changed = false;
@@ -38,23 +40,11 @@ async function syncLeaderboards(data) {
             src.as_of = today;
           }
           changed = true;
-          console.log(`  ✓ [Scrapling] ${t.name} 리더보드 실시간 검증 완료 (${res.title.slice(0, 45)})`);
+          console.log(`  ✓ [Scrapling] ${t.name} 출처 실시간 검증 완료 (${res.title.slice(0, 45)})`);
         }
       }
     } catch (e) {
       console.warn(`  ⚠️ [Scrapling] ${t.name} 확인 건너뜀 (${e.message})`);
-    }
-  }
-
-  const shareSrcs = (data.sources || []).filter((s) => s.id === "traffic" || s.id === "similarweb");
-  for (const s of shareSrcs) {
-    const asOfDate = new Date(s.as_of);
-    const ageDays = Math.floor((now - asOfDate) / 86400000);
-    const limit = s.id === "traffic" ? 21 : 45;
-    if (ageDays >= limit - 4) {
-      s.as_of = today;
-      s.retrieved_at = nowIso;
-      changed = true;
     }
   }
 
@@ -137,8 +127,8 @@ async function fetchOpenRouterModels() {
         // 2. 컨텍스트 길이 포맷팅 (예: 1000000 -> 1,000K)
         if (matched.context_length) {
           const ctxK = Math.round(matched.context_length / 1000);
-          const formattedCtx = ctxK >= 1000 ? `${(ctxK / 1000).toFixed(0)},000K` : `${ctxK}K`;
-          if (item.context_window !== formattedCtx && !item.context_window) {
+          const formattedCtx = `${ctxK.toLocaleString("en-US")}K`;
+          if (item.context_window !== formattedCtx) {
             item.context_window = formattedCtx;
             changed = true;
           }

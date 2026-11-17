@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "updatedAt": "2026-11-16T00:40:13.706Z",
-  "lastDiscoveryAt": "2026-11-16T00:40:13.706Z",
+  "updatedAt": "2026-11-17T00:16:31.644Z",
+  "lastDiscoveryAt": "2026-11-17T00:16:31.644Z",
   "core": {
     "x": [
       "rowancheung",
@@ -41,6 +41,14 @@
         "discoveredFrom": "corpus:news_latest.json, corpus:news_2026-11-10.json, corpus:news_2026-11-11.json",
         "verifyScore": 82,
         "aiRatio": 1,
+        "sampleCount": 4
+      },
+      {
+        "handle": "anthropicai",
+        "verifiedAt": "2026-11-17T00:16:31.644Z",
+        "discoveredFrom": "corpus:news_2026-11-10.json, corpus:news_2026-11-16.json",
+        "verifyScore": 66,
+        "aiRatio": 0.75,
         "sampleCount": 4
       },
       {
@@ -90,6 +98,7 @@
     "heybarsee",
     "omarsar0",
     "openai",
+    "anthropicai",
     "therundownai"
   ],
   "threads": [
