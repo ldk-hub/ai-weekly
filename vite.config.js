@@ -14,7 +14,8 @@ export default defineConfig({
         news: resolve(__dirname, 'site/news.html'),
         starboard: resolve(__dirname, 'site/starboard.html'),
         benchmarks: resolve(__dirname, 'site/benchmarks.html'),
-        social: resolve(__dirname, 'site/social.html')
+        social: resolve(__dirname, 'site/social.html'),
+        sanctuary: resolve(__dirname, 'site/sanctuary.html')
       }
     }
   }

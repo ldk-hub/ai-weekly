@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI위클리 — 넥서스 아카디아 · 3D 에이전트 월드</title>
+<meta name="description" content="직접 3D 복셀 클로드 캐릭터로 오픈월드를 걸어 다니며 프론티어 모델 진영전, 실제 오픈소스 캡슐 가챠, 루프탑 DJ 신스 바를 즐기는 AI위클리 3D 월드." />
+<meta name="theme-color" content="#fcfaf6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#090d13" media="(prefers-color-scheme: dark)" />
+<script>try{const t=localStorage.getItem('aiw-theme')||'dark';document.documentElement.dataset.theme=t;document.querySelectorAll('meta[name="theme-color"]').forEach(m=>{m.removeAttribute('media');m.content=t==='dark'?'#090d13':'#fcfaf6';});}catch(e){}</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+
+<link rel="canonical" href="https://ldk-hub.github.io/ai-weekly/sanctuary" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="AI위클리 — 넥서스 아카디아 3D 월드" />
+<meta property="og:description" content="직접 캐릭터로 걸어 다니는 AI위클리 3D 인터랙티브 오픈월드" />
+<meta property="og:url" content="https://ldk-hub.github.io/ai-weekly/sanctuary" />
+<meta property="og:image" content="https://ldk-hub.github.io/ai-weekly/og.png" />
+<meta property="og:locale" content="ko_KR" />
+
+<link rel="icon" type="image/svg+xml" href="claude-code.svg?v=26" />
+<link rel="stylesheet" href="styles.css?v=28" />
+
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YLKMDP5YKQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-YLKMDP5YKQ');
+</script>
+</head>
+
+<body>
+<a class="skip-link" href="#main">본문으로 건너뛰기</a>
+
+<div class="layout-wrapper">
+
+  <header class="header-container" role="banner">
+    <div class="top-bar">
+      <a href="./" class="brand-logo" id="brand-logo" aria-label="AI위클리 홈">
+        <svg class="mascot-avatar" width="66" height="44" viewBox="-220 -195 440 285" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="headerGeminiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#4285F4"/>
+              <stop offset="35%" stop-color="#9B72CB"/>
+              <stop offset="70%" stop-color="#D96570"/>
+              <stop offset="100%" stop-color="#1BA1E3"/>
+            </linearGradient>
+          </defs>
+          <g class="mascot-action-bounce">
+            <rect class="mascot-leg-1" x="-70" y="45" width="16" height="30" fill="#B95B3D"/>
+            <rect class="mascot-leg-2" x="-40" y="45" width="16" height="30" fill="#D97757"/>
+            <rect class="mascot-leg-3" x="24" y="45" width="16" height="30" fill="#D97757"/>
+            <rect class="mascot-leg-4" x="54" y="45" width="16" height="30" fill="#B95B3D"/>
+            <rect class="mascot-body-base" x="-85" y="-65" width="170" height="110" fill="#D97757"/>
+            <rect class="mascot-body-hi" x="-85" y="-65" width="170" height="15" fill="#E58768"/>
+            <rect class="mascot-body-sh" x="-85" y="30" width="170" height="15" fill="#B95B3D"/>
+            <g class="mascot-arm-left">
+              <rect x="-100" y="-20" width="15" height="30" fill="#D97757"/>
+              <rect x="-115" y="-35" width="15" height="30" fill="#E58768"/>
+              <rect x="-115" y="-50" width="15" height="15" fill="#E58768"/>
+              <g transform="translate(-125, -105)">
+                <g class="gemini-sparkle-motion">
+                  <path transform="translate(-74.4, -74.4) scale(6.2)" d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81" fill="url(#headerGeminiGrad)"/>
+                </g>
+              </g>
+            </g>
+            <g class="mascot-arm-right">
+              <rect x="85" y="-20" width="15" height="30" fill="#D97757"/>
+              <rect x="100" y="-35" width="15" height="30" fill="#E58768"/>
+              <rect x="100" y="-50" width="15" height="15" fill="#E58768"/>
+              <g transform="translate(125, -105)">
+                <g class="chatgpt-spin-motion">
+                  <path transform="translate(-74.4, -74.4) scale(6.2)" d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z" fill="#10A37F"/>
+                </g>
+              </g>
+            </g>
+            <g class="mascot-eyes">
+              <rect class="mascot-eye mascot-eye-left" x="-42" y="-20" width="15" height="30" fill="#2B2523"/>
+              <rect class="mascot-eye mascot-eye-right" x="27" y="-20" width="15" height="30" fill="#2B2523"/>
+            </g>
+          </g>
+        </svg>
+        <span class="brand-name">AI위클리</span>
+      </a>
+      <nav class="page-nav" aria-label="주요 메뉴">
+        <a href="./" class="pn-link">
+          <span>인기 플러그인</span>
+        </a>
+        <a href="news" class="pn-link">
+          <span>AI 뉴스</span>
+        </a>
+        <a href="social" class="pn-link">
+          <span>소셜 피드</span>
+        </a>
+        <a href="starboard" class="pn-link">
+          <span>스타보드</span>
+        </a>
+        <a href="benchmarks" class="pn-link">
+          <span>점유율·성능</span>
+        </a>
+      </nav>
+      <div class="brand-actions">
+        <a href="sanctuary" class="sanctuary-entry-btn is-active" aria-current="page" aria-label="넥서스 아카디아 3D 월드 입장">
+          <span class="sc-entry-dot" aria-hidden="true"></span>
+          <span>3D 월드</span>
+        </a>
+        <button class="theme-toggle" id="theme-toggle" aria-label="테마 전환" type="button">🌙 다크</button>
+        <a class="gh-btn" href="https://github.com/ldk-hub/ai-weekly" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+
+    <div class="hero-wrapper" id="hero-wrapper">
+      <div class="hero-row-1">
+        <h1 class="hero-h1">직접 걸어다니는 <span class="hl-mint">넥서스 아카디아</span> · AI위클리 <span class="hl-lemon">3D 월드</span></h1>
+        <p class="hero-p">내 3D 클로드 캐릭터로 오픈월드를 탐험하며 <strong class="hero-strong">모델 진영전 · 오픈소스 가챠 · DJ 신스 바</strong>를 즐기세요</p>
+      </div>
+
+      <div class="hero-row-2">
+        <div class="meta-left update-meta" role="status" aria-live="polite">
+          <span class="status-dot"></span>
+          <span class="update-text">에이전트 <strong id="sc-copresence-count">—</strong>명 유영 중</span>
+          <span class="update-sep"></span>
+          <span class="update-text">획득 캡슐 <strong id="sc-capsule-count">0</strong>개</span>
+          <span class="update-sep"></span>
+          <span class="update-text unb-summary" id="sc-kst-clock">KST 3D 월드 온라인</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="unified-nav-box sc-nav-box">
+      <div class="sc-zone-tabs" role="tablist" aria-label="3D 랜드마크 퀵 이동">
+        <button type="button" class="sc-zone-tab is-active" role="tab" id="tab-fountain" data-zone="fountain" aria-selected="true" aria-controls="zone-fountain">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          <span>코어 파운틴</span>
+          <span class="sc-zone-sub">과충전·드론</span>
+        </button>
+        <button type="button" class="sc-zone-tab" role="tab" id="tab-arena" data-zone="arena" aria-selected="false" aria-controls="zone-arena">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l3 7h7l-5.5 4 2 7-6.5-4.5L5.5 20l2-7L2 9h7l3-7Z"/></svg>
+          <span>프론티어 아레나</span>
+          <span class="sc-zone-sub">진영 스킨</span>
+        </button>
+        <button type="button" class="sc-zone-tab" role="tab" id="tab-gacha" data-zone="gacha" aria-selected="false" aria-controls="zone-gacha">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3"/></svg>
+          <span>오픈소스 가챠</span>
+          <span class="sc-zone-sub">도구 뽑기</span>
+        </button>
+        <button type="button" class="sc-zone-tab" role="tab" id="tab-dj" data-zone="dj" aria-selected="false" aria-controls="zone-dj">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+          <span>루프탑 DJ 바</span>
+          <span class="sc-zone-sub">신스·커피</span>
+        </button>
+      </div>
+
+      <div class="sc-status-actions">
+        <button type="button" class="sc-avatar-pill" id="btn-reroll-avatar" title="내 캐릭터 닉네임 변경">
+          <span class="sc-avatar-swatch" id="my-avatar-swatch" aria-hidden="true"></span>
+          <span id="my-avatar-label">로딩 중…</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
+        </button>
+        <button type="button" class="sc-audio-btn" id="btn-master-audio" aria-pressed="false">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+          <span id="master-audio-label">사운드 꺼짐</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- PLAYABLE 3D OPEN WORLD VIEWPORT -->
+    <section class="sc-world-stage" aria-label="넥서스 아카디아 3D 플레이어블 월드">
+      <canvas id="sanctuary-canvas" tabindex="0" aria-label="3D 캐릭터 이동 및 랜드마크 상호작용 캔버스"></canvas>
+      <div class="sc-3d-hud">
+        <div class="sc-hud-top">
+          <div class="sc-hud-zone-pill" id="hud-zone-pill">
+            <span class="sc-entry-dot" aria-hidden="true"></span>
+            <span id="hud-zone-label">CENTER · 코어 넥서스 파운틴 [0, 0]</span>
+          </div>
+          <div class="sc-hud-group" role="group" aria-label="3D 카메라 시점 컨트롤">
+            <button type="button" class="sc-hud-btn is-active" id="btn-cam-follow" data-cam-mode="follow">3인칭 추적</button>
+            <button type="button" class="sc-hud-btn" id="btn-cam-shoulder" data-cam-mode="shoulder">숄더뷰</button>
+            <button type="button" class="sc-hud-btn" id="btn-cam-overview" data-cam-mode="overview">전체 조감</button>
+            <button type="button" class="sc-hud-btn" id="btn-cam-zoom-in" aria-label="줌 인">+</button>
+            <button type="button" class="sc-hud-btn" id="btn-cam-zoom-out" aria-label="줌 아웃">-</button>
+          </div>
+        </div>
+
+        <div class="sc-hud-bottom">
+          <div class="sc-ingame-actions">
+            <button type="button" class="sc-interact-btn is-nearby" id="btn-interact-zone">
+              <span id="interact-btn-label">[E] 컨텍스트 과충전</span>
+            </button>
+            <button type="button" class="sc-emote-btn" id="btn-jump">[Space] 점프</button>
+            <button type="button" class="sc-emote-btn" data-emote="1">[1] 오버클럭</button>
+            <button type="button" class="sc-emote-btn" data-emote="2">[2] 하트</button>
+            <button type="button" class="sc-emote-btn" data-emote="3">[3] 로켓</button>
+            <button type="button" class="sc-emote-btn" data-emote="4">[4] 커피</button>
+          </div>
+
+          <div class="sc-hud-inspector" id="station-inspector">
+            <strong class="sc-station-name" id="station-detail">WASD/방향키 또는 바닥 클릭으로 걸어보세요</strong>
+            <span class="sc-station-hint" id="station-status-tag">POS (0, 0)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DOCK ZONE 1: CORE NEXUS FOUNTAIN -->
+    <section id="zone-fountain" class="sc-zone-panel" role="tabpanel" aria-labelledby="tab-fountain">
+      <div class="sc-dock-grid">
+        <div class="sc-stage-card">
+          <div class="sc-panel-head">
+            <div>
+              <h2 class="sc-panel-title">코어 넥서스 파운틴 (Context Overclock)</h2>
+              <p class="sc-panel-desc">파운틴에 가까이 다가가 [E]를 누르면 이동 속도가 빨라지는 1M 컨텍스트 버프를 받습니다.</p>
+            </div>
+            <span class="sc-mono-badge" id="buff-status-badge">버프 대기</span>
+          </div>
+          <div class="sc-station-bar">
+            <span>내 캐릭터 상태: <strong class="sc-station-name" id="player-faction-label">Claude 테라코타 스킨</strong></span>
+            <span class="sc-station-hint">드래그: 시점 회전 · 휠: 줌</span>
+          </div>
+          <div class="sc-ritual-dock">
+            <button type="button" class="sc-btn sc-btn-primary" id="btn-overclock">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              <span>1M 컨텍스트 과충전 발동</span>
+            </button>
+            <span class="sc-feedback-pill" id="ritual-feedback" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <aside class="sc-beacon-card" aria-label="시그널 드론 발사기">
+          <div class="sc-panel-head">
+            <div>
+              <h2 class="sc-panel-title">3D 시그널 드론 발사기</h2>
+              <p class="sc-panel-desc">자유 입력 대신 512가지 무해한 개발자 상태 캡슐을 조합해 3D 하늘 궤도로 쏘아 올립니다.</p>
+            </div>
+            <span class="sc-mono-badge">ZERO-SPAM</span>
+          </div>
+          <div class="sc-builder-grid">
+            <label class="sc-field-label">
+              <span>1. 주체</span>
+              <select id="beacon-subject" class="sc-select"></select>
+            </label>
+            <label class="sc-field-label">
+              <span>2. 상황</span>
+              <select id="beacon-context" class="sc-select"></select>
+            </label>
+            <label class="sc-field-label">
+              <span>3. 시그널 메시지</span>
+              <select id="beacon-wish" class="sc-select"></select>
+            </label>
+          </div>
+          <div class="sc-beacon-preview" id="beacon-preview"></div>
+          <button type="button" class="sc-btn sc-btn-emerald" id="btn-launch-beacon">
+            <span>3D 상공으로 시그널 드론 발사</span>
+          </button>
+          <div class="sc-beacon-feed" id="beacon-feed" aria-live="polite"></div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- DOCK ZONE 2: FRONTIER MODEL ARENA -->
+    <section id="zone-arena" class="sc-zone-panel" role="tabpanel" aria-labelledby="tab-arena" hidden>
+      <div class="sc-stage-card">
+        <div class="sc-panel-head">
+          <div>
+            <h2 class="sc-panel-title">프론티어 아레나 콜로세움 (실데이터 Elo &amp; 진영 변신)</h2>
+            <p class="sc-panel-desc">실제 benchmarks_latest.json의 코딩 Elo를 반영한 3대 플래그십 진영입니다. 진영을 클릭하면 3D 타워에 에너지 빔을 쏘고 내 캐릭터 스킨이 변신합니다.</p>
+          </div>
+          <span class="sc-mono-badge" id="arena-power-badge">진영 에너지 0</span>
+        </div>
+        <div class="sc-faction-grid" id="faction-grid"></div>
+      </div>
+    </section>
+
+    <!-- DOCK ZONE 3: OSS ARCADE GACHA -->
+    <section id="zone-gacha" class="sc-zone-panel" role="tabpanel" aria-labelledby="tab-gacha" hidden>
+      <div class="sc-dock-grid">
+        <div class="sc-stage-card">
+          <div class="sc-panel-head">
+            <div>
+              <h2 class="sc-panel-title">스타보드 아케이드 &amp; 오픈소스 캡슐 머신</h2>
+              <p class="sc-panel-desc">AI위클리의 실제 인기 플러그인(latest.json) 및 최신 뉴스(news_latest.json)에서 오늘의 도구를 3D 캡슐로 뽑습니다.</p>
+            </div>
+            <span class="sc-mono-badge" id="gacha-count-badge">수집 0종</span>
+          </div>
+          <button type="button" class="sc-btn sc-btn-primary" id="btn-pull-gacha">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3"/></svg>
+            <span>오늘의 오픈소스 캡슐 뽑기</span>
+          </button>
+          <div class="sc-gacha-result" id="gacha-latest-card">
+            <div class="sc-gacha-meta">CAPSULE READY</div>
+            <div class="sc-gacha-title">캡슐 머신에서 오늘의 추천 오픈소스 도구를 뽑아보세요</div>
+            <div class="sc-gacha-summary">실제 Starboard·Rising Top 플러그인 데이터가 즉시 추첨됩니다.</div>
+          </div>
+        </div>
+
+        <aside class="sc-beacon-card" aria-label="획득한 오픈소스 캡슐 도감">
+          <div class="sc-panel-head">
+            <div>
+              <h2 class="sc-panel-title">내가 뽑은 오픈소스 인벤토리</h2>
+              <p class="sc-panel-desc">로컬 브라우저에 저장되어 재방문 시에도 유지됩니다.</p>
+            </div>
+          </div>
+          <div class="sc-beacon-feed" id="gacha-inventory"></div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- DOCK ZONE 4: ROOFTOP DJ & ESPRESSO BAR -->
+    <section id="zone-dj" class="sc-zone-panel" role="tabpanel" aria-labelledby="tab-dj" hidden>
+      <div class="sc-campfire-grid">
+        <div class="sc-campfire-card">
+          <div class="sc-panel-head">
+            <div>
+              <h2 class="sc-panel-title">루프탑 에스프레소 바 &amp; AI 생태계 텔레메트리</h2>
+              <p class="sc-panel-desc">오늘 AI위클리의 실제 뉴스·트렌드·벤치마크 데이터를 읽어 월드 내 DJ 타워 수온을 갱신합니다.</p>
+            </div>
+            <span class="sc-mono-badge" id="espresso-badge">에스프레소 0잔</span>
+          </div>
+
+          <div class="sc-ritual-dock">
+            <button type="button" class="sc-btn sc-btn-primary" id="btn-brew-espresso">
+              <span>에스프레소 대시 충전</span>
+            </button>
+            <button type="button" class="sc-btn sc-btn-emerald" id="btn-drop-beat">
+              <span>3D 신스 비트 드롭</span>
+            </button>
+          </div>
+
+          <div class="sc-telemetry-box" id="vibe-telemetry">
+            <div class="sc-temp-row">
+              <div>
+                <div class="sc-tele-label">오늘의 AI 생태계 열기 지수</div>
+                <div class="sc-temp-value" id="vibe-temp-val">36.5°C</div>
+              </div>
+              <span class="sc-temp-status" id="vibe-temp-status">데이터 관측 동기화 중…</span>
+            </div>
+            <div class="sc-telemetry-grid">
+              <div class="sc-tele-metric">
+                <div class="sc-tele-label">오늘 AI 기술 신호</div>
+                <div class="sc-tele-val" id="tele-news-count">—</div>
+              </div>
+              <div class="sc-tele-metric">
+                <div class="sc-tele-label">이번 주 급상승 1위</div>
+                <div class="sc-tele-val" id="tele-top-plugin">—</div>
+              </div>
+              <div class="sc-tele-metric">
+                <div class="sc-tele-label">코딩 리더보드 1위</div>
+                <div class="sc-tele-val" id="tele-top-model">—</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="sc-mixer-card" aria-label="Web Audio 신스 및 앰비언트 믹서">
+          <div class="sc-panel-head">
+            <div>
+              <h2 class="sc-panel-title">0KB Web Audio 신스 &amp; ASMR 믹서</h2>
+              <p class="sc-panel-desc">외부 음원 없이 브라우저에서 실시간 합성하며 3D 루프탑 이퀄라이저를 춤추게 합니다.</p>
+            </div>
+            <span class="sc-mono-badge">WEB AUDIO</span>
+          </div>
+          <div class="sc-preset-row" role="group" aria-label="사운드 프리셋">
+            <button type="button" class="sc-preset-btn" data-sound-preset="synth">사이버 신스</button>
+            <button type="button" class="sc-preset-btn" data-sound-preset="focus">집중 디버깅</button>
+            <button type="button" class="sc-preset-btn" data-sound-preset="rain">우천 코딩</button>
+            <button type="button" class="sc-preset-btn" data-sound-preset="mute">전체 음소거</button>
+          </div>
+          <div class="sc-mixer-list" id="mixer-list"></div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>AI위클리 · Claude Code 주간 인덱스</span>
+    <span><a href="./">인기 플러그인</a> · <a href="news">AI 뉴스</a> · <a href="social">소셜 피드</a> · <a href="starboard">스타보드</a> · <a href="benchmarks">점유율·성능</a> · <a href="sanctuary">3D 월드</a></span>
+  </footer>
+
+</div>
+
+<script type="module" src="/src/pages/sanctuary.js"></script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-import { isNewsPage, isStarboardPage, isBenchmarksPage, STATE, CATEGORIES, NEWS_CATEGORIES, NEWS_SIGNALS, saveBookmarks, savePluginBookmarks, saveStarboardBookmarks, syncStateFromURL, syncURLFromState } from "./state.js";
+import { isNewsPage, isStarboardPage, isBenchmarksPage, STATE, CATEGORIES, NEWS_CATEGORIES, NEWS_SIGNALS, saveBookmarks, savePluginBookmarks, syncStateFromURL, syncURLFromState } from "./state.js";
 import { isSuspiciousVelocity } from "./utils/velocity.js";
 
 syncStateFromURL();
@@ -1185,11 +1185,6 @@ document.getElementById("starboard-sort-select")?.addEventListener("change", e =
   renderStarboard();
 });
 
-document.getElementById("starboard-bookmark-filter-chip")?.addEventListener("click", () => {
-  STATE.starboardBookmarksOnly = !STATE.starboardBookmarksOnly;
-  renderStarboard();
-});
-
 const sbLegendBtn = document.getElementById("sb-legend-btn");
 const sbLegendPopover = document.getElementById("sb-legend-popover");
 if (sbLegendBtn && sbLegendPopover) {
@@ -1990,16 +1985,8 @@ function renderStarboard() {
   if (actSel && actSel.value !== STATE.starboardActivity) actSel.value = STATE.starboardActivity;
   const sortSel = document.getElementById("starboard-sort-select");
   if (sortSel && sortSel.value !== STATE.starboardSort) sortSel.value = STATE.starboardSort;
-  const bmChip = document.getElementById("starboard-bookmark-filter-chip");
-  if (bmChip) {
-    bmChip.classList.toggle("active", !!STATE.starboardBookmarksOnly);
-    const cntEl = document.getElementById("sb-saved-count");
-    const savedInLeague = baseList.filter(r => STATE.starboardBookmarks.has(r.id)).length;
-    if (cntEl) cntEl.textContent = savedInLeague;
-  }
 
   let list = baseList
-    .filter(it => !STATE.starboardBookmarksOnly || STATE.starboardBookmarks.has(it.id))
     .filter(it => STATE.starboardActivity === "all" || it.activity === STATE.starboardActivity)
     .filter(matchesStarboard);
 
@@ -2016,15 +2003,13 @@ function renderStarboard() {
     if (btn) btn.textContent = (STATE.data[tab] || []).length;
   }
   
-  const hasActiveFilters = !!STATE.query || STATE.starboardActivity !== "all" || STATE.starboardBookmarksOnly;
+  const hasActiveFilters = !!STATE.query || STATE.starboardActivity !== "all";
   if (list.length === 0) {
     const emptyMsg = STATE.loadError
       ? `데이터를 불러오지 못했습니다 (${escapeHTML(STATE.loadError)}). 잠시 후 새로고침해 주세요.`
-      : (STATE.starboardBookmarksOnly
-        ? "이 리그에서 저장한 리포지토리가 없습니다. 카드의 별(☆)을 눌러 저장해보세요."
-        : (hasActiveFilters
-          ? "검색어나 필터 조건과 일치하는 리포지토리가 없습니다."
-          : "이 리그에는 아직 등록된 리포지토리가 없습니다."));
+      : (hasActiveFilters
+        ? "검색어나 필터 조건과 일치하는 리포지토리가 없습니다."
+        : "이 리그에는 아직 등록된 리포지토리가 없습니다.");
     el.innerHTML = `
       <div style="text-align:center;padding:60px 0;color:var(--muted);font-size:16px;">
         ${emptyMsg}
@@ -2187,26 +2172,9 @@ document.getElementById("starboard-container")?.addEventListener("click", (e) =>
   if (clearBtn) {
     STATE.query = "";
     STATE.starboardActivity = "all";
-    STATE.starboardBookmarksOnly = false;
     STATE.sbLimit = 50;
     const s = document.getElementById("search");
     if (s) s.value = "";
-    renderStarboard();
-    return;
-  }
-
-  const bmBtn = e.target.closest("[data-sb-bookmark]");
-  if (bmBtn) {
-    e.stopPropagation();
-    const id = bmBtn.dataset.sbBookmark;
-    if (STATE.starboardBookmarks.has(id)) {
-      STATE.starboardBookmarks.delete(id);
-      showToast("저장 목록에서 뺐습니다");
-    } else {
-      STATE.starboardBookmarks.add(id);
-      showToast("저장했습니다 ★");
-    }
-    saveStarboardBookmarks(STATE.starboardBookmarks);
     renderStarboard();
     return;
   }
@@ -2247,10 +2215,6 @@ function starboardCardHTML(item, idx, legendText) {
   const rankPill = rank === 1
     ? `<span class="rank-pill is-top">#01</span>`
     : (rank <= 3 ? `<span class="rank-pill is-hot">#0${rank}</span>` : "");
-
-  const isSaved = STATE.starboardBookmarks && STATE.starboardBookmarks.has(item.id);
-  const saveTitle = isSaved ? "저장 해제" : "리포지토리 저장";
-  const saveBtn = `<button type="button" class="plugin-save-btn ${isSaved ? "is-bookmarked" : ""}" data-sb-bookmark="${safeId}" title="${saveTitle}" aria-label="${saveTitle}" aria-pressed="${isSaved ? "true" : "false"}">${isSaved ? "★" : "☆"}</button>`;
   
   const width = 300;
   const height = 80;
@@ -2294,11 +2258,7 @@ function starboardCardHTML(item, idx, legendText) {
 
   return `
     <article class="card star-card" data-sb-open="${safeId}" tabindex="0" role="button" aria-label="${safeId}" style="padding: 22px 20px 0; overflow:hidden; display:flex; flex-direction:column; cursor:pointer;">
-      <div class="card-top-bar" style="margin-bottom:8px;">
-        ${rankPill}
-        ${saveBtn}
-      </div>
-      
+      ${rankPill}
       <div class="card-head" style="margin-bottom:10px;">
         <img class="avatar" src="${escapeHTML(avatar)}" alt="" loading="lazy" onerror="this.onerror=null;this.src='claude-avatar.svg';this.classList.add('is-fallback');"/>
         <div class="head-meta">

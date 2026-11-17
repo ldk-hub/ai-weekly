@@ -28,19 +28,6 @@ export function savePluginBookmarks(set) {
   } catch (e) {}
 }
 
-export function loadStarboardBookmarks() {
-  try {
-    return new Set(JSON.parse(localStorage.getItem("aiw-starboard-bookmarks") || "[]"));
-  } catch (e) {
-    return new Set();
-  }
-}
-export function saveStarboardBookmarks(set) {
-  try {
-    localStorage.setItem("aiw-starboard-bookmarks", JSON.stringify([...set]));
-  } catch (e) {}
-}
-
 export const STATE = {
   data: null,
   tab: isStarboardPage ? "heavy" : "rising",
@@ -50,8 +37,6 @@ export const STATE = {
   pluginSort: "score",        // 'score' | 'velocity' | 'stars'
   starboardSort: "velocity",  // 'velocity' | 'stars'
   starboardActivity: "all",   // 'all' | 'active' | 'slowing'
-  starboardBookmarksOnly: false,
-  starboardBookmarks: loadStarboardBookmarks(),
   bookmarksOnly: false,
   bookmarks: loadBookmarks(),
   pluginBookmarksOnly: false,
@@ -104,7 +89,6 @@ export function syncStateFromURL() {
       if (tab && ["heavy", "middle", "light"].includes(tab)) STATE.tab = tab;
       if (sort && ["velocity", "stars"].includes(sort)) STATE.starboardSort = sort;
       if (act && ["all", "active", "slowing"].includes(act)) STATE.starboardActivity = act;
-      if (saved === "1") STATE.starboardBookmarksOnly = true;
     } else if (isNewsPage) {
       if (cat) STATE.category = cat;
       if (sig) STATE.signal = sig;
@@ -134,7 +118,6 @@ export function syncURLFromState() {
       if (STATE.tab !== "heavy") params.set("tab", STATE.tab);
       if (STATE.starboardSort !== "velocity") params.set("sort", STATE.starboardSort);
       if (STATE.starboardActivity !== "all") params.set("act", STATE.starboardActivity);
-      if (STATE.starboardBookmarksOnly) params.set("saved", "1");
     } else if (isNewsPage) {
       if (STATE.category !== "all") params.set("cat", STATE.category);
       if (STATE.signal !== "all") params.set("sig", STATE.signal);
