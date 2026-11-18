@@ -1,12 +1,66 @@
-import { joinRoom, defaultRelayUrls } from "trystero";
+import { joinRoom } from "trystero";
+import { schnorr } from "@noble/secp256k1";
 
 const APP_ID = "ai-weekly-sanctuary-city-v1";
 const ROOM_ID = "grand-sanctuary-lobby";
 const STORAGE_NICK_KEY = "aiw-sanctuary-nick";
 const BC_NAME = "ai-weekly-sanctuary-chat-v1";
-const RELAY_URLS = (defaultRelayUrls || [])
-  .filter((u) => !u.includes("chaima.info") && !u.includes("wellorder.net"))
-  .slice(0, 6);
+
+// Empirically verified low-latency public Nostr relays supporting NIP-01 ephemeral kind pub/sub
+const VERIFIED_RELAYS = [
+  "wss://offchain.pub",
+  "wss://nos.lol",
+  "wss://nostr.mom",
+  "wss://relay.primal.net",
+];
+const DIRECT_TOPIC = "ai-weekly-sanctuary-25d-v1:plaza-direct-v2";
+const DIRECT_KIND = 24377;
+const HEARTBEAT_MS = 2000;
+const STALE_PEER_MS = 18000;
+const RECONNECT_DELAY_MS = 3500;
+
+const textEncoder = new TextEncoder();
+
+function toHex(bytes) {
+  return Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+function createNostrSigner() {
+  const { secretKey, publicKey } = schnorr.keygen();
+  return {
+    secretKey,
+    pubkey: toHex(publicKey),
+  };
+}
+
+async function createSignedNostrEvent(topic, kind, content, signer) {
+  const payload = {
+    kind,
+    tags: [["x", topic]],
+    created_at: Math.floor(Date.now() / 1000),
+    content,
+    pubkey: signer.pubkey,
+  };
+  const serialized = JSON.stringify([
+    0,
+    payload.pubkey,
+    payload.created_at,
+    payload.kind,
+    payload.tags,
+    payload.content,
+  ]);
+  const digest = await crypto.subtle.digest("SHA-256", textEncoder.encode(serialized));
+  const idBytes = new Uint8Array(digest);
+  const sigBytes = await schnorr.signAsync(idBytes, signer.secretKey);
+  return JSON.stringify([
+    "EVENT",
+    {
+      ...payload,
+      id: toHex(idBytes),
+      sig: toHex(sigBytes),
+    },
+  ]);
+}
 
 function randomId(len = 8) {
   const bytes = new Uint8Array(len);
@@ -42,9 +96,17 @@ function saveNickname(nick) {
   } catch {}
 }
 
+function trimSet(set, maxSize) {
+  while (set.size > maxSize) {
+    const first = set.values().next().value;
+    set.delete(first);
+  }
+}
+
 /**
- * Dual-transport (Trystero serverless WebRTC + local BroadcastChannel) real-time multi-user chat
- * and 3D avatar presence sync, supporting city-wide chat and per-user 1:1 DM threads.
+ * Hybrid triple-transport (Direct NIP-01 WSS Pub/Sub Relays + Trystero WebRTC P2P +
+ * same-browser BroadcastChannel) real-time multi-user chat and 3D avatar presence sync.
+ * Ensures Phone (LTE/5G CGNAT) and PC clients gather reliably in one shared lobby.
  */
 export class SanctuaryChat {
   constructor(callbacks = {}) {
@@ -60,14 +122,32 @@ export class SanctuaryChat {
     this.unread = new Map();
     this.seenMsgIds = new Set();
 
+    // Direct WebSocket Pub/Sub hub state (NAT/CGNAT-proof cross-device transport)
+    this.relaySigner = null;
+    this.relaySockets = new Map(); // url -> WebSocket
+    this.connectedRelays = new Set(); // open url
+    this.seenRelayEventIds = new Set();
+    this.seenFxIds = new Set();
+    this._relayReconnectTimers = new Map();
+    this._stopped = false;
+
+    // Trystero WebRTC P2P accelerator state
     this.room = null;
     this.chatAction = null;
     this.presenceAction = null;
+    this.fxAction = null;
     this.bc = null;
     this.p2pPeerCount = 0;
 
-    this._lastStateSentAt = 0;
+    // Throttling and handshake coalescing
+    this._lastBcSentAt = 0;
+    this._lastRemoteSentAt = 0;
+    this._lastReplySentAt = 0;
+    this._lastSentSignature = "";
     this._latestHeroState = null;
+    this._immediateReplyTimer = null;
+    this._joinAnnounceTimer = null;
+    this._trailingIdleTimer = null;
 
     this._bindDom();
     this._renderSelfNick();
@@ -76,7 +156,9 @@ export class SanctuaryChat {
   }
 
   start() {
-    // 1. Same-browser multi-tab BroadcastChannel (zero-latency mirror / offline fallback)
+    this._stopped = false;
+
+    // 1. Same-browser multi-tab BroadcastChannel (zero-latency mirror)
     if (typeof BroadcastChannel !== "undefined") {
       this.bc = new BroadcastChannel(BC_NAME);
       this.bc.onmessage = (ev) => {
@@ -87,16 +169,263 @@ export class SanctuaryChat {
         } else if (msg.type === "chat") {
           this._handleRemoteChat(msg.payload);
         } else if (msg.type === "fx") {
-          this.callbacks.onRemoteFx?.(msg.payload);
+          this._handleRemoteFx(msg.payload);
         } else if (msg.type === "leave") {
           this._removePeerByClientId(msg.clientId);
         }
       };
     }
 
-    // 2. Cross-browser / cross-device serverless WebRTC via Trystero (Nostr relays)
+    // 2. Cross-device Direct WSS Pub/Sub Relays (works behind mobile LTE/5G CGNAT & firewalls)
+    this._initDirectWssRelays();
+
+    // 3. Cross-device low-latency WebRTC P2P accelerator via Trystero
+    this._initTrysteroP2P();
+
+    // 4. Periodic presence heartbeat & stale peer cleanup
+    this._heartbeatTimer = setInterval(() => {
+      if (this._latestHeroState) {
+        this.broadcastState(this._latestHeroState, true, false);
+      }
+      this._pruneStalePeers();
+    }, HEARTBEAT_MS);
+
+    // 5. Mobile browser foreground/network resume resilience
+    this._onVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        this._ensureRelaysConnected();
+        if (this._latestHeroState) {
+          this.broadcastState(this._latestHeroState, true, true);
+        }
+      }
+    };
+    this._onOnline = () => {
+      this._ensureRelaysConnected();
+      if (this._latestHeroState) {
+        this.broadcastState(this._latestHeroState, true, true);
+      }
+    };
+    document.addEventListener("visibilitychange", this._onVisibilityChange);
+    window.addEventListener("online", this._onOnline);
+
+    this._onBeforeUnload = () => {
+      this._stopped = true;
+      try {
+        this.bc?.postMessage({ type: "leave", clientId: this.clientId });
+      } catch {}
+      clearInterval(this._heartbeatTimer);
+      clearTimeout(this._immediateReplyTimer);
+      clearTimeout(this._joinAnnounceTimer);
+      clearTimeout(this._trailingIdleTimer);
+      for (const timer of this._relayReconnectTimers.values()) clearTimeout(timer);
+      this._relayReconnectTimers.clear();
+      for (const ws of this.relaySockets.values()) {
+        try {
+          ws.close();
+        } catch {}
+      }
+      this.relaySockets.clear();
+      this.connectedRelays.clear();
+      try {
+        this.room?.leave?.();
+      } catch {}
+    };
+    window.addEventListener("beforeunload", this._onBeforeUnload);
+
+    this.addSystemMessage("위클리월드에 입장했습니다. [전체] 또는 접속 유저를 눌러 1:1 대화할 수 있습니다.");
+    this._updateStatusBadge();
+  }
+
+  _initDirectWssRelays() {
     try {
-      this.room = joinRoom({ appId: APP_ID, relayConfig: { urls: RELAY_URLS } }, ROOM_ID);
+      if (!this.relaySigner) {
+        this.relaySigner = createNostrSigner();
+      }
+    } catch {
+      return;
+    }
+    this._ensureRelaysConnected();
+  }
+
+  _ensureRelaysConnected() {
+    if (this._stopped) return;
+    for (const url of VERIFIED_RELAYS) {
+      const existing = this.relaySockets.get(url);
+      if (
+        existing &&
+        (existing.readyState === WebSocket.OPEN || existing.readyState === WebSocket.CONNECTING)
+      ) {
+        continue;
+      }
+      this._connectRelaySocket(url);
+    }
+  }
+
+  _connectRelaySocket(url) {
+    if (this._stopped) return;
+    const prevTimer = this._relayReconnectTimers.get(url);
+    if (prevTimer) {
+      clearTimeout(prevTimer);
+      this._relayReconnectTimers.delete(url);
+    }
+
+    let ws;
+    try {
+      ws = new WebSocket(url);
+    } catch {
+      this._scheduleRelayReconnect(url);
+      return;
+    }
+
+    this.relaySockets.set(url, ws);
+    const subId = `aiw-${randomId(6)}`;
+
+    ws.onopen = () => {
+      if (this._stopped || this.relaySockets.get(url) !== ws) {
+        try {
+          ws.close();
+        } catch {}
+        return;
+      }
+      this.connectedRelays.add(url);
+      this._updateStatusBadge();
+
+      try {
+        const since = Math.floor(Date.now() / 1000) - 90;
+        ws.send(JSON.stringify(["REQ", subId, { kinds: [DIRECT_KIND], "#x": [DIRECT_TOPIC], since }]));
+      } catch {}
+
+      this._scheduleJoinAnnounce(80);
+    };
+
+    ws.onmessage = (ev) => {
+      let msg;
+      try {
+        msg = JSON.parse(ev.data);
+      } catch {
+        return;
+      }
+      if (!Array.isArray(msg)) return;
+
+      if (msg[0] === "EOSE") {
+        this._scheduleJoinAnnounce(60);
+        return;
+      }
+
+      if (msg[0] !== "EVENT" || !msg[2] || typeof msg[2] !== "object") return;
+      const evt = msg[2];
+      if (!evt.id || this.seenRelayEventIds.has(evt.id)) return;
+      this.seenRelayEventIds.add(evt.id);
+      trimSet(this.seenRelayEventIds, 600);
+
+      let packet;
+      try {
+        packet = JSON.parse(evt.content);
+      } catch {
+        return;
+      }
+      if (!packet || !packet.clientId || packet.clientId === this.clientId) return;
+
+      // Drop stale packets from disconnected sessions (> 2 minutes old handles device clock skew)
+      if (packet._ts && Math.abs(Date.now() - packet._ts) > 120000) return;
+
+      if (packet.channel === "presence") {
+        this._handleRemotePresence(packet, null);
+      } else if (packet.channel === "chat") {
+        this._handleRemoteChat(packet);
+      } else if (packet.channel === "fx") {
+        this._handleRemoteFx(packet);
+      } else if (packet.channel === "leave") {
+        this._removePeerByClientId(packet.clientId);
+      }
+    };
+
+    const handleDisconnect = () => {
+      this.connectedRelays.delete(url);
+      if (this.relaySockets.get(url) === ws) {
+        this.relaySockets.delete(url);
+      }
+      this._updateStatusBadge();
+      if (!this._stopped) {
+        this._scheduleRelayReconnect(url);
+      }
+    };
+
+    ws.onclose = handleDisconnect;
+    ws.onerror = () => {
+      try {
+        ws.close();
+      } catch {}
+      handleDisconnect();
+    };
+  }
+
+  _scheduleRelayReconnect(url) {
+    if (this._stopped || this._relayReconnectTimers.has(url)) return;
+    const timer = setTimeout(() => {
+      this._relayReconnectTimers.delete(url);
+      this._connectRelaySocket(url);
+    }, RECONNECT_DELAY_MS);
+    this._relayReconnectTimers.set(url, timer);
+  }
+
+  _scheduleJoinAnnounce(delayMs = 80) {
+    if (this._stopped) return;
+    clearTimeout(this._joinAnnounceTimer);
+    this._joinAnnounceTimer = setTimeout(() => {
+      if (this._latestHeroState) {
+        this.broadcastState(this._latestHeroState, true, true);
+      }
+    }, delayMs);
+  }
+
+  async _broadcastDirectWss(channel, payload) {
+    if (this._stopped || !this.relaySigner || typeof crypto?.subtle?.digest !== "function") return;
+    const openSockets = [];
+    for (const ws of this.relaySockets.values()) {
+      if (ws && ws.readyState === WebSocket.OPEN) {
+        openSockets.push(ws);
+      }
+    }
+    if (!openSockets.length) return;
+
+    try {
+      const envelope = JSON.stringify({
+        ...payload,
+        channel,
+        clientId: this.clientId,
+        _ts: Date.now(),
+      });
+      const frame = await createSignedNostrEvent(DIRECT_TOPIC, DIRECT_KIND, envelope, this.relaySigner);
+      for (const ws of openSockets) {
+        if (ws.readyState === WebSocket.OPEN) {
+          try {
+            ws.send(frame);
+          } catch {}
+        }
+      }
+    } catch {}
+  }
+
+  _initTrysteroP2P() {
+    try {
+      this.room = joinRoom(
+        {
+          appId: APP_ID,
+          identity: "none",
+          relayConfig: {
+            urls: VERIFIED_RELAYS,
+            redundancy: VERIFIED_RELAYS.length,
+            warnOnRelayFailure: false,
+          },
+          rtcConfig: {
+            iceServers: [
+              { urls: ["stun:stun.l.google.com:19302", "stun:stun.cloudflare.com:3478"] },
+            ],
+          },
+        },
+        ROOM_ID
+      );
       this.chatAction = this.room.makeAction("chat");
       this.presenceAction = this.room.makeAction("presence");
       this.fxAction = this.room.makeAction("fx");
@@ -105,7 +434,9 @@ export class SanctuaryChat {
         this.p2pPeerCount = Object.keys(this.room.getPeers()).length;
         this._updateStatusBadge();
         if (this._latestHeroState) {
-          this.presenceAction.send(this._latestHeroState, { target: peerId }).catch(() => {});
+          this.presenceAction
+            .send({ ...this._latestHeroState, isJoin: false }, { target: peerId })
+            .catch(() => {});
         }
       });
 
@@ -113,7 +444,13 @@ export class SanctuaryChat {
         this.p2pPeerCount = Object.keys(this.room.getPeers()).length;
         const cid = this.peerIdToClientId.get(peerId);
         this.peerIdToClientId.delete(peerId);
-        if (cid) this._removePeerByClientId(cid);
+        // Remove peer only if no Direct WSS heartbeat arrived recently
+        if (cid) {
+          const peer = this.peers.get(cid);
+          if (peer && Date.now() - peer.lastSeen > 5000) {
+            this._removePeerByClientId(cid);
+          }
+        }
         this._updateStatusBadge();
       });
 
@@ -134,31 +471,33 @@ export class SanctuaryChat {
 
       this.fxAction.onMessage((data) => {
         if (!data || data.clientId === this.clientId) return;
-        this.callbacks.onRemoteFx?.(data);
+        this._handleRemoteFx(data);
       });
     } catch {
-      // BroadcastChannel remains active if WebRTC/relays are blocked
+      // Direct WSS & BroadcastChannel remain active if WebRTC fails
     }
-
-    this._heartbeatTimer = setInterval(() => {
-      if (this._latestHeroState) this.broadcastState(this._latestHeroState, true);
-      this._pruneStalePeers();
-    }, 2500);
-
-    window.addEventListener("beforeunload", () => {
-      try {
-        this.bc?.postMessage({ type: "leave", clientId: this.clientId });
-      } catch {}
-      try {
-        this.room?.leave?.();
-      } catch {}
-    });
-
-    this.addSystemMessage("성역 도시에 입장했습니다. [전체] 또는 접속 유저를 눌러 1:1 대화할 수 있습니다.");
-    this._updateStatusBadge();
   }
 
-  broadcastState(heroState, force = false) {
+  _scheduleImmediatePresenceReply() {
+    const now = Date.now();
+    if (this._stopped || !this._latestHeroState) return;
+    if (now - this._lastReplySentAt < 250) return;
+
+    clearTimeout(this._immediateReplyTimer);
+    this._immediateReplyTimer = setTimeout(() => {
+      if (this._stopped || !this._latestHeroState) return;
+      this._lastReplySentAt = Date.now();
+      this.broadcastState(this._latestHeroState, true, false);
+    }, 180);
+  }
+
+  broadcastPresence(heroState, force = false, isJoin = false) {
+    this.broadcastState(heroState, force, isJoin);
+  }
+
+  broadcastState(heroState, force = false, isJoin = false) {
+    if (!heroState) return;
+    const isFirstState = !this._latestHeroState;
     const now = performance.now();
     this._latestHeroState = {
       clientId: this.clientId,
@@ -171,14 +510,53 @@ export class SanctuaryChat {
       zone: heroState.zone || "중앙 광장",
     };
 
-    if (!force && now - this._lastStateSentAt < 160) return;
-    this._lastStateSentAt = now;
+    // BroadcastChannel: smooth 60ms updates for same-browser tabs
+    if (force || isJoin || isFirstState || now - this._lastBcSentAt >= 60) {
+      this._lastBcSentAt = now;
+      try {
+        this.bc?.postMessage({
+          type: "presence",
+          clientId: this.clientId,
+          payload: this._latestHeroState,
+        });
+      } catch {}
+    }
 
-    try {
-      this.bc?.postMessage({ type: "presence", clientId: this.clientId, payload: this._latestHeroState });
-    } catch {}
+    const sig = `${this._latestHeroState.classKey}|${this._latestHeroState.nickname}|${this._latestHeroState.x.toFixed(1)}|${this._latestHeroState.z.toFixed(1)}|${this._latestHeroState.facing.toFixed(1)}|${this._latestHeroState.action}|${this._latestHeroState.zone}`;
+    const changed = sig !== this._lastSentSignature;
+    const shouldSendRemote =
+      force ||
+      isJoin ||
+      isFirstState ||
+      (changed && now - this._lastRemoteSentAt >= 180);
+
+    if (!shouldSendRemote) {
+      // Ensure stopping ("Walk" -> "Idle") always syncs promptly after movement ends
+      if (changed && this._latestHeroState.action !== "Walk" && !this._trailingIdleTimer) {
+        this._trailingIdleTimer = setTimeout(() => {
+          this._trailingIdleTimer = null;
+          if (!this._stopped && this._latestHeroState) {
+            this.broadcastState(this._latestHeroState, true, false);
+          }
+        }, 200);
+      }
+      return;
+    }
+
+    clearTimeout(this._trailingIdleTimer);
+    this._trailingIdleTimer = null;
+    this._lastRemoteSentAt = now;
+    this._lastSentSignature = sig;
+
+    const remotePacket = {
+      ...this._latestHeroState,
+      isJoin: Boolean(isJoin || isFirstState),
+    };
+
+    this._broadcastDirectWss("presence", remotePacket);
+
     if (this.presenceAction && this.p2pPeerCount > 0) {
-      this.presenceAction.send(this._latestHeroState).catch(() => {});
+      this.presenceAction.send(remotePacket).catch(() => {});
     }
   }
 
@@ -256,7 +634,7 @@ export class SanctuaryChat {
     saveNickname(clean);
     this._renderSelfNick();
     this.callbacks.onNicknameChange?.(clean);
-    if (this._latestHeroState) this.broadcastState(this._latestHeroState, true);
+    if (this._latestHeroState) this.broadcastState(this._latestHeroState, true, false);
     this.addSystemMessage(`닉네임이 '${clean}'(으)로 변경되었습니다.`);
   }
 
@@ -283,6 +661,7 @@ export class SanctuaryChat {
       ts: Date.now(),
     };
     this.seenMsgIds.add(payload.id);
+    trimSet(this.seenMsgIds, 400);
 
     const threadId = targetClientId || "global";
     this._pushToThread(threadId, { ...payload, self: true, dm: Boolean(targetClientId) });
@@ -300,6 +679,9 @@ export class SanctuaryChat {
     try {
       this.bc?.postMessage({ type: "chat", clientId: this.clientId, payload });
     } catch {}
+
+    this._broadcastDirectWss("chat", payload);
+
     if (this.chatAction && this.p2pPeerCount > 0) {
       const targetPeer = targetClientId ? this.peers.get(targetClientId) : null;
       const sendOpts = targetPeer?.peerId ? { target: targetPeer.peerId } : undefined;
@@ -308,17 +690,38 @@ export class SanctuaryChat {
   }
 
   broadcastFx(kind, extra = {}) {
-    const payload = { clientId: this.clientId, kind, ...extra };
+    const payload = {
+      id: `fx-${this.clientId}-${Date.now()}-${randomId(4)}`,
+      clientId: this.clientId,
+      kind,
+      ...extra,
+    };
+    this.seenFxIds.add(payload.id);
+    trimSet(this.seenFxIds, 200);
+
     try {
       this.bc?.postMessage({ type: "fx", clientId: this.clientId, payload });
     } catch {}
+
+    this._broadcastDirectWss("fx", payload);
+
     if (this.fxAction && this.p2pPeerCount > 0) {
       this.fxAction.send(payload).catch(() => {});
     }
   }
 
+  _handleRemoteFx(data) {
+    if (!data?.kind) return;
+    if (data.id) {
+      if (this.seenFxIds.has(data.id)) return;
+      this.seenFxIds.add(data.id);
+      trimSet(this.seenFxIds, 200);
+    }
+    this.callbacks.onRemoteFx?.(data);
+  }
+
   _handleRemotePresence(data, peerId) {
-    if (!data?.clientId) return;
+    if (!data?.clientId || data.clientId === this.clientId) return;
     const isNew = !this.peers.has(data.clientId);
     const prev = this.peers.get(data.clientId) || {};
     const peer = {
@@ -336,19 +739,21 @@ export class SanctuaryChat {
     };
     this.peers.set(data.clientId, peer);
     this.callbacks.onPeerUpdate?.(peer, isNew);
-    if (isNew || prev.nickname !== peer.nickname) {
+
+    if (isNew || prev.nickname !== peer.nickname || prev.classKey !== peer.classKey) {
       this._renderTabs();
       this._updateStatusBadge();
+    }
+
+    if ((isNew || data.isJoin) && this._latestHeroState) {
+      this._scheduleImmediatePresenceReply();
     }
   }
 
   _handleRemoteChat(data) {
     if (!data?.id || this.seenMsgIds.has(data.id)) return;
     this.seenMsgIds.add(data.id);
-    if (this.seenMsgIds.size > 400) {
-      const first = this.seenMsgIds.values().next().value;
-      this.seenMsgIds.delete(first);
-    }
+    trimSet(this.seenMsgIds, 400);
 
     // Privacy check for 1:1 DM
     if (data.targetClientId && data.targetClientId !== this.clientId) return;
@@ -387,7 +792,7 @@ export class SanctuaryChat {
   }
 
   _pruneStalePeers() {
-    const cutoff = Date.now() - 12000;
+    const cutoff = Date.now() - STALE_PEER_MS;
     for (const [cid, peer] of this.peers.entries()) {
       if (peer.lastSeen < cutoff) this._removePeerByClientId(cid);
     }
@@ -402,11 +807,14 @@ export class SanctuaryChat {
 
   _updateStatusBadge() {
     const total = 1 + this.peers.size;
+    const relayCount = this.connectedRelays.size;
+    const serverOnline = relayCount > 0 || this.p2pPeerCount > 0 || this.peers.size > 0;
     if (this.els.count) {
-      this.els.count.textContent = `${total}명 접속`;
+      this.els.count.textContent = serverOnline ? `${total}명 접속` : `${total}명 (연결중)`;
+      this.els.count.title = `실시간 광장 · 릴레이 ${relayCount}/${VERIFIED_RELAYS.length} 연결 · WebRTC P2P ${this.p2pPeerCount}명`;
     }
     if (this.els.dot) {
-      this.els.dot.classList.toggle("is-online", this.peers.size > 0 || this.p2pPeerCount > 0);
+      this.els.dot.classList.toggle("is-online", serverOnline);
     }
   }
 
