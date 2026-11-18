@@ -298,7 +298,16 @@ export class SanctuaryVFX {
       lastChat: "",
       lastEmote: "",
       lastTicker: "",
+      onClick: null,
     };
+    const handlePick = (ev) => {
+      if (typeof entry.onClick === "function") {
+        ev.stopPropagation();
+        entry.onClick();
+      }
+    };
+    plateEl.addEventListener("click", handlePick);
+    tickerEl.addEventListener("click", handlePick);
     this.trackedElements.set(id, entry);
     return entry;
   }
@@ -323,12 +332,14 @@ export class SanctuaryVFX {
       const headOffset = actor.overlayHeight || 2.4;
       const px = this.projectToPixel(actor.position.x, actor.position.y + headOffset, actor.position.z, camera, width, height);
 
-      if (!px || px.x < -80 || px.x > width + 80 || px.y < -80 || px.y > height + 80) {
+      if (!px || actor.hiddenOverlay || px.x < -80 || px.x > width + 80 || px.y < -80 || px.y > height + 80) {
         entry.root.hidden = true;
         continue;
       }
 
       entry.root.hidden = false;
+      entry.onClick = actor.onClick || null;
+      entry.root.classList.toggle("is-clickable", typeof actor.onClick === "function");
       entry.root.style.transform = `translate3d(${px.x.toFixed(1)}px, ${px.y.toFixed(1)}px, 0) translate(-50%, -100%)`;
 
       const wallNow = Date.now();
@@ -366,7 +377,7 @@ export class SanctuaryVFX {
       entry.plateEl.hidden = !showPlate;
       if (showPlate) {
         entry.roleBadge.textContent = actor.roleBadge || "";
-        entry.roleBadge.hidden = !actor.roleBadge || !actor.isActiveShrine;
+        entry.roleBadge.hidden = !actor.roleBadge || (!actor.isActiveShrine && actor.role !== "building");
         entry.nameText.textContent = actor.displayName;
         entry.plateEl.classList.toggle("is-targeted", Boolean(actor.isActiveShrine));
       }

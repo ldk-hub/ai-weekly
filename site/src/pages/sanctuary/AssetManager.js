@@ -272,6 +272,93 @@ function createRoofTileTexture() {
   return tex;
 }
 
+function createWallScreenTexture(title, badge, hexAccent = "#fbbf24") {
+  const w = 512;
+  const h = 288;
+  const c = document.createElement("canvas");
+  c.width = w;
+  c.height = h;
+  const ctx = c.getContext("2d");
+
+  // Dark obsidian monitor UI surface
+  const bg = ctx.createLinearGradient(0, 0, w, h);
+  bg.addColorStop(0, "#0b1220");
+  bg.addColorStop(1, "#111c33");
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, w, h);
+
+  // Subtle dashboard grid lines
+  ctx.strokeStyle = "rgba(148, 163, 184, 0.12)";
+  ctx.lineWidth = 1;
+  for (let gx = 32; gx < w; gx += 48) {
+    ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, h); ctx.stroke();
+  }
+  for (let gy = 32; gy < h; gy += 48) {
+    ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(w, gy); ctx.stroke();
+  }
+
+  // Top header bar
+  ctx.fillStyle = "rgba(255, 255, 255, 0.05)";
+  ctx.fillRect(14, 14, w - 28, 52);
+  ctx.strokeStyle = hexAccent;
+  ctx.lineWidth = 2;
+  ctx.strokeRect(14, 14, w - 28, 52);
+
+  ctx.fillStyle = hexAccent;
+  ctx.font = "700 13px monospace";
+  ctx.fillText(badge, 28, 36);
+
+  ctx.fillStyle = "#f8fafc";
+  ctx.font = "800 20px sans-serif";
+  ctx.fillText(title, 28, 57);
+
+  // 3 Mini KPI cards + chart bars preview
+  const cardW = (w - 56) / 3;
+  for (let i = 0; i < 3; i++) {
+    const cx = 14 + i * (cardW + 14);
+    ctx.fillStyle = "rgba(255, 255, 255, 0.06)";
+    ctx.beginPath();
+    ctx.roundRect(cx, 82, cardW, 72, 8);
+    ctx.fill();
+    ctx.fillStyle = i === 0 ? hexAccent : "rgba(248, 250, 252, 0.82)";
+    ctx.fillRect(cx + 12, 98, cardW * 0.45, 8);
+    ctx.fillStyle = "rgba(148, 163, 184, 0.5)";
+    ctx.fillRect(cx + 12, 118, cardW * 0.72, 6);
+    ctx.fillRect(cx + 12, 132, cardW * 0.56, 6);
+  }
+
+  // Lower main chart / article feed panel
+  ctx.fillStyle = "rgba(255, 255, 255, 0.05)";
+  ctx.beginPath();
+  ctx.roundRect(14, 168, w - 28, 102, 10);
+  ctx.fill();
+  ctx.strokeStyle = "rgba(255, 255, 255, 0.14)";
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+
+  const barHeights = [34, 52, 40, 64, 48, 72, 58, 66];
+  barHeights.forEach((bh, idx) => {
+    const bx = 32 + idx * 28;
+    const by = 252 - bh;
+    ctx.fillStyle = idx === 5 ? hexAccent : "rgba(56, 189, 248, 0.65)";
+    ctx.beginPath();
+    ctx.roundRect(bx, by, 18, bh, 4);
+    ctx.fill();
+  });
+
+  // Right feed lines + CTA hint
+  for (let row = 0; row < 3; row++) {
+    ctx.fillStyle = "rgba(248, 250, 252, 0.75)";
+    ctx.fillRect(275, 186 + row * 24, 200, 7);
+    ctx.fillStyle = "rgba(148, 163, 184, 0.45)";
+    ctx.fillRect(275, 198 + row * 24, 145, 5);
+  }
+
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  return tex;
+}
+
 function createSandstoneTextures() {
   const size = 1024;
   const diff = document.createElement("canvas");
@@ -830,16 +917,24 @@ function buildEnterableBuilding(spec, mats, walkableMeshes, colliders) {
     color: 0xf0dfbd,
     roughness: 0.85,
   });
+  const frontWallMat = wallMat.clone();
   const timberMat = new THREE.MeshStandardMaterial({ color: 0x5c3a21, roughness: 0.85 });
+  const frontTimberMat = timberMat.clone();
   const accentMat = new THREE.MeshStandardMaterial({
     color: accentColor,
     emissive: accentColor,
     emissiveIntensity: 0.55,
     roughness: 0.35,
   });
+  const frontAccentMat = accentMat.clone();
+  const awningMat = new THREE.MeshStandardMaterial({
+    map: mats.roofTileTex || null,
+    color: roofColor,
+    roughness: 0.68,
+  });
 
-  const makeWall = (lx, lz, lw, ld, lh = wallH, addCol = true) => {
-    const m = new THREE.Mesh(new THREE.BoxGeometry(lw, lh, ld), wallMat);
+  const makeWall = (lx, lz, lw, ld, lh = wallH, addCol = true, customMat = wallMat) => {
+    const m = new THREE.Mesh(new THREE.BoxGeometry(lw, lh, ld), customMat);
     m.position.set(lx, lh * 0.5, lz);
     m.castShadow = true;
     m.receiveShadow = true;
@@ -854,34 +949,39 @@ function buildEnterableBuilding(spec, mats, walkableMeshes, colliders) {
     emissiveIntensity: 0.45,
     roughness: 0.25,
   });
+  const frontWindowGlassMat = windowGlassMat.clone();
   const planterLeafMat = new THREE.MeshStandardMaterial({ color: 0x4d7c0f, roughness: 0.88 });
 
-  // Build 4 perimeter walls, leaving an open 3.0-unit doorway on doorDir
+  // Build 4 perimeter walls (South wall uses frontCutawayMaterials for clean camera sightlines inside)
   const sides = ["N", "S", "W", "E"];
   for (const s of sides) {
     const isNS = s === "N" || s === "S";
+    const isSouthCutaway = s === "S";
     const span = isNS ? w : d;
     const lx = s === "W" ? -halfW + wallThick * 0.5 : s === "E" ? halfW - wallThick * 0.5 : 0;
     const lz = s === "N" ? -halfD + wallThick * 0.5 : s === "S" ? halfD - wallThick * 0.5 : 0;
     const outX = s === "W" ? -1 : s === "E" ? 1 : 0;
     const outZ = s === "N" ? -1 : s === "S" ? 1 : 0;
+    const wMat = isSouthCutaway ? frontWallMat : wallMat;
+    const tMat = isSouthCutaway ? frontTimberMat : timberMat;
+    const gMat = isSouthCutaway ? frontWindowGlassMat : windowGlassMat;
 
     if (s !== doorDir) {
-      makeWall(lx, lz, isNS ? span : wallThick, isNS ? wallThick : span);
-      // Warm framed exterior windows on side & rear walls
+      makeWall(lx, lz, isNS ? span : wallThick, isNS ? wallThick : span, wallH, true, wMat);
+      // Warm framed exterior windows on non-door walls
       for (const sideSign of [-1, 1]) {
         const offsetAlong = sideSign * (span * 0.24);
         const wx = isNS ? offsetAlong : lx + outX * (wallThick * 0.5 + 0.04);
         const wz = isNS ? lz + outZ * (wallThick * 0.5 + 0.04) : offsetAlong;
         const winFrame = new THREE.Mesh(
           new THREE.BoxGeometry(isNS ? 1.15 : 0.12, 1.25, isNS ? 0.12 : 1.15),
-          timberMat
+          tMat
         );
         winFrame.position.set(wx, 1.85, wz);
         bGroup.add(winFrame);
         const winPane = new THREE.Mesh(
           new THREE.BoxGeometry(isNS ? 0.88 : 0.14, 0.96, isNS ? 0.14 : 0.88),
-          windowGlassMat
+          gMat
         );
         winPane.position.set(wx, 1.85, wz);
         bGroup.add(winPane);
@@ -890,18 +990,18 @@ function buildEnterableBuilding(spec, mats, walkableMeshes, colliders) {
       const wing = (span - doorW) * 0.5;
       if (wing > 0.1) {
         if (isNS) {
-          makeWall(-doorW * 0.5 - wing * 0.5, lz, wing, wallThick);
-          makeWall(doorW * 0.5 + wing * 0.5, lz, wing, wallThick);
+          makeWall(-doorW * 0.5 - wing * 0.5, lz, wing, wallThick, wallH, true, wMat);
+          makeWall(doorW * 0.5 + wing * 0.5, lz, wing, wallThick, wallH, true, wMat);
         } else {
-          makeWall(lx, -doorW * 0.5 - wing * 0.5, wallThick, wing);
-          makeWall(lx, doorW * 0.5 + wing * 0.5, wallThick, wing);
+          makeWall(lx, -doorW * 0.5 - wing * 0.5, wallThick, wing, wallH, true, wMat);
+          makeWall(lx, doorW * 0.5 + wing * 0.5, wallThick, wing, wallH, true, wMat);
         }
       }
       // Door lintel above doorway (no collider so hero walks right underneath!)
       const lintelH = wallH - doorH;
       const lintel = new THREE.Mesh(
         new THREE.BoxGeometry(isNS ? doorW + 0.3 : wallThick + 0.14, lintelH, isNS ? wallThick + 0.14 : doorW + 0.3),
-        timberMat
+        tMat
       );
       lintel.position.set(lx, doorH + lintelH * 0.5, lz);
       lintel.castShadow = true;
@@ -911,7 +1011,7 @@ function buildEnterableBuilding(spec, mats, walkableMeshes, colliders) {
       for (const sign of [-1, 1]) {
         const px = isNS ? sign * (doorW * 0.5 + 0.12) : lx;
         const pz = isNS ? lz : sign * (doorW * 0.5 + 0.12);
-        const post = new THREE.Mesh(new THREE.BoxGeometry(0.32, doorH + 0.1, 0.32), timberMat);
+        const post = new THREE.Mesh(new THREE.BoxGeometry(0.32, doorH + 0.1, 0.32), tMat);
         post.position.set(px, (doorH + 0.1) * 0.5, pz);
         post.castShadow = true;
         bGroup.add(post);
@@ -936,7 +1036,7 @@ function buildEnterableBuilding(spec, mats, walkableMeshes, colliders) {
 
       const awning = new THREE.Mesh(
         new THREE.BoxGeometry(isNS ? doorW + 0.9 : 1.05, 0.14, isNS ? 1.05 : doorW + 0.9),
-        new THREE.MeshStandardMaterial({ map: mats.roofTileTex || null, color: roofColor, roughness: 0.68 })
+        isSouthCutaway ? awningMat : new THREE.MeshStandardMaterial({ map: mats.roofTileTex || null, color: roofColor, roughness: 0.68 })
       );
       awning.position.set(lx + outX * 0.58, doorH + 0.24, lz + outZ * 0.58);
       awning.rotation.x = outZ * 0.22;
@@ -947,16 +1047,19 @@ function buildEnterableBuilding(spec, mats, walkableMeshes, colliders) {
 
       const signX = lx + outX * 0.48;
       const signZ = lz + outZ * 0.48;
-      const lantern = new THREE.Mesh(new THREE.OctahedronGeometry(0.22, 0), accentMat);
+      const lantern = new THREE.Mesh(new THREE.OctahedronGeometry(0.22, 0), isSouthCutaway ? frontAccentMat : accentMat);
       lantern.position.set(signX, doorH + 0.04, signZ);
       bGroup.add(lantern);
     }
   }
 
-  // Timber corner beams & exterior warm-lit windows
+  // Timber corner beams (South corner beams fade gently when hero is inside)
   for (const sx of [-1, 1]) {
     for (const sz of [-1, 1]) {
-      const beam = new THREE.Mesh(new THREE.BoxGeometry(0.36, wallH + 0.12, 0.36), timberMat);
+      const beam = new THREE.Mesh(
+        new THREE.BoxGeometry(0.36, wallH + 0.12, 0.36),
+        sz > 0 ? frontTimberMat : timberMat
+      );
       beam.position.set(sx * (halfW - 0.12), (wallH + 0.12) * 0.5, sz * (halfD - 0.12));
       beam.castShadow = true;
       bGroup.add(beam);
@@ -1013,28 +1116,29 @@ function buildEnterableBuilding(spec, mats, walkableMeshes, colliders) {
     podium.castShadow = true;
     bGroup.add(podium);
   } else if (interiorType === "salon") {
-    addBookshelf(0, -halfD + 0.8, 0);
-    for (const tx of [-halfW + 1.7, halfW - 1.7]) {
+    addBookshelf(-halfW + 0.85, 0.4, Math.PI * 0.5);
+    addBookshelf(halfW - 0.85, 0.4, -Math.PI * 0.5);
+    for (const tx of [-halfW + 1.9, halfW - 1.9]) {
       const table = new THREE.Mesh(new THREE.CylinderGeometry(0.7, 0.7, 0.08, 18), woodMat);
-      table.position.set(tx, 0.76, -0.8);
+      table.position.set(tx, 0.76, 1.2);
       table.castShadow = true;
       bGroup.add(table);
       const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.22, 0.72, 10), darkWoodMat);
-      leg.position.set(tx, 0.4, -0.8);
+      leg.position.set(tx, 0.4, 1.2);
       bGroup.add(leg);
       const candle = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 0.2, 8), accentMat);
-      candle.position.set(tx, 0.9, -0.8);
+      candle.position.set(tx, 0.9, 1.2);
       bGroup.add(candle);
     }
   } else if (interiorType === "observatory") {
-    addBookshelf(-halfW + 1.6, -halfD + 0.8, 0);
-    addBookshelf(halfW - 1.6, -halfD + 0.8, 0);
+    addBookshelf(-halfW + 0.85, 0.6, Math.PI * 0.5);
+    addBookshelf(halfW - 0.85, 0.6, -Math.PI * 0.5);
     const ring = new THREE.Mesh(new THREE.TorusGeometry(0.65, 0.06, 10, 28), accentMat);
-    ring.position.set(halfW - 1.8, 1.45, 0.6);
+    ring.position.set(halfW - 1.8, 1.45, -halfD + 1.5);
     ring.rotation.set(0.4, 0.6, 0);
     bGroup.add(ring);
     const ped = new THREE.Mesh(new THREE.CylinderGeometry(0.38, 0.55, 0.85, 16), mats.trimMat);
-    ped.position.set(halfW - 1.8, 0.46, 0.6);
+    ped.position.set(halfW - 1.8, 0.46, -halfD + 1.5);
     ped.castShadow = true;
     bGroup.add(ped);
   } else if (interiorType === "tavern") {
@@ -1051,7 +1155,7 @@ function buildEnterableBuilding(spec, mats, walkableMeshes, colliders) {
     table.position.set(-1.4, 0.74, 1.5);
     bGroup.add(table);
   } else {
-    addBookshelf(0, -halfD + 0.8, 0);
+    addBookshelf(halfW - 1.5, -halfD + 0.8, 0);
     const bench = new THREE.Mesh(new THREE.BoxGeometry(2.6, 0.84, 0.9), woodMat);
     bench.position.set(0.8, 0.46, 1.5);
     bench.castShadow = true;
@@ -1061,6 +1165,34 @@ function buildEnterableBuilding(spec, mats, walkableMeshes, colliders) {
     crate.castShadow = true;
     bGroup.add(crate);
   }
+
+  // Interior Giant Dashboard Wall Screen Terminal (clickable inside room!)
+  const accentHex = `#${new THREE.Color(accentColor).getHexString()}`;
+  const screenTex = createWallScreenTexture(title, id.toUpperCase(), accentHex);
+  const screenGroup = new THREE.Group();
+  const isNorthDoor = doorDir === "N";
+  if (isNorthDoor) {
+    screenGroup.position.set(interiorType === "salon" ? halfW - 2.2 : -halfW + 2.2, 1.65, -halfD + 1.25);
+    screenGroup.rotation.y = interiorType === "salon" ? -0.34 : 0.34;
+  } else {
+    screenGroup.position.set(0, interiorType === "tavern" ? 2.15 : 1.85, -halfD + 0.72);
+  }
+  const scrW = isNorthDoor ? 2.6 : 3.4;
+  const scrH = isNorthDoor ? 1.5 : 1.92;
+  const bezel = new THREE.Mesh(
+    new THREE.BoxGeometry(scrW + 0.2, scrH + 0.2, 0.14),
+    new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.4, metalness: 0.45 })
+  );
+  bezel.userData.openDashboardBuildingId = id;
+  screenGroup.add(bezel);
+  const displayPlane = new THREE.Mesh(
+    new THREE.PlaneGeometry(scrW, scrH),
+    new THREE.MeshBasicMaterial({ map: screenTex })
+  );
+  displayPlane.position.z = 0.08;
+  displayPlane.userData.openDashboardBuildingId = id;
+  screenGroup.add(displayPlane);
+  bGroup.add(screenGroup);
 
   // Interior warm bounce light
   const intLight = new THREE.PointLight(accentColor, 2.2, 11);
@@ -1135,6 +1267,8 @@ function buildEnterableBuilding(spec, mats, walkableMeshes, colliders) {
     group: bGroup,
     roofGroup,
     roofMaterials: [roofMat, roofTrimMat, spire.material],
+    frontCutawayMaterials: [frontWallMat, frontTimberMat, awningMat, frontAccentMat, frontWindowGlassMat],
+    screenMeshes: [bezel, displayPlane],
     roofOpacity: 1,
     intLight,
     center: new THREE.Vector3(x, 0, z),

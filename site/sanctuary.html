@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>AI위클리 — Sanctuary 2.5D · 아카이브 성역</title>
+<title>AI위클리 — 위클리월드 · 2.5D 아카이브</title>
 <meta name="description" content="AI위클리의 인기 플러그인, AI 뉴스, 소셜 피드, 점유율·성능 데이터를 8방향 SD 아바타와 3D 쿼터뷰 성역에서 실시간으로 탐색하는 인터랙티브 아카이브." />
 <meta name="theme-color" content="#fcfaf6" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#090d13" media="(prefers-color-scheme: dark)" />
@@ -15,8 +15,8 @@
 
 <link rel="canonical" href="https://ldk-hub.github.io/ai-weekly/sanctuary" />
 <meta property="og:type" content="website" />
-<meta property="og:title" content="AI위클리 — Sanctuary 2.5D 아카이브 성역" />
-<meta property="og:description" content="웹사이트 실데이터(플러그인·뉴스·소셜·벤치마크)와 연계된 2.5D 쿼터뷰 성역" />
+<meta property="og:title" content="AI위클리 — 위클리월드 · 2.5D 아카이브" />
+<meta property="og:description" content="방에 들어가 대형 스크린 대시보드로 플러그인·뉴스·소셜·벤치마크를 탐색하는 위클리월드 2.5D 아카이브" />
 <meta property="og:url" content="https://ldk-hub.github.io/ai-weekly/sanctuary" />
 <meta property="og:image" content="https://ldk-hub.github.io/ai-weekly/og.png" />
 <meta property="og:locale" content="ko_KR" />
@@ -95,9 +95,9 @@
         <a href="benchmarks" class="pn-link"><span>점유율·성능</span></a>
       </nav>
       <div class="brand-actions">
-        <a href="sanctuary" class="sanctuary-entry-btn is-active" aria-current="page" aria-label="Sanctuary 2.5D 아카이브 성역">
+        <a href="sanctuary" class="sanctuary-entry-btn is-active" aria-current="page" aria-label="위클리월드 2.5D 아카이브">
           <span class="sc-entry-dot" aria-hidden="true"></span>
-          <span>2.5D 성역</span>
+          <span>위클리월드</span>
         </a>
         <button class="theme-toggle" id="theme-toggle" aria-label="테마 전환" type="button">라이트</button>
         <a class="gh-btn" href="https://github.com/ldk-hub/ai-weekly" target="_blank" rel="noopener">GitHub</a>
@@ -107,11 +107,47 @@
 
   <main id="main">
     <div class="sc-archive-grid">
-      <!-- 2.5D Quarter-View Archive Sanctuary (Fullscreen Stage) -->
-      <section class="sc-world-stage" aria-label="Sanctuary 2.5D 아카이브 스테이지">
-        <canvas id="sanctuary-canvas" tabindex="0" aria-label="Sanctuary 2.5D WebGL 캔버스"></canvas>
+      <!-- 2.5D Quarter-View Archive World Stage (Fullscreen Stage) -->
+      <section class="sc-world-stage" aria-label="위클리월드 2.5D 아카이브 스테이지">
+        <canvas id="sanctuary-canvas" tabindex="0" aria-label="위클리월드 2.5D WebGL 캔버스"></canvas>
         <div class="sc-hd2d-vignette" aria-hidden="true"></div>
         <div id="overlay-layer" class="sc-overlay-layer" aria-hidden="true"></div>
+
+        <!-- Top-Center District Quick-Warp & Room Monitor Control Bar -->
+        <nav class="sc-district-bar" id="sanctuary-district-bar" aria-label="건물·구역 바로 이동">
+          <button type="button" class="sc-district-btn is-active" data-warp="plaza" title="중앙 분수 광장 (0)">
+            <span class="sc-dist-key">0</span>
+            <span>중앙 광장</span>
+          </button>
+          <button type="button" class="sc-district-btn" data-warp="plugins" title="인기 플러그인 공방 (1)">
+            <span class="sc-dist-key">1</span>
+            <span>플러그인 공방</span>
+          </button>
+          <button type="button" class="sc-district-btn" data-warp="news" title="AI 뉴스 대도서관 (2)">
+            <span class="sc-dist-key">2</span>
+            <span>뉴스 도서관</span>
+          </button>
+          <button type="button" class="sc-district-btn" data-warp="social" title="소셜 피드 라운지 (3)">
+            <span class="sc-dist-key">3</span>
+            <span>소셜 라운지</span>
+          </button>
+          <button type="button" class="sc-district-btn" data-warp="benchmarks" title="벤치마크 관측소 (4)">
+            <span class="sc-dist-key">4</span>
+            <span>벤치마크 관측소</span>
+          </button>
+          <button type="button" class="sc-district-btn" data-warp="tavern" title="서쪽 여행자 여관 (5)">
+            <span class="sc-dist-key">5</span>
+            <span>여행자 여관</span>
+          </button>
+          <button type="button" class="sc-district-btn" data-warp="workshop" title="동쪽 장인 아틀리에 (6)">
+            <span class="sc-dist-key">6</span>
+            <span>장인 아틀리에</span>
+          </button>
+          <button type="button" class="sc-reopen-screen-btn" id="btn-reopen-screen" hidden title="현재 방의 전면 스크린 대시보드 열기">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
+            <span>실내 스크린 열기</span>
+          </button>
+        </nav>
 
         <!-- Bottom-Left Live Multi-User City & Interior Chat Box -->
         <section class="sc-chat-box" id="sanctuary-chat" aria-label="실시간 유저 채팅">
@@ -154,24 +190,46 @@
         </div>
       </section>
 
-      <!-- Floating Website Postings Reader (opened only on 3D shrine click) -->
-      <aside class="sc-reader-panel" id="sanctuary-reader" aria-label="연계된 웹사이트 실시간 포스팅 리더" hidden>
+      <!-- Full-Screen Room Monitor Dashboard (opened automatically inside a building or via Wall Screen) -->
+      <aside class="sc-reader-panel sc-room-dashboard" id="sanctuary-reader" role="dialog" aria-modal="false" aria-label="실내 대형 스크린 대시보드" hidden>
         <div class="sc-reader-head">
-          <div>
-            <h2 class="sc-reader-title" id="reader-title">인기 플러그인 성소</h2>
-            <p class="sc-reader-sub" id="reader-sub">data/latest.json 실시간 연동 중…</p>
+          <div class="sc-reader-title-group">
+            <span class="sc-room-badge" id="reader-room-badge">ARCHIVE TERMINAL</span>
+            <div>
+              <h2 class="sc-reader-title" id="reader-title">인기 플러그인 공방</h2>
+              <p class="sc-reader-sub" id="reader-sub">실시간 아카이브 데이터를 불러오는 중…</p>
+            </div>
           </div>
           <div class="sc-reader-head-actions">
+            <button type="button" class="sc-room-action-btn" id="btn-minimize-reader" title="대시보드를 접고 방 내부 3D 공간 보기">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+              <span>방 내부 둘러보기</span>
+            </button>
+            <button type="button" class="sc-room-action-btn is-exit" id="btn-exit-building" title="건물 밖 광장 방향으로 나가기">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+              <span>건물 나가기</span>
+            </button>
             <a class="sc-reader-ext" id="reader-page-link" href="./">
               <span>전체 페이지</span>
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg>
             </a>
-            <button type="button" class="sc-reader-close" id="btn-close-reader" aria-label="리더 패널 닫기">
+            <button type="button" class="sc-reader-close" id="btn-close-reader" aria-label="대시보드 닫기">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
             </button>
           </div>
         </div>
-        <div class="sc-reader-list" id="reader-list" role="region" aria-live="polite"></div>
+        <div class="sc-dash-kpis" id="reader-kpi-strip" aria-label="핵심 요약 지표"></div>
+        <div class="sc-dash-toolbar" id="reader-toolbar">
+          <div class="sc-dash-filters" id="reader-filter-tabs" role="tablist" aria-label="대시보드 필터"></div>
+          <div class="sc-dash-search-wrap">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <input type="search" class="sc-dash-search" id="reader-search-input" placeholder="제목·태그·모델명 검색…" aria-label="대시보드 검색" />
+          </div>
+        </div>
+        <div class="sc-dash-body" id="reader-dashboard-body">
+          <div class="sc-reader-list sc-dash-grid" id="reader-list" role="region" aria-live="polite"></div>
+          <article class="sc-dash-detail" id="reader-detail-pane" aria-label="선택 항목 상세 보기"></article>
+        </div>
       </aside>
     </div>
   </main>

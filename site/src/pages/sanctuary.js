@@ -41,7 +41,7 @@ const SHRINE_DEFS = [
     facing: 0.0,
     palette: "holy",
     pageHref: "./",
-    pageLabel: "인기 플러그인 ↗",
+    pageLabel: "인기 플러그인",
     overlayHeight: 2.35,
   },
   {
@@ -55,7 +55,7 @@ const SHRINE_DEFS = [
     facing: 0.0,
     palette: "arcane",
     pageHref: "news",
-    pageLabel: "AI 뉴스 ↗",
+    pageLabel: "AI 뉴스",
     overlayHeight: 2.35,
   },
   {
@@ -69,7 +69,7 @@ const SHRINE_DEFS = [
     facing: Math.PI,
     palette: "shadow",
     pageHref: "social",
-    pageLabel: "소셜 피드 ↗",
+    pageLabel: "소셜 피드",
     overlayHeight: 2.35,
   },
   {
@@ -83,10 +83,19 @@ const SHRINE_DEFS = [
     facing: Math.PI,
     palette: "emerald",
     pageHref: "benchmarks",
-    pageLabel: "점유율·성능 ↗",
+    pageLabel: "점유율·성능",
     overlayHeight: 2.45,
   },
 ];
+
+const ROOM_DEFS = {
+  plugins: { badge: "1 · PLUGIN FORGE", title: "인기 플러그인 공방", pageHref: "./", pageLabel: "인기 플러그인" },
+  news: { badge: "2 · NEWS LIBRARY", title: "AI 뉴스 대도서관", pageHref: "news", pageLabel: "AI 뉴스" },
+  social: { badge: "3 · SOCIAL SALON", title: "소셜 피드 라운지", pageHref: "social", pageLabel: "소셜 피드" },
+  benchmarks: { badge: "4 · OBSERVATORY", title: "벤치마크 관측소", pageHref: "benchmarks", pageLabel: "점유율·성능" },
+  tavern: { badge: "5 · TRAVELER TAVERN", title: "서쪽 여행자 여관", pageHref: "./", pageLabel: "위클리 브리핑" },
+  workshop: { badge: "6 · MASTER ATELIER", title: "동쪽 장인 아틀리에", pageHref: "starboard", pageLabel: "스타보드" },
+};
 
 const CITIZEN_SPAWNS = [
   { id: "cit-1", atlas: "assets/sprites/Citizen_Ranger_8dir_atlas.json", x: -5.5, y: 0.36, z: -5.5, facing: Math.PI * 0.25, action: "Sit", roam: false },
@@ -215,12 +224,18 @@ class SanctuaryArchiveApp {
     this.walkableMeshes = [];
     this.colliders = [];
     this.buildings = [];
+    this.buildingSigns = [];
+    this.screenMeshes = [];
     this.envFx = {};
     this.shrines = [];
     this.citizens = [];
     this.remotePeers = new Map(); // clientId -> peer actor record
     this.keys = new Set();
     this.currentZoneName = "중앙 분수 광장";
+    this.currentBuildingId = null;
+    this.dashboardDismissedInRoom = false;
+    this.activeFilter = "all";
+    this.searchQuery = "";
 
     this.chat = new SanctuaryChat({
       onNicknameChange: (nick) => {
@@ -342,6 +357,8 @@ class SanctuaryArchiveApp {
     this.walkableMeshes = this.envFx.walkableMeshes;
     this.colliders = this.envFx.colliders || [];
     this.buildings = this.envFx.buildings || [];
+    this.screenMeshes = this.buildings.flatMap((b) => b.screenMeshes || []);
+    this._spawnBuildingSigns();
     this.atmosphere = new SanctuaryAtmosphere(
       this.scene,
       { dirLight: this.dirLight, ambientLight: this.ambientLight, hemiLight: this.hemiLight },
@@ -373,6 +390,25 @@ class SanctuaryArchiveApp {
     this._loop(performance.now());
   }
 
+  _spawnBuildingSigns() {
+    this.buildingSigns = this.buildings.map((b) => {
+      const def = ROOM_DEFS[b.id] || { badge: b.id.toUpperCase(), title: b.title };
+      const signPos = b.center.clone().lerp(b.doorApproach, 0.55);
+      signPos.y = 0;
+      return {
+        id: `bldg-sign-${b.id}`,
+        buildingId: b.id,
+        role: "building",
+        displayName: def.title,
+        roleBadge: def.badge,
+        position: signPos,
+        overlayHeight: 4.25,
+        hiddenOverlay: false,
+        onClick: () => this.enterBuildingById(b.id, { warpToDoor: false }),
+      };
+    });
+  }
+
   async _loadWebsiteDatasets() {
     const fetchSafe = async (url) => {
       const res = await fetch(url);
@@ -389,28 +425,28 @@ class SanctuaryArchiveApp {
 
     if (plugRes.status === "fulfilled" && plugRes.value) {
       const d = plugRes.value;
-      const rising = Array.isArray(d.rising) ? d.rising : [];
-      const classic = Array.isArray(d.classic) ? d.classic : [];
-      this.archiveData.plugins = { updated: d.generated || "최신", items: [...rising, ...classic].slice(0, 16) };
+      const rising = (Array.isArray(d.rising) ? d.rising : []).map((p) => ({ ...p, _tier: "rising" }));
+      const classic = (Array.isArray(d.classic) ? d.classic : []).map((p) => ({ ...p, _tier: "classic" }));
+      this.archiveData.plugins = { updated: d.generated || "최신", items: [...rising, ...classic].slice(0, 24) };
     }
     if (newsRes.status === "fulfilled" && newsRes.value) {
       const d = newsRes.value;
       this.archiveData.news = {
         updated: String(d.generated_at || "").slice(0, 10) || "오늘",
         summary: d.summary || "",
-        items: Array.isArray(d.news) ? d.news.slice(0, 16) : [],
+        items: Array.isArray(d.news) ? d.news.slice(0, 24) : [],
       };
     }
     if (socRes.status === "fulfilled" && socRes.value) {
       const d = socRes.value;
-      this.archiveData.social = { updated: d.date || "최신", items: Array.isArray(d.items) ? d.items.slice(0, 16) : [] };
+      this.archiveData.social = { updated: d.date || "최신", items: Array.isArray(d.items) ? d.items.slice(0, 24) : [] };
     }
     if (bmRes.status === "fulfilled" && bmRes.value) {
       const d = bmRes.value;
       this.archiveData.benchmarks = {
         updated: String(d.updated_at || "").slice(0, 10) || "최신",
-        shares: Array.isArray(d.market_shares) ? d.market_shares.slice(0, 6) : [],
-        models: Array.isArray(d.model_benchmarks) ? d.model_benchmarks.slice(0, 8) : [],
+        shares: Array.isArray(d.market_shares) ? d.market_shares.slice(0, 8) : [],
+        models: Array.isArray(d.model_benchmarks) ? d.model_benchmarks.slice(0, 12) : [],
       };
     }
 
@@ -437,6 +473,7 @@ class SanctuaryArchiveApp {
           emoteUntil: 0,
           tickerText: def.title,
           isActiveShrine: def.id === this.activeShrineId,
+          onClick: () => this.activateShrine(def.id, true, true),
         };
       })
     );
@@ -618,148 +655,534 @@ class SanctuaryArchiveApp {
     document.getElementById("btn-sit")?.classList.toggle("is-active", this.hero.isSitting);
   }
 
+  enterBuildingById(buildingId, { warpToDoor = false } = {}) {
+    const building = this.buildings.find((b) => b.id === buildingId);
+    if (!building) return;
+
+    this.hero.isSitting = false;
+    document.getElementById("btn-sit")?.classList.remove("is-active");
+    this.activeShrineId = buildingId;
+    this.shrines.forEach((s) => { s.isActiveShrine = s.id === buildingId; });
+
+    const shrine = this.shrines.find((s) => s.id === buildingId);
+    const insideTarget = shrine
+      ? new THREE.Vector3(shrine.x, 0, shrine.z + (shrine.z < 0 ? 1.55 : -1.55))
+      : building.center.clone();
+
+    if (this._isPointInBounds(this.hero.position, building.interiorBounds)) {
+      this.openRoomDashboard(buildingId);
+      return;
+    }
+
+    if (warpToDoor) {
+      this.closeRoomDashboard();
+      this.hero.position.copy(building.doorApproach);
+      this.hero.actor?.mesh.position.copy(this.hero.position);
+      this.vfx.spawnMagicCircle(building.doorApproach, { radius: 1.5, duration: 1.1, palette: shrine?.palette || "holy", pillarHeight: 2.2 });
+      this._setHeroMovePath([building.doorThreshold.clone(), insideTarget], shrine ? buildingId : null);
+      return;
+    }
+
+    const heroBuilding = this.buildings.find((b) => this._isPointInBounds(this.hero.position, b.interiorBounds));
+    const path = [];
+    if (heroBuilding) {
+      path.push(heroBuilding.doorThreshold.clone(), heroBuilding.doorApproach.clone());
+    } else {
+      path.push(...this._routePlazaToDoor(this.hero.position, building.doorApproach));
+    }
+    path.push(building.doorApproach.clone(), building.doorThreshold.clone(), insideTarget);
+    this._setHeroMovePath(path, shrine ? buildingId : null);
+  }
+
+  exitCurrentBuilding() {
+    const heroBuilding = this.buildings.find((b) => this._isPointInBounds(this.hero.position, b.interiorBounds));
+    this.closeRoomDashboard();
+    if (!heroBuilding) return;
+    this.dashboardDismissedInRoom = true;
+    this._setHeroMovePath([heroBuilding.doorThreshold.clone(), heroBuilding.doorApproach.clone()], null);
+  }
+
+  warpToPlaza() {
+    this.closeRoomDashboard();
+    this.dashboardDismissedInRoom = false;
+    const target = new THREE.Vector3(0, 0, 3.6);
+    if (this.hero.position.distanceTo(target) > 16) {
+      this.hero.position.copy(target);
+      this.hero.actor?.mesh.position.copy(target);
+      this.vfx.spawnMagicCircle(target, { radius: 1.8, duration: 1.2, palette: "holy", pillarHeight: 2.5 });
+      this.hero.moveTarget = null;
+      this.hero.moveQueue = [];
+      this.vfx.setMoveTargetMarker(null);
+    } else {
+      const heroBuilding = this.buildings.find((b) => this._isPointInBounds(this.hero.position, b.interiorBounds));
+      const path = heroBuilding ? [heroBuilding.doorThreshold.clone(), heroBuilding.doorApproach.clone(), target] : [target];
+      this._setHeroMovePath(path, null);
+    }
+    this._syncDistrictBar();
+  }
+
+  openRoomDashboard(roomId) {
+    const id = roomId || this.activeShrineId || "plugins";
+    if (this.activeShrineId !== id) {
+      this.activeFilter = "all";
+      this.searchQuery = "";
+      this.selectedPostIndex = 0;
+      const searchEl = document.getElementById("reader-search-input");
+      if (searchEl) searchEl.value = "";
+    }
+    this.activeShrineId = id;
+    this.dashboardDismissedInRoom = false;
+    this.shrines.forEach((s) => { s.isActiveShrine = s.id === id; });
+
+    this.renderReaderPanel();
+    const readerEl = document.getElementById("sanctuary-reader");
+    if (readerEl) readerEl.hidden = false;
+    const reopenBtn = document.getElementById("btn-reopen-screen");
+    if (reopenBtn) reopenBtn.hidden = true;
+    this._syncDistrictBar();
+  }
+
+  minimizeRoomDashboard() {
+    const readerEl = document.getElementById("sanctuary-reader");
+    if (readerEl) readerEl.hidden = true;
+    if (this.currentBuildingId) {
+      this.dashboardDismissedInRoom = true;
+      const reopenBtn = document.getElementById("btn-reopen-screen");
+      if (reopenBtn) reopenBtn.hidden = false;
+    }
+  }
+
+  closeRoomDashboard() {
+    const readerEl = document.getElementById("sanctuary-reader");
+    if (readerEl) readerEl.hidden = true;
+    const reopenBtn = document.getElementById("btn-reopen-screen");
+    if (reopenBtn) reopenBtn.hidden = true;
+  }
+
+  _syncDistrictBar() {
+    const activeWarp = this.currentBuildingId || "plaza";
+    document.querySelectorAll("#sanctuary-district-bar [data-warp]").forEach((btn) => {
+      btn.classList.toggle("is-active", btn.dataset.warp === activeWarp);
+    });
+  }
+
+  _getRoomViewModel(roomId) {
+    const def = ROOM_DEFS[roomId] || ROOM_DEFS.plugins;
+    const onlineCount = 1 + (this.chat?.peers?.size || 0);
+    const atmo = this.atmosphere?.getStatusLabels?.() || { timeLabel: "낮", seasonLabel: "봄 · 벚꽃" };
+
+    if (roomId === "plugins") {
+      const { updated, items } = this.archiveData.plugins;
+      const risingCount = items.filter((p) => p._tier === "rising").length;
+      const top = items[0];
+      const totalVel = items.reduce((acc, p) => acc + Number(p.velocity_7d || 0), 0);
+      return {
+        ...def,
+        sub: `data/latest.json · ${updated} · ${items.length}개 프로젝트 실시간 연동`,
+        kpis: [
+          { label: "TRENDING #1", value: top ? top.name : "대기 중", sub: top ? `+${Number(top.velocity_7d || 0).toLocaleString()}★ (7d)` : "데이터 로딩" },
+          { label: "TRACKED REPOS", value: `${items.length}개`, sub: `급상승 ${risingCount} · 스테디 ${Math.max(0, items.length - risingCount)}` },
+          { label: "7D STAR VELOCITY", value: `+${formatCompact(totalVel)}`, sub: "주간 누적 스타 증가량" },
+          { label: "ARCHIVE SYNC", value: updated, sub: "GitHub & 커뮤니티 스캔 완료" },
+        ],
+        filters: [
+          { id: "all", label: `전체 (${items.length})` },
+          { id: "rising", label: `급상승 Rising (${risingCount})` },
+          { id: "classic", label: `스테디 Classic (${Math.max(0, items.length - risingCount)})` },
+        ],
+        cards: items.map((p) => ({
+          filterId: p._tier || "rising",
+          badge: `${p.name} · ★ ${Number(p.stars || 0).toLocaleString()}`,
+          metaRight: `+${Number(p.velocity_7d || 0).toLocaleString()}/7d`,
+          title: p.title_ko || p.name,
+          summary: p.catchphrase || p.summary_ko || "",
+          body: `${p.summary_ko || p.catchphrase || ""}\n\n• 출처: ${(p.sources || []).join(", ") || "커뮤니티"}\n• 카테고리: ${p.category || "plugin"} (트렌드 점수 ${p.trend_score ?? p.score ?? "—"})`,
+          tags: [p.category || "plugin", ...(p.sources || []).slice(0, 2)],
+          linkUrl: safeHref(p.official_url || p.repo_url),
+          linkLabel: "GitHub 저장소 열기",
+          resonateLabel: `${p.name} · ★${Number(p.stars || 0).toLocaleString()}`,
+          resonateTag: `+${Number(p.velocity_7d || 0).toLocaleString()}★`,
+          searchHaystack: `${p.name} ${p.title_ko} ${p.catchphrase} ${p.summary_ko} ${p.category}`.toLowerCase(),
+        })),
+      };
+    }
+
+    if (roomId === "news") {
+      const { updated, summary, items } = this.archiveData.news;
+      const cats = [...new Set(items.map((n) => n.category_name).filter(Boolean))];
+      const top = items[0];
+      return {
+        ...def,
+        sub: `data/news_latest.json · ${updated} · ${items.length}건 브리핑${summary ? ` — ${summary.slice(0, 60)}` : ""}`,
+        kpis: [
+          { label: "HEADLINE #1", value: top ? `중요도 ${top.importance}` : "—", sub: top ? (top.title_ko || top.headline) : "로딩 중" },
+          { label: "DAILY BRIEFINGS", value: `${items.length}건`, sub: `${cats.length}개 핵심 토픽` },
+          { label: "HIGH SIGNAL (85+)", value: `${items.filter((n) => Number(n.importance) >= 85).length}건`, sub: "우선 주목 AI 기술 신호" },
+          { label: "UPDATED", value: updated, sub: "매일 8대 소스 자동 큐레이션" },
+        ],
+        filters: [
+          { id: "all", label: `전체 (${items.length})` },
+          ...cats.slice(0, 4).map((c) => ({ id: c, label: c })),
+        ],
+        cards: items.map((n) => ({
+          filterId: n.category_name || "all",
+          badge: `${n.category_name || "뉴스"} · ${n.signal_name || ""}`,
+          metaRight: `중요도 ${n.importance}`,
+          title: n.title_ko || n.headline,
+          summary: (n.summary_ko || "").replace(/\*\*/g, "").slice(0, 140),
+          body: (n.body_ko || n.summary_ko || "").replace(/\*\*/g, ""),
+          tags: Array.isArray(n.tags) ? n.tags : [],
+          linkUrl: safeHref(n.url),
+          linkLabel: "뉴스 원문 보기",
+          resonateLabel: (n.title_ko || n.headline || "").slice(0, 22),
+          resonateTag: n.category_name || "NEWS",
+          searchHaystack: `${n.title_ko} ${n.headline} ${n.summary_ko} ${n.category_name} ${(n.tags || []).join(" ")}`.toLowerCase(),
+        })),
+      };
+    }
+
+    if (roomId === "social") {
+      const { updated, items } = this.archiveData.social;
+      const platforms = [...new Set(items.map((s) => String(s.platform || "").toUpperCase()).filter(Boolean))];
+      const totalLikes = items.reduce((a, s) => a + Number(s.metrics?.likes || 0), 0);
+      const top = items[0];
+      return {
+        ...def,
+        sub: `data/social_latest.json · ${updated} · ${items.length}개 실시간 소셜 피드`,
+        kpis: [
+          { label: "HOT CREATOR", value: top ? top.author : "—", sub: top ? (top.title_ko || "") : "로딩 중" },
+          { label: "CURATED POSTS", value: `${items.length}개`, sub: platforms.join(" · ") || "멀티 플랫폼" },
+          { label: "TOTAL LIKES", value: formatCompact(totalLikes), sub: "화이트리스트 인플루언서 반응" },
+          { label: "SYNC DATE", value: updated, sub: "X · Threads · Reddit · IG" },
+        ],
+        filters: [
+          { id: "all", label: `전체 (${items.length})` },
+          ...platforms.slice(0, 4).map((p) => ({ id: p, label: p })),
+        ],
+        cards: items.map((s) => {
+          const plat = String(s.platform || "").toUpperCase();
+          return {
+            filterId: plat || "all",
+            badge: `${plat} · ${s.author}`,
+            metaRight: `좋아요 ${formatCompact(s.metrics?.likes || 0)} · 조회 ${formatCompact(s.metrics?.views || 0)}`,
+            title: s.title_ko || s.author,
+            summary: s.summary_ko || "",
+            body: `${s.summary_ko || ""}\n\n${s.text || ""}`.trim(),
+            tags: Array.isArray(s.tags) ? s.tags : [],
+            linkUrl: safeHref(s.url),
+            linkLabel: "원본 포스트 열기",
+            resonateLabel: `${s.author} · ${formatCompact(s.metrics?.likes || 0)}`,
+            resonateTag: plat || "SOCIAL",
+            searchHaystack: `${s.author} ${s.platform} ${s.title_ko} ${s.summary_ko} ${s.text}`.toLowerCase(),
+          };
+        }),
+      };
+    }
+
+    if (roomId === "benchmarks") {
+      const { updated, shares, models } = this.archiveData.benchmarks;
+      const topShare = shares[0];
+      const topModel = models[0];
+      const cards = [
+        ...shares.map((m) => ({
+          filterId: "shares",
+          badge: `점유율 #${m.rank} · ${m.provider}`,
+          metaRight: `${m.share_pct}% (${Number(m.mom_change) >= 0 ? "+" : ""}${m.mom_change}%)`,
+          title: m.name,
+          summary: m.description || "",
+          body: `${m.description || ""}\n\n• 3사 평균 웹·API 점유율: ${m.share_pct}%\n• 전월 대비 증감: ${Number(m.mom_change) >= 0 ? "+" : ""}${m.mom_change}%`,
+          tags: [m.provider, "점유율"],
+          scoreBarPct: Math.min(100, (Number(m.share_pct || 0) / 65) * 100),
+          linkUrl: "benchmarks",
+          linkLabel: "점유율·성능 탭 이동",
+          linkSameTab: true,
+          resonateLabel: `${m.name} ${m.share_pct}%`,
+          resonateTag: "SHARE",
+          searchHaystack: `${m.name} ${m.provider} ${m.description}`.toLowerCase(),
+        })),
+        ...models.map((m) => ({
+          filterId: "models",
+          badge: `${m.provider} · Coding ${m.coding_composite_score}점`,
+          metaRight: `Arena ${m.arena_coding_elo || m.arena_elo} Elo`,
+          title: m.model,
+          summary: `컨텍스트 ${m.context_window} · 입력 $${m.pricing_in_1m} / 출력 $${m.pricing_out_1m} (1M)`,
+          body: `• 코딩 종합 점수: ${m.coding_composite_score}점\n• Arena Coding Elo: ${m.arena_coding_elo || m.arena_elo}\n• 컨텍스트 윈도우: ${m.context_window}\n• 토큰 단가 (1M 기준): 입력 $${m.pricing_in_1m} / 출력 $${m.pricing_out_1m}`,
+          tags: [m.provider, "Coding", m.context_window].filter(Boolean),
+          linkUrl: "benchmarks",
+          linkLabel: "상세 리더보드 열기",
+          linkSameTab: true,
+          resonateLabel: `${m.model} (${m.arena_coding_elo || m.arena_elo})`,
+          resonateTag: "BENCHMARK",
+          searchHaystack: `${m.model} ${m.provider} ${m.context_window}`.toLowerCase(),
+        })),
+      ];
+      return {
+        ...def,
+        sub: `data/benchmarks_latest.json · ${updated} · 점유율 ${shares.length}개 · 모델 ${models.length}개`,
+        kpis: [
+          { label: "MARKET LEADER", value: topShare ? `${topShare.name} (${topShare.share_pct}%)` : "—", sub: "글로벌 챗봇 점유율 1위" },
+          { label: "CODING ELO #1", value: topModel ? topModel.model : "—", sub: topModel ? `${topModel.arena_coding_elo || topModel.arena_elo} Elo` : "로딩 중" },
+          { label: "TRACKED MODELS", value: `${models.length}종`, sub: "프론티어 코딩 벤치마크" },
+          { label: "UPDATED", value: updated, sub: "멀티 소스 실측 데이터" },
+        ],
+        filters: [
+          { id: "all", label: `전체 (${cards.length})` },
+          { id: "shares", label: `시장 점유율 (${shares.length})` },
+          { id: "models", label: `코딩 성능 (${models.length})` },
+        ],
+        cards,
+      };
+    }
+
+    if (roomId === "tavern") {
+      const topPlug = this.archiveData.plugins.items[0];
+      const topNews = this.archiveData.news.items[0];
+      const totalItems = this.archiveData.plugins.items.length + this.archiveData.news.items.length + this.archiveData.social.items.length;
+      const cards = [
+        {
+          filterId: "lounge",
+          badge: "TAVERN GUIDE",
+          metaRight: `현재 ${onlineCount}명 접속`,
+          title: "위클리월드 다중 유저 채팅 & 귓속말 안내",
+          summary: "같은 도시나 건물에 접속한 다른 사용자와 실시간 대화하고 불꽃놀이를 공유할 수 있습니다.",
+          body: "• 전체/1:1 채팅: 좌측 하단 채팅창에서 [전체] 또는 접속 유저 탭을 선택해 대화하세요.\n• 귓속말 명령어: `/w 닉네임 내용` 형태로 특정 유저에게만 메시지를 전달합니다.\n• 닉네임 변경: 채팅창 우측 상단 닉네임 버튼을 클릭해 즉시 변경할 수 있습니다.\n• 분위기/불꽃놀이 제어: `/불꽃`, `/밤`, `/눈` 또는 우측 하단 캡슐 버튼을 사용해 보세요.",
+          tags: ["멀티유저", "P2P채팅", "실시간"],
+          customAction: { id: "firework", label: "여관 기념 불꽃놀이 발사" },
+          searchHaystack: "채팅 귓속말 닉네임 불꽃놀이 여관 멀티유저",
+        },
+        {
+          filterId: "lounge",
+          badge: "CITY CONTROLS",
+          metaRight: `${atmo.timeLabel} · ${atmo.seasonLabel}`,
+          title: "조작 및 건물 탐험 단축키",
+          summary: "WASD 이동, 건물 지붕/전면 스크린 클릭, 상단 퀵워프(0~6)를 지원합니다.",
+          body: "• 이동: W/A/S/D 또는 방향키, 바닥/지붕 클릭\n• 카메라 회전/줌: 마우스 우클릭 드래그, Q/E, 휠 줌\n• 건물 바로 이동: 상단 구역 바 클릭 또는 숫자키 1~6 (0은 중앙 광장)\n• 대시보드 접기: [방 내부 둘러보기] 클릭 후 방 안의 대형 월 스크린을 누르면 다시 열립니다.",
+          tags: ["조작법", "단축키", "3D월스크린"],
+          customAction: { id: "greet", label: "광장 전체 채팅으로 인사 보내기" },
+          searchHaystack: "조작법 단축키 이동 카메라 월스크린",
+        },
+        ...(topPlug ? [{
+          filterId: "hot",
+          badge: "TODAY PLUGIN #1",
+          metaRight: `+${Number(topPlug.velocity_7d || 0).toLocaleString()}★`,
+          title: topPlug.title_ko || topPlug.name,
+          summary: topPlug.catchphrase || topPlug.summary_ko || "",
+          body: topPlug.summary_ko || topPlug.catchphrase || "",
+          tags: ["인기플러그인", topPlug.name],
+          linkUrl: safeHref(topPlug.official_url || topPlug.repo_url),
+          linkLabel: "GitHub 확인하기",
+          searchHaystack: `${topPlug.name} ${topPlug.title_ko}`.toLowerCase(),
+        }] : []),
+        ...(topNews ? [{
+          filterId: "hot",
+          badge: "TODAY AI NEWS #1",
+          metaRight: `중요도 ${topNews.importance}`,
+          title: topNews.title_ko || topNews.headline,
+          summary: (topNews.summary_ko || "").slice(0, 120),
+          body: (topNews.body_ko || topNews.summary_ko || "").replace(/\*\*/g, ""),
+          tags: ["AI뉴스", topNews.category_name].filter(Boolean),
+          linkUrl: safeHref(topNews.url),
+          linkLabel: "기사 원문 보기",
+          searchHaystack: `${topNews.title_ko} ${topNews.category_name}`.toLowerCase(),
+        }] : []),
+      ];
+      return {
+        ...def,
+        sub: `서쪽 여행자 여관 · 접속 ${onlineCount}명 · ${atmo.timeLabel} · ${atmo.seasonLabel}`,
+        kpis: [
+          { label: "ONLINE EXPLORERS", value: `${onlineCount}명`, sub: "실시간 P2P 채널 연결됨" },
+          { label: "ATMOSPHERE", value: atmo.timeLabel, sub: atmo.seasonLabel },
+          { label: "CURRENT ZONE", value: "여관 라운지", sub: "휴식·채팅·위클리 브리핑" },
+          { label: "ARCHIVE INDEX", value: `${totalItems}건`, sub: "4대 데이터 피드 실시간 동기화" },
+        ],
+        filters: [
+          { id: "all", label: `전체 (${cards.length})` },
+          { id: "lounge", label: "여관 안내 & 단축키" },
+          { id: "hot", label: "오늘의 핵심 토픽" },
+        ],
+        cards,
+      };
+    }
+
+    // roomId === "workshop" -> 통합 아카이브 커맨드 센터
+    const plugCards = this.archiveData.plugins.items.slice(0, 6).map((p) => ({
+      filterId: "plugins",
+      badge: `PLUGIN · ${p.name}`,
+      metaRight: `+${Number(p.velocity_7d || 0).toLocaleString()}★`,
+      title: p.title_ko || p.name,
+      summary: p.catchphrase || p.summary_ko || "",
+      body: p.summary_ko || p.catchphrase || "",
+      tags: ["플러그인", p.category || "tool"],
+      linkUrl: safeHref(p.official_url || p.repo_url),
+      linkLabel: "GitHub 열기",
+      searchHaystack: `${p.name} ${p.title_ko} ${p.summary_ko}`.toLowerCase(),
+    }));
+    const newsCards = this.archiveData.news.items.slice(0, 6).map((n) => ({
+      filterId: "news",
+      badge: `NEWS · ${n.category_name}`,
+      metaRight: `중요도 ${n.importance}`,
+      title: n.title_ko || n.headline,
+      summary: (n.summary_ko || "").replace(/\*\*/g, "").slice(0, 120),
+      body: (n.body_ko || n.summary_ko || "").replace(/\*\*/g, ""),
+      tags: ["AI뉴스", ...(n.tags || []).slice(0, 2)],
+      linkUrl: safeHref(n.url),
+      linkLabel: "기사 원문 보기",
+      searchHaystack: `${n.title_ko} ${n.summary_ko}`.toLowerCase(),
+    }));
+    const socialCards = this.archiveData.social.items.slice(0, 6).map((s) => ({
+      filterId: "social",
+      badge: `SOCIAL · ${s.author}`,
+      metaRight: `좋아요 ${formatCompact(s.metrics?.likes || 0)}`,
+      title: s.title_ko || s.author,
+      summary: s.summary_ko || "",
+      body: `${s.summary_ko || ""}\n\n${s.text || ""}`.trim(),
+      tags: ["소셜", String(s.platform || "").toUpperCase()].filter(Boolean),
+      linkUrl: safeHref(s.url),
+      linkLabel: "포스트 원문 열기",
+      searchHaystack: `${s.author} ${s.title_ko} ${s.summary_ko}`.toLowerCase(),
+    }));
+    const bmCards = this.archiveData.benchmarks.models.slice(0, 6).map((m) => ({
+      filterId: "benchmarks",
+      badge: `BENCHMARK · ${m.provider}`,
+      metaRight: `${m.arena_coding_elo || m.arena_elo} Elo`,
+      title: m.model,
+      summary: `코딩 종합 ${m.coding_composite_score}점 · 컨텍스트 ${m.context_window}`,
+      body: `• 코딩 종합 점수: ${m.coding_composite_score}점\n• Arena Coding Elo: ${m.arena_coding_elo || m.arena_elo}\n• 입력 $${m.pricing_in_1m} / 출력 $${m.pricing_out_1m} (1M)`,
+      tags: ["벤치마크", m.provider],
+      linkUrl: "benchmarks",
+      linkLabel: "성능 탭 보기",
+      linkSameTab: true,
+      searchHaystack: `${m.model} ${m.provider}`.toLowerCase(),
+    }));
+    const allWorkshop = [...plugCards, ...newsCards, ...socialCards, ...bmCards];
+    return {
+      ...def,
+      sub: `동쪽 장인 아틀리에 · 4대 위클리 데이터 통합 커맨드 대시보드 (${allWorkshop.length}개 핵심 카드)`,
+      kpis: [
+        { label: "PLUGINS LOADED", value: `${this.archiveData.plugins.items.length}개`, sub: this.archiveData.plugins.items[0]?.name || "—" },
+        { label: "AI NEWS", value: `${this.archiveData.news.items.length}건`, sub: `최고 중요도 ${this.archiveData.news.items[0]?.importance || "—"}` },
+        { label: "SOCIAL FEEDS", value: `${this.archiveData.social.items.length}건`, sub: this.archiveData.social.items[0]?.author || "—" },
+        { label: "BENCHMARK TOP", value: this.archiveData.benchmarks.models[0]?.model || "—", sub: `${this.archiveData.benchmarks.models[0]?.arena_coding_elo || "—"} Elo` },
+      ],
+      filters: [
+        { id: "all", label: `통합 전체 (${allWorkshop.length})` },
+        { id: "plugins", label: `플러그인 (${plugCards.length})` },
+        { id: "news", label: `AI 뉴스 (${newsCards.length})` },
+        { id: "social", label: `소셜 (${socialCards.length})` },
+        { id: "benchmarks", label: `벤치마크 (${bmCards.length})` },
+      ],
+      cards: allWorkshop,
+    };
+  }
+
   renderReaderPanel() {
-    const shrine = SHRINE_DEFS.find((s) => s.id === this.activeShrineId) || SHRINE_DEFS[0];
+    const vm = this._getRoomViewModel(this.activeShrineId);
+    const badgeEl = document.getElementById("reader-room-badge");
     const titleEl = document.getElementById("reader-title");
     const subEl = document.getElementById("reader-sub");
     const linkEl = document.getElementById("reader-page-link");
+    const kpiEl = document.getElementById("reader-kpi-strip");
+    const filterEl = document.getElementById("reader-filter-tabs");
     const listEl = document.getElementById("reader-list");
+    const detailEl = document.getElementById("reader-detail-pane");
     if (!listEl) return;
 
-    if (titleEl) titleEl.textContent = shrine.title;
+    if (badgeEl) badgeEl.textContent = vm.badge;
+    if (titleEl) titleEl.textContent = vm.title;
+    if (subEl) subEl.textContent = vm.sub;
     if (linkEl) {
-      linkEl.href = shrine.pageHref;
-      linkEl.textContent = shrine.pageLabel;
+      linkEl.href = vm.pageHref;
+      const span = linkEl.querySelector("span");
+      if (span) span.textContent = vm.pageLabel;
+      else linkEl.textContent = vm.pageLabel;
     }
 
-    if (shrine.id === "plugins") {
-      const { updated, items } = this.archiveData.plugins;
-      if (subEl) subEl.textContent = `data/latest.json · ${updated} · ${items.length}개 프로젝트`;
-      listEl.innerHTML = items.map((p, idx) => `
-        <button type="button" class="sc-post-card ${this.selectedPostIndex === idx ? "is-selected" : ""}" data-post-idx="${idx}">
-          <div class="sc-post-meta">
-            <span>${esc(p.name)} · ★ ${Number(p.stars || 0).toLocaleString()} (+${Number(p.velocity_7d || 0).toLocaleString()}/7d)</span>
-            <span>${esc((p.sources || []).join(", "))}</span>
-          </div>
-          <div class="sc-post-title">${esc(p.title_ko)}</div>
-          <div class="sc-post-summary">${esc(p.catchphrase || p.summary_ko || "")}</div>
-          ${this.selectedPostIndex === idx ? `
-            <div class="sc-post-body">
-              <div>${esc(p.summary_ko || p.catchphrase || "")}</div>
-              <div class="sc-post-foot">
-                <span>카테고리: ${esc(p.category || "plugin")} · 트렌드 점수 ${esc(p.trend_score ?? p.score ?? "—")}</span>
-                <a class="sc-post-link" href="${esc(safeHref(p.official_url || p.repo_url))}" target="_blank" rel="noopener noreferrer">GitHub 열기 ↗</a>
-              </div>
-            </div>
-          ` : ""}
-        </button>
+    if (kpiEl) {
+      kpiEl.innerHTML = vm.kpis.map((k) => `
+        <div class="sc-dash-kpi">
+          <span class="sc-dash-kpi-label">${esc(k.label)}</span>
+          <strong class="sc-dash-kpi-value">${esc(k.value)}</strong>
+          <span class="sc-dash-kpi-sub">${esc(k.sub)}</span>
+        </div>
       `).join("");
-    } else if (shrine.id === "news") {
-      const { updated, items } = this.archiveData.news;
-      if (subEl) subEl.textContent = `data/news_latest.json · ${updated} · ${items.length}건 브리핑`;
-      listEl.innerHTML = items.map((n, idx) => `
-        <button type="button" class="sc-post-card ${this.selectedPostIndex === idx ? "is-selected" : ""}" data-post-idx="${idx}">
-          <div class="sc-post-meta">
-            <span>${esc(n.category_name)} · ${esc(n.signal_name)}</span>
-            <span>중요도 ${esc(n.importance)}</span>
-          </div>
-          <div class="sc-post-title">${esc(n.title_ko || n.headline)}</div>
-          <div class="sc-post-summary">${esc((n.summary_ko || "").replace(/\*\*/g, "").slice(0, 140))}</div>
-          ${this.selectedPostIndex === idx ? `
-            <div class="sc-post-body">
-              <div>${esc(n.body_ko || n.summary_ko || "")}</div>
-              <div class="sc-post-foot">
-                <span>${esc((n.tags || []).slice(0, 3).map((t) => `#${t}`).join(" "))}</span>
-                <a class="sc-post-link" href="${esc(safeHref(n.url))}" target="_blank" rel="noopener noreferrer">기사 원문 ↗</a>
-              </div>
-            </div>
-          ` : ""}
-        </button>
+    }
+
+    if (filterEl) {
+      const validIds = new Set(vm.filters.map((f) => f.id));
+      if (!validIds.has(this.activeFilter)) this.activeFilter = "all";
+      filterEl.innerHTML = vm.filters.map((f) => `
+        <button type="button" role="tab" aria-selected="${this.activeFilter === f.id ? "true" : "false"}" class="sc-dash-filter-pill ${this.activeFilter === f.id ? "is-active" : ""}" data-filter-id="${esc(f.id)}">${esc(f.label)}</button>
       `).join("");
-    } else if (shrine.id === "social") {
-      const { updated, items } = this.archiveData.social;
-      if (subEl) subEl.textContent = `data/social_latest.json · ${updated} · ${items.length}개 피드`;
-      listEl.innerHTML = items.map((s, idx) => `
-        <button type="button" class="sc-post-card ${this.selectedPostIndex === idx ? "is-selected" : ""}" data-post-idx="${idx}">
-          <div class="sc-post-meta">
-            <span>${esc(String(s.platform || "").toUpperCase())} · ${esc(s.author)}</span>
-            <span>좋아요 ${esc(formatCompact(s.metrics?.likes || 0))} · 조회 ${esc(formatCompact(s.metrics?.views || 0))}</span>
-          </div>
-          <div class="sc-post-title">${esc(s.title_ko)}</div>
-          <div class="sc-post-summary">${esc(s.summary_ko)}</div>
-          ${this.selectedPostIndex === idx ? `
-            <div class="sc-post-body">
-              <div>${esc(s.text || "")}</div>
-              <div class="sc-post-foot">
-                <span>${esc((s.tags || []).slice(0, 3).map((t) => `#${t}`).join(" "))}</span>
-                <a class="sc-post-link" href="${esc(safeHref(s.url))}" target="_blank" rel="noopener noreferrer">포스트 원문 ↗</a>
-              </div>
-            </div>
-          ` : ""}
-        </button>
-      `).join("");
-    } else {
-      const { updated, shares, models } = this.archiveData.benchmarks;
-      if (subEl) subEl.textContent = `data/benchmarks_latest.json · ${updated} · 점유율 & 코딩 성능`;
-      const shareCards = shares.map((m, idx) => `
-        <button type="button" class="sc-post-card ${this.selectedPostIndex === idx ? "is-selected" : ""}" data-post-idx="${idx}">
-          <div class="sc-bm-row">
-            <strong>#${esc(m.rank)} ${esc(m.name)} (${esc(m.provider)})</strong>
-            <span>${esc(m.share_pct)}% (${Number(m.mom_change) >= 0 ? "+" : ""}${esc(m.mom_change)}%)</span>
-          </div>
-          <div class="sc-bm-bar"><div class="sc-bm-fill" style="transform: scaleX(${Math.min(1, Number(m.share_pct || 0) / 65).toFixed(3)})"></div></div>
-          <div class="sc-post-summary">${esc(m.description)}</div>
-        </button>
-      `).join("");
-      const modelCards = models.map((m, idx) => `
-        <button type="button" class="sc-post-card ${this.selectedPostIndex === shares.length + idx ? "is-selected" : ""}" data-post-idx="${shares.length + idx}">
-          <div class="sc-post-meta">
-            <span>${esc(m.provider)} · Coding ${esc(m.coding_composite_score)}점</span>
-            <span>Arena Coding ${esc(m.arena_coding_elo || m.arena_elo)} Elo</span>
-          </div>
-          <div class="sc-post-title">${esc(m.model)}</div>
-          <div class="sc-post-summary">컨텍스트 ${esc(m.context_window)} · 입력 \$${esc(m.pricing_in_1m)} / 출력 \$${esc(m.pricing_out_1m)} (1M)</div>
-        </button>
-      `).join("");
-      listEl.innerHTML = shareCards + modelCards;
+    }
+
+    const q = this.searchQuery.trim().toLowerCase();
+    const filtered = vm.cards.filter((c) => {
+      if (this.activeFilter !== "all" && c.filterId !== this.activeFilter) return false;
+      if (q && !c.searchHaystack.includes(q)) return false;
+      return true;
+    });
+
+    if (!filtered.length) {
+      this._visibleCards = [];
+      listEl.innerHTML = `<div class="sc-post-card"><div class="sc-post-title">조건에 맞는 항목이 없습니다.</div><div class="sc-post-summary">검색어를 지우거나 [전체] 필터를 선택하세요.</div></div>`;
+      if (detailEl) {
+        detailEl.innerHTML = `<span class="sc-detail-badge">${esc(vm.badge)}</span><h3 class="sc-detail-title">표시할 항목 없음</h3><p class="sc-detail-body">현재 필터 또는 검색 조건에 일치하는 데이터가 없습니다.</p>`;
+      }
+      return;
+    }
+
+    if (this.selectedPostIndex < 0 || this.selectedPostIndex >= filtered.length) {
+      this.selectedPostIndex = 0;
+    }
+    this._visibleCards = filtered;
+
+    listEl.innerHTML = filtered.map((c, idx) => `
+      <button type="button" class="sc-post-card ${this.selectedPostIndex === idx ? "is-selected" : ""}" data-post-idx="${idx}">
+        <div class="sc-post-meta">
+          <span>${esc(c.badge)}</span>
+          <span>${esc(c.metaRight)}</span>
+        </div>
+        ${typeof c.scoreBarPct === "number" ? `<div class="sc-bm-bar"><div class="sc-bm-fill" style="transform: scaleX(${(c.scoreBarPct / 100).toFixed(3)})"></div></div>` : ""}
+        <div class="sc-post-title">${esc(c.title)}</div>
+        <div class="sc-post-summary">${esc(c.summary)}</div>
+      </button>
+    `).join("");
+
+    const sel = filtered[this.selectedPostIndex];
+    if (detailEl && sel) {
+      const tagText = (sel.tags || []).slice(0, 5).map((t) => `#${t}`).join("  ");
+      let actionHtml = "";
+      if (sel.customAction) {
+        actionHtml = `<button type="button" class="sc-detail-cta" data-room-action="${esc(sel.customAction.id)}">${esc(sel.customAction.label)}</button>`;
+      } else if (sel.linkUrl && sel.linkUrl !== "#") {
+        const targetAttr = sel.linkSameTab ? "" : `target="_blank" rel="noopener noreferrer"`;
+        actionHtml = `<a class="sc-detail-cta" href="${esc(sel.linkUrl)}" ${targetAttr}>${esc(sel.linkLabel || "원문 열기")}</a>`;
+      }
+      detailEl.innerHTML = `
+        <span class="sc-detail-badge">${esc(sel.badge)}</span>
+        <h3 class="sc-detail-title">${esc(sel.title)}</h3>
+        <div class="sc-detail-meta">
+          <span>${esc(sel.metaRight)}</span>
+          ${tagText ? `<span>${esc(tagText)}</span>` : ""}
+        </div>
+        <div class="sc-detail-body">${esc(sel.body || sel.summary)}</div>
+        <div class="sc-detail-actions">
+          <span>${esc(this.selectedPostIndex + 1)} / ${filtered.length}</span>
+          ${actionHtml}
+        </div>
+      `;
     }
   }
 
   _onReaderCardClick(idx) {
-    this.selectedPostIndex = this.selectedPostIndex === idx ? -1 : idx;
+    this.selectedPostIndex = idx;
     this.renderReaderPanel();
 
     const shrine = this.shrines.find((s) => s.id === this.activeShrineId);
-    if (!shrine) return;
-    let label = "";
-    let tag = "";
-    if (shrine.id === "plugins" && this.archiveData.plugins.items[idx]) {
-      const p = this.archiveData.plugins.items[idx];
-      label = `${p.name} · ★${Number(p.stars || 0).toLocaleString()}`;
-      tag = `+${Number(p.velocity_7d || 0).toLocaleString()}★`;
-    } else if (shrine.id === "news" && this.archiveData.news.items[idx]) {
-      const n = this.archiveData.news.items[idx];
-      label = n.title_ko.slice(0, 22);
-      tag = n.category_name;
-    } else if (shrine.id === "social" && this.archiveData.social.items[idx]) {
-      const s = this.archiveData.social.items[idx];
-      label = `${s.author} ♥${formatCompact(s.metrics?.likes || 0)}`;
-      tag = String(s.platform || "social").toUpperCase();
-    } else if (shrine.id === "benchmarks") {
-      const shares = this.archiveData.benchmarks.shares;
-      if (idx < shares.length) {
-        const m = shares[idx];
-        label = `${m.name} ${m.share_pct}%`;
-        tag = "SHARE";
-      } else {
-        const bm = this.archiveData.benchmarks.models[idx - shares.length];
-        if (bm) {
-          label = `${bm.model} (${bm.arena_coding_elo || bm.arena_elo})`;
-          tag = "BENCHMARK";
-        }
-      }
+    const card = this._visibleCards?.[idx];
+    if (shrine && card?.resonateLabel) {
+      this._resonateShrine(shrine, card.resonateLabel, card.resonateTag || "");
     }
-    if (label) this._resonateShrine(shrine, label, tag);
   }
 
   _isPointInBounds(pt, b) {
@@ -852,17 +1275,25 @@ class SanctuaryArchiveApp {
       return;
     }
 
-    // Clicking a closed building roof walks the hero straight inside through its doorway
+    // Clicking the giant 3D Wall Screen inside a room immediately opens the Full-Screen Room Dashboard
+    if (this.screenMeshes.length) {
+      const scrHits = this.raycaster.intersectObjects(this.screenMeshes, false);
+      if (scrHits.length > 0) {
+        const bId = scrHits[0].object.userData.openDashboardBuildingId;
+        if (bId) {
+          this.enterBuildingById(bId, { warpToDoor: false });
+          return;
+        }
+      }
+    }
+
+    // Clicking a closed building roof/awning walks the hero straight inside through its doorway
     const visibleRoofs = this.buildings.filter((b) => b.roofGroup.visible).map((b) => b.roofGroup);
     const roofHits = this.raycaster.intersectObjects(visibleRoofs, true);
     if (roofHits.length > 0) {
       const bId = roofHits[0].object.userData.enterBuildingId;
-      const building = this.buildings.find((b) => b.id === bId);
-      if (building) {
-        this.hero.isSitting = false;
-        document.getElementById("btn-sit")?.classList.remove("is-active");
-        const prefix = this._routePlazaToDoor(this.hero.position, building.doorApproach);
-        this._setHeroMovePath([...prefix, building.doorApproach, building.doorThreshold, building.center], null);
+      if (bId) {
+        this.enterBuildingById(bId, { warpToDoor: false });
         return;
       }
     }
@@ -976,14 +1407,48 @@ class SanctuaryArchiveApp {
   }
 
   _updateBuildings(dt) {
+    let activeRoom = null;
     for (const b of this.buildings) {
-      const inside = this._isPointInBounds(this.hero.position, b.revealBounds);
-      const targetOpacity = inside ? 0.0 : 1.0;
-      b.roofOpacity += (targetOpacity - b.roofOpacity) * Math.min(1, dt * 10);
+      const insideReveal = this._isPointInBounds(this.hero.position, b.revealBounds);
+      if (this._isPointInBounds(this.hero.position, b.interiorBounds)) {
+        activeRoom = b;
+      }
+
+      const targetRoofOpacity = insideReveal ? 0.0 : 1.0;
+      b.roofOpacity += (targetRoofOpacity - b.roofOpacity) * Math.min(1, dt * 10);
       b.roofGroup.visible = b.roofOpacity > 0.04;
       for (const m of b.roofMaterials) {
         m.opacity = b.roofOpacity;
       }
+
+      const targetFrontOpacity = insideReveal ? 0.14 : 1.0;
+      b.frontOpacity = (b.frontOpacity ?? 1.0) + (targetFrontOpacity - (b.frontOpacity ?? 1.0)) * Math.min(1, dt * 10);
+      const isGhost = b.frontOpacity < 0.99;
+      for (const fm of b.frontCutawayMaterials || []) {
+        fm.opacity = b.frontOpacity;
+        if (fm.transparent !== isGhost) {
+          fm.transparent = isGhost;
+          fm.depthWrite = !isGhost;
+          fm.needsUpdate = true;
+        }
+      }
+    }
+
+    const nextRoomId = activeRoom?.id || null;
+    if (nextRoomId !== this.currentBuildingId) {
+      this.currentBuildingId = nextRoomId;
+      for (const sign of this.buildingSigns) {
+        sign.hiddenOverlay = Boolean(nextRoomId && sign.buildingId === nextRoomId);
+      }
+      if (nextRoomId) {
+        this.controller.targetDistance = 19.5;
+        this.openRoomDashboard(nextRoomId);
+      } else {
+        this.controller.targetDistance = 24.5;
+        this.dashboardDismissedInRoom = false;
+        this.closeRoomDashboard();
+      }
+      this._syncDistrictBar();
     }
   }
 
@@ -1159,7 +1624,7 @@ class SanctuaryArchiveApp {
     const activePeers = [...this.remotePeers.values()].filter((p) => p.actor);
     this.renderer.render(this.scene, this.controller.camera);
     this.vfx.updateTrackedOverlays(
-      [this.hero, ...activePeers, ...this.shrines, ...this.citizens],
+      [this.hero, ...activePeers, ...this.shrines, ...this.buildingSigns, ...this.citizens],
       this.controller.camera,
       this.canvas.clientWidth,
       this.canvas.clientHeight,
@@ -1279,9 +1744,68 @@ class SanctuaryArchiveApp {
       this._launchCelebrationFireworks();
     });
 
+    const districtBar = document.getElementById("sanctuary-district-bar");
+    if (districtBar) {
+      for (const evName of ["pointerdown", "pointerup", "wheel"]) {
+        districtBar.addEventListener(evName, (ev) => ev.stopPropagation());
+      }
+      districtBar.addEventListener("click", (ev) => {
+        ev.stopPropagation();
+        const warpBtn = ev.target.closest("[data-warp]");
+        if (warpBtn) {
+          const targetId = warpBtn.dataset.warp;
+          if (targetId === "plaza") this.warpToPlaza();
+          else this.enterBuildingById(targetId, { warpToDoor: true });
+          return;
+        }
+        if (ev.target.closest("#btn-reopen-screen")) {
+          this.openRoomDashboard(this.currentBuildingId || this.activeShrineId);
+        }
+      });
+    }
+
+    const readerEl = document.getElementById("sanctuary-reader");
+    if (readerEl) {
+      for (const evName of ["pointerdown", "pointerup", "wheel"]) {
+        readerEl.addEventListener(evName, (ev) => ev.stopPropagation());
+      }
+    }
+
+    document.getElementById("btn-minimize-reader")?.addEventListener("click", () => {
+      this.minimizeRoomDashboard();
+    });
+    document.getElementById("btn-exit-building")?.addEventListener("click", () => {
+      this.exitCurrentBuilding();
+    });
     document.getElementById("btn-close-reader")?.addEventListener("click", () => {
-      const readerEl = document.getElementById("sanctuary-reader");
-      if (readerEl) readerEl.hidden = true;
+      this.minimizeRoomDashboard();
+    });
+
+    document.getElementById("reader-filter-tabs")?.addEventListener("click", (ev) => {
+      const btn = ev.target.closest("[data-filter-id]");
+      if (!btn) return;
+      this.activeFilter = btn.dataset.filterId || "all";
+      this.selectedPostIndex = 0;
+      this.renderReaderPanel();
+    });
+
+    document.getElementById("reader-search-input")?.addEventListener("input", (ev) => {
+      this.searchQuery = ev.target.value || "";
+      this.selectedPostIndex = 0;
+      this.renderReaderPanel();
+    });
+
+    document.getElementById("reader-detail-pane")?.addEventListener("click", (ev) => {
+      const actBtn = ev.target.closest("[data-room-action]");
+      if (!actBtn) return;
+      const act = actBtn.dataset.roomAction;
+      if (act === "firework") {
+        this.minimizeRoomDashboard();
+        this._launchCelebrationFireworks();
+      } else if (act === "greet") {
+        this.chat?.sendMessage("여관에서 모두에게 인사를 건넵니다!");
+        this.minimizeRoomDashboard();
+      }
     });
 
     document.querySelectorAll(".ro-class-btn").forEach((btn) => {
@@ -1310,7 +1834,7 @@ class SanctuaryArchiveApp {
     });
 
     document.querySelectorAll("[data-shrine]").forEach((btn) => {
-      btn.addEventListener("click", () => this.activateShrine(btn.dataset.shrine, true));
+      btn.addEventListener("click", () => this.enterBuildingById(btn.dataset.shrine, { warpToDoor: true }));
     });
 
     document.getElementById("btn-sit")?.addEventListener("click", () => this.toggleSit());
@@ -1349,22 +1873,32 @@ class SanctuaryArchiveApp {
       if (["KeyW", "KeyA", "KeyS", "KeyD", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(ev.code)) {
         if (ev.code.startsWith("Arrow")) ev.preventDefault();
         this.keys.add(ev.code);
+      } else if (ev.code === "Digit0") {
+        this.warpToPlaza();
       } else if (ev.code === "Digit1") {
-        this.activateShrine("plugins", true);
+        this.enterBuildingById("plugins", { warpToDoor: true });
       } else if (ev.code === "Digit2") {
-        this.activateShrine("news", true);
+        this.enterBuildingById("news", { warpToDoor: true });
       } else if (ev.code === "Digit3") {
-        this.activateShrine("social", true);
+        this.enterBuildingById("social", { warpToDoor: true });
       } else if (ev.code === "Digit4") {
-        this.activateShrine("benchmarks", true);
+        this.enterBuildingById("benchmarks", { warpToDoor: true });
+      } else if (ev.code === "Digit5") {
+        this.enterBuildingById("tavern", { warpToDoor: true });
+      } else if (ev.code === "Digit6") {
+        this.enterBuildingById("workshop", { warpToDoor: true });
       } else if (ev.code === "KeyF") {
         this._launchCelebrationFireworks();
       } else if (ev.code === "Escape") {
-        const readerEl = document.getElementById("sanctuary-reader");
-        if (readerEl && !readerEl.hidden) readerEl.hidden = true;
+        const readerPanel = document.getElementById("sanctuary-reader");
+        if (readerPanel && !readerPanel.hidden) this.minimizeRoomDashboard();
       } else if (ev.code === "Space" && tag !== "BUTTON") {
         ev.preventDefault();
-        this.toggleSit();
+        if (this.currentBuildingId && document.getElementById("sanctuary-reader")?.hidden) {
+          this.openRoomDashboard(this.currentBuildingId);
+        } else {
+          this.toggleSit();
+        }
       }
     });
     window.addEventListener("keyup", (ev) => this.keys.delete(ev.code));
