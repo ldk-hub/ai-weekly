@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { loadSpriteActor, loadSanctuaryEnvironment } from "./sanctuary/AssetManager.js";
+import { loadGlbCharacter, loadSanctuaryEnvironment } from "./sanctuary/AssetManager.js";
 import { QuarterViewController } from "./sanctuary/QuarterViewController.js";
 import { SanctuaryVFX } from "./sanctuary/SanctuaryVFX.js";
 import { SanctuaryChat } from "./sanctuary/SanctuaryChat.js";
@@ -7,25 +7,50 @@ import { SanctuaryAtmosphere } from "./sanctuary/SanctuaryAtmosphere.js";
 
 const THEME_KEY = "aiw-theme";
 const DIR_NAMES = ["S", "SW", "W", "NW", "N", "NE", "E", "SE"];
+const CHAR_DIR = "assets/models/characters";
+
+const HERO_CLASS_ORDER = ["Solar_Guard", "Astral_Sage", "Shadow_Reaper", "Nordic_Champion"];
 
 const AVATAR_DEFS = {
   Solar_Guard: {
-    displayName: "로얄 아키비스트",
+    shortLabel: "나이트",
+    displayName: "로얄 나이트",
     roleBadge: "ROYAL ARCHIVIST",
-    atlasUrl: "assets/sprites/Solar_Guard_8dir_atlas.json",
-    speed: 5.5,
+    glbUrl: `${CHAR_DIR}/Knight.glb`,
+    attachments: ["Knight_Helmet", "Knight_Cape", "1H_Sword", "Badge_Shield"],
+    hueShift: 0,
+    satMult: 1.0,
+    speed: 5.6,
   },
   Astral_Sage: {
-    displayName: "아스트랄 위버",
+    shortLabel: "메이지",
+    displayName: "아스트랄 메이지",
     roleBadge: "ASTRAL WEAVER",
-    atlasUrl: "assets/sprites/Astral_Sage_8dir_atlas.json",
-    speed: 5.2,
+    glbUrl: `${CHAR_DIR}/Mage.glb`,
+    attachments: ["Mage_Hat", "Mage_Cape", "2H_Staff", "Spellbook_open"],
+    hueShift: 0,
+    satMult: 1.0,
+    speed: 5.4,
   },
   Shadow_Reaper: {
-    displayName: "섀도우 크로니클러",
-    roleBadge: "CHRONICLE KEEPER",
-    atlasUrl: "assets/sprites/Shadow_Reaper_8dir_atlas.json",
+    shortLabel: "레인저",
+    displayName: "섀도우 레인저",
+    roleBadge: "CHRONICLE SCOUT",
+    glbUrl: `${CHAR_DIR}/Rogue_Hooded.glb`,
+    attachments: ["Rogue_Cape", "1H_Crossbow"],
+    hueShift: -0.06,
+    satMult: 1.15,
     speed: 6.1,
+  },
+  Nordic_Champion: {
+    shortLabel: "워리어",
+    displayName: "노르딕 워리어",
+    roleBadge: "ARCHIVE GUARDIAN",
+    glbUrl: `${CHAR_DIR}/Barbarian.glb`,
+    attachments: ["Barbarian_Hat", "Barbarian_Cape", "1H_Axe", "Barbarian_Round_Shield"],
+    hueShift: 0.08,
+    satMult: 1.05,
+    speed: 5.8,
   },
 };
 
@@ -35,56 +60,102 @@ const SHRINE_DEFS = [
     title: "인기 플러그인 공방",
     curatorName: "연금술사 엘라",
     roleBadge: "PLUGIN FORGE",
-    atlasUrl: "assets/sprites/Curator_Ella_8dir_atlas.json",
+    glbUrl: `${CHAR_DIR}/Mage.glb`,
+    attachments: ["Mage_Hat", "Mage_Cape", "1H_Wand", "Spellbook_open"],
+    hueShift: -0.14,
+    satMult: 1.12,
     x: -15.0,
     z: -16.2,
     facing: 0.0,
     palette: "holy",
     pageHref: "./",
     pageLabel: "인기 플러그인",
-    overlayHeight: 2.35,
+    overlayHeight: 2.45,
   },
   {
     id: "news",
     title: "AI 뉴스 대도서관",
     curatorName: "뉴스 사서 셀레네",
     roleBadge: "NEWS LIBRARY",
-    atlasUrl: "assets/sprites/Astral_Sage_8dir_atlas.json",
+    glbUrl: `${CHAR_DIR}/Mage.glb`,
+    attachments: ["Mage_Cape", "2H_Staff", "Spellbook"],
+    hueShift: 0.16,
+    satMult: 1.1,
     x: 15.0,
     z: -16.2,
     facing: 0.0,
     palette: "arcane",
     pageHref: "news",
     pageLabel: "AI 뉴스",
-    overlayHeight: 2.35,
+    overlayHeight: 2.4,
   },
   {
     id: "social",
     title: "소셜 피드 라운지",
     curatorName: "소셜 바드 루나",
     roleBadge: "SOCIAL SALON",
-    atlasUrl: "assets/sprites/Curator_Luna_8dir_atlas.json",
+    glbUrl: `${CHAR_DIR}/Rogue.glb`,
+    attachments: ["Rogue_Cape", "Throwable"],
+    hueShift: 0.28,
+    satMult: 1.12,
     x: -15.0,
     z: 16.2,
     facing: Math.PI,
     palette: "shadow",
     pageHref: "social",
     pageLabel: "소셜 피드",
-    overlayHeight: 2.35,
+    overlayHeight: 2.4,
   },
   {
     id: "benchmarks",
     title: "벤치마크 관측소",
-    curatorName: "벤치마크 나이트 레온",
+    curatorName: "관측 기사 레온",
     roleBadge: "OBSERVATORY",
-    atlasUrl: "assets/sprites/Curator_Leon_8dir_atlas.json",
+    glbUrl: `${CHAR_DIR}/Knight.glb`,
+    attachments: ["Knight_Cape", "1H_Sword", "Round_Shield"],
+    hueShift: 0.38,
+    satMult: 1.05,
     x: 15.0,
     z: 16.2,
     facing: Math.PI,
     palette: "emerald",
     pageHref: "benchmarks",
     pageLabel: "점유율·성능",
-    overlayHeight: 2.45,
+    overlayHeight: 2.4,
+  },
+  {
+    id: "tavern",
+    title: "서쪽 여행자 여관",
+    curatorName: "여관 마스터 브론",
+    roleBadge: "TRAVELER TAVERN",
+    glbUrl: `${CHAR_DIR}/Barbarian.glb`,
+    attachments: ["Barbarian_Cape", "Mug"],
+    hueShift: -0.08,
+    satMult: 1.05,
+    x: -24.8,
+    z: -1.4,
+    facing: Math.PI * 0.5,
+    palette: "holy",
+    pageHref: "./",
+    pageLabel: "위클리 브리핑",
+    overlayHeight: 2.4,
+  },
+  {
+    id: "workshop",
+    title: "동쪽 장인 아틀리에",
+    curatorName: "수석 장인 카일",
+    roleBadge: "MASTER ATELIER",
+    glbUrl: `${CHAR_DIR}/Knight.glb`,
+    attachments: ["Knight_Cape", "Badge_Shield", "2H_Sword"],
+    hueShift: 0.52,
+    satMult: 1.05,
+    x: 24.8,
+    z: -1.4,
+    facing: -Math.PI * 0.5,
+    palette: "arcane",
+    pageHref: "starboard",
+    pageLabel: "스타보드",
+    overlayHeight: 2.4,
   },
 ];
 
@@ -98,18 +169,18 @@ const ROOM_DEFS = {
 };
 
 const CITIZEN_SPAWNS = [
-  { id: "cit-1", atlas: "assets/sprites/Citizen_Ranger_8dir_atlas.json", x: -5.5, y: 0.36, z: -5.5, facing: Math.PI * 0.25, action: "Sit", roam: false },
-  { id: "cit-2", atlas: "assets/sprites/Citizen_Minstrel_8dir_atlas.json", x: -6.2, y: 0, z: 2.2, facing: 0.6, action: "Idle", roam: true, roamRadius: 5.5 },
-  { id: "cit-3", atlas: "assets/sprites/Citizen_Sura_8dir_atlas.json", x: 5.5, y: 0.36, z: 5.5, facing: -Math.PI * 0.75, action: "Sit", roam: false },
-  { id: "cit-4", atlas: "assets/sprites/Citizen_Mechanic_8dir_atlas.json", x: -4.2, y: 0.36, z: -16.0, facing: Math.PI * 0.5, action: "Sit", roam: false },
-  { id: "cit-5", atlas: "assets/sprites/Citizen_Ranger_8dir_atlas.json", x: 0.0, y: 0, z: -13.5, facing: 0.0, action: "Idle", roam: true, roamRadius: 7.0 },
-  { id: "cit-6", atlas: "assets/sprites/Citizen_Minstrel_8dir_atlas.json", x: 0.0, y: 0, z: 14.5, facing: Math.PI, action: "Idle", roam: true, roamRadius: 7.0 },
-  { id: "cit-7", atlas: "assets/sprites/Citizen_Sura_8dir_atlas.json", x: -13.0, y: 0, z: 0.2, facing: Math.PI * 0.5, action: "Idle", roam: true, roamRadius: 6.0 },
-  { id: "cit-8", atlas: "assets/sprites/Citizen_Mechanic_8dir_atlas.json", x: 13.0, y: 0, z: -0.2, facing: -Math.PI * 0.5, action: "Idle", roam: true, roamRadius: 6.0 },
-  { id: "cit-9", atlas: "assets/sprites/Citizen_Minstrel_8dir_atlas.json", x: -24.5, y: 0.04, z: -0.6, facing: 0.2, action: "Idle", roam: false },
-  { id: "cit-10", atlas: "assets/sprites/Citizen_Mechanic_8dir_atlas.json", x: 24.5, y: 0.04, z: -0.6, facing: -0.2, action: "Idle", roam: false },
-  { id: "cit-11", atlas: "assets/sprites/Citizen_Ranger_8dir_atlas.json", x: -15.0, y: 0, z: -8.0, facing: Math.PI, action: "Idle", roam: true, roamRadius: 4.5 },
-  { id: "cit-12", atlas: "assets/sprites/Citizen_Sura_8dir_atlas.json", x: 15.0, y: 0, z: 8.0, facing: 0, action: "Idle", roam: true, roamRadius: 4.5 },
+  { id: "cit-1", name: "독서가 마일로", roleBadge: "SCHOLAR", persona: "scholar", glbUrl: `${CHAR_DIR}/Mage.glb`, attachments: ["Spellbook_open"], hueShift: 0.22, satMult: 1.1, x: -5.5, y: 0, z: -5.5, facing: Math.PI * 0.25, action: "SitChair", roam: false },
+  { id: "cit-2", name: "음유시인 아리아", roleBadge: "BARD", persona: "bard", glbUrl: `${CHAR_DIR}/Rogue.glb`, attachments: ["Rogue_Cape"], hueShift: -0.08, satMult: 1.15, x: -6.2, y: 0, z: 2.2, facing: 0.6, action: "Idle", roam: true, roamRadius: 5.5 },
+  { id: "cit-3", name: "명상가 하린", roleBadge: "SCHOLAR", persona: "scholar", glbUrl: `${CHAR_DIR}/Rogue.glb`, attachments: [], hueShift: -0.18, satMult: 1.12, x: 5.5, y: 0, z: 5.5, facing: -Math.PI * 0.75, action: "SitChair", roam: false },
+  { id: "cit-4", name: "개발자 다온", roleBadge: "ARTISAN", persona: "artisan", glbUrl: `${CHAR_DIR}/Knight.glb`, attachments: [], hueShift: -0.25, satMult: 1.1, x: -4.2, y: 0, z: -16.0, facing: Math.PI * 0.5, action: "SitChair", roam: false },
+  { id: "cit-5", name: "탐험가 카이", roleBadge: "SCOUT", persona: "scout", glbUrl: `${CHAR_DIR}/Rogue_Hooded.glb`, attachments: ["Rogue_Cape", "1H_Crossbow"], hueShift: 0.34, satMult: 1.12, x: 0.0, y: 0, z: -13.5, facing: 0.0, action: "Idle", roam: true, roamRadius: 7.0 },
+  { id: "cit-6", name: "학자 유나", roleBadge: "SCHOLAR", persona: "scholar", glbUrl: `${CHAR_DIR}/Mage.glb`, attachments: ["Mage_Hat", "Spellbook_open"], hueShift: -0.35, satMult: 1.12, x: 0.0, y: 0, z: 14.5, facing: Math.PI, action: "Idle", roam: true, roamRadius: 7.0 },
+  { id: "cit-7", name: "용병 지크", roleBadge: "SCOUT", persona: "scout", glbUrl: `${CHAR_DIR}/Barbarian.glb`, attachments: ["Barbarian_Cape", "1H_Axe"], hueShift: 0.28, satMult: 1.05, x: -13.0, y: 0, z: 0.2, facing: Math.PI * 0.5, action: "Idle", roam: true, roamRadius: 6.0 },
+  { id: "cit-8", name: "연금술사 리오", roleBadge: "ARTISAN", persona: "artisan", glbUrl: `${CHAR_DIR}/Knight.glb`, attachments: ["Knight_Helmet", "Knight_Cape"], hueShift: -0.18, satMult: 1.1, x: 13.0, y: 0, z: -0.2, facing: -Math.PI * 0.5, action: "Idle", roam: true, roamRadius: 6.0 },
+  { id: "cit-9", name: "단골 기사 가렌", roleBadge: "PATRON", persona: "patron", glbUrl: `${CHAR_DIR}/Barbarian.glb`, attachments: ["Mug"], hueShift: 0.14, satMult: 1.05, x: -21.2, y: 0, z: 1.5, facing: -0.4, action: "Idle", roam: false },
+  { id: "cit-10", name: "모형 장인 테오", roleBadge: "ARTISAN", persona: "artisan", glbUrl: `${CHAR_DIR}/Rogue.glb`, attachments: ["Knife"], hueShift: 0.62, satMult: 1.1, x: 21.2, y: 0, z: 1.5, facing: 0.4, action: "Idle", roam: false },
+  { id: "cit-11", name: "수집가 민지", roleBadge: "ARTISAN", persona: "artisan", glbUrl: `${CHAR_DIR}/Rogue.glb`, attachments: ["Rogue_Cape", "Knife"], hueShift: 0.55, satMult: 1.12, x: -15.0, y: 0, z: -8.0, facing: Math.PI, action: "Idle", roam: true, roamRadius: 4.5 },
+  { id: "cit-12", name: "연구원 세준", roleBadge: "SCHOLAR", persona: "scholar", glbUrl: `${CHAR_DIR}/Mage.glb`, attachments: ["Mage_Cape", "1H_Wand"], hueShift: 0.08, satMult: 1.1, x: 15.0, y: 0, z: 8.0, facing: 0, action: "Idle", roam: true, roamRadius: 4.5 },
 ];
 
 function esc(str) {
@@ -457,10 +528,16 @@ class SanctuaryArchiveApp {
   async _spawnShrines() {
     this.shrines = await Promise.all(
       SHRINE_DEFS.map(async (def) => {
-        const actor = await loadSpriteActor(def.atlasUrl);
+        const actor = await loadGlbCharacter({
+          glbUrl: def.glbUrl,
+          attachments: def.attachments,
+          hueShift: def.hueShift || 0,
+          satMult: def.satMult || 1.0,
+          targetHeight: 2.1,
+        });
         const pos = new THREE.Vector3(def.x, 0, def.z);
         actor.mesh.position.copy(pos);
-        actor.mesh.userData.shrineId = def.id;
+        actor.setUserData("shrineId", def.id);
         this.scene.add(actor.mesh);
         return {
           ...def,
@@ -471,6 +548,8 @@ class SanctuaryArchiveApp {
           facingAngle: def.facing,
           emoteText: "",
           emoteUntil: 0,
+          chatText: "",
+          chatUntil: 0,
           tickerText: def.title,
           isActiveShrine: def.id === this.activeShrineId,
           onClick: () => this.activateShrine(def.id, true, true),
@@ -480,23 +559,41 @@ class SanctuaryArchiveApp {
   }
 
   async _spawnCitizens() {
+    const now = Date.now();
     this.citizens = await Promise.all(
       CITIZEN_SPAWNS.map(async (sp, idx) => {
-        const actor = await loadSpriteActor(sp.atlas);
+        const actor = await loadGlbCharacter({
+          glbUrl: sp.glbUrl,
+          attachments: sp.attachments,
+          hueShift: sp.hueShift || 0,
+          satMult: sp.satMult || 1.0,
+          targetHeight: 2.0,
+        });
         const pos = new THREE.Vector3(sp.x, sp.y, sp.z);
         actor.mesh.position.copy(pos);
-        actor.playAction(sp.action, null, true);
+        actor.setUserData("citizenId", sp.id);
+        actor.playAction(sp.action || "Idle", null, true);
         this.scene.add(actor.mesh);
         return {
           ...sp,
           role: "citizen",
-          displayName: "",
+          displayName: sp.name || "",
+          roleBadge: sp.roleBadge || "CITIZEN",
           actor,
           position: pos,
           homePos: pos.clone(),
           facingAngle: sp.facing,
           dest: null,
-          pauseTimer: 1.5 + idx * 0.7,
+          overlayHeight: 2.25,
+          chatText: "",
+          chatUntil: 0,
+          aiState: sp.roam ? "idle" : (sp.action === "SitChair" ? "sit" : "idle"),
+          stateUntil: 0,
+          pauseTimer: 1.2 + idx * 0.55,
+          nextSpeakAt: now + 2200 + idx * 1700,
+          greetCooldownUntil: 0,
+          socialCooldownUntil: now + 3500 + idx * 800,
+          pendingReply: null,
         };
       })
     );
@@ -510,7 +607,13 @@ class SanctuaryArchiveApp {
     this.hero.roleBadge = spec.roleBadge;
     this.hero.isSitting = false;
 
-    const actor = await loadSpriteActor(spec.atlasUrl);
+    const actor = await loadGlbCharacter({
+      glbUrl: spec.glbUrl,
+      attachments: spec.attachments,
+      hueShift: spec.hueShift || 0,
+      satMult: spec.satMult || 1.0,
+      targetHeight: 2.1,
+    });
     if (this.hero.actor) {
       this.scene.remove(this.hero.actor.mesh);
       this.hero.actor.dispose();
@@ -519,12 +622,167 @@ class SanctuaryArchiveApp {
     actor.mesh.position.copy(this.hero.position);
     this.scene.add(actor.mesh);
 
+    const classLabel = document.getElementById("hero-class-text");
+    if (classLabel) classLabel.textContent = spec.shortLabel;
     document.querySelectorAll(".ro-class-btn").forEach((btn) => {
       const active = btn.dataset.heroClass === classKey;
       btn.classList.toggle("is-active", active);
       btn.setAttribute("aria-selected", active ? "true" : "false");
     });
     document.getElementById("btn-sit")?.classList.remove("is-active");
+
+    this.chat?.broadcastState?.({
+      classKey: this.hero.classKey,
+      x: this.hero.position.x,
+      z: this.hero.position.z,
+      facing: this.hero.facingAngle,
+      action: "Idle",
+      zone: this.currentZoneName,
+    }, true);
+  }
+
+  cycleHeroClass() {
+    const curIdx = HERO_CLASS_ORDER.indexOf(this.hero.classKey);
+    const nextKey = HERO_CLASS_ORDER[(curIdx + 1) % HERO_CLASS_ORDER.length];
+    this.switchAvatar(nextKey);
+  }
+
+  _countActiveCitizenBubbles(now = Date.now()) {
+    return this.citizens.filter((c) => c.chatText && now < (c.chatUntil || 0)).length;
+  }
+
+  _speakAsNpc(npc, text, durationMs = 5200) {
+    if (!npc || !text) return;
+    npc.chatText = text;
+    npc.chatUntil = Date.now() + durationMs;
+  }
+
+  _pickNpcLine(cit, context = "ambient", peerCit = null) {
+    const plugs = this.archiveData.plugins.items;
+    const news = this.archiveData.news.items;
+    const socials = this.archiveData.social.items;
+    const models = this.archiveData.benchmarks.models;
+    const topPlug = plugs.length ? plugs[Math.floor(Math.random() * Math.min(5, plugs.length))] : null;
+    const topNews = news.length ? news[Math.floor(Math.random() * Math.min(5, news.length))] : null;
+    const topSoc = socials.length ? socials[Math.floor(Math.random() * Math.min(5, socials.length))] : null;
+    const topModel = models.length ? models[Math.floor(Math.random() * Math.min(4, models.length))] : null;
+    const timeKey = this.atmosphere?.getTimeKey?.() || "day";
+    const seasonKey = this.atmosphere?.getCurrentSeason?.() || "spring";
+
+    if (context === "firework") {
+      return [
+        "와! 하늘 위로 불꽃이 터졌어요!",
+        "축제 분위기 최고네요! 다 같이 구경해요!",
+        "밤하늘이 화려해지니 정말 멋져요!",
+      ][Math.floor(Math.random() * 3)];
+    }
+
+    if (context === "greet") {
+      if (cit.persona === "scholar" && topNews) {
+        return `어서 오세요! 방금 '${(topNews.title_ko || topNews.headline || "").slice(0, 18)}…' 소식 확인하셨나요?`;
+      }
+      if (cit.persona === "artisan" && topPlug) {
+        return `반가워요! 요즘 '${topPlug.name}' (+${Number(topPlug.velocity_7d || 0).toLocaleString()}★) 인기가 대단하죠.`;
+      }
+      if (cit.persona === "patron") {
+        return "모험가님! 여관 안쪽 대형 스크린에서 오늘 소식 한번 보고 가세요.";
+      }
+      return "안녕하세요! 위클리월드에 오신 걸 환영해요!";
+    }
+
+    if (context === "social_init" && peerCit) {
+      const targetName = (peerCit.displayName || "").split(" ").pop();
+      if (cit.persona === "scholar" && topModel) {
+        return `${targetName}님, '${topModel.model}' 코딩 점수가 ${topModel.arena_coding_elo || topModel.arena_elo} Elo래요!`;
+      }
+      if (cit.persona === "artisan" && topPlug) {
+        return `${targetName}님, 요즘 '${topPlug.name}' 프로젝트 써보셨어요?`;
+      }
+      if (cit.persona === "bard" && topSoc) {
+        return `${targetName}님, 오늘 '${topSoc.author}'님 피드 보셨나요? 반응이 뜨겁던데요!`;
+      }
+      return `${targetName}님! 오늘 광장 날씨 정말 좋지 않나요?`;
+    }
+
+    if (context === "social_reply") {
+      return [
+        "오, 저도 방금 도서관 월스크린에서 봤어요!",
+        "맞아요! 이번 주 AI 흐름이 정말 빠르네요.",
+        "이따가 장인 아틀리에에서 자세히 비교해 봐야겠어요.",
+        "그러게요! 덕분에 오늘도 새로운 인사이트 얻어 갑니다.",
+      ][Math.floor(Math.random() * 4)];
+    }
+
+    const pool = [];
+    if (topPlug) pool.push(`'${topPlug.name}' 7일 급상승 +${Number(topPlug.velocity_7d || 0).toLocaleString()}★ 기록 중!`);
+    if (topNews) pool.push(`오늘의 헤드라인: ${(topNews.title_ko || topNews.headline || "").slice(0, 24)}…`);
+    if (topSoc) pool.push(`${topSoc.author}: '${(topSoc.title_ko || "").slice(0, 20)}…' 화제 중!`);
+    if (topModel) pool.push(`프론티어 코딩 ${topModel.model} · ${topModel.arena_coding_elo || topModel.arena_elo} Elo!`);
+
+    if (timeKey === "night") pool.push("밤에는 조명이 켜진 도서관이나 여관 분위기가 최고죠.");
+    if (timeKey === "sunset") pool.push("노을 질 때 광장 분수대 주변 산책이 제일 좋더라고요.");
+    if (seasonKey === "spring") pool.push("봄 벚꽃잎 날리는 위클리월드 광장은 언제 봐도 예뻐요.");
+    if (seasonKey === "winter") pool.push("눈이 포근하게 내리네요! F키로 불꽃놀이도 쏠 수 있대요.");
+    if (cit.persona === "patron") pool.push("여관 브론 사장님 특제 브리핑 들으면서 잠시 쉬어가세요.");
+    pool.push("건물 안으로 들어가면 거대한 전면 대시보드가 바로 열려요!");
+
+    return pool[Math.floor(Math.random() * pool.length)];
+  }
+
+  _onCitizenClick(citId) {
+    const cit = this.citizens.find((c) => c.id === citId);
+    if (!cit) return;
+    cit.dest = null;
+    cit.aiState = "greet_hero";
+    cit.stateUntil = Date.now() + 3400;
+    cit.greetCooldownUntil = Date.now() + 8000;
+    cit.facingAngle = Math.atan2(
+      this.hero.position.x - cit.position.x,
+      this.hero.position.z - cit.position.z
+    );
+    const anim = cit.persona === "scholar" ? "Cast" : cit.persona === "bard" ? "Jump" : "Cheer";
+    cit.actor?.playAction(anim, () => {
+      if (cit.aiState === "greet_hero") {
+        cit.actor?.playAction(cit.action === "SitChair" ? "SitChair" : "Idle", null, true);
+      }
+    }, true);
+    this._speakAsNpc(cit, this._pickNpcLine(cit, "greet"), 5600);
+    this.audio.playTone(580, 740, 0.12, "sine", 0.05);
+  }
+
+  _reactNpcsToFirework() {
+    const now = Date.now();
+    const candidates = [...this.citizens]
+      .sort((a, b) => a.position.distanceTo(this.hero.position) - b.position.distanceTo(this.hero.position))
+      .slice(0, 5);
+    candidates.forEach((cit, idx) => {
+      if (!cit.roam && cit.action === "SitChair") {
+        cit.actor?.playAction("Cheer", () => cit.actor?.playAction("SitChair", null, true), true);
+      } else {
+        cit.dest = null;
+        cit.aiState = "greet_hero";
+        cit.stateUntil = now + 3200;
+        cit.actor?.playAction(idx % 2 === 0 ? "Jump" : "Cheer", () => {
+          cit.actor?.playAction("Idle", null, true);
+        }, true);
+      }
+      if (idx < 3) {
+        this._speakAsNpc(cit, this._pickNpcLine(cit, "firework"), 4600);
+      }
+    });
+  }
+
+  _reactNpcsToAtmosphere(kind) {
+    const now = Date.now();
+    const { timeLabel, seasonLabel } = this.atmosphere?.getStatusLabels?.() || {};
+    const speaker = this.citizens.find((c) => c.position.distanceTo(this.hero.position) < 18) || this.citizens[0];
+    if (!speaker) return;
+    speaker.actor?.playAction(speaker.action === "SitChair" ? "SitChair" : "Interact", null, true);
+    const msg = kind === "time"
+      ? `지금 시각이 ${timeLabel} 분위기로 바뀌었네요!`
+      : `계절이 ${seasonLabel}(으)로 바뀌니 풍경이 새롭네요!`;
+    this._speakAsNpc(speaker, msg, 4500);
+    speaker.nextSpeakAt = now + 10000;
   }
 
   _refreshShrineTickers() {
@@ -542,6 +800,10 @@ class SanctuaryArchiveApp {
       } else if (sh.id === "benchmarks" && this.archiveData.benchmarks.models.length) {
         const m = this.archiveData.benchmarks.models[idx % this.archiveData.benchmarks.models.length];
         sh.tickerText = `${m.model} (${m.arena_coding_elo || m.arena_elo} Elo)`;
+      } else if (sh.id === "tavern") {
+        sh.tickerText = `여관 라운지 · 접속 ${1 + (this.chat?.peers?.size || 0)}명`;
+      } else if (sh.id === "workshop") {
+        sh.tickerText = "4대 분야 통합 커맨드 아틀리에";
       }
     }
   }
@@ -596,7 +858,7 @@ class SanctuaryArchiveApp {
       shrine.position.x - this.hero.position.x,
       shrine.position.z - this.hero.position.z
     );
-    this.hero.actor?.playAction("Cast", () => this.hero.actor?.playAction("Idle", null, true), true);
+    this.hero.actor?.playAction("Cheer", () => this.hero.actor?.playAction("Idle", null, true), true);
     shrine.actor.playAction("Cast", () => shrine.actor.playAction("Idle", null, true), true);
     this.vfx.spawnMagicCircle(shrine.position, { radius: 2.2, duration: 2.3, palette: shrine.palette, pillarHeight: 4.5 });
     this.audio.playResonate(shrine.id);
@@ -633,6 +895,7 @@ class SanctuaryArchiveApp {
       }
     }
 
+    this._speakAsNpc(shrine, `${shrine.title} 스크린으로 안내해 드릴게요!`, 4200);
     this.vfx.spawnFloatingBadge(shrine.position, text, type, tag, this.controller.camera, w, h);
   }
 
@@ -665,9 +928,12 @@ class SanctuaryArchiveApp {
     this.shrines.forEach((s) => { s.isActiveShrine = s.id === buildingId; });
 
     const shrine = this.shrines.find((s) => s.id === buildingId);
-    const insideTarget = shrine
-      ? new THREE.Vector3(shrine.x, 0, shrine.z + (shrine.z < 0 ? 1.55 : -1.55))
-      : building.center.clone();
+    const isEW = building.id === "tavern" || building.id === "workshop";
+    const insideTarget = isEW
+      ? building.center.clone()
+      : shrine
+        ? new THREE.Vector3(shrine.x, 0, shrine.z + (shrine.z < 0 ? 1.55 : -1.55))
+        : building.center.clone();
 
     if (this._isPointInBounds(this.hero.position, building.interiorBounds)) {
       this.openRoomDashboard(buildingId);
@@ -1258,7 +1524,7 @@ class SanctuaryArchiveApp {
     );
     this.raycaster.setFromCamera(ndc, this.controller.camera);
 
-    const peerMeshes = [...this.remotePeers.values()].filter((p) => p.actor?.mesh).map((p) => p.actor.mesh);
+    const peerMeshes = [...this.remotePeers.values()].filter((p) => p.actor?.mesh).map((p) => p.actor.hitMesh || p.actor.mesh);
     if (peerMeshes.length) {
       const peerHits = this.raycaster.intersectObjects(peerMeshes, false);
       if (peerHits.length > 0) {
@@ -1268,11 +1534,23 @@ class SanctuaryArchiveApp {
       }
     }
 
-    const curatorMeshes = this.shrines.map((s) => s.actor.mesh);
+    const curatorMeshes = this.shrines.map((s) => s.actor.hitMesh || s.actor.mesh);
     const shrineHits = this.raycaster.intersectObjects(curatorMeshes, false);
     if (shrineHits.length > 0) {
       this.activateShrine(shrineHits[0].object.userData.shrineId, true, true);
       return;
+    }
+
+    const citizenMeshes = this.citizens.filter((c) => c.actor).map((c) => c.actor.hitMesh || c.actor.mesh);
+    if (citizenMeshes.length) {
+      const citHits = this.raycaster.intersectObjects(citizenMeshes, false);
+      if (citHits.length > 0) {
+        const citId = citHits[0].object.userData.citizenId;
+        if (citId) {
+          this._onCitizenClick(citId);
+          return;
+        }
+      }
     }
 
     // Clicking the giant 3D Wall Screen inside a room immediately opens the Full-Screen Room Dashboard
@@ -1366,13 +1644,19 @@ class SanctuaryArchiveApp {
       };
       this.remotePeers.set(cid, rec);
       const spec = AVATAR_DEFS[rec.classKey] || AVATAR_DEFS.Solar_Guard;
-      const actor = await loadSpriteActor(spec.atlasUrl);
+      const actor = await loadGlbCharacter({
+        glbUrl: spec.glbUrl,
+        attachments: spec.attachments,
+        hueShift: spec.hueShift || 0,
+        satMult: spec.satMult || 1.0,
+        targetHeight: 2.1,
+      });
       if (!this.remotePeers.has(cid)) {
         actor.dispose();
         return;
       }
       actor.mesh.position.copy(rec.position);
-      actor.mesh.userData.peerClientId = cid;
+      actor.setUserData("peerClientId", cid);
       this.scene.add(actor.mesh);
       rec.actor = actor;
       rec.loading = false;
@@ -1381,6 +1665,31 @@ class SanctuaryArchiveApp {
       rec.targetPos.set(peerData.x || 0, 0, peerData.z || 0);
       rec.facingAngle = peerData.facing ?? rec.facingAngle;
       rec.action = peerData.action || "Idle";
+      if (peerData.classKey && peerData.classKey !== rec.classKey && !rec.loading && AVATAR_DEFS[peerData.classKey]) {
+        rec.classKey = peerData.classKey;
+        rec.loading = true;
+        const spec = AVATAR_DEFS[rec.classKey];
+        const nextActor = await loadGlbCharacter({
+          glbUrl: spec.glbUrl,
+          attachments: spec.attachments,
+          hueShift: spec.hueShift || 0,
+          satMult: spec.satMult || 1.0,
+          targetHeight: 2.1,
+        });
+        if (!this.remotePeers.has(cid)) {
+          nextActor.dispose();
+          return;
+        }
+        if (rec.actor) {
+          this.scene.remove(rec.actor.mesh);
+          rec.actor.dispose();
+        }
+        nextActor.mesh.position.copy(rec.position);
+        nextActor.setUserData("peerClientId", cid);
+        this.scene.add(nextActor.mesh);
+        rec.actor = nextActor;
+        rec.loading = false;
+      }
     }
   }
 
@@ -1527,31 +1836,92 @@ class SanctuaryArchiveApp {
   }
 
   _updateCitizens(dt) {
+    const now = Date.now();
+    const activeBubbles = this._countActiveCitizenBubbles(now);
+
     for (const cit of this.citizens) {
-      if (cit.roam) {
+      if (cit.pendingReply && now >= cit.pendingReply.at) {
+        const rep = cit.pendingReply;
+        cit.pendingReply = null;
+        this._speakAsNpc(cit, rep.text, 4400);
+        cit.actor?.playAction(rep.anim || "Cheer", () => {
+          cit.actor?.playAction(cit.action === "SitChair" ? "SitChair" : "Idle", null, true);
+        }, true);
+      }
+
+      if ((cit.aiState === "greet_hero" || cit.aiState === "social_talk") && now >= (cit.stateUntil || 0)) {
+        cit.aiState = cit.action === "SitChair" ? "sit" : "idle";
+        cit.pauseTimer = 1.2 + Math.random() * 1.8;
+        cit.actor?.playAction(cit.action === "SitChair" ? "SitChair" : "Idle", null, true);
+      }
+
+      // 1. Proximity Greeting when Player walks close to a Citizen
+      if (
+        cit.aiState !== "social_talk" &&
+        now >= (cit.greetCooldownUntil || 0) &&
+        this.hero.position.distanceTo(cit.position) < 2.75 &&
+        activeBubbles < 4
+      ) {
+        cit.greetCooldownUntil = now + 22000;
+        cit.nextSpeakAt = now + 11000;
+        cit.dest = null;
+        cit.aiState = "greet_hero";
+        cit.stateUntil = now + 3200;
+        if (cit.roam) {
+          cit.facingAngle = Math.atan2(
+            this.hero.position.x - cit.position.x,
+            this.hero.position.z - cit.position.z
+          );
+        }
+        const waveAnim = cit.persona === "scholar" ? "Interact" : "Cheer";
+        cit.actor?.playAction(waveAnim, () => {
+          cit.actor?.playAction(cit.action === "SitChair" ? "SitChair" : "Idle", null, true);
+        }, true);
+        this._speakAsNpc(cit, this._pickNpcLine(cit, "greet"), 4800);
+      }
+
+      // 2. Ambient Live Data & Atmosphere Speech Bubbles
+      if (now >= (cit.nextSpeakAt || 0) && (cit.aiState === "idle" || cit.aiState === "sit")) {
+        cit.nextSpeakAt = now + 9500 + Math.random() * 8500;
+        if (this._countActiveCitizenBubbles(now) < 3) {
+          this._speakAsNpc(cit, this._pickNpcLine(cit, "ambient"), 4800);
+          if (cit.aiState === "idle") {
+            const idleAnim = cit.persona === "scholar" ? "Cast" : "Interact";
+            cit.actor?.playAction(idleAnim, () => cit.actor?.playAction("Idle", null, true), true);
+          }
+        }
+      }
+
+      // 3. Autonomous City Roaming
+      if (cit.roam && (cit.aiState === "idle" || cit.aiState === "walk")) {
         if (cit.pauseTimer > 0) {
           cit.pauseTimer -= dt;
-          if (cit.actor.currentAction === "Walk") cit.actor.playAction("Idle");
+          if (cit.actor.currentAction === "Walk") {
+            cit.aiState = "idle";
+            cit.actor.playAction("Idle");
+          }
         } else if (!cit.dest) {
           const ang = Math.random() * Math.PI * 2;
-          const r = 1.5 + Math.random() * (cit.roamRadius || 4.0);
+          const r = 1.6 + Math.random() * (cit.roamRadius || 4.0);
           const resolved = this._resolveCityCollisions(
             cit.homePos.x + Math.cos(ang) * r,
             cit.homePos.z + Math.sin(ang) * r,
             0.5
           );
           cit.dest = new THREE.Vector3(resolved.x, 0, resolved.z);
+          cit.aiState = "walk";
         } else {
           const d = new THREE.Vector3().subVectors(cit.dest, cit.position);
           d.y = 0;
           if (d.length() < 0.25) {
             cit.dest = null;
-            cit.pauseTimer = 2.0 + Math.random() * 2.5;
+            cit.aiState = "idle";
+            cit.pauseTimer = 2.0 + Math.random() * 2.8;
           } else {
             d.normalize();
             const step = this._resolveCityCollisions(
-              cit.position.x + d.x * 1.45 * dt,
-              cit.position.z + d.z * 1.45 * dt,
+              cit.position.x + d.x * 1.48 * dt,
+              cit.position.z + d.z * 1.48 * dt,
               0.45
             );
             cit.position.x = step.x;
@@ -1561,8 +1931,46 @@ class SanctuaryArchiveApp {
           }
         }
       }
+
       cit.actor.mesh.position.copy(cit.position);
       cit.actor.update(dt, this.controller.cameraAzimuth, cit.facingAngle);
+    }
+
+    // 4. Periodic NPC-to-NPC 1:1 Social Conversations
+    if (now >= (this._nextNpcSocialScan || 0)) {
+      this._nextNpcSocialScan = now + 2200;
+      if (this._countActiveCitizenBubbles(now) < 2) {
+        const roamers = this.citizens.filter(
+          (c) => c.roam && (c.aiState === "idle" || c.aiState === "walk") && now >= (c.socialCooldownUntil || 0)
+        );
+        for (let i = 0; i < roamers.length; i++) {
+          const a = roamers[i];
+          for (let j = i + 1; j < roamers.length; j++) {
+            const b = roamers[j];
+            if (a.position.distanceTo(b.position) < 2.8) {
+              a.aiState = "social_talk";
+              b.aiState = "social_talk";
+              a.dest = null;
+              b.dest = null;
+              a.stateUntil = now + 4500;
+              b.stateUntil = now + 4500;
+              a.socialCooldownUntil = now + 26000;
+              b.socialCooldownUntil = now + 26000;
+              a.facingAngle = Math.atan2(b.position.x - a.position.x, b.position.z - a.position.z);
+              b.facingAngle = Math.atan2(a.position.x - b.position.x, a.position.z - b.position.z);
+              a.actor?.playAction("Interact", () => a.actor?.playAction("Idle", null, true), true);
+              this._speakAsNpc(a, this._pickNpcLine(a, "social_init", b), 4200);
+              b.pendingReply = {
+                at: now + 1500,
+                text: this._pickNpcLine(b, "social_reply", a),
+                anim: "Cheer",
+              };
+              i = roamers.length;
+              break;
+            }
+          }
+        }
+      }
     }
   }
 
@@ -1686,6 +2094,7 @@ class SanctuaryArchiveApp {
       const fx2z = this.hero.position.z - 6 + (Math.random() - 0.5) * 12;
       this.atmosphere?.launchFirework(fx2x, fx2z);
     }, 260);
+    this._reactNpcsToFirework();
     this.chat.broadcastFx("firework", { x: fx1x, z: fx1z });
     this.audio.playTone(587.33, 880, 0.22, "sine", 0.06);
   }
@@ -1704,6 +2113,7 @@ class SanctuaryArchiveApp {
       if (next) {
         this.atmosphere.setTimeMode(next);
         this._syncAtmoLabels();
+        this._reactNpcsToAtmosphere("time");
         this.chat.addSystemMessage(`시간대가 ${this.atmosphere.getStatusLabels().timeLabel}(으)로 변경되었습니다.`);
       }
       return;
@@ -1714,6 +2124,7 @@ class SanctuaryArchiveApp {
       if (next) {
         this.atmosphere.setSeasonMode(next);
         this._syncAtmoLabels();
+        this._reactNpcsToAtmosphere("season");
         this.chat.addSystemMessage(`계절이 ${this.atmosphere.getStatusLabels().seasonLabel}(으)로 변경되었습니다.`);
       }
     }
@@ -1732,13 +2143,18 @@ class SanctuaryArchiveApp {
         atmoPill.addEventListener(evName, (ev) => ev.stopPropagation());
       }
     }
+    document.getElementById("btn-hero-class")?.addEventListener("click", () => {
+      this.cycleHeroClass();
+    });
     document.getElementById("btn-atmo-time")?.addEventListener("click", () => {
       this.atmosphere?.cycleTimeMode();
       this._syncAtmoLabels();
+      this._reactNpcsToAtmosphere("time");
     });
     document.getElementById("btn-atmo-season")?.addEventListener("click", () => {
       this.atmosphere?.cycleSeasonMode();
       this._syncAtmoLabels();
+      this._reactNpcsToAtmosphere("season");
     });
     document.getElementById("btn-atmo-firework")?.addEventListener("click", () => {
       this._launchCelebrationFireworks();

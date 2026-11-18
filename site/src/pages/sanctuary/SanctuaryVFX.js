@@ -203,7 +203,7 @@ export class SanctuaryVFX {
 
   projectToPixel(worldX, worldY, worldZ, camera, width, height) {
     this._projVec.set(worldX, worldY, worldZ).project(camera);
-    if (this._projVec.z > 1) return null;
+    if (this._projVec.z > 1 || this._projVec.z < -1) return null;
     return {
       x: (this._projVec.x * 0.5 + 0.5) * width,
       y: (-this._projVec.y * 0.5 + 0.5) * height,
@@ -332,7 +332,7 @@ export class SanctuaryVFX {
       const headOffset = actor.overlayHeight || 2.4;
       const px = this.projectToPixel(actor.position.x, actor.position.y + headOffset, actor.position.z, camera, width, height);
 
-      if (!px || actor.hiddenOverlay || px.x < -80 || px.x > width + 80 || px.y < -80 || px.y > height + 80) {
+      if (!px || actor.hiddenOverlay || px.x < 12 || px.x > width - 12 || px.y < 16 || px.y > height - 10) {
         entry.root.hidden = true;
         continue;
       }
@@ -345,6 +345,7 @@ export class SanctuaryVFX {
       const wallNow = Date.now();
       const showChat = Boolean(actor.chatText) && wallNow < (actor.chatUntil || 0);
       entry.chatEl.hidden = !showChat;
+      entry.root.classList.toggle("is-speaking", showChat);
       if (showChat && entry.lastChat !== actor.chatText) {
         entry.lastChat = actor.chatText;
         entry.chatEl.textContent = actor.chatText;
@@ -373,7 +374,7 @@ export class SanctuaryVFX {
         entry.castFill.style.transform = `scaleX(${ratio.toFixed(3)})`;
       }
 
-      const showPlate = actor.role !== "citizen";
+      const showPlate = Boolean(actor.displayName);
       entry.plateEl.hidden = !showPlate;
       if (showPlate) {
         entry.roleBadge.textContent = actor.roleBadge || "";

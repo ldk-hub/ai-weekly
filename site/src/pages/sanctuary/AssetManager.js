@@ -1,5 +1,313 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import * as SkeletonUtils from "three/examples/jsm/utils/SkeletonUtils.js";
+
+const OPTIONAL_CHARACTER_ATTACHMENTS = new Set([
+  "1H_Sword_Offhand", "Badge_Shield", "Rectangle_Shield", "Round_Shield", "Spike_Shield",
+  "1H_Sword", "2H_Sword", "Knight_Helmet", "Knight_Cape",
+  "Spellbook", "Spellbook_open", "1H_Wand", "2H_Staff", "Mage_Hat", "Mage_Cape",
+  "Knife_Offhand", "1H_Crossbow", "2H_Crossbow", "Knife", "Throwable", "Rogue_Cape",
+  "1H_Axe_Offhand", "Barbarian_Round_Shield", "1H_Axe", "2H_Axe", "Mug", "Barbarian_Hat", "Barbarian_Cape",
+]);
+
+const LOGICAL_TO_KAYKIT_CLIP = {
+  Idle: ["Idle", "Unarmed_Idle"],
+  Walk: ["Walking_A", "Walking_B", "Walking_C"],
+  Run: ["Running_A", "Running_B"],
+  Cast: ["Spellcast_Raise", "Spellcasting", "Spellcast_Shoot"],
+  Attack: ["1H_Melee_Attack_Slice_Diagonal", "Unarmed_Melee_Attack_Punch_A"],
+  Sit: ["Sit_Floor_Idle", "Sit_Chair_Idle"],
+  SitChair: ["Sit_Chair_Idle", "Sit_Chair_Pose"],
+  Cheer: ["Cheer"],
+  Interact: ["Interact", "Use_Item", "PickUp"],
+  Jump: ["Jump_Full_Short", "Jump_Idle"],
+};
+
+const ONESHOT_ACTIONS = new Set(["Cheer", "Interact", "Jump", "Attack", "Cast"]);
+
+const glbCache = new Map();
+const tintedTexCache = new Map();
+
+function rgbToHsl01(r, g, b) {
+  r /= 255; g /= 255; b /= 255;
+  const max = Math.max(r, g, b), min = Math.min(r, g, b);
+  let h = 0, s = 0;
+  const l = (max + min) / 2;
+  if (max !== min) {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    if (max === r) h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
+    else if (max === g) h = ((b - r) / d + 2) / 6;
+    else h = ((r - g) / d + 4) / 6;
+  }
+  return [h, s, l];
+}
+
+function hslToRgb01(h, s, l) {
+  const hue2rgb = (p, q, t) => {
+    if (t < 0) t += 1;
+    if (t > 1) t -= 1;
+    if (t < 1 / 6) return p + (q - p) * 6 * t;
+    if (t < 1 / 2) return q;
+    if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+    return p;
+  };
+  if (s === 0) {
+    const v = Math.round(l * 255);
+    return [v, v, v];
+  }
+  const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+  const p = 2 * l - q;
+  return [
+    Math.round(hue2rgb(p, q, h + 1 / 3) * 255),
+    Math.round(hue2rgb(p, q, h) * 255),
+    Math.round(hue2rgb(p, q, h - 1 / 3) * 255),
+  ];
+}
+
+function getTintedCharacterTexture(sourceTex, cacheKey, hueShift = 0, satMult = 1) {
+  if (!sourceTex?.image || (!hueShift && satMult === 1)) return sourceTex;
+  const key = `${cacheKey}|${hueShift.toFixed(3)}|${satMult.toFixed(2)}`;
+  if (tintedTexCache.has(key)) return tintedTexCache.get(key);
+
+  const img = sourceTex.image;
+  const w = img.width || 256;
+  const h = img.height || 256;
+  const canvas = document.createElement("canvas");
+  canvas.width = w;
+  canvas.height = h;
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(img, 0, 0, w, h);
+
+  const imgData = ctx.getImageData(0, 0, w, h);
+  const d = imgData.data;
+  for (let i = 0; i < d.length; i += 4) {
+    if (d[i + 3] === 0) continue;
+    let r = d[i], g = d[i + 1], b = d[i + 2];
+    const [hue, sat, lum] = rgbToHsl01(r, g, b);
+    const isSkinOrGold = r > 175 && g > 118 && b > 68 && r >= g && g >= b - 10 && (r - g) < 88 && (r - b) < 135;
+    if (!isSkinOrGold && sat > 0.14 && lum > 0.12 && lum < 0.9) {
+      const nh = (hue + hueShift + 1) % 1;
+      const ns = Math.min(1, sat * satMult);
+      [r, g, b] = hslToRgb01(nh, ns, lum);
+      d[i] = r; d[i + 1] = g; d[i + 2] = b;
+    }
+  }
+  ctx.putImageData(imgData, 0, 0);
+
+  const nextTex = new THREE.CanvasTexture(canvas);
+  nextTex.colorSpace = THREE.SRGBColorSpace;
+  nextTex.flipY = sourceTex.flipY;
+  nextTex.magFilter = sourceTex.magFilter;
+  nextTex.minFilter = sourceTex.minFilter;
+  nextTex.wrapS = sourceTex.wrapS;
+  nextTex.wrapT = sourceTex.wrapT;
+  nextTex.needsUpdate = true;
+  tintedTexCache.set(key, nextTex);
+  return nextTex;
+}
+
+/**
+ * Full-3D Rigged CC0 KayKit Character Actor with smooth cross-faded skeletal animations,
+ * yaw interpolation, modular equipment visibility, and fast capsule hitMesh picking.
+ */
+export class GlbCharacterActor {
+  constructor(rootGroup, modelRoot, hitMesh, animations, attachments = []) {
+    this.mesh = rootGroup;
+    this.modelRoot = modelRoot;
+    this.hitMesh = hitMesh;
+    this.mixer = new THREE.AnimationMixer(modelRoot);
+    this.actions = new Map();
+    this.currentAction = "Idle";
+    this.currentClipAction = null;
+    this.facingAngle = 0;
+    this.currentYaw = 0;
+    this.lastSector = 0;
+    this.onActionComplete = null;
+
+    const clipByName = new Map(animations.map((c) => [c.name, c]));
+    for (const [logicalName, candidates] of Object.entries(LOGICAL_TO_KAYKIT_CLIP)) {
+      const found = candidates.map((n) => clipByName.get(n)).find(Boolean);
+      if (found) {
+        const act = this.mixer.clipAction(found);
+        this.actions.set(logicalName, act);
+      }
+    }
+
+    // Apply modular equipment & headwear filtering
+    const allowedSet = new Set(attachments);
+    modelRoot.traverse((obj) => {
+      if (OPTIONAL_CHARACTER_ATTACHMENTS.has(obj.name)) {
+        obj.visible = allowedSet.has(obj.name);
+      }
+    });
+
+    this.mixer.addEventListener("finished", (ev) => {
+      if (ev.action === this.currentClipAction && ONESHOT_ACTIONS.has(this.currentAction)) {
+        const cb = this.onActionComplete;
+        this.onActionComplete = null;
+        this.playAction("Idle", null, true);
+        if (cb) cb();
+      }
+    });
+
+    this.playAction("Idle", null, true);
+  }
+
+  setUserData(key, value) {
+    this.mesh.userData[key] = value;
+    if (this.hitMesh) this.hitMesh.userData[key] = value;
+  }
+
+  playAction(actionName, onComplete = null, restart = false) {
+    const resolvedName = this.actions.has(actionName) ? actionName : "Idle";
+    const nextClip = this.actions.get(resolvedName);
+    if (!nextClip) return;
+    if (this.currentAction === resolvedName && !restart) return;
+
+    const prevClip = this.currentClipAction;
+    this.currentAction = resolvedName;
+    this.onActionComplete = onComplete;
+
+    const isOneShot = ONESHOT_ACTIONS.has(resolvedName);
+    nextClip.reset();
+    nextClip.setLoop(isOneShot ? THREE.LoopOnce : THREE.LoopRepeat, isOneShot ? 1 : Infinity);
+    nextClip.clampWhenFinished = isOneShot;
+    nextClip.enabled = true;
+    nextClip.play();
+
+    if (prevClip && prevClip !== nextClip) {
+      nextClip.crossFadeFrom(prevClip, 0.2, false);
+    }
+    this.currentClipAction = nextClip;
+  }
+
+  update(dt, cameraAzimuth, facingAngle = this.facingAngle) {
+    this.facingAngle = facingAngle;
+
+    let diff = (facingAngle - this.currentYaw) % (Math.PI * 2);
+    if (diff > Math.PI) diff -= Math.PI * 2;
+    if (diff < -Math.PI) diff += Math.PI * 2;
+    this.currentYaw += diff * Math.min(1, dt * 13);
+    this.modelRoot.rotation.y = this.currentYaw;
+
+    this.mixer.update(dt);
+
+    const twoPi = Math.PI * 2;
+    let rel = (cameraAzimuth - facingAngle) % twoPi;
+    if (rel < 0) rel += twoPi;
+    const sector = Math.round(rel / (Math.PI / 4)) % 8;
+    this.lastSector = sector;
+    return sector;
+  }
+
+  dispose() {
+    this.mixer?.stopAllAction();
+    this.mesh.traverse((child) => {
+      if (child.isMesh && !child.isSkinnedMesh && child !== this.hitMesh) {
+        // Keep shared GLB geometries, only dispose cloned materials & hit/shadow helpers
+      }
+      if (child.material && child.material._isClonedCharMat) {
+        child.material.dispose();
+      }
+    });
+    this.hitMesh?.geometry?.dispose();
+    this.hitMesh?.material?.dispose();
+  }
+}
+
+async function getCachedGlb(glbUrl) {
+  if (!glbCache.has(glbUrl)) {
+    const loader = new GLTFLoader();
+    glbCache.set(
+      glbUrl,
+      new Promise((resolve, reject) => loader.load(glbUrl, resolve, undefined, reject))
+    );
+  }
+  return glbCache.get(glbUrl);
+}
+
+/**
+ * Load and clone a rigged CC0 KayKit character GLB with modular attachments & optional hue tint.
+ */
+export async function loadGlbCharacter({
+  glbUrl,
+  attachments = [],
+  hueShift = 0,
+  satMult = 1.0,
+  targetHeight = 2.05,
+} = {}) {
+  const gltf = await getCachedGlb(glbUrl);
+  const modelRoot = SkeletonUtils.clone(gltf.scene);
+
+  const clonedMatCache = new Map();
+  const allowedSet = new Set(attachments);
+  const coreBox = new THREE.Box3();
+  modelRoot.traverse((child) => {
+    if (OPTIONAL_CHARACTER_ATTACHMENTS.has(child.name)) {
+      child.visible = allowedSet.has(child.name);
+    }
+    if (child.isMesh) {
+      child.castShadow = true;
+      child.receiveShadow = true;
+      child.frustumCulled = false;
+
+      if (child.material) {
+        const origMat = child.material;
+        if (!clonedMatCache.has(origMat.uuid)) {
+          const mat = origMat.clone();
+          mat._isClonedCharMat = true;
+          if (mat.map && (hueShift || satMult !== 1.0)) {
+            mat.map = getTintedCharacterTexture(mat.map, glbUrl, hueShift, satMult);
+          }
+          mat.roughness = Math.max(0.55, mat.roughness ?? 0.72);
+          clonedMatCache.set(origMat.uuid, mat);
+        }
+        child.material = clonedMatCache.get(origMat.uuid);
+      }
+
+      if (/_Body$|_Head|_Leg/.test(child.name)) {
+        coreBox.expandByObject(child);
+      }
+    }
+  });
+
+  // Measure core humanoid proportions (independent of tall wizard hats or staves)
+  const fallbackBox = coreBox.isEmpty() ? new THREE.Box3().setFromObject(modelRoot) : coreBox;
+  const rawH = Math.max(1.1, fallbackBox.max.y - fallbackBox.min.y);
+  const scaleFactor = THREE.MathUtils.clamp(targetHeight / rawH, 0.55, 1.35);
+  modelRoot.scale.setScalar(scaleFactor);
+
+  const rootGroup = new THREE.Group();
+  rootGroup.add(modelRoot);
+
+  // Soft radial contact shadow anchored at feet
+  const shadowGeo = new THREE.CircleGeometry(0.62, 24);
+  const shadowMat = new THREE.MeshBasicMaterial({
+    map: createContactShadowTexture(),
+    transparent: true,
+    opacity: 0.76,
+    depthWrite: false,
+  });
+  shadowMat._isClonedCharMat = true;
+  const shadowDisc = new THREE.Mesh(shadowGeo, shadowMat);
+  shadowDisc.rotation.x = -Math.PI / 2;
+  shadowDisc.position.y = 0.025;
+  shadowDisc.castShadow = false;
+  shadowDisc.receiveShadow = false;
+  shadowDisc.raycast = () => {};
+  rootGroup.add(shadowDisc);
+
+  // Fast invisible capsule hitbox for effortless pointer picking
+  const hitMesh = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.52, 0.52, targetHeight + 0.2, 8),
+    new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false, colorWrite: false })
+  );
+  hitMesh.position.y = (targetHeight + 0.2) * 0.5;
+  rootGroup.add(hitMesh);
+
+  return new GlbCharacterActor(rootGroup, modelRoot, hitMesh, gltf.animations || [], attachments);
+}
 
 /**
  * 8-Directional Y-Axis Cylindrical Billboard Actor backed by atlas JSON + NearestFilter PNG sheet.
