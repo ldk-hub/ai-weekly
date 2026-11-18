@@ -1,0 +1,487 @@
+{
+  "date": "2026-11-18",
+  "generatedAt": "2026-11-18T00:24:46.747Z",
+  "count": 20,
+  "items": [
+    {
+      "id": "x:2122750124543926515",
+      "platform": "x",
+      "author": "@openai",
+      "url": "https://x.com/openai/status/2122750124543926515",
+      "text": "Some of you have been asking very politely. Some of you have just been asking.\n\nGPT-6.2 Astra and Sol are now available.\n\nSuper efficient and built to perform where it counts—the real world.",
+      "thumbnail": "",
+      "publishedAt": "2026-11-17T17:54:03.138000+00:00",
+      "metrics": {
+        "likes": 28908,
+        "reposts": 5835,
+        "replies": 1743,
+        "views": 4713489
+      },
+      "title_ko": "오픈AI, GPT-6.2 아스트라·솔 공식 출시",
+      "summary_ko": "오픈AI가 차세대 모델 GPT-6.2 아스트라(Astra)와 솔(Sol)의 정식 제공을 시작했다.\n실제 업무 현장에서 활용할 수 있도록 작업 효율과 실전 성능을 끌어올린 점이 특징이다.",
+      "tags": [
+        "오픈AI",
+        "GPT-6.2",
+        "모델 출시"
+      ],
+      "relevance": 92,
+      "score": 93
+    },
+    {
+      "id": "x:2122701047118635485",
+      "platform": "x",
+      "author": "@omarsar0",
+      "url": "https://x.com/omarsar0/status/2122701047118635485",
+      "text": "Banger paper from Google on RSI.\n\n(bookmark it)\n\nThey propose an approach for continual recursive self-improvement at the harness level. They also propose their own self-improving memory system for the harness optimizer.\n\nThis clearly highlights the importance of traces and",
+      "thumbnail": "https://pbs.twimg.com/media/HXVZWhqa4AAYavx?format=webp&name=large",
+      "publishedAt": "2026-11-17T14:39:02.168000+00:00",
+      "metrics": {
+        "likes": 684,
+        "reposts": 102,
+        "replies": 57,
+        "views": 38491
+      },
+      "title_ko": "구글, 하네스 단위 지속적 자기개선 논문 발표",
+      "summary_ko": "구글 연구진이 에이전트 하네스 수준에서 지속적으로 스스로를 개선하는 재귀적 자기개선(RSI) 기법을 제안했다.\n하네스 최적화기를 위한 자기개선 메모리 시스템을 함께 도입해 실행 추적(trace) 데이터의 중요성을 강조했다.",
+      "tags": [
+        "구글 리서치",
+        "자기개선 AI",
+        "하네스"
+      ],
+      "relevance": 90,
+      "score": 78
+    },
+    {
+      "id": "x:2122542403894800705",
+      "platform": "x",
+      "author": "@minchoi",
+      "url": "https://x.com/minchoi/status/2122542403894800705",
+      "text": "This is wild.\n\nGenshin Impact maker miHoYo unveiled Gamer.\n\nThis AI plays games like you do: it watches the screen and uses keyboard + mouse. No game API.\n\n10 wild examples: 🧵👇",
+      "thumbnail": "",
+      "publishedAt": "2026-11-17T04:08:38.676000+00:00",
+      "metrics": {
+        "likes": 56,
+        "reposts": 7,
+        "replies": 39,
+        "views": 15024
+      },
+      "title_ko": "미호요, API 없이 화면 보고 게임하는 AI 공개",
+      "summary_ko": "원신 개발사 미호요(miHoYo)가 게임 내부 API 연동 없이 화면만 보고 키보드와 마우스로 플레이하는 AI 'Gamer'를 공개했다.\n사람과 동일한 시각 입력과 입력 장치 제어만으로 10가지 게임 시연 사례를 선보였다.",
+      "tags": [
+        "미호요",
+        "게임 AI",
+        "컴퓨터 사용"
+      ],
+      "relevance": 84,
+      "score": 68
+    },
+    {
+      "id": "x:2122785001200566623",
+      "platform": "x",
+      "author": "@minchoi",
+      "url": "https://x.com/minchoi/status/2122785001200566623",
+      "text": "Claude can now fold your iPhone to test your app.\n\nClaude Code on desktop runs your app on iPhone Duo in the iOS simulator, right next to the chat.\n\nIt folds and unfolds the device to check every layout for you.\n\nPublic beta now. Claude Code on desktop now supports iPhone Duo in the iOS simulator (public beta).\n\nYou can run your app on Duo next to your conversation and Claude can fold and unfold the device to test each layout.",
+      "thumbnail": "",
+      "publishedAt": "2026-11-17T20:12:38.381000+00:00",
+      "metrics": {
+        "likes": 45,
+        "reposts": 5,
+        "replies": 25,
+        "views": 7790
+      },
+      "title_ko": "클로드 코드, iPhone Duo 폴더블 테스트 지원",
+      "summary_ko": "데스크톱용 Claude Code가 퍼블릭 베타로 iOS 시뮬레이터의 iPhone Duo 실행을 지원한다.\n대화창 옆에서 에이전트가 기기를 직접 접고 펴며 화면별 레이아웃을 자동으로 점검해 준다.",
+      "tags": [
+        "클로드 코드",
+        "iOS 시뮬레이터",
+        "폴더블 UI"
+      ],
+      "relevance": 86,
+      "score": 68
+    },
+    {
+      "id": "x:2122817030277509231",
+      "platform": "x",
+      "author": "@omarsar0",
+      "url": "https://x.com/omarsar0/status/2122817030277509231",
+      "text": "Highly recommended read.\n\nSelf-improving memory is starting to look like an important component for continual-learning agents. \n\nSo pay close attention to this research direction if you are studying recursive self-improvement.\n\nJust last week, I featured a few papers on the Introducing: Self-Improving Memory 🧠✨📈\n\nWe let the model discover its own memory skills, then train them into its weights:\n\n- Meta-optimizes memory from the model's own runs with large gains.\n- Distilling these gains works too.\n\nBlog post: 📝 🧵1/6",
+      "thumbnail": "https://pbs.twimg.com/media/HXVN7y8WsAAp9Kd?format=webp&name=large",
+      "publishedAt": "2026-11-17T22:19:54.708000+00:00",
+      "metrics": {
+        "likes": 60,
+        "reposts": 10,
+        "replies": 9,
+        "views": 4722
+      },
+      "title_ko": "에이전트 가중치에 학습시키는 자기개선 메모리",
+      "summary_ko": "지속 학습 에이전트에서 모델이 스스로 메모리 활용 스킬을 발견하고 이를 가중치에 학습시키는 접근법이 주목받고 있다.\n실제 실행 이력으로부터 메모리를 메타 최적화하고 증류할 때 큰 성능 향상을 확인했다.",
+      "tags": [
+        "자기개선 메모리",
+        "지속 학습",
+        "에이전트"
+      ],
+      "relevance": 85,
+      "score": 67
+    },
+    {
+      "id": "threads:Df3Ac0XAUbK",
+      "platform": "threads",
+      "author": "@choi.openai",
+      "url": "https://www.threads.com/@choi.openai/post/Df3Ac0XAUbK",
+      "text": "구글이 사실 진짜 무서운 것 같습니다.\nGoogle AI Studio에서 안드로이드 앱을 만드는 기능이 또 업데이트됐는데요.\n이제 고화질 화면과 소리를 지원하는 에뮬레이터로 앱을 테스트하고, Firestore를 연결해 데이터 저장과 로그인 기능까지 구현할 수 있습니다.\n만든 앱을 Google Play 개인 라이브러리에 배포하는 기능도 추가됐습니다. 현재는 미국에서만 지원한다고 합니다.\nAI 모델부터 앱 개발, 테스트, 배포까지 구글 생태계 안에서 해결할 수 있는 범위가 계속 넓어지고 있습니다.",
+      "thumbnail": "https://scontent-nrt1-1.cdninstagram.com/v/t51.71878-15/914988246_29575845872032828_4036168282295419939_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMjY5Mzk3MTY5OTQ1MTU5NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19maXJzdF9mcmFtZV90aHVtYm5haWwuQzMifQ%3D%3D&_nc_ohc=syHKwlbnkPsQ7kNvwFmKtFE&_nc_oc=AdoU-JuxSUUmwkGIQ_MhXJsQZBMYJe4pGAKUPzSMvqrHOW1vAquQOocz_WL16-0PoaI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt1-1.cdninstagram.com&_nc_gid=wbqDfipu7o_wKa2Xa6JZXQ&_nc_ss=7a20f&_nc_ct=RQosPBUIFQolBAAAAA&oh=00_AQTBZtpCo6AOnua3XXpHBtvWBcTG2qAT0-gy2qRiPPa9mg&oe=6B02AD1D",
+      "publishedAt": "2026-11-17T22:30:05.000Z",
+      "metrics": {
+        "likes": 64,
+        "reposts": 9,
+        "replies": 5,
+        "views": 0
+      },
+      "title_ko": "Google AI Studio 안드로이드 개발·배포 통합",
+      "summary_ko": "Google AI Studio의 안드로이드 앱 제작 기능이 고화질·음성 지원 에뮬레이터와 Firestore 연동(저장·로그인)까지 확장됐다.\n개발한 앱을 Google Play 개인 라이브러리로 바로 배포하는 기능(미국 우선)도 추가돼 단일 생태계 완결성이 높아졌다.",
+      "tags": [
+        "Google AI Studio",
+        "안드로이드",
+        "앱 배포"
+      ],
+      "relevance": 85,
+      "score": 67
+    },
+    {
+      "id": "x:2122743985818960245",
+      "platform": "x",
+      "author": "@therundownai",
+      "url": "https://x.com/therundownai/status/2122743985818960245",
+      "text": "PREVIEW: Runway teased Diffusion-UI, a research app where an AI model generates an interface in real-time as a user clicks or types.",
+      "thumbnail": "",
+      "publishedAt": "2026-11-17T17:29:39.552000+00:00",
+      "metrics": {
+        "likes": 43,
+        "reposts": 11,
+        "replies": 13,
+        "views": 4273
+      },
+      "title_ko": "런웨이, 실시간 인터랙티브 Diffusion-UI 공개",
+      "summary_ko": "런웨이(Runway)가 사용자의 클릭이나 타이핑 입력에 맞춰 AI 모델이 인터페이스를 실시간 생성하는 연구 앱 Diffusion-UI를 예고했다.\n고정된 화면을 미리 코딩하는 대신 사용자 상호작용에 따라 UI가 즉각 그려지는 실험적 접근이다.",
+      "tags": [
+        "Runway",
+        "Diffusion-UI",
+        "생성형 UI"
+      ],
+      "relevance": 84,
+      "score": 66
+    },
+    {
+      "id": "instagram:Df1uNAHlEYy",
+      "platform": "instagram",
+      "author": "@vibe.trender",
+      "url": "https://www.instagram.com/reel/Df1uNAHlEYy/",
+      "text": "이제 클로드 일곱이 내 이력서를 판단해 줘요. 서류 내기 전에 먼저 떨어뜨려 보고 고쳐 줘요.\n\n클로드코드 스킬 /hiring-panel 에 이력서와 채용 공고를 넣으면\n1. ATS 자동 스크리닝이 사람에게 넘길지부터 거르고\n2. 채용 매니저가 면접을 줄지 정하고\n3. 현업 팀장, 경쟁 지원자, CEO, 리크루터, 옆자리 동료 다섯이 서로 메모를 안 보고 따로 읽어요\n\n그다음 지적을 하나로 합쳐 심한 순으로 정리하고, 같은 사실로 고친 이력서를 써 줘요. 없는 경력은 지어내지 않고 빈칸 질문으로 돌려줘요.\n\n11월 17일에 가상 인물 이력서로 직접 돌려 봤어요.\n원본은 일곱 중 탈락 6, 보류 1. 문제 9개, 빈칸 질문 13개가 나왔어요.\n빈칸 그대로 다시 돌리면 자동 스크리닝은 여전히 탈락이었고, 가상 답을 채워 다시 돌리니 통과했어요(필수 자격 3/3).\n판정을 바꾼 건 문장 다듬기가 아니라 새로 채운 사실이었어요.\n\n합격을 보장하지는 않아요. 언어 모델이 주는 두 번째 의견이에요.\n스킬은 무료(MIT)지만 한 번 돌릴 때 하위 에이전트를 8번 불러서 클로드 사용량은 들어요.\n\n설치 한 줄, 이력서 뒤에 공고 붙이는 법, 빈칸 질문 채우는 순서까지 정리한 PDF는 댓글에 '서류' 남기면 DM으로 보내드려요.\n팔로우해야 DM이 갑니다.\n\n/hiring-panel skill by Alex Chen (@nocodealex) · 깃허브 alexyc9381/hiring-panel-skill\n\n#클로드 #클로드코드 #claudecode #이력서 #이력서첨삭 #취업준비 #이직준비 #서류전형",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/910333128_18103275797414285_2150885960447562384_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMjMzMjI0NTAwMDAxMzM2MjE4MTAzMjc1Nzk0NDE0Mjg1.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjEwODAuc2RyLnZpZGVvX2RlZmF1bHRfY292ZXJfZnJhbWUuQzMifQ%3D%3D&_nc_ohc=YatghbpzRawQ7kNvwFxPlFW&_nc_oc=AdqwGeX15xPdu1Ocnxa-D8hsxSAW27PcNKI-b0QLFhymz3KpMSb0ck14cDGAGLzQu5Q&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=MjzP13ym7GHItgpk_5f5Bg&_nc_ss=7a6a8&_nc_ct=RQosPBUIFQQlBAAAAA&oh=00_AQTsTg5GzfPG5mQkAdVoSPtJBMI67t1ovkKLHQV1NWsRSg&oe=6B02CCFD",
+      "publishedAt": "2026-11-17T12:00:00.000Z",
+      "metrics": {
+        "likes": 13,
+        "reposts": 0,
+        "replies": 25,
+        "views": 0
+      },
+      "title_ko": "클로드 7인 패널 이력서 심사 스킬 체험기",
+      "summary_ko": "클로드 코드 오픈소스 스킬 /hiring-panel로 ATS·채용 매니저·5인 독립 패널의 다각도 이력서 모의 심사를 수행한 사례다.\n문장 수정보다 부족한 사실 정보를 묻는 13개 질문에 답을 채웠을 때 통과 판정으로 전환됐으며, 1회당 하위 에이전트 8회 사용량이 든다.",
+      "tags": [
+        "클로드 코드",
+        "이력서 첨삭",
+        "AI 스킬"
+      ],
+      "relevance": 84,
+      "score": 65
+    },
+    {
+      "id": "instagram:Df1Pnr7jxvO",
+      "platform": "instagram",
+      "author": "@joshproductletter",
+      "url": "https://www.instagram.com/p/Df1Pnr7jxvO/",
+      "text": "기획안이나 공지를 내놓기 전에 가상 인물들의 반응을 먼저 돌려 보는 오픈소스 엔진 MiroFish를 정리했습니다.\n\n깃허브 별이 8.5만 개를 넘은 저장소이고, 공식 라이브 데모를 직접 눌러 보며 확인했습니다.\n\n✔️ 준비물은 참고 자료 파일과 알고 싶은 질문 한 줄입니다\n✔️ 공식 데모는 자료를 바탕으로 가상 인물 55명을 만듭니다. 인물마다 성향과 활동 시간이 다릅니다\n✔️ 가상 인물들이 온라인 공간 두 곳에서 동시에 글을 올리고 서로 반응합니다 (데모 기준 40라운드, 기록 714건)\n✔️ 끝나면 예측 보고서를 정리해 주고, 가상 인물을 골라 대화할 수 있습니다\n✔️ 직접 돌리려면 AI 모델(LLM) API 키와 Zep 키가 필요합니다. 사용량이 커서 40라운드 미만으로 먼저 해 보라고 안내합니다\n✔️ 라이선스는 AGPL-3.0입니다. 서비스에 넣으면 소스 공개 조건이 붙으니 먼저 확인하세요\n\n결과는 예측일 뿐입니다. 실제 고객 조사를 대신하지 않고, 조사 전에 무엇을 물어볼지 찾는 연습 상대로 쓰면 좋습니다. 공개 데모는 미리 만든 결과를 보여 주는 화면이라 내 자료로 돌리려면 설치해야 합니다.\n\n카드 속 화면은 깃허브 저장소 666ghj/MiroFish와 공식 사이트 캡처, 공식 라이브 데모를 직접 눌러 녹화한 화면입니다(일부는 빨리 돌렸습니다). 수치는 2026년 11월 17일 기준입니다.\n\nMiroFish 설치 가이드와 검증 질문 24개는 마지막 장에서 받는 방법을 확인하세요.\n\n#MiroFish #AI활용 #오픈소스 #기획 #마케팅 #직장인AI #빌더조쉬",
+      "thumbnail": "https://scontent-nrt1-1.cdninstagram.com/v/t51.82787-15/912228202_17992066869063763_1240736520600072471_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMjE5NzUyMzgyMDc4ODM2Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIudmlkZW9fZGVmYXVsdF9jb3Zlcl9mcmFtZS5DMyJ9&_nc_ohc=NDdzvN_B7EUQ7kNvwHcHhn6&_nc_oc=AdrY700f_ZSXwuZZVDEj-HdXfgaKWZywNa-WTreeF64Ee2YvTH4-JtC8d6hEFj951_I&_nc_zt=23&_nc_ht=scontent-nrt1-1.cdninstagram.com&_nc_gid=aBuaQwUyVdEp3vilIKzM8Q&_nc_ss=7a6a8&_nc_ct=RQosPBUIFQQlBAAAAA&oh=00_AQRQAN6UiVv214v9zigxMvB3WPU9oYvnHSiBeS3Kr8la-g&oe=6B02C358",
+      "publishedAt": "2026-11-17T06:04:12.000Z",
+      "metrics": {
+        "likes": 9,
+        "reposts": 0,
+        "replies": 28,
+        "views": 0
+      },
+      "title_ko": "가상 유저 55명 반응 검증 엔진 MiroFish",
+      "summary_ko": "기획안이나 공지 공개 전 55명의 가상 인물이 두 온라인 공간에서 40라운드간 상호 반응하며 예측 보고서를 만들어 주는 오픈소스 엔진 MiroFish 분석이다.\nAGPL-3.0 라이선스 및 높은 LLM·Zep API 사용량에 유의해 실제 고객 조사 전 사전 질문 발굴용으로 쓰기 적합하다.",
+      "tags": [
+        "MiroFish",
+        "오픈소스",
+        "시뮬레이션"
+      ],
+      "relevance": 84,
+      "score": 65
+    },
+    {
+      "id": "x:2122780881370632457",
+      "platform": "x",
+      "author": "@omarsar0",
+      "url": "https://x.com/omarsar0/status/2122780881370632457",
+      "text": "Great read on speculative decoding in practice.  \n\nThe interesting part is the drafter. tunes it on customer traffic, so longer runs of drafted tokens survive verification, which is what made 7-token drafts worth it.  \n\nResult: DeepSeek-V4.1-Flash at 1,129 output tok/s on 4 AMD MI355X GPUs, with the original weights.  \n\nThey also share what didn't help, which I appreciate. not long ago, people questioned whether AMD GPUs could keep up. today, we’re setting records on them. 1,129 output tps at P90.  Real production traffic, not a toy project.\na little faith, a lot of engineering. here’s how we did it.",
+      "thumbnail": "https://pbs.twimg.com/media/HXWhqrtXwAA5QC1?format=webp&name=large",
+      "publishedAt": "2026-11-17T19:56:16.137000+00:00",
+      "metrics": {
+        "likes": 20,
+        "reposts": 1,
+        "replies": 12,
+        "views": 3011
+      },
+      "title_ko": "AMD MI355X로 DeepSeek 초당 1,129토큰",
+      "summary_ko": "실제 고객 트래픽으로 드래프터를 튜닝한 투기적 디코딩을 적용해 7토큰 초안 검증 생존율을 높인 실전 최적화 사례다.\n원본 가중치 그대로 AMD MI355X GPU 4장에서 DeepSeek-V4.1-Flash를 초당 1,129출력 토큰(P90) 속도로 서빙했다.",
+      "tags": [
+        "투기적 디코딩",
+        "AMD GPU",
+        "추론 최적화"
+      ],
+      "relevance": 85,
+      "score": 65
+    },
+    {
+      "id": "threads:Df3K0Eqk0-S",
+      "platform": "threads",
+      "author": "@choi.openai",
+      "url": "https://www.threads.com/@choi.openai/post/Df3K0Eqk0-S",
+      "text": "구글이 Gemini 4 Hydrogen 기반의 'Tasks' 기능을 한국을 포함한 6개국에 무료로 출시한다고 발표했습니다.\n이메일을 전달하면 일정을 등록하고, 필요한 물건을 찾아 구매까지 진행할 수 있는데요.\n업체에 직접 전화해 가격을 비교하거나 예약하는 기능도 선보였습니다.\n다만 전화, 문자, 결제 등 고급 기능은 미국부터 제공됩니다.",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.71878-15/906066500_1438547324936188_8275622025960285018_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMjczOTU1MDIyMDczNDM1NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19maXJzdF9mcmFtZV90aHVtYm5haWwuQzMifQ%3D%3D&_nc_ohc=NqVHP8xaKiMQ7kNvwF6Jbdu&_nc_oc=AdpwA_3qAsY9OGXco576OF5LNlEFVY1t8W-ugBHKX14stXtGV-IPSvV8TQKmPuV8IW0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=wbqDfipu7o_wKa2Xa6JZXQ&_nc_ss=7a20f&_nc_ct=RQosPBUIFQolBAAAAA&oh=00_AQTNDGyzkTb9sHyVww047mWmhbUsnS8AV1LrVE8nmy5NXg&oe=6B02BE63",
+      "publishedAt": "2026-11-18T00:00:38.000Z",
+      "metrics": {
+        "likes": 20,
+        "reposts": 3,
+        "replies": 2,
+        "views": 0
+      },
+      "title_ko": "구글 'Tasks' 한국 포함 6개국 무료 출시",
+      "summary_ko": "구글이 Gemini 4 Hydrogen 기반의 작업 대행 기능 'Tasks'를 한국을 포함한 6개국에 무료로 선보였다.\n이메일 전달만으로 일정 등록부터 상품 탐색·구매, 업체 전화 예약까지 지원하며 전화·결제 등 고급 기능은 미국부터 순차 제공된다.",
+      "tags": [
+        "구글 Tasks",
+        "Gemini 4",
+        "AI 비서"
+      ],
+      "relevance": 86,
+      "score": 64
+    },
+    {
+      "id": "x:2122805949203148959",
+      "platform": "x",
+      "author": "@therundownai",
+      "url": "https://x.com/therundownai/status/2122805949203148959",
+      "text": "SHIPPING: Microsoft introduced seven MAI models at its Ignite event, including new systems for coding, cyber defense, image editing, live voice, and more.\n\nHighlights include:\n\nMAI Code 2: within a few points of Claude Opus 5.5 on coding benchmarks, for a twentieth of what",
+      "thumbnail": "https://pbs.twimg.com/media/HXWQ0xcXgAE-LFy?format=webp&name=medium",
+      "publishedAt": "2026-11-17T21:35:52.774000+00:00",
+      "metrics": {
+        "likes": 22,
+        "reposts": 2,
+        "replies": 3,
+        "views": 3261
+      },
+      "title_ko": "MS 이그나이트서 MAI 모델 7종 대거 공개",
+      "summary_ko": "마이크로소프트가 Ignite 행사에서 코딩·사이버 방어·이미지 편집·실시간 음성을 아우르는 자체 MAI 모델 7종을 발표했다.\n핵심인 MAI Code 2는 코딩 벤치마크에서 Claude Opus 5.5에 근접하면서도 비용을 20분의 1 수준으로 낮췄다.",
+      "tags": [
+        "마이크로소프트",
+        "MAI Code 2",
+        "이그나이트"
+      ],
+      "relevance": 84,
+      "score": 63
+    },
+    {
+      "id": "instagram:Df1y03xMaHa",
+      "platform": "instagram",
+      "author": "@joshproductletter",
+      "url": "https://www.instagram.com/reel/Df1y03xMaHa/",
+      "text": "블렌더를 몰라도 클로드 코드에 말로만 3D 장면을 만들게 해 주는 무료 스킬 94개를 직접 써 봤어요.\n\n모델링·재질·조명·렌더링·애니메이션까지 분야별로 나뉜 스킬 묶음인데, 디렉터 스킬이 먼저 순서를 정해 줘요.\n\"책상 위 커피잔을 따뜻한 조명으로 만들어 줘\" 한 줄에 클로드 코드가 블렌더를 직접 돌려서 렌더 이미지를 폴더에 저장했어요.\n블렌더도 스킬도 무료라 클로드 코드만 있으면 바로 시작할 수 있어요.\n\n스킬 94개 한글 분류표, 설치 명령어, 바로 쓰는 3D 요청문 12개는 영상 마지막에서 받는 방법을 확인하세요.\n\n#클로드 #클로드코드 #클로드스킬 #ClaudeCode #블렌더 #Blender #3D모델링 #AI활용",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/907760454_17992092255063763_8543475040239867455_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMjM1MjU3Njk5OTYyOTI3NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjEwODAuc2RyLnZpZGVvX2RlZmF1bHRfY292ZXJfZnJhbWUuQzMifQ%3D%3D&_nc_ohc=KbECFlhu9UQQ7kNvwEyc36D&_nc_oc=AdrP9Bg-JK4y_XaKKWpQFd8vEXCRrJz_7TAHa4bLvUQNhohpb_ElfFt6B1PUajpXa04&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=aBuaQwUyVdEp3vilIKzM8Q&_nc_ss=7a2a8&_nc_ct=RQosPBUIFQQlBAAAAA&oh=00_AQT9Or4NglX0ebxZzlcZ4EpX7NgycSfxh99LjomMyvXSiw&oe=6B02C830",
+      "publishedAt": "2026-11-17T12:00:00.000Z",
+      "metrics": {
+        "likes": 12,
+        "reposts": 0,
+        "replies": 16,
+        "views": 0
+      },
+      "title_ko": "클로드 코드로 블렌더 3D 제작 무료 스킬 94종",
+      "summary_ko": "모델링·재질·조명·렌더링·애니메이션 등 분야별 스킬 94개를 묶어 클로드 코드 말 한 줄로 블렌더 3D 장면을 생성하는 활용기다.\n디렉터 스킬이 작업 순서를 잡아줘 블렌더 지식 없이도 로컬 렌더 이미지를 자동 저장할 수 있다.",
+      "tags": [
+        "클로드 코드",
+        "블렌더",
+        "3D 생성"
+      ],
+      "relevance": 82,
+      "score": 62
+    },
+    {
+      "id": "instagram:Df1rFRbD1og",
+      "platform": "instagram",
+      "author": "@joshproductletter",
+      "url": "https://www.instagram.com/p/Df1rFRbD1og/",
+      "text": "클로드 코드 같은 에이전트에게 광고 일을 맡기기 전에 먼저 챙길 준비물 네 가지를 정리했습니다.\n\n조회 14만 회를 넘긴 해외 대담에서 나온 세 가지(데이터, 권한, 도구)와 진행자가 덧붙인 한 가지(참고 자료 창고)입니다.\n\n✔️ 데이터 창고: 광고, 방문, 고객, 결제 데이터를 한곳에 모읍니다. 대담은 Airbyte로 옮기고 ClickHouse에 저장하는 구성을 소개했습니다\n✔️ 플랫폼 권한: 광고 플랫폼에는 소재 올리기, 광고 끄기 같은 쓰기만 맡기고, 숫자는 창고에서 읽습니다. 한꺼번에 많이 부르면 호출 한도에 걸리기 때문입니다\n✔️ 도구: fal, OpenRouter 같은 API 키가 있어야 에이전트가 광고 소재 만들기 같은 작업을 합니다\n✔️ 참고 자료 창고: 잘된 광고 예시를 모아 둡니다. 메타 광고 라이브러리에서 게재 중인 광고를 검색할 수 있습니다\n\n메타 마케팅 API는 광고 계정마다 호출에 점수를 매깁니다. 개발 티어 앱은 60점이 쌓이면 300초 동안 막히고, 전체 액세스 앱은 한도가 더 높습니다.\n\n창고가 없어도 광고 성과 표 한 개로 연습할 수 있습니다. 7번째 장의 표는 제가 만든 연습용 예시 숫자입니다. 클로드 코드에 넣어 보니 늘릴 광고와 끌 광고를 근거 숫자와 함께 제안했고, 표본이 작으니 기간과 추세를 확인하라는 주의도 덧붙였습니다.\n\n카드 속 화면은 각 도구 공식 사이트와 개발자 문서 캡처, 직접 그린 정리 그림, 그리고 클로드 코드에서 직접 실행한 화면입니다. 수치는 2026년 11월 17일 기준입니다.\n\n준비 체크리스트 20개와 연습용 요청문 10개는 마지막 장에서 받는 방법을 확인하세요.\n\n#클로드 #클로드코드 #AI에이전트 #마케팅 #퍼포먼스마케팅 #AI활용 #직장인AI #빌더조쉬",
+      "thumbnail": "https://scontent-nrt1-2.cdninstagram.com/v/t51.82787-15/910651261_17992086210063763_828291132389218948_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMjMxODQwOTA2NDM0NzgwOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIudmlkZW9fZGVmYXVsdF9jb3Zlcl9mcmFtZS5DMyJ9&_nc_ohc=EEID32j_82sQ7kNvwHSFHpN&_nc_oc=Ado5frgIEjDougGD6B9Bb9tjQdba9yKPx7ZHjgnCadmeaVjL_4xWXzy10Qp4a2oWXvY&_nc_zt=23&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_gid=aBuaQwUyVdEp3vilIKzM8Q&_nc_ss=7a2a8&_nc_ct=RQosPBUIFQQlBAAAAA&oh=00_AQQC0r7T1x0o1w_yfWHRHmPuk3Ds4eqOtACu4rXwYVDpkw&oe=6B02D16E",
+      "publishedAt": "2026-11-17T10:04:09.000Z",
+      "metrics": {
+        "likes": 8,
+        "reposts": 0,
+        "replies": 17,
+        "views": 0
+      },
+      "title_ko": "클로드 코드 광고 자동화 전 필수 준비물 4가지",
+      "summary_ko": "에이전트에 광고 운영을 맡기기 전에 데이터 창고(Airbyte·ClickHouse), 쓰기 전용 플랫폼 권한, 소재 API 도구, 레퍼런스 창고를 먼저 갖춰야 한다.\n메타 마케팅 API 호출 한도 제한을 피하려면 데이터 조회는 창고에서 처리하고 실행 권한만 분리하는 구조가 안정적이다.",
+      "tags": [
+        "클로드 코드",
+        "마케팅 자동화",
+        "API 설계"
+      ],
+      "relevance": 82,
+      "score": 62
+    },
+    {
+      "id": "threads:Df22OWxAp5W",
+      "platform": "threads",
+      "author": "@choi.openai",
+      "url": "https://www.threads.com/@choi.openai/post/Df22OWxAp5W",
+      "text": "Cognition도 상시 AI 에이전트 경쟁에 합류했습니다.\nAI 코딩 도구 Devin을 개발한 Cognition이 여러 AI가 팀처럼 협업하는 'Devin Bots'를 공개했는데요.\n테스트 담당 AI가 버그를 발견하면 개발 담당 AI가 수정하고, 코드 검토와 테스트까지 이어서 처리합니다. 사람은 중요한 결정에 개입할 수 있습니다.\nCognition에 따르면 베타 이용자들은 메시지당 평균 4.5배 많은 코드 변경 요청을 병합했다고 합니다.\nDots, Muse, Grokbot처럼 업무를 AI에 맡기는 흐름이 소프트웨어 개발 분야에서도 확대되고 있습니다.",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.71878-15/916220753_1161541449729893_9094815666430148362_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMjY0ODk5NzM4NTcwNzA5NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19maXJzdF9mcmFtZV90aHVtYm5haWwuQzMifQ%3D%3D&_nc_ohc=Q1TRn6Vj3VgQ7kNvwH-XNmh&_nc_oc=AdrnkiKIz1iaXGQ_gY0vEyMJ6K1xEa6-Yp3gdzMN6zGrplt9AE3h6E3RVL6g5L1ITzA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=wbqDfipu7o_wKa2Xa6JZXQ&_nc_ss=7a20f&_nc_ct=RQosPBUIFQolBAAAAA&oh=00_AQRU3tfc94gPV-MgetfdCQD3Isx2wRg7-pOFExugZWc4Og&oe=6B02C340",
+      "publishedAt": "2026-11-17T21:00:43.000Z",
+      "metrics": {
+        "likes": 15,
+        "reposts": 0,
+        "replies": 4,
+        "views": 0
+      },
+      "title_ko": "Cognition, 팀 협업 코딩 'Devin Bots' 공개",
+      "summary_ko": "Devin 개발사 Cognition이 테스트·개발·코드 검토 AI가 팀처럼 연동해 일하는 상시 에이전트 'Devin Bots'를 출시했다.\n사람은 주요 의사결정만 승인하며 베타 이용자 기준 메시지당 평균 4.5배 많은 PR 병합 효과를 기록했다.",
+      "tags": [
+        "Devin Bots",
+        "Cognition",
+        "상시 에이전트"
+      ],
+      "relevance": 84,
+      "score": 62
+    },
+    {
+      "id": "instagram:Df1xsAjI6kQ",
+      "platform": "instagram",
+      "author": "@aiscene.kr",
+      "url": "https://www.instagram.com/p/Df1xsAjI6kQ/",
+      "text": "AI 공부 무료 저장소 6개, 공부 순서대로 한 장씩 정리 📚\n\n02 해외에서 2,600번 저장된 AI 공부 모음\n03 1 입문 · 마이크로소프트 머신러닝 26강\n04 1 입문 · AI 24강, 한국어판도 있어요\n05 2 원리 · 카파시의 제로 투 히어로\n06 3 챗GPT · 그림으로 푼 LLM 책(핸즈온 LLM)\n07 3 주의 · 책은 유료, 예제 코드는 무료\n08 4 논문 · 랩엠엘, 코드 옆 설명\n09 5 서비스 · 메이드 위드 ML\n10 공부 순서 한 바퀴, 어떤 것부터 볼래요?\n\n릴스에 다 못 넣은 내용을 각 저장소 README를 바탕으로 정리했고, 그림은 공식 누리집·저장소 직접 녹화와 공식 이미지예요. 대부분 영어라 브라우저 번역을 켜면 편해요.\n\n📋 복사용\ngithub.com/microsoft/ML-For-Beginners\ngithub.com/microsoft/AI-For-Beginners\ngithub.com/karpathy/nn-zero-to-hero\ngithub.com/HandsOnLLM/Hands-On-Large-Language-Models\ngithub.com/labmlai/annotated_deep_learning_paper_implementations\ngithub.com/GokuMohandas/Made-With-ML\n\n출처: X 모음 글(abhigyanbuilds, 11/15) · 각 저장소 GitHub README · 화면은 각 저장소·공식 누리집의 공식 이미지와 AI씬 직접 녹화(마이크로소프트·karpathy.ai·llm-book.com·nn.labml.ai·madewithml.com). 영상 속 코드 몇 줄은 예시예요. 원글 7개 중 RAG_Techniques는 비상업 전용 라이선스라 뺐어요. 6개 저장소 모두 공식 보안 권고 0건(11/16 확인).\n\n#AI공부 #무료강의 #깃허브 #오픈소스 #머신러닝 #AI #AI씬",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/912271397_18118961792056710_7103553160198330997_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=107&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMTY1NjkzOTA5NzQxNTU3Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=ghU5J24X7tIQ7kNvwETii07&_nc_oc=AdqK2RonzNhQLRqXG8Bk6hGDHiAH3HF6vcktW-tUXSf0QcN02jbXwkpts99mm_d1E9I&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=pdxV4ycALYIxc7Sc9OehVQ&_nc_ss=7a6a8&_nc_ct=RQosPBUIFQIlBAAAAA&oh=00_AQQaJMVcoDwfACZ_ptNTw319O3W6B9L3yUWy7aq1BS1YrA&oe=6B02AB87",
+      "publishedAt": "2026-11-17T11:01:07.000Z",
+      "metrics": {
+        "likes": 15,
+        "reposts": 0,
+        "replies": 4,
+        "views": 0
+      },
+      "title_ko": "AI 입문부터 서비스까지 무료 깃허브 저장소 6선",
+      "summary_ko": "마이크로소프트 ML·AI 입문 강의부터 카파시 Zero to Hero, 핸즈온 LLM, 랩엠엘 논문 구현, Made With ML까지 6개 오픈소스 저장소를 학습 순서대로 정리했다.\n비상업 라이선스 저장소는 제외하고 공식 보안 권고가 없는 검증된 무료 자료들로 구성했다.",
+      "tags": [
+        "AI 공부",
+        "깃허브",
+        "무료 강의"
+      ],
+      "relevance": 82,
+      "score": 60
+    },
+    {
+      "id": "x:2122756346919465170",
+      "platform": "x",
+      "author": "@omarsar0",
+      "url": "https://x.com/omarsar0/status/2122756346919465170",
+      "text": "To learn where AI models and inference are headed, check out the SGLang Summit recap.\n\nThe summit brought together researchers and engineers working on frontier models, agents, and the infrastructure needed to run them at scale.\n\nNVIDIA, AMD, Google, Meta, and Intel also joined the new SGLang Consortium at the summit. 2,000+ people. Two days. The first SGLang Summit.\n\nTogether, we announced SGLang v1.0, released Miles v0.2, and launched the SGLang Consortium with nine founding members: , , , , , , , , and .\n\nSGLang is now",
+      "thumbnail": "https://pbs.twimg.com/media/HXV4oVtbgAAFl9X?format=webp&name=large",
+      "publishedAt": "2026-11-17T18:18:46.668000+00:00",
+      "metrics": {
+        "likes": 10,
+        "reposts": 0,
+        "replies": 3,
+        "views": 3061
+      },
+      "title_ko": "SGLang v1.0 출시 및 9개사 컨소시엄 출범",
+      "summary_ko": "2,000여 명이 참여한 첫 SGLang 서밋에서 추론 엔진 SGLang v1.0과 Miles v0.2가 공식 발표됐다.\n엔비디아·AMD·구글·메타·인텔 등 9개 창립 멤버가 참여하는 SGLang 컨소시엄도 함께 출범해 대규모 추론 생태계 표준화를 추진한다.",
+      "tags": [
+        "SGLang",
+        "추론 인프라",
+        "오픈소스"
+      ],
+      "relevance": 82,
+      "score": 59
+    },
+    {
+      "id": "x:2122788578623107225",
+      "platform": "x",
+      "author": "@omarsar0",
+      "url": "https://x.com/omarsar0/status/2122788578623107225",
+      "text": "Bullish on sovereign AI. More countries are building their own AI.\n\nAustralia's is Agentaus 1 from Trellis Data. It's a 220B model that scores 84.4% on MMLU-Pro and runs on half the GPUs of similar-sized models.\n\nIt runs on Australian servers and never trains on your data. We built Australia’s own AI model, and today it’s open to the world.\n\nAgentaus 1 ( ): 220B parameters. 84.4% on MMLU-Pro. Ranked 43rd in the world.\n\nIt runs on Australian servers. Nothing ever leaves Australia, and nothing you type is used to train AI. Delete a chat and",
+      "thumbnail": "",
+      "publishedAt": "2026-11-17T20:26:51.305000+00:00",
+      "metrics": {
+        "likes": 12,
+        "reposts": 0,
+        "replies": 6,
+        "views": 2987
+      },
+      "title_ko": "호주 소버린 AI 220B 모델 Agentaus 1 공개",
+      "summary_ko": "호주 Trellis Data가 자국 서버에서만 구동되며 사용자 데이터를 학습에 쓰지 않는 220B 소버린 모델 Agentaus 1을 공개했다.\nMMLU-Pro 84.4%를 기록하면서도 동급 모델 대비 절반 수준의 GPU 자원으로 동작해 데이터 주권 수요를 겨냥한다.",
+      "tags": [
+        "소버린 AI",
+        "Agentaus 1",
+        "프라이버시"
+      ],
+      "relevance": 78,
+      "score": 58
+    },
+    {
+      "id": "instagram:Df3ENZSgkom",
+      "platform": "instagram",
+      "author": "@ai_insight.kr",
+      "url": "https://www.instagram.com/p/Df3ENZSgkom/",
+      "text": "댓글에 「로봇」 남겨 주세요.\n\nAI가 위험한 지시는 알아서 거절할 거라 믿었다면, 카메라 화면 하나로 그 믿음이 흔들려요.\n\n로보커브가 로봇 팔을 움직이는 AI 모델 5개에 칼·표백제·토스터를 쓰는 위험한 지시 5개를 내렸어요.\n원본 화면에선 300번 중 81번 시도했지만 화면을 흐리게만 해도 263번, AI로 고친 화면에선 291번 시도했어요.\n클로드 페이블 5.1은 원본 화면에선 인형 찌르기를 거절했고, 흐린 화면에선 칼을 더 밀어 넣었어요.\n\n병·컵은 비어 있었고 콘센트 전원은 꺼져 있던 소품 실험이에요. 수치는 「시도」 비율이에요.\n💬 「로봇」 ➡️ 모델 5개 결과표 + 맡기기 전 챙길 것 3가지 📩\n\n#AI인사이트 #AI안전 #로봇 #피지컬AI #클로드 #ChatGPT #제미나이 #AI뉴스 #AI연구 #로보틱스\n\n출처\nhttps://robocurve.org/robospoof\nX: @robocurve\n표지 사진: Robocurve 공식 영상 · CC BY 4.0",
+      "thumbnail": "https://scontent-nrt1-1.cdninstagram.com/v/t51.82787-15/907122935_18119222384143378_5139788898484418010_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=102&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMjcxMDE3MzM4MjU4MjA5NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=bQBCcFtmDToQ7kNvwHHzt5I&_nc_oc=Adq-TlguVepXZE-dqbtH6qR0uI0a5vxVdigTgPQTxXKmrnG07hkYje9QwD7CS3CtROE&_nc_zt=23&_nc_ht=scontent-nrt1-1.cdninstagram.com&_nc_gid=thXo1Q5YFhA9_nVXYdvYjg&_nc_ss=7a6a8&_nc_ct=RQosPBUIFQIlBAAAAA&oh=00_AQShMZI3eKDSilGSG5AtUW1XQ5yAt4zSFhGbZJwGTVByuQ&oe=6B02AD30",
+      "publishedAt": "2026-11-17T23:03:10.000Z",
+      "metrics": {
+        "likes": 1,
+        "reposts": 0,
+        "replies": 0,
+        "views": 0
+      },
+      "title_ko": "흐린 카메라로 로봇 AI 안전 거절 무력화 실험",
+      "summary_ko": "로보커브가 로봇 팔 제어 AI 5종에 위험 지시를 테스트한 결과 원본 화면에서는 300회 중 81회 시도했으나, 화면을 흐리게 하자 263회·AI 변조 시 291회로 급증했다.\n클로드 페이블 5.1도 흐린 영상에서는 위험 동작 거절에 실패해 피지컬 AI의 시각 입력 보안 보완 필요성을 시사한다.",
+      "tags": [
+        "피지컬 AI",
+        "로봇 안전",
+        "Robospoof"
+      ],
+      "relevance": 84,
+      "score": 53
+    },
+    {
+      "id": "instagram:Df2aeQVAG2f",
+      "platform": "instagram",
+      "author": "@ai_insight.kr",
+      "url": "https://www.instagram.com/p/Df2aeQVAG2f/",
+      "text": "댓글에 「해부」 남겨 주세요.\n\n따라 만들고 싶던 릴스·광고가 있다면, 영상 한 편을 넣어 샷마다 어떻게 만들었는지 받아 볼 수 있어요.\n\n무료 오픈소스 rea-video는 영상을 샷 단위로 나눠 직접 찍은 건지, AI로 만든 건지, 코드로 짠 건지 가려내요.\n자막 줄마다 시작·끝 시각, 컷 위치와 속도, 배경음 BPM과 효과음 자리까지 적어 줘요.\n클로드 코드나 코덱스에 저장소 주소와 함께 「설치하고 이 영상 분석해 줘」라고 쓰면 설치부터 분석까지 알아서 해요.\n\n도구만 쓰는 기본 모드는 무료예요. 제미나이 같은 영상 모델을 붙이면 그 서비스 요금이 나가고, 클로드 코드·코덱스는 쓰는 요금제를 따라요. 내 컴퓨터에 ffmpeg와 Python 3.10 이상이 있어야 하고, 리포트는 영어·중국어로 나와요.\n남의 영상·음악·얼굴은 다시 쓰지 말고, 구조만 배워 내 소재로 만드세요.\n💬 「해부」 ➡️ 영상 종류 7가지별 바로 붙여 넣는 요청 문장 7개 📩\n\n#AI인사이트 #릴스편집 #영상분석 #클로드코드 #코덱스 #AI영상 #숏폼제작 #광고영상 #오픈소스 #깃허브\n\n출처\nhttps://github.com/JuneYaooo/rea-video\n개발자 X: @yao_june12106\n표지 화면: GitHub JuneYaooo/rea-video",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/910869276_18119189066143378_7751150279527453569_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&_nc_map=urlgen_bucketless&ig_cache_key=NDAzMjUyNjE0OTA5OTg1ODc3OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=c51dILpDCEcQ7kNvwF-WfWk&_nc_oc=Adp68sDEVFClmYczx8_VM4HS-xyyGVhnuBYzgt5gsP9t0H8bQVyyoU1jeK6dtXZbu_4&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=thXo1Q5YFhA9_nVXYdvYjg&_nc_ss=7a6a8&_nc_ct=RQosPBUIFQIlBAAAAA&oh=00_AQT5R1V885K3y1ZEbbBM1GtQOA2ru7xktueeXkOwPPxyLg&oe=6B02CC21",
+      "publishedAt": "2026-11-17T16:58:24.000Z",
+      "metrics": {
+        "likes": 0,
+        "reposts": 0,
+        "replies": 0,
+        "views": 0
+      },
+      "title_ko": "영상 샷·BGM을 해부하는 오픈소스 rea-video",
+      "summary_ko": "무료 오픈소스 rea-video는 영상을 샷 단위로 분해해 실사·AI·코드 생성 여부를 판별하고 자막 시점, 컷 속도, 배경음 BPM까지 분석해 준다.\nffmpeg와 Python 3.10 환경에서 클로드 코드나 코덱스에 저장소 주소를 넘겨 설치부터 구조 분석까지 자동 실행할 수 있다.",
+      "tags": [
+        "rea-video",
+        "영상 분석",
+        "오픈소스"
+      ],
+      "relevance": 82,
+      "score": 49
+    }
+  ]
+}

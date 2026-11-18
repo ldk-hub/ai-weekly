@@ -102,6 +102,7 @@ graph TD
 - [[05-benchmarks 점유율·성능 파이프라인|📊 benchmarks 점유율·성능 파이프라인 명세]]
 
 ### 📅 날짜별 작업 일지 (Work Logs)
+- [[2026-11-18 작업일지|📅 2026-11-18 작업일지 (평일 cc-daily 완수: 스타보드 626개 100% 갱신, 데일리 뉴스 18건·소셜 피드 20건 큐레이션 및 검증 통과, RSS/OG/라운지·빌드·옵시디언 동기화)]]
 - [[2026-11-17 작업일지|📅 2026-11-17 작업일지 (주간 cc-weekly 완수 및 파이프라인 6대 취약점 패치: 스타보드 622개 100%, 트렌드 33건·신규 13종 사전 확충, 벤치마크 검증, 뉴스 18건·소셜 19건 배포, 빌드·테스트 10/10 통과)]]
 - [[2026-11-16 작업일지|📅 2026-11-16 작업일지 (주간 cc-weekly: 스타보드 622개 추적, 트렌드 33건, 벤치마크 검증, 뉴스 18건 배포)]]
 - [[2026-11-13 작업일지|📅 2026-11-13 작업일지 (평일 cc-daily: 스타보드 618개 100% 갱신, 데일리 AI 뉴스 18건·소셜 피드 6건 큐레이션 및 검증, RSS/OG/라운지·옵시디언 동기화)]]
@@ -326,6 +327,41 @@ tags: [ai-weekly, benchmarks, frontier-models, market-share, pipeline, staleness
 
 // 3. 작업 일지들
 const LOGS = [
+  {
+    filename: "2026-11-18 작업일지.md",
+    title: "2026-11-18 작업일지 — 평일 데일리 파이프라인(cc-daily) 완수",
+    date: "2026-11-18",
+    content: `---
+title: 2026-11-18 작업일지
+date: 2026-11-18
+type: work-log
+tags: [ai-weekly, work-log, cc-daily, cc-star, cc-news, cc-social, obsidian-sync]
+status: completed
+author: ldk-hub <orm6711@gmail.com>
+---
+
+# 📅 2026-11-18 작업일지 (평일 데일리 파이프라인 cc-daily 완수)
+
+## 📌 1. 평일 파이프라인 실행 요약
+
+### 1) 스타보드 갱신 (cc-star)
+- **추적 대상 및 성공률**: 총 626개 오픈소스 리포지토리 전수 추적 완료 (\`Success: 626 (100%)\`, 당일 체크 577건, \`404 Gone: 49\`, \`Renames: 0\`, \`Suspects: 0\`).
+- **일일 스타 증가 Top 5**: \`morluto/rea\` (+1,758★, 466,274★), \`stablyai/orca\` (+893★, 127,825★), \`mvanhorn/last30days-skill\` (+749★, 69,030★), \`affaan-m/ECC\` (+736★, 305,483★), \`DietrichGebert/ponytail\` (+712★, 193,014★).
+
+### 2) 데일리 AI 뉴스 큐레이션 (cc-news)
+- **수집 현황**: 8개 활성 매체 총 55건 수집(\`geeknews\` 5, \`aitimes\` 5, \`hackernews\` 9, \`hfpapers\` 12, \`bluesky\` 4, \`x\` 6, \`threads\` 6, \`instagram\` 8; \`github\`은 \`cc-star\` 전담 이관). \`[MISSING]\`: Reddit(5개 서브레딧 모두 429/404 rate limit으로 0건). X는 쿠키 미설정으로 Scrapling 폴백 동작해 6건 수집. 최근 7일 배포분(12개 파일·106 URL)과 겹친 1건 사전 차단.
+- **큐레이션 및 검증**: 18건 균형 선별(\`model\` 3, \`devtool\` 3, \`research\` 3, \`product\` 3, \`practice\` 2, \`policy\` 2, \`oss\` 1, \`insight\` 1), 매체 분포 \`Hacker News\` 4·\`AI타임스\` 2·\`GeekNews\` 2·\`HF Daily Papers\` 2·\`Bluesky\` 2·\`X\` 2·\`Threads\` 2·\`Instagram\` 2. \`curate_news.js --validate\` 통과 및 \`archive/news_2026-11-18.json\`, \`news_index.json\` 양쪽 동기화 완료.
+- **주요 이슈**: GPT-6.2 Astra/Sol 출시 및 API 20% 인하, MS MAI Code 2 & Flash, 텐센트 Hy4 플래시, OpenJDK Java4Shell(CVE-2026-114938), Claude Mythos AMD GPU 3일 온보딩, 하버드 연구(코드 리뷰 병목 49% 증가), SPILLWAY·SWE-CoWork 논문 등.
+
+### 3) 소셜 피드 갱신 (cc-social)
+- **수집 현황**: 활성 시드(\`x\` 8, \`threads\` 3, \`instagram\` 6, \`reddit\` 6) 기준 원본 \`x=40\`, \`threads=15\`, \`reddit=0\`(429/404), \`instagram=18\` 수집 후 7일 중복 10건 제외하여 24시간 후보 30건(\`x:16\`, \`threads:5\`, \`instagram:9\`) 확보.
+- **큐레이션 및 아카이브**: 20건 균형 선별(\`x:10\`, \`instagram:7\`, \`threads:3\`), \`build_social_archive.js\` 누적 6일·104건 동기화 및 \`curate_social.js --validate\` 통과.
+
+### 4) 리소스 갱신·빌드·옵시디언 동기화
+- **배포 리소스 및 빌드**: \`lounge_latest.json\`(스레드 1·댓글 1), \`feed.xml\`, \`news-feed.xml\`, \`sitemap.xml\`, OG 이미지 4종(\`og.svg/png\`, \`og-social.svg/png\`) 갱신 및 \`vite build\`(289ms) 완료.
+- **옵시디언 볼트**: \`npm run sync:obsidian\`으로 작업일지 및 대시보드 동기화 완료.
+`,
+  },
   {
     filename: "2026-11-17 작업일지.md",
     title: "2026-11-17 작업일지 — 주간 종합 파이프라인(cc-weekly) 완수 및 6대 파이프라인 취약점 점검·개선",
