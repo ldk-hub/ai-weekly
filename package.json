@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "bake:sanctuary": "node scripts/bake_sanctuary_assets.js",
     "preview": "vite preview",
     "data:news": "node scripts/news/collect_news.js && node scripts/news/curate_news.js",
     "data:stars": "node scripts/stars/collect-stars.js",
@@ -24,6 +25,7 @@
     "cheerio": "^1.2.0",
     "moment-timezone": "^0.6.3",
     "playwright": "^1.61.1",
-    "rss-parser": "^3.13.0"
+    "rss-parser": "^3.13.0",
+    "three": "^0.170.0"
   }
 }
