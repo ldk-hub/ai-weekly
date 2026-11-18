@@ -2,6 +2,8 @@ import * as THREE from "three";
 import { loadSpriteActor, loadSanctuaryEnvironment } from "./sanctuary/AssetManager.js";
 import { QuarterViewController } from "./sanctuary/QuarterViewController.js";
 import { SanctuaryVFX } from "./sanctuary/SanctuaryVFX.js";
+import { SanctuaryChat } from "./sanctuary/SanctuaryChat.js";
+import { SanctuaryAtmosphere } from "./sanctuary/SanctuaryAtmosphere.js";
 
 const THEME_KEY = "aiw-theme";
 const DIR_NAMES = ["S", "SW", "W", "NW", "N", "NE", "E", "SE"];
@@ -30,13 +32,13 @@ const AVATAR_DEFS = {
 const SHRINE_DEFS = [
   {
     id: "plugins",
-    title: "인기 플러그인 성소",
+    title: "인기 플러그인 공방",
     curatorName: "연금술사 엘라",
-    roleBadge: "PLUGIN SHRINE",
+    roleBadge: "PLUGIN FORGE",
     atlasUrl: "assets/sprites/Curator_Ella_8dir_atlas.json",
-    x: -4.4,
-    z: -1.6,
-    facing: 1.0,
+    x: -15.0,
+    z: -16.2,
+    facing: 0.0,
     palette: "holy",
     pageHref: "./",
     pageLabel: "인기 플러그인 ↗",
@@ -44,13 +46,13 @@ const SHRINE_DEFS = [
   },
   {
     id: "news",
-    title: "AI 뉴스 중앙 제단",
+    title: "AI 뉴스 대도서관",
     curatorName: "뉴스 사서 셀레네",
-    roleBadge: "NEWS ALTAR",
+    roleBadge: "NEWS LIBRARY",
     atlasUrl: "assets/sprites/Astral_Sage_8dir_atlas.json",
-    x: 0.2,
-    z: -4.6,
-    facing: 0.1,
+    x: 15.0,
+    z: -16.2,
+    facing: 0.0,
     palette: "arcane",
     pageHref: "news",
     pageLabel: "AI 뉴스 ↗",
@@ -60,11 +62,11 @@ const SHRINE_DEFS = [
     id: "social",
     title: "소셜 피드 라운지",
     curatorName: "소셜 바드 루나",
-    roleBadge: "SOCIAL LOUNGE",
+    roleBadge: "SOCIAL SALON",
     atlasUrl: "assets/sprites/Curator_Luna_8dir_atlas.json",
-    x: 4.5,
-    z: -1.4,
-    facing: -1.1,
+    x: -15.0,
+    z: 16.2,
+    facing: Math.PI,
     palette: "shadow",
     pageHref: "social",
     pageLabel: "소셜 피드 ↗",
@@ -72,13 +74,13 @@ const SHRINE_DEFS = [
   },
   {
     id: "benchmarks",
-    title: "스타보드·벤치마크 성소",
+    title: "벤치마크 관측소",
     curatorName: "벤치마크 나이트 레온",
-    roleBadge: "BENCHMARKS & STAR",
+    roleBadge: "OBSERVATORY",
     atlasUrl: "assets/sprites/Curator_Leon_8dir_atlas.json",
-    x: 3.5,
-    z: 3.2,
-    facing: -2.4,
+    x: 15.0,
+    z: 16.2,
+    facing: Math.PI,
     palette: "emerald",
     pageHref: "benchmarks",
     pageLabel: "점유율·성능 ↗",
@@ -87,12 +89,18 @@ const SHRINE_DEFS = [
 ];
 
 const CITIZEN_SPAWNS = [
-  { id: "cit-1", atlas: "assets/sprites/Citizen_Ranger_8dir_atlas.json", x: -7.2, y: 0.36, z: -0.6, facing: Math.PI * 0.5, action: "Sit", roam: false },
-  { id: "cit-2", atlas: "assets/sprites/Citizen_Minstrel_8dir_atlas.json", x: -6.1, y: 0, z: -1.1, facing: -0.6, action: "Idle", roam: false },
-  { id: "cit-3", atlas: "assets/sprites/Citizen_Sura_8dir_atlas.json", x: 7.2, y: 0.36, z: 0.2, facing: -Math.PI * 0.5, action: "Sit", roam: false },
-  { id: "cit-4", atlas: "assets/sprites/Citizen_Mechanic_8dir_atlas.json", x: 0.1, y: 0.36, z: -7.2, facing: 0, action: "Sit", roam: false },
-  { id: "cit-5", atlas: "assets/sprites/Citizen_Ranger_8dir_atlas.json", x: -3.6, y: 0, z: 4.4, facing: 0.9, action: "Idle", roam: true },
-  { id: "cit-6", atlas: "assets/sprites/Citizen_Minstrel_8dir_atlas.json", x: -2.4, y: 0.36, z: 7.15, facing: Math.PI, action: "Sit", roam: false },
+  { id: "cit-1", atlas: "assets/sprites/Citizen_Ranger_8dir_atlas.json", x: -5.5, y: 0.36, z: -5.5, facing: Math.PI * 0.25, action: "Sit", roam: false },
+  { id: "cit-2", atlas: "assets/sprites/Citizen_Minstrel_8dir_atlas.json", x: -6.2, y: 0, z: 2.2, facing: 0.6, action: "Idle", roam: true, roamRadius: 5.5 },
+  { id: "cit-3", atlas: "assets/sprites/Citizen_Sura_8dir_atlas.json", x: 5.5, y: 0.36, z: 5.5, facing: -Math.PI * 0.75, action: "Sit", roam: false },
+  { id: "cit-4", atlas: "assets/sprites/Citizen_Mechanic_8dir_atlas.json", x: -4.2, y: 0.36, z: -16.0, facing: Math.PI * 0.5, action: "Sit", roam: false },
+  { id: "cit-5", atlas: "assets/sprites/Citizen_Ranger_8dir_atlas.json", x: 0.0, y: 0, z: -13.5, facing: 0.0, action: "Idle", roam: true, roamRadius: 7.0 },
+  { id: "cit-6", atlas: "assets/sprites/Citizen_Minstrel_8dir_atlas.json", x: 0.0, y: 0, z: 14.5, facing: Math.PI, action: "Idle", roam: true, roamRadius: 7.0 },
+  { id: "cit-7", atlas: "assets/sprites/Citizen_Sura_8dir_atlas.json", x: -13.0, y: 0, z: 0.2, facing: Math.PI * 0.5, action: "Idle", roam: true, roamRadius: 6.0 },
+  { id: "cit-8", atlas: "assets/sprites/Citizen_Mechanic_8dir_atlas.json", x: 13.0, y: 0, z: -0.2, facing: -Math.PI * 0.5, action: "Idle", roam: true, roamRadius: 6.0 },
+  { id: "cit-9", atlas: "assets/sprites/Citizen_Minstrel_8dir_atlas.json", x: -24.5, y: 0.04, z: -0.6, facing: 0.2, action: "Idle", roam: false },
+  { id: "cit-10", atlas: "assets/sprites/Citizen_Mechanic_8dir_atlas.json", x: 24.5, y: 0.04, z: -0.6, facing: -0.2, action: "Idle", roam: false },
+  { id: "cit-11", atlas: "assets/sprites/Citizen_Ranger_8dir_atlas.json", x: -15.0, y: 0, z: -8.0, facing: Math.PI, action: "Idle", roam: true, roamRadius: 4.5 },
+  { id: "cit-12", atlas: "assets/sprites/Citizen_Sura_8dir_atlas.json", x: 15.0, y: 0, z: 8.0, facing: 0, action: "Idle", roam: true, roamRadius: 4.5 },
 ];
 
 function esc(str) {
@@ -205,10 +213,39 @@ class SanctuaryArchiveApp {
 
     this.raycaster = new THREE.Raycaster();
     this.walkableMeshes = [];
+    this.colliders = [];
+    this.buildings = [];
     this.envFx = {};
     this.shrines = [];
     this.citizens = [];
+    this.remotePeers = new Map(); // clientId -> peer actor record
     this.keys = new Set();
+    this.currentZoneName = "중앙 분수 광장";
+
+    this.chat = new SanctuaryChat({
+      onNicknameChange: (nick) => {
+        this.hero.displayName = nick;
+      },
+      onSelfPublicChat: (text) => {
+        this.hero.chatText = text;
+        this.hero.chatUntil = Date.now() + 10000;
+      },
+      onPeerUpdate: (peerData) => this._upsertRemotePeer(peerData),
+      onPeerLeave: (clientId) => this._removeRemotePeer(clientId),
+      onPeerPublicChat: (clientId, text) => {
+        const p = this.remotePeers.get(clientId);
+        if (p) {
+          p.chatText = text;
+          p.chatUntil = Date.now() + 10000;
+        }
+      },
+      onRemoteFx: (fx) => {
+        if (fx?.kind === "firework" && this.atmosphere) {
+          this.atmosphere.launchFirework(fx.x ?? null, fx.z ?? null);
+        }
+      },
+      onCommand: (cmd, arg) => this._handleAtmosphereCommand(cmd, arg),
+    });
 
     this.archiveData = {
       plugins: { updated: "최신", items: [] },
@@ -225,17 +262,20 @@ class SanctuaryArchiveApp {
       id: "hero-avatar",
       role: "hero",
       classKey: "Solar_Guard",
-      displayName: AVATAR_DEFS.Solar_Guard.displayName,
+      displayName: this.chat?.nickname || AVATAR_DEFS.Solar_Guard.displayName,
       roleBadge: AVATAR_DEFS.Solar_Guard.roleBadge,
       actor: null,
-      position: new THREE.Vector3(-1.4, 0, 3.0),
-      facingAngle: 2.5,
+      position: new THREE.Vector3(0, 0, 3.6),
+      facingAngle: Math.PI,
       moveTarget: null,
+      moveQueue: [],
       pendingShrineId: null,
       isSitting: false,
       castState: null,
       emoteText: "",
       emoteUntil: 0,
+      chatText: "",
+      chatUntil: 0,
       tickerText: "",
       isActiveShrine: false,
       overlayHeight: 2.5,
@@ -266,30 +306,31 @@ class SanctuaryArchiveApp {
     this.scene.add(this.hemiLight);
 
     this.dirLight = new THREE.DirectionalLight(0xffefc2, 2.55);
-    this.dirLight.position.set(-15, 22, 11);
+    this.dirLight.position.set(-18, 28, 14);
     this.dirLight.castShadow = true;
     this.dirLight.shadow.mapSize.set(2048, 2048);
     this.dirLight.shadow.camera.near = 4;
-    this.dirLight.shadow.camera.far = 60;
-    const d = 17;
+    this.dirLight.shadow.camera.far = 80;
+    const d = 26;
     this.dirLight.shadow.camera.left = -d;
     this.dirLight.shadow.camera.right = d;
     this.dirLight.shadow.camera.top = d;
     this.dirLight.shadow.camera.bottom = -d;
     this.dirLight.shadow.bias = -0.0004;
     this.scene.add(this.dirLight);
+    this.scene.add(this.dirLight.target);
 
     // Glowing Cyan Crystal Fountain Bounce Light
-    this.fountainLight = new THREE.PointLight(0x67e8f9, 2.8, 9.5);
+    this.fountainLight = new THREE.PointLight(0x67e8f9, 2.8, 11);
     this.fountainLight.position.set(0, 2.2, 0);
     this.scene.add(this.fountainLight);
   }
 
   applyTheme() {
-    // Keep outdoor plaza warmly sunlit like the concept art across both UI themes
+    // Keep outdoor city warmly sunlit with wide horizon clarity
     const hazeHex = 0xd9caa4;
     this.scene.background = new THREE.Color(hazeHex);
-    this.scene.fog = new THREE.FogExp2(hazeHex, 0.011);
+    this.scene.fog = new THREE.FogExp2(hazeHex, 0.0055);
   }
 
   async start() {
@@ -299,6 +340,15 @@ class SanctuaryArchiveApp {
 
     this.envFx = await loadSanctuaryEnvironment("assets/models/sanctuary_environment.glb", this.scene);
     this.walkableMeshes = this.envFx.walkableMeshes;
+    this.colliders = this.envFx.colliders || [];
+    this.buildings = this.envFx.buildings || [];
+    this.atmosphere = new SanctuaryAtmosphere(
+      this.scene,
+      { dirLight: this.dirLight, ambientLight: this.ambientLight, hemiLight: this.hemiLight },
+      this.envFx
+    );
+    this._lastAtmoUiSync = 0;
+    this._syncAtmoLabels();
 
     await Promise.all([
       this.switchAvatar("Solar_Guard"),
@@ -310,6 +360,16 @@ class SanctuaryArchiveApp {
     this._bindEvents();
     this.activateShrine("plugins", false);
     this._startTickerLoop();
+    this.chat.start();
+    this.chat.updateZoneLabel(this._computeZoneName(this.hero.position));
+    this.chat.broadcastState({
+      classKey: this.hero.classKey,
+      x: this.hero.position.x,
+      z: this.hero.position.z,
+      facing: this.hero.facingAngle,
+      action: "Idle",
+      zone: this.currentZoneName,
+    }, true);
     this._loop(performance.now());
   }
 
@@ -409,7 +469,7 @@ class SanctuaryArchiveApp {
     const spec = AVATAR_DEFS[classKey];
     if (!spec) return;
     this.hero.classKey = classKey;
-    this.hero.displayName = spec.displayName;
+    this.hero.displayName = this.chat?.nickname || spec.displayName;
     this.hero.roleBadge = spec.roleBadge;
     this.hero.isSitting = false;
 
@@ -456,7 +516,7 @@ class SanctuaryArchiveApp {
     }, 4500);
   }
 
-  activateShrine(shrineId, walkToIt = true) {
+  activateShrine(shrineId, walkToIt = true, openReader = false) {
     const shrine = this.shrines.find((s) => s.id === shrineId);
     if (!shrine) return;
 
@@ -469,18 +529,26 @@ class SanctuaryArchiveApp {
     });
 
     this.renderReaderPanel();
+    if (openReader) {
+      const readerEl = document.getElementById("sanctuary-reader");
+      if (readerEl) readerEl.hidden = false;
+    }
 
     const dist = this.hero.position.distanceTo(shrine.position);
     if (walkToIt && dist > 2.2) {
-      const dir = new THREE.Vector3().subVectors(this.hero.position, shrine.position).setY(0).normalize();
-      if (dir.lengthSq() < 0.01) dir.set(0, 0, 1);
-      const dest = shrine.position.clone().addScaledVector(dir, 1.55);
+      const building = this.buildings.find((b) => b.id === shrineId);
+      const heroInSameBuilding = building && this._isPointInBounds(this.hero.position, building.interiorBounds);
+      const dest = shrine.position.clone().add(new THREE.Vector3(0, 0, shrine.z < 0 ? 1.55 : -1.55));
       dest.y = 0;
-      this.hero.moveTarget = dest;
-      this.hero.pendingShrineId = shrineId;
+
+      if (building && !heroInSameBuilding) {
+        const prefix = this._routePlazaToDoor(this.hero.position, building.doorApproach);
+        this._setHeroMovePath([...prefix, building.doorApproach.clone(), building.doorThreshold.clone(), dest], shrineId);
+      } else {
+        this._setHeroMovePath([dest], shrineId);
+      }
       this.hero.isSitting = false;
       document.getElementById("btn-sit")?.classList.remove("is-active");
-      this.vfx.setMoveTargetMarker(dest);
     } else {
       this._resonateShrine(shrine);
     }
@@ -694,6 +762,71 @@ class SanctuaryArchiveApp {
     if (label) this._resonateShrine(shrine, label, tag);
   }
 
+  _isPointInBounds(pt, b) {
+    return pt.x >= b.minX && pt.x <= b.maxX && pt.z >= b.minZ && pt.z <= b.maxZ;
+  }
+
+  _routePlazaToDoor(from, dest) {
+    const inPlaza = Math.abs(from.x) < 9.4 && Math.abs(from.z) < 9.4;
+    const destOutside = Math.abs(dest.x) > 9.4 || Math.abs(dest.z) > 9.4;
+    if (!inPlaza || !destOutside) return [];
+    // Exit via closest open cardinal avenue (W, E, N, or S) before turning into quadrant
+    if (Math.abs(dest.x) >= Math.abs(dest.z)) {
+      return [new THREE.Vector3(dest.x < 0 ? -12.0 : 12.0, 0, 0)];
+    }
+    return [new THREE.Vector3(0, 0, dest.z < 0 ? -12.0 : 12.0)];
+  }
+
+  _setHeroMovePath(points, pendingShrineId = null) {
+    const queue = points.filter(Boolean).map((p) => p.clone());
+    if (!queue.length) return;
+    this.hero.moveTarget = queue.shift();
+    this.hero.moveQueue = queue;
+    this.hero.pendingShrineId = pendingShrineId;
+    this.vfx.setMoveTargetMarker(queue.length ? queue[queue.length - 1] : this.hero.moveTarget);
+  }
+
+  _resolveCityCollisions(nx, nz, radius = 0.45) {
+    let x = THREE.MathUtils.clamp(nx, -32.5, 32.5);
+    let z = THREE.MathUtils.clamp(nz, -32.5, 32.5);
+
+    // Central crystal fountain basin circle
+    const rF = Math.hypot(x, z);
+    if (rF < 2.2) {
+      x *= 2.2 / Math.max(0.01, rF);
+      z *= 2.2 / Math.max(0.01, rF);
+    }
+
+    // Solid building walls, plaza corners, and skyline blocks
+    for (const box of this.colliders) {
+      const closestX = THREE.MathUtils.clamp(x, box.minX, box.maxX);
+      const closestZ = THREE.MathUtils.clamp(z, box.minZ, box.maxZ);
+      const dx = x - closestX;
+      const dz = z - closestZ;
+      const distSq = dx * dx + dz * dz;
+      if (distSq < radius * radius) {
+        if (distSq > 0.00001) {
+          const dist = Math.sqrt(distSq);
+          const push = radius - dist;
+          x += (dx / dist) * push;
+          z += (dz / dist) * push;
+        } else {
+          // Inside AABB: push out via nearest face
+          const dLeft = Math.abs(x - box.minX);
+          const dRight = Math.abs(box.maxX - x);
+          const dTop = Math.abs(z - box.minZ);
+          const dBot = Math.abs(box.maxZ - z);
+          const m = Math.min(dLeft, dRight, dTop, dBot);
+          if (m === dLeft) x = box.minX - radius;
+          else if (m === dRight) x = box.maxX + radius;
+          else if (m === dTop) z = box.minZ - radius;
+          else z = box.maxZ + radius;
+        }
+      }
+    }
+    return { x, z };
+  }
+
   _handleLeftClick(clientX, clientY) {
     const rect = this.canvas.getBoundingClientRect();
     const ndc = new THREE.Vector2(
@@ -702,30 +835,155 @@ class SanctuaryArchiveApp {
     );
     this.raycaster.setFromCamera(ndc, this.controller.camera);
 
+    const peerMeshes = [...this.remotePeers.values()].filter((p) => p.actor?.mesh).map((p) => p.actor.mesh);
+    if (peerMeshes.length) {
+      const peerHits = this.raycaster.intersectObjects(peerMeshes, false);
+      if (peerHits.length > 0) {
+        const cid = peerHits[0].object.userData.peerClientId;
+        if (cid) this.chat.selectUserThread(cid);
+        return;
+      }
+    }
+
     const curatorMeshes = this.shrines.map((s) => s.actor.mesh);
     const shrineHits = this.raycaster.intersectObjects(curatorMeshes, false);
     if (shrineHits.length > 0) {
-      this.activateShrine(shrineHits[0].object.userData.shrineId, true);
+      this.activateShrine(shrineHits[0].object.userData.shrineId, true, true);
       return;
+    }
+
+    // Clicking a closed building roof walks the hero straight inside through its doorway
+    const visibleRoofs = this.buildings.filter((b) => b.roofGroup.visible).map((b) => b.roofGroup);
+    const roofHits = this.raycaster.intersectObjects(visibleRoofs, true);
+    if (roofHits.length > 0) {
+      const bId = roofHits[0].object.userData.enterBuildingId;
+      const building = this.buildings.find((b) => b.id === bId);
+      if (building) {
+        this.hero.isSitting = false;
+        document.getElementById("btn-sit")?.classList.remove("is-active");
+        const prefix = this._routePlazaToDoor(this.hero.position, building.doorApproach);
+        this._setHeroMovePath([...prefix, building.doorApproach, building.doorThreshold, building.center], null);
+        return;
+      }
     }
 
     const groundHits = this.raycaster.intersectObjects(this.walkableMeshes, false);
     if (groundHits.length > 0) {
       const pt = groundHits[0].point.clone();
-      pt.x = THREE.MathUtils.clamp(pt.x, -8.3, 8.3);
-      pt.z = THREE.MathUtils.clamp(pt.z, -8.3, 8.3);
-      // Push outside central crystal fountain basin (radius 2.25)
-      const rFromCenter = Math.hypot(pt.x, pt.z);
-      if (rFromCenter < 2.25) {
-        const scale = 2.25 / Math.max(0.01, rFromCenter);
-        pt.x *= scale;
-        pt.z *= scale;
-      }
+      const clamped = this._resolveCityCollisions(pt.x, pt.z, 0.5);
+      pt.x = clamped.x;
+      pt.z = clamped.z;
+      pt.y = 0;
+
       this.hero.isSitting = false;
-      this.hero.pendingShrineId = null;
       document.getElementById("btn-sit")?.classList.remove("is-active");
-      this.hero.moveTarget = pt;
-      this.vfx.setMoveTargetMarker(pt);
+
+      const targetBuilding = this.buildings.find((b) => this._isPointInBounds(pt, b.interiorBounds));
+      const heroBuilding = this.buildings.find((b) => this._isPointInBounds(this.hero.position, b.interiorBounds));
+
+      if (targetBuilding && heroBuilding?.id !== targetBuilding.id) {
+        const path = [];
+        if (heroBuilding) {
+          path.push(heroBuilding.doorThreshold, heroBuilding.doorApproach);
+        } else {
+          path.push(...this._routePlazaToDoor(this.hero.position, targetBuilding.doorApproach));
+        }
+        path.push(targetBuilding.doorApproach, targetBuilding.doorThreshold, pt);
+        this._setHeroMovePath(path, null);
+      } else if (heroBuilding && !targetBuilding) {
+        this._setHeroMovePath([heroBuilding.doorThreshold, heroBuilding.doorApproach, pt], null);
+      } else {
+        const prefix = this._routePlazaToDoor(this.hero.position, pt);
+        this._setHeroMovePath([...prefix, pt], null);
+      }
+    }
+  }
+
+  _computeZoneName(pos) {
+    const inside = this.buildings.find((b) => this._isPointInBounds(pos, b.interiorBounds));
+    if (inside) return `${inside.title} 내부`;
+    if (Math.hypot(pos.x, pos.z) < 10.5) return "중앙 분수 광장";
+    if (Math.abs(pos.x) <= 3.6) return pos.z < 0 ? "북쪽 대로" : "남쪽 대로";
+    if (Math.abs(pos.z) <= 3.6) return pos.x < 0 ? "서쪽 대로" : "동쪽 대로";
+    if (pos.x < 0 && pos.z < 0) return "북서 공방 지구";
+    if (pos.x >= 0 && pos.z < 0) return "북동 도서관 지구";
+    if (pos.x < 0 && pos.z >= 0) return "남서 라운지 지구";
+    return "남동 관측 지구";
+  }
+
+  async _upsertRemotePeer(peerData) {
+    const cid = peerData.clientId;
+    if (!cid) return;
+    let rec = this.remotePeers.get(cid);
+    if (!rec) {
+      rec = {
+        id: `peer-${cid}`,
+        clientId: cid,
+        role: "hero",
+        classKey: peerData.classKey || "Solar_Guard",
+        displayName: peerData.nickname,
+        roleBadge: "USER",
+        actor: null,
+        loading: true,
+        position: new THREE.Vector3(peerData.x || 0, 0, peerData.z || 0),
+        targetPos: new THREE.Vector3(peerData.x || 0, 0, peerData.z || 0),
+        facingAngle: peerData.facing || 0,
+        action: peerData.action || "Idle",
+        chatText: "",
+        chatUntil: 0,
+        overlayHeight: 2.5,
+      };
+      this.remotePeers.set(cid, rec);
+      const spec = AVATAR_DEFS[rec.classKey] || AVATAR_DEFS.Solar_Guard;
+      const actor = await loadSpriteActor(spec.atlasUrl);
+      if (!this.remotePeers.has(cid)) {
+        actor.dispose();
+        return;
+      }
+      actor.mesh.position.copy(rec.position);
+      actor.mesh.userData.peerClientId = cid;
+      this.scene.add(actor.mesh);
+      rec.actor = actor;
+      rec.loading = false;
+    } else {
+      rec.displayName = peerData.nickname;
+      rec.targetPos.set(peerData.x || 0, 0, peerData.z || 0);
+      rec.facingAngle = peerData.facing ?? rec.facingAngle;
+      rec.action = peerData.action || "Idle";
+    }
+  }
+
+  _removeRemotePeer(clientId) {
+    const rec = this.remotePeers.get(clientId);
+    if (!rec) return;
+    if (rec.actor) {
+      this.scene.remove(rec.actor.mesh);
+      rec.actor.dispose();
+    }
+    this.remotePeers.delete(clientId);
+  }
+
+  _updateRemotePeers(dt) {
+    const alpha = Math.min(1, dt * 10);
+    for (const rec of this.remotePeers.values()) {
+      if (!rec.actor) continue;
+      rec.position.lerp(rec.targetPos, alpha);
+      rec.actor.mesh.position.copy(rec.position);
+      const moving = rec.position.distanceTo(rec.targetPos) > 0.08 || rec.action === "Walk";
+      rec.actor.playAction(moving ? "Walk" : (rec.action === "Sit" ? "Sit" : "Idle"));
+      rec.actor.update(dt, this.controller.cameraAzimuth, rec.facingAngle);
+    }
+  }
+
+  _updateBuildings(dt) {
+    for (const b of this.buildings) {
+      const inside = this._isPointInBounds(this.hero.position, b.revealBounds);
+      const targetOpacity = inside ? 0.0 : 1.0;
+      b.roofOpacity += (targetOpacity - b.roofOpacity) * Math.min(1, dt * 10);
+      b.roofGroup.visible = b.roofOpacity > 0.04;
+      for (const m of b.roofMaterials) {
+        m.opacity = b.roofOpacity;
+      }
     }
   }
 
@@ -739,6 +997,7 @@ class SanctuaryArchiveApp {
 
     if (moveVec.lengthSq() > 0.001) {
       this.hero.moveTarget = null;
+      this.hero.moveQueue = [];
       this.hero.pendingShrineId = null;
       this.vfx.setMoveTargetMarker(null);
       this.hero.isSitting = false;
@@ -749,6 +1008,8 @@ class SanctuaryArchiveApp {
       diff.y = 0;
       if (diff.length() > 0.25) {
         moveVec.copy(diff.normalize());
+      } else if (this.hero.moveQueue?.length) {
+        this.hero.moveTarget = this.hero.moveQueue.shift();
       } else {
         this.hero.moveTarget = null;
         this.vfx.setMoveTargetMarker(null);
@@ -762,20 +1023,16 @@ class SanctuaryArchiveApp {
 
     const speed = AVATAR_DEFS[this.hero.classKey].speed;
     if (moveVec.lengthSq() > 0.001) {
-      let nx = THREE.MathUtils.clamp(this.hero.position.x + moveVec.x * speed * dt, -8.3, 8.3);
-      let nz = THREE.MathUtils.clamp(this.hero.position.z + moveVec.z * speed * dt, -8.3, 8.3);
-      // Fountain collision circle
-      const rF = Math.hypot(nx, nz);
-      if (rF < 2.2) {
-        nx *= 2.2 / Math.max(0.01, rF);
-        nz *= 2.2 / Math.max(0.01, rF);
-      }
-      this.hero.position.set(nx, 0, nz);
+      const next = this._resolveCityCollisions(
+        this.hero.position.x + moveVec.x * speed * dt,
+        this.hero.position.z + moveVec.z * speed * dt
+      );
+      this.hero.position.set(next.x, 0, next.z);
       this.hero.facingAngle = Math.atan2(moveVec.x, moveVec.z);
       this.hero.actor?.playAction("Walk");
 
       for (const sh of this.shrines) {
-        if (sh.id !== this.activeShrineId && this.hero.position.distanceTo(sh.position) < 2.1) {
+        if (sh.id !== this.activeShrineId && this.hero.position.distanceTo(sh.position) < 2.2) {
           this.activateShrine(sh.id, false);
           break;
         }
@@ -787,6 +1044,21 @@ class SanctuaryArchiveApp {
     if (this.hero.actor) {
       this.hero.actor.mesh.position.copy(this.hero.position);
     }
+
+    const nextZone = this._computeZoneName(this.hero.position);
+    if (nextZone !== this.currentZoneName) {
+      this.currentZoneName = nextZone;
+      this.chat.updateZoneLabel(nextZone);
+    }
+
+    this.chat.broadcastState({
+      classKey: this.hero.classKey,
+      x: this.hero.position.x,
+      z: this.hero.position.z,
+      facing: this.hero.facingAngle,
+      action: this.hero.actor?.currentAction || "Idle",
+      zone: this.currentZoneName,
+    }, false);
   }
 
   _updateCitizens(dt) {
@@ -797,18 +1069,28 @@ class SanctuaryArchiveApp {
           if (cit.actor.currentAction === "Walk") cit.actor.playAction("Idle");
         } else if (!cit.dest) {
           const ang = Math.random() * Math.PI * 2;
-          const r = 3.2 + Math.random() * 2.4;
-          cit.dest = new THREE.Vector3(Math.cos(ang) * r, 0, Math.sin(ang) * r);
+          const r = 1.5 + Math.random() * (cit.roamRadius || 4.0);
+          const resolved = this._resolveCityCollisions(
+            cit.homePos.x + Math.cos(ang) * r,
+            cit.homePos.z + Math.sin(ang) * r,
+            0.5
+          );
+          cit.dest = new THREE.Vector3(resolved.x, 0, resolved.z);
         } else {
           const d = new THREE.Vector3().subVectors(cit.dest, cit.position);
           d.y = 0;
           if (d.length() < 0.25) {
             cit.dest = null;
-            cit.pauseTimer = 2.4 + Math.random() * 2.5;
+            cit.pauseTimer = 2.0 + Math.random() * 2.5;
           } else {
             d.normalize();
-            cit.position.x += d.x * 1.45 * dt;
-            cit.position.z += d.z * 1.45 * dt;
+            const step = this._resolveCityCollisions(
+              cit.position.x + d.x * 1.45 * dt,
+              cit.position.z + d.z * 1.45 * dt,
+              0.45
+            );
+            cit.position.x = step.x;
+            cit.position.z = step.z;
             cit.facingAngle = Math.atan2(d.x, d.z);
             cit.actor.playAction("Walk");
           }
@@ -846,15 +1128,27 @@ class SanctuaryArchiveApp {
     }
 
     this._updateHero(dt);
-    // Keep camera centered gently between hero and fountain so entire sunlit plaza stays framed
-    const camFocus = new THREE.Vector3().lerpVectors(new THREE.Vector3(0, 0, 0), this.hero.position, 0.35);
-    this.controller.update(dt, camFocus);
+    this._updateBuildings(dt);
+    this.atmosphere?.update(dt, this.hero.position);
+    if (now - (this._lastAtmoUiSync || 0) > 400) {
+      this._lastAtmoUiSync = now;
+      this._syncAtmoLabels();
+    }
+
+    // Camera & directional shadow frustum follow hero smoothly across the whole city
+    this.controller.update(dt, this.hero.position);
+    if (this.dirLight) {
+      this.dirLight.position.set(this.hero.position.x - 18, 28, this.hero.position.z + 14);
+      this.dirLight.target.position.set(this.hero.position.x, 0, this.hero.position.z);
+      this.dirLight.target.updateMatrixWorld();
+    }
 
     const heroSector = this.hero.actor ? this.hero.actor.update(dt, this.controller.cameraAzimuth, this.hero.facingAngle) : 0;
     for (const sh of this.shrines) {
       sh.actor.update(dt, this.controller.cameraAzimuth, sh.facingAngle);
     }
     this._updateCitizens(dt);
+    this._updateRemotePeers(dt);
     this.vfx.update(dt, this._elapsed);
 
     const tele = document.getElementById("hud-cam-telemetry");
@@ -862,9 +1156,10 @@ class SanctuaryArchiveApp {
       tele.textContent = `Azimuth ${this.controller.getAzimuthDegrees()}° · ${DIR_NAMES[heroSector]}`;
     }
 
+    const activePeers = [...this.remotePeers.values()].filter((p) => p.actor);
     this.renderer.render(this.scene, this.controller.camera);
     this.vfx.updateTrackedOverlays(
-      [this.hero, ...this.shrines, ...this.citizens],
+      [this.hero, ...activePeers, ...this.shrines, ...this.citizens],
       this.controller.camera,
       this.canvas.clientWidth,
       this.canvas.clientHeight,
@@ -883,8 +1178,87 @@ class SanctuaryArchiveApp {
     }
   }
 
+  _syncAtmoLabels() {
+    if (!this.atmosphere) return;
+    const { timeLabel, seasonLabel } = this.atmosphere.getStatusLabels();
+    const tBtn = document.getElementById("btn-atmo-time");
+    const sBtn = document.getElementById("btn-atmo-season");
+    if (tBtn) tBtn.textContent = timeLabel;
+    if (sBtn) sBtn.textContent = seasonLabel;
+  }
+
+  _launchCelebrationFireworks() {
+    if (!this.atmosphere) return;
+    const fx1x = this.hero.position.x + (Math.random() - 0.5) * 14;
+    const fx1z = this.hero.position.z - 8 + (Math.random() - 0.5) * 10;
+    this.atmosphere.launchFirework(fx1x, fx1z);
+    setTimeout(() => {
+      const fx2x = this.hero.position.x + (Math.random() - 0.5) * 18;
+      const fx2z = this.hero.position.z - 6 + (Math.random() - 0.5) * 12;
+      this.atmosphere?.launchFirework(fx2x, fx2z);
+    }, 260);
+    this.chat.broadcastFx("firework", { x: fx1x, z: fx1z });
+    this.audio.playTone(587.33, 880, 0.22, "sine", 0.06);
+  }
+
+  _handleAtmosphereCommand(cmd, arg = "") {
+    if (!this.atmosphere) return;
+    const a = String(arg || "").toLowerCase();
+    if (cmd === "firework") {
+      this._launchCelebrationFireworks();
+      this.chat.addSystemMessage("하늘로 축하 불꽃놀이를 발사했습니다!");
+      return;
+    }
+    if (cmd === "time") {
+      const map = { "새벽": "dawn", dawn: "dawn", "낮": "day", day: "day", "노을": "sunset", sunset: "sunset", "밤": "night", night: "night", "자동": "auto", auto: "auto" };
+      const next = map[a];
+      if (next) {
+        this.atmosphere.setTimeMode(next);
+        this._syncAtmoLabels();
+        this.chat.addSystemMessage(`시간대가 ${this.atmosphere.getStatusLabels().timeLabel}(으)로 변경되었습니다.`);
+      }
+      return;
+    }
+    if (cmd === "season") {
+      const map = { "봄": "spring", spring: "spring", "여름": "summer", summer: "summer", "가을": "autumn", autumn: "autumn", "겨울": "winter", winter: "winter", "자동": "auto", auto: "auto" };
+      const next = map[a];
+      if (next) {
+        this.atmosphere.setSeasonMode(next);
+        this._syncAtmoLabels();
+        this.chat.addSystemMessage(`계절이 ${this.atmosphere.getStatusLabels().seasonLabel}(으)로 변경되었습니다.`);
+      }
+    }
+  }
+
   _bindEvents() {
     window.addEventListener("resize", () => this._handleResize());
+    if (typeof ResizeObserver !== "undefined" && this.canvas.parentElement) {
+      this._resizeObserver = new ResizeObserver(() => this._handleResize());
+      this._resizeObserver.observe(this.canvas.parentElement);
+    }
+
+    const atmoPill = document.getElementById("sanctuary-atmo-pill");
+    if (atmoPill) {
+      for (const evName of ["pointerdown", "pointerup", "click"]) {
+        atmoPill.addEventListener(evName, (ev) => ev.stopPropagation());
+      }
+    }
+    document.getElementById("btn-atmo-time")?.addEventListener("click", () => {
+      this.atmosphere?.cycleTimeMode();
+      this._syncAtmoLabels();
+    });
+    document.getElementById("btn-atmo-season")?.addEventListener("click", () => {
+      this.atmosphere?.cycleSeasonMode();
+      this._syncAtmoLabels();
+    });
+    document.getElementById("btn-atmo-firework")?.addEventListener("click", () => {
+      this._launchCelebrationFireworks();
+    });
+
+    document.getElementById("btn-close-reader")?.addEventListener("click", () => {
+      const readerEl = document.getElementById("sanctuary-reader");
+      if (readerEl) readerEl.hidden = true;
+    });
 
     document.querySelectorAll(".ro-class-btn").forEach((btn) => {
       btn.addEventListener("click", () => this.switchAvatar(btn.dataset.heroClass));
@@ -939,7 +1313,15 @@ class SanctuaryArchiveApp {
 
     window.addEventListener("keydown", (ev) => {
       const tag = document.activeElement?.tagName;
-      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") {
+        if (ev.code === "Escape") document.activeElement.blur();
+        return;
+      }
+      if (ev.code === "Enter") {
+        ev.preventDefault();
+        this.chat.focusInput();
+        return;
+      }
       if (["KeyW", "KeyA", "KeyS", "KeyD", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(ev.code)) {
         if (ev.code.startsWith("Arrow")) ev.preventDefault();
         this.keys.add(ev.code);
@@ -951,6 +1333,11 @@ class SanctuaryArchiveApp {
         this.activateShrine("social", true);
       } else if (ev.code === "Digit4") {
         this.activateShrine("benchmarks", true);
+      } else if (ev.code === "KeyF") {
+        this._launchCelebrationFireworks();
+      } else if (ev.code === "Escape") {
+        const readerEl = document.getElementById("sanctuary-reader");
+        if (readerEl && !readerEl.hidden) readerEl.hidden = true;
       } else if (ev.code === "Space" && tag !== "BUTTON") {
         ev.preventDefault();
         this.toggleSit();

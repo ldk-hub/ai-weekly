@@ -39,7 +39,7 @@ export class QuarterViewController {
   }
 
   zoomBy(deltaDist) {
-    this.targetDistance = THREE.MathUtils.clamp(this.targetDistance + deltaDist, 12, 36);
+    this.targetDistance = THREE.MathUtils.clamp(this.targetDistance + deltaDist, 12, 48);
   }
 
   resetView() {

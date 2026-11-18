@@ -34,7 +34,7 @@
 </script>
 </head>
 
-<body>
+<body class="sc-fullscreen-page">
 <a class="skip-link" href="#main">본문으로 건너뛰기</a>
 
 <div class="layout-wrapper">
@@ -103,91 +103,61 @@
         <a class="gh-btn" href="https://github.com/ldk-hub/ai-weekly" target="_blank" rel="noopener">GitHub</a>
       </div>
     </div>
-
-    <div class="hero-wrapper sc-hero-compact" id="hero-wrapper">
-      <div class="hero-row-1">
-        <h1 class="hero-h1"><span class="hl-mint">Sanctuary 2.5D</span> · 아카이브 성역</h1>
-        <p class="hero-p">성소를 걸어 다니며 AI위클리의 실제 플러그인·뉴스·소셜·벤치마크 포스팅을 실시간으로 탐색하세요</p>
-      </div>
-    </div>
   </header>
 
   <main id="main">
     <div class="sc-archive-grid">
-      <!-- LEFT: 2.5D Quarter-View Archive Sanctuary -->
+      <!-- 2.5D Quarter-View Archive Sanctuary (Fullscreen Stage) -->
       <section class="sc-world-stage" aria-label="Sanctuary 2.5D 아카이브 스테이지">
         <canvas id="sanctuary-canvas" tabindex="0" aria-label="Sanctuary 2.5D WebGL 캔버스"></canvas>
         <div id="overlay-layer" class="sc-overlay-layer" aria-hidden="true"></div>
 
-        <div class="sc-3d-hud">
-          <div class="sc-hud-top">
-            <div class="ro-class-switcher" role="tablist" aria-label="아바타 외형 선택">
-              <button type="button" class="ro-class-btn is-active" role="tab" aria-selected="true" data-hero-class="Solar_Guard">
-                <span>로얄 아키비스트</span>
-              </button>
-              <button type="button" class="ro-class-btn" role="tab" aria-selected="false" data-hero-class="Astral_Sage">
-                <span>아스트랄 위버</span>
-              </button>
-              <button type="button" class="ro-class-btn" role="tab" aria-selected="false" data-hero-class="Shadow_Reaper">
-                <span>섀도우 크로니클러</span>
-              </button>
+        <!-- Bottom-Left Live Multi-User City & Interior Chat Box -->
+        <section class="sc-chat-box" id="sanctuary-chat" aria-label="실시간 유저 채팅">
+          <div class="sc-chat-head">
+            <div class="sc-chat-status">
+              <span class="sc-chat-dot" id="chat-status-dot" aria-hidden="true"></span>
+              <span class="sc-chat-zone" id="chat-zone-label">중앙 광장</span>
+              <span class="sc-chat-count" id="chat-online-count">1명 접속</span>
             </div>
-
-            <div class="sc-hud-group" role="group" aria-label="카메라 및 오디오 컨트롤">
-              <span class="sc-hud-zone-pill" id="hud-cam-telemetry">Azimuth 0° · S</span>
-              <button type="button" class="sc-hud-btn" id="btn-cam-left" title="시점 좌회전 (Q)">[Q]</button>
-              <button type="button" class="sc-hud-btn" id="btn-cam-right" title="시점 우회전 (E)">[E]</button>
-              <button type="button" class="sc-hud-btn" id="btn-cam-reset">리셋</button>
-              <button type="button" class="sc-hud-btn" id="btn-master-audio" aria-pressed="false">음소거</button>
-              <button type="button" class="sc-hud-btn is-active" id="btn-toggle-reader" aria-pressed="true">리더</button>
+            <div class="sc-chat-head-right">
+              <button type="button" class="sc-chat-nick-btn" id="chat-nick-btn" title="클릭하여 닉네임 변경">모험가</button>
+              <input type="text" class="sc-chat-nick-input" id="chat-nick-input" maxlength="16" aria-label="닉네임 수정" hidden />
+              <button type="button" class="sc-chat-collapse-btn" id="chat-collapse-btn" aria-expanded="true">접기</button>
             </div>
           </div>
+          <div class="sc-chat-tabs" id="chat-user-tabs" role="tablist" aria-label="채팅 대상 선택"></div>
+          <div class="sc-chat-log" id="chat-message-log" role="log" aria-live="polite"></div>
+          <form class="sc-chat-form" id="chat-form" autocomplete="off">
+            <input type="text" class="sc-chat-input" id="chat-input" maxlength="220" placeholder="메시지 입력 (Enter 전송 · /w 닉네임 내용)" aria-label="채팅 메시지 입력" />
+            <button type="submit" class="sc-chat-send-btn">전송</button>
+          </form>
+        </section>
 
-          <div class="sc-hud-bottom">
-            <div class="ro-hotbar" role="toolbar" aria-label="4대 아카이브 성소 및 이모티콘">
-              <button type="button" class="ro-slot-btn is-primary" id="btn-shrine-plugins" data-shrine="plugins">
-                <span class="ro-slot-key">[1]</span>
-                <span>인기 플러그인</span>
-              </button>
-              <button type="button" class="ro-slot-btn" id="btn-shrine-news" data-shrine="news">
-                <span class="ro-slot-key">[2]</span>
-                <span>AI 뉴스</span>
-              </button>
-              <button type="button" class="ro-slot-btn" id="btn-shrine-social" data-shrine="social">
-                <span class="ro-slot-key">[3]</span>
-                <span>소셜 피드</span>
-              </button>
-              <button type="button" class="ro-slot-btn" id="btn-shrine-benchmarks" data-shrine="benchmarks">
-                <span class="ro-slot-key">[4]</span>
-                <span>점유율·성능</span>
-              </button>
-              <button type="button" class="ro-emote-pill" id="btn-sit">[Space] 앉기</button>
-              <button type="button" class="ro-emote-pill" data-emote="/lv">/lv</button>
-              <button type="button" class="ro-emote-pill" data-emote="/swt">/swt</button>
-              <button type="button" class="ro-emote-pill" data-emote="/!">/!</button>
-            </div>
-          </div>
+        <!-- Compact Bottom-Right Day/Night & Season Atmosphere Capsule -->
+        <div class="sc-atmo-pill" id="sanctuary-atmo-pill" role="group" aria-label="시간대·계절·불꽃놀이">
+          <button type="button" class="sc-atmo-btn" id="btn-atmo-time" title="클릭하여 낮/노을/밤/자동 전환">☀️ 낮</button>
+          <button type="button" class="sc-atmo-btn" id="btn-atmo-season" title="클릭하여 봄/여름/가을/겨울/자동 전환">🌸 봄 · 벚꽃</button>
+          <button type="button" class="sc-atmo-btn is-firework" id="btn-atmo-firework" title="불꽃놀이 발사 (F)">🎆 불꽃</button>
         </div>
       </section>
 
-      <!-- RIGHT: Live Website Postings & Curated Reader Panel -->
-      <aside class="sc-reader-panel" id="sanctuary-reader" aria-label="연계된 웹사이트 실시간 포스팅 리더">
+      <!-- Floating Website Postings Reader (opened only on 3D shrine click) -->
+      <aside class="sc-reader-panel" id="sanctuary-reader" aria-label="연계된 웹사이트 실시간 포스팅 리더" hidden>
         <div class="sc-reader-head">
           <div>
             <h2 class="sc-reader-title" id="reader-title">인기 플러그인 성소</h2>
             <p class="sc-reader-sub" id="reader-sub">data/latest.json 실시간 연동 중…</p>
           </div>
-          <a class="sc-reader-ext" id="reader-page-link" href="./">전체 페이지 ↗</a>
+          <div class="sc-reader-head-actions">
+            <a class="sc-reader-ext" id="reader-page-link" href="./">전체 페이지 ↗</a>
+            <button type="button" class="sc-reader-close" id="btn-close-reader" aria-label="리더 패널 닫기">✕</button>
+          </div>
         </div>
         <div class="sc-reader-list" id="reader-list" role="region" aria-live="polite"></div>
       </aside>
     </div>
   </main>
-
-  <footer class="site-footer">
-    <span>AI위클리 · Sanctuary 2.5D 아카이브</span>
-    <span><a href="./">인기 플러그인</a> · <a href="news">AI 뉴스</a> · <a href="social">소셜 피드</a> · <a href="starboard">스타보드</a> · <a href="benchmarks">점유율·성능</a> · <a href="sanctuary">2.5D 성역</a></span>
-  </footer>
 
 </div>
 

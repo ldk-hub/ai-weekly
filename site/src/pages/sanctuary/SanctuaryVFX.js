@@ -253,6 +253,10 @@ export class SanctuaryVFX {
     emoteEl.className = "ro-emote-bubble";
     emoteEl.hidden = true;
 
+    const chatEl = document.createElement("div");
+    chatEl.className = "ro-chat-bubble";
+    chatEl.hidden = true;
+
     const tickerEl = document.createElement("div");
     tickerEl.className = "ro-post-bubble";
     tickerEl.hidden = true;
@@ -277,11 +281,12 @@ export class SanctuaryVFX {
     nameText.className = "ro-nameplate-title";
     plateEl.append(roleBadge, nameText);
 
-    root.append(emoteEl, tickerEl, castWrap, plateEl);
+    root.append(chatEl, emoteEl, tickerEl, castWrap, plateEl);
     this.overlayLayer.appendChild(root);
 
     const entry = {
       root,
+      chatEl,
       emoteEl,
       tickerEl,
       castWrap,
@@ -290,6 +295,7 @@ export class SanctuaryVFX {
       plateEl,
       roleBadge,
       nameText,
+      lastChat: "",
       lastEmote: "",
       lastTicker: "",
     };
@@ -325,6 +331,14 @@ export class SanctuaryVFX {
       entry.root.hidden = false;
       entry.root.style.transform = `translate3d(${px.x.toFixed(1)}px, ${px.y.toFixed(1)}px, 0) translate(-50%, -100%)`;
 
+      const wallNow = Date.now();
+      const showChat = Boolean(actor.chatText) && wallNow < (actor.chatUntil || 0);
+      entry.chatEl.hidden = !showChat;
+      if (showChat && entry.lastChat !== actor.chatText) {
+        entry.lastChat = actor.chatText;
+        entry.chatEl.textContent = actor.chatText;
+      }
+
       const showEmote = actor.emoteText && nowMs < actor.emoteUntil;
       entry.emoteEl.hidden = !showEmote;
       if (showEmote && entry.lastEmote !== actor.emoteText) {
@@ -333,7 +347,7 @@ export class SanctuaryVFX {
         entry.emoteEl.innerHTML = EMOTE_TEMPLATES[actor.emoteText] || `<span>${actor.emoteText}</span>`;
       }
 
-      const showTicker = Boolean(actor.tickerText) && Boolean(actor.isActiveShrine) && !showEmote;
+      const showTicker = Boolean(actor.tickerText) && Boolean(actor.isActiveShrine) && !showEmote && !showChat;
       entry.tickerEl.hidden = !showTicker;
       if (showTicker && entry.lastTicker !== actor.tickerText) {
         entry.lastTicker = actor.tickerText;
