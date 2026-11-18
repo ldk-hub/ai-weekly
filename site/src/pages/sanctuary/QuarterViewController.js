@@ -1,8 +1,8 @@
 import * as THREE from "three";
 
-const DEFAULT_DISTANCE = 22;
-const DEFAULT_HEIGHT = 15.5;
-const PITCH_RATIO = DEFAULT_HEIGHT / DEFAULT_DISTANCE; // ~35.16 deg pitch
+const DEFAULT_DISTANCE = 24.5;
+const DEFAULT_HEIGHT = 17.2;
+const PITCH_RATIO = DEFAULT_HEIGHT / DEFAULT_DISTANCE; // ~35.07 deg pitch
 
 /**
  * Ragnarok Online / HD-2D Fixed-Pitch Quarter-View Orbit Controller.
@@ -39,7 +39,7 @@ export class QuarterViewController {
   }
 
   zoomBy(deltaDist) {
-    this.targetDistance = THREE.MathUtils.clamp(this.targetDistance + deltaDist, 14, 34);
+    this.targetDistance = THREE.MathUtils.clamp(this.targetDistance + deltaDist, 12, 36);
   }
 
   resetView() {

@@ -1,0 +1,51 @@
+{
+  "name": "Curator_Leon",
+  "sheet": "assets/sprites/Curator_Leon_8dir_sheet.png",
+  "cols": 24,
+  "rows": 8,
+  "cell_width": 128,
+  "cell_height": 128,
+  "world_height": 2.4,
+  "directions": [
+    "S",
+    "SW",
+    "W",
+    "NW",
+    "N",
+    "NE",
+    "E",
+    "SE"
+  ],
+  "columns": {
+    "Idle": {
+      "start": 0,
+      "end": 3,
+      "fps": 6,
+      "loop": true
+    },
+    "Walk": {
+      "start": 4,
+      "end": 9,
+      "fps": 10,
+      "loop": true
+    },
+    "Attack": {
+      "start": 10,
+      "end": 15,
+      "fps": 12,
+      "loop": false
+    },
+    "Cast": {
+      "start": 16,
+      "end": 20,
+      "fps": 10,
+      "loop": true
+    },
+    "Sit": {
+      "start": 21,
+      "end": 23,
+      "fps": 4,
+      "loop": true
+    }
+  }
+}

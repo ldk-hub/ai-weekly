@@ -333,7 +333,7 @@ export class SanctuaryVFX {
         entry.emoteEl.innerHTML = EMOTE_TEMPLATES[actor.emoteText] || `<span>${actor.emoteText}</span>`;
       }
 
-      const showTicker = Boolean(actor.tickerText) && !showEmote;
+      const showTicker = Boolean(actor.tickerText) && Boolean(actor.isActiveShrine) && !showEmote;
       entry.tickerEl.hidden = !showTicker;
       if (showTicker && entry.lastTicker !== actor.tickerText) {
         entry.lastTicker = actor.tickerText;
@@ -348,10 +348,14 @@ export class SanctuaryVFX {
         entry.castFill.style.transform = `scaleX(${ratio.toFixed(3)})`;
       }
 
-      entry.roleBadge.textContent = actor.roleBadge || "";
-      entry.roleBadge.hidden = !actor.roleBadge;
-      entry.nameText.textContent = actor.displayName;
-      entry.plateEl.classList.toggle("is-targeted", Boolean(actor.isActiveShrine));
+      const showPlate = actor.role !== "citizen";
+      entry.plateEl.hidden = !showPlate;
+      if (showPlate) {
+        entry.roleBadge.textContent = actor.roleBadge || "";
+        entry.roleBadge.hidden = !actor.roleBadge || !actor.isActiveShrine;
+        entry.nameText.textContent = actor.displayName;
+        entry.plateEl.classList.toggle("is-targeted", Boolean(actor.isActiveShrine));
+      }
     }
 
     for (const id of [...this.trackedElements.keys()]) {

@@ -30,64 +30,69 @@ const AVATAR_DEFS = {
 const SHRINE_DEFS = [
   {
     id: "plugins",
-    keyIndex: 1,
     title: "인기 플러그인 성소",
     curatorName: "연금술사 엘라",
     roleBadge: "PLUGIN SHRINE",
     atlasUrl: "assets/sprites/Curator_Ella_8dir_atlas.json",
-    x: -4.2,
-    z: -1.5,
-    facing: 0.55,
+    x: -4.4,
+    z: -1.6,
+    facing: 1.0,
     palette: "holy",
     pageHref: "./",
     pageLabel: "인기 플러그인 ↗",
-    overlayHeight: 2.5,
+    overlayHeight: 2.35,
   },
   {
     id: "news",
-    keyIndex: 2,
     title: "AI 뉴스 중앙 제단",
     curatorName: "뉴스 사서 셀레네",
     roleBadge: "NEWS ALTAR",
     atlasUrl: "assets/sprites/Astral_Sage_8dir_atlas.json",
-    x: 0,
+    x: 0.2,
     z: -4.6,
-    facing: 0,
+    facing: 0.1,
     palette: "arcane",
     pageHref: "news",
     pageLabel: "AI 뉴스 ↗",
-    overlayHeight: 2.6,
+    overlayHeight: 2.35,
   },
   {
     id: "social",
-    keyIndex: 3,
     title: "소셜 피드 라운지",
     curatorName: "소셜 바드 루나",
     roleBadge: "SOCIAL LOUNGE",
     atlasUrl: "assets/sprites/Curator_Luna_8dir_atlas.json",
-    x: 4.2,
-    z: -1.5,
-    facing: -0.55,
+    x: 4.5,
+    z: -1.4,
+    facing: -1.1,
     palette: "shadow",
     pageHref: "social",
     pageLabel: "소셜 피드 ↗",
-    overlayHeight: 2.5,
+    overlayHeight: 2.35,
   },
   {
     id: "benchmarks",
-    keyIndex: 4,
-    title: "스타보드·벤치마크 오벨리스크",
-    curatorName: "스타 포링 현자",
+    title: "스타보드·벤치마크 성소",
+    curatorName: "벤치마크 나이트 레온",
     roleBadge: "BENCHMARKS & STAR",
-    atlasUrl: "assets/sprites/Poring_Slime_8dir_atlas.json",
-    x: 0,
-    z: 3.4,
-    facing: Math.PI,
+    atlasUrl: "assets/sprites/Curator_Leon_8dir_atlas.json",
+    x: 3.5,
+    z: 3.2,
+    facing: -2.4,
     palette: "emerald",
     pageHref: "benchmarks",
     pageLabel: "점유율·성능 ↗",
-    overlayHeight: 1.75,
+    overlayHeight: 2.45,
   },
+];
+
+const CITIZEN_SPAWNS = [
+  { id: "cit-1", atlas: "assets/sprites/Citizen_Ranger_8dir_atlas.json", x: -7.2, y: 0.36, z: -0.6, facing: Math.PI * 0.5, action: "Sit", roam: false },
+  { id: "cit-2", atlas: "assets/sprites/Citizen_Minstrel_8dir_atlas.json", x: -6.1, y: 0, z: -1.1, facing: -0.6, action: "Idle", roam: false },
+  { id: "cit-3", atlas: "assets/sprites/Citizen_Sura_8dir_atlas.json", x: 7.2, y: 0.36, z: 0.2, facing: -Math.PI * 0.5, action: "Sit", roam: false },
+  { id: "cit-4", atlas: "assets/sprites/Citizen_Mechanic_8dir_atlas.json", x: 0.1, y: 0.36, z: -7.2, facing: 0, action: "Sit", roam: false },
+  { id: "cit-5", atlas: "assets/sprites/Citizen_Ranger_8dir_atlas.json", x: -3.6, y: 0, z: 4.4, facing: 0.9, action: "Idle", roam: true },
+  { id: "cit-6", atlas: "assets/sprites/Citizen_Minstrel_8dir_atlas.json", x: -2.4, y: 0.36, z: 7.15, facing: Math.PI, action: "Sit", roam: false },
 ];
 
 function esc(str) {
@@ -105,12 +110,6 @@ function safeHref(url) {
   return /^https?:\/\//i.test(s) ? s : "#";
 }
 
-function getFloorYAt(x, z) {
-  if (Math.abs(x) <= 3.1 && z <= -3.3 && z >= -7.1) return 0.2;
-  if (Math.abs(x) <= 6.5 && Math.abs(z) <= 6.5) return 0.08;
-  return 0;
-}
-
 function formatCompact(n) {
   const num = Number(n || 0);
   if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`;
@@ -118,7 +117,7 @@ function formatCompact(n) {
   return String(num);
 }
 
-/* ---------- Soft Archive Chime Audio ---------- */
+/* ---------- Soft Sanctuary Chime Audio ---------- */
 class SanctuaryAudio {
   constructor() {
     this.ctx = null;
@@ -191,7 +190,7 @@ function initThemeToggle(onThemeChange) {
   syncLabel();
 }
 
-/* ---------- Main Sanctuary 2.5D Archive Application ---------- */
+/* ---------- Main Sanctuary 2.5D Sunlit Diorama Application ---------- */
 class SanctuaryArchiveApp {
   constructor() {
     this.canvas = document.getElementById("sanctuary-canvas");
@@ -206,8 +205,9 @@ class SanctuaryArchiveApp {
 
     this.raycaster = new THREE.Raycaster();
     this.walkableMeshes = [];
-    this.crystalMesh = null;
+    this.envFx = {};
     this.shrines = [];
+    this.citizens = [];
     this.keys = new Set();
 
     this.archiveData = {
@@ -228,8 +228,8 @@ class SanctuaryArchiveApp {
       displayName: AVATAR_DEFS.Solar_Guard.displayName,
       roleBadge: AVATAR_DEFS.Solar_Guard.roleBadge,
       actor: null,
-      position: new THREE.Vector3(-1.4, 0.08, 0.9),
-      facingAngle: 0,
+      position: new THREE.Vector3(-1.4, 0, 3.0),
+      facingAngle: 2.5,
       moveTarget: null,
       pendingShrineId: null,
       isSitting: false,
@@ -238,7 +238,7 @@ class SanctuaryArchiveApp {
       emoteUntil: 0,
       tickerText: "",
       isActiveShrine: false,
-      overlayHeight: 2.6,
+      overlayHeight: 2.5,
     };
 
     this._lastTime = performance.now();
@@ -252,54 +252,58 @@ class SanctuaryArchiveApp {
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.06;
     return renderer;
   }
 
   _setupLights() {
-    this.ambientLight = new THREE.AmbientLight(0xe2e8f0, 0.95);
+    // Golden-Hour Sunlit Plaza Lighting matching concept art
+    this.ambientLight = new THREE.AmbientLight(0xfff5db, 0.72);
     this.scene.add(this.ambientLight);
 
-    this.hemiLight = new THREE.HemisphereLight(0xfef3c7, 0x1e293b, 0.65);
+    this.hemiLight = new THREE.HemisphereLight(0xfff4cf, 0x627838, 0.88);
     this.scene.add(this.hemiLight);
 
-    this.dirLight = new THREE.DirectionalLight(0xfff4e0, 2.1);
-    this.dirLight.position.set(11, 19, 10);
+    this.dirLight = new THREE.DirectionalLight(0xffefc2, 2.55);
+    this.dirLight.position.set(-15, 22, 11);
     this.dirLight.castShadow = true;
     this.dirLight.shadow.mapSize.set(2048, 2048);
-    this.dirLight.shadow.camera.near = 2;
-    this.dirLight.shadow.camera.far = 55;
-    const d = 16;
+    this.dirLight.shadow.camera.near = 4;
+    this.dirLight.shadow.camera.far = 60;
+    const d = 17;
     this.dirLight.shadow.camera.left = -d;
     this.dirLight.shadow.camera.right = d;
     this.dirLight.shadow.camera.top = d;
     this.dirLight.shadow.camera.bottom = -d;
-    this.dirLight.shadow.bias = -0.0005;
+    this.dirLight.shadow.bias = -0.0004;
     this.scene.add(this.dirLight);
 
-    this.altarLight = new THREE.PointLight(0x38bdf8, 2.2, 14);
-    this.altarLight.position.set(0, 2.6, -5.6);
-    this.scene.add(this.altarLight);
+    // Glowing Cyan Crystal Fountain Bounce Light
+    this.fountainLight = new THREE.PointLight(0x67e8f9, 2.8, 9.5);
+    this.fountainLight.position.set(0, 2.2, 0);
+    this.scene.add(this.fountainLight);
   }
 
-  applyTheme(isDark) {
-    const bgHex = isDark ? 0x090d13 : 0xece6d8;
-    this.scene.background = new THREE.Color(bgHex);
-    this.scene.fog = new THREE.FogExp2(bgHex, 0.017);
-    if (this.ambientLight) this.ambientLight.intensity = isDark ? 0.92 : 1.18;
+  applyTheme() {
+    // Keep outdoor plaza warmly sunlit like the concept art across both UI themes
+    const hazeHex = 0xd9caa4;
+    this.scene.background = new THREE.Color(hazeHex);
+    this.scene.fog = new THREE.FogExp2(hazeHex, 0.011);
   }
 
   async start() {
     this._setupLights();
-    initThemeToggle((isDark) => this.applyTheme(isDark));
+    initThemeToggle(() => this.applyTheme());
     this._handleResize();
 
-    const envRes = await loadSanctuaryEnvironment("assets/models/sanctuary_environment.glb", this.scene);
-    this.walkableMeshes = envRes.walkableMeshes;
-    this.crystalMesh = envRes.crystalMesh;
+    this.envFx = await loadSanctuaryEnvironment("assets/models/sanctuary_environment.glb", this.scene);
+    this.walkableMeshes = this.envFx.walkableMeshes;
 
     await Promise.all([
       this.switchAvatar("Solar_Guard"),
       this._spawnShrines(),
+      this._spawnCitizens(),
       this._loadWebsiteDatasets(),
     ]);
 
@@ -355,11 +359,10 @@ class SanctuaryArchiveApp {
   }
 
   async _spawnShrines() {
-    const loaded = await Promise.all(
+    this.shrines = await Promise.all(
       SHRINE_DEFS.map(async (def) => {
         const actor = await loadSpriteActor(def.atlasUrl);
-        const y = getFloorYAt(def.x, def.z);
-        const pos = new THREE.Vector3(def.x, y, def.z);
+        const pos = new THREE.Vector3(def.x, 0, def.z);
         actor.mesh.position.copy(pos);
         actor.mesh.userData.shrineId = def.id;
         this.scene.add(actor.mesh);
@@ -377,7 +380,29 @@ class SanctuaryArchiveApp {
         };
       })
     );
-    this.shrines = loaded;
+  }
+
+  async _spawnCitizens() {
+    this.citizens = await Promise.all(
+      CITIZEN_SPAWNS.map(async (sp, idx) => {
+        const actor = await loadSpriteActor(sp.atlas);
+        const pos = new THREE.Vector3(sp.x, sp.y, sp.z);
+        actor.mesh.position.copy(pos);
+        actor.playAction(sp.action, null, true);
+        this.scene.add(actor.mesh);
+        return {
+          ...sp,
+          role: "citizen",
+          displayName: "",
+          actor,
+          position: pos,
+          homePos: pos.clone(),
+          facingAngle: sp.facing,
+          dest: null,
+          pauseTimer: 1.5 + idx * 0.7,
+        };
+      })
+    );
   }
 
   async switchAvatar(classKey) {
@@ -403,7 +428,6 @@ class SanctuaryArchiveApp {
       btn.setAttribute("aria-selected", active ? "true" : "false");
     });
     document.getElementById("btn-sit")?.classList.remove("is-active");
-    this.triggerEmote("/!");
   }
 
   _refreshShrineTickers() {
@@ -447,11 +471,11 @@ class SanctuaryArchiveApp {
     this.renderReaderPanel();
 
     const dist = this.hero.position.distanceTo(shrine.position);
-    if (walkToIt && dist > 2.3) {
+    if (walkToIt && dist > 2.2) {
       const dir = new THREE.Vector3().subVectors(this.hero.position, shrine.position).setY(0).normalize();
       if (dir.lengthSq() < 0.01) dir.set(0, 0, 1);
       const dest = shrine.position.clone().addScaledVector(dir, 1.55);
-      dest.y = getFloorYAt(dest.x, dest.z);
+      dest.y = 0;
       this.hero.moveTarget = dest;
       this.hero.pendingShrineId = shrineId;
       this.hero.isSitting = false;
@@ -469,7 +493,7 @@ class SanctuaryArchiveApp {
     );
     this.hero.actor?.playAction("Cast", () => this.hero.actor?.playAction("Idle", null, true), true);
     shrine.actor.playAction("Cast", () => shrine.actor.playAction("Idle", null, true), true);
-    this.vfx.spawnMagicCircle(shrine.position, { radius: 2.5, duration: 2.5, palette: shrine.palette, pillarHeight: 5.0 });
+    this.vfx.spawnMagicCircle(shrine.position, { radius: 2.2, duration: 2.3, palette: shrine.palette, pillarHeight: 4.5 });
     this.audio.playResonate(shrine.id);
 
     const w = this.canvas.clientWidth;
@@ -526,7 +550,6 @@ class SanctuaryArchiveApp {
     document.getElementById("btn-sit")?.classList.toggle("is-active", this.hero.isSitting);
   }
 
-  /* ---------- Live Reader Panel Rendering ---------- */
   renderReaderPanel() {
     const shrine = SHRINE_DEFS.find((s) => s.id === this.activeShrineId) || SHRINE_DEFS[0];
     const titleEl = document.getElementById("reader-title");
@@ -688,10 +711,16 @@ class SanctuaryArchiveApp {
 
     const groundHits = this.raycaster.intersectObjects(this.walkableMeshes, false);
     if (groundHits.length > 0) {
-      const pt = groundHits[0].point;
-      pt.x = THREE.MathUtils.clamp(pt.x, -12, 12);
-      pt.z = THREE.MathUtils.clamp(pt.z, -10, 11);
-      pt.y = getFloorYAt(pt.x, pt.z);
+      const pt = groundHits[0].point.clone();
+      pt.x = THREE.MathUtils.clamp(pt.x, -8.3, 8.3);
+      pt.z = THREE.MathUtils.clamp(pt.z, -8.3, 8.3);
+      // Push outside central crystal fountain basin (radius 2.25)
+      const rFromCenter = Math.hypot(pt.x, pt.z);
+      if (rFromCenter < 2.25) {
+        const scale = 2.25 / Math.max(0.01, rFromCenter);
+        pt.x *= scale;
+        pt.z *= scale;
+      }
       this.hero.isSitting = false;
       this.hero.pendingShrineId = null;
       document.getElementById("btn-sit")?.classList.remove("is-active");
@@ -733,15 +762,20 @@ class SanctuaryArchiveApp {
 
     const speed = AVATAR_DEFS[this.hero.classKey].speed;
     if (moveVec.lengthSq() > 0.001) {
-      this.hero.position.x = THREE.MathUtils.clamp(this.hero.position.x + moveVec.x * speed * dt, -12, 12);
-      this.hero.position.z = THREE.MathUtils.clamp(this.hero.position.z + moveVec.z * speed * dt, -10, 11);
-      this.hero.position.y = getFloorYAt(this.hero.position.x, this.hero.position.z);
+      let nx = THREE.MathUtils.clamp(this.hero.position.x + moveVec.x * speed * dt, -8.3, 8.3);
+      let nz = THREE.MathUtils.clamp(this.hero.position.z + moveVec.z * speed * dt, -8.3, 8.3);
+      // Fountain collision circle
+      const rF = Math.hypot(nx, nz);
+      if (rF < 2.2) {
+        nx *= 2.2 / Math.max(0.01, rF);
+        nz *= 2.2 / Math.max(0.01, rF);
+      }
+      this.hero.position.set(nx, 0, nz);
       this.hero.facingAngle = Math.atan2(moveVec.x, moveVec.z);
       this.hero.actor?.playAction("Walk");
 
-      // Auto-sync reader panel when walking near another Shrine
       for (const sh of this.shrines) {
-        if (sh.id !== this.activeShrineId && this.hero.position.distanceTo(sh.position) < 2.2) {
+        if (sh.id !== this.activeShrineId && this.hero.position.distanceTo(sh.position) < 2.1) {
           this.activateShrine(sh.id, false);
           break;
         }
@@ -755,24 +789,72 @@ class SanctuaryArchiveApp {
     }
   }
 
+  _updateCitizens(dt) {
+    for (const cit of this.citizens) {
+      if (cit.roam) {
+        if (cit.pauseTimer > 0) {
+          cit.pauseTimer -= dt;
+          if (cit.actor.currentAction === "Walk") cit.actor.playAction("Idle");
+        } else if (!cit.dest) {
+          const ang = Math.random() * Math.PI * 2;
+          const r = 3.2 + Math.random() * 2.4;
+          cit.dest = new THREE.Vector3(Math.cos(ang) * r, 0, Math.sin(ang) * r);
+        } else {
+          const d = new THREE.Vector3().subVectors(cit.dest, cit.position);
+          d.y = 0;
+          if (d.length() < 0.25) {
+            cit.dest = null;
+            cit.pauseTimer = 2.4 + Math.random() * 2.5;
+          } else {
+            d.normalize();
+            cit.position.x += d.x * 1.45 * dt;
+            cit.position.z += d.z * 1.45 * dt;
+            cit.facingAngle = Math.atan2(d.x, d.z);
+            cit.actor.playAction("Walk");
+          }
+        }
+      }
+      cit.actor.mesh.position.copy(cit.position);
+      cit.actor.update(dt, this.controller.cameraAzimuth, cit.facingAngle);
+    }
+  }
+
   _loop(now) {
     const dt = Math.min(0.05, Math.max(0.001, (now - this._lastTime) / 1000));
     this._lastTime = now;
     this._elapsed += dt;
 
-    if (this.crystalMesh) {
-      this.crystalMesh.rotation.y += dt * 0.9;
-      this.crystalMesh.position.y = 2.15 + Math.sin(this._elapsed * 2.4) * 0.14;
+    // Animate sunlit diorama fountain, rune circle, flowing water, and golden dust motes
+    if (this.envFx.crystalMesh) {
+      this.envFx.crystalMesh.rotation.y += dt * 0.9;
+      this.envFx.crystalMesh.position.y = 2.25 + Math.sin(this._elapsed * 2.2) * 0.12;
+    }
+    if (this.envFx.runeDisc) {
+      this.envFx.runeDisc.rotation.z += dt * 0.08;
+    }
+    if (this.envFx.waterTex) {
+      this.envFx.waterTex.offset.y -= dt * 0.65;
+    }
+    if (this.envFx.motes) {
+      const posAttr = this.envFx.motes.geometry.attributes.position;
+      for (let i = 0; i < posAttr.count; i++) {
+        let y = posAttr.getY(i) + dt * 0.22;
+        if (y > 4.6) y = 0.4;
+        posAttr.setY(i, y);
+      }
+      posAttr.needsUpdate = true;
     }
 
     this._updateHero(dt);
-    this.controller.update(dt, this.hero.position);
-    const heroSector = this.hero.actor ? this.hero.actor.update(dt, this.controller.cameraAzimuth, this.hero.facingAngle) : 0;
+    // Keep camera centered gently between hero and fountain so entire sunlit plaza stays framed
+    const camFocus = new THREE.Vector3().lerpVectors(new THREE.Vector3(0, 0, 0), this.hero.position, 0.35);
+    this.controller.update(dt, camFocus);
 
+    const heroSector = this.hero.actor ? this.hero.actor.update(dt, this.controller.cameraAzimuth, this.hero.facingAngle) : 0;
     for (const sh of this.shrines) {
       sh.actor.update(dt, this.controller.cameraAzimuth, sh.facingAngle);
     }
-
+    this._updateCitizens(dt);
     this.vfx.update(dt, this._elapsed);
 
     const tele = document.getElementById("hud-cam-telemetry");
@@ -782,7 +864,7 @@ class SanctuaryArchiveApp {
 
     this.renderer.render(this.scene, this.controller.camera);
     this.vfx.updateTrackedOverlays(
-      [this.hero, ...this.shrines],
+      [this.hero, ...this.shrines, ...this.citizens],
       this.controller.camera,
       this.canvas.clientWidth,
       this.canvas.clientHeight,
@@ -817,6 +899,16 @@ class SanctuaryArchiveApp {
       const on = this.audio.toggle();
       audioBtn.setAttribute("aria-pressed", on ? "true" : "false");
       audioBtn.textContent = on ? "효과음 ON" : "음소거";
+    });
+
+    const readerBtn = document.getElementById("btn-toggle-reader");
+    const gridEl = document.querySelector(".sc-archive-grid");
+    readerBtn?.addEventListener("click", () => {
+      const wide = gridEl?.classList.toggle("is-wide");
+      readerBtn.classList.toggle("is-active", !wide);
+      readerBtn.setAttribute("aria-pressed", wide ? "false" : "true");
+      readerBtn.textContent = wide ? "리더 열기" : "리더";
+      requestAnimationFrame(() => this._handleResize());
     });
 
     document.querySelectorAll("[data-shrine]").forEach((btn) => {
