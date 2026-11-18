@@ -2,10 +2,10 @@ import * as THREE from "three";
 
 const SEASONS = ["spring", "summer", "autumn", "winter"];
 const SEASON_LABELS = {
-  spring: "🌸 봄 · 벚꽃",
-  summer: "🎆 여름 · 반딧불",
-  autumn: "🍂 가을 · 낙엽",
-  winter: "❄️ 겨울 · 눈",
+  spring: "봄 · 벚꽃",
+  summer: "여름 · 반딧불",
+  autumn: "가을 · 낙엽",
+  winter: "겨울 · 눈",
 };
 
 const TIME_PRESETS = {
@@ -82,18 +82,30 @@ export class SanctuaryAtmosphere {
     return SEASONS[this.seasonIndex % SEASONS.length];
   }
 
-  getTimeLabel() {
+  getTimeKey() {
     const t = this.timeOfDay;
-    if (t >= 0.18 && t < 0.32) return "🌅 새벽";
-    if (t >= 0.32 && t < 0.65) return "☀️ 낮";
-    if (t >= 0.65 && t < 0.80) return "🌇 노을";
-    return "🌙 밤";
+    if (t >= 0.18 && t < 0.32) return "dawn";
+    if (t >= 0.32 && t < 0.65) return "day";
+    if (t >= 0.65 && t < 0.80) return "sunset";
+    return "night";
+  }
+
+  getTimeLabel() {
+    const key = this.getTimeKey();
+    if (key === "dawn") return "새벽";
+    if (key === "day") return "낮";
+    if (key === "sunset") return "노을";
+    return "밤";
   }
 
   getStatusLabels() {
+    const timeKey = this.getTimeKey();
+    const seasonKey = this.getCurrentSeason();
     return {
+      timeKey,
       timeLabel: `${this.getTimeLabel()}${this.timeMode === "auto" ? "" : " (고정)"}`,
-      seasonLabel: `${SEASON_LABELS[this.getCurrentSeason()]}${this.seasonMode === "auto" ? "" : " (고정)"}`,
+      seasonKey,
+      seasonLabel: `${SEASON_LABELS[seasonKey]}${this.seasonMode === "auto" ? "" : " (고정)"}`,
     };
   }
 
@@ -366,7 +378,8 @@ export class SanctuaryAtmosphere {
     lerpMat(this.mats.leafMidMat, targets.mid);
     lerpMat(this.mats.leafDarkMat, targets.dark);
     lerpMat(this.mats.plazaMat, targets.ground);
-    lerpMat(this.mats.avenueMat, targets.ave);
+    const aveList = this.mats.avenueMats || [this.mats.avenueMat];
+    for (const aveMat of aveList) lerpMat(aveMat, targets.ave);
   }
 
   update(dt, heroPos) {

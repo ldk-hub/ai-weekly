@@ -110,6 +110,7 @@
       <!-- 2.5D Quarter-View Archive Sanctuary (Fullscreen Stage) -->
       <section class="sc-world-stage" aria-label="Sanctuary 2.5D 아카이브 스테이지">
         <canvas id="sanctuary-canvas" tabindex="0" aria-label="Sanctuary 2.5D WebGL 캔버스"></canvas>
+        <div class="sc-hd2d-vignette" aria-hidden="true"></div>
         <div id="overlay-layer" class="sc-overlay-layer" aria-hidden="true"></div>
 
         <!-- Bottom-Left Live Multi-User City & Interior Chat Box -->
@@ -130,15 +131,26 @@
           <div class="sc-chat-log" id="chat-message-log" role="log" aria-live="polite"></div>
           <form class="sc-chat-form" id="chat-form" autocomplete="off">
             <input type="text" class="sc-chat-input" id="chat-input" maxlength="220" placeholder="메시지 입력 (Enter 전송 · /w 닉네임 내용)" aria-label="채팅 메시지 입력" />
-            <button type="submit" class="sc-chat-send-btn">전송</button>
+            <button type="submit" class="sc-chat-send-btn" aria-label="메시지 전송" title="전송 (Enter)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+            </button>
           </form>
         </section>
 
         <!-- Compact Bottom-Right Day/Night & Season Atmosphere Capsule -->
         <div class="sc-atmo-pill" id="sanctuary-atmo-pill" role="group" aria-label="시간대·계절·불꽃놀이">
-          <button type="button" class="sc-atmo-btn" id="btn-atmo-time" title="클릭하여 낮/노을/밤/자동 전환">☀️ 낮</button>
-          <button type="button" class="sc-atmo-btn" id="btn-atmo-season" title="클릭하여 봄/여름/가을/겨울/자동 전환">🌸 봄 · 벚꽃</button>
-          <button type="button" class="sc-atmo-btn is-firework" id="btn-atmo-firework" title="불꽃놀이 발사 (F)">🎆 불꽃</button>
+          <button type="button" class="sc-atmo-btn" id="btn-atmo-time" title="클릭하여 낮/노을/밤/자동 전환">
+            <span class="sc-atmo-icon" id="atmo-time-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg></span>
+            <span id="atmo-time-text">낮</span>
+          </button>
+          <button type="button" class="sc-atmo-btn" id="btn-atmo-season" title="클릭하여 봄/여름/가을/겨울/자동 전환">
+            <span class="sc-atmo-icon" id="atmo-season-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7.5a4.5 4.5 0 1 1 4.5 4.5M12 7.5A4.5 4.5 0 1 0 7.5 12M12 7.5V9m-4.5 3a4.5 4.5 0 1 0 4.5 4.5M7.5 12H9m3 4.5a4.5 4.5 0 1 1 4.5-4.5M12 16.5V15m4.5-3H15"/><circle cx="12" cy="12" r="1.5"/></svg></span>
+            <span id="atmo-season-text">봄 · 벚꽃</span>
+          </button>
+          <button type="button" class="sc-atmo-btn is-firework" id="btn-atmo-firework" title="불꽃놀이 발사 (F)">
+            <span class="sc-atmo-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3m0 12v3M3 12h3m12 0h3M5.64 5.64l2.12 2.12m8.48 8.48 2.12 2.12M5.64 18.36l2.12-2.12m8.48-8.48 2.12-2.12"/><circle cx="12" cy="12" r="2"/></svg></span>
+            <span>불꽃</span>
+          </button>
         </div>
       </section>
 
@@ -150,8 +162,13 @@
             <p class="sc-reader-sub" id="reader-sub">data/latest.json 실시간 연동 중…</p>
           </div>
           <div class="sc-reader-head-actions">
-            <a class="sc-reader-ext" id="reader-page-link" href="./">전체 페이지 ↗</a>
-            <button type="button" class="sc-reader-close" id="btn-close-reader" aria-label="리더 패널 닫기">✕</button>
+            <a class="sc-reader-ext" id="reader-page-link" href="./">
+              <span>전체 페이지</span>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg>
+            </a>
+            <button type="button" class="sc-reader-close" id="btn-close-reader" aria-label="리더 패널 닫기">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            </button>
           </div>
         </div>
         <div class="sc-reader-list" id="reader-list" role="region" aria-live="polite"></div>

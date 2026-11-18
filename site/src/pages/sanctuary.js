@@ -683,7 +683,7 @@ class SanctuaryArchiveApp {
         <button type="button" class="sc-post-card ${this.selectedPostIndex === idx ? "is-selected" : ""}" data-post-idx="${idx}">
           <div class="sc-post-meta">
             <span>${esc(String(s.platform || "").toUpperCase())} · ${esc(s.author)}</span>
-            <span>♥ ${esc(formatCompact(s.metrics?.likes || 0))} · 👁 ${esc(formatCompact(s.metrics?.views || 0))}</span>
+            <span>좋아요 ${esc(formatCompact(s.metrics?.likes || 0))} · 조회 ${esc(formatCompact(s.metrics?.views || 0))}</span>
           </div>
           <div class="sc-post-title">${esc(s.title_ko)}</div>
           <div class="sc-post-summary">${esc(s.summary_ko)}</div>
@@ -1180,11 +1180,35 @@ class SanctuaryArchiveApp {
 
   _syncAtmoLabels() {
     if (!this.atmosphere) return;
-    const { timeLabel, seasonLabel } = this.atmosphere.getStatusLabels();
-    const tBtn = document.getElementById("btn-atmo-time");
-    const sBtn = document.getElementById("btn-atmo-season");
-    if (tBtn) tBtn.textContent = timeLabel;
-    if (sBtn) sBtn.textContent = seasonLabel;
+    const { timeKey, timeLabel, seasonKey, seasonLabel } = this.atmosphere.getStatusLabels();
+    const TIME_SVGS = {
+      dawn: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v8m-7.07 1.93 1.41 1.41M2 18h2m16 0h2m-4.34-4.66 1.41-1.41M22 22H2m14-4a4 4 0 0 0-8 0"/></svg>`,
+      day: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>`,
+      sunset: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 10V2m-7.07 9.93 1.41 1.41M2 18h2m16 0h2m-4.34-4.66 1.41-1.41M22 22H2m14-4a4 4 0 0 0-8 0"/></svg>`,
+      night: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`,
+    };
+    const SEASON_SVGS = {
+      spring: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7.5a4.5 4.5 0 1 1 4.5 4.5M12 7.5A4.5 4.5 0 1 0 7.5 12M12 7.5V9m-4.5 3a4.5 4.5 0 1 0 4.5 4.5M7.5 12H9m3 4.5a4.5 4.5 0 1 1 4.5-4.5M12 16.5V15m4.5-3H15"/><circle cx="12" cy="12" r="1.5"/></svg>`,
+      summer: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>`,
+      autumn: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>`,
+      winter: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20M12 2v20m-5-17 5 5 5-5M7 21l5-5 5 5M3 7l5 5-5 5M21 7l-5 5 5 5"/></svg>`,
+    };
+
+    const tIcon = document.getElementById("atmo-time-icon");
+    const tText = document.getElementById("atmo-time-text");
+    if (tIcon && this._lastTimeKey !== timeKey) {
+      tIcon.innerHTML = TIME_SVGS[timeKey] || TIME_SVGS.day;
+      this._lastTimeKey = timeKey;
+    }
+    if (tText && tText.textContent !== timeLabel) tText.textContent = timeLabel;
+
+    const sIcon = document.getElementById("atmo-season-icon");
+    const sText = document.getElementById("atmo-season-text");
+    if (sIcon && this._lastSeasonKey !== seasonKey) {
+      sIcon.innerHTML = SEASON_SVGS[seasonKey] || SEASON_SVGS.spring;
+      this._lastSeasonKey = seasonKey;
+    }
+    if (sText && sText.textContent !== seasonLabel) sText.textContent = seasonLabel;
   }
 
   _launchCelebrationFireworks() {

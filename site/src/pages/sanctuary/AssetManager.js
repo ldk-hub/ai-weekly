@@ -120,6 +120,22 @@ export async function loadSpriteActor(atlasJsonUrl) {
     alphaTest: 0.5,
   });
 
+  // Ground contact shadow disc to anchor HD-2D sprites cleanly without blurring alpha silhouette
+  const shadowGeo = new THREE.CircleGeometry(Math.max(0.56, worldWidth * 0.34), 24);
+  const shadowMat = new THREE.MeshBasicMaterial({
+    map: createContactShadowTexture(),
+    transparent: true,
+    opacity: 0.72,
+    depthWrite: false,
+  });
+  const shadowDisc = new THREE.Mesh(shadowGeo, shadowMat);
+  shadowDisc.rotation.x = -Math.PI / 2;
+  shadowDisc.position.y = 0.025;
+  shadowDisc.castShadow = false;
+  shadowDisc.receiveShadow = false;
+  shadowDisc.raycast = () => {};
+  mesh.add(shadowDisc);
+
   return new SpriteActor(mesh, spriteTexture, atlas);
 }
 
@@ -132,6 +148,128 @@ function mulberry32(seed) {
     t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
   };
+}
+
+function createContactShadowTexture() {
+  if (createContactShadowTexture._tex) return createContactShadowTexture._tex;
+  const size = 64;
+  const c = document.createElement("canvas");
+  c.width = size; c.height = size;
+  const ctx = c.getContext("2d");
+  const cx = size / 2;
+  const g = ctx.createRadialGradient(cx, cx, 4, cx, cx, cx - 2);
+  g.addColorStop(0, "rgba(18, 12, 6, 0.58)");
+  g.addColorStop(0.55, "rgba(18, 12, 6, 0.28)");
+  g.addColorStop(1, "rgba(18, 12, 6, 0)");
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, size, size);
+  const tex = new THREE.CanvasTexture(c);
+  createContactShadowTexture._tex = tex;
+  return tex;
+}
+
+function createAvenuePaverTexture(horizontal = false) {
+  const size = 512;
+  const c = document.createElement("canvas");
+  c.width = size; c.height = size;
+  const ctx = c.getContext("2d");
+  const rng = mulberry32(90812);
+
+  if (horizontal) {
+    ctx.translate(size / 2, size / 2);
+    ctx.rotate(Math.PI / 2);
+    ctx.translate(-size / 2, -size / 2);
+  }
+
+  // Dressed limestone base + dark side curb borders
+  ctx.fillStyle = "#b99c6e";
+  ctx.fillRect(0, 0, size, size);
+  ctx.fillStyle = "#d9c297";
+  ctx.fillRect(0, 0, 36, size);
+  ctx.fillRect(size - 36, 0, 36, size);
+  ctx.fillStyle = "#8a6d45";
+  ctx.fillRect(36, 0, 5, size);
+  ctx.fillRect(size - 41, 0, 5, size);
+
+  const innerW = size - 82;
+  const cols = 4;
+  const rows = 6;
+  const cellW = innerW / cols;
+  const cellH = size / rows;
+  const tones = ["#efe0be", "#e7d3aa", "#f3e6ca", "#dec496"];
+
+  for (let r = 0; r < rows; r++) {
+    const shift = (r % 2) * (cellW * 0.5);
+    for (let col = -1; col <= cols; col++) {
+      const px = 41 + col * cellW + shift;
+      const py = r * cellH;
+      const drawX = Math.max(41, px);
+      const drawW = Math.min(41 + innerW, px + cellW) - drawX;
+      if (drawW <= 4) continue;
+      ctx.fillStyle = tones[Math.floor(rng() * tones.length)];
+      ctx.beginPath();
+      ctx.roundRect(drawX + 2, py + 2, drawW - 4, cellH - 4, 4);
+      ctx.fill();
+      ctx.strokeStyle = "rgba(255, 250, 232, 0.42)";
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    }
+  }
+
+  // Carved curb joints
+  ctx.strokeStyle = "rgba(110, 84, 48, 0.45)";
+  ctx.lineWidth = 2;
+  for (let y = 0; y < size; y += 64) {
+    ctx.beginPath();
+    ctx.moveTo(0, y); ctx.lineTo(36, y);
+    ctx.moveTo(size - 36, y); ctx.lineTo(size, y);
+    ctx.stroke();
+  }
+
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.wrapS = THREE.RepeatWrapping;
+  tex.wrapT = THREE.RepeatWrapping;
+  return tex;
+}
+
+function createRoofTileTexture() {
+  const size = 256;
+  const c = document.createElement("canvas");
+  c.width = size; c.height = size;
+  const ctx = c.getContext("2d");
+  ctx.fillStyle = "#c8c8c8";
+  ctx.fillRect(0, 0, size, size);
+
+  const rows = 8;
+  const cols = 8;
+  const rowH = size / rows;
+  const colW = size / cols;
+  for (let r = 0; r < rows; r++) {
+    const offset = (r % 2) * (colW * 0.5);
+    for (let col = -1; col <= cols; col++) {
+      const x = col * colW + offset;
+      const y = r * rowH;
+      const g = ctx.createLinearGradient(x, y, x, y + rowH);
+      g.addColorStop(0, "#ffffff");
+      g.addColorStop(0.7, "#dfdfdf");
+      g.addColorStop(1, "#9b9b9b");
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.roundRect(x + 1.5, y + 1, colW - 3, rowH - 2, [3, 3, 8, 8]);
+      ctx.fill();
+      ctx.strokeStyle = "rgba(60, 60, 60, 0.28)";
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    }
+  }
+
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.wrapS = THREE.RepeatWrapping;
+  tex.wrapT = THREE.RepeatWrapping;
+  tex.repeat.set(3, 2);
+  return tex;
 }
 
 function createSandstoneTextures() {
@@ -710,6 +848,14 @@ function buildEnterableBuilding(spec, mats, walkableMeshes, colliders) {
     return m;
   };
 
+  const windowGlassMat = new THREE.MeshStandardMaterial({
+    color: 0xfef3c7,
+    emissive: 0xf59e0b,
+    emissiveIntensity: 0.45,
+    roughness: 0.25,
+  });
+  const planterLeafMat = new THREE.MeshStandardMaterial({ color: 0x4d7c0f, roughness: 0.88 });
+
   // Build 4 perimeter walls, leaving an open 3.0-unit doorway on doorDir
   const sides = ["N", "S", "W", "E"];
   for (const s of sides) {
@@ -717,9 +863,29 @@ function buildEnterableBuilding(spec, mats, walkableMeshes, colliders) {
     const span = isNS ? w : d;
     const lx = s === "W" ? -halfW + wallThick * 0.5 : s === "E" ? halfW - wallThick * 0.5 : 0;
     const lz = s === "N" ? -halfD + wallThick * 0.5 : s === "S" ? halfD - wallThick * 0.5 : 0;
+    const outX = s === "W" ? -1 : s === "E" ? 1 : 0;
+    const outZ = s === "N" ? -1 : s === "S" ? 1 : 0;
 
     if (s !== doorDir) {
       makeWall(lx, lz, isNS ? span : wallThick, isNS ? wallThick : span);
+      // Warm framed exterior windows on side & rear walls
+      for (const sideSign of [-1, 1]) {
+        const offsetAlong = sideSign * (span * 0.24);
+        const wx = isNS ? offsetAlong : lx + outX * (wallThick * 0.5 + 0.04);
+        const wz = isNS ? lz + outZ * (wallThick * 0.5 + 0.04) : offsetAlong;
+        const winFrame = new THREE.Mesh(
+          new THREE.BoxGeometry(isNS ? 1.15 : 0.12, 1.25, isNS ? 0.12 : 1.15),
+          timberMat
+        );
+        winFrame.position.set(wx, 1.85, wz);
+        bGroup.add(winFrame);
+        const winPane = new THREE.Mesh(
+          new THREE.BoxGeometry(isNS ? 0.88 : 0.14, 0.96, isNS ? 0.14 : 0.88),
+          windowGlassMat
+        );
+        winPane.position.set(wx, 1.85, wz);
+        bGroup.add(winPane);
+      }
     } else {
       const wing = (span - doorW) * 0.5;
       if (wing > 0.1) {
@@ -741,7 +907,7 @@ function buildEnterableBuilding(spec, mats, walkableMeshes, colliders) {
       lintel.castShadow = true;
       bGroup.add(lintel);
 
-      // Doorway side pillars + glowing lantern sign
+      // Doorway side pillars, warm lantern sign, porch awning & flanking flower planters
       for (const sign of [-1, 1]) {
         const px = isNS ? sign * (doorW * 0.5 + 0.12) : lx;
         const pz = isNS ? lz : sign * (doorW * 0.5 + 0.12);
@@ -749,11 +915,40 @@ function buildEnterableBuilding(spec, mats, walkableMeshes, colliders) {
         post.position.set(px, (doorH + 0.1) * 0.5, pz);
         post.castShadow = true;
         bGroup.add(post);
+
+        const plantOff = sign * (doorW * 0.5 + 0.82);
+        const plX = isNS ? plantOff : lx + outX * 0.56;
+        const plZ = isNS ? lz + outZ * 0.56 : plantOff;
+        const planter = new THREE.Mesh(
+          new THREE.BoxGeometry(isNS ? 0.62 : 0.44, 0.34, isNS ? 0.44 : 0.62),
+          timberMat
+        );
+        planter.position.set(plX, 0.17, plZ);
+        planter.castShadow = true;
+        bGroup.add(planter);
+        const foliage = new THREE.Mesh(
+          new THREE.BoxGeometry(isNS ? 0.54 : 0.36, 0.24, isNS ? 0.36 : 0.54),
+          planterLeafMat
+        );
+        foliage.position.set(plX, 0.42, plZ);
+        bGroup.add(foliage);
       }
-      const signX = s === "W" ? lx - 0.45 : s === "E" ? lx + 0.45 : 0;
-      const signZ = s === "N" ? lz - 0.45 : s === "S" ? lz + 0.45 : 0;
+
+      const awning = new THREE.Mesh(
+        new THREE.BoxGeometry(isNS ? doorW + 0.9 : 1.05, 0.14, isNS ? 1.05 : doorW + 0.9),
+        new THREE.MeshStandardMaterial({ map: mats.roofTileTex || null, color: roofColor, roughness: 0.68 })
+      );
+      awning.position.set(lx + outX * 0.58, doorH + 0.24, lz + outZ * 0.58);
+      awning.rotation.x = outZ * 0.22;
+      awning.rotation.z = -outX * 0.22;
+      awning.castShadow = true;
+      awning.userData.enterBuildingId = id;
+      bGroup.add(awning);
+
+      const signX = lx + outX * 0.48;
+      const signZ = lz + outZ * 0.48;
       const lantern = new THREE.Mesh(new THREE.OctahedronGeometry(0.22, 0), accentMat);
-      lantern.position.set(signX, doorH + 0.25, signZ);
+      lantern.position.set(signX, doorH + 0.04, signZ);
       bGroup.add(lantern);
     }
   }
@@ -875,41 +1070,47 @@ function buildEnterableBuilding(spec, mats, walkableMeshes, colliders) {
   // Separate Cutaway Roof Group (fades away cleanly when player enters!)
   const roofGroup = new THREE.Group();
   const roofMat = new THREE.MeshStandardMaterial({
+    map: mats.roofTileTex || null,
     color: roofColor,
-    roughness: 0.72,
+    roughness: 0.68,
+    metalness: 0.04,
     transparent: true,
     opacity: 1,
   });
   const roofTrimMat = new THREE.MeshStandardMaterial({
     color: 0xf4e4c1,
-    roughness: 0.78,
+    roughness: 0.76,
     transparent: true,
     opacity: 1,
   });
 
-  const roofH = 2.0;
-  const roofBase = new THREE.Mesh(new THREE.BoxGeometry(w + 0.8, 0.28, d + 0.8), roofTrimMat);
-  roofBase.position.y = wallH + 0.14;
+  const roofH = 2.25;
+  const roofBase = new THREE.Mesh(new THREE.BoxGeometry(w + 0.85, 0.26, d + 0.85), roofTrimMat);
+  roofBase.position.y = wallH + 0.13;
   roofBase.castShadow = true;
   roofBase.userData.enterBuildingId = id;
   roofGroup.add(roofBase);
 
-  // Stepped hipped roof tiers (clean, warm sandstone/RPG aesthetic)
-  const tiers = 4;
-  for (let t = 0; t < tiers; t++) {
-    const ratio = 1 - t * 0.22;
-    const tierW = (w + 0.5) * ratio;
-    const tierD = (d + 0.5) * ratio;
-    const tierH = roofH / tiers;
-    const tierMesh = new THREE.Mesh(new THREE.BoxGeometry(tierW, tierH, tierD), roofMat);
-    tierMesh.position.y = wallH + 0.28 + tierH * (t + 0.5);
-    tierMesh.castShadow = true;
-    tierMesh.receiveShadow = true;
-    tierMesh.userData.enterBuildingId = id;
-    roofGroup.add(tierMesh);
-  }
+  // Crisp overhanging pitched hipped roof (non-indexed for sharp architectural roof slopes)
+  const hippedGeo = new THREE.ConeGeometry(1, roofH, 4).toNonIndexed();
+  hippedGeo.computeVertexNormals();
+  const hippedRoof = new THREE.Mesh(hippedGeo, roofMat);
+  hippedRoof.rotation.y = Math.PI * 0.25;
+  hippedRoof.scale.set((w + 0.65) / Math.SQRT2, 1, (d + 0.65) / Math.SQRT2);
+  hippedRoof.position.y = wallH + 0.26 + roofH * 0.5;
+  hippedRoof.castShadow = true;
+  hippedRoof.receiveShadow = true;
+  hippedRoof.userData.enterBuildingId = id;
+  roofGroup.add(hippedRoof);
+
+  // Crown finial plinth & glowing emblem spire
+  const crownCap = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.22, 0.9), roofTrimMat);
+  crownCap.position.y = wallH + 0.26 + roofH + 0.04;
+  crownCap.userData.enterBuildingId = id;
+  roofGroup.add(crownCap);
+
   const spire = new THREE.Mesh(new THREE.OctahedronGeometry(0.38, 0), accentMat.clone());
-  spire.position.y = wallH + 0.28 + roofH + 0.42;
+  spire.position.y = wallH + 0.26 + roofH + 0.48;
   spire.userData.enterBuildingId = id;
   roofGroup.add(spire);
 
@@ -988,24 +1189,51 @@ function buildStreetLamp(x, z, trimMat, glowMat) {
   return lamp;
 }
 
-function buildTownhouseSkyline(x, z, w, d, h, roofHex, stoneMat, trimMat) {
+function buildTownhouseSkyline(x, z, w, d, h, roofHex, stoneMat, trimMat, roofTileTex = null, winMat = null) {
   const t = new THREE.Group();
   t.position.set(x, 0, z);
   const body = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), stoneMat);
   body.position.y = h * 0.5;
   body.castShadow = true; body.receiveShadow = true;
   t.add(body);
+
+  const roofGeo = new THREE.ConeGeometry(1, 2.2, 4).toNonIndexed();
+  roofGeo.computeVertexNormals();
   const roof = new THREE.Mesh(
-    new THREE.ConeGeometry(Math.max(w, d) * 0.72, 2.2, 4),
-    new THREE.MeshStandardMaterial({ color: roofHex, roughness: 0.75 })
+    roofGeo,
+    new THREE.MeshStandardMaterial({ map: roofTileTex, color: roofHex, roughness: 0.72 })
   );
   roof.rotation.y = Math.PI * 0.25;
+  roof.scale.set((w + 0.5) / Math.SQRT2, 1, (d + 0.5) / Math.SQRT2);
   roof.position.y = h + 1.1;
   roof.castShadow = true;
   t.add(roof);
-  const cornice = new THREE.Mesh(new THREE.BoxGeometry(w + 0.3, 0.25, d + 0.3), trimMat);
+
+  const cornice = new THREE.Mesh(new THREE.BoxGeometry(w + 0.35, 0.26, d + 0.35), trimMat);
   cornice.position.y = h;
   t.add(cornice);
+
+  if (winMat) {
+    for (const wy of [1.4, h - 1.1]) {
+      if (wy > h - 0.55) continue;
+      for (const sx of [-w * 0.22, w * 0.22]) {
+        const wFront = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.8, 0.08), winMat);
+        wFront.position.set(sx, wy, d * 0.5 + 0.02);
+        t.add(wFront);
+        const wBack = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.8, 0.08), winMat);
+        wBack.position.set(sx, wy, -d * 0.5 - 0.02);
+        t.add(wBack);
+      }
+      for (const sz of [-d * 0.22, d * 0.22]) {
+        const wSideL = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.8, 0.7), winMat);
+        wSideL.position.set(-w * 0.5 - 0.02, wy, sz);
+        t.add(wSideL);
+        const wSideR = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.8, 0.7), winMat);
+        wSideR.position.set(w * 0.5 + 0.02, wy, sz);
+        t.add(wSideR);
+      }
+    }
+  }
   return t;
 }
 
@@ -1035,11 +1263,33 @@ export async function loadSanctuaryEnvironment(glbUrl, scene) {
     roughness: 0.86,
     metalness: 0.04,
   });
-  const avenueMat = new THREE.MeshStandardMaterial({
-    color: 0xebd7b0,
-    roughness: 0.82,
-    metalness: 0.04,
-  });
+  const roofTileTex = createRoofTileTexture();
+  const avenueTexNS = createAvenuePaverTexture(false);
+  avenueTexNS.repeat.set(1, 16);
+  const avenueTexEW = createAvenuePaverTexture(true);
+  avenueTexEW.repeat.set(16, 1);
+  const ringTexEW = avenueTexEW.clone();
+  ringTexEW.repeat.set(12, 1);
+  ringTexEW.needsUpdate = true;
+  const ringTexNS = avenueTexNS.clone();
+  ringTexNS.repeat.set(1, 12);
+  ringTexNS.needsUpdate = true;
+
+  const avenueMats = [];
+  const makeAvenueMat = (tex) => {
+    const mat = new THREE.MeshStandardMaterial({
+      map: tex,
+      roughness: 0.78,
+      metalness: 0.05,
+    });
+    avenueMats.push(mat);
+    return mat;
+  };
+  const aveMatNS = makeAvenueMat(avenueTexNS);
+  const aveMatEW = makeAvenueMat(avenueTexEW);
+  const ringMatEW = makeAvenueMat(ringTexEW);
+  const ringMatNS = makeAvenueMat(ringTexNS);
+  const avenueMat = aveMatNS;
   const wallTex = diffTex.clone();
   wallTex.repeat.set(2.2, 0.6);
   wallTex.rotation = 0;
@@ -1070,17 +1320,17 @@ export async function loadSanctuaryEnvironment(glbUrl, scene) {
   envGroup.add(floor);
   walkableMeshes.push(floor);
 
-  // Cardinal Grand Avenues & Ring Boulevard Stone Runners (y = 0.015)
+  // Cardinal Grand Avenues & Ring Boulevard Stone Runners (staggered Y prevents overlap Z-fighting)
   const avenueConfigs = [
-    [0, 0.01, 0, 5.4, 0.03, 68],   // N-S Grand Avenue
-    [0, 0.01, 0, 68, 0.03, 5.4],   // E-W Grand Avenue
-    [0, 0.01, -24.5, 52, 0.03, 4.0], // North Ring Road
-    [0, 0.01, 24.5, 52, 0.03, 4.0],  // South Ring Road
-    [-24.5, 0.01, 0, 4.0, 0.03, 52], // West Ring Road
-    [24.5, 0.01, 0, 4.0, 0.03, 52],  // East Ring Road
+    [0, 0.016, 0, 5.4, 0.03, 68, aveMatNS],   // N-S Grand Avenue
+    [0, 0.013, 0, 68, 0.03, 5.4, aveMatEW],   // E-W Grand Avenue
+    [0, 0.009, -24.5, 52, 0.03, 4.0, ringMatEW], // North Ring Road
+    [0, 0.009, 24.5, 52, 0.03, 4.0, ringMatEW],  // South Ring Road
+    [-24.5, 0.006, 0, 4.0, 0.03, 52, ringMatNS], // West Ring Road
+    [24.5, 0.006, 0, 4.0, 0.03, 52, ringMatNS],  // East Ring Road
   ];
-  for (const [ax, ay, az, aw, ah, ad] of avenueConfigs) {
-    const av = new THREE.Mesh(new THREE.BoxGeometry(aw, ah, ad), avenueMat);
+  for (const [ax, ay, az, aw, ah, ad, mat] of avenueConfigs) {
+    const av = new THREE.Mesh(new THREE.BoxGeometry(aw, ah, ad), mat);
     av.position.set(ax, ay, az);
     av.receiveShadow = true;
     envGroup.add(av);
@@ -1131,7 +1381,7 @@ export async function loadSanctuaryEnvironment(glbUrl, scene) {
   const { crystalMesh, runeDisc, waterTex } = buildCrystalFountain(envGroup, stoneWallMat, trimMat);
 
   // 5. Six Enterable Buildings (4 District Archive Halls + West Tavern + East Workshop)
-  const mats = { wallTex, trimMat, woodTex };
+  const mats = { wallTex, trimMat, woodTex, roofTileTex };
   const buildingSpecs = [
     { id: "plugins", title: "인기 플러그인 공방", x: -15, z: -15, w: 10, d: 9, doorDir: "S", roofColor: 0xd97757, accentColor: 0xfbbf24, interiorType: "forge" },
     { id: "news", title: "AI 뉴스 대도서관", x: 15, z: -15, w: 11, d: 9, doorDir: "S", roofColor: 0x2563eb, accentColor: 0x38bdf8, interiorType: "library" },
@@ -1147,6 +1397,12 @@ export async function loadSanctuaryEnvironment(glbUrl, scene) {
   }
 
   // 6. Outer District Skyline Townhouses (framing the perimeter avenues)
+  const skylineWinMat = new THREE.MeshStandardMaterial({
+    color: 0xfef3c7,
+    emissive: 0xf59e0b,
+    emissiveIntensity: 0.42,
+    roughness: 0.28,
+  });
   const skylineSpecs = [
     [-28, -28, 7, 7, 4.4, 0xc2410c], [28, -28, 7, 7, 4.8, 0x1d4ed8],
     [-28, 28, 7, 7, 4.2, 0x9d174d],  [28, 28, 7, 7, 4.6, 0x047857],
@@ -1156,7 +1412,7 @@ export async function loadSanctuaryEnvironment(glbUrl, scene) {
     [-29, 9, 5, 6, 3.5, 0xbe123c],   [29, 9, 5, 6, 3.7, 0x0f766e],
   ];
   for (const [tx, tz, tw, td, th, rc] of skylineSpecs) {
-    envGroup.add(buildTownhouseSkyline(tx, tz, tw, td, th, rc, stoneWallMat, trimMat));
+    envGroup.add(buildTownhouseSkyline(tx, tz, tw, td, th, rc, stoneWallMat, trimMat, roofTileTex, skylineWinMat));
     addWallCollider(colliders, tx, tz, tw, td);
   }
 
@@ -1273,6 +1529,7 @@ export async function loadSanctuaryEnvironment(glbUrl, scene) {
     atmosphereMats: {
       plazaMat,
       avenueMat,
+      avenueMats,
       leafHiMat,
       leafMidMat,
       leafDarkMat,
