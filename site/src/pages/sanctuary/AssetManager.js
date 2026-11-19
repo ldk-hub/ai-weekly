@@ -57,6 +57,10 @@ export class SpriteActor {
     this.lastSector = 0;
     this.onActionComplete = null;
     this.jumpHeight = 0;
+    this._leanZ = 0;
+    if (this.spriteMesh) {
+      this.spriteMesh.rotation.order = "YXZ";
+    }
   }
 
   setUserData(key, value) {
@@ -66,13 +70,25 @@ export class SpriteActor {
   }
 
   /**
-   * Elevate the character billboard while keeping the ground shadow anchored at y = 0.025.
+   * Elevate and dynamically pose the character billboard (jump, dash-slide lean, squash/stretch, hit/charge flash)
+   * while keeping the ground shadow anchored at y = 0.025.
    */
-  setJumpHeight(heightY = 0, scaleX = 1, scaleY = 1) {
+  setJumpHeight(heightY = 0, scaleX = 1, scaleY = 1, leanZ = 0, flashHex = 0x000000, flashIntensity = 0) {
     const h = Math.max(0, heightY);
     this.jumpHeight = h;
+    this._leanZ = leanZ;
     this.spriteMesh.position.y = h;
     this.spriteMesh.scale.set(scaleX, scaleY, 1);
+    this.spriteMesh.rotation.z = leanZ;
+    const mat = this.spriteMesh.material;
+    if (mat && mat.emissive) {
+      if (flashIntensity > 0.001) {
+        mat.emissive.setHex(flashHex);
+        mat.emissiveIntensity = flashIntensity;
+      } else if (mat.emissiveIntensity > 0) {
+        mat.emissiveIntensity = 0;
+      }
+    }
     if (this.hitMesh) {
       this.hitMesh.position.y = h + (this.worldHeight + 0.15) * 0.5;
     }

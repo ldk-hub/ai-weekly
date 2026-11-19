@@ -397,9 +397,20 @@ class SanctuaryArchiveApp {
       jumpVy: 0,
       landingSquashTimer: 0,
       dashTimer: 0,
+      slideTimer: 0,
+      slideDustTimer: 0,
       dashCooldown: 0,
       dashGhostTimer: 0,
       dashDir: new THREE.Vector3(0, 0, -1),
+      velX: 0,
+      velZ: 0,
+      leanZ: 0,
+      attackPoseTimer: 0,
+      airDiveActive: false,
+      isGuarding: false,
+      isChargingMagic: false,
+      magicChargeTime: 0,
+      flashTimer: 0,
       runDustTimer: 0,
       castState: null,
       emoteText: "",
@@ -1068,31 +1079,90 @@ class SanctuaryArchiveApp {
   triggerMelee() {
     if (!this.arena) return;
     this.hero.isSitting = false;
-    const isDashing = this.hero.dashTimer > 0;
-    const ok = this.arena.triggerMeleeAction(
+    this.setHeroGuard(false);
+    const speed = Math.hypot(this.hero.velX || 0, this.hero.velZ || 0);
+    const isSliding = this.hero.slideTimer > 0 || this.hero.dashTimer > 0 || speed > 10.2;
+    const res = this.arena.triggerMeleeAction(
       { x: this.hero.position.x, y: this.hero.jumpY, z: this.hero.position.z },
       this.hero.facingAngle,
-      isDashing
+      { isSliding }
     );
-    if (ok) {
-      this.hero.actor?.playAction("Cast", () => this.hero.actor?.playAction("Idle", null, true), true);
-      this.audio.playTone(280, 520, 0.11, "triangle", 0.065);
+    if (res) {
+      // Forward lunge / slide-extension momentum!
+      if (res.attackKind === "dash_slide") {
+        this.hero.velX = res.lungeX;
+        this.hero.velZ = res.lungeZ;
+        this.hero.slideTimer = Math.max(this.hero.slideTimer, 0.34);
+      } else if (res.attackKind === "air_slam") {
+        this.hero.velX = this.hero.velX * 0.65 + res.lungeX * 0.45;
+        this.hero.velZ = this.hero.velZ * 0.65 + res.lungeZ * 0.45;
+        this.hero.jumpVy = res.diveVy || -19.5;
+        this.hero.airDiveActive = true;
+      } else {
+        this.hero.velX = this.hero.velX * 0.35 + res.lungeX;
+        this.hero.velZ = this.hero.velZ * 0.35 + res.lungeZ;
+      }
+      this.hero.attackPoseTimer = res.attackKind === "combo3" ? 0.28 : 0.19;
+      this.hero.flashTimer = 0.08;
+      this.hero.actor?.playAction(res.attackKind === "dash_slide" ? "Dash" : "Cast", () => {
+        if (this.hero.attackPoseTimer <= 0) this.hero.actor?.playAction("Idle", null, true);
+      }, true);
+      const pitchMap = { combo1: [270, 480], combo2: [340, 580], combo3: [220, 680], dash_slide: [420, 780], air_slam: [540, 220] };
+      const [f0, f1] = pitchMap[res.attackKind] || [280, 520];
+      this.audio.playTone(f0, f1, 0.12, res.attackKind === "combo3" ? "sawtooth" : "triangle", 0.068);
     }
   }
 
-  triggerMagic() {
+  triggerMagic(chargeRatio = 0) {
     if (!this.arena) return;
     this.hero.isSitting = false;
+    this.setHeroGuard(false);
     const ok = this.arena.triggerMagicAction(
       { x: this.hero.position.x, y: this.hero.jumpY, z: this.hero.position.z },
-      this.hero.facingAngle
+      this.hero.facingAngle,
+      chargeRatio
     );
     if (ok) {
+      // Crisp arcade recoil slide backward on cast!
+      const recoil = chargeRatio >= 0.85 ? 6.5 : 3.2;
+      this.hero.velX -= Math.sin(this.hero.facingAngle) * recoil;
+      this.hero.velZ -= Math.cos(this.hero.facingAngle) * recoil;
+      this.hero.attackPoseTimer = 0.22;
+      this.hero.flashTimer = 0.1;
       this.hero.actor?.playAction("Cast", () => this.hero.actor?.playAction("Idle", null, true), true);
-      this.audio.playTone(440, 740, 0.14, "sine", 0.06);
-    } else if (this.arena.mp < 16) {
+      this.audio.playTone(chargeRatio >= 0.85 ? 360 : 460, chargeRatio >= 0.85 ? 920 : 740, 0.16, "sine", 0.065);
+    } else if (this.arena.mp < 14) {
       this.vfx.spawnDamageNumber(this.hero.position.x, 2.0, this.hero.position.z, "MP 부족!", "normal");
     }
+  }
+
+  setHeroGuard(active) {
+    const next = Boolean(active);
+    if (this.hero.isGuarding === next) return;
+    this.hero.isGuarding = next;
+    if (next) {
+      this.hero.isSitting = false;
+      this.hero.isChargingMagic = false;
+      this.hero.magicChargeTime = 0;
+      this.arena?.setMagicChargeVisual(false);
+    }
+    this.arena?.setGuard(next, { x: this.hero.position.x, y: this.hero.jumpY, z: this.hero.position.z });
+  }
+
+  _beginMagicCharge() {
+    if (this.hero.isChargingMagic) return;
+    this.setHeroGuard(false);
+    this.hero.isChargingMagic = true;
+    this.hero.magicChargeTime = 0;
+  }
+
+  _releaseMagicCharge() {
+    if (!this.hero.isChargingMagic) return;
+    const ratio = Math.min(1, this.hero.magicChargeTime / 0.45);
+    this.hero.isChargingMagic = false;
+    this.hero.magicChargeTime = 0;
+    this.arena?.setMagicChargeVisual(false);
+    this.triggerMagic(ratio);
   }
 
   triggerUltimate() {
@@ -1175,14 +1245,20 @@ class SanctuaryArchiveApp {
     if (mpBar) mpBar.style.width = `${Math.round((this.arena.mp / this.arena.maxMp) * 100)}%`;
     const ultBtn = document.getElementById("btn-sp-ult");
     if (ultBtn) ultBtn.classList.toggle("is-ready", this.arena.mp >= 50 && this.arena.ultCooldown <= 0);
+    const guardBtn = document.getElementById("btn-sp-guard");
+    if (guardBtn) guardBtn.classList.toggle("is-active-move", this.hero.isGuarding);
+    const magicBtn = document.getElementById("btn-sp-magic");
+    if (magicBtn) magicBtn.classList.toggle("is-charging", this.hero.isChargingMagic && this.hero.magicChargeTime >= 0.15);
 
     const comboWrap = document.getElementById("sp-combo-badge");
     const comboNum = document.getElementById("sp-combo-num");
     if (comboWrap && comboNum) {
       const show = this.arena.combo >= 2;
       comboWrap.hidden = !show;
-      if (show && comboNum.textContent !== String(this.arena.combo)) {
-        comboNum.textContent = String(this.arena.combo);
+      if (show) {
+        const rank = this.arena.getComboRank();
+        const nextText = `${this.arena.combo} · ${rank.grade}`;
+        if (comboNum.textContent !== nextText) comboNum.textContent = nextText;
       }
     }
   }
@@ -2044,7 +2120,7 @@ class SanctuaryArchiveApp {
   }
 
   triggerDash() {
-    if (this.hero.dashCooldown > 0 || this.hero.dashTimer > 0) return;
+    if (this.hero.dashCooldown > 0) return;
 
     const { forward, right } = this.controller.getGroundBasis();
     const dir = this._tmpMoveVec.set(0, 0, 0);
@@ -2055,6 +2131,9 @@ class SanctuaryArchiveApp {
 
     if (dir.lengthSq() > 0.001) {
       dir.normalize();
+    } else if (Math.hypot(this.hero.velX || 0, this.hero.velZ || 0) > 1.2) {
+      const spd = Math.hypot(this.hero.velX, this.hero.velZ);
+      dir.set(this.hero.velX / spd, 0, this.hero.velZ / spd);
     } else if (this.hero.moveTarget) {
       dir.subVectors(this.hero.moveTarget, this.hero.position);
       dir.y = 0;
@@ -2064,39 +2143,75 @@ class SanctuaryArchiveApp {
       dir.set(Math.sin(this.hero.facingAngle), 0, Math.cos(this.hero.facingAngle));
     }
 
-    this.hero.isSitting = false;
-    document.getElementById("btn-sit")?.classList.remove("is-active");
     const spStats = this.arena?.getPlayerStats();
-    if (this.arena && this.arena.booster < 18) return;
-    if (this.arena) this.arena.booster = Math.max(0, this.arena.booster - 22);
+    if (this.arena && this.arena.booster < 14) return;
+    if (this.arena) {
+      this.arena.booster = Math.max(0, this.arena.booster - 16);
+      // Dash-Cancel: immediately resets melee lag so players can chain fluidly!
+      this.arena.meleeCooldown = 0;
+    }
 
-    this.hero.dashDir.copy(dir);
-    this.hero.facingAngle = Math.atan2(dir.x, dir.z);
-    this.hero.dashTimer = 0.26;
-    this.hero.dashCooldown = 1.05 * (spStats?.dashCooldownMul || 1.0);
-    this.hero.dashGhostTimer = 0;
+    this.hero.isSitting = false;
+    this.setHeroGuard(false);
+    this.hero.attackPoseTimer = 0;
+    document.getElementById("btn-sit")?.classList.remove("is-active");
 
     const spec = AVATAR_DEFS[this.hero.classKey] || AVATAR_DEFS.Solar_Guard;
+    const baseSpeed = spec.speed * (spStats?.speedMul || 1.0);
+    const slideImpulse = baseSpeed * 3.15;
+
+    // Survival Project Momentum Impulse -> smooth gliding slide!
+    this.hero.dashDir.copy(dir);
+    this.hero.velX = dir.x * slideImpulse;
+    this.hero.velZ = dir.z * slideImpulse;
+    this.hero.facingAngle = Math.atan2(dir.x, dir.z);
+    this.hero.dashTimer = 0.16;      // initial burst surge
+    this.hero.slideTimer = 0.50;     // silky low-friction Survival Project glide-slide!
+    this.hero.dashCooldown = 0.38 * (spStats?.dashCooldownMul || 1.0);
+    this.hero.dashGhostTimer = 0;
+    this.hero.slideDustTimer = 0;
+    this.hero.flashTimer = 0.09;
+
     const elColor = spStats ? ELEMENT_DEFS[spStats.element].colorInt : (spec.dashTint || 0x38bdf8);
     this.hero.actor?.playAction("Dash", null, true);
-    this.pixelVfx?.spawnBurst("poof", { x: this.hero.position.x, y: 0.65, z: this.hero.position.z, scale: 1.5, fps: 20 });
-    this.vfx.spawnDustPuff(this.hero.position, { color: elColor, maxScale: 2.35, opacity: 0.78, life: 0.34 });
+    this.pixelVfx?.spawnBurst("dash_strike", {
+      x: this.hero.position.x,
+      y: 0.8,
+      z: this.hero.position.z,
+      scale: 2.3,
+      fps: 24,
+      tint: elColor,
+      flipX: dir.x < -0.15,
+      additive: true,
+    });
+    this.pixelVfx?.spawnBurst("poof", { x: this.hero.position.x, y: 0.55, z: this.hero.position.z, scale: 1.65, fps: 22 });
+    this.vfx.spawnDustPuff(this.hero.position, { color: elColor, maxScale: 2.55, opacity: 0.82, life: 0.34 });
     this.vfx.spawnAfterimage(this.hero.actor, elColor);
-    this.audio.playTone(320, 680, 0.14, "triangle", 0.06);
+    this.audio.playTone(340, 740, 0.13, "triangle", 0.065);
   }
 
   triggerJump() {
     if (this.hero.isJumping) return;
     const spStats = this.arena?.getPlayerStats();
     this.hero.isSitting = false;
+    this.setHeroGuard(false);
     document.getElementById("btn-sit")?.classList.remove("is-active");
     this.hero.isJumping = true;
-    this.hero.jumpVy = 9.2 * (spStats?.jumpMul || 1.0);
+    this.hero.airDiveActive = false;
+    const isSlideJump = this.hero.slideTimer > 0 || Math.hypot(this.hero.velX || 0, this.hero.velZ || 0) > 10.0;
+    // Slide-Jump launches a sleek, far-gliding Survival Project long jump!
+    if (isSlideJump) {
+      this.hero.velX *= 1.14;
+      this.hero.velZ *= 1.14;
+      this.hero.jumpVy = 9.8 * (spStats?.jumpMul || 1.0);
+    } else {
+      this.hero.jumpVy = 9.2 * (spStats?.jumpMul || 1.0);
+    }
     this.hero.landingSquashTimer = 0;
     this.hero.actor?.playAction("Jump", null, true);
-    this.pixelVfx?.spawnBurst("poof", { x: this.hero.position.x, y: 0.55, z: this.hero.position.z, scale: 1.25, fps: 20 });
-    this.vfx.spawnDustPuff(this.hero.position, { color: 0xfef3c7, maxScale: 1.55, opacity: 0.62, life: 0.32 });
-    this.audio.playTone(380, 580, 0.12, "sine", 0.055);
+    this.pixelVfx?.spawnBurst("poof", { x: this.hero.position.x, y: 0.55, z: this.hero.position.z, scale: isSlideJump ? 1.7 : 1.3, fps: 20 });
+    this.vfx.spawnDustPuff(this.hero.position, { color: 0xfef3c7, maxScale: isSlideJump ? 2.1 : 1.55, opacity: 0.68, life: 0.32 });
+    this.audio.playTone(isSlideJump ? 420 : 380, isSlideJump ? 680 : 580, 0.12, "sine", 0.055);
   }
 
   _updateHero(dt) {
@@ -2110,8 +2225,18 @@ class SanctuaryArchiveApp {
     const hasKeyMove = moveVec.lengthSq() > 0.001;
     const isShiftHeld = this.keys.has("ShiftLeft") || this.keys.has("ShiftRight");
 
-    if (this.hero.dashCooldown > 0) {
-      this.hero.dashCooldown = Math.max(0, this.hero.dashCooldown - dt);
+    if (this.hero.dashCooldown > 0) this.hero.dashCooldown = Math.max(0, this.hero.dashCooldown - dt);
+    if (this.hero.dashTimer > 0) this.hero.dashTimer = Math.max(0, this.hero.dashTimer - dt);
+    if (this.hero.slideTimer > 0) this.hero.slideTimer = Math.max(0, this.hero.slideTimer - dt);
+    if (this.hero.attackPoseTimer > 0) this.hero.attackPoseTimer = Math.max(0, this.hero.attackPoseTimer - dt);
+    if (this.hero.flashTimer > 0) this.hero.flashTimer = Math.max(0, this.hero.flashTimer - dt);
+
+    // Update Hold-to-Charge Magic
+    if (this.hero.isChargingMagic) {
+      this.hero.magicChargeTime += dt;
+      if (this.hero.magicChargeTime >= 0.15) {
+        this.arena?.setMagicChargeVisual(true, { x: this.hero.position.x, y: this.hero.jumpY, z: this.hero.position.z });
+      }
     }
 
     if (hasKeyMove) {
@@ -2143,51 +2268,93 @@ class SanctuaryArchiveApp {
     const spec = AVATAR_DEFS[this.hero.classKey] || AVATAR_DEFS.Solar_Guard;
     const spStats = this.arena?.getPlayerStats();
     const baseSpeed = spec.speed * (spStats?.speedMul || 1.0);
-    let isMoving = false;
-    let isDashing = false;
-    let isRunning = false;
-    this.hero.vx = 0;
-    this.hero.vz = 0;
+    const elColor = spStats ? ELEMENT_DEFS[spStats.element].colorInt : (spec.dashTint || 0x38bdf8);
 
+    const hasInput = moveVec.lengthSq() > 0.001;
+    const isSliding = this.hero.slideTimer > 0;
+    const isRunning = hasInput && isShiftHeld && !this.hero.isGuarding && (!this.arena || this.arena.booster > 4);
+    const maxSpeed = this.hero.isGuarding ? baseSpeed * 0.25 : isRunning ? baseSpeed * 1.68 : baseSpeed * 1.08;
+
+    // --- SURVIVAL PROJECT MOMENTUM / INERTIA / SLIDE PHYSICS ---
     if (this.hero.dashTimer > 0) {
-      isDashing = true;
-      isMoving = true;
-      this.hero.dashTimer = Math.max(0, this.hero.dashTimer - dt);
-      const dashSpeed = baseSpeed * 2.75;
-      this.hero.vx = this.hero.dashDir.x * dashSpeed;
-      this.hero.vz = this.hero.dashDir.z * dashSpeed;
-      const next = this._resolveCityCollisions(
-        this.hero.position.x + this.hero.vx * dt,
-        this.hero.position.z + this.hero.vz * dt
-      );
-      this.hero.position.set(next.x, 0, next.z);
-      this.hero.facingAngle = Math.atan2(this.hero.dashDir.x, this.hero.dashDir.z);
-
-      this.hero.dashGhostTimer += dt;
-      if (this.hero.dashGhostTimer >= 0.07) {
-        this.hero.dashGhostTimer = 0;
-        const elColor = spStats ? ELEMENT_DEFS[spStats.element].colorInt : (spec.dashTint || 0x38bdf8);
-        this.vfx.spawnAfterimage(this.hero.actor, elColor);
+      // Initial burst impulse keeps full velocity; slight steering carve allowed
+      if (hasInput) {
+        this.hero.velX += moveVec.x * 16.0 * dt;
+        this.hero.velZ += moveVec.z * 16.0 * dt;
       }
-    } else if (moveVec.lengthSq() > 0.001) {
-      isMoving = true;
-      isRunning = isShiftHeld && (!this.arena || this.arena.booster > 4);
-      const speed = isRunning ? baseSpeed * 1.62 : baseSpeed;
-      this.hero.vx = moveVec.x * speed;
-      this.hero.vz = moveVec.z * speed;
-      const next = this._resolveCityCollisions(
-        this.hero.position.x + this.hero.vx * dt,
-        this.hero.position.z + this.hero.vz * dt
-      );
-      this.hero.position.set(next.x, 0, next.z);
-      this.hero.facingAngle = Math.atan2(moveVec.x, moveVec.z);
-
-      if (isRunning && !this.hero.isJumping) {
-        this.hero.runDustTimer += dt;
-        if (this.hero.runDustTimer >= 0.24) {
-          this.hero.runDustTimer = 0;
-          this.vfx.spawnDustPuff(this.hero.position, { color: 0xfef3c7, maxScale: 1.3, opacity: 0.45, life: 0.28 });
+    } else if (isSliding) {
+      // Low-friction gliding slide! Carve curves smoothly with direction keys!
+      const slideDamp = Math.exp(-2.65 * dt);
+      this.hero.velX *= slideDamp;
+      this.hero.velZ *= slideDamp;
+      if (hasInput && !this.hero.isGuarding) {
+        this.hero.velX += moveVec.x * 15.0 * dt;
+        this.hero.velZ += moveVec.z * 15.0 * dt;
+      }
+    } else if (this.hero.isJumping) {
+      // Air control preserves jump/slide momentum!
+      const airDamp = Math.exp(-1.1 * dt);
+      this.hero.velX *= airDamp;
+      this.hero.velZ *= airDamp;
+      if (hasInput) {
+        this.hero.velX += moveVec.x * 18.0 * dt;
+        this.hero.velZ += moveVec.z * 18.0 * dt;
+        const curAirSpd = Math.hypot(this.hero.velX, this.hero.velZ);
+        const capAir = Math.max(maxSpeed * 1.1, baseSpeed * 2.2);
+        if (curAirSpd > capAir) {
+          this.hero.velX = (this.hero.velX / curAirSpd) * capAir;
+          this.hero.velZ = (this.hero.velZ / curAirSpd) * capAir;
         }
+      }
+    } else if (hasInput && !this.hero.isGuarding) {
+      // Responsive arcade acceleration + whip-turn drift skid!
+      const curSpd = Math.hypot(this.hero.velX, this.hero.velZ);
+      const dot = curSpd > 0.1 ? (this.hero.velX * moveVec.x + this.hero.velZ * moveVec.z) / curSpd : 1;
+      if (dot < -0.25 && curSpd > 5.8) {
+        // Sharp reversal drift skid puff!
+        this.hero.slideDustTimer += dt;
+        if (this.hero.slideDustTimer >= 0.08) {
+          this.hero.slideDustTimer = 0;
+          this.pixelVfx?.spawnBurst("poof", { x: this.hero.position.x, y: 0.42, z: this.hero.position.z, scale: 1.15, fps: 24 });
+        }
+      }
+      const accel = isRunning ? 46.0 : 38.0;
+      const targetVx = moveVec.x * maxSpeed;
+      const targetVz = moveVec.z * maxSpeed;
+      const blend = 1 - Math.exp(-(accel / Math.max(4, maxSpeed)) * dt);
+      this.hero.velX += (targetVx - this.hero.velX) * blend;
+      this.hero.velZ += (targetVz - this.hero.velZ) * blend;
+    } else {
+      // Smooth elastic skate/glide deceleration when releasing keys (Survival Project inertia!)
+      const brakeRate = this.hero.isGuarding ? 14.0 : 6.4;
+      const damp = Math.exp(-brakeRate * dt);
+      this.hero.velX *= damp;
+      this.hero.velZ *= damp;
+      if (Math.hypot(this.hero.velX, this.hero.velZ) < 0.08) {
+        this.hero.velX = 0;
+        this.hero.velZ = 0;
+      }
+    }
+
+    const curSpeed = Math.hypot(this.hero.velX, this.hero.velZ);
+    const isMoving = curSpeed > 0.35;
+    this.hero.vx = this.hero.velX;
+    this.hero.vz = this.hero.velZ;
+
+    if (curSpeed > 0.04) {
+      const next = this._resolveCityCollisions(
+        this.hero.position.x + this.hero.velX * dt,
+        this.hero.position.z + this.hero.velZ * dt
+      );
+      // Damp velocity on wall collision
+      if (Math.abs(next.x - (this.hero.position.x + this.hero.velX * dt)) > 0.01) this.hero.velX *= 0.25;
+      if (Math.abs(next.z - (this.hero.position.z + this.hero.velZ * dt)) > 0.01) this.hero.velZ *= 0.25;
+      this.hero.position.set(next.x, 0, next.z);
+
+      if (hasInput && !this.hero.isGuarding && this.hero.attackPoseTimer <= 0) {
+        this.hero.facingAngle = Math.atan2(moveVec.x, moveVec.z);
+      } else if (isSliding && curSpeed > 1.5 && this.hero.attackPoseTimer <= 0) {
+        this.hero.facingAngle = Math.atan2(this.hero.velX, this.hero.velZ);
       }
 
       for (const sh of this.shrines) {
@@ -2197,9 +2364,31 @@ class SanctuaryArchiveApp {
         }
       }
     }
+
+    // Slide & Run VFX trails (afterimages + ground skid dust!)
+    if ((isSliding || curSpeed > baseSpeed * 1.75) && !this.hero.isJumping) {
+      this.hero.dashGhostTimer += dt;
+      if (this.hero.dashGhostTimer >= 0.055) {
+        this.hero.dashGhostTimer = 0;
+        this.vfx.spawnAfterimage(this.hero.actor, elColor);
+      }
+      this.hero.slideDustTimer += dt;
+      if (this.hero.slideDustTimer >= 0.095) {
+        this.hero.slideDustTimer = 0;
+        this.pixelVfx?.spawnBurst("poof", { x: this.hero.position.x, y: 0.42, z: this.hero.position.z, scale: 1.05, fps: 24, opacity: 0.8 });
+        this.vfx.spawnDustPuff(this.hero.position, { color: elColor, maxScale: 1.45, opacity: 0.48, life: 0.26 });
+      }
+    } else if (isRunning && !this.hero.isJumping) {
+      this.hero.runDustTimer += dt;
+      if (this.hero.runDustTimer >= 0.22) {
+        this.hero.runDustTimer = 0;
+        this.vfx.spawnDustPuff(this.hero.position, { color: 0xfef3c7, maxScale: 1.3, opacity: 0.45, life: 0.28 });
+      }
+    }
+
     this.hero.isRunning = isRunning;
 
-    // Parabolic Jump Physics + Landing Squash/Stretch
+    // Parabolic Jump Physics + Air-Slam Landing Impact + Dynamic Pose Squash/Stretch & Lean!
     let scaleX = 1.0;
     let scaleY = 1.0;
     if (this.hero.isJumping) {
@@ -2209,29 +2398,68 @@ class SanctuaryArchiveApp {
         this.hero.jumpY = 0;
         this.hero.jumpVy = 0;
         this.hero.isJumping = false;
-        this.hero.landingSquashTimer = 0.14;
-        this.vfx.spawnDustPuff(this.hero.position, { color: 0xfef3c7, maxScale: 1.75, opacity: 0.65, life: 0.34 });
-        this.audio.playTone(220, 140, 0.08, "sine", 0.045);
+        this.hero.landingSquashTimer = 0.16;
+        if (this.hero.airDiveActive) {
+          this.hero.airDiveActive = false;
+          this.arena?.triggerAirSlamImpact(this.hero.position);
+          this.audio.playTone(150, 70, 0.18, "sawtooth", 0.08);
+        } else {
+          this.vfx.spawnDustPuff(this.hero.position, { color: 0xfef3c7, maxScale: 1.75, opacity: 0.65, life: 0.34 });
+          this.audio.playTone(220, 140, 0.08, "sine", 0.045);
+        }
       } else {
-        const stretch = Math.min(0.11, Math.abs(this.hero.jumpVy) * 0.012);
+        const stretch = Math.min(0.14, Math.abs(this.hero.jumpVy) * 0.013);
         scaleY = 1 + stretch;
         scaleX = 1 - stretch * 0.65;
       }
     } else if (this.hero.landingSquashTimer > 0) {
       this.hero.landingSquashTimer = Math.max(0, this.hero.landingSquashTimer - dt);
-      const tSq = this.hero.landingSquashTimer / 0.14;
-      scaleY = 1 - 0.15 * tSq;
-      scaleX = 1 + 0.14 * tSq;
+      const tSq = this.hero.landingSquashTimer / 0.16;
+      scaleY = 1 - 0.18 * tSq;
+      scaleX = 1 + 0.17 * tSq;
+    } else if (isSliding && curSpeed > 4.0) {
+      // Sleek crouched Survival Project gliding slide posture!
+      scaleX = 1.18;
+      scaleY = 0.84;
+    } else if (this.hero.isGuarding) {
+      scaleX = 1.10;
+      scaleY = 0.90;
+    } else if (this.hero.attackPoseTimer > 0) {
+      const aT = this.hero.attackPoseTimer / 0.24;
+      scaleX = 1 + 0.15 * aT;
+      scaleY = 1 - 0.08 * aT;
     }
 
-    // Priority Action State Machine: Jump > Dash > Run > Walk > Sit/Idle
+    // Screen-space velocity tilt lean (leaning into curves & dash-slides!)
+    const az = this.controller.cameraAzimuth;
+    const screenVx = this.hero.velX * Math.cos(az) - this.hero.velZ * Math.sin(az);
+    const targetLean = THREE.MathUtils.clamp(-screenVx * (isSliding ? 0.022 : 0.012), -0.28, 0.28);
+    this.hero.leanZ += (targetLean - this.hero.leanZ) * Math.min(1, dt * 16);
+
+    // Emissive flash for attack / charge / guard feedback
+    let flashHex = 0x000000;
+    let flashIntensity = 0;
+    if (this.hero.flashTimer > 0) {
+      flashHex = elColor;
+      flashIntensity = 0.55;
+    } else if (this.hero.isChargingMagic && this.hero.magicChargeTime >= 0.15) {
+      flashHex = this.hero.magicChargeTime >= 0.42 ? 0xfef08a : elColor;
+      flashIntensity = this.hero.magicChargeTime >= 0.42 ? 0.65 : 0.35;
+    } else if (this.hero.isGuarding) {
+      flashHex = 0x38bdf8;
+      flashIntensity = 0.28;
+    }
+
+    // Priority Action State Machine: Jump > Slide/Dash > Attack > Run > Walk > Sit/Idle
     if (this.hero.actor) {
       if (this.hero.isJumping) {
         this.hero.actor.playAction("Jump");
-      } else if (isDashing) {
+      } else if (isSliding && curSpeed > 4.0) {
         this.hero.actor.playAction("Dash");
+      } else if (this.hero.attackPoseTimer > 0) {
+        this.hero.actor.playAction("Cast");
       } else if (isMoving) {
-        this.hero.actor.playAction(isRunning ? "Run" : "Walk");
+        this.hero.actor.playAction(isRunning || curSpeed > baseSpeed * 1.25 ? "Run" : "Walk");
       } else if (
         this.hero.actor.currentAction === "Walk" ||
         this.hero.actor.currentAction === "Run" ||
@@ -2242,14 +2470,14 @@ class SanctuaryArchiveApp {
       }
 
       this.hero.actor.mesh.position.copy(this.hero.position);
-      this.hero.actor.setJumpHeight(this.hero.jumpY, scaleX, scaleY);
+      this.hero.actor.setJumpHeight(this.hero.jumpY, scaleX, scaleY, this.hero.leanZ, flashHex, flashIntensity);
     }
 
     // Sync Dash / Jump button feedback
     const dashBtn = document.getElementById("btn-hero-dash");
     if (dashBtn) {
-      dashBtn.classList.toggle("is-cooldown", this.hero.dashCooldown > 0 && !isDashing);
-      dashBtn.classList.toggle("is-active-move", isDashing || isRunning);
+      dashBtn.classList.toggle("is-cooldown", this.hero.dashCooldown > 0 && !isSliding);
+      dashBtn.classList.toggle("is-active-move", isSliding || isRunning);
     }
     const jumpBtn = document.getElementById("btn-hero-jump");
     if (jumpBtn) {
@@ -2446,19 +2674,27 @@ class SanctuaryArchiveApp {
       posAttr.needsUpdate = true;
     }
 
-    this._updateHero(dt);
-    this._updateBuildings(dt);
-    this.arena?.update(dt, this._elapsed, {
+    // Arcade Hitstop (30~72ms crisp impact freeze frames while keeping screen shake live!)
+    const inHitstop = this.arena && this.arena.hitstopTimer > 0;
+    if (inHitstop) {
+      this.arena.hitstopTimer = Math.max(0, this.arena.hitstopTimer - dt);
+    }
+    const simDt = inHitstop ? dt * 0.08 : dt;
+
+    this._updateHero(simDt);
+    this._updateBuildings(simDt);
+    this.arena?.update(simDt, this._elapsed, {
       pos: { x: this.hero.position.x, y: this.hero.jumpY, z: this.hero.position.z },
       vx: this.hero.vx || 0,
       vz: this.hero.vz || 0,
       isMoving: Math.hypot(this.hero.vx || 0, this.hero.vz || 0) > 0.2,
       isRunning: this.hero.isRunning,
       isDashing: this.hero.dashTimer > 0,
+      isSliding: this.hero.slideTimer > 0 || Math.hypot(this.hero.vx || 0, this.hero.vz || 0) > 10.2,
     }, this.citizens);
-    this.pixelVfx?.update(dt, this.controller.cameraAzimuth);
+    this.pixelVfx?.update(simDt, this.controller.cameraAzimuth);
     this._syncSurvivalGauges();
-    this.atmosphere?.update(dt, this.hero.position);
+    this.atmosphere?.update(simDt, this.hero.position);
     if (now - (this._lastAtmoUiSync || 0) > 400) {
       this._lastAtmoUiSync = now;
       this._syncAtmoLabels();
@@ -2467,8 +2703,8 @@ class SanctuaryArchiveApp {
     this.controller.update(dt, this.hero.position);
     if (this.arena?.screenShake > 0.005) {
       const s = this.arena.screenShake;
-      this.controller.camera.position.x += (Math.random() - 0.5) * s * 0.9;
-      this.controller.camera.position.y += (Math.random() - 0.5) * s * 0.7;
+      this.controller.camera.position.x += (Math.random() - 0.5) * s * 1.1;
+      this.controller.camera.position.y += (Math.random() - 0.5) * s * 0.85;
     }
     if (this.dirLight) {
       this.dirLight.position.set(this.hero.position.x - 18, 28, this.hero.position.z + 14);
@@ -2681,10 +2917,32 @@ class SanctuaryArchiveApp {
       ev.stopPropagation();
       this.triggerMelee();
     });
-    document.getElementById("btn-sp-magic")?.addEventListener("click", (ev) => {
-      ev.stopPropagation();
-      this.triggerMagic();
-    });
+    const magicBtnEl = document.getElementById("btn-sp-magic");
+    if (magicBtnEl) {
+      magicBtnEl.addEventListener("pointerdown", (ev) => {
+        ev.stopPropagation();
+        this._beginMagicCharge();
+      });
+      magicBtnEl.addEventListener("pointerup", (ev) => {
+        ev.stopPropagation();
+        this._releaseMagicCharge();
+      });
+      magicBtnEl.addEventListener("pointerleave", () => {
+        if (this.hero.isChargingMagic) this._releaseMagicCharge();
+      });
+    }
+    const guardBtnEl = document.getElementById("btn-sp-guard");
+    if (guardBtnEl) {
+      guardBtnEl.addEventListener("pointerdown", (ev) => {
+        ev.stopPropagation();
+        this.setHeroGuard(true);
+      });
+      guardBtnEl.addEventListener("pointerup", (ev) => {
+        ev.stopPropagation();
+        this.setHeroGuard(false);
+      });
+      guardBtnEl.addEventListener("pointerleave", () => this.setHeroGuard(false));
+    }
     document.getElementById("btn-sp-ult")?.addEventListener("click", (ev) => {
       ev.stopPropagation();
       this.triggerUltimate();
@@ -2921,11 +3179,13 @@ class SanctuaryArchiveApp {
         ev.preventDefault();
         this.triggerJump();
       } else if (ev.code === "KeyZ" || ev.code === "KeyJ") {
-        this.triggerMelee();
+        if (!ev.repeat) this.triggerMelee();
       } else if (ev.code === "KeyX" || ev.code === "KeyK") {
-        this.triggerMagic();
+        if (!ev.repeat) this._beginMagicCharge();
+      } else if (ev.code === "KeyF" || ev.code === "KeyG") {
+        if (!ev.repeat) this.setHeroGuard(true);
       } else if (ev.code === "KeyV" || ev.code === "KeyL") {
-        this.triggerUltimate();
+        if (!ev.repeat) this.triggerUltimate();
       } else if (ev.code === "KeyC") {
         const modal = document.getElementById("sp-card-modal");
         if (modal && !modal.hidden) this.closeCardDeckModal();
@@ -2958,8 +3218,16 @@ class SanctuaryArchiveApp {
         if (readerPanel && !readerPanel.hidden) this.minimizeRoomDashboard();
       }
     });
-    window.addEventListener("keyup", (ev) => this.keys.delete(ev.code));
-    window.addEventListener("blur", () => this.keys.clear());
+    window.addEventListener("keyup", (ev) => {
+      this.keys.delete(ev.code);
+      if (ev.code === "KeyX" || ev.code === "KeyK") this._releaseMagicCharge();
+      if (ev.code === "KeyF" || ev.code === "KeyG") this.setHeroGuard(false);
+    });
+    window.addEventListener("blur", () => {
+      this.keys.clear();
+      this.setHeroGuard(false);
+      if (this.hero.isChargingMagic) this._releaseMagicCharge();
+    });
   }
 }
 

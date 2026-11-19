@@ -31,7 +31,12 @@ export class PixelVFXEngine {
       if (!res.ok) throw new Error(`VFX manifest HTTP ${res.status}`);
       this.manifest = await res.json();
       // Pre-warm the most frequently used arcade FX quietly
-      const prewarm = ["sword_slash", "crit_hit", "poof", "coin_spin", "collect_burst", "fireball", "ice_lance", "tornado", "boulder"];
+      const prewarm = [
+        "sword_slash", "double_slash", "heavy_cleave", "spin_slash", "thrust",
+        "dash_strike", "ground_slam", "parry", "spell_charge", "slime",
+        "crit_hit", "hit_spark", "poof", "coin_spin", "collect_burst",
+        "fireball", "ice_lance", "tornado", "boulder",
+      ];
       for (const k of prewarm) {
         if (this.manifest[k]) this._ensureBaseTexture(k);
       }

@@ -286,17 +286,26 @@ export class SurvivalArena {
     this.score = { blue: 0, red: 0 };
     this.goalCooldown = 0;
 
-    // Arcade Combat / Action gauges
+    // Arcade Combat / Action gauges & Combo State Machine
     this.booster = 100;
     this.maxBooster = 100;
-    this.mp = 60;
+    this.mp = 65;
     this.maxMp = 100;
     this.combo = 0;
     this.comboTimer = 0;
     this.meleeCooldown = 0;
+    this.meleeComboStep = 0;      // 0 -> 1 -> 2 (3-hit Survival Project combo)
+    this.meleeComboWindow = 0;    // time left to chain next melee hit
     this.magicCooldown = 0;
     this.ultCooldown = 0;
     this.screenShake = 0;
+    this.hitstopTimer = 0;        // crisp arcade hit-freeze frames (30~75ms)
+
+    // Guard / Just-Parry & Magic Charge state
+    this.isGuarding = false;
+    this.guardElapsed = 0;
+    this.guardShieldLoop = null;
+    this.chargeLoop = null;
 
     // Ball state
     this.ball = {
@@ -315,6 +324,8 @@ export class SurvivalArena {
     };
 
     this.crystals = [];
+    this.slimes = [];
+    this.enemyOrbs = [];
     this.coins = [];
     this.heroAuraLoop = null;
     this.heroAuraElement = null;
@@ -325,7 +336,16 @@ export class SurvivalArena {
 
     this._buildSoccerPitch();
     this._buildElementalCrystals();
+    this._spawnSparringSlimes();
     this._spawnInitialPlazaCoins();
+  }
+
+  getComboRank() {
+    if (this.combo >= 15) return { grade: "SS", label: "SURVIVAL KING" };
+    if (this.combo >= 10) return { grade: "S", label: "SUPER" };
+    if (this.combo >= 6) return { grade: "A", label: "GREAT" };
+    if (this.combo >= 3) return { grade: "B", label: "NICE" };
+    return { grade: "C", label: "HIT" };
   }
 
   _saveProfile() {
@@ -637,6 +657,123 @@ export class SurvivalArena {
     }
   }
 
+  _spawnSparringSlimes() {
+    const spawns = [
+      { id: "slime-fire", element: "fire", x: -4.2, z: -4.4 },
+      { id: "slime-water", element: "water", x: 4.2, z: -4.4 },
+      { id: "slime-wind", element: "wind", x: -4.8, z: 4.8 },
+      { id: "slime-earth", element: "earth", x: 4.8, z: 4.8 },
+    ];
+    const shadowGeo = new THREE.CircleGeometry(0.55, 14);
+    shadowGeo.rotateX(-Math.PI / 2);
+    const shadowMat = new THREE.MeshBasicMaterial({
+      color: 0x0f172a,
+      transparent: true,
+      opacity: 0.32,
+      depthWrite: false,
+    });
+    this._disposables.push(shadowGeo, shadowMat);
+
+    for (const s of spawns) {
+      const shadow = new THREE.Mesh(shadowGeo, shadowMat);
+      shadow.position.set(s.x, 0.04, s.z);
+      this.group.add(shadow);
+      this.slimes.push({
+        id: s.id,
+        element: s.element,
+        homeX: s.x,
+        homeZ: s.z,
+        x: s.x,
+        y: 0.55,
+        z: s.z,
+        vx: 0,
+        vy: 0,
+        vz: 0,
+        hp: 120,
+        maxHp: 120,
+        alive: true,
+        respawnTimer: 0,
+        stunTimer: 0,
+        hitFlash: 0,
+        attackTimer: 3.2 + Math.random() * 2.8,
+        telegraphTimer: 0,
+        hopPhase: Math.random() * Math.PI * 2,
+        loop: null, // lazily attached once pixelVfx manifest is ready
+        shadow,
+      });
+    }
+  }
+
+  _ensureSlimeSprites() {
+    if (!this.pixelVfx?.manifest?.slime) return;
+    for (const sl of this.slimes) {
+      if (sl.loop) continue;
+      const edef = ELEMENT_DEFS[sl.element] || ELEMENT_DEFS.fire;
+      sl.loop = this.pixelVfx.createLoopBillboard("slime", {
+        x: sl.x,
+        y: sl.y,
+        z: sl.z,
+        scale: 1.55,
+        fps: 11,
+        tint: edef.colorInt,
+        renderOrder: 10,
+      });
+    }
+  }
+
+  setGuard(active, heroPos) {
+    const next = Boolean(active);
+    if (next && !this.isGuarding) {
+      this.isGuarding = true;
+      this.guardElapsed = 0;
+      if (heroPos && this.pixelVfx?.manifest?.pb_shield && !this.guardShieldLoop) {
+        const edef = ELEMENT_DEFS[this.getPlayerStats().element] || ELEMENT_DEFS.water;
+        this.guardShieldLoop = this.pixelVfx.createLoopBillboard("pb_shield", {
+          x: heroPos.x,
+          y: (heroPos.y || 0) + 1.05,
+          z: heroPos.z,
+          scale: 2.15,
+          fps: 18,
+          tint: edef.colorInt,
+          opacity: 0.85,
+          additive: true,
+          renderOrder: 15,
+        });
+      }
+    } else if (!next && this.isGuarding) {
+      this.isGuarding = false;
+      this.guardElapsed = 0;
+      if (this.guardShieldLoop) {
+        this.guardShieldLoop.dispose();
+        this.guardShieldLoop = null;
+      }
+    }
+  }
+
+  setMagicChargeVisual(active, heroPos) {
+    if (active && heroPos && this.pixelVfx?.manifest?.spell_charge) {
+      if (!this.chargeLoop) {
+        const edef = ELEMENT_DEFS[this.getPlayerStats().element] || ELEMENT_DEFS.fire;
+        this.chargeLoop = this.pixelVfx.createLoopBillboard("spell_charge", {
+          x: heroPos.x,
+          y: (heroPos.y || 0) + 1.05,
+          z: heroPos.z,
+          scale: 2.35,
+          fps: 16,
+          tint: edef.colorInt,
+          opacity: 0.9,
+          additive: true,
+          renderOrder: 14,
+        });
+      } else if (this.chargeLoop.alive) {
+        this.chargeLoop.mesh.position.set(heroPos.x, (heroPos.y || 0) + 1.05, heroPos.z);
+      }
+    } else if (!active && this.chargeLoop) {
+      this.chargeLoop.dispose();
+      this.chargeLoop = null;
+    }
+  }
+
   _spawnInitialPlazaCoins() {
     const spots = [
       [-6.0, -7.8], [6.0, -7.8], [-8.0, 0.0], [8.0, 0.0],
@@ -672,103 +809,283 @@ export class SurvivalArena {
   }
 
   /**
-   * Action [A]: Survival Project Melee Slash / Power Soccer Kick!
+   * Action [Z / J]: Authentic Survival Project 3-Hit Combo, Dash-Slide Attack & Aerial Jump Attack!
+   * Returns lunge/dive physics directive for the hero controller.
    */
-  triggerMeleeAction(heroPos, facingAngle, isDashing = false) {
-    if (this.meleeCooldown > 0) return false;
-    this.meleeCooldown = 0.28;
-    const stats = this.getPlayerStats();
-    const dirX = Math.sin(facingAngle);
-    const dirZ = Math.cos(facingAngle);
-    const hitX = heroPos.x + dirX * 1.35;
-    const hitZ = heroPos.z + dirZ * 1.35;
-
-    // 1. Spawn MIT pixelfx sword_slash
-    const flipX = dirX < -0.2;
-    this.pixelVfx?.spawnBurst("sword_slash", {
-      x: hitX,
-      y: 1.0 + (heroPos.y || 0),
-      z: hitZ,
-      scale: isDashing ? 2.85 : 2.35,
-      fps: 22,
-      tint: ELEMENT_DEFS[stats.element].colorInt,
-      flipX,
-    });
-
-    let hitSomething = false;
-
-    // 2. Check Soccer Ball Power Kick ("강진 슈팅!")
-    const bdx = this.ball.x - hitX;
-    const bdz = this.ball.z - hitZ;
-    const bDist = Math.hypot(bdx, bdz);
-    const heroBallDist = Math.hypot(this.ball.x - heroPos.x, this.ball.z - heroPos.z);
-    if (bDist < 1.85 || heroBallDist < 1.75) {
-      const kickPower = (isDashing ? 17.5 : 14.5) * stats.kickPowerMul;
-      this.ball.vx = dirX * kickPower;
-      this.ball.vz = dirZ * kickPower;
-      this.ball.vy = isDashing ? 5.2 : 3.6;
-      this.ball.lastTouchElement = stats.element;
-      this.ball.curveForceZ = 0;
-      this.screenShake = Math.max(this.screenShake, 0.16);
-      this.mp = Math.min(this.maxMp, this.mp + 10);
-
-      this.pixelVfx?.spawnBurst("crit_hit", { x: this.ball.x, y: 0.7, z: this.ball.z, scale: 2.4, fps: 20 });
-      this.vfx?.spawnDamageNumber(this.ball.x, 1.35, this.ball.z, isDashing ? "DASH SPIKE!!" : "POWER SHOT!", isDashing ? "crit" : "magic");
-      this._addCombo(1);
-      this.callbacks.onBallKick?.(this.ball);
-      hitSomething = true;
-    }
-
-    // 3. Check Elemental Spirit Crystals
-    for (const c of this.crystals) {
-      if (!c.alive) continue;
-      if (Math.hypot(c.x - hitX, c.z - hitZ) < 1.95) {
-        const dmg = Math.round((28 + stats.magicPower * 0.45) * (isDashing ? 1.35 : 1.0));
-        this._damageCrystal(c, dmg, stats.element, stats.critChance);
-        hitSomething = true;
-      }
-    }
-
-    this.callbacks.onSkillCast?.("melee", stats.element, heroPos.x, heroPos.z, facingAngle);
-    return hitSomething || true;
-  }
-
-  /**
-   * Action [S]: Survival Project 4-Element Magic Projectile!
-   */
-  triggerMagicAction(heroPos, facingAngle) {
-    if (this.magicCooldown > 0 || this.mp < 16) return false;
-    this.magicCooldown = 0.42;
-    this.mp = Math.max(0, this.mp - 16);
+  triggerMeleeAction(heroPos, facingAngle, opts = {}) {
+    const isSliding = Boolean(opts.isSliding);
+    const isAirborne = (heroPos.y || 0) > 0.32;
+    if (this.meleeCooldown > 0) return null;
 
     const stats = this.getPlayerStats();
     const edef = ELEMENT_DEFS[stats.element];
     const dirX = Math.sin(facingAngle);
     const dirZ = Math.cos(facingAngle);
-    const projSpeed = stats.element === "wind" ? 15.5 : stats.element === "water" ? 14.0 : stats.element === "fire" ? 13.5 : 11.5;
+    const flipX = dirX < -0.15;
+
+    let attackKind = "combo1";
+    let vfxKey = "sword_slash";
+    let vfxScale = 2.65;
+    let lungeSpeed = 7.5;
+    let diveVy = 0;
+    let hitRadius = 2.25;
+    let knockHoriz = 7.2;
+    let knockUp = 3.2;
+    let dmgMul = 1.0;
+    let hitstop = 0.032;
+
+    if (isAirborne) {
+      attackKind = "air_slam";
+      vfxKey = "spin_slash";
+      vfxScale = 3.35;
+      lungeSpeed = 6.0;
+      diveVy = -19.5;
+      hitRadius = 3.1;
+      knockHoriz = 9.5;
+      knockUp = 7.8;
+      dmgMul = 1.45;
+      hitstop = 0.055;
+      this.meleeCooldown = 0.32;
+      this.meleeComboStep = 0;
+      this.meleeComboWindow = 0;
+    } else if (isSliding) {
+      attackKind = "dash_slide";
+      vfxKey = "thrust";
+      vfxScale = 3.4;
+      lungeSpeed = 16.5;
+      hitRadius = 2.75;
+      knockHoriz = 15.5;
+      knockUp = 4.6;
+      dmgMul = 1.4;
+      hitstop = 0.052;
+      this.meleeCooldown = 0.24;
+      this.meleeComboStep = 1;
+      this.meleeComboWindow = 0.65;
+      this.pixelVfx?.spawnBurst("dash_strike", {
+        x: heroPos.x + dirX * 0.6,
+        y: 0.9,
+        z: heroPos.z + dirZ * 0.6,
+        scale: 3.1,
+        fps: 22,
+        tint: edef.colorInt,
+        flipX,
+        additive: true,
+      });
+    } else {
+      const step = this.meleeComboWindow > 0 ? this.meleeComboStep : 0;
+      if (step === 0) {
+        attackKind = "combo1";
+        vfxKey = "sword_slash";
+        vfxScale = 2.65;
+        lungeSpeed = 7.2;
+        knockHoriz = 6.8;
+        knockUp = 2.8;
+        dmgMul = 1.0;
+        hitstop = 0.030;
+        this.meleeCooldown = 0.17;
+        this.meleeComboStep = 1;
+        this.meleeComboWindow = 0.68;
+      } else if (step === 1) {
+        attackKind = "combo2";
+        vfxKey = "double_slash";
+        vfxScale = 2.95;
+        lungeSpeed = 9.2;
+        knockHoriz = 8.8;
+        knockUp = 4.2;
+        dmgMul = 1.25;
+        hitstop = 0.038;
+        this.meleeCooldown = 0.18;
+        this.meleeComboStep = 2;
+        this.meleeComboWindow = 0.68;
+      } else {
+        attackKind = "combo3";
+        vfxKey = "heavy_cleave";
+        vfxScale = 3.6;
+        lungeSpeed = 11.8;
+        hitRadius = 2.85;
+        knockHoriz = 15.8;
+        knockUp = 8.6;
+        dmgMul = 1.75;
+        hitstop = 0.068;
+        this.meleeCooldown = 0.34;
+        this.meleeComboStep = 0;
+        this.meleeComboWindow = 0;
+      }
+    }
+
+    const hitX = heroPos.x + dirX * (attackKind === "dash_slide" ? 1.85 : 1.45);
+    const hitZ = heroPos.z + dirZ * (attackKind === "dash_slide" ? 1.85 : 1.45);
+
+    this.pixelVfx?.spawnBurst(vfxKey, {
+      x: hitX,
+      y: 1.0 + (heroPos.y || 0),
+      z: hitZ,
+      scale: vfxScale,
+      fps: 22,
+      tint: edef.colorInt,
+      flipX,
+    });
+
+    let landedHit = false;
+
+    // 1. Check Soccer Ball Kick ("강진 슈팅 / 대시 스파이크 / 피니시 슛!")
+    const bDist = Math.hypot(this.ball.x - hitX, this.ball.z - hitZ);
+    const heroBallDist = Math.hypot(this.ball.x - heroPos.x, this.ball.z - heroPos.z);
+    if (bDist < hitRadius || heroBallDist < 1.85) {
+      const baseKick = attackKind === "dash_slide" ? 20.5 : attackKind === "combo3" ? 19.0 : attackKind === "air_slam" ? 17.5 : 14.5;
+      const kickPower = baseKick * stats.kickPowerMul;
+      this.ball.vx = dirX * kickPower;
+      this.ball.vz = dirZ * kickPower;
+      this.ball.vy = attackKind === "combo3" ? 6.4 : attackKind === "dash_slide" ? 4.4 : 3.6;
+      this.ball.lastTouchElement = stats.element;
+      this.ball.curveForceZ = 0;
+      this.screenShake = Math.max(this.screenShake, attackKind === "combo3" || attackKind === "dash_slide" ? 0.24 : 0.14);
+      this.mp = Math.min(this.maxMp, this.mp + 12);
+
+      this.pixelVfx?.spawnBurst("crit_hit", { x: this.ball.x, y: 0.75, z: this.ball.z, scale: 2.6, fps: 20 });
+      const shotText =
+        attackKind === "dash_slide" ? "SLIDE SPIKE!!"
+          : attackKind === "combo3" ? "FINISH SHOT!!"
+          : attackKind === "air_slam" ? "AIR VOLLEY!!"
+          : "POWER SHOT!";
+      this.vfx?.spawnDamageNumber(this.ball.x, 1.45, this.ball.z, shotText, attackKind === "combo1" ? "magic" : "crit");
+      this._addCombo(1);
+      this.callbacks.onBallKick?.(this.ball);
+      landedHit = true;
+    }
+
+    // 2. Check Juggleable Elemental Sparring Slimes (Knockback + Skid + Air Juggle!)
+    for (const sl of this.slimes) {
+      if (!sl.alive) continue;
+      if (Math.hypot(sl.x - hitX, sl.z - hitZ) < hitRadius + 0.35) {
+        const dmg = Math.round((26 + stats.magicPower * 0.5) * dmgMul);
+        const isAirJuggle = sl.y > 1.05;
+        this._damageSlime(sl, dmg, stats.element, stats.critChance, {
+          kx: dirX * knockHoriz,
+          kz: dirZ * knockHoriz,
+          ky: isAirJuggle ? Math.max(6.8, knockUp) : knockUp,
+          tag: isAirJuggle ? "AIR JUGGLE!!" : attackKind === "dash_slide" ? "SLIDE HIT!" : attackKind === "combo3" ? "FINISH!!" : "",
+        });
+        landedHit = true;
+      }
+    }
+
+    // 3. Check Elemental Spirit Crystals
+    for (const c of this.crystals) {
+      if (!c.alive) continue;
+      if (Math.hypot(c.x - hitX, c.z - hitZ) < hitRadius) {
+        const dmg = Math.round((28 + stats.magicPower * 0.45) * dmgMul);
+        this._damageCrystal(c, dmg, stats.element, stats.critChance);
+        landedHit = true;
+      }
+    }
+
+    if (landedHit) {
+      this.hitstopTimer = Math.max(this.hitstopTimer, hitstop);
+      this.screenShake = Math.max(this.screenShake, attackKind === "combo3" || attackKind === "dash_slide" ? 0.22 : 0.12);
+    }
+
+    this.callbacks.onSkillCast?.("melee", stats.element, heroPos.x, heroPos.z, facingAngle);
+    return { attackKind, lungeX: dirX * lungeSpeed, lungeZ: dirZ * lungeSpeed, diveVy, landedHit };
+  }
+
+  /**
+   * Called when hero lands from an Aerial Jump Attack! Triggers Survival Project Ground-Slam AoE launcher!
+   */
+  triggerAirSlamImpact(heroPos) {
+    const stats = this.getPlayerStats();
+    const edef = ELEMENT_DEFS[stats.element];
+    this.screenShake = Math.max(this.screenShake, 0.28);
+    this.hitstopTimer = Math.max(this.hitstopTimer, 0.055);
+
+    this.pixelVfx?.spawnBurst("ground_slam", {
+      x: heroPos.x,
+      y: 0.95,
+      z: heroPos.z,
+      scale: 3.8,
+      fps: 18,
+      tint: edef.colorInt,
+    });
+    this.pixelVfx?.spawnBurst("poof", { x: heroPos.x, y: 0.45, z: heroPos.z, scale: 2.6, fps: 18 });
+
+    // Launch nearby slimes & ball skyward for juggle chains!
+    const radius = 3.8;
+    const bDist = Math.hypot(this.ball.x - heroPos.x, this.ball.z - heroPos.z);
+    if (bDist < radius) {
+      const nx = (this.ball.x - heroPos.x) / Math.max(0.1, bDist);
+      const nz = (this.ball.z - heroPos.z) / Math.max(0.1, bDist);
+      this.ball.vx = nx * 13.5 * stats.kickPowerMul;
+      this.ball.vz = nz * 13.5 * stats.kickPowerMul;
+      this.ball.vy = 8.4;
+      this.vfx?.spawnDamageNumber(this.ball.x, 1.6, this.ball.z, "SLAM LAUNCH!!", "crit");
+      this.callbacks.onBallKick?.(this.ball);
+    }
+    for (const sl of this.slimes) {
+      if (!sl.alive) continue;
+      const d = Math.hypot(sl.x - heroPos.x, sl.z - heroPos.z);
+      if (d < radius) {
+        const nx = (sl.x - heroPos.x) / Math.max(0.1, d);
+        const nz = (sl.z - heroPos.z) / Math.max(0.1, d);
+        this._damageSlime(sl, Math.round(stats.magicPower * 1.45), stats.element, stats.critChance + 0.15, {
+          kx: nx * 9.5,
+          kz: nz * 9.5,
+          ky: 9.2,
+          tag: "LAUNCH!!",
+        });
+      }
+    }
+    for (const c of this.crystals) {
+      if (!c.alive) continue;
+      if (Math.hypot(c.x - heroPos.x, c.z - heroPos.z) < radius) {
+        this._damageCrystal(c, Math.round(stats.magicPower * 1.3), stats.element, stats.critChance);
+      }
+    }
+  }
+
+  /**
+   * Action [X / K]: Fast Shot (tap) OR Overcharged Elemental Cannon (hold >= 0.42s)!
+   */
+  triggerMagicAction(heroPos, facingAngle, chargeRatio = 0) {
+    const isCharged = chargeRatio >= 0.85;
+    const mpCost = isCharged ? 28 : 14;
+    if (this.magicCooldown > 0 || this.mp < mpCost) return false;
+    this.magicCooldown = isCharged ? 0.52 : 0.34;
+    this.mp = Math.max(0, this.mp - mpCost);
+
+    const stats = this.getPlayerStats();
+    const edef = ELEMENT_DEFS[stats.element];
+    const dirX = Math.sin(facingAngle);
+    const dirZ = Math.cos(facingAngle);
+    const baseSpeed = stats.element === "wind" ? 16.5 : stats.element === "water" ? 15.0 : stats.element === "fire" ? 14.5 : 12.5;
+    const projSpeed = baseSpeed * (isCharged ? 1.25 : 1.0);
 
     this.pixelVfx?.spawnBurst("magic_circle", {
       x: heroPos.x,
       y: 0.08,
       z: heroPos.z,
-      scale: 2.2,
+      scale: isCharged ? 3.2 : 2.2,
       fps: 18,
       groundFlat: true,
       tint: edef.colorInt,
       additive: true,
     });
 
+    if (isCharged) {
+      this.screenShake = Math.max(this.screenShake, 0.2);
+      this.vfx?.spawnDamageNumber(heroPos.x, 2.35, heroPos.z, `OVERCHARGE ${edef.en}!!`, "crit");
+    }
+
     this.pixelVfx?.spawnProjectile(edef.projKey, {
-      x: heroPos.x + dirX * 0.85,
+      x: heroPos.x + dirX * 0.9,
       y: 1.05 + (heroPos.y || 0),
-      z: heroPos.z + dirZ * 0.85,
+      z: heroPos.z + dirZ * 0.9,
       vx: dirX * projSpeed,
       vz: dirZ * projSpeed,
-      scale: stats.element === "tornado" ? 2.1 : 1.9,
+      scale: (stats.element === "wind" ? 2.2 : 1.95) * (isCharged ? 1.75 : 1.0),
       element: stats.element,
-      power: stats.magicPower,
-      radius: 1.15,
-      maxAge: 1.45,
+      power: Math.round(stats.magicPower * (isCharged ? 2.2 : 1.0)),
+      radius: isCharged ? 1.75 : 1.15,
+      maxAge: isCharged ? 1.75 : 1.4,
       additive: stats.element === "fire" || stats.element === "water",
     });
 
@@ -824,6 +1141,22 @@ export class SurvivalArena {
       this.ball.lastTouchElement = stats.element;
       this.vfx?.spawnDamageNumber(this.ball.x, 1.6, this.ball.z, "SUPER ELEMENT SHOT!", "crit");
       this.callbacks.onBallKick?.(this.ball);
+    }
+
+    // Blast slimes in AoE!
+    for (const sl of this.slimes) {
+      if (!sl.alive) continue;
+      const d = Math.hypot(sl.x - targetX, sl.z - targetZ);
+      if (d < 5.0) {
+        const nx = (sl.x - targetX) / Math.max(0.1, d);
+        const nz = (sl.z - targetZ) / Math.max(0.1, d);
+        this._damageSlime(sl, Math.round(stats.magicPower * 2.5), stats.element, Math.min(0.9, stats.critChance + 0.3), {
+          kx: nx * 16.0,
+          kz: nz * 16.0,
+          ky: 10.2,
+          tag: `${edef.en} LAUNCH!!`,
+        });
+      }
     }
 
     // Blast crystals in AoE!
@@ -885,6 +1218,62 @@ export class SurvivalArena {
   _addCombo(amount = 1) {
     this.combo += amount;
     this.comboTimer = 4.2;
+  }
+
+  _damageSlime(slime, baseDmg, attackElement, critChance = 0.15, knock = {}) {
+    const edef = ELEMENT_DEFS[attackElement] || ELEMENT_DEFS.fire;
+    const isAdvantage = edef.beats === slime.element;
+    const isCrit = isAdvantage || Math.random() < critChance;
+    const finalDmg = Math.round(baseDmg * (isAdvantage ? 1.85 : isCrit ? 1.45 : 1.0));
+
+    slime.hp = Math.max(0, slime.hp - finalDmg);
+    slime.hitFlash = 0.22;
+    slime.stunTimer = 0.45;
+    slime.telegraphTimer = 0;
+    slime.vx = (knock.kx ?? 0) + (Math.random() - 0.5) * 1.4;
+    slime.vz = (knock.kz ?? 0) + (Math.random() - 0.5) * 1.4;
+    slime.vy = Math.max(slime.vy * 0.4, knock.ky ?? 4.0);
+    this._addCombo(1);
+    this.mp = Math.min(this.maxMp, this.mp + 9);
+
+    this.pixelVfx?.spawnBurst(isCrit ? "crit_hit" : "hit_spark", {
+      x: slime.x,
+      y: slime.y + 0.35,
+      z: slime.z,
+      scale: isCrit ? 2.5 : 1.9,
+      fps: 20,
+    });
+
+    const prefix = knock.tag ? `${knock.tag} ` : "";
+    const label = isAdvantage ? `${prefix}${finalDmg} 상성!` : isCrit ? `${prefix}${finalDmg} CRIT!` : `${prefix}${finalDmg}`;
+    this.vfx?.spawnDamageNumber(slime.x, slime.y + 1.15, slime.z, label, isCrit || knock.tag ? "crit" : "normal");
+
+    if (slime.hp <= 0) {
+      slime.alive = false;
+      slime.respawnTimer = 9.0;
+      if (slime.loop?.mesh) slime.loop.mesh.visible = false;
+      if (slime.shadow) slime.shadow.visible = false;
+      this.profile.crystalsBroken += 1;
+      this.hitstopTimer = Math.max(this.hitstopTimer, 0.065);
+      this.screenShake = Math.max(this.screenShake, 0.24);
+
+      const sDef = ELEMENT_DEFS[slime.element];
+      this.pixelVfx?.spawnBurst(sDef.ultKey, {
+        x: slime.x,
+        y: 1.5,
+        z: slime.z,
+        scale: 3.0,
+        fps: 16,
+        additive: true,
+      });
+
+      for (let i = 0; i < 4; i++) {
+        const ang = (i / 4) * Math.PI * 2 + Math.random() * 0.4;
+        const spd = 2.6 + Math.random() * 2.0;
+        this.spawnCoin(slime.x, slime.z, Math.cos(ang) * spd, Math.sin(ang) * spd, 4.8 + Math.random() * 1.4, 16);
+      }
+      this._saveProfile();
+    }
   }
 
   _damageCrystal(crystal, baseDmg, attackElement, critChance = 0.15) {
@@ -1010,22 +1399,34 @@ export class SurvivalArena {
 
     // Cooldowns & combo decay
     if (this.meleeCooldown > 0) this.meleeCooldown = Math.max(0, this.meleeCooldown - dt);
+    if (this.meleeComboWindow > 0) {
+      this.meleeComboWindow = Math.max(0, this.meleeComboWindow - dt);
+      if (this.meleeComboWindow <= 0) this.meleeComboStep = 0;
+    }
     if (this.magicCooldown > 0) this.magicCooldown = Math.max(0, this.magicCooldown - dt);
     if (this.ultCooldown > 0) this.ultCooldown = Math.max(0, this.ultCooldown - dt);
     if (this.goalCooldown > 0) this.goalCooldown = Math.max(0, this.goalCooldown - dt);
-    if (this.screenShake > 0) this.screenShake = Math.max(0, this.screenShake - dt * 1.4);
+    if (this.screenShake > 0) this.screenShake = Math.max(0, this.screenShake - dt * 1.5);
+    if (this.isGuarding) {
+      this.guardElapsed += dt;
+      if (this.guardShieldLoop?.alive && heroState?.pos) {
+        this.guardShieldLoop.mesh.position.set(heroState.pos.x, (heroState.pos.y || 0) + 1.05, heroState.pos.z);
+      }
+    }
     if (this.comboTimer > 0) {
       this.comboTimer -= dt;
       if (this.comboTimer <= 0) this.combo = 0;
     }
 
-    // Booster & MP regeneration
+    // Booster & MP regeneration (generous Survival Project rhythm!)
     if (heroState?.isRunning && heroState.isMoving) {
-      this.booster = Math.max(0, this.booster - 26 * dt);
+      this.booster = Math.max(0, this.booster - 18 * dt);
     } else if (!heroState?.isDashing) {
-      this.booster = Math.min(this.maxBooster, this.booster + 22 * stats.boosterRegenMul * dt);
+      this.booster = Math.min(this.maxBooster, this.booster + 34 * stats.boosterRegenMul * dt);
     }
-    this.mp = Math.min(this.maxMp, this.mp + 7.5 * stats.mpRegenMul * dt);
+    this.mp = Math.min(this.maxMp, this.mp + 9.5 * stats.mpRegenMul * dt);
+
+    this._ensureSlimeSprites();
 
     // Sync hero pixel aura ring
     if (heroState?.pos) {
@@ -1078,6 +1479,28 @@ export class SurvivalArena {
           continue;
         }
 
+        // Projectile hits Juggleable Slimes!
+        let hitSlime = false;
+        for (const sl of this.slimes) {
+          if (!sl.alive) continue;
+          if (Math.hypot(sl.x - px, sl.z - pz) < 1.15 + proj.radius * 0.45) {
+            proj.alive = false;
+            hitSlime = true;
+            if (proj.ownerId === "local") {
+              const spd = Math.hypot(proj.vx, proj.vz) || 1;
+              this._damageSlime(sl, Math.round(proj.power * 1.4), proj.element, stats.critChance, {
+                kx: (proj.vx / spd) * 11.5,
+                kz: (proj.vz / spd) * 11.5,
+                ky: 6.2,
+                tag: proj.power > stats.magicPower * 1.5 ? "OVERCHARGE!!" : "",
+              });
+              this.hitstopTimer = Math.max(this.hitstopTimer, 0.036);
+            }
+            break;
+          }
+        }
+        if (hitSlime) continue;
+
         // Projectile hits Elemental Crystals
         for (const c of this.crystals) {
           if (!c.alive) continue;
@@ -1094,6 +1517,9 @@ export class SurvivalArena {
 
     // 2. Update Soccer Ball Physics & Hero/Bot Dribble
     this._updateSoccerBall(dt, heroState, citizens);
+
+    // 2.5 Update Juggleable Elemental Sparring Slimes & Dodge/Parry Orbs
+    this._updateSlimesAndOrbs(dt, elapsed, heroState, stats);
 
     // 3. Update Elemental Crystals bobbing & respawn
     for (const c of this.crystals) {
@@ -1297,8 +1723,224 @@ export class SurvivalArena {
     }
   }
 
+  _updateSlimesAndOrbs(dt, elapsed, heroState, stats) {
+    // 1. Update Slimes (knockback, floor skidding, air-juggle gravity, bounce, and sparring orb telegraph!)
+    for (const sl of this.slimes) {
+      if (!sl.alive) {
+        sl.respawnTimer -= dt;
+        if (sl.respawnTimer <= 0) {
+          sl.alive = true;
+          sl.hp = sl.maxHp;
+          sl.x = sl.homeX;
+          sl.z = sl.homeZ;
+          sl.y = 0.55;
+          sl.vx = 0; sl.vy = 0; sl.vz = 0;
+          if (sl.loop?.mesh) sl.loop.mesh.visible = true;
+          if (sl.shadow) sl.shadow.visible = true;
+          this.pixelVfx?.spawnBurst("collect_burst", { x: sl.x, y: 1.0, z: sl.z, scale: 2.0, additive: true });
+        }
+        continue;
+      }
+
+      if (sl.hitFlash > 0) sl.hitFlash = Math.max(0, sl.hitFlash - dt);
+      if (sl.stunTimer > 0) sl.stunTimer = Math.max(0, sl.stunTimer - dt);
+
+      // Gravity & knockback sliding physics
+      sl.vy -= 21.0 * dt;
+      sl.x += sl.vx * dt;
+      sl.z += sl.vz * dt;
+      sl.y += sl.vy * dt;
+
+      if (sl.y < 0.55) {
+        sl.y = 0.55;
+        if (Math.abs(sl.vy) > 2.2) {
+          sl.vy = -sl.vy * 0.48;
+          this.pixelVfx?.spawnBurst("poof", { x: sl.x, y: 0.3, z: sl.z, scale: 1.2, fps: 22 });
+        } else {
+          sl.vy = 0;
+        }
+        const skidFriction = Math.pow(0.08, dt);
+        sl.vx *= skidFriction;
+        sl.vz *= skidFriction;
+      } else {
+        const airDrag = Math.pow(0.75, dt);
+        sl.vx *= airDrag;
+        sl.vz *= airDrag;
+      }
+
+      // Soft plaza wall bounce so knocked-back slimes ricochet crisply!
+      const bound = 8.4;
+      if (sl.x > bound) { sl.x = bound; sl.vx = -Math.abs(sl.vx) * 0.65; }
+      if (sl.x < -bound) { sl.x = -bound; sl.vx = Math.abs(sl.vx) * 0.65; }
+      if (sl.z > bound) { sl.z = bound; sl.vz = -Math.abs(sl.vz) * 0.65; }
+      if (sl.z < -bound) { sl.z = -bound; sl.vz = Math.abs(sl.vz) * 0.65; }
+
+      // Fountain push-out
+      const fr = Math.hypot(sl.x, sl.z);
+      if (fr < 2.6 && fr > 0.01) {
+        sl.x = (sl.x / fr) * 2.6;
+        sl.z = (sl.z / fr) * 2.6;
+      }
+
+      // Gentle return hop + sparring orb telegraph when hero is in plaza
+      if (sl.stunTimer <= 0 && sl.y <= 0.58) {
+        const dxH = sl.homeX - sl.x;
+        const dzH = sl.homeZ - sl.z;
+        const distHome = Math.hypot(dxH, dzH);
+        if (distHome > 2.5) {
+          sl.x += (dxH / distHome) * 1.4 * dt;
+          sl.z += (dzH / distHome) * 1.4 * dt;
+        }
+        if (heroState?.pos) {
+          const distHero = Math.hypot(heroState.pos.x - sl.x, heroState.pos.z - sl.z);
+          if (distHero < 8.5 && distHero > 2.4 && this.enemyOrbs.length < 3) {
+            if (sl.telegraphTimer > 0) {
+              sl.telegraphTimer -= dt;
+              if (sl.telegraphTimer <= 0) {
+                // Fire a slow, dodgeable/parryable elemental sparring orb!
+                const nx = (heroState.pos.x - sl.x) / Math.max(0.1, distHero);
+                const nz = (heroState.pos.z - sl.z) / Math.max(0.1, distHero);
+                const edef = ELEMENT_DEFS[sl.element] || ELEMENT_DEFS.fire;
+                const orbLoop = this.pixelVfx?.createLoopBillboard(edef.projKey, {
+                  x: sl.x + nx * 0.8,
+                  y: 0.95,
+                  z: sl.z + nz * 0.8,
+                  scale: 1.45,
+                  fps: 15,
+                  additive: true,
+                  renderOrder: 13,
+                });
+                if (orbLoop) {
+                  this.enemyOrbs.push({
+                    x: sl.x + nx * 0.8,
+                    z: sl.z + nz * 0.8,
+                    vx: nx * 6.8,
+                    vz: nz * 6.8,
+                    element: sl.element,
+                    sourceSlime: sl,
+                    reflected: false,
+                    age: 0,
+                    dodged: false,
+                    loop: orbLoop,
+                  });
+                }
+                sl.attackTimer = 5.5 + Math.random() * 3.5;
+              }
+            } else {
+              sl.attackTimer -= dt;
+              if (sl.attackTimer <= 0) {
+                sl.telegraphTimer = 0.72;
+                this.pixelVfx?.spawnBurst("hit_spark", { x: sl.x, y: 1.15, z: sl.z, scale: 1.6, tint: 0xffffff });
+              }
+            }
+          }
+        }
+      }
+
+      if (sl.loop?.alive) {
+        const bob = sl.y <= 0.58 ? Math.abs(Math.sin(elapsed * 3.4 + sl.hopPhase)) * 0.18 : 0;
+        const jitterX = sl.hitFlash > 0 ? Math.sin(elapsed * 75) * 0.09 : 0;
+        sl.loop.mesh.position.set(sl.x + jitterX, sl.y + bob, sl.z);
+        const edef = ELEMENT_DEFS[sl.element] || ELEMENT_DEFS.fire;
+        sl.loop.mat.color.setHex(sl.hitFlash > 0 || sl.telegraphTimer > 0 ? 0xffffff : edef.colorInt);
+      }
+      if (sl.shadow) {
+        sl.shadow.position.set(sl.x, 0.04, sl.z);
+        const shScale = Math.max(0.45, 1 - (sl.y - 0.55) * 0.16);
+        sl.shadow.scale.set(shScale, shScale, 1);
+      }
+    }
+
+    // 2. Update Sparring Orbs -> JUST PARRY (E) or JUST DODGE (Dash-Slide)!
+    for (let i = this.enemyOrbs.length - 1; i >= 0; i--) {
+      const orb = this.enemyOrbs[i];
+      orb.age += dt;
+      orb.x += orb.vx * dt;
+      orb.z += orb.vz * dt;
+      if (orb.loop?.alive) orb.loop.mesh.position.set(orb.x, 0.95, orb.z);
+
+      let removeOrb = orb.age > 3.2;
+
+      if (!removeOrb && orb.reflected) {
+        // Reflected orb slams into slimes for massive counter damage!
+        for (const sl of this.slimes) {
+          if (!sl.alive) continue;
+          if (Math.hypot(sl.x - orb.x, sl.z - orb.z) < 1.35) {
+            this._damageSlime(sl, Math.round(stats.magicPower * 2.6), stats.element, 1.0, {
+              kx: orb.vx * 0.85,
+              kz: orb.vz * 0.85,
+              ky: 8.5,
+              tag: "PARRY COUNTER!!",
+            });
+            this.hitstopTimer = 0.065;
+            removeOrb = true;
+            break;
+          }
+        }
+      } else if (!removeOrb && heroState?.pos) {
+        const dHero = Math.hypot(heroState.pos.x - orb.x, heroState.pos.z - orb.z);
+        if (dHero < 1.25 && (heroState.pos.y || 0) < 1.1) {
+          if (this.isGuarding) {
+            if (this.guardElapsed <= 0.35) {
+              // JUST PARRY!! Reflect back at 2.3x speed!
+              orb.reflected = true;
+              orb.age = 0;
+              orb.vx = -orb.vx * 2.3;
+              orb.vz = -orb.vz * 2.3;
+              this.hitstopTimer = 0.072;
+              this.screenShake = 0.24;
+              this.mp = Math.min(this.maxMp, this.mp + 30);
+              const bonus = Math.round(25 * stats.coinBonusMul);
+              this.profile.code += bonus;
+              this._saveProfile();
+              this._addCombo(2);
+              this.pixelVfx?.spawnBurst("parry", { x: heroState.pos.x, y: 1.1, z: heroState.pos.z, scale: 3.0, fps: 18 });
+              this.vfx?.spawnDamageNumber(heroState.pos.x, 2.2, heroState.pos.z, `JUST PARRY!! +${bonus} CODE`, "crit");
+              this.callbacks.onProfileChanged?.(this.profile, stats);
+            } else {
+              // Normal Guard block
+              this.mp = Math.min(this.maxMp, this.mp + 10);
+              this.pixelVfx?.spawnBurst("hit_spark", { x: orb.x, y: 1.0, z: orb.z, scale: 2.0 });
+              this.vfx?.spawnDamageNumber(heroState.pos.x, 2.0, heroState.pos.z, "GUARD! +10 MP", "magic");
+              removeOrb = true;
+            }
+          } else if (heroState.isSliding) {
+            // JUST DODGE via Survival Project Dash-Slide!
+            if (!orb.dodged) {
+              orb.dodged = true;
+              this.mp = Math.min(this.maxMp, this.mp + 15);
+              const bonus = Math.round(15 * stats.coinBonusMul);
+              this.profile.code += bonus;
+              this._saveProfile();
+              this._addCombo(1);
+              this.pixelVfx?.spawnBurst("collect_burst", { x: heroState.pos.x, y: 1.0, z: heroState.pos.z, scale: 2.0, additive: true });
+              this.vfx?.spawnDamageNumber(heroState.pos.x, 2.1, heroState.pos.z, `SLIDE DODGE!! +${bonus}`, "heal");
+              this.callbacks.onProfileChanged?.(this.profile, stats);
+            }
+          } else {
+            // Soft sparring knockback flash (no death / frustration — pure arcade fun!)
+            this.pixelVfx?.spawnBurst("hit_spark", { x: orb.x, y: 1.0, z: orb.z, scale: 1.8 });
+            this.vfx?.spawnDamageNumber(heroState.pos.x, 2.0, heroState.pos.z, "HIT! (F=가드·패리 / Shift=슬라이드)", "normal");
+            removeOrb = true;
+          }
+        }
+      }
+
+      if (removeOrb) {
+        orb.loop.dispose();
+        this.enemyOrbs.splice(i, 1);
+      }
+    }
+  }
+
   dispose() {
     if (this.heroAuraLoop) this.heroAuraLoop.dispose();
+    if (this.guardShieldLoop) this.guardShieldLoop.dispose();
+    if (this.chargeLoop) this.chargeLoop.dispose();
+    for (const sl of this.slimes) sl.loop?.dispose();
+    this.slimes.length = 0;
+    for (const orb of this.enemyOrbs) orb.loop?.dispose();
+    this.enemyOrbs.length = 0;
     for (const c of this.coins) c.loop.dispose();
     this.coins.length = 0;
     this.scene.remove(this.group);

@@ -5,7 +5,7 @@ This project includes pixel-art visual effect sprite sheets generated from the f
 ## patch-gg/pixelfx
 - Repository: https://github.com/patch-gg/pixelfx
 - License: MIT License
-- Used for: Baked pixel-art VFX sprite sheets under `site/public/assets/vfx/` (`fireball`, `flame_pillar`, `ice_lance`, `frost_nova`, `tornado`, `lightning_strike`, `boulder`, `earth_spike`, `sword_slash`, `crit_hit`, `hit_spark`, `poof`, `coin_spin`, `collect_burst`, `level_up`, `firework_burst`, `magic_circle`, `confetti`).
+- Used for: Baked pixel-art VFX sprite sheets under `site/public/assets/vfx/` (`fireball`, `flame_pillar`, `ice_lance`, `frost_nova`, `tornado`, `lightning_strike`, `boulder`, `earth_spike`, `sword_slash`, `double_slash`, `heavy_cleave`, `spin_slash`, `thrust`, `dash_strike`, `ground_slam`, `parry`, `spell_charge`, `slime`, `crit_hit`, `hit_spark`, `poof`, `coin_spin`, `collect_burst`, `level_up`, `firework_burst`, `magic_circle`, `confetti`).
 
 ## skulitom/Pixelbolt
 - Repository: https://github.com/skulitom/Pixelbolt
