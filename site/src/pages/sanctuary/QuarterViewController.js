@@ -19,6 +19,8 @@ export class QuarterViewController {
     this.targetAzimuth = 0;
     this.targetPos = new THREE.Vector3(0, 0, 2);
     this.smoothedTarget = new THREE.Vector3(0, 0, 2);
+    this._forward = new THREE.Vector3();
+    this._right = new THREE.Vector3();
 
     this.isRightDragging = false;
     this.lastPointerX = 0;
@@ -58,10 +60,10 @@ export class QuarterViewController {
    */
   getGroundBasis() {
     const az = this.cameraAzimuth;
-    // Camera looks from (+sin(az), 0, +cos(az)) toward origin
-    const forward = new THREE.Vector3(-Math.sin(az), 0, -Math.cos(az));
-    const right = new THREE.Vector3(Math.cos(az), 0, -Math.sin(az));
-    return { forward, right };
+    // Camera looks from (+sin(az), 0, +cos(az)) toward origin (zero-allocation scratch vectors)
+    this._forward.set(-Math.sin(az), 0, -Math.cos(az));
+    this._right.set(Math.cos(az), 0, -Math.sin(az));
+    return { forward: this._forward, right: this._right };
   }
 
   update(dt, focusPosition) {

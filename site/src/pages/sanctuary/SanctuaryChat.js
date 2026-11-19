@@ -504,6 +504,7 @@ export class SanctuaryChat {
       nickname: this.nickname,
       classKey: heroState.classKey,
       x: Number(heroState.x.toFixed(2)),
+      y: Number((heroState.y || 0).toFixed(2)),
       z: Number(heroState.z.toFixed(2)),
       facing: Number(heroState.facing.toFixed(2)),
       action: heroState.action || "Idle",
@@ -522,7 +523,7 @@ export class SanctuaryChat {
       } catch {}
     }
 
-    const sig = `${this._latestHeroState.classKey}|${this._latestHeroState.nickname}|${this._latestHeroState.x.toFixed(1)}|${this._latestHeroState.z.toFixed(1)}|${this._latestHeroState.facing.toFixed(1)}|${this._latestHeroState.action}|${this._latestHeroState.zone}`;
+    const sig = `${this._latestHeroState.classKey}|${this._latestHeroState.nickname}|${this._latestHeroState.x.toFixed(1)}|${this._latestHeroState.y.toFixed(1)}|${this._latestHeroState.z.toFixed(1)}|${this._latestHeroState.facing.toFixed(1)}|${this._latestHeroState.action}|${this._latestHeroState.zone}`;
     const changed = sig !== this._lastSentSignature;
     const shouldSendRemote =
       force ||
@@ -731,6 +732,7 @@ export class SanctuaryChat {
       nickname: String(data.nickname || `모험가-${data.clientId.slice(0, 4)}`).slice(0, 16),
       classKey: data.classKey || "Solar_Guard",
       x: Number(data.x) || 0,
+      y: Number(data.y) || 0,
       z: Number(data.z) || 0,
       facing: Number(data.facing) || 0,
       action: data.action || "Idle",

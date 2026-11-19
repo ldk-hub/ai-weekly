@@ -9,7 +9,7 @@ const MAGIC_CIRCLE_PALETTES = {
 
 function createMagicCircleTexture(paletteKey) {
   const pal = MAGIC_CIRCLE_PALETTES[paletteKey] || MAGIC_CIRCLE_PALETTES.holy;
-  const size = 512;
+  const size = 256;
   const canvas = document.createElement("canvas");
   canvas.width = size;
   canvas.height = size;
@@ -19,7 +19,7 @@ function createMagicCircleTexture(paletteKey) {
 
   ctx.clearRect(0, 0, size, size);
 
-  const grad = ctx.createRadialGradient(cx, cy, 30, cx, cy, size * 0.48);
+  const grad = ctx.createRadialGradient(cx, cy, 15, cx, cy, size * 0.48);
   grad.addColorStop(0, "rgba(255, 255, 255, 0.16)");
   grad.addColorStop(0.55, `${pal.primary}33`);
   grad.addColorStop(1, "rgba(0, 0, 0, 0)");
@@ -30,9 +30,9 @@ function createMagicCircleTexture(paletteKey) {
 
   ctx.strokeStyle = pal.primary;
   ctx.shadowColor = pal.primary;
-  ctx.shadowBlur = 14;
+  ctx.shadowBlur = 7;
 
-  for (const [r, lw] of [[230, 5], [210, 2], [164, 4], [105, 2.5]]) {
+  for (const [r, lw] of [[115, 2.5], [105, 1], [82, 2], [52, 1.5]]) {
     ctx.lineWidth = lw;
     ctx.beginPath();
     ctx.arc(cx, cy, r, 0, Math.PI * 2);
@@ -40,13 +40,13 @@ function createMagicCircleTexture(paletteKey) {
   }
 
   ctx.strokeStyle = pal.secondary;
-  ctx.lineWidth = 3;
+  ctx.lineWidth = 1.5;
   for (const rotOffset of [0, Math.PI / 3]) {
     ctx.beginPath();
     for (let i = 0; i <= 3; i++) {
       const a = rotOffset + (i * Math.PI * 2) / 3;
-      const x = cx + Math.cos(a) * 162;
-      const y = cy + Math.sin(a) * 162;
+      const x = cx + Math.cos(a) * 81;
+      const y = cy + Math.sin(a) * 81;
       if (i === 0) ctx.moveTo(x, y);
       else ctx.lineTo(x, y);
     }
@@ -54,15 +54,15 @@ function createMagicCircleTexture(paletteKey) {
   }
 
   ctx.strokeStyle = pal.secondary;
-  ctx.lineWidth = 3;
+  ctx.lineWidth = 1.5;
   for (let i = 0; i < 12; i++) {
     const a = (i / 12) * Math.PI * 2;
     ctx.beginPath();
-    ctx.moveTo(cx + Math.cos(a) * 174, cy + Math.sin(a) * 174);
-    ctx.lineTo(cx + Math.cos(a) * 204, cy + Math.sin(a) * 204);
+    ctx.moveTo(cx + Math.cos(a) * 87, cy + Math.sin(a) * 87);
+    ctx.lineTo(cx + Math.cos(a) * 102, cy + Math.sin(a) * 102);
     ctx.stroke();
     ctx.fillStyle = pal.secondary;
-    ctx.fillRect(cx + Math.cos(a + 0.12) * 188 - 3, cy + Math.sin(a + 0.12) * 188 - 3, 6, 6);
+    ctx.fillRect(cx + Math.cos(a + 0.12) * 94 - 1.5, cy + Math.sin(a + 0.12) * 94 - 1.5, 3, 3);
   }
 
   const tex = new THREE.CanvasTexture(canvas);
@@ -73,18 +73,18 @@ function createMagicCircleTexture(paletteKey) {
 function createPillarAlphaTexture(hexColor) {
   const canvas = document.createElement("canvas");
   canvas.width = 64;
-  canvas.height = 256;
+  canvas.height = 128;
   const ctx = canvas.getContext("2d");
-  const grad = ctx.createLinearGradient(0, 256, 0, 0);
+  const grad = ctx.createLinearGradient(0, 128, 0, 0);
   grad.addColorStop(0, hexColor);
   grad.addColorStop(0.35, `${hexColor}88`);
   grad.addColorStop(1, "rgba(0,0,0,0)");
   ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, 64, 256);
+  ctx.fillRect(0, 0, 64, 128);
 
   ctx.fillStyle = "rgba(255, 255, 255, 0.35)";
   for (let x = 6; x < 64; x += 14) {
-    ctx.fillRect(x, 40, 3, 216);
+    ctx.fillRect(x, 20, 3, 108);
   }
 
   const tex = new THREE.CanvasTexture(canvas);
@@ -99,24 +99,32 @@ const EMOTE_TEMPLATES = {
 };
 
 /**
- * Manages 3D ground magic circles, light pillars, click markers, and 3D-to-2D archive overlays.
+ * Manages 3D ground magic circles, light pillars, dash afterimages, jump/run dust puffs,
+ * click markers, and cached zero-churn 3D-to-2D archive overlays.
  */
 export class SanctuaryVFX {
   constructor(scene, overlayLayerEl) {
     this.scene = scene;
     this.overlayLayer = overlayLayerEl;
     this.activeCircles = [];
+    this.activeGhosts = [];
+    this.activePuffs = [];
     this.textureCache = new Map();
     this.pillarTexCache = new Map();
     this.trackedElements = new Map();
     this._projVec = new THREE.Vector3();
+    this._seenIds = new Set();
+
+    // Shared geometries for dust puffs & dash afterimages (zero geometry leak!)
+    this._puffGeo = new THREE.RingGeometry(0.18, 0.42, 18);
+    this._puffGeo.rotateX(-Math.PI / 2);
 
     this.moveMarker = this._createMoveMarker();
     this.scene.add(this.moveMarker);
   }
 
   _createMoveMarker() {
-    const geom = new THREE.RingGeometry(0.32, 0.48, 28);
+    const geom = new THREE.RingGeometry(0.32, 0.48, 24);
     geom.rotateX(-Math.PI / 2);
     const mat = new THREE.MeshBasicMaterial({
       color: 0x34d399,
@@ -155,9 +163,6 @@ export class SanctuaryVFX {
     return this.pillarTexCache.get(paletteKey);
   }
 
-  /**
-   * Spawn a rotating ground magic circle decal and vertical light pillar at an Archive Shrine.
-   */
   spawnMagicCircle(worldPos, { radius = 2.6, duration = 2.4, palette = "holy", pillarHeight = 5.4 } = {}) {
     const tex = this._getCircleTex(palette);
     const pTex = this._getPillarTex(palette);
@@ -177,7 +182,7 @@ export class SanctuaryVFX {
     decalMesh.position.set(worldPos.x, yBase, worldPos.z);
     this.scene.add(decalMesh);
 
-    const pillarGeom = new THREE.CylinderGeometry(radius * 0.68, radius * 0.78, pillarHeight, 28, 1, true);
+    const pillarGeom = new THREE.CylinderGeometry(radius * 0.68, radius * 0.78, pillarHeight, 24, 1, true);
     const pillarMat = new THREE.MeshBasicMaterial({
       map: pTex,
       transparent: true,
@@ -201,6 +206,72 @@ export class SanctuaryVFX {
     });
   }
 
+  /**
+   * Spawn a translucent glowing billboard afterimage ghost behind a dashing SpriteActor.
+   */
+  spawnAfterimage(spriteActor, tintHex = 0x38bdf8) {
+    if (!spriteActor?.spriteMesh || !spriteActor.texture) return;
+    if (this.activeGhosts.length >= 12) return;
+
+    const ghostTex = spriteActor.texture.clone();
+    ghostTex.needsUpdate = true;
+    const mat = new THREE.MeshBasicMaterial({
+      map: ghostTex,
+      color: tintHex,
+      transparent: true,
+      opacity: 0.54,
+      alphaTest: 0.15,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+      side: THREE.DoubleSide,
+    });
+    const mesh = new THREE.Mesh(spriteActor.spriteMesh.geometry, mat);
+    mesh.position.set(
+      spriteActor.mesh.position.x,
+      spriteActor.mesh.position.y + (spriteActor.jumpHeight || 0),
+      spriteActor.mesh.position.z
+    );
+    mesh.rotation.y = spriteActor.spriteMesh.rotation.y;
+    mesh.scale.copy(spriteActor.spriteMesh.scale);
+    this.scene.add(mesh);
+
+    this.activeGhosts.push({
+      mesh,
+      mat,
+      tex: ghostTex,
+      age: 0,
+      life: 0.28,
+    });
+  }
+
+  /**
+   * Spawn an expanding ring dust puff at feet for Run, Dash takeoff, and Jump landing.
+   */
+  spawnDustPuff(worldPos, { color = 0xfef3c7, maxScale = 1.85, opacity = 0.65, life = 0.36 } = {}) {
+    if (this.activePuffs.length >= 16) return;
+    const mat = new THREE.MeshBasicMaterial({
+      color,
+      transparent: true,
+      opacity,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+      side: THREE.DoubleSide,
+    });
+    const mesh = new THREE.Mesh(this._puffGeo, mat);
+    mesh.position.set(worldPos.x, 0.04, worldPos.z);
+    mesh.scale.setScalar(0.55);
+    this.scene.add(mesh);
+
+    this.activePuffs.push({
+      mesh,
+      mat,
+      age: 0,
+      life,
+      maxScale,
+      startOpacity: opacity,
+    });
+  }
+
   projectToPixel(worldX, worldY, worldZ, camera, width, height) {
     this._projVec.set(worldX, worldY, worldZ).project(camera);
     if (this._projVec.z > 1 || this._projVec.z < -1) return null;
@@ -210,10 +281,6 @@ export class SanctuaryVFX {
     };
   }
 
-  /**
-   * Project 3D coordinates (x, y + 1.8, z) to #overlay-layer for elastic floating insight badges.
-   * Types: 'normal' (metrics), 'crit' (HOT/rising badge), 'magic' (AI news/model), 'heal' (saved/emerald).
-   */
   spawnFloatingBadge(worldPos, text, type = "normal", badgeTag = "", camera, width, height) {
     if (!this.overlayLayer || !camera) return;
     const screen = this.projectToPixel(worldPos.x, (worldPos.y || 0) + 1.8, worldPos.z, camera, width, height);
@@ -298,6 +365,13 @@ export class SanctuaryVFX {
       lastChat: "",
       lastEmote: "",
       lastTicker: "",
+      lastName: "",
+      lastRole: "",
+      lastRoleHidden: null,
+      lastTargeted: null,
+      lastClickable: null,
+      lastSpeaking: null,
+      lastTransform: "",
       onClick: null,
     };
     const handlePick = (ev) => {
@@ -319,40 +393,49 @@ export class SanctuaryVFX {
     this.trackedElements.delete(id);
   }
 
-  /**
-   * Sync overhead emotes (/lv, /swt, /!), archive post tickers, castbars, and curator nameplates.
-   */
   updateTrackedOverlays(actors, camera, width, height, nowMs) {
     if (!this.overlayLayer || !camera) return;
-    const seen = new Set();
+    this._seenIds.clear();
+    const wallNow = Date.now();
 
     for (const actor of actors) {
-      seen.add(actor.id);
+      this._seenIds.add(actor.id);
       const entry = this._ensureActorOverlay(actor.id, actor.role);
-      const headOffset = actor.overlayHeight || 2.4;
+      const headOffset = (actor.overlayHeight || 2.4) + (actor.jumpY || 0);
       const px = this.projectToPixel(actor.position.x, actor.position.y + headOffset, actor.position.z, camera, width, height);
 
       if (!px || actor.hiddenOverlay || px.x < 12 || px.x > width - 12 || px.y < 16 || px.y > height - 10) {
-        entry.root.hidden = true;
+        if (!entry.root.hidden) entry.root.hidden = true;
         continue;
       }
 
-      entry.root.hidden = false;
+      if (entry.root.hidden) entry.root.hidden = false;
       entry.onClick = actor.onClick || null;
-      entry.root.classList.toggle("is-clickable", typeof actor.onClick === "function");
-      entry.root.style.transform = `translate3d(${px.x.toFixed(1)}px, ${px.y.toFixed(1)}px, 0) translate(-50%, -100%)`;
+      const clickable = typeof actor.onClick === "function";
+      if (entry.lastClickable !== clickable) {
+        entry.lastClickable = clickable;
+        entry.root.classList.toggle("is-clickable", clickable);
+      }
 
-      const wallNow = Date.now();
+      const tf = `translate3d(${px.x.toFixed(1)}px, ${px.y.toFixed(1)}px, 0) translate(-50%, -100%)`;
+      if (entry.lastTransform !== tf) {
+        entry.lastTransform = tf;
+        entry.root.style.transform = tf;
+      }
+
       const showChat = Boolean(actor.chatText) && wallNow < (actor.chatUntil || 0);
-      entry.chatEl.hidden = !showChat;
-      entry.root.classList.toggle("is-speaking", showChat);
+      if (entry.chatEl.hidden !== !showChat) entry.chatEl.hidden = !showChat;
+      if (entry.lastSpeaking !== showChat) {
+        entry.lastSpeaking = showChat;
+        entry.root.classList.toggle("is-speaking", showChat);
+      }
       if (showChat && entry.lastChat !== actor.chatText) {
         entry.lastChat = actor.chatText;
         entry.chatEl.textContent = actor.chatText;
       }
 
-      const showEmote = actor.emoteText && nowMs < actor.emoteUntil;
-      entry.emoteEl.hidden = !showEmote;
+      const showEmote = Boolean(actor.emoteText) && nowMs < (actor.emoteUntil || 0);
+      if (entry.emoteEl.hidden !== !showEmote) entry.emoteEl.hidden = !showEmote;
       if (showEmote && entry.lastEmote !== actor.emoteText) {
         entry.lastEmote = actor.emoteText;
         entry.emoteEl.dataset.emote = actor.emoteText;
@@ -360,14 +443,14 @@ export class SanctuaryVFX {
       }
 
       const showTicker = Boolean(actor.tickerText) && Boolean(actor.isActiveShrine) && !showEmote && !showChat;
-      entry.tickerEl.hidden = !showTicker;
+      if (entry.tickerEl.hidden !== !showTicker) entry.tickerEl.hidden = !showTicker;
       if (showTicker && entry.lastTicker !== actor.tickerText) {
         entry.lastTicker = actor.tickerText;
         entry.tickerEl.textContent = actor.tickerText;
       }
 
-      const isCasting = actor.castState && actor.castState.duration > 0;
-      entry.castWrap.hidden = !isCasting;
+      const isCasting = Boolean(actor.castState && actor.castState.duration > 0);
+      if (entry.castWrap.hidden !== !isCasting) entry.castWrap.hidden = !isCasting;
       if (isCasting) {
         const ratio = Math.min(1, Math.max(0, actor.castState.elapsed / actor.castState.duration));
         entry.castLabel.textContent = actor.castState.label;
@@ -375,17 +458,32 @@ export class SanctuaryVFX {
       }
 
       const showPlate = Boolean(actor.displayName);
-      entry.plateEl.hidden = !showPlate;
+      if (entry.plateEl.hidden !== !showPlate) entry.plateEl.hidden = !showPlate;
       if (showPlate) {
-        entry.roleBadge.textContent = actor.roleBadge || "";
-        entry.roleBadge.hidden = !actor.roleBadge || (!actor.isActiveShrine && actor.role !== "building");
-        entry.nameText.textContent = actor.displayName;
-        entry.plateEl.classList.toggle("is-targeted", Boolean(actor.isActiveShrine));
+        const nextRole = actor.roleBadge || "";
+        if (entry.lastRole !== nextRole) {
+          entry.lastRole = nextRole;
+          entry.roleBadge.textContent = nextRole;
+        }
+        const roleHidden = !actor.roleBadge || (!actor.isActiveShrine && actor.role !== "building");
+        if (entry.lastRoleHidden !== roleHidden) {
+          entry.lastRoleHidden = roleHidden;
+          entry.roleBadge.hidden = roleHidden;
+        }
+        if (entry.lastName !== actor.displayName) {
+          entry.lastName = actor.displayName;
+          entry.nameText.textContent = actor.displayName;
+        }
+        const targeted = Boolean(actor.isActiveShrine);
+        if (entry.lastTargeted !== targeted) {
+          entry.lastTargeted = targeted;
+          entry.plateEl.classList.toggle("is-targeted", targeted);
+        }
       }
     }
 
-    for (const id of [...this.trackedElements.keys()]) {
-      if (!seen.has(id)) this.removeActorOverlay(id);
+    for (const id of this.trackedElements.keys()) {
+      if (!this._seenIds.has(id)) this.removeActorOverlay(id);
     }
   }
 
@@ -400,22 +498,49 @@ export class SanctuaryVFX {
       const fx = this.activeCircles[i];
       fx.remaining -= dt;
       fx.decalMesh.rotation.z += dt * 1.8;
-      fx.pillarMesh.rotation.y -= dt * 0.9;
-
-      if (fx.remaining <= 0.5) {
-        const fade = Math.max(0, fx.remaining / 0.5);
-        fx.decalMat.opacity = fx.maxDecalOpacity * fade;
-        fx.pillarMat.opacity = fx.maxPillarOpacity * fade;
-      }
+      fx.pillarMesh.rotation.y += dt * 0.9;
 
       if (fx.remaining <= 0) {
         this.scene.remove(fx.decalMesh);
         this.scene.remove(fx.pillarMesh);
         fx.decalMesh.geometry.dispose();
-        fx.pillarMesh.geometry.dispose();
         fx.decalMat.dispose();
+        fx.pillarMesh.geometry.dispose();
         fx.pillarMat.dispose();
         this.activeCircles.splice(i, 1);
+      } else if (fx.remaining < 0.5) {
+        const fade = fx.remaining / 0.5;
+        fx.decalMat.opacity = fx.maxDecalOpacity * fade;
+        fx.pillarMat.opacity = fx.maxPillarOpacity * fade;
+      }
+    }
+
+    for (let i = this.activeGhosts.length - 1; i >= 0; i--) {
+      const g = this.activeGhosts[i];
+      g.age += dt;
+      const p = g.age / g.life;
+      if (p >= 1) {
+        this.scene.remove(g.mesh);
+        g.mat.dispose();
+        g.tex.dispose();
+        this.activeGhosts.splice(i, 1);
+      } else {
+        g.mat.opacity = 0.54 * (1 - p);
+      }
+    }
+
+    for (let i = this.activePuffs.length - 1; i >= 0; i--) {
+      const pf = this.activePuffs[i];
+      pf.age += dt;
+      const p = pf.age / pf.life;
+      if (p >= 1) {
+        this.scene.remove(pf.mesh);
+        pf.mat.dispose();
+        this.activePuffs.splice(i, 1);
+      } else {
+        const s = 0.55 + (pf.maxScale - 0.55) * (1 - Math.pow(1 - p, 2));
+        pf.mesh.scale.setScalar(s);
+        pf.mat.opacity = pf.startOpacity * (1 - p);
       }
     }
   }
@@ -425,18 +550,33 @@ export class SanctuaryVFX {
       this.scene.remove(fx.decalMesh);
       this.scene.remove(fx.pillarMesh);
       fx.decalMesh.geometry.dispose();
-      fx.pillarMesh.geometry.dispose();
       fx.decalMat.dispose();
+      fx.pillarMesh.geometry.dispose();
       fx.pillarMat.dispose();
     }
-    this.activeCircles = [];
-    this.textureCache.forEach((t) => t.dispose());
-    this.pillarTexCache.forEach((t) => t.dispose());
+    this.activeCircles.length = 0;
+
+    for (const g of this.activeGhosts) {
+      this.scene.remove(g.mesh);
+      g.mat.dispose();
+      g.tex.dispose();
+    }
+    this.activeGhosts.length = 0;
+
+    for (const pf of this.activePuffs) {
+      this.scene.remove(pf.mesh);
+      pf.mat.dispose();
+    }
+    this.activePuffs.length = 0;
+
+    this._puffGeo?.dispose();
+    this.moveMarker?.geometry?.dispose();
+    this.moveMarker?.material?.dispose();
+    for (const tex of this.textureCache.values()) tex.dispose();
+    for (const tex of this.pillarTexCache.values()) tex.dispose();
     this.textureCache.clear();
     this.pillarTexCache.clear();
-    this.moveMarker.geometry.dispose();
-    this.moveMarker.material.dispose();
-    this.trackedElements.forEach((e) => e.root.remove());
+    for (const entry of this.trackedElements.values()) entry.root.remove();
     this.trackedElements.clear();
   }
 }

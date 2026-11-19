@@ -149,6 +149,12 @@
           </button>
         </nav>
 
+        <!-- Night-Only Announced Grand Fireworks Festival Banner -->
+        <div class="sc-festival-banner" id="sanctuary-festival-banner" role="status" aria-live="polite" hidden>
+          <span class="sc-festival-badge" id="festival-banner-badge">NIGHT FESTIVAL</span>
+          <span class="sc-festival-text" id="festival-banner-text">잠시 후 위클리월드 밤하늘에 화려한 불꽃놀이가 시작됩니다!</span>
+        </div>
+
         <!-- Bottom-Left Live Multi-User City & Interior Chat Box -->
         <section class="sc-chat-box" id="sanctuary-chat" aria-label="실시간 유저 채팅">
           <div class="sc-chat-head">
@@ -173,23 +179,27 @@
           </form>
         </section>
 
-        <!-- Compact Bottom-Right Character, Day/Night & Season Atmosphere Capsule -->
-        <div class="sc-atmo-pill" id="sanctuary-atmo-pill" role="group" aria-label="캐릭터·시간대·계절·불꽃놀이">
-          <button type="button" class="sc-atmo-btn" id="btn-hero-class" title="클릭하여 3D 캐릭터 변경 (나이트/메이지/레인저/베테랑)">
-            <span class="sc-atmo-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
-            <span id="hero-class-text">나이트</span>
+        <!-- Compact Bottom-Right Movement Action, Character & Atmosphere Capsule -->
+        <div class="sc-atmo-pill" id="sanctuary-atmo-pill" role="group" aria-label="액션·캐릭터·시간대·계절">
+          <button type="button" class="sc-atmo-btn is-action" id="btn-hero-dash" title="대시 / Shift 홀드 시 달리기 (Shift)">
+            <span class="sc-atmo-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg></span>
+            <span>대시</span>
           </button>
-          <button type="button" class="sc-atmo-btn" id="btn-atmo-time" title="클릭하여 낮/노을/밤/자동 전환">
+          <button type="button" class="sc-atmo-btn is-action" id="btn-hero-jump" title="점프 (Space)">
+            <span class="sc-atmo-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/><path d="M12 9v12"/></svg></span>
+            <span>점프</span>
+          </button>
+          <button type="button" class="sc-atmo-btn" id="btn-hero-class" title="클릭하여 HD-2D 캐릭터 변경 (아키비스트/메이지/크로니클러/나이트)">
+            <span class="sc-atmo-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+            <span id="hero-class-text">아키비스트</span>
+          </button>
+          <button type="button" class="sc-atmo-btn" id="btn-atmo-time" title="클릭하여 낮/노을/밤/자동 전환 (밤에는 불꽃축제 자동 공지)">
             <span class="sc-atmo-icon" id="atmo-time-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg></span>
             <span id="atmo-time-text">낮</span>
           </button>
           <button type="button" class="sc-atmo-btn" id="btn-atmo-season" title="클릭하여 봄/여름/가을/겨울/자동 전환">
             <span class="sc-atmo-icon" id="atmo-season-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7.5a4.5 4.5 0 1 1 4.5 4.5M12 7.5A4.5 4.5 0 1 0 7.5 12M12 7.5V9m-4.5 3a4.5 4.5 0 1 0 4.5 4.5M7.5 12H9m3 4.5a4.5 4.5 0 1 1 4.5-4.5M12 16.5V15m4.5-3H15"/><circle cx="12" cy="12" r="1.5"/></svg></span>
             <span id="atmo-season-text">봄 · 벚꽃</span>
-          </button>
-          <button type="button" class="sc-atmo-btn is-firework" id="btn-atmo-firework" title="불꽃놀이 발사 (F)">
-            <span class="sc-atmo-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3m0 12v3M3 12h3m12 0h3M5.64 5.64l2.12 2.12m8.48 8.48 2.12 2.12M5.64 18.36l2.12-2.12m8.48-8.48 2.12-2.12"/><circle cx="12" cy="12" r="2"/></svg></span>
-            <span>불꽃</span>
           </button>
         </div>
       </section>

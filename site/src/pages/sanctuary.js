@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { loadGlbCharacter, loadSanctuaryEnvironment } from "./sanctuary/AssetManager.js";
+import { loadSpriteActor, loadSanctuaryEnvironment } from "./sanctuary/AssetManager.js";
 import { QuarterViewController } from "./sanctuary/QuarterViewController.js";
 import { SanctuaryVFX } from "./sanctuary/SanctuaryVFX.js";
 import { SanctuaryChat } from "./sanctuary/SanctuaryChat.js";
@@ -7,50 +7,42 @@ import { SanctuaryAtmosphere } from "./sanctuary/SanctuaryAtmosphere.js";
 
 const THEME_KEY = "aiw-theme";
 const DIR_NAMES = ["S", "SW", "W", "NW", "N", "NE", "E", "SE"];
-const CHAR_DIR = "assets/models/characters";
+const SPRITE_DIR = "assets/sprites";
 
-const HERO_CLASS_ORDER = ["Solar_Guard", "Astral_Sage", "Shadow_Reaper", "Nordic_Champion"];
+const HERO_CLASS_ORDER = ["Solar_Guard", "Astral_Sage", "Shadow_Reaper", "Curator_Leon"];
 
 const AVATAR_DEFS = {
   Solar_Guard: {
-    shortLabel: "나이트",
-    displayName: "로얄 나이트",
+    shortLabel: "아키비스트",
+    displayName: "솔라 아키비스트",
     roleBadge: "ROYAL ARCHIVIST",
-    glbUrl: `${CHAR_DIR}/Knight.glb`,
-    attachments: ["Knight_Helmet", "Knight_Cape", "1H_Sword", "Badge_Shield"],
-    hueShift: 0,
-    satMult: 1.0,
-    speed: 5.6,
+    atlasUrl: `${SPRITE_DIR}/Solar_Guard_8dir_atlas.json`,
+    dashTint: 0xfbbf24,
+    speed: 5.7,
   },
   Astral_Sage: {
     shortLabel: "메이지",
     displayName: "아스트랄 메이지",
     roleBadge: "ASTRAL WEAVER",
-    glbUrl: `${CHAR_DIR}/Mage.glb`,
-    attachments: ["Mage_Hat", "Mage_Cape", "2H_Staff", "Spellbook_open"],
-    hueShift: 0,
-    satMult: 1.0,
-    speed: 5.4,
+    atlasUrl: `${SPRITE_DIR}/Astral_Sage_8dir_atlas.json`,
+    dashTint: 0x38bdf8,
+    speed: 5.5,
   },
   Shadow_Reaper: {
-    shortLabel: "레인저",
-    displayName: "섀도우 레인저",
+    shortLabel: "크로니클러",
+    displayName: "섀도우 크로니클러",
     roleBadge: "CHRONICLE SCOUT",
-    glbUrl: `${CHAR_DIR}/Rogue_Hooded.glb`,
-    attachments: ["Rogue_Cape", "1H_Crossbow"],
-    hueShift: -0.06,
-    satMult: 1.15,
-    speed: 6.1,
+    atlasUrl: `${SPRITE_DIR}/Shadow_Reaper_8dir_atlas.json`,
+    dashTint: 0xfb7185,
+    speed: 6.2,
   },
-  Nordic_Champion: {
-    shortLabel: "워리어",
-    displayName: "노르딕 워리어",
+  Curator_Leon: {
+    shortLabel: "나이트",
+    displayName: "에메랄드 나이트",
     roleBadge: "ARCHIVE GUARDIAN",
-    glbUrl: `${CHAR_DIR}/Barbarian.glb`,
-    attachments: ["Barbarian_Hat", "Barbarian_Cape", "1H_Axe", "Barbarian_Round_Shield"],
-    hueShift: 0.08,
-    satMult: 1.05,
-    speed: 5.8,
+    atlasUrl: `${SPRITE_DIR}/Curator_Leon_8dir_atlas.json`,
+    dashTint: 0x34d399,
+    speed: 5.9,
   },
 };
 
@@ -60,102 +52,84 @@ const SHRINE_DEFS = [
     title: "인기 플러그인 공방",
     curatorName: "연금술사 엘라",
     roleBadge: "PLUGIN FORGE",
-    glbUrl: `${CHAR_DIR}/Mage.glb`,
-    attachments: ["Mage_Hat", "Mage_Cape", "1H_Wand", "Spellbook_open"],
-    hueShift: -0.14,
-    satMult: 1.12,
+    atlasUrl: `${SPRITE_DIR}/Curator_Ella_8dir_atlas.json`,
     x: -15.0,
     z: -16.2,
     facing: 0.0,
     palette: "holy",
     pageHref: "./",
     pageLabel: "인기 플러그인",
-    overlayHeight: 2.45,
+    overlayHeight: 2.55,
   },
   {
     id: "news",
     title: "AI 뉴스 대도서관",
     curatorName: "뉴스 사서 셀레네",
     roleBadge: "NEWS LIBRARY",
-    glbUrl: `${CHAR_DIR}/Mage.glb`,
-    attachments: ["Mage_Cape", "2H_Staff", "Spellbook"],
-    hueShift: 0.16,
-    satMult: 1.1,
+    atlasUrl: `${SPRITE_DIR}/Astral_Sage_8dir_atlas.json`,
     x: 15.0,
     z: -16.2,
     facing: 0.0,
     palette: "arcane",
     pageHref: "news",
     pageLabel: "AI 뉴스",
-    overlayHeight: 2.4,
+    overlayHeight: 2.5,
   },
   {
     id: "social",
     title: "소셜 피드 라운지",
     curatorName: "소셜 바드 루나",
     roleBadge: "SOCIAL SALON",
-    glbUrl: `${CHAR_DIR}/Rogue.glb`,
-    attachments: ["Rogue_Cape", "Throwable"],
-    hueShift: 0.28,
-    satMult: 1.12,
+    atlasUrl: `${SPRITE_DIR}/Curator_Luna_8dir_atlas.json`,
     x: -15.0,
     z: 16.2,
     facing: Math.PI,
     palette: "shadow",
     pageHref: "social",
     pageLabel: "소셜 피드",
-    overlayHeight: 2.4,
+    overlayHeight: 2.5,
   },
   {
     id: "benchmarks",
     title: "벤치마크 관측소",
     curatorName: "관측 기사 레온",
     roleBadge: "OBSERVATORY",
-    glbUrl: `${CHAR_DIR}/Knight.glb`,
-    attachments: ["Knight_Cape", "1H_Sword", "Round_Shield"],
-    hueShift: 0.38,
-    satMult: 1.05,
+    atlasUrl: `${SPRITE_DIR}/Curator_Leon_8dir_atlas.json`,
     x: 15.0,
     z: 16.2,
     facing: Math.PI,
     palette: "emerald",
     pageHref: "benchmarks",
     pageLabel: "점유율·성능",
-    overlayHeight: 2.4,
+    overlayHeight: 2.55,
   },
   {
     id: "tavern",
     title: "서쪽 여행자 여관",
     curatorName: "여관 마스터 브론",
     roleBadge: "TRAVELER TAVERN",
-    glbUrl: `${CHAR_DIR}/Barbarian.glb`,
-    attachments: ["Barbarian_Cape", "Mug"],
-    hueShift: -0.08,
-    satMult: 1.05,
+    atlasUrl: `${SPRITE_DIR}/Solar_Guard_8dir_atlas.json`,
     x: -24.8,
     z: -1.4,
     facing: Math.PI * 0.5,
     palette: "holy",
     pageHref: "./",
     pageLabel: "위클리 브리핑",
-    overlayHeight: 2.4,
+    overlayHeight: 2.55,
   },
   {
     id: "workshop",
     title: "동쪽 장인 아틀리에",
     curatorName: "수석 장인 카일",
     roleBadge: "MASTER ATELIER",
-    glbUrl: `${CHAR_DIR}/Knight.glb`,
-    attachments: ["Knight_Cape", "Badge_Shield", "2H_Sword"],
-    hueShift: 0.52,
-    satMult: 1.05,
+    atlasUrl: `${SPRITE_DIR}/Citizen_Mechanic_8dir_atlas.json`,
     x: 24.8,
     z: -1.4,
     facing: -Math.PI * 0.5,
     palette: "arcane",
     pageHref: "starboard",
     pageLabel: "스타보드",
-    overlayHeight: 2.4,
+    overlayHeight: 2.5,
   },
 ];
 
@@ -169,18 +143,18 @@ const ROOM_DEFS = {
 };
 
 const CITIZEN_SPAWNS = [
-  { id: "cit-1", name: "독서가 마일로", roleBadge: "SCHOLAR", persona: "scholar", glbUrl: `${CHAR_DIR}/Mage.glb`, attachments: ["Spellbook_open"], hueShift: 0.22, satMult: 1.1, x: -5.5, y: 0, z: -5.5, facing: Math.PI * 0.25, action: "SitChair", roam: false },
-  { id: "cit-2", name: "음유시인 아리아", roleBadge: "BARD", persona: "bard", glbUrl: `${CHAR_DIR}/Rogue.glb`, attachments: ["Rogue_Cape"], hueShift: -0.08, satMult: 1.15, x: -6.2, y: 0, z: 2.2, facing: 0.6, action: "Idle", roam: true, roamRadius: 5.5 },
-  { id: "cit-3", name: "명상가 하린", roleBadge: "SCHOLAR", persona: "scholar", glbUrl: `${CHAR_DIR}/Rogue.glb`, attachments: [], hueShift: -0.18, satMult: 1.12, x: 5.5, y: 0, z: 5.5, facing: -Math.PI * 0.75, action: "SitChair", roam: false },
-  { id: "cit-4", name: "개발자 다온", roleBadge: "ARTISAN", persona: "artisan", glbUrl: `${CHAR_DIR}/Knight.glb`, attachments: [], hueShift: -0.25, satMult: 1.1, x: -4.2, y: 0, z: -16.0, facing: Math.PI * 0.5, action: "SitChair", roam: false },
-  { id: "cit-5", name: "탐험가 카이", roleBadge: "SCOUT", persona: "scout", glbUrl: `${CHAR_DIR}/Rogue_Hooded.glb`, attachments: ["Rogue_Cape", "1H_Crossbow"], hueShift: 0.34, satMult: 1.12, x: 0.0, y: 0, z: -13.5, facing: 0.0, action: "Idle", roam: true, roamRadius: 7.0 },
-  { id: "cit-6", name: "학자 유나", roleBadge: "SCHOLAR", persona: "scholar", glbUrl: `${CHAR_DIR}/Mage.glb`, attachments: ["Mage_Hat", "Spellbook_open"], hueShift: -0.35, satMult: 1.12, x: 0.0, y: 0, z: 14.5, facing: Math.PI, action: "Idle", roam: true, roamRadius: 7.0 },
-  { id: "cit-7", name: "용병 지크", roleBadge: "SCOUT", persona: "scout", glbUrl: `${CHAR_DIR}/Barbarian.glb`, attachments: ["Barbarian_Cape", "1H_Axe"], hueShift: 0.28, satMult: 1.05, x: -13.0, y: 0, z: 0.2, facing: Math.PI * 0.5, action: "Idle", roam: true, roamRadius: 6.0 },
-  { id: "cit-8", name: "연금술사 리오", roleBadge: "ARTISAN", persona: "artisan", glbUrl: `${CHAR_DIR}/Knight.glb`, attachments: ["Knight_Helmet", "Knight_Cape"], hueShift: -0.18, satMult: 1.1, x: 13.0, y: 0, z: -0.2, facing: -Math.PI * 0.5, action: "Idle", roam: true, roamRadius: 6.0 },
-  { id: "cit-9", name: "단골 기사 가렌", roleBadge: "PATRON", persona: "patron", glbUrl: `${CHAR_DIR}/Barbarian.glb`, attachments: ["Mug"], hueShift: 0.14, satMult: 1.05, x: -21.2, y: 0, z: 1.5, facing: -0.4, action: "Idle", roam: false },
-  { id: "cit-10", name: "모형 장인 테오", roleBadge: "ARTISAN", persona: "artisan", glbUrl: `${CHAR_DIR}/Rogue.glb`, attachments: ["Knife"], hueShift: 0.62, satMult: 1.1, x: 21.2, y: 0, z: 1.5, facing: 0.4, action: "Idle", roam: false },
-  { id: "cit-11", name: "수집가 민지", roleBadge: "ARTISAN", persona: "artisan", glbUrl: `${CHAR_DIR}/Rogue.glb`, attachments: ["Rogue_Cape", "Knife"], hueShift: 0.55, satMult: 1.12, x: -15.0, y: 0, z: -8.0, facing: Math.PI, action: "Idle", roam: true, roamRadius: 4.5 },
-  { id: "cit-12", name: "연구원 세준", roleBadge: "SCHOLAR", persona: "scholar", glbUrl: `${CHAR_DIR}/Mage.glb`, attachments: ["Mage_Cape", "1H_Wand"], hueShift: 0.08, satMult: 1.1, x: 15.0, y: 0, z: 8.0, facing: 0, action: "Idle", roam: true, roamRadius: 4.5 },
+  { id: "cit-1", name: "독서가 마일로", roleBadge: "SCHOLAR", persona: "scholar", atlasUrl: `${SPRITE_DIR}/Citizen_Minstrel_8dir_atlas.json`, x: -5.5, y: 0.22, z: -5.5, facing: Math.PI * 0.25, action: "Sit", roam: false },
+  { id: "cit-2", name: "음유시인 아리아", roleBadge: "BARD", persona: "bard", atlasUrl: `${SPRITE_DIR}/Curator_Luna_8dir_atlas.json`, x: -6.2, y: 0, z: 2.2, facing: 0.6, action: "Idle", roam: true, roamRadius: 5.5 },
+  { id: "cit-3", name: "명상가 하린", roleBadge: "SCHOLAR", persona: "scholar", atlasUrl: `${SPRITE_DIR}/Astral_Sage_8dir_atlas.json`, x: 5.5, y: 0.22, z: 5.5, facing: -Math.PI * 0.75, action: "Sit", roam: false },
+  { id: "cit-4", name: "개발자 다온", roleBadge: "ARTISAN", persona: "artisan", atlasUrl: `${SPRITE_DIR}/Citizen_Mechanic_8dir_atlas.json`, x: -4.2, y: 0.22, z: -16.0, facing: Math.PI * 0.5, action: "Sit", roam: false },
+  { id: "cit-5", name: "탐험가 카이", roleBadge: "SCOUT", persona: "scout", atlasUrl: `${SPRITE_DIR}/Citizen_Ranger_8dir_atlas.json`, x: 0.0, y: 0, z: -13.5, facing: 0.0, action: "Idle", roam: true, roamRadius: 7.0 },
+  { id: "cit-6", name: "학자 유나", roleBadge: "SCHOLAR", persona: "scholar", atlasUrl: `${SPRITE_DIR}/Curator_Ella_8dir_atlas.json`, x: 0.0, y: 0, z: 14.5, facing: Math.PI, action: "Idle", roam: true, roamRadius: 7.0 },
+  { id: "cit-7", name: "모험가 지크", roleBadge: "SCOUT", persona: "scout", atlasUrl: `${SPRITE_DIR}/Citizen_Sura_8dir_atlas.json`, x: -13.0, y: 0, z: 0.2, facing: Math.PI * 0.5, action: "Idle", roam: true, roamRadius: 6.0 },
+  { id: "cit-8", name: "연금술사 리오", roleBadge: "ARTISAN", persona: "artisan", atlasUrl: `${SPRITE_DIR}/Solar_Guard_8dir_atlas.json`, x: 13.0, y: 0, z: -0.2, facing: -Math.PI * 0.5, action: "Idle", roam: true, roamRadius: 6.0 },
+  { id: "cit-9", name: "단골 기사 가렌", roleBadge: "PATRON", persona: "patron", atlasUrl: `${SPRITE_DIR}/Curator_Leon_8dir_atlas.json`, x: -21.2, y: 0, z: 1.5, facing: -0.4, action: "Idle", roam: false },
+  { id: "cit-10", name: "모형 장인 테오", roleBadge: "ARTISAN", persona: "artisan", atlasUrl: `${SPRITE_DIR}/Citizen_Minstrel_8dir_atlas.json`, x: 21.2, y: 0, z: 1.5, facing: 0.4, action: "Idle", roam: false },
+  { id: "cit-11", name: "수집가 민지", roleBadge: "ARTISAN", persona: "artisan", atlasUrl: `${SPRITE_DIR}/Shadow_Reaper_8dir_atlas.json`, x: -15.0, y: 0, z: -8.0, facing: Math.PI, action: "Idle", roam: true, roamRadius: 4.5 },
+  { id: "cit-12", name: "연구원 세준", roleBadge: "SCHOLAR", persona: "scholar", atlasUrl: `${SPRITE_DIR}/Citizen_Ranger_8dir_atlas.json`, x: 15.0, y: 0, z: 8.0, facing: 0, action: "Idle", roam: true, roamRadius: 4.5 },
 ];
 
 function esc(str) {
@@ -325,11 +299,7 @@ class SanctuaryArchiveApp {
           p.chatUntil = Date.now() + 10000;
         }
       },
-      onRemoteFx: (fx) => {
-        if (fx?.kind === "firework" && this.atmosphere) {
-          this.atmosphere.launchFirework(fx.x ?? null, fx.z ?? null);
-        }
-      },
+      onRemoteFx: () => {},
       onCommand: (cmd, arg) => this._handleAtmosphereCommand(cmd, arg),
     });
 
@@ -357,6 +327,16 @@ class SanctuaryArchiveApp {
       moveQueue: [],
       pendingShrineId: null,
       isSitting: false,
+      isRunning: false,
+      isJumping: false,
+      jumpY: 0,
+      jumpVy: 0,
+      landingSquashTimer: 0,
+      dashTimer: 0,
+      dashCooldown: 0,
+      dashGhostTimer: 0,
+      dashDir: new THREE.Vector3(0, 0, -1),
+      runDustTimer: 0,
       castState: null,
       emoteText: "",
       emoteUntil: 0,
@@ -364,8 +344,18 @@ class SanctuaryArchiveApp {
       chatUntil: 0,
       tickerText: "",
       isActiveShrine: false,
-      overlayHeight: 2.5,
+      overlayHeight: 2.55,
     };
+
+    // Zero-allocation scratch objects for 60fps loop
+    this._tmpMoveVec = new THREE.Vector3();
+    this._tmpDiffVec = new THREE.Vector3();
+    this._tmpCitDiffVec = new THREE.Vector3();
+    this._overlayActors = [];
+    this._lastDirTap = { code: "", at: 0 };
+    this._tickerTimer = null;
+    this._rafId = 0;
+    this._disposed = false;
 
     this._lastTime = performance.now();
     this._elapsed = 0;
@@ -374,7 +364,8 @@ class SanctuaryArchiveApp {
 
   _createRenderer(canvas) {
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: "high-performance" });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    // Cap pixelRatio at 1.5 to cut Retina GPU framebuffer memory by 44% with crisp visuals
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -384,7 +375,6 @@ class SanctuaryArchiveApp {
   }
 
   _setupLights() {
-    // Golden-Hour Sunlit Plaza Lighting matching concept art
     this.ambientLight = new THREE.AmbientLight(0xfff5db, 0.72);
     this.scene.add(this.ambientLight);
 
@@ -394,19 +384,19 @@ class SanctuaryArchiveApp {
     this.dirLight = new THREE.DirectionalLight(0xffefc2, 2.55);
     this.dirLight.position.set(-18, 28, 14);
     this.dirLight.castShadow = true;
-    this.dirLight.shadow.mapSize.set(2048, 2048);
+    // 1024x1024 shadow map cuts shadow VRAM by 75% (16MB -> 4MB) with soft PCF edges
+    this.dirLight.shadow.mapSize.set(1024, 1024);
     this.dirLight.shadow.camera.near = 4;
-    this.dirLight.shadow.camera.far = 80;
-    const d = 26;
+    this.dirLight.shadow.camera.far = 75;
+    const d = 24;
     this.dirLight.shadow.camera.left = -d;
     this.dirLight.shadow.camera.right = d;
     this.dirLight.shadow.camera.top = d;
     this.dirLight.shadow.camera.bottom = -d;
-    this.dirLight.shadow.bias = -0.0004;
+    this.dirLight.shadow.bias = -0.0005;
     this.scene.add(this.dirLight);
     this.scene.add(this.dirLight.target);
 
-    // Glowing Cyan Crystal Fountain Bounce Light
     this.fountainLight = new THREE.PointLight(0x67e8f9, 2.8, 11);
     this.fountainLight.position.set(0, 2.2, 0);
     this.scene.add(this.fountainLight);
@@ -433,7 +423,8 @@ class SanctuaryArchiveApp {
     this.atmosphere = new SanctuaryAtmosphere(
       this.scene,
       { dirLight: this.dirLight, ambientLight: this.ambientLight, hemiLight: this.hemiLight },
-      this.envFx
+      this.envFx,
+      { onFestivalEvent: (ev) => this._handleFestivalEvent(ev) }
     );
     this._lastAtmoUiSync = 0;
     this._syncAtmoLabels();
@@ -528,13 +519,7 @@ class SanctuaryArchiveApp {
   async _spawnShrines() {
     this.shrines = await Promise.all(
       SHRINE_DEFS.map(async (def) => {
-        const actor = await loadGlbCharacter({
-          glbUrl: def.glbUrl,
-          attachments: def.attachments,
-          hueShift: def.hueShift || 0,
-          satMult: def.satMult || 1.0,
-          targetHeight: 2.1,
-        });
+        const actor = await loadSpriteActor(def.atlasUrl);
         const pos = new THREE.Vector3(def.x, 0, def.z);
         actor.mesh.position.copy(pos);
         actor.setUserData("shrineId", def.id);
@@ -562,13 +547,7 @@ class SanctuaryArchiveApp {
     const now = Date.now();
     this.citizens = await Promise.all(
       CITIZEN_SPAWNS.map(async (sp, idx) => {
-        const actor = await loadGlbCharacter({
-          glbUrl: sp.glbUrl,
-          attachments: sp.attachments,
-          hueShift: sp.hueShift || 0,
-          satMult: sp.satMult || 1.0,
-          targetHeight: 2.0,
-        });
+        const actor = await loadSpriteActor(sp.atlasUrl);
         const pos = new THREE.Vector3(sp.x, sp.y, sp.z);
         actor.mesh.position.copy(pos);
         actor.setUserData("citizenId", sp.id);
@@ -584,10 +563,10 @@ class SanctuaryArchiveApp {
           homePos: pos.clone(),
           facingAngle: sp.facing,
           dest: null,
-          overlayHeight: 2.25,
+          overlayHeight: 2.38,
           chatText: "",
           chatUntil: 0,
-          aiState: sp.roam ? "idle" : (sp.action === "SitChair" ? "sit" : "idle"),
+          aiState: sp.roam ? "idle" : (sp.action === "Sit" ? "sit" : "idle"),
           stateUntil: 0,
           pauseTimer: 1.2 + idx * 0.55,
           nextSpeakAt: now + 2200 + idx * 1700,
@@ -600,32 +579,27 @@ class SanctuaryArchiveApp {
   }
 
   async switchAvatar(classKey) {
-    const spec = AVATAR_DEFS[classKey];
-    if (!spec) return;
-    this.hero.classKey = classKey;
+    const spec = AVATAR_DEFS[classKey] || AVATAR_DEFS.Solar_Guard;
+    const resolvedKey = AVATAR_DEFS[classKey] ? classKey : "Solar_Guard";
+    this.hero.classKey = resolvedKey;
     this.hero.displayName = this.chat?.nickname || spec.displayName;
     this.hero.roleBadge = spec.roleBadge;
     this.hero.isSitting = false;
 
-    const actor = await loadGlbCharacter({
-      glbUrl: spec.glbUrl,
-      attachments: spec.attachments,
-      hueShift: spec.hueShift || 0,
-      satMult: spec.satMult || 1.0,
-      targetHeight: 2.1,
-    });
+    const actor = await loadSpriteActor(spec.atlasUrl);
     if (this.hero.actor) {
       this.scene.remove(this.hero.actor.mesh);
       this.hero.actor.dispose();
     }
     this.hero.actor = actor;
     actor.mesh.position.copy(this.hero.position);
+    actor.setJumpHeight(this.hero.jumpY, 1, 1);
     this.scene.add(actor.mesh);
 
     const classLabel = document.getElementById("hero-class-text");
     if (classLabel) classLabel.textContent = spec.shortLabel;
     document.querySelectorAll(".ro-class-btn").forEach((btn) => {
-      const active = btn.dataset.heroClass === classKey;
+      const active = btn.dataset.heroClass === resolvedKey;
       btn.classList.toggle("is-active", active);
       btn.setAttribute("aria-selected", active ? "true" : "false");
     });
@@ -722,7 +696,7 @@ class SanctuaryArchiveApp {
     if (timeKey === "night") pool.push("밤에는 조명이 켜진 도서관이나 여관 분위기가 최고죠.");
     if (timeKey === "sunset") pool.push("노을 질 때 광장 분수대 주변 산책이 제일 좋더라고요.");
     if (seasonKey === "spring") pool.push("봄 벚꽃잎 날리는 위클리월드 광장은 언제 봐도 예뻐요.");
-    if (seasonKey === "winter") pool.push("눈이 포근하게 내리네요! F키로 불꽃놀이도 쏠 수 있대요.");
+    if (seasonKey === "winter") pool.push("눈이 포근하게 내리네요! 밤이 되면 화려한 불꽃축제도 열려요.");
     if (cit.persona === "patron") pool.push("여관 브론 사장님 특제 브리핑 들으면서 잠시 쉬어가세요.");
     pool.push("건물 안으로 들어가면 거대한 전면 대시보드가 바로 열려요!");
 
@@ -809,9 +783,11 @@ class SanctuaryArchiveApp {
   }
 
   _startTickerLoop() {
-    setInterval(() => {
-      this.tickerStep += 1;
-      this._refreshShrineTickers();
+    this._tickerTimer = setInterval(() => {
+      if (!document.hidden) {
+        this.tickerStep += 1;
+        this._refreshShrineTickers();
+      }
     }, 4500);
   }
 
@@ -1209,23 +1185,23 @@ class SanctuaryArchiveApp {
           filterId: "lounge",
           badge: "TAVERN GUIDE",
           metaRight: `현재 ${onlineCount}명 접속`,
-          title: "위클리월드 다중 유저 채팅 & 귓속말 안내",
-          summary: "같은 도시나 건물에 접속한 다른 사용자와 실시간 대화하고 불꽃놀이를 공유할 수 있습니다.",
-          body: "• 전체/1:1 채팅: 좌측 하단 채팅창에서 [전체] 또는 접속 유저 탭을 선택해 대화하세요.\n• 귓속말 명령어: `/w 닉네임 내용` 형태로 특정 유저에게만 메시지를 전달합니다.\n• 닉네임 변경: 채팅창 우측 상단 닉네임 버튼을 클릭해 즉시 변경할 수 있습니다.\n• 분위기/불꽃놀이 제어: `/불꽃`, `/밤`, `/눈` 또는 우측 하단 캡슐 버튼을 사용해 보세요.",
-          tags: ["멀티유저", "P2P채팅", "실시간"],
-          customAction: { id: "firework", label: "여관 기념 불꽃놀이 발사" },
-          searchHaystack: "채팅 귓속말 닉네임 불꽃놀이 여관 멀티유저",
+          title: "위클리월드 다중 유저 채팅 & 야간 불꽃축제 안내",
+          summary: "같은 도시나 건물에 접속한 다른 사용자와 실시간 대화하고, 밤마다 공지 후 펼쳐지는 화려한 불꽃축제를 함께 감상하세요.",
+          body: "• 전체/1:1 채팅: 좌측 하단 채팅창에서 [전체] 또는 접속 유저 탭을 선택해 대화하세요.\n• 귓속말 명령어: `/w 닉네임 내용` 형태로 특정 유저에게만 메시지를 전달합니다.\n• 닉네임 변경: 채팅창 우측 상단 닉네임 버튼을 클릭해 즉시 변경할 수 있습니다.\n• 야간 불꽃축제: 밤 시간대에만 사전 공지 배너와 함께 화려한 3막 불꽃놀이 쇼가 자동으로 펼쳐집니다 (`/밤` 으로 밤하늘 전환 가능).",
+          tags: ["멀티유저", "야간불꽃축제", "실시간"],
+          customAction: { id: "night_festival", label: "밤하늘로 전환해 불꽃축제 기다리기" },
+          searchHaystack: "채팅 귓속말 닉네임 불꽃놀이 불꽃축제 여관 멀티유저",
         },
         {
           filterId: "lounge",
           badge: "CITY CONTROLS",
           metaRight: `${atmo.timeLabel} · ${atmo.seasonLabel}`,
-          title: "조작 및 건물 탐험 단축키",
-          summary: "WASD 이동, 건물 지붕/전면 스크린 클릭, 상단 퀵워프(0~6)를 지원합니다.",
-          body: "• 이동: W/A/S/D 또는 방향키, 바닥/지붕 클릭\n• 카메라 회전/줌: 마우스 우클릭 드래그, Q/E, 휠 줌\n• 건물 바로 이동: 상단 구역 바 클릭 또는 숫자키 1~6 (0은 중앙 광장)\n• 대시보드 접기: [방 내부 둘러보기] 클릭 후 방 안의 대형 월 스크린을 누르면 다시 열립니다.",
-          tags: ["조작법", "단축키", "3D월스크린"],
+          title: "이동 · 대시 · 달리기 · 점프 단축키",
+          summary: "WASD 이동, Shift 대시/달리기, Space 점프, 건물 퀵워프(0~6)를 지원합니다.",
+          body: "• 이동: W/A/S/D 또는 방향키, 바닥/지붕 클릭\n• 대시 & 달리기: Shift 탭(또는 방향키 더블탭)으로 잔상 대시, Shift 홀드로 고속 달리기\n• 점프 & 앉기: Space 키로 도약 점프, X 키로 휴식 앉기\n• 카메라 회전/줌: 마우스 우클릭 드래그, Q/E, 휠 줌\n• 건물 바로 이동: 상단 구역 바 클릭 또는 숫자키 1~6 (0은 중앙 광장)",
+          tags: ["대시", "달리기", "점프", "단축키"],
           customAction: { id: "greet", label: "광장 전체 채팅으로 인사 보내기" },
-          searchHaystack: "조작법 단축키 이동 카메라 월스크린",
+          searchHaystack: "조작법 단축키 이동 대시 달리기 점프 카메라 월스크린",
         },
         ...(topPlug ? [{
           filterId: "hot",
@@ -1629,28 +1605,24 @@ class SanctuaryArchiveApp {
         id: `peer-${cid}`,
         clientId: cid,
         role: "hero",
-        classKey: peerData.classKey || "Solar_Guard",
+        classKey: AVATAR_DEFS[peerData.classKey] ? peerData.classKey : "Solar_Guard",
         displayName: peerData.nickname,
         roleBadge: "USER",
         actor: null,
         loading: true,
         position: new THREE.Vector3(peerData.x || 0, 0, peerData.z || 0),
         targetPos: new THREE.Vector3(peerData.x || 0, 0, peerData.z || 0),
+        jumpY: peerData.y || 0,
+        targetJumpY: peerData.y || 0,
         facingAngle: peerData.facing || 0,
         action: peerData.action || "Idle",
         chatText: "",
         chatUntil: 0,
-        overlayHeight: 2.5,
+        overlayHeight: 2.55,
       };
       this.remotePeers.set(cid, rec);
       const spec = AVATAR_DEFS[rec.classKey] || AVATAR_DEFS.Solar_Guard;
-      const actor = await loadGlbCharacter({
-        glbUrl: spec.glbUrl,
-        attachments: spec.attachments,
-        hueShift: spec.hueShift || 0,
-        satMult: spec.satMult || 1.0,
-        targetHeight: 2.1,
-      });
+      const actor = await loadSpriteActor(spec.atlasUrl);
       if (!this.remotePeers.has(cid)) {
         actor.dispose();
         return;
@@ -1663,19 +1635,14 @@ class SanctuaryArchiveApp {
     } else {
       rec.displayName = peerData.nickname;
       rec.targetPos.set(peerData.x || 0, 0, peerData.z || 0);
+      rec.targetJumpY = peerData.y || 0;
       rec.facingAngle = peerData.facing ?? rec.facingAngle;
       rec.action = peerData.action || "Idle";
       if (peerData.classKey && peerData.classKey !== rec.classKey && !rec.loading && AVATAR_DEFS[peerData.classKey]) {
         rec.classKey = peerData.classKey;
         rec.loading = true;
         const spec = AVATAR_DEFS[rec.classKey];
-        const nextActor = await loadGlbCharacter({
-          glbUrl: spec.glbUrl,
-          attachments: spec.attachments,
-          hueShift: spec.hueShift || 0,
-          satMult: spec.satMult || 1.0,
-          targetHeight: 2.1,
-        });
+        const nextActor = await loadSpriteActor(spec.atlasUrl);
         if (!this.remotePeers.has(cid)) {
           nextActor.dispose();
           return;
@@ -1708,9 +1675,17 @@ class SanctuaryArchiveApp {
     for (const rec of this.remotePeers.values()) {
       if (!rec.actor) continue;
       rec.position.lerp(rec.targetPos, alpha);
+      rec.jumpY += ((rec.targetJumpY || 0) - rec.jumpY) * Math.min(1, dt * 14);
       rec.actor.mesh.position.copy(rec.position);
-      const moving = rec.position.distanceTo(rec.targetPos) > 0.08 || rec.action === "Walk";
-      rec.actor.playAction(moving ? "Walk" : (rec.action === "Sit" ? "Sit" : "Idle"));
+      rec.actor.setJumpHeight(rec.jumpY, 1, 1);
+      const moving = rec.position.distanceTo(rec.targetPos) > 0.08;
+      let anim = "Idle";
+      if (rec.jumpY > 0.08 || rec.action === "Jump") anim = "Jump";
+      else if (rec.action === "Dash") anim = "Dash";
+      else if (rec.action === "Run") anim = "Run";
+      else if (moving || rec.action === "Walk") anim = "Walk";
+      else if (rec.action === "Sit") anim = "Sit";
+      rec.actor.playAction(anim);
       rec.actor.update(dt, this.controller.cameraAzimuth, rec.facingAngle);
     }
   }
@@ -1744,6 +1719,16 @@ class SanctuaryArchiveApp {
     }
 
     const nextRoomId = activeRoom?.id || null;
+    if (this.envFx.interiorLight) {
+      if (activeRoom) {
+        this.envFx.interiorLight.position.set(activeRoom.center.x, 2.6, activeRoom.center.z);
+        this.envFx.interiorLight.color.setHex(activeRoom.accentColor || 0xfbbf24);
+        this.envFx.interiorLight.intensity = 2.6;
+      } else {
+        this.envFx.interiorLight.intensity = 0;
+      }
+    }
+
     if (nextRoomId !== this.currentBuildingId) {
       this.currentBuildingId = nextRoomId;
       for (const sign of this.buildingSigns) {
@@ -1761,15 +1746,70 @@ class SanctuaryArchiveApp {
     }
   }
 
+  triggerDash() {
+    if (this.hero.dashCooldown > 0 || this.hero.dashTimer > 0) return;
+
+    const { forward, right } = this.controller.getGroundBasis();
+    const dir = this._tmpMoveVec.set(0, 0, 0);
+    if (this.keys.has("KeyW") || this.keys.has("ArrowUp")) dir.add(forward);
+    if (this.keys.has("KeyS") || this.keys.has("ArrowDown")) dir.sub(forward);
+    if (this.keys.has("KeyD") || this.keys.has("ArrowRight")) dir.add(right);
+    if (this.keys.has("KeyA") || this.keys.has("ArrowLeft")) dir.sub(right);
+
+    if (dir.lengthSq() > 0.001) {
+      dir.normalize();
+    } else if (this.hero.moveTarget) {
+      dir.subVectors(this.hero.moveTarget, this.hero.position);
+      dir.y = 0;
+      if (dir.lengthSq() > 0.01) dir.normalize();
+      else dir.set(Math.sin(this.hero.facingAngle), 0, Math.cos(this.hero.facingAngle));
+    } else {
+      dir.set(Math.sin(this.hero.facingAngle), 0, Math.cos(this.hero.facingAngle));
+    }
+
+    this.hero.isSitting = false;
+    document.getElementById("btn-sit")?.classList.remove("is-active");
+    this.hero.dashDir.copy(dir);
+    this.hero.facingAngle = Math.atan2(dir.x, dir.z);
+    this.hero.dashTimer = 0.26;
+    this.hero.dashCooldown = 1.05;
+    this.hero.dashGhostTimer = 0;
+
+    const spec = AVATAR_DEFS[this.hero.classKey] || AVATAR_DEFS.Solar_Guard;
+    this.hero.actor?.playAction("Dash", null, true);
+    this.vfx.spawnDustPuff(this.hero.position, { color: spec.dashTint || 0x38bdf8, maxScale: 2.35, opacity: 0.78, life: 0.34 });
+    this.vfx.spawnAfterimage(this.hero.actor, spec.dashTint || 0x38bdf8);
+    this.audio.playTone(320, 680, 0.14, "triangle", 0.06);
+  }
+
+  triggerJump() {
+    if (this.hero.isJumping) return;
+    this.hero.isSitting = false;
+    document.getElementById("btn-sit")?.classList.remove("is-active");
+    this.hero.isJumping = true;
+    this.hero.jumpVy = 9.2;
+    this.hero.landingSquashTimer = 0;
+    this.hero.actor?.playAction("Jump", null, true);
+    this.vfx.spawnDustPuff(this.hero.position, { color: 0xfef3c7, maxScale: 1.55, opacity: 0.62, life: 0.32 });
+    this.audio.playTone(380, 580, 0.12, "sine", 0.055);
+  }
+
   _updateHero(dt) {
     const { forward, right } = this.controller.getGroundBasis();
-    const moveVec = new THREE.Vector3();
+    const moveVec = this._tmpMoveVec.set(0, 0, 0);
     if (this.keys.has("KeyW") || this.keys.has("ArrowUp")) moveVec.add(forward);
     if (this.keys.has("KeyS") || this.keys.has("ArrowDown")) moveVec.sub(forward);
     if (this.keys.has("KeyD") || this.keys.has("ArrowRight")) moveVec.add(right);
     if (this.keys.has("KeyA") || this.keys.has("ArrowLeft")) moveVec.sub(right);
 
-    if (moveVec.lengthSq() > 0.001) {
+    const hasKeyMove = moveVec.lengthSq() > 0.001;
+    const isShiftHeld = this.keys.has("ShiftLeft") || this.keys.has("ShiftRight");
+
+    if (this.hero.dashCooldown > 0) {
+      this.hero.dashCooldown = Math.max(0, this.hero.dashCooldown - dt);
+    }
+
+    if (hasKeyMove) {
       this.hero.moveTarget = null;
       this.hero.moveQueue = [];
       this.hero.pendingShrineId = null;
@@ -1778,7 +1818,7 @@ class SanctuaryArchiveApp {
       document.getElementById("btn-sit")?.classList.remove("is-active");
       moveVec.normalize();
     } else if (this.hero.moveTarget) {
-      const diff = new THREE.Vector3().subVectors(this.hero.moveTarget, this.hero.position);
+      const diff = this._tmpDiffVec.subVectors(this.hero.moveTarget, this.hero.position);
       diff.y = 0;
       if (diff.length() > 0.25) {
         moveVec.copy(diff.normalize());
@@ -1795,15 +1835,47 @@ class SanctuaryArchiveApp {
       }
     }
 
-    const speed = AVATAR_DEFS[this.hero.classKey].speed;
-    if (moveVec.lengthSq() > 0.001) {
+    const spec = AVATAR_DEFS[this.hero.classKey] || AVATAR_DEFS.Solar_Guard;
+    const baseSpeed = spec.speed;
+    let isMoving = false;
+    let isDashing = false;
+    let isRunning = false;
+
+    if (this.hero.dashTimer > 0) {
+      isDashing = true;
+      isMoving = true;
+      this.hero.dashTimer = Math.max(0, this.hero.dashTimer - dt);
+      const dashSpeed = baseSpeed * 2.75;
+      const next = this._resolveCityCollisions(
+        this.hero.position.x + this.hero.dashDir.x * dashSpeed * dt,
+        this.hero.position.z + this.hero.dashDir.z * dashSpeed * dt
+      );
+      this.hero.position.set(next.x, 0, next.z);
+      this.hero.facingAngle = Math.atan2(this.hero.dashDir.x, this.hero.dashDir.z);
+
+      this.hero.dashGhostTimer += dt;
+      if (this.hero.dashGhostTimer >= 0.07) {
+        this.hero.dashGhostTimer = 0;
+        this.vfx.spawnAfterimage(this.hero.actor, spec.dashTint || 0x38bdf8);
+      }
+    } else if (moveVec.lengthSq() > 0.001) {
+      isMoving = true;
+      isRunning = isShiftHeld;
+      const speed = isRunning ? baseSpeed * 1.62 : baseSpeed;
       const next = this._resolveCityCollisions(
         this.hero.position.x + moveVec.x * speed * dt,
         this.hero.position.z + moveVec.z * speed * dt
       );
       this.hero.position.set(next.x, 0, next.z);
       this.hero.facingAngle = Math.atan2(moveVec.x, moveVec.z);
-      this.hero.actor?.playAction("Walk");
+
+      if (isRunning && !this.hero.isJumping) {
+        this.hero.runDustTimer += dt;
+        if (this.hero.runDustTimer >= 0.24) {
+          this.hero.runDustTimer = 0;
+          this.vfx.spawnDustPuff(this.hero.position, { color: 0xfef3c7, maxScale: 1.3, opacity: 0.45, life: 0.28 });
+        }
+      }
 
       for (const sh of this.shrines) {
         if (sh.id !== this.activeShrineId && this.hero.position.distanceTo(sh.position) < 2.2) {
@@ -1811,12 +1883,64 @@ class SanctuaryArchiveApp {
           break;
         }
       }
-    } else if (this.hero.actor && this.hero.actor.currentAction === "Walk") {
-      this.hero.actor.playAction(this.hero.isSitting ? "Sit" : "Idle");
+    }
+    this.hero.isRunning = isRunning;
+
+    // Parabolic Jump Physics + Landing Squash/Stretch
+    let scaleX = 1.0;
+    let scaleY = 1.0;
+    if (this.hero.isJumping) {
+      this.hero.jumpY += this.hero.jumpVy * dt;
+      this.hero.jumpVy -= 24.5 * dt;
+      if (this.hero.jumpY <= 0) {
+        this.hero.jumpY = 0;
+        this.hero.jumpVy = 0;
+        this.hero.isJumping = false;
+        this.hero.landingSquashTimer = 0.14;
+        this.vfx.spawnDustPuff(this.hero.position, { color: 0xfef3c7, maxScale: 1.75, opacity: 0.65, life: 0.34 });
+        this.audio.playTone(220, 140, 0.08, "sine", 0.045);
+      } else {
+        const stretch = Math.min(0.11, Math.abs(this.hero.jumpVy) * 0.012);
+        scaleY = 1 + stretch;
+        scaleX = 1 - stretch * 0.65;
+      }
+    } else if (this.hero.landingSquashTimer > 0) {
+      this.hero.landingSquashTimer = Math.max(0, this.hero.landingSquashTimer - dt);
+      const tSq = this.hero.landingSquashTimer / 0.14;
+      scaleY = 1 - 0.15 * tSq;
+      scaleX = 1 + 0.14 * tSq;
     }
 
+    // Priority Action State Machine: Jump > Dash > Run > Walk > Sit/Idle
     if (this.hero.actor) {
+      if (this.hero.isJumping) {
+        this.hero.actor.playAction("Jump");
+      } else if (isDashing) {
+        this.hero.actor.playAction("Dash");
+      } else if (isMoving) {
+        this.hero.actor.playAction(isRunning ? "Run" : "Walk");
+      } else if (
+        this.hero.actor.currentAction === "Walk" ||
+        this.hero.actor.currentAction === "Run" ||
+        this.hero.actor.currentAction === "Dash" ||
+        this.hero.actor.currentAction === "Jump"
+      ) {
+        this.hero.actor.playAction(this.hero.isSitting ? "Sit" : "Idle");
+      }
+
       this.hero.actor.mesh.position.copy(this.hero.position);
+      this.hero.actor.setJumpHeight(this.hero.jumpY, scaleX, scaleY);
+    }
+
+    // Sync Dash / Jump button feedback
+    const dashBtn = document.getElementById("btn-hero-dash");
+    if (dashBtn) {
+      dashBtn.classList.toggle("is-cooldown", this.hero.dashCooldown > 0 && !isDashing);
+      dashBtn.classList.toggle("is-active-move", isDashing || isRunning);
+    }
+    const jumpBtn = document.getElementById("btn-hero-jump");
+    if (jumpBtn) {
+      jumpBtn.classList.toggle("is-active-move", this.hero.isJumping);
     }
 
     const nextZone = this._computeZoneName(this.hero.position);
@@ -1828,6 +1952,7 @@ class SanctuaryArchiveApp {
     this.chat.broadcastState({
       classKey: this.hero.classKey,
       x: this.hero.position.x,
+      y: this.hero.jumpY,
       z: this.hero.position.z,
       facing: this.hero.facingAngle,
       action: this.hero.actor?.currentAction || "Idle",
@@ -1911,7 +2036,7 @@ class SanctuaryArchiveApp {
           cit.dest = new THREE.Vector3(resolved.x, 0, resolved.z);
           cit.aiState = "walk";
         } else {
-          const d = new THREE.Vector3().subVectors(cit.dest, cit.position);
+          const d = this._tmpCitDiffVec.subVectors(cit.dest, cit.position);
           d.y = 0;
           if (d.length() < 0.25) {
             cit.dest = null;
@@ -1975,11 +2100,19 @@ class SanctuaryArchiveApp {
   }
 
   _loop(now) {
+    if (this._disposed) return;
+    this._rafId = requestAnimationFrame((t) => this._loop(t));
+
+    // Pause heavy WebGL rendering & physics while tab is hidden in background
+    if (document.hidden) {
+      this._lastTime = now;
+      return;
+    }
+
     const dt = Math.min(0.05, Math.max(0.001, (now - this._lastTime) / 1000));
     this._lastTime = now;
     this._elapsed += dt;
 
-    // Animate sunlit diorama fountain, rune circle, flowing water, and golden dust motes
     if (this.envFx.crystalMesh) {
       this.envFx.crystalMesh.rotation.y += dt * 0.9;
       this.envFx.crystalMesh.position.y = 2.25 + Math.sin(this._elapsed * 2.2) * 0.12;
@@ -2008,7 +2141,6 @@ class SanctuaryArchiveApp {
       this._syncAtmoLabels();
     }
 
-    // Camera & directional shadow frustum follow hero smoothly across the whole city
     this.controller.update(dt, this.hero.position);
     if (this.dirLight) {
       this.dirLight.position.set(this.hero.position.x - 18, 28, this.hero.position.z + 14);
@@ -2029,17 +2161,41 @@ class SanctuaryArchiveApp {
       tele.textContent = `Azimuth ${this.controller.getAzimuthDegrees()}° · ${DIR_NAMES[heroSector]}`;
     }
 
-    const activePeers = [...this.remotePeers.values()].filter((p) => p.actor);
+    // Reuse pre-allocated overlay actor array to avoid 60fps array GC churn
+    const actors = this._overlayActors;
+    actors.length = 0;
+    actors.push(this.hero);
+    for (const p of this.remotePeers.values()) {
+      if (p.actor) actors.push(p);
+    }
+    for (const sh of this.shrines) actors.push(sh);
+    for (const s of this.buildingSigns) actors.push(s);
+    for (const c of this.citizens) actors.push(c);
+
     this.renderer.render(this.scene, this.controller.camera);
     this.vfx.updateTrackedOverlays(
-      [this.hero, ...activePeers, ...this.shrines, ...this.buildingSigns, ...this.citizens],
+      actors,
       this.controller.camera,
       this.canvas.clientWidth,
       this.canvas.clientHeight,
       now
     );
+  }
 
-    requestAnimationFrame((t) => this._loop(t));
+  dispose() {
+    if (this._disposed) return;
+    this._disposed = true;
+    cancelAnimationFrame(this._rafId);
+    if (this._tickerTimer) clearInterval(this._tickerTimer);
+    this._resizeObserver?.disconnect();
+    this.controller?.dispose();
+    this.atmosphere?.dispose();
+    this.vfx?.dispose();
+    this.hero.actor?.dispose();
+    for (const sh of this.shrines) sh.actor?.dispose();
+    for (const cit of this.citizens) cit.actor?.dispose();
+    for (const p of this.remotePeers.values()) p.actor?.dispose();
+    this.renderer?.dispose();
   }
 
   _handleResize() {
@@ -2084,27 +2240,52 @@ class SanctuaryArchiveApp {
     if (sText && sText.textContent !== seasonLabel) sText.textContent = seasonLabel;
   }
 
-  _launchCelebrationFireworks() {
-    if (!this.atmosphere) return;
-    const fx1x = this.hero.position.x + (Math.random() - 0.5) * 14;
-    const fx1z = this.hero.position.z - 8 + (Math.random() - 0.5) * 10;
-    this.atmosphere.launchFirework(fx1x, fx1z);
-    setTimeout(() => {
-      const fx2x = this.hero.position.x + (Math.random() - 0.5) * 18;
-      const fx2z = this.hero.position.z - 6 + (Math.random() - 0.5) * 12;
-      this.atmosphere?.launchFirework(fx2x, fx2z);
-    }, 260);
-    this._reactNpcsToFirework();
-    this.chat.broadcastFx("firework", { x: fx1x, z: fx1z });
-    this.audio.playTone(587.33, 880, 0.22, "sine", 0.06);
+  _handleFestivalEvent(ev) {
+    if (!ev) return;
+    const banner = document.getElementById("sanctuary-festival-banner");
+    const badge = document.getElementById("festival-banner-badge");
+    const text = document.getElementById("festival-banner-text");
+
+    if (ev.phase === "announcing") {
+      if (banner) {
+        banner.hidden = false;
+        banner.classList.remove("is-show");
+      }
+      if (badge) badge.textContent = "야간 불꽃축제 공지";
+      if (text) text.textContent = `잠시 후 위클리월드 밤하늘에 화려한 불꽃놀이가 시작됩니다! (${ev.countdown}초 전)`;
+      if (ev.isStart) {
+        this.chat.addSystemMessage("[야간 불꽃축제 공지] 잠시 후 위클리월드 밤하늘에 화려한 불꽃놀이가 펼쳐집니다!");
+        this.audio.playTone(523.25, 659.25, 0.2, "sine", 0.055);
+        this._reactNpcsToFirework();
+      }
+    } else if (ev.phase === "show") {
+      if (banner) {
+        banner.hidden = false;
+        banner.classList.add("is-show");
+      }
+      if (badge) badge.textContent = "NIGHT FESTIVAL · LIVE";
+      if (text) text.textContent = "위클리월드 야간 그랜드 불꽃축제가 밤하늘을 수놓고 있습니다!";
+      this.chat.addSystemMessage("밤하늘에 야간 그랜드 불꽃축제가 시작되었습니다!");
+      this._reactNpcsToFirework();
+    } else if (ev.phase === "burst") {
+      const f0 = ev.pattern === "willow" ? 392 : ev.pattern === "ring" ? 587.33 : 523.25;
+      this.audio.playTone(f0, f0 * 1.45, 0.16, "sine", 0.04);
+    } else if (ev.phase === "ended") {
+      if (banner) {
+        banner.hidden = true;
+        banner.classList.remove("is-show");
+      }
+      if (ev.reason === "complete") {
+        this.chat.addSystemMessage("야간 불꽃축제가 마무리되었습니다. 밤이 이어지면 잠시 후 앵콜 축제가 공지됩니다.");
+      }
+    }
   }
 
   _handleAtmosphereCommand(cmd, arg = "") {
     if (!this.atmosphere) return;
     const a = String(arg || "").toLowerCase();
     if (cmd === "firework") {
-      this._launchCelebrationFireworks();
-      this.chat.addSystemMessage("하늘로 축하 불꽃놀이를 발사했습니다!");
+      this.chat.addSystemMessage("불꽃놀이는 클릭 발사 대신 밤 시간대에만 사전 공지 후 화려하게 자동으로 펼쳐집니다. /밤 으로 밤하늘을 불러보세요!");
       return;
     }
     if (cmd === "time") {
@@ -2132,6 +2313,7 @@ class SanctuaryArchiveApp {
 
   _bindEvents() {
     window.addEventListener("resize", () => this._handleResize());
+    window.addEventListener("beforeunload", () => this.dispose());
     if (typeof ResizeObserver !== "undefined" && this.canvas.parentElement) {
       this._resizeObserver = new ResizeObserver(() => this._handleResize());
       this._resizeObserver.observe(this.canvas.parentElement);
@@ -2143,6 +2325,12 @@ class SanctuaryArchiveApp {
         atmoPill.addEventListener(evName, (ev) => ev.stopPropagation());
       }
     }
+    document.getElementById("btn-hero-dash")?.addEventListener("click", () => {
+      this.triggerDash();
+    });
+    document.getElementById("btn-hero-jump")?.addEventListener("click", () => {
+      this.triggerJump();
+    });
     document.getElementById("btn-hero-class")?.addEventListener("click", () => {
       this.cycleHeroClass();
     });
@@ -2155,9 +2343,6 @@ class SanctuaryArchiveApp {
       this.atmosphere?.cycleSeasonMode();
       this._syncAtmoLabels();
       this._reactNpcsToAtmosphere("season");
-    });
-    document.getElementById("btn-atmo-firework")?.addEventListener("click", () => {
-      this._launchCelebrationFireworks();
     });
 
     const districtBar = document.getElementById("sanctuary-district-bar");
@@ -2215,9 +2400,11 @@ class SanctuaryArchiveApp {
       const actBtn = ev.target.closest("[data-room-action]");
       if (!actBtn) return;
       const act = actBtn.dataset.roomAction;
-      if (act === "firework") {
+      if (act === "night_festival") {
         this.minimizeRoomDashboard();
-        this._launchCelebrationFireworks();
+        this.atmosphere?.setTimeMode("night");
+        this._syncAtmoLabels();
+        this.chat?.addSystemMessage("밤하늘로 전환했습니다. 곧 야간 불꽃축제 공지가 시작됩니다!");
       } else if (act === "greet") {
         this.chat?.sendMessage("여관에서 모두에게 인사를 건넵니다!");
         this.minimizeRoomDashboard();
@@ -2275,6 +2462,7 @@ class SanctuaryArchiveApp {
       }
     });
 
+    const MOVE_CODES = ["KeyW", "KeyA", "KeyS", "KeyD", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
     window.addEventListener("keydown", (ev) => {
       const tag = document.activeElement?.tagName;
       if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") {
@@ -2286,9 +2474,31 @@ class SanctuaryArchiveApp {
         this.chat.focusInput();
         return;
       }
-      if (["KeyW", "KeyA", "KeyS", "KeyD", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(ev.code)) {
+      if (MOVE_CODES.includes(ev.code)) {
         if (ev.code.startsWith("Arrow")) ev.preventDefault();
+        const isFirstPress = !this.keys.has(ev.code) && !ev.repeat;
         this.keys.add(ev.code);
+        if (isFirstPress) {
+          const now = performance.now();
+          if (this._lastDirTap.code === ev.code && now - this._lastDirTap.at < 260) {
+            this._lastDirTap.at = 0;
+            this.triggerDash();
+          } else {
+            this._lastDirTap.code = ev.code;
+            this._lastDirTap.at = now;
+          }
+        }
+      } else if (ev.code === "ShiftLeft" || ev.code === "ShiftRight") {
+        const firstShift = !this.keys.has(ev.code) && !ev.repeat;
+        this.keys.add(ev.code);
+        if (firstShift) {
+          this.triggerDash();
+        }
+      } else if (ev.code === "Space" && tag !== "BUTTON") {
+        ev.preventDefault();
+        this.triggerJump();
+      } else if (ev.code === "KeyX") {
+        this.toggleSit();
       } else if (ev.code === "Digit0") {
         this.warpToPlaza();
       } else if (ev.code === "Digit1") {
@@ -2303,18 +2513,9 @@ class SanctuaryArchiveApp {
         this.enterBuildingById("tavern", { warpToDoor: true });
       } else if (ev.code === "Digit6") {
         this.enterBuildingById("workshop", { warpToDoor: true });
-      } else if (ev.code === "KeyF") {
-        this._launchCelebrationFireworks();
       } else if (ev.code === "Escape") {
         const readerPanel = document.getElementById("sanctuary-reader");
         if (readerPanel && !readerPanel.hidden) this.minimizeRoomDashboard();
-      } else if (ev.code === "Space" && tag !== "BUTTON") {
-        ev.preventDefault();
-        if (this.currentBuildingId && document.getElementById("sanctuary-reader")?.hidden) {
-          this.openRoomDashboard(this.currentBuildingId);
-        } else {
-          this.toggleSit();
-        }
       }
     });
     window.addEventListener("keyup", (ev) => this.keys.delete(ev.code));

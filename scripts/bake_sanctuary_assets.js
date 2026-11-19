@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 /**
- * Sanctuary 2.5D Original Chibi Sprite & Environment Baker
- * Generates 100% original 8-directional 24-column sprite sheets (3072x1024 RGBA PNG, 128x128 cell)
+ * Sanctuary 2.5D Original HD-2D Chibi Sprite & Environment Baker
+ * Generates 100% original 8-directional 28-column sprite sheets (2688x768 RGBA PNG, 96x96 cell)
  * from 3-pose (Front | Profile | Back) magenta-chroma turnaround sheets under scripts/turnarounds/.
+ * Includes dedicated Idle, Walk, Run, Dash, Jump, Cast/Cheer, and Sit motions.
  */
 
 import fs from "node:fs";
@@ -20,14 +21,20 @@ const DIRECTIONS = ["S", "SW", "W", "NW", "N", "NE", "E", "SE"];
 const ACTION_COLUMNS = {
   Idle: { start: 0, end: 3, fps: 6, loop: true },
   Walk: { start: 4, end: 9, fps: 10, loop: true },
-  Attack: { start: 10, end: 15, fps: 12, loop: false },
-  Cast: { start: 16, end: 20, fps: 10, loop: true },
-  Sit: { start: 21, end: 23, fps: 4, loop: true },
+  Run: { start: 10, end: 15, fps: 14, loop: true },
+  Dash: { start: 16, end: 19, fps: 16, loop: false },
+  Jump: { start: 20, end: 23, fps: 10, loop: false },
+  Cast: { start: 24, end: 26, fps: 9, loop: false },
+  Cheer: { start: 24, end: 26, fps: 9, loop: false },
+  Interact: { start: 24, end: 26, fps: 9, loop: false },
+  Attack: { start: 16, end: 19, fps: 14, loop: false },
+  Sit: { start: 27, end: 27, fps: 4, loop: true },
+  SitChair: { start: 27, end: 27, fps: 4, loop: true },
 };
 
-const TOTAL_COLS = 24;
+const TOTAL_COLS = 28;
 const TOTAL_ROWS = 8;
-const CELL_SIZE = 128;
+const CELL_SIZE = 96;
 
 /* ---------- Color & Chroma-Key Helpers ---------- */
 function rgbToHsl(r, g, b) {
@@ -71,9 +78,9 @@ function isMagentaBg(r, g, b, strict = false) {
   const rbMin = Math.min(r, b);
   const diffRB = Math.abs(r - b);
   if (strict) {
-    return r > 205 && b > 205 && g < 65 && diffRB < 45;
+    return r > 200 && b > 200 && g < 70 && diffRB < 48;
   }
-  return r > 155 && b > 155 && rbMin - g > 60 && diffRB < 80;
+  return r > 152 && b > 152 && rbMin - g > 58 && diffRB < 82;
 }
 
 function findTwoSplitColumns(rgb, w, h) {
@@ -117,7 +124,7 @@ function findTwoSplitColumns(rgb, w, h) {
   return [s1, s2];
 }
 
-async function extractAndResizePose(rgb, rw, rh, x0, x1, targetMaxH = 108, targetMaxW = 112) {
+async function extractAndResizePose(rgb, rw, rh, x0, x1, targetMaxH = 80, targetMaxW = 82) {
   const pw = x1 - x0;
   const rgba = new Uint8Array(pw * rh * 4);
   const bgMask = new Uint8Array(pw * rh);
@@ -171,7 +178,7 @@ async function extractAndResizePose(rgb, rw, rh, x0, x1, targetMaxH = 108, targe
     if (bgMask[i]) rgba[i * 4 + 3] = 0;
   }
 
-  // 2b. Remove tiny isolated stray pixel islands (< 25 px)
+  // 2b. Remove tiny isolated stray pixel islands (< 28 px)
   const visited = new Uint8Array(pw * rh);
   for (let i = 0; i < pw * rh; i++) {
     if (visited[i] || rgba[i * 4 + 3] === 0) continue;
@@ -195,7 +202,7 @@ async function extractAndResizePose(rgb, rw, rh, x0, x1, targetMaxH = 108, targe
         }
       }
     }
-    if (comp.length < 25) {
+    if (comp.length < 28) {
       for (const idx of comp) rgba[idx * 4 + 3] = 0;
     }
   }
@@ -217,11 +224,11 @@ async function extractAndResizePose(rgb, rw, rh, x0, x1, targetMaxH = 108, targe
         const g = rgba[di + 1];
         const b = rgba[di + 2];
         const spill = Math.min(r, b) - g;
-        if (spill > 45 && Math.abs(r - b) < 85 && r > 135 && b > 135) {
+        if (spill > 42 && Math.abs(r - b) < 85 && r > 130 && b > 130) {
           rgba[di + 3] = 0;
-        } else if (spill > 18 && Math.abs(r - b) < 85) {
-          rgba[di] = Math.max(0, Math.round(r - spill * 0.92));
-          rgba[di + 2] = Math.max(0, Math.round(b - spill * 0.92));
+        } else if (spill > 16 && Math.abs(r - b) < 85) {
+          rgba[di] = Math.max(0, Math.round(r - spill * 0.94));
+          rgba[di + 2] = Math.max(0, Math.round(b - spill * 0.94));
         }
       }
     }
@@ -248,7 +255,7 @@ async function extractAndResizePose(rgb, rw, rh, x0, x1, targetMaxH = 108, targe
     Buffer.from(rgba.buffer, srcOff, tw * 4).copy(cropped, dstOff);
   }
 
-  // 5. Resize proportionally with sharp and threshold alpha
+  // 5. Resize proportionally with crisp Lanczos3 + subtle vividness polish & alpha threshold
   const scale = Math.min(targetMaxH / th, targetMaxW / tw);
   const rwOut = Math.max(1, Math.round(tw * scale));
   const rhOut = Math.max(1, Math.round(th * scale));
@@ -261,20 +268,51 @@ async function extractAndResizePose(rgb, rw, rh, x0, x1, targetMaxH = 108, targe
     .toBuffer({ resolveWithObject: true });
 
   const out = new Uint8Array(resized);
+  const ow = info.width;
+  const oh = info.height;
   for (let i = 0; i < out.length; i += 4) {
-    if (out[i + 3] < 140) {
+    if (out[i + 3] < 145) {
       out[i] = 0; out[i + 1] = 0; out[i + 2] = 0; out[i + 3] = 0;
     } else {
       out[i + 3] = 255;
-      const r = out[i], g = out[i + 1], b = out[i + 2];
+      let r = out[i], g = out[i + 1], b = out[i + 2];
       const spill = Math.min(r, b) - g;
-      if (spill > 45 && Math.abs(r - b) < 75 && r > 140 && b > 140) {
-        out[i] = Math.max(0, r - spill);
-        out[i + 2] = Math.max(0, b - spill);
+      if (spill > 40 && Math.abs(r - b) < 75 && r > 135 && b > 135) {
+        r = Math.max(0, r - spill);
+        b = Math.max(0, b - spill);
+      }
+      // Gentle anime color vibrancy boost (keeps skin & dark outlines clean)
+      const [h, s, l] = rgbToHsl(r, g, b);
+      if (l > 0.14 && l < 0.92 && s > 0.12) {
+        [r, g, b] = hslToRgb(h, Math.min(1, s * 1.08), Math.min(0.95, l * 1.02));
+      }
+      out[i] = r; out[i + 1] = g; out[i + 2] = b;
+    }
+  }
+
+  // 6. Clean warm sepia outline smoothing on outer rim
+  for (let py = 1; py < oh - 1; py++) {
+    for (let px = 1; px < ow - 1; px++) {
+      const idx = py * ow + px;
+      const di = idx * 4;
+      if (out[di + 3] === 0) continue;
+      const touchesBg =
+        out[((py - 1) * ow + px) * 4 + 3] === 0 ||
+        out[((py + 1) * ow + px) * 4 + 3] === 0 ||
+        out[(py * ow + px - 1) * 4 + 3] === 0 ||
+        out[(py * ow + px + 1) * 4 + 3] === 0;
+      if (touchesBg) {
+        const luma = (out[di] + out[di + 1] + out[di + 2]) / 3;
+        if (luma < 90) {
+          out[di] = Math.min(68, Math.round(out[di] * 0.75 + 14));
+          out[di + 1] = Math.min(48, Math.round(out[di + 1] * 0.72 + 8));
+          out[di + 2] = Math.min(46, Math.round(out[di + 2] * 0.72 + 8));
+        }
       }
     }
   }
-  return { w: info.width, h: info.height, data: out };
+
+  return { w: ow, h: oh, data: out };
 }
 
 function adaptPoseColors(cut, { hueShift = 0, satMult = 1.0 } = {}) {
@@ -284,7 +322,7 @@ function adaptPoseColors(cut, { hueShift = 0, satMult = 1.0 } = {}) {
     if (out[i + 3] === 0) continue;
     let r = out[i], g = out[i + 1], b = out[i + 2];
     const [h, s, l] = rgbToHsl(r, g, b);
-    const isSkin = r > 175 && g > 120 && b > 85 && r >= g && g >= b - 12 && (r - g) < 82 && (r - b) < 125;
+    const isSkin = r > 170 && g > 118 && b > 82 && r >= g && g >= b - 12 && (r - g) < 82 && (r - b) < 125;
     if (!isSkin && s > 0.16 && l > 0.16 && l < 0.9) {
       const nh = (h + hueShift + 1) % 1;
       const ns = Math.min(1, s * satMult);
@@ -347,24 +385,51 @@ function renderCellFrom3Views(frontCut, sideCut, backCut, dir, col, auraRgb, sid
   const sw = src.w;
   const sh = src.h;
 
+  // Map col (0..27) to action & normalized phase
   let action = "Idle", phase = 0;
   if (col <= 3) { action = "Idle"; phase = col / 4; }
   else if (col <= 9) { action = "Walk"; phase = (col - 4) / 6; }
-  else if (col <= 15) { action = "Attack"; phase = (col - 10) / 5; }
-  else if (col <= 20) { action = "Cast"; phase = (col - 16) / 4; }
-  else { action = "Sit"; phase = (col - 21) / 3; }
+  else if (col <= 15) { action = "Run"; phase = (col - 10) / 6; }
+  else if (col <= 19) { action = "Dash"; phase = (col - 16) / 4; }
+  else if (col <= 23) { action = "Jump"; phase = (col - 20) / 4; }
+  else if (col <= 26) { action = "Cast"; phase = (col - 24) / 3; }
+  else { action = "Sit"; phase = 0; }
 
+  const facingSign = (dir === 6 || dir === 7 || dir === 5) ? 1 : (dir === 2 || dir === 1 || dir === 3) ? -1 : 0;
   const idleBob = action === "Idle" ? (col === 1 || col === 2 ? 1 : 0) : 0;
   const walkWave = action === "Walk" ? Math.sin(phase * Math.PI * 2) : 0;
-  const walkLift = action === "Walk" ? -Math.abs(Math.round(Math.cos(phase * Math.PI * 2) * 2)) : 0;
-  const castLift = action === "Cast" ? -2 - Math.round(Math.sin(phase * Math.PI) * 2) : 0;
-  const atkLeanX = action === "Attack" ? (flipX ? 4 : -4) * Math.sin(phase * Math.PI) : 0;
-  const sitSquash = action === "Sit" ? 1 : 0;
+  const walkLift = action === "Walk" ? -Math.abs(Math.round(Math.cos(phase * Math.PI * 2) * 1.8)) : 0;
 
-  const baseBottomY = CELL_SIZE - 5;
-  const targetH = Math.min(112, sh) * (action === "Sit" ? 0.86 : 1.0);
+  // Run: faster bounce, dynamic forward lean, wider stride
+  const runWave = action === "Run" ? Math.sin(phase * Math.PI * 2) : 0;
+  const runLift = action === "Run" ? -Math.abs(Math.round(Math.cos(phase * Math.PI * 2) * 3.5)) : 0;
+
+  // Dash: strong forward lean + aerodynamic stretch
+  const dashSurge = action === "Dash" ? Math.sin((phase + 0.15) * Math.PI * 0.85) : 0;
+
+  // Jump: 0 = squash takeoff, 1..2 = tucked airborne stretch, 3 = landing prep
+  let jumpScaleY = 1.0;
+  let jumpScaleX = 1.0;
+  let jumpLiftY = 0;
+  if (action === "Jump") {
+    if (col === 20) {
+      jumpScaleY = 0.86; jumpScaleX = 1.12; jumpLiftY = 1;
+    } else if (col === 21) {
+      jumpScaleY = 1.08; jumpScaleX = 0.93; jumpLiftY = -6;
+    } else if (col === 22) {
+      jumpScaleY = 1.04; jumpScaleX = 0.96; jumpLiftY = -8;
+    } else {
+      jumpScaleY = 0.92; jumpScaleX = 1.06; jumpLiftY = -2;
+    }
+  }
+
+  const castLift = action === "Cast" ? -Math.round(Math.sin((phase + 0.2) * Math.PI) * 3.2) : 0;
+  const sitScaleY = action === "Sit" ? 0.84 : 1.0;
+
+  const baseBottomY = CELL_SIZE - 4;
+  const targetH = Math.min(84, sh) * sitScaleY * jumpScaleY * (action === "Dash" ? 0.94 : 1.0);
   const scaleY = targetH / sh;
-  const targetW = Math.round(sw * widthScale);
+  const targetW = Math.round(sw * widthScale * jumpScaleX * (action === "Dash" ? 1.08 : 1.0));
 
   for (let dy = 0; dy < Math.round(targetH); dy++) {
     const syFloat = dy / scaleY;
@@ -372,22 +437,40 @@ function renderCellFrom3Views(frontCut, sideCut, backCut, dir, col, auraRgb, sid
     const normY = sy / sh;
 
     let rowOffsetX = 0;
-    let rowOffsetY = idleBob + walkLift + castLift;
+    let rowOffsetY = idleBob + walkLift + runLift + jumpLiftY + castLift;
 
     if (action === "Walk") {
       if (normY > 0.78) {
-        rowOffsetX += walkWave * 3.0;
-        rowOffsetY += normY > 0.88 ? Math.round(Math.abs(walkWave) * -1.5) : 0;
+        rowOffsetX += walkWave * 2.5;
+        rowOffsetY += normY > 0.88 ? Math.round(Math.abs(walkWave) * -1.4) : 0;
       } else if (normY > 0.4) {
-        rowOffsetX += walkWave * 0.7;
+        rowOffsetX += walkWave * 0.6;
       }
-    } else if (action === "Attack") {
-      rowOffsetX += atkLeanX * (1 - normY);
+    } else if (action === "Run") {
+      // Forward torso lean in movement direction
+      const leanDir = facingSign !== 0 ? facingSign : 0.4;
+      rowOffsetX += leanDir * (1 - normY) * 4.5;
+      if (normY > 0.74) {
+        rowOffsetX += runWave * 4.2;
+        rowOffsetY += normY > 0.85 ? Math.round(Math.abs(runWave) * -2.6) : 0;
+      } else if (normY < 0.35) {
+        // Hair flutter back slightly
+        rowOffsetX -= leanDir * Math.abs(runWave) * 1.1;
+      }
+    } else if (action === "Dash") {
+      const leanDir = facingSign !== 0 ? facingSign : 0.7;
+      rowOffsetX += leanDir * (1 - normY) * (7.5 * dashSurge);
+      rowOffsetY += Math.round(-2 * dashSurge);
+    } else if (action === "Jump") {
+      if ((col === 21 || col === 22) && normY > 0.76) {
+        // Tuck legs up slightly mid-air
+        rowOffsetY -= Math.round((normY - 0.76) * 14);
+      }
     } else if (action === "Sit") {
-      if (normY > 0.76) {
-        rowOffsetX += (flipX ? 4 : -4) * ((normY - 0.76) / 0.24);
+      if (normY > 0.74) {
+        rowOffsetX += (flipX ? 3.5 : -3.5) * ((normY - 0.74) / 0.26);
       }
-      rowOffsetY += sitSquash;
+      rowOffsetY += 1;
     }
 
     const destY = Math.round(baseBottomY - targetH + dy + rowOffsetY);
@@ -401,9 +484,14 @@ function renderCellFrom3Views(frontCut, sideCut, backCut, dir, col, auraRgb, sid
       if (a === 0) continue;
 
       let localX = dx;
-      if (action === "Walk" && normY > 0.78) {
+      if ((action === "Walk" || action === "Run") && normY > 0.76) {
+        const wave = action === "Run" ? runWave * 3.4 : walkWave * 1.9;
         const isLeftHalf = dx < targetW * 0.5;
-        localX += isLeftHalf ? walkWave * 2.2 : -walkWave * 2.2;
+        localX += isLeftHalf ? wave : -wave;
+      } else if (action === "Jump" && (col === 21 || col === 22) && normY > 0.76) {
+        const spread = (normY - 0.76) * 8;
+        const isLeftHalf = dx < targetW * 0.5;
+        localX += isLeftHalf ? -spread : spread;
       }
 
       const destX = Math.round(CELL_SIZE * 0.5 - targetW * 0.5 + localX + rowOffsetX);
@@ -416,30 +504,48 @@ function renderCellFrom3Views(frontCut, sideCut, backCut, dir, col, auraRgb, sid
     }
   }
 
-  if (action === "Cast" || (action === "Attack" && phase > 0.2 && phase < 0.85)) {
+  // Dash speedlines & subtle glowing edge trail
+  if (action === "Dash") {
     const [ar, ag, ab] = auraRgb;
-    const pulse = 0.55 + 0.45 * Math.sin(phase * Math.PI);
-    const ringY = baseBottomY - 2;
-    for (let rx = -22; rx <= 22; rx++) {
-      const falloff = 1 - Math.abs(rx) / 23;
-      putPixelBlend(cell, CELL_SIZE, CELL_SIZE, 64 + rx, ringY, ar, ag, ab, Math.round(210 * falloff * pulse));
-      putPixelBlend(cell, CELL_SIZE, CELL_SIZE, 64 + rx, ringY - 1, 255, 252, 235, Math.round(130 * falloff * pulse));
+    const trailDir = facingSign !== 0 ? -facingSign : -1;
+    const lines = [
+      { y: 28, len: 18, off: 12 },
+      { y: 46, len: 24, off: 16 },
+      { y: 64, len: 20, off: 14 },
+      { y: 78, len: 16, off: 10 },
+    ];
+    for (const ln of lines) {
+      const startX = CELL_SIZE * 0.5 + trailDir * (ln.off + phase * 6);
+      for (let t = 0; t < ln.len; t++) {
+        const fade = Math.round((1 - t / ln.len) * 190 * dashSurge);
+        const px = startX + trailDir * t;
+        putPixelBlend(cell, CELL_SIZE, CELL_SIZE, px, ln.y, ar, ag, ab, fade);
+        if (t < ln.len * 0.5) {
+          putPixelBlend(cell, CELL_SIZE, CELL_SIZE, px, ln.y - 1, 255, 252, 238, Math.round(fade * 0.7));
+        }
+      }
     }
-    const sparkles = [[34, 42], [94, 36], [38, 78], [90, 72], [64, 16]];
+  }
+
+  // Cast / Cheer celebratory sparkle aura
+  if (action === "Cast") {
+    const [ar, ag, ab] = auraRgb;
+    const pulse = 0.6 + 0.4 * Math.sin(phase * Math.PI);
+    const sparkles = [[22, 30], [74, 26], [26, 60], [70, 56], [48, 12]];
     sparkles.forEach(([sx, sy], idx) => {
-      const syAnim = sy - Math.round((phase * 14 + idx * 3) % 16);
-      putPixelBlend(cell, CELL_SIZE, CELL_SIZE, sx, syAnim, 255, 255, 255, 230);
-      putPixelBlend(cell, CELL_SIZE, CELL_SIZE, sx - 1, syAnim, ar, ag, ab, 175);
-      putPixelBlend(cell, CELL_SIZE, CELL_SIZE, sx + 1, syAnim, ar, ag, ab, 175);
-      putPixelBlend(cell, CELL_SIZE, CELL_SIZE, sx, syAnim - 1, ar, ag, ab, 175);
-      putPixelBlend(cell, CELL_SIZE, CELL_SIZE, sx, syAnim + 1, ar, ag, ab, 175);
+      const syAnim = sy - Math.round((phase * 10 + idx * 2) % 12);
+      putPixelBlend(cell, CELL_SIZE, CELL_SIZE, sx, syAnim, 255, 255, 255, Math.round(235 * pulse));
+      putPixelBlend(cell, CELL_SIZE, CELL_SIZE, sx - 1, syAnim, ar, ag, ab, Math.round(170 * pulse));
+      putPixelBlend(cell, CELL_SIZE, CELL_SIZE, sx + 1, syAnim, ar, ag, ab, Math.round(170 * pulse));
+      putPixelBlend(cell, CELL_SIZE, CELL_SIZE, sx, syAnim - 1, ar, ag, ab, Math.round(170 * pulse));
+      putPixelBlend(cell, CELL_SIZE, CELL_SIZE, sx, syAnim + 1, ar, ag, ab, Math.round(170 * pulse));
     });
   }
 
   return cell;
 }
 
-async function bakeCharacter({ name, file, aura, height = 2.35, sideFacesRight = false, adapt = null }) {
+async function bakeCharacter({ name, file, aura, height = 2.32, sideFacesRight = false, adapt = null }) {
   const { data, info } = await sharp(file).removeAlpha().raw().toBuffer({ resolveWithObject: true });
   const [s1, s2] = findTwoSplitColumns(data, info.width, info.height);
 
@@ -494,9 +600,7 @@ async function bakeCharacter({ name, file, aura, height = 2.35, sideFacesRight =
 
 /* ---------- Minimal Valid Binary glTF 2.0 Placeholder ---------- */
 function buildMinimalGlb(outPath) {
-  const positions = new Float32Array([
-    -42, 0, 42, 42, 0, 42, 42, 0, -42, -42, 0, -42,
-  ]);
+  const positions = new Float32Array([-42, 0, 42, 42, 0, 42, 42, 0, -42, -42, 0, -42]);
   const normals = new Float32Array([0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0]);
   const indices = new Uint16Array([0, 1, 2, 0, 2, 3]);
   const binBuf = Buffer.concat([
@@ -541,19 +645,16 @@ async function main() {
   fs.mkdirSync(MODEL_DIR, { recursive: true });
 
   const specs = [
-    // Playable 3 Sanctuary Heroes
-    { name: "Solar_Guard", file: path.join(TURNAROUND_DIR, "Solar_Guard_turnaround.jpg"), aura: [251, 191, 36], height: 2.35 },
-    { name: "Astral_Sage", file: path.join(TURNAROUND_DIR, "Astral_Sage_turnaround.jpg"), aura: [56, 189, 248], height: 2.3 },
-    { name: "Shadow_Reaper", file: path.join(TURNAROUND_DIR, "Shadow_Reaper_turnaround.jpg"), aura: [244, 63, 94], height: 2.35 },
-    // 3 Archive Shrine Curators
-    { name: "Curator_Ella", file: path.join(TURNAROUND_DIR, "Curator_Ella_turnaround.jpg"), aura: [251, 191, 36], height: 2.3 },
-    { name: "Curator_Luna", file: path.join(TURNAROUND_DIR, "Curator_Luna_turnaround.jpg"), aura: [251, 113, 133], height: 2.3 },
-    { name: "Curator_Leon", file: path.join(TURNAROUND_DIR, "Curator_Leon_turnaround.jpg"), aura: [52, 211, 153], height: 2.4, sideFacesRight: true },
-    // 4 Sanctuary City Citizens (unique AI originals + color-shifted original variants for Sura/Mechanic)
-    { name: "Citizen_Ranger", file: path.join(TURNAROUND_DIR, "Citizen_Ranger_turnaround.jpg"), aura: [250, 204, 21], height: 2.25 },
-    { name: "Citizen_Minstrel", file: path.join(TURNAROUND_DIR, "Citizen_Minstrel_turnaround.jpg"), aura: [251, 113, 133], height: 2.3 },
-    { name: "Citizen_Sura", file: path.join(TURNAROUND_DIR, "Citizen_Ranger_turnaround.jpg"), aura: [251, 146, 60], height: 2.25, adapt: { hueShift: 0.34, satMult: 1.1 } },
-    { name: "Citizen_Mechanic", file: path.join(TURNAROUND_DIR, "Curator_Ella_turnaround.jpg"), aura: [56, 189, 248], height: 2.25, adapt: { hueShift: 0.16, satMult: 1.1 } },
+    { name: "Solar_Guard", file: path.join(TURNAROUND_DIR, "Solar_Guard_turnaround.jpg"), aura: [251, 191, 36], height: 2.32 },
+    { name: "Astral_Sage", file: path.join(TURNAROUND_DIR, "Astral_Sage_turnaround.jpg"), aura: [56, 189, 248], height: 2.28 },
+    { name: "Shadow_Reaper", file: path.join(TURNAROUND_DIR, "Shadow_Reaper_turnaround.jpg"), aura: [244, 63, 94], height: 2.32 },
+    { name: "Curator_Ella", file: path.join(TURNAROUND_DIR, "Curator_Ella_turnaround.jpg"), aura: [251, 191, 36], height: 2.28 },
+    { name: "Curator_Luna", file: path.join(TURNAROUND_DIR, "Curator_Luna_turnaround.jpg"), aura: [251, 113, 133], height: 2.28 },
+    { name: "Curator_Leon", file: path.join(TURNAROUND_DIR, "Curator_Leon_turnaround.jpg"), aura: [52, 211, 153], height: 2.38, sideFacesRight: true },
+    { name: "Citizen_Ranger", file: path.join(TURNAROUND_DIR, "Citizen_Ranger_turnaround.jpg"), aura: [250, 204, 21], height: 2.24 },
+    { name: "Citizen_Minstrel", file: path.join(TURNAROUND_DIR, "Citizen_Minstrel_turnaround.jpg"), aura: [251, 113, 133], height: 2.28 },
+    { name: "Citizen_Sura", file: path.join(TURNAROUND_DIR, "Citizen_Ranger_turnaround.jpg"), aura: [251, 146, 60], height: 2.24, adapt: { hueShift: 0.34, satMult: 1.1 } },
+    { name: "Citizen_Mechanic", file: path.join(TURNAROUND_DIR, "Curator_Ella_turnaround.jpg"), aura: [56, 189, 248], height: 2.24, adapt: { hueShift: 0.16, satMult: 1.1 } },
   ];
 
   for (const sp of specs) {

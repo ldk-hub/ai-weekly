@@ -1,11 +1,11 @@
 {
   "name": "Astral_Sage",
   "sheet": "assets/sprites/Astral_Sage_8dir_sheet.png",
-  "cols": 24,
+  "cols": 28,
   "rows": 8,
-  "cell_width": 128,
-  "cell_height": 128,
-  "world_height": 2.3,
+  "cell_width": 96,
+  "cell_height": 96,
+  "world_height": 2.28,
   "directions": [
     "S",
     "SW",
@@ -29,21 +29,57 @@
       "fps": 10,
       "loop": true
     },
-    "Attack": {
+    "Run": {
       "start": 10,
       "end": 15,
-      "fps": 12,
+      "fps": 14,
+      "loop": true
+    },
+    "Dash": {
+      "start": 16,
+      "end": 19,
+      "fps": 16,
+      "loop": false
+    },
+    "Jump": {
+      "start": 20,
+      "end": 23,
+      "fps": 10,
       "loop": false
     },
     "Cast": {
+      "start": 24,
+      "end": 26,
+      "fps": 9,
+      "loop": false
+    },
+    "Cheer": {
+      "start": 24,
+      "end": 26,
+      "fps": 9,
+      "loop": false
+    },
+    "Interact": {
+      "start": 24,
+      "end": 26,
+      "fps": 9,
+      "loop": false
+    },
+    "Attack": {
       "start": 16,
-      "end": 20,
-      "fps": 10,
-      "loop": true
+      "end": 19,
+      "fps": 14,
+      "loop": false
     },
     "Sit": {
-      "start": 21,
-      "end": 23,
+      "start": 27,
+      "end": 27,
+      "fps": 4,
+      "loop": true
+    },
+    "SitChair": {
+      "start": 27,
+      "end": 27,
       "fps": 4,
       "loop": true
     }

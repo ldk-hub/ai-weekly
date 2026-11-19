@@ -15,11 +15,17 @@ const TIME_PRESETS = {
   night: 0.94,
 };
 
-function createSoftParticleTexture(shape = "circle") {
+// Module-level texture cache: prevents GPU CanvasTexture leaks across thousands of firework bursts
+const PARTICLE_TEX_CACHE = new Map();
+
+function getSoftParticleTexture(shape = "circle") {
+  if (PARTICLE_TEX_CACHE.has(shape)) return PARTICLE_TEX_CACHE.get(shape);
+
   const c = document.createElement("canvas");
   c.width = 64;
   c.height = 64;
   const ctx = c.getContext("2d");
+
   if (shape === "petal") {
     ctx.translate(32, 32);
     ctx.rotate(-0.4);
@@ -31,6 +37,17 @@ function createSoftParticleTexture(shape = "circle") {
     ctx.beginPath();
     ctx.ellipse(0, 0, 22, 12, 0, 0, Math.PI * 2);
     ctx.fill();
+  } else if (shape === "star") {
+    const g = ctx.createRadialGradient(32, 32, 1, 32, 32, 30);
+    g.addColorStop(0, "rgba(255,255,255,1)");
+    g.addColorStop(0.25, "rgba(255,250,220,0.95)");
+    g.addColorStop(0.55, "rgba(255,230,180,0.35)");
+    g.addColorStop(1, "rgba(255,255,255,0)");
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, 64, 64);
+    ctx.fillStyle = "rgba(255,255,255,0.95)";
+    ctx.fillRect(30, 8, 4, 48);
+    ctx.fillRect(8, 30, 48, 4);
   } else {
     const g = ctx.createRadialGradient(32, 32, 2, 32, 32, 30);
     g.addColorStop(0, "rgba(255,255,255,1)");
@@ -39,38 +56,102 @@ function createSoftParticleTexture(shape = "circle") {
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, 64, 64);
   }
+
   const tex = new THREE.CanvasTexture(c);
   tex.colorSpace = THREE.SRGBColorSpace;
+  PARTICLE_TEX_CACHE.set(shape, tex);
   return tex;
 }
 
-function lerpColor(cA, cB, t) {
-  return new THREE.Color().copy(cA).lerp(cB, Math.max(0, Math.min(1, t)));
-}
+const SEASON_TARGETS = {
+  spring: { hi: new THREE.Color(0xffb8d9), mid: new THREE.Color(0xf9a8d4), dark: new THREE.Color(0x6ee7b7), ground: new THREE.Color(0xffffff), ave: new THREE.Color(0xebd7b0) },
+  summer: { hi: new THREE.Color(0xffffff), mid: new THREE.Color(0xffffff), dark: new THREE.Color(0xffffff), ground: new THREE.Color(0xffffff), ave: new THREE.Color(0xebd7b0) },
+  autumn: { hi: new THREE.Color(0xfbbf24), mid: new THREE.Color(0xf97316), dark: new THREE.Color(0x9a3412), ground: new THREE.Color(0xfde68a), ave: new THREE.Color(0xe6c79c) },
+  winter: { hi: new THREE.Color(0xffffff), mid: new THREE.Color(0xe2e8f0), dark: new THREE.Color(0x64748b), ground: new THREE.Color(0xdbeafe), ave: new THREE.Color(0xf1f5f9) },
+};
+
+const FIREWORK_PALETTES = [
+  [0xfbbf24, 0xfef08a, 0xf97316], // Royal Gold & Amber
+  [0x38bdf8, 0xe0f2fe, 0x818cf8], // Starlight Cyan & Indigo
+  [0xf43f5e, 0xfbcfe8, 0xfbbf24], // Rose Crimson & Gold
+  [0x34d399, 0xa7f3d0, 0x38bdf8], // Aurora Emerald & Sky
+  [0xc084fc, 0xf5d0fe, 0x60a5fa], // Violet Nebula
+];
+
+const SHOW_SCRIPT = [
+  { t: 0.0, pattern: "chrysanthemum", ox: -5.5, oz: -4.2, targetY: 4.3 },
+  { t: 0.55, pattern: "chrysanthemum", ox: 5.5, oz: -4.2, targetY: 4.6 },
+  { t: 1.2, pattern: "willow", ox: 0, oz: -5.5, targetY: 5.1 },
+  { t: 2.0, pattern: "ring", ox: -7.0, oz: -2.8, targetY: 4.1 },
+  { t: 2.6, pattern: "ring", ox: 7.0, oz: -2.8, targetY: 4.3 },
+  { t: 3.4, pattern: "chrysanthemum", ox: -3.5, oz: -5.2, targetY: 4.9 },
+  { t: 3.9, pattern: "willow", ox: 4.2, oz: -4.8, targetY: 4.8 },
+  { t: 4.8, pattern: "ring", ox: 0, oz: -3.8, targetY: 4.6 },
+  { t: 5.6, pattern: "chrysanthemum", ox: -7.5, oz: -4.0, targetY: 4.4 },
+  { t: 6.1, pattern: "chrysanthemum", ox: 7.5, oz: -4.0, targetY: 4.4 },
+  { t: 7.0, pattern: "willow", ox: -4.5, oz: -4.6, targetY: 5.2 },
+  { t: 7.4, pattern: "willow", ox: 4.5, oz: -4.6, targetY: 5.2 },
+  // Grand Finale Salvo!
+  { t: 8.2, pattern: "chrysanthemum", ox: -7.0, oz: -4.0, targetY: 4.4 },
+  { t: 8.45, pattern: "ring", ox: 0, oz: -5.2, targetY: 5.3 },
+  { t: 8.7, pattern: "chrysanthemum", ox: 7.0, oz: -4.0, targetY: 4.4 },
+  { t: 9.15, pattern: "willow", ox: -3.8, oz: -4.4, targetY: 5.0 },
+  { t: 9.4, pattern: "willow", ox: 3.8, oz: -4.4, targetY: 5.0 },
+  { t: 9.8, pattern: "chrysanthemum", ox: 0, oz: -3.5, targetY: 5.4 },
+];
 
 /**
- * Manages smooth Day/Night cycles, 4-Season foliage & weather particles
- * (cherry blossoms, fireflies, autumn leaves, snow), starry night sky, and 3D fireworks.
+ * Manages Day/Night cycles, 4-Season foliage & weather particles, starry night sky,
+ * and a Night-Only Announced Grand Fireworks Festival with zero per-frame allocations.
  */
 export class SanctuaryAtmosphere {
-  constructor(scene, lights, envFx) {
+  constructor(scene, lights, envFx, callbacks = {}) {
     this.scene = scene;
     this.lights = lights;
     this.envFx = envFx;
     this.mats = envFx.atmosphereMats || {};
+    this.onFestivalEvent = callbacks.onFestivalEvent || null;
 
-    this.timeMode = "auto"; // "auto" | "dawn" | "day" | "sunset" | "night"
-    this.timeOfDay = 0.42; // Starts in warm late morning/daylight
+    this.timeMode = "auto";
+    this.timeOfDay = 0.42;
     this.dayCycleDurationSec = 90;
 
-    this.seasonMode = "auto"; // "auto" | "spring" | "summer" | "autumn" | "winter"
-    this.seasonIndex = 0; // Starts in Spring (cherry blossoms)
+    this.seasonMode = "auto";
+    this.seasonIndex = 0;
     this.seasonTimer = 0;
     this.seasonDurationSec = 28;
 
     this.fireworks = [];
-    this.autoFireworkCooldown = 5.0;
     this._heroPos = new THREE.Vector3();
+
+    // Night-only Festival State Machine: "idle" -> "announcing" -> "show" -> "cooldown"
+    this.festivalPhase = "idle";
+    this.festivalTimer = 0;
+    this.nightWaitTimer = 2.0;
+    this.festivalScriptIdx = 0;
+    this.lastAnnouncedSec = -1;
+    this._festivalCenter = new THREE.Vector3(0, 0, 0);
+
+    // Pre-allocated scratch Colors (Zero GC pressure in 60fps loop!)
+    this._cNight = new THREE.Color(0x091122);
+    this._cDusk = new THREE.Color(0xd98664);
+    this._cDay = new THREE.Color(0xd9caa4);
+    this._cSunNight = new THREE.Color(0x8bb4ff);
+    this._cSunDay = new THREE.Color(0xffefc2);
+    this._cSunDusk = new THREE.Color(0xff9b66);
+    this._cAmbNight = new THREE.Color(0x3b4d70);
+    this._cAmbDay = new THREE.Color(0xfff5db);
+    this._tmpSky = new THREE.Color();
+    this._tmpSun = new THREE.Color();
+    this._tmpAmb = new THREE.Color();
+    this._tmpBurstColor = new THREE.Color();
+
+    // Shared firework rocket geometry + single pre-allocated flash PointLight (no shader recompiles!)
+    this._rocketGeo = new THREE.SphereGeometry(0.18, 6, 6);
+    this.fireworkLight = new THREE.PointLight(0xfbbf24, 0, 34);
+    this.fireworkLight.position.set(0, 10, 0);
+    this.scene.add(this.fireworkLight);
+    this._flashIntensity = 0;
 
     this._buildSkyStars();
     this._buildWeatherParticles();
@@ -121,6 +202,9 @@ export class SanctuaryAtmosphere {
     if (TIME_PRESETS[mode] !== undefined) {
       this.timeOfDay = TIME_PRESETS[mode];
     }
+    if (this.getTimeKey() === "night" && this.festivalPhase === "idle") {
+      this.nightWaitTimer = 1.4;
+    }
   }
 
   cycleSeasonMode() {
@@ -141,21 +225,21 @@ export class SanctuaryAtmosphere {
   }
 
   _buildSkyStars() {
-    const count = 320;
+    const count = 240;
     const pos = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
       const ang = Math.random() * Math.PI * 2;
-      const rad = 28 + Math.random() * 48;
+      const rad = 28 + Math.random() * 44;
       pos[i * 3] = Math.cos(ang) * rad;
-      pos[i * 3 + 1] = 22 + Math.random() * 24;
+      pos[i * 3 + 1] = 20 + Math.random() * 24;
       pos[i * 3 + 2] = Math.sin(ang) * rad;
     }
     const geom = new THREE.BufferGeometry();
     geom.setAttribute("position", new THREE.BufferAttribute(pos, 3));
     this.starMat = new THREE.PointsMaterial({
-      map: createSoftParticleTexture("circle"),
+      map: getSoftParticleTexture("star"),
       color: 0xe0f2fe,
-      size: 0.45,
+      size: 0.52,
       transparent: true,
       opacity: 0,
       blending: THREE.AdditiveBlending,
@@ -166,15 +250,16 @@ export class SanctuaryAtmosphere {
   }
 
   _buildWeatherParticles() {
-    const count = 720;
+    // 320 particles saves 55% CPU/GPU buffer work vs 720 while looking rich with 0.56 size
+    const count = 320;
     const pos = new Float32Array(count * 3);
     const col = new Float32Array(count * 3);
     const vel = [];
 
     for (let i = 0; i < count; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 38;
+      pos[i * 3] = (Math.random() - 0.5) * 36;
       pos[i * 3 + 1] = Math.random() * 12;
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 38;
+      pos[i * 3 + 2] = (Math.random() - 0.5) * 36;
       vel.push({
         vx: (Math.random() - 0.5) * 0.8,
         vy: -(1.0 + Math.random() * 1.4),
@@ -189,11 +274,11 @@ export class SanctuaryAtmosphere {
     this.weatherVel = vel;
 
     this.weatherMat = new THREE.PointsMaterial({
-      map: createSoftParticleTexture("petal"),
-      size: 0.52,
+      map: getSoftParticleTexture("petal"),
+      size: 0.56,
       vertexColors: true,
       transparent: true,
-      opacity: 0.98,
+      opacity: 0.96,
       depthWrite: false,
     });
     this.weatherPoints = new THREE.Points(this.weatherGeom, this.weatherMat);
@@ -218,88 +303,123 @@ export class SanctuaryAtmosphere {
     colAttr.needsUpdate = true;
 
     if (this.weatherMat) {
-      this.weatherMat.size = season === "winter" ? 0.48 : season === "summer" ? 0.36 : 0.56;
+      this.weatherMat.size = season === "winter" ? 0.5 : season === "summer" ? 0.38 : 0.58;
       this.weatherMat.blending = season === "summer" ? THREE.AdditiveBlending : THREE.NormalBlending;
       this.weatherMat.needsUpdate = true;
     }
   }
 
   /**
-   * Launch a 3D physics firework rocket that ascends and bursts into colorful sparks.
+   * Internal Night-Festival firework launcher supporting chrysanthemum, willow, and ring patterns.
    */
-  launchFirework(originX = null, originZ = null) {
-    const x = originX !== null ? originX : this._heroPos.x + (Math.random() - 0.5) * 18;
-    const z = originZ !== null ? originZ : this._heroPos.z - 5 + (Math.random() - 0.5) * 12;
-    const targetY = 5.0 + Math.random() * 2.6;
-    const palettes = [
-      [0xfbbf24, 0xfef08a, 0xf97316],
-      [0x38bdf8, 0xa5f3fc, 0x818cf8],
-      [0xf43f5e, 0xfbcfe8, 0xfbbf24],
-      [0x34d399, 0x6ee7b7, 0x38bdf8],
-    ];
-    const pal = palettes[Math.floor(Math.random() * palettes.length)];
+  _spawnFestivalRocket({ ox = 0, oz = -10, targetY = 8.5, pattern = "chrysanthemum" } = {}) {
+    const x = this._festivalCenter.x + ox + (Math.random() - 0.5) * 2.2;
+    const z = this._festivalCenter.z + oz + (Math.random() - 0.5) * 2.2;
+    const pal = FIREWORK_PALETTES[Math.floor(Math.random() * FIREWORK_PALETTES.length)];
 
-    const rocketGeom = new THREE.SphereGeometry(0.22, 8, 8);
     const rocketMat = new THREE.MeshBasicMaterial({ color: pal[0] });
-    const rocketMesh = new THREE.Mesh(rocketGeom, rocketMat);
-    rocketMesh.position.set(x, 1.2, z);
+    const rocketMesh = new THREE.Mesh(this._rocketGeo, rocketMat);
+    rocketMesh.position.set(x, 1.4, z);
     this.scene.add(rocketMesh);
 
     this.fireworks.push({
       phase: "rising",
+      pattern,
       rocketMesh,
       rocketMat,
       x,
-      y: 1.2,
+      y: 1.4,
       z,
-      vy: 9.5 + Math.random() * 2.5,
+      vy: 10.5 + Math.random() * 2.5,
       targetY,
       pal,
       burstPoints: null,
       burstMat: null,
-      flashLight: null,
       sparks: [],
       age: 0,
-      life: 1.85,
+      life: pattern === "willow" ? 2.55 : 2.05,
     });
   }
 
   _explodeFirework(fw) {
-    this.scene.remove(fw.rocketMesh);
-    fw.rocketMesh.geometry.dispose();
-    fw.rocketMat.dispose();
-    fw.rocketMesh = null;
+    if (fw.rocketMesh) {
+      this.scene.remove(fw.rocketMesh);
+      fw.rocketMat.dispose();
+      fw.rocketMesh = null;
+      fw.rocketMat = null;
+    }
 
-    const count = 72;
+    const pattern = fw.pattern || "chrysanthemum";
+    const count = pattern === "chrysanthemum" ? 104 : pattern === "willow" ? 88 : 84;
     const pos = new Float32Array(count * 3);
     const col = new Float32Array(count * 3);
     const sparks = [];
     const cList = fw.pal.map((hex) => new THREE.Color(hex));
+    const coreGold = new THREE.Color(0xfffbeb);
+
+    const tiltX = (Math.random() - 0.5) * 0.7;
+    const tiltZ = (Math.random() - 0.5) * 0.7;
 
     for (let i = 0; i < count; i++) {
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos(2 * Math.random() - 1);
-      const speed = 3.6 + Math.random() * 4.4;
       pos[i * 3] = fw.x;
       pos[i * 3 + 1] = fw.y;
       pos[i * 3 + 2] = fw.z;
-      const c = cList[i % cList.length];
+
+      let vx = 0, vy = 0, vz = 0;
+      let c = cList[i % cList.length];
+
+      if (pattern === "ring") {
+        if (i < 60) {
+          // Crisp tilted glowing ring
+          const ang = (i / 60) * Math.PI * 2;
+          const spd = 6.2 + (Math.random() - 0.5) * 0.45;
+          const rx = Math.cos(ang) * spd;
+          const rz = Math.sin(ang) * spd;
+          vx = rx;
+          vy = rx * tiltX + rz * tiltZ + 1.0;
+          vz = rz;
+        } else {
+          // Sparkling inner core
+          const theta = Math.random() * Math.PI * 2;
+          const phi = Math.acos(2 * Math.random() - 1);
+          const spd = 1.6 + Math.random() * 1.8;
+          vx = Math.sin(phi) * Math.cos(theta) * spd;
+          vy = Math.cos(phi) * spd + 1.0;
+          vz = Math.sin(phi) * Math.sin(theta) * spd;
+          c = coreGold;
+        }
+      } else if (pattern === "willow") {
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.acos(2 * Math.random() - 1);
+        const spd = 2.8 + Math.random() * 4.2;
+        vx = Math.sin(phi) * Math.cos(theta) * spd;
+        vy = Math.cos(phi) * spd + 2.2;
+        vz = Math.sin(phi) * Math.sin(theta) * spd;
+        c = i % 3 === 0 ? coreGold : cList[0];
+      } else {
+        // Chrysanthemum: dual concentric shells
+        const isInner = i < 36;
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.acos(2 * Math.random() - 1);
+        const spd = isInner ? (2.2 + Math.random() * 1.4) : (5.0 + Math.random() * 2.2);
+        vx = Math.sin(phi) * Math.cos(theta) * spd;
+        vy = Math.cos(phi) * spd + 1.3;
+        vz = Math.sin(phi) * Math.sin(theta) * spd;
+        c = isInner ? coreGold : cList[i % cList.length];
+      }
+
       col[i * 3] = c.r;
       col[i * 3 + 1] = c.g;
       col[i * 3 + 2] = c.b;
-      sparks.push({
-        vx: Math.sin(phi) * Math.cos(theta) * speed,
-        vy: Math.cos(phi) * speed + 1.2,
-        vz: Math.sin(phi) * Math.sin(theta) * speed,
-      });
+      sparks.push({ vx, vy, vz, gravity: pattern === "willow" ? 5.2 : 3.9, drag: pattern === "willow" ? 0.92 : 1.32 });
     }
 
     const geom = new THREE.BufferGeometry();
     geom.setAttribute("position", new THREE.BufferAttribute(pos, 3));
     geom.setAttribute("color", new THREE.BufferAttribute(col, 3));
     const mat = new THREE.PointsMaterial({
-      map: createSoftParticleTexture("circle"),
-      size: 0.92,
+      map: getSoftParticleTexture(pattern === "willow" ? "circle" : "star"),
+      size: pattern === "willow" ? 1.25 : 1.55,
       vertexColors: true,
       transparent: true,
       opacity: 1,
@@ -309,19 +429,27 @@ export class SanctuaryAtmosphere {
     const pts = new THREE.Points(geom, mat);
     this.scene.add(pts);
 
-    const flash = new THREE.PointLight(fw.pal[0], 5.5, 28);
-    flash.position.set(fw.x, fw.y, fw.z);
-    this.scene.add(flash);
+    // Reuse single scene fireworkLight (zero shader recompilations!)
+    this.fireworkLight.position.set(fw.x, fw.y, fw.z);
+    this.fireworkLight.color.setHex(fw.pal[0]);
+    this._flashIntensity = 7.5;
+    this.fireworkLight.intensity = this._flashIntensity;
 
     fw.phase = "burst";
     fw.burstPoints = pts;
     fw.burstMat = mat;
-    fw.flashLight = flash;
     fw.sparks = sparks;
     fw.age = 0;
+
+    this.onFestivalEvent?.({ phase: "burst", pattern });
   }
 
   _updateFireworks(dt) {
+    if (this._flashIntensity > 0.01) {
+      this._flashIntensity = Math.max(0, this._flashIntensity - dt * 13.5);
+      this.fireworkLight.intensity = this._flashIntensity;
+    }
+
     for (let i = this.fireworks.length - 1; i >= 0; i--) {
       const fw = this.fireworks[i];
       if (fw.phase === "rising") {
@@ -337,17 +465,16 @@ export class SanctuaryAtmosphere {
           this.scene.remove(fw.burstPoints);
           fw.burstPoints.geometry.dispose();
           fw.burstMat.dispose();
-          if (fw.flashLight) this.scene.remove(fw.flashLight);
           this.fireworks.splice(i, 1);
           continue;
         }
         const posAttr = fw.burstPoints.geometry.attributes.position;
-        const drag = Math.exp(-1.25 * dt);
         for (let k = 0; k < fw.sparks.length; k++) {
           const sp = fw.sparks[k];
+          const drag = Math.exp(-sp.drag * dt);
           sp.vx *= drag;
           sp.vz *= drag;
-          sp.vy = sp.vy * drag - 4.2 * dt;
+          sp.vy = sp.vy * drag - sp.gravity * dt;
           posAttr.setXYZ(
             k,
             posAttr.getX(k) + sp.vx * dt,
@@ -356,63 +483,119 @@ export class SanctuaryAtmosphere {
           );
         }
         posAttr.needsUpdate = true;
-        fw.burstMat.opacity = Math.max(0, 1 - p * p);
-        if (fw.flashLight) fw.flashLight.intensity = Math.max(0, 5.5 * (1 - p * 2.5));
+        // Twinkle near end of burst
+        const twinkle = p > 0.55 ? (0.78 + 0.22 * Math.sin(fw.age * 28 + i * 3)) : 1.0;
+        fw.burstMat.opacity = Math.max(0, (1 - p * p) * twinkle);
+      }
+    }
+  }
+
+  _updateNightFestival(dt, isNight) {
+    if (!isNight) {
+      if (this.festivalPhase !== "idle") {
+        this.festivalPhase = "idle";
+        this.festivalTimer = 0;
+        this.lastAnnouncedSec = -1;
+        this.nightWaitTimer = 2.0;
+        this.onFestivalEvent?.({ phase: "ended", reason: "daylight" });
+      }
+      return;
+    }
+
+    if (this.festivalPhase === "idle") {
+      this.nightWaitTimer -= dt;
+      if (this.nightWaitTimer <= 0) {
+        this.festivalPhase = "announcing";
+        this.festivalTimer = 4.0;
+        this.lastAnnouncedSec = 4;
+        this._festivalCenter.copy(this._heroPos);
+        this.onFestivalEvent?.({
+          phase: "announcing",
+          countdown: 4,
+          isStart: true,
+        });
+      }
+    } else if (this.festivalPhase === "announcing") {
+      this.festivalTimer -= dt;
+      const ceilSec = Math.max(0, Math.ceil(this.festivalTimer));
+      if (ceilSec !== this.lastAnnouncedSec && ceilSec > 0) {
+        this.lastAnnouncedSec = ceilSec;
+        this.onFestivalEvent?.({
+          phase: "announcing",
+          countdown: ceilSec,
+          isStart: false,
+        });
+      }
+      if (this.festivalTimer <= 0) {
+        this.festivalPhase = "show";
+        this.festivalTimer = 0;
+        this.festivalScriptIdx = 0;
+        this._festivalCenter.copy(this._heroPos);
+        this.onFestivalEvent?.({ phase: "show" });
+      }
+    } else if (this.festivalPhase === "show") {
+      this.festivalTimer += dt;
+      while (
+        this.festivalScriptIdx < SHOW_SCRIPT.length &&
+        this.festivalTimer >= SHOW_SCRIPT[this.festivalScriptIdx].t
+      ) {
+        this._spawnFestivalRocket(SHOW_SCRIPT[this.festivalScriptIdx]);
+        this.festivalScriptIdx += 1;
+      }
+      if (this.festivalScriptIdx >= SHOW_SCRIPT.length && this.festivalTimer > 13.5 && this.fireworks.length === 0) {
+        this.festivalPhase = "cooldown";
+        this.festivalTimer = 36.0;
+        this.onFestivalEvent?.({ phase: "ended", reason: "complete" });
+      }
+    } else if (this.festivalPhase === "cooldown") {
+      this.festivalTimer -= dt;
+      if (this.festivalTimer <= 0) {
+        this.festivalPhase = "idle";
+        this.nightWaitTimer = 1.0;
       }
     }
   }
 
   _applySeasonFoliage(season, blendSpeed = 0.14) {
-    const targets = {
-      spring: { hi: 0xffb8d9, mid: 0xf9a8d4, dark: 0x6ee7b7, ground: 0xffffff, ave: 0xebd7b0 },
-      summer: { hi: 0xffffff, mid: 0xffffff, dark: 0xffffff, ground: 0xffffff, ave: 0xebd7b0 },
-      autumn: { hi: 0xfbbf24, mid: 0xf97316, dark: 0x9a3412, ground: 0xfde68a, ave: 0xe6c79c },
-      winter: { hi: 0xffffff, mid: 0xe2e8f0, dark: 0x64748b, ground: 0xdbeafe, ave: 0xf1f5f9 },
-    }[season] || {};
-
-    const lerpMat = (mat, hex) => {
-      if (!mat || hex === undefined) return;
-      mat.color.lerp(new THREE.Color(hex), blendSpeed);
-    };
-    lerpMat(this.mats.leafHiMat, targets.hi);
-    lerpMat(this.mats.leafMidMat, targets.mid);
-    lerpMat(this.mats.leafDarkMat, targets.dark);
-    lerpMat(this.mats.plazaMat, targets.ground);
-    const aveList = this.mats.avenueMats || [this.mats.avenueMat];
-    for (const aveMat of aveList) lerpMat(aveMat, targets.ave);
+    const targets = SEASON_TARGETS[season];
+    if (!targets) return;
+    if (this.mats.leafHiMat) this.mats.leafHiMat.color.lerp(targets.hi, blendSpeed);
+    if (this.mats.leafMidMat) this.mats.leafMidMat.color.lerp(targets.mid, blendSpeed);
+    if (this.mats.leafDarkMat) this.mats.leafDarkMat.color.lerp(targets.dark, blendSpeed);
+    if (this.mats.plazaMat) this.mats.plazaMat.color.lerp(targets.ground, blendSpeed);
+    const aveList = this.mats.avenueMats || (this.mats.avenueMat ? [this.mats.avenueMat] : []);
+    for (const aveMat of aveList) {
+      if (aveMat) aveMat.color.lerp(targets.ave, blendSpeed);
+    }
   }
 
   update(dt, heroPos) {
     if (heroPos) this._heroPos.copy(heroPos);
 
-    // 1. Advance Time of Day
+    // 1. Advance Time of Day (Zero-allocation color interpolation!)
     if (this.timeMode === "auto") {
       this.timeOfDay = (this.timeOfDay + dt / this.dayCycleDurationSec) % 1;
     }
 
-    // Compute smooth daylight factor (0 = midnight, 1 = noon)
     const t = this.timeOfDay;
-    const sunElev = Math.sin((t - 0.25) * Math.PI * 2); // -1 midnight .. +1 noon
+    const sunElev = Math.sin((t - 0.25) * Math.PI * 2);
     const dayFactor = THREE.MathUtils.clamp((sunElev + 0.25) / 1.25, 0, 1);
     const duskFactor = Math.exp(-Math.pow((t - 0.72) / 0.075, 2)) + Math.exp(-Math.pow((t - 0.24) / 0.075, 2));
     const nightFactor = 1 - dayFactor;
 
-    const cNight = new THREE.Color(0x0b1325);
-    const cDusk = new THREE.Color(0xd98664);
-    const cDay = new THREE.Color(0xd9caa4);
-    const skyColor = lerpColor(lerpColor(cNight, cDay, dayFactor), cDusk, Math.min(0.85, duskFactor * 0.85));
-
-    if (this.scene.background?.isColor) this.scene.background.copy(skyColor);
-    if (this.scene.fog) this.scene.fog.color.copy(skyColor);
+    this._tmpSky.copy(this._cNight).lerp(this._cDay, dayFactor).lerp(this._cDusk, Math.min(0.85, duskFactor * 0.85));
+    if (this.scene.background?.isColor) this.scene.background.copy(this._tmpSky);
+    if (this.scene.fog) this.scene.fog.color.copy(this._tmpSky);
 
     if (this.lights.dirLight) {
-      const sunCol = lerpColor(lerpColor(new THREE.Color(0x8bb4ff), new THREE.Color(0xffefc2), dayFactor), new THREE.Color(0xff9b66), Math.min(0.8, duskFactor));
-      this.lights.dirLight.color.copy(sunCol);
+      this._tmpSun.copy(this._cSunNight).lerp(this._cSunDay, dayFactor).lerp(this._cSunDusk, Math.min(0.8, duskFactor));
+      this.lights.dirLight.color.copy(this._tmpSun);
       this.lights.dirLight.intensity = 0.42 + dayFactor * 2.15;
     }
     if (this.lights.ambientLight) {
-      this.lights.ambientLight.color.copy(lerpColor(new THREE.Color(0x3b4d70), new THREE.Color(0xfff5db), dayFactor));
-      this.lights.ambientLight.intensity = 0.26 + dayFactor * 0.48;
+      this._tmpAmb.copy(this._cAmbNight).lerp(this._cAmbDay, dayFactor);
+      this.lights.ambientLight.color.copy(this._tmpAmb);
+      this.lights.ambientLight.intensity = 0.28 + dayFactor * 0.48;
     }
     if (this.lights.hemiLight) {
       this.lights.hemiLight.intensity = 0.30 + dayFactor * 0.58;
@@ -420,17 +603,15 @@ export class SanctuaryAtmosphere {
     if (this.mats.lampGlowMat) {
       this.mats.lampGlowMat.emissiveIntensity = 0.5 + nightFactor * 2.8;
     }
+    if (this.mats.windowGlassMat) {
+      this.mats.windowGlassMat.emissiveIntensity = 0.35 + nightFactor * 1.15;
+    }
     if (this.mats.rayMat) {
       this.mats.rayMat.opacity = dayFactor * 0.095;
     }
     if (this.starMat) {
-      this.starMat.opacity = Math.max(0, (nightFactor - 0.35) / 0.65) * 0.92;
+      this.starMat.opacity = Math.max(0, (nightFactor - 0.35) / 0.65) * 0.94;
       this.stars.position.set(this._heroPos.x, 0, this._heroPos.z);
-    }
-    for (const b of this.envFx.buildings || []) {
-      if (b.intLight) {
-        b.intLight.intensity = 1.6 + nightFactor * 1.8;
-      }
     }
 
     // 2. Advance Season & Foliage Tint
@@ -445,7 +626,7 @@ export class SanctuaryAtmosphere {
     const season = this.getCurrentSeason();
     this._applySeasonFoliage(season, Math.min(1, dt * 4.5));
 
-    // 3. Animate Seasonal Weather Particles around Hero/City
+    // 3. Animate Seasonal Weather Particles
     if (this.weatherGeom) {
       const posAttr = this.weatherGeom.attributes.position;
       const nowSec = performance.now() * 0.001;
@@ -456,43 +637,63 @@ export class SanctuaryAtmosphere {
         let z = posAttr.getZ(i);
 
         if (season === "summer") {
-          // Rising/drifting glowing fireflies
           x += Math.sin(nowSec * 1.4 + v.phase) * 0.8 * dt;
           y += Math.abs(v.vy) * 0.35 * dt;
           z += Math.cos(nowSec * 1.2 + v.phase) * 0.8 * dt;
           if (y > 9) y = 0.4;
         } else if (season === "spring") {
-          // Diagonal fluttering cherry blossom petals
           x += (0.85 + Math.sin(nowSec * 2.1 + v.phase) * 0.65) * dt;
           y += v.vy * 0.85 * dt;
           z += (0.45 + Math.cos(nowSec * 1.7 + v.phase) * 0.5) * dt;
-          if (y < 0.1) { y = 10 + Math.random() * 3; x = this._heroPos.x + (Math.random() - 0.5) * 38; z = this._heroPos.z + (Math.random() - 0.5) * 38; }
+          if (y < 0.1) { y = 10 + Math.random() * 3; x = this._heroPos.x + (Math.random() - 0.5) * 36; z = this._heroPos.z + (Math.random() - 0.5) * 36; }
         } else if (season === "autumn") {
-          // Swirling gusting autumn leaves
           x += (1.35 + Math.sin(nowSec * 2.6 + v.phase) * 1.1) * dt;
           y += v.vy * 1.05 * dt;
           z += Math.cos(nowSec * 2.2 + v.phase) * 0.9 * dt;
-          if (y < 0.1) { y = 10 + Math.random() * 3; x = this._heroPos.x + (Math.random() - 0.5) * 38; z = this._heroPos.z + (Math.random() - 0.5) * 38; }
+          if (y < 0.1) { y = 10 + Math.random() * 3; x = this._heroPos.x + (Math.random() - 0.5) * 36; z = this._heroPos.z + (Math.random() - 0.5) * 36; }
         } else {
-          // Gentle crisp winter snowfall
           x += Math.sin(nowSec * 1.2 + v.phase) * 0.45 * dt;
           y += v.vy * 1.25 * dt;
           z += Math.cos(nowSec * 1.1 + v.phase) * 0.45 * dt;
-          if (y < 0.1) { y = 11 + Math.random() * 3; x = this._heroPos.x + (Math.random() - 0.5) * 38; z = this._heroPos.z + (Math.random() - 0.5) * 38; }
+          if (y < 0.1) { y = 11 + Math.random() * 3; x = this._heroPos.x + (Math.random() - 0.5) * 36; z = this._heroPos.z + (Math.random() - 0.5) * 36; }
         }
         posAttr.setXYZ(i, x, y, z);
       }
       posAttr.needsUpdate = true;
     }
 
-    // 4. Night & Summer Periodic Fireworks + Active Burst Simulation
-    if (nightFactor > 0.55 || season === "summer") {
-      this.autoFireworkCooldown -= dt;
-      if (this.autoFireworkCooldown <= 0) {
-        this.launchFirework();
-        this.autoFireworkCooldown = nightFactor > 0.55 ? 4.5 + Math.random() * 3.5 : 8.5 + Math.random() * 4.5;
+    // 4. Night-Only Announced Grand Fireworks Festival
+    const isNight = this.getTimeKey() === "night" && nightFactor > 0.55;
+    this._updateNightFestival(dt, isNight);
+    this._updateFireworks(dt);
+  }
+
+  dispose() {
+    for (const fw of this.fireworks) {
+      if (fw.rocketMesh) {
+        this.scene.remove(fw.rocketMesh);
+        fw.rocketMat?.dispose();
+      }
+      if (fw.burstPoints) {
+        this.scene.remove(fw.burstPoints);
+        fw.burstPoints.geometry.dispose();
+        fw.burstMat?.dispose();
       }
     }
-    this._updateFireworks(dt);
+    this.fireworks.length = 0;
+    this._rocketGeo?.dispose();
+    if (this.stars) {
+      this.scene.remove(this.stars);
+      this.stars.geometry.dispose();
+      this.starMat?.dispose();
+    }
+    if (this.weatherPoints) {
+      this.scene.remove(this.weatherPoints);
+      this.weatherGeom?.dispose();
+      this.weatherMat?.dispose();
+    }
+    if (this.fireworkLight) {
+      this.scene.remove(this.fireworkLight);
+    }
   }
 }

@@ -7822,6 +7822,94 @@ html[data-theme="light"] .sc-dash-search {
   filter: brightness(1.08);
 }
 
+/* Night-Only Announced Fireworks Festival Banner */
+@keyframes scFestivalDrop {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -10px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+}
+.sc-festival-banner[hidden] {
+  display: none !important;
+}
+.sc-festival-banner {
+  position: absolute;
+  top: 62px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: calc(100vw - 28px);
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(251, 191, 36, 0.55);
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.88), rgba(49, 46, 129, 0.84));
+  color: #fef3c7;
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  box-shadow: 0 0 24px rgba(251, 191, 36, 0.25), 0 12px 30px rgba(2, 6, 23, 0.48);
+  pointer-events: none;
+  animation: scFestivalDrop 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.sc-festival-banner.is-show {
+  border-color: rgba(56, 189, 248, 0.65);
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.86), rgba(88, 28, 135, 0.82));
+  box-shadow: 0 0 28px rgba(56, 189, 248, 0.32), 0 12px 30px rgba(2, 6, 23, 0.5);
+}
+.sc-festival-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(251, 191, 36, 0.22);
+  border: 1px solid rgba(251, 191, 36, 0.6);
+  color: #fde68a;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+.sc-festival-banner.is-show .sc-festival-badge {
+  background: rgba(56, 189, 248, 0.22);
+  border-color: rgba(125, 211, 252, 0.65);
+  color: #bae6fd;
+}
+.sc-festival-text {
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Movement Action Buttons (Dash / Jump) */
+.sc-atmo-btn.is-action {
+  background: rgba(56, 189, 248, 0.14);
+  border-color: rgba(56, 189, 248, 0.38);
+  color: #bae6fd;
+}
+html[data-theme="light"] .sc-atmo-btn.is-action {
+  background: rgba(2, 132, 199, 0.12);
+  border-color: rgba(2, 132, 199, 0.35);
+  color: #0369a1;
+}
+.sc-atmo-btn.is-action.is-cooldown {
+  opacity: 0.52;
+}
+.sc-atmo-btn.is-action.is-active-move {
+  background: rgba(251, 191, 36, 0.25);
+  border-color: rgba(251, 191, 36, 0.65);
+  color: #fde68a;
+}
+
 @media (max-width: 960px) {
   .sc-dash-kpis {
     grid-template-columns: repeat(2, minmax(0, 1fr));
