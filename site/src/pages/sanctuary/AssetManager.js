@@ -35,6 +35,72 @@ function createContactShadowTexture() {
   return tex;
 }
 
+const fighterRigCache = { aimTex: null, ringTex: null };
+
+function createFighterRingTexture() {
+  if (fighterRigCache.ringTex) return fighterRigCache.ringTex;
+  const s = 128;
+  const c = document.createElement("canvas");
+  c.width = s; c.height = s;
+  const ctx = c.getContext("2d");
+  const cx = s / 2;
+  const g = ctx.createRadialGradient(cx, cx, 18, cx, cx, 60);
+  g.addColorStop(0, "rgba(255,255,255,0.02)");
+  g.addColorStop(0.58, "rgba(255,255,255,0.22)");
+  g.addColorStop(0.76, "rgba(255,255,255,0.88)");
+  g.addColorStop(0.88, "rgba(255,255,255,0.42)");
+  g.addColorStop(1, "rgba(255,255,255,0)");
+  ctx.fillStyle = g;
+  ctx.beginPath();
+  ctx.arc(cx, cx, 60, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.strokeStyle = "rgba(255,255,255,0.95)";
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.arc(cx, cx, 46, 0, Math.PI * 2);
+  ctx.stroke();
+
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  fighterRigCache.ringTex = tex;
+  return tex;
+}
+
+function createFighterAimTexture() {
+  if (fighterRigCache.aimTex) return fighterRigCache.aimTex;
+  const w = 64, h = 128;
+  const c = document.createElement("canvas");
+  c.width = w; c.height = h;
+  const ctx = c.getContext("2d");
+  ctx.clearRect(0, 0, w, h);
+
+  ctx.fillStyle = "rgba(255, 255, 255, 0.92)";
+  for (const py of [92, 72, 52]) {
+    ctx.beginPath();
+    ctx.arc(w / 2, py, 3.2, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.fillStyle = "#fb923c";
+  ctx.strokeStyle = "#fff7ed";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(w / 2, 16);
+  ctx.lineTo(w / 2 + 11, 34);
+  ctx.lineTo(w / 2 + 4, 31);
+  ctx.lineTo(w / 2, 33);
+  ctx.lineTo(w / 2 - 4, 31);
+  ctx.lineTo(w / 2 - 11, 34);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  fighterRigCache.aimTex = tex;
+  return tex;
+}
+
 /**
  * 8-Directional Y-Axis Cylindrical Billboard Actor backed by shared GPU Texture source + NearestFilter.
  * Supports smooth Jump elevation (with ground-locked dynamic shadow), Dash squash/stretch, and fast picking.
@@ -67,6 +133,59 @@ export class SpriteActor {
     this.mesh.userData[key] = value;
     if (this.spriteMesh) this.spriteMesh.userData[key] = value;
     if (this.hitMesh) this.hitMesh.userData[key] = value;
+  }
+
+  /**
+   * Attach Survival Project under-foot glowing magic aura ring & dotted directional aim arrow.
+   */
+  attachSurvivalRig({ ringColor = 0x38bdf8, showAim = true } = {}) {
+    if (!this.teamRing) {
+      const ringGeo = getSharedGeo("sp-fighter-ring", () => {
+        const g = new THREE.PlaneGeometry(1.75, 1.75);
+        g.rotateX(-Math.PI / 2);
+        return g;
+      });
+      const ringMat = new THREE.MeshBasicMaterial({
+        map: createFighterRingTexture(),
+        color: ringColor,
+        transparent: true,
+        opacity: 0.78,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      });
+      this.teamRing = new THREE.Mesh(ringGeo, ringMat);
+      this.teamRing.position.y = 0.045;
+      this.teamRing.raycast = () => {};
+      this.mesh.add(this.teamRing);
+    } else {
+      this.teamRing.material.color.setHex(ringColor);
+    }
+
+    if (showAim && !this.aimGuide) {
+      const aimGeo = getSharedGeo("sp-fighter-aim", () => {
+        const g = new THREE.PlaneGeometry(0.9, 1.9);
+        g.rotateX(-Math.PI / 2);
+        g.rotateY(Math.PI);
+        g.translate(0, 0, 1.35);
+        return g;
+      });
+      const aimMat = new THREE.MeshBasicMaterial({
+        map: createFighterAimTexture(),
+        transparent: true,
+        opacity: 0.9,
+        depthWrite: false,
+      });
+      this.aimGuide = new THREE.Mesh(aimGeo, aimMat);
+      this.aimGuide.position.y = 0.055;
+      this.aimGuide.raycast = () => {};
+      this.mesh.add(this.aimGuide);
+    }
+  }
+
+  setRingColor(hexColor) {
+    if (this.teamRing?.material) {
+      this.teamRing.material.color.setHex(hexColor);
+    }
   }
 
   /**
@@ -113,6 +232,12 @@ export class SpriteActor {
   update(dt, cameraAzimuth, facingAngle = this.facingAngle) {
     this.facingAngle = facingAngle;
     this.spriteMesh.rotation.y = cameraAzimuth;
+    if (this.aimGuide) {
+      this.aimGuide.rotation.y = facingAngle;
+    }
+    if (this.teamRing) {
+      this.teamRing.rotation.y += dt * 1.4;
+    }
 
     const spec = this.atlas.columns[this.currentAction] || this.atlas.columns.Idle;
     const frameDuration = 1 / Math.max(1, spec.fps || 8);
@@ -153,6 +278,8 @@ export class SpriteActor {
     this.spriteMesh.customDepthMaterial?.dispose();
     this.shadowDisc?.material?.dispose();
     this.hitMesh?.material?.dispose();
+    this.teamRing?.material?.dispose();
+    this.aimGuide?.material?.dispose();
     // Dispose per-instance UV wrapper only; shared GPU Texture source remains cached in spriteAtlasCache
     if (this.texture && this.texture._isClonedAtlasView) {
       this.texture.dispose();

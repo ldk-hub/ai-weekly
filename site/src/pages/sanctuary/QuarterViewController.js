@@ -1,8 +1,8 @@
 import * as THREE from "three";
 
-const DEFAULT_DISTANCE = 24.5;
-const DEFAULT_HEIGHT = 17.2;
-const PITCH_RATIO = DEFAULT_HEIGHT / DEFAULT_DISTANCE; // ~35.07 deg pitch
+const DEFAULT_DISTANCE = 20.5;
+const DEFAULT_HEIGHT = 23.2;
+const PITCH_RATIO = DEFAULT_HEIGHT / DEFAULT_DISTANCE; // ~48.5 deg Survival Project steep arcade quarter-view
 
 /**
  * Ragnarok Online / HD-2D Fixed-Pitch Quarter-View Orbit Controller.

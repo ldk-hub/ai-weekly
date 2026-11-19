@@ -284,7 +284,34 @@ class SanctuaryArchiveApp {
       onScoreChanged: (score) => {
         const el = document.getElementById("sp-soccer-score");
         if (el) el.textContent = `${score.blue}:${score.red}`;
+        const mb = document.getElementById("sp-match-blue");
+        const mr = document.getElementById("sp-match-red");
+        if (mb) mb.textContent = String(score.blue);
+        if (mr) mr.textContent = String(score.red);
       },
+      onModeChanged: (mode) => {
+        document.querySelectorAll("[data-sp-mode]").forEach((btn) => {
+          btn.classList.toggle("is-active", btn.dataset.spMode === mode);
+        });
+        const modeText = document.getElementById("sp-minimap-mode");
+        if (modeText) modeText.textContent = mode === "teamplay" ? "TEAM PLAY" : mode === "soccer" ? "SOCCER" : "PLAZA";
+        const timerEl = document.getElementById("sp-match-timer");
+        if (timerEl) timerEl.hidden = mode === "plaza";
+        const label = mode === "teamplay" ? "⚔ TEAM PLAY START!!" : mode === "soccer" ? "⚽ SOCCER MATCH START!!" : "✨ PLAZA FREE MODE";
+        this._showArcadeBanner("ROUND START", label, 2400);
+        if (mode === "soccer") this.warpToSoccer();
+      },
+      onRoundEnd: (mode, score, win, bonus) => {
+        const title = win ? "🏆 VICTORY!!" : "🔥 TIME UP!";
+        this._showArcadeBanner(title, `BLUE ${score.blue} : ${score.red} RED · +${bonus} CODE`, 3200);
+        this.chat?.addSystemMessage(`${title} (${score.blue} : ${score.red}) · 라운드 보상 +${bonus} CODE!`);
+      },
+      onHeroHit: (kx, kz) => {
+        this.hero.velX = (this.hero.velX || 0) * 0.3 + kx;
+        this.hero.velZ = (this.hero.velZ || 0) * 0.3 + kz;
+        this.hero.flashTimer = 0.14;
+      },
+      getAzimuth: () => this.controller?.cameraAzimuth || 0,
       onGoal: (team, score, reward) => {
         const label = team === "blue" ? "BLUE TEAM GOAL!!" : "RED TEAM GOAL!!";
         this.chat?.addSystemMessage(`⚽ ${label} (${score.blue} : ${score.red}) · +${reward} CODE 획득!`);
@@ -419,8 +446,14 @@ class SanctuaryArchiveApp {
       chatUntil: 0,
       tickerText: "",
       isActiveShrine: false,
+      teamTag: "1P",
+      teamSide: "blue",
+      hpRatio: 1,
+      mpRatio: 0.65,
       overlayHeight: 2.55,
     };
+    this.controlScheme = "modern"; // 'modern' | 'classic'
+    this._lastMinimapAt = 0;
 
     // Zero-allocation scratch objects for 60fps loop
     this._tmpMoveVec = new THREE.Vector3();
@@ -663,6 +696,7 @@ class SanctuaryArchiveApp {
     this.hero.isSitting = false;
 
     const actor = await loadSpriteActor(spec.atlasUrl);
+    actor.attachSurvivalRig({ ringColor: 0x38bdf8, showAim: true });
     if (this.hero.actor) {
       this.scene.remove(this.hero.actor.mesh);
       this.hero.actor.dispose();
@@ -1102,9 +1136,10 @@ class SanctuaryArchiveApp {
         this.hero.velX = this.hero.velX * 0.35 + res.lungeX;
         this.hero.velZ = this.hero.velZ * 0.35 + res.lungeZ;
       }
-      this.hero.attackPoseTimer = res.attackKind === "combo3" ? 0.28 : 0.19;
+      this.hero.attackPoseTimer = res.attackKind === "combo3" ? 0.30 : 0.22;
       this.hero.flashTimer = 0.08;
-      this.hero.actor?.playAction(res.attackKind === "dash_slide" ? "Dash" : "Cast", () => {
+      const playAtk = res.attackKind === "dash_slide" ? "Dash" : "Attack";
+      this.hero.actor?.playAction(playAtk, () => {
         if (this.hero.attackPoseTimer <= 0) this.hero.actor?.playAction("Idle", null, true);
       }, true);
       const pitchMap = { combo1: [270, 480], combo2: [340, 580], combo3: [220, 680], dash_slide: [420, 780], air_slam: [540, 220] };
@@ -1239,10 +1274,25 @@ class SanctuaryArchiveApp {
 
   _syncSurvivalGauges() {
     if (!this.arena) return;
+    const hpBar = document.getElementById("sp-hp-bar");
+    if (hpBar) hpBar.style.width = `${Math.round((this.arena.hp / this.arena.maxHp) * 100)}%`;
     const spBar = document.getElementById("sp-booster-bar");
     if (spBar) spBar.style.width = `${Math.round((this.arena.booster / this.arena.maxBooster) * 100)}%`;
     const mpBar = document.getElementById("sp-mp-bar");
     if (mpBar) mpBar.style.width = `${Math.round((this.arena.mp / this.arena.maxMp) * 100)}%`;
+
+    this.hero.hpRatio = this.arena.hp / this.arena.maxHp;
+    this.hero.mpRatio = this.arena.mp / this.arena.maxMp;
+
+    const timerEl = document.getElementById("sp-match-timer");
+    if (timerEl && !timerEl.hidden) {
+      const sec = Math.ceil(this.arena.roundTimer);
+      const mm = String(Math.floor(sec / 60)).padStart(2, "0");
+      const ss = String(sec % 60).padStart(2, "0");
+      const nextT = `${mm}:${ss}`;
+      if (timerEl.textContent !== nextT) timerEl.textContent = nextT;
+    }
+
     const ultBtn = document.getElementById("btn-sp-ult");
     if (ultBtn) ultBtn.classList.toggle("is-ready", this.arena.mp >= 50 && this.arena.ultCooldown <= 0);
     const guardBtn = document.getElementById("btn-sp-guard");
@@ -2217,13 +2267,14 @@ class SanctuaryArchiveApp {
   _updateHero(dt) {
     const { forward, right } = this.controller.getGroundBasis();
     const moveVec = this._tmpMoveVec.set(0, 0, 0);
-    if (this.keys.has("KeyW") || this.keys.has("ArrowUp")) moveVec.add(forward);
-    if (this.keys.has("KeyS") || this.keys.has("ArrowDown")) moveVec.sub(forward);
-    if (this.keys.has("KeyD") || this.keys.has("ArrowRight")) moveVec.add(right);
-    if (this.keys.has("KeyA") || this.keys.has("ArrowLeft")) moveVec.sub(right);
+    const useWasdMove = this.controlScheme !== "classic";
+    if ((useWasdMove && this.keys.has("KeyW")) || this.keys.has("ArrowUp")) moveVec.add(forward);
+    if ((useWasdMove && this.keys.has("KeyS")) || this.keys.has("ArrowDown")) moveVec.sub(forward);
+    if ((useWasdMove && this.keys.has("KeyD")) || this.keys.has("ArrowRight")) moveVec.add(right);
+    if ((useWasdMove && this.keys.has("KeyA")) || this.keys.has("ArrowLeft")) moveVec.sub(right);
 
     const hasKeyMove = moveVec.lengthSq() > 0.001;
-    const isShiftHeld = this.keys.has("ShiftLeft") || this.keys.has("ShiftRight");
+    const isShiftHeld = this.keys.has("ShiftLeft") || this.keys.has("ShiftRight") || (this.controlScheme === "classic" && this.keys.has("KeyA"));
 
     if (this.hero.dashCooldown > 0) this.hero.dashCooldown = Math.max(0, this.hero.dashCooldown - dt);
     if (this.hero.dashTimer > 0) this.hero.dashTimer = Math.max(0, this.hero.dashTimer - dt);
@@ -2373,16 +2424,17 @@ class SanctuaryArchiveApp {
         this.vfx.spawnAfterimage(this.hero.actor, elColor);
       }
       this.hero.slideDustTimer += dt;
-      if (this.hero.slideDustTimer >= 0.095) {
+      if (this.hero.slideDustTimer >= 0.068) {
         this.hero.slideDustTimer = 0;
-        this.pixelVfx?.spawnBurst("poof", { x: this.hero.position.x, y: 0.42, z: this.hero.position.z, scale: 1.05, fps: 24, opacity: 0.8 });
-        this.vfx.spawnDustPuff(this.hero.position, { color: elColor, maxScale: 1.45, opacity: 0.48, life: 0.26 });
+        // Survival Project iconic billowy beige/cream sand-dust cloud trail behind dashing fighter!
+        this.vfx.spawnCloudTrail(this.hero.position, { color: 0xead7ac, maxScale: 1.85, opacity: 0.72, life: 0.48 });
+        this.vfx.spawnDustPuff(this.hero.position, { color: elColor, maxScale: 1.5, opacity: 0.45, life: 0.28 });
       }
     } else if (isRunning && !this.hero.isJumping) {
       this.hero.runDustTimer += dt;
-      if (this.hero.runDustTimer >= 0.22) {
+      if (this.hero.runDustTimer >= 0.14) {
         this.hero.runDustTimer = 0;
-        this.vfx.spawnDustPuff(this.hero.position, { color: 0xfef3c7, maxScale: 1.3, opacity: 0.45, life: 0.28 });
+        this.vfx.spawnCloudTrail(this.hero.position, { color: 0xe5d3ab, maxScale: 1.35, opacity: 0.52, life: 0.36 });
       }
     }
 
@@ -2450,21 +2502,25 @@ class SanctuaryArchiveApp {
       flashIntensity = 0.28;
     }
 
-    // Priority Action State Machine: Jump > Slide/Dash > Attack > Run > Walk > Sit/Idle
+    // Priority Action State Machine: Jump > Guard > Slide/Dash > Attack > Run > Walk > Sit/Idle
     if (this.hero.actor) {
       if (this.hero.isJumping) {
         this.hero.actor.playAction("Jump");
+      } else if (this.hero.isGuarding) {
+        this.hero.actor.playAction("Guard");
       } else if (isSliding && curSpeed > 4.0) {
         this.hero.actor.playAction("Dash");
       } else if (this.hero.attackPoseTimer > 0) {
-        this.hero.actor.playAction("Cast");
+        this.hero.actor.playAction("Attack");
       } else if (isMoving) {
         this.hero.actor.playAction(isRunning || curSpeed > baseSpeed * 1.25 ? "Run" : "Walk");
       } else if (
         this.hero.actor.currentAction === "Walk" ||
         this.hero.actor.currentAction === "Run" ||
         this.hero.actor.currentAction === "Dash" ||
-        this.hero.actor.currentAction === "Jump"
+        this.hero.actor.currentAction === "Jump" ||
+        this.hero.actor.currentAction === "Guard" ||
+        this.hero.actor.currentAction === "Attack"
       ) {
         this.hero.actor.playAction(this.hero.isSitting ? "Sit" : "Idle");
       }
@@ -2732,11 +2788,20 @@ class SanctuaryArchiveApp {
     for (const p of this.remotePeers.values()) {
       if (p.actor) actors.push(p);
     }
+    if (this.arena?.rivals?.length) {
+      for (const r of this.arena.rivals) {
+        if (r.alive && r.actor?.mesh.visible) actors.push(r);
+      }
+    }
     for (const sh of this.shrines) actors.push(sh);
     for (const s of this.buildingSigns) actors.push(s);
     for (const c of this.citizens) actors.push(c);
 
     this.renderer.render(this.scene, this.controller.camera);
+    if (now - this._lastMinimapAt > 80) {
+      this._lastMinimapAt = now;
+      this.arena?.drawMinimap(document.getElementById("sp-minimap"), this.hero.position, this.hero.facingAngle);
+    }
     this.vfx.updateTrackedOverlays(
       actors,
       this.controller.camera,
@@ -3143,7 +3208,18 @@ class SanctuaryArchiveApp {
       }
     });
 
-    const MOVE_CODES = ["KeyW", "KeyA", "KeyS", "KeyD", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
+    document.getElementById("sp-mode-pills")?.addEventListener("click", (ev) => {
+      ev.stopPropagation();
+      const pill = ev.target.closest("[data-sp-mode]");
+      if (pill) this.arena?.setGameMode(pill.dataset.spMode);
+    });
+    document.getElementById("btn-sp-keymap")?.addEventListener("click", (ev) => {
+      ev.stopPropagation();
+      this.toggleControlScheme();
+    });
+
+    const ARROW_CODES = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
+    const WASD_CODES = ["KeyW", "KeyA", "KeyS", "KeyD"];
     window.addEventListener("keydown", (ev) => {
       const tag = document.activeElement?.tagName;
       if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") {
@@ -3155,7 +3231,9 @@ class SanctuaryArchiveApp {
         this.chat.focusInput();
         return;
       }
-      if (MOVE_CODES.includes(ev.code)) {
+      const isClassic = this.controlScheme === "classic";
+      const isMoveKey = ARROW_CODES.includes(ev.code) || (!isClassic && WASD_CODES.includes(ev.code));
+      if (isMoveKey) {
         if (ev.code.startsWith("Arrow")) ev.preventDefault();
         const isFirstPress = !this.keys.has(ev.code) && !ev.repeat;
         this.keys.add(ev.code);
@@ -3169,7 +3247,7 @@ class SanctuaryArchiveApp {
             this._lastDirTap.at = now;
           }
         }
-      } else if (ev.code === "ShiftLeft" || ev.code === "ShiftRight") {
+      } else if (ev.code === "ShiftLeft" || ev.code === "ShiftRight" || (isClassic && ev.code === "KeyA")) {
         const firstShift = !this.keys.has(ev.code) && !ev.repeat;
         this.keys.add(ev.code);
         if (firstShift) {
@@ -3177,14 +3255,22 @@ class SanctuaryArchiveApp {
         }
       } else if (ev.code === "Space" && tag !== "BUTTON") {
         ev.preventDefault();
-        this.triggerJump();
-      } else if (ev.code === "KeyZ" || ev.code === "KeyJ") {
+        if (isClassic) {
+          if (!ev.repeat) this.setHeroGuard(true);
+        } else {
+          this.triggerJump();
+        }
+      } else if (ev.code === "KeyZ" || ev.code === "KeyJ" || (isClassic && ev.code === "KeyS")) {
         if (!ev.repeat) this.triggerMelee();
-      } else if (ev.code === "KeyX" || ev.code === "KeyK") {
+      } else if (ev.code === "KeyX" || ev.code === "KeyK" || (isClassic && ev.code === "KeyD")) {
         if (!ev.repeat) this._beginMagicCharge();
       } else if (ev.code === "KeyF" || ev.code === "KeyG") {
-        if (!ev.repeat) this.setHeroGuard(true);
-      } else if (ev.code === "KeyV" || ev.code === "KeyL") {
+        if (isClassic) {
+          if (!ev.repeat) this.triggerJump();
+        } else if (!ev.repeat) {
+          this.setHeroGuard(true);
+        }
+      } else if (ev.code === "KeyV" || ev.code === "KeyL" || (isClassic && ev.code === "KeyW")) {
         if (!ev.repeat) this.triggerUltimate();
       } else if (ev.code === "KeyC") {
         const modal = document.getElementById("sp-card-modal");
@@ -3220,14 +3306,53 @@ class SanctuaryArchiveApp {
     });
     window.addEventListener("keyup", (ev) => {
       this.keys.delete(ev.code);
-      if (ev.code === "KeyX" || ev.code === "KeyK") this._releaseMagicCharge();
-      if (ev.code === "KeyF" || ev.code === "KeyG") this.setHeroGuard(false);
+      const isClassic = this.controlScheme === "classic";
+      if (ev.code === "KeyX" || ev.code === "KeyK" || (isClassic && ev.code === "KeyD")) this._releaseMagicCharge();
+      if (ev.code === "KeyF" || ev.code === "KeyG" || (isClassic && ev.code === "Space")) this.setHeroGuard(false);
     });
     window.addEventListener("blur", () => {
       this.keys.clear();
       this.setHeroGuard(false);
       if (this.hero.isChargingMagic) this._releaseMagicCharge();
     });
+  }
+
+  toggleControlScheme() {
+    this.controlScheme = this.controlScheme === "modern" ? "classic" : "modern";
+    this.keys.clear();
+    this.setHeroGuard(false);
+    const isClassic = this.controlScheme === "classic";
+    const keyBtn = document.getElementById("btn-sp-keymap");
+    if (keyBtn) keyBtn.classList.toggle("is-classic", isClassic);
+
+    const labels = isClassic
+      ? {
+          "kbd-sp-keymap": "서프키",
+          "kbd-sp-dash": "A",
+          "kbd-sp-melee": "S",
+          "kbd-sp-magic": "D",
+          "kbd-sp-ult": "W",
+          "kbd-sp-guard": "⎵",
+          "kbd-sp-jump": "F",
+        }
+      : {
+          "kbd-sp-keymap": "모던",
+          "kbd-sp-dash": "⇧",
+          "kbd-sp-melee": "Z",
+          "kbd-sp-magic": "X",
+          "kbd-sp-ult": "V",
+          "kbd-sp-guard": "F",
+          "kbd-sp-jump": "⎵",
+        };
+    for (const [id, txt] of Object.entries(labels)) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = txt;
+    }
+    this.chat?.addSystemMessage(
+      isClassic
+        ? "🎮 [서프 클래식 조작] 방향키 이동 · A 대시/슬라이드 · S 콤보 · D 차지마법 · W 필살기 · Space 가드/패리"
+        : "🎮 [모던 조작] WASD/방향키 이동 · Shift 대시/슬라이드 · Z 콤보 · X 차지마법 · V 필살기 · F 가드 · Space 점프"
+    );
   }
 }
 

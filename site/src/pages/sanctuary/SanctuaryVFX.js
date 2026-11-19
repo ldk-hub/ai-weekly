@@ -115,9 +115,10 @@ export class SanctuaryVFX {
     this._projVec = new THREE.Vector3();
     this._seenIds = new Set();
 
-    // Shared geometries for dust puffs & dash afterimages (zero geometry leak!)
+    // Shared geometries for dust puffs, billowy sand-dust clouds & dash afterimages (zero geometry leak!)
     this._puffGeo = new THREE.RingGeometry(0.18, 0.42, 18);
     this._puffGeo.rotateX(-Math.PI / 2);
+    this._cloudGeo = new THREE.SphereGeometry(0.32, 10, 8);
 
     this.moveMarker = this._createMoveMarker();
     this.scene.add(this.moveMarker);
@@ -272,6 +273,37 @@ export class SanctuaryVFX {
     });
   }
 
+  /**
+   * Spawn a Survival Project-style billowy sand-dust cloud trail behind sliding/dashing characters.
+   */
+  spawnCloudTrail(worldPos, { color = 0xe7d4a8, maxScale = 1.65, opacity = 0.72, life = 0.46 } = {}) {
+    if (this.activePuffs.length >= 26) return;
+    const mat = new THREE.MeshBasicMaterial({
+      color,
+      transparent: true,
+      opacity,
+      depthWrite: false,
+    });
+    const mesh = new THREE.Mesh(this._cloudGeo, mat);
+    mesh.position.set(
+      worldPos.x + (Math.random() - 0.5) * 0.28,
+      0.24 + Math.random() * 0.14,
+      worldPos.z + (Math.random() - 0.5) * 0.28
+    );
+    mesh.scale.set(0.65, 0.48, 0.65);
+    this.scene.add(mesh);
+
+    this.activePuffs.push({
+      mesh,
+      mat,
+      age: 0,
+      life,
+      maxScale,
+      startOpacity: opacity,
+      rise: 0.55,
+    });
+  }
+
   projectToPixel(worldX, worldY, worldZ, camera, width, height) {
     this._projVec.set(worldX, worldY, worldZ).project(camera);
     if (this._projVec.z > 1 || this._projVec.z < -1) return null;
@@ -355,11 +387,33 @@ export class SanctuaryVFX {
 
     const plateEl = document.createElement("div");
     plateEl.className = "ro-nameplate";
+    const teamShield = document.createElement("span");
+    teamShield.className = "sp-team-shield";
+    teamShield.hidden = true;
     const roleBadge = document.createElement("span");
     roleBadge.className = "ro-nameplate-role";
     const nameText = document.createElement("span");
     nameText.className = "ro-nameplate-title";
-    plateEl.append(roleBadge, nameText);
+    const nameRow = document.createElement("div");
+    nameRow.className = "sp-plate-row";
+    nameRow.append(teamShield, nameText);
+
+    const barsEl = document.createElement("div");
+    barsEl.className = "sp-mini-bars";
+    barsEl.hidden = true;
+    const hpTrack = document.createElement("div");
+    hpTrack.className = "sp-mini-track";
+    const hpFill = document.createElement("div");
+    hpFill.className = "sp-mini-fill is-hp";
+    hpTrack.appendChild(hpFill);
+    const mpTrack = document.createElement("div");
+    mpTrack.className = "sp-mini-track";
+    const mpFill = document.createElement("div");
+    mpFill.className = "sp-mini-fill is-mp";
+    mpTrack.appendChild(mpFill);
+    barsEl.append(hpTrack, mpTrack);
+
+    plateEl.append(roleBadge, nameRow, barsEl);
 
     root.append(chatEl, emoteEl, tickerEl, castWrap, plateEl);
     this.overlayLayer.appendChild(root);
@@ -373,14 +427,21 @@ export class SanctuaryVFX {
       castLabel,
       castFill,
       plateEl,
+      teamShield,
       roleBadge,
       nameText,
+      barsEl,
+      hpFill,
+      mpFill,
       lastChat: "",
       lastEmote: "",
       lastTicker: "",
       lastName: "",
       lastRole: "",
       lastRoleHidden: null,
+      lastTeamTag: "",
+      lastHpPct: -1,
+      lastMpPct: -1,
       lastTargeted: null,
       lastClickable: null,
       lastSpeaking: null,
@@ -490,6 +551,29 @@ export class SanctuaryVFX {
           entry.lastName = actor.displayName;
           entry.nameText.textContent = actor.displayName;
         }
+        const teamTag = actor.teamTag || "";
+        if (entry.lastTeamTag !== teamTag) {
+          entry.lastTeamTag = teamTag;
+          entry.teamShield.hidden = !teamTag;
+          if (teamTag) {
+            entry.teamShield.textContent = teamTag;
+            entry.teamShield.dataset.team = actor.teamSide || "blue";
+          }
+        }
+        const hasBars = typeof actor.hpRatio === "number";
+        if (entry.barsEl.hidden !== !hasBars) entry.barsEl.hidden = !hasBars;
+        if (hasBars) {
+          const hpPct = Math.max(0, Math.min(100, Math.round(actor.hpRatio * 100)));
+          if (entry.lastHpPct !== hpPct) {
+            entry.lastHpPct = hpPct;
+            entry.hpFill.style.width = `${hpPct}%`;
+          }
+          const mpPct = Math.max(0, Math.min(100, Math.round((actor.mpRatio ?? 0.6) * 100)));
+          if (entry.lastMpPct !== mpPct) {
+            entry.lastMpPct = mpPct;
+            entry.mpFill.style.width = `${mpPct}%`;
+          }
+        }
         const targeted = Boolean(actor.isActiveShrine);
         if (entry.lastTargeted !== targeted) {
           entry.lastTargeted = targeted;
@@ -556,6 +640,7 @@ export class SanctuaryVFX {
       } else {
         const s = 0.55 + (pf.maxScale - 0.55) * (1 - Math.pow(1 - p, 2));
         pf.mesh.scale.setScalar(s);
+        if (pf.rise) pf.mesh.position.y += pf.rise * dt;
         pf.mat.opacity = pf.startOpacity * (1 - p);
       }
     }
@@ -586,6 +671,7 @@ export class SanctuaryVFX {
     this.activePuffs.length = 0;
 
     this._puffGeo?.dispose();
+    this._cloudGeo?.dispose();
     this.moveMarker?.geometry?.dispose();
     this.moveMarker?.material?.dispose();
     for (const tex of this.textureCache.values()) tex.dispose();

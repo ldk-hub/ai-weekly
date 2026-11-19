@@ -1,11 +1,11 @@
 {
   "name": "Curator_Ella",
   "sheet": "assets/sprites/Curator_Ella_8dir_sheet.png",
-  "cols": 28,
+  "cols": 32,
   "rows": 8,
   "cell_width": 96,
   "cell_height": 96,
-  "world_height": 2.28,
+  "world_height": 2.48,
   "directions": [
     "S",
     "SW",
@@ -20,66 +20,72 @@
     "Idle": {
       "start": 0,
       "end": 3,
-      "fps": 6,
+      "fps": 7,
       "loop": true
     },
     "Walk": {
       "start": 4,
       "end": 9,
-      "fps": 10,
+      "fps": 12,
       "loop": true
     },
     "Run": {
       "start": 10,
       "end": 15,
-      "fps": 14,
+      "fps": 16,
       "loop": true
     },
     "Dash": {
       "start": 16,
       "end": 19,
-      "fps": 16,
+      "fps": 18,
       "loop": false
     },
     "Jump": {
       "start": 20,
       "end": 23,
-      "fps": 10,
-      "loop": false
-    },
-    "Cast": {
-      "start": 24,
-      "end": 26,
-      "fps": 9,
-      "loop": false
-    },
-    "Cheer": {
-      "start": 24,
-      "end": 26,
-      "fps": 9,
-      "loop": false
-    },
-    "Interact": {
-      "start": 24,
-      "end": 26,
-      "fps": 9,
+      "fps": 11,
       "loop": false
     },
     "Attack": {
-      "start": 16,
-      "end": 19,
-      "fps": 14,
+      "start": 24,
+      "end": 27,
+      "fps": 16,
       "loop": false
     },
+    "Cast": {
+      "start": 28,
+      "end": 29,
+      "fps": 10,
+      "loop": false
+    },
+    "Cheer": {
+      "start": 28,
+      "end": 29,
+      "fps": 8,
+      "loop": false
+    },
+    "Interact": {
+      "start": 28,
+      "end": 29,
+      "fps": 8,
+      "loop": false
+    },
+    "Guard": {
+      "start": 30,
+      "end": 30,
+      "fps": 8,
+      "loop": true
+    },
     "Sit": {
-      "start": 27,
-      "end": 27,
+      "start": 31,
+      "end": 31,
       "fps": 4,
       "loop": true
     },
     "SitChair": {
-      "start": 27,
-      "end": 27,
+      "start": 31,
+      "end": 31,
       "fps": 4,
       "loop": true
     }

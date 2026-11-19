@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { loadSpriteActor } from "./AssetManager.js";
 
 const PROFILE_STORAGE_KEY = "aiw-sp-profile-v1";
 
@@ -199,6 +200,41 @@ function createArcadePitchTexture() {
   return tex;
 }
 
+function createArenaItemTexture(kind) {
+  const s = 96;
+  const c = document.createElement("canvas");
+  c.width = s; c.height = s;
+  const ctx = c.getContext("2d");
+  const styles = {
+    boots: { bg: "#0284c7", rim: "#7dd3fc", label: "SPD" },
+    sword: { bg: "#dc2626", rim: "#fca5a5", label: "ATK" },
+    shield: { bg: "#16a34a", rim: "#86efac", label: "DEF" },
+    potion: { bg: "#0d9488", rim: "#5eead4", label: "MP+" },
+  };
+  const st = styles[kind] || styles.boots;
+  ctx.beginPath();
+  ctx.arc(s / 2, s / 2, 40, 0, Math.PI * 2);
+  ctx.fillStyle = st.bg;
+  ctx.fill();
+  ctx.lineWidth = 6;
+  ctx.strokeStyle = "#ffffff";
+  ctx.stroke();
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = st.rim;
+  ctx.beginPath();
+  ctx.arc(s / 2, s / 2, 33, 0, Math.PI * 2);
+  ctx.stroke();
+
+  ctx.fillStyle = "#ffffff";
+  ctx.font = "900 22px monospace";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(st.label, s / 2, s / 2 + 1);
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  return tex;
+}
+
 function createGoalNetTexture() {
   const s = 64;
   const c = document.createElement("canvas");
@@ -284,9 +320,15 @@ export class SurvivalArena {
     };
 
     this.score = { blue: 0, red: 0 };
+    this.teamScore = { blue: 0, red: 0 };
+    this.mode = "plaza"; // 'plaza' | 'teamplay' | 'soccer'
+    this.roundTimer = 120;
     this.goalCooldown = 0;
 
     // Arcade Combat / Action gauges & Combo State Machine
+    this.hp = 100;
+    this.maxHp = 100;
+    this.heroInvuln = 0;
     this.booster = 100;
     this.maxBooster = 100;
     this.mp = 65;
@@ -300,12 +342,15 @@ export class SurvivalArena {
     this.ultCooldown = 0;
     this.screenShake = 0;
     this.hitstopTimer = 0;        // crisp arcade hit-freeze frames (30~75ms)
+    this.buffs = { speed: 0, power: 0, shield: 0 };
 
     // Guard / Just-Parry & Magic Charge state
     this.isGuarding = false;
     this.guardElapsed = 0;
     this.guardShieldLoop = null;
     this.chargeLoop = null;
+    this.heroPetLoop = null;
+    this.heroPetElement = null;
 
     // Ball state
     this.ball = {
@@ -325,6 +370,10 @@ export class SurvivalArena {
 
     this.crystals = [];
     this.slimes = [];
+    this.rivals = [];
+    this.pickups = [];
+    this._itemTexCache = new Map();
+    this._pickupSpawnTimer = 4.5;
     this.enemyOrbs = [];
     this.coins = [];
     this.heroAuraLoop = null;
@@ -337,7 +386,121 @@ export class SurvivalArena {
     this._buildSoccerPitch();
     this._buildElementalCrystals();
     this._spawnSparringSlimes();
+    this._spawnRivals();
     this._spawnInitialPlazaCoins();
+  }
+
+  setGameMode(nextMode = "plaza") {
+    const valid = ["plaza", "teamplay", "soccer"].includes(nextMode) ? nextMode : "plaza";
+    this.mode = valid;
+    this.hp = this.maxHp;
+    this.mp = Math.max(this.mp, 65);
+    this.booster = this.maxBooster;
+    if (valid === "teamplay") {
+      this.roundTimer = 120;
+      this.teamScore = { blue: 0, red: 0 };
+      this.rivals.forEach((r, idx) => {
+        r.alive = true;
+        r.hp = r.maxHp;
+        r.position.set(idx === 0 ? -4.5 : 4.5, 0, -5.8);
+        r.vx = 0; r.vy = 0; r.vz = 0;
+        if (r.actor) r.actor.mesh.visible = true;
+      });
+    } else if (valid === "soccer") {
+      this.roundTimer = 90;
+      this.score = { blue: 0, red: 0 };
+      this._resetBall(true);
+      this.rivals.forEach((r, idx) => {
+        r.alive = true;
+        r.hp = r.maxHp;
+        r.position.set(idx === 0 ? 4.2 : 5.4, 0, this.pitch.cz + (idx === 0 ? -0.8 : 1.0));
+        r.vx = 0; r.vy = 0; r.vz = 0;
+        if (r.actor) r.actor.mesh.visible = true;
+      });
+    } else {
+      this.rivals.forEach((r, idx) => {
+        r.alive = idx === 0;
+        r.hp = r.maxHp;
+        r.position.set(6.2, 0, -6.2);
+        r.vx = 0; r.vy = 0; r.vz = 0;
+        if (r.actor) r.actor.mesh.visible = r.alive;
+      });
+    }
+    this.callbacks.onModeChanged?.(this.mode, this);
+    this.callbacks.onScoreChanged?.(this.mode === "teamplay" ? this.teamScore : this.score);
+  }
+
+  getActiveScore() {
+    return this.mode === "teamplay" ? this.teamScore : this.score;
+  }
+
+  async _spawnRivals() {
+    const specs = [
+      {
+        id: "rival-kara",
+        name: "섀도우 카라",
+        roleBadge: "RED TEAM",
+        teamTag: "2P",
+        teamSide: "red",
+        element: "fire",
+        atlasUrl: "assets/sprites/Shadow_Reaper_8dir_atlas.json",
+        x: 6.2,
+        z: -6.2,
+      },
+      {
+        id: "rival-sven",
+        name: "아스트랄 스벤",
+        roleBadge: "RED TEAM",
+        teamTag: "3P",
+        teamSide: "red",
+        element: "water",
+        atlasUrl: "assets/sprites/Astral_Sage_8dir_atlas.json",
+        x: -6.2,
+        z: -6.2,
+      },
+    ];
+    for (let i = 0; i < specs.length; i++) {
+      const sp = specs[i];
+      try {
+        const actor = await loadSpriteActor(sp.atlasUrl);
+        actor.attachSurvivalRig({ ringColor: 0xf43f5e, showAim: true });
+        actor.mesh.position.set(sp.x, 0, sp.z);
+        const visibleInMode = this.mode !== "plaza" || i === 0;
+        actor.mesh.visible = visibleInMode;
+        this.scene.add(actor.mesh);
+        this.rivals.push({
+          ...sp,
+          role: "rival",
+          actor,
+          position: new THREE.Vector3(sp.x, 0, sp.z),
+          homeX: sp.x,
+          homeZ: sp.z,
+          vx: 0,
+          vy: 0,
+          vz: 0,
+          jumpY: 0,
+          facingAngle: Math.PI,
+          hp: 150,
+          maxHp: 150,
+          hpRatio: 1,
+          mpRatio: 0.8,
+          alive: visibleInMode,
+          respawnTimer: 0,
+          hitFlash: 0,
+          stunTimer: 0,
+          dashCooldown: 1.5 + i * 0.8,
+          slideTimer: 0,
+          dustTimer: 0,
+          attackCooldown: 1.6 + i * 0.7,
+          castCooldown: 2.8 + i * 1.1,
+          overlayHeight: 2.55,
+          chatText: "",
+          chatUntil: 0,
+        });
+      } catch (e) {
+        console.warn("[SurvivalArena] rival load skipped", sp.id, e);
+      }
+    }
   }
 
   getComboRank() {
@@ -370,17 +533,19 @@ export class SurvivalArena {
     const mScale = 1 + (magic.level - 1) * 0.14;
     const bScale = 1 + (boots.level - 1) * 0.04;
     const aScale = 1 + (aura.level - 1) * 0.06;
+    const speedBuff = this.buffs.speed > 0 ? 1.24 : 1.0;
+    const powerBuff = this.buffs.power > 0 ? 1.45 : 1.0;
 
     return {
       element: magic.element,
       magicCard: magic,
       bootsCard: boots,
       auraCard: aura,
-      magicPower: Math.round(magic.basePower * mScale),
-      speedMul: (boots.speed || 1.05) * (1 + (boots.level - 1) * 0.025),
-      kickPowerMul: (boots.kick || 1.1) * bScale,
-      boosterRegenMul: (boots.booster || 1.05) * bScale,
-      dashCooldownMul: Math.max(0.55, (boots.dashCd || 0.95) - (boots.level - 1) * 0.02),
+      magicPower: Math.round(magic.basePower * mScale * powerBuff),
+      speedMul: (boots.speed || 1.05) * (1 + (boots.level - 1) * 0.025) * speedBuff,
+      kickPowerMul: (boots.kick || 1.1) * bScale * (this.buffs.power > 0 ? 1.22 : 1.0),
+      boosterRegenMul: (boots.booster || 1.05) * bScale * (this.buffs.speed > 0 ? 1.45 : 1.0),
+      dashCooldownMul: Math.max(0.45, ((boots.dashCd || 0.95) - (boots.level - 1) * 0.02) * (this.buffs.speed > 0 ? 0.72 : 1.0)),
       jumpMul: (boots.jump || 1.05) * (1 + (boots.level - 1) * 0.015),
       mpRegenMul: (aura.mpRegen || 1.1) * aScale,
       coinBonusMul: (aura.coinMul || 1.1) * aScale,
@@ -954,7 +1119,21 @@ export class SurvivalArena {
       landedHit = true;
     }
 
-    // 2. Check Juggleable Elemental Sparring Slimes (Knockback + Skid + Air Juggle!)
+    // 2. Check Juggleable Elemental Sparring Slimes & AI Rivals!
+    for (const r of this.rivals) {
+      if (!r.alive || !r.actor?.mesh.visible) continue;
+      if (Math.hypot(r.position.x - hitX, r.position.z - hitZ) < hitRadius + 0.45) {
+        const dmg = Math.round((24 + stats.magicPower * 0.55) * dmgMul);
+        const isAir = r.jumpY > 0.7;
+        this._damageRival(r, dmg, stats.element, stats.critChance, {
+          kx: dirX * knockHoriz,
+          kz: dirZ * knockHoriz,
+          ky: isAir ? Math.max(7.2, knockUp) : knockUp,
+          tag: isAir ? "AIR JUGGLE!!" : attackKind === "dash_slide" ? "SLIDE HIT!" : attackKind === "combo3" ? "FINISH!!" : "",
+        });
+        landedHit = true;
+      }
+    }
     for (const sl of this.slimes) {
       if (!sl.alive) continue;
       if (Math.hypot(sl.x - hitX, sl.z - hitZ) < hitRadius + 0.35) {
@@ -1019,6 +1198,20 @@ export class SurvivalArena {
       this.ball.vy = 8.4;
       this.vfx?.spawnDamageNumber(this.ball.x, 1.6, this.ball.z, "SLAM LAUNCH!!", "crit");
       this.callbacks.onBallKick?.(this.ball);
+    }
+    for (const r of this.rivals) {
+      if (!r.alive || !r.actor?.mesh.visible) continue;
+      const d = Math.hypot(r.position.x - heroPos.x, r.position.z - heroPos.z);
+      if (d < radius) {
+        const nx = (r.position.x - heroPos.x) / Math.max(0.1, d);
+        const nz = (r.position.z - heroPos.z) / Math.max(0.1, d);
+        this._damageRival(r, Math.round(stats.magicPower * 1.55), stats.element, stats.critChance + 0.2, {
+          kx: nx * 10.5,
+          kz: nz * 10.5,
+          ky: 9.6,
+          tag: "SLAM LAUNCH!!",
+        });
+      }
     }
     for (const sl of this.slimes) {
       if (!sl.alive) continue;
@@ -1143,7 +1336,21 @@ export class SurvivalArena {
       this.callbacks.onBallKick?.(this.ball);
     }
 
-    // Blast slimes in AoE!
+    // Blast rivals & slimes in AoE!
+    for (const r of this.rivals) {
+      if (!r.alive || !r.actor?.mesh.visible) continue;
+      const d = Math.hypot(r.position.x - targetX, r.position.z - targetZ);
+      if (d < 5.2) {
+        const nx = (r.position.x - targetX) / Math.max(0.1, d);
+        const nz = (r.position.z - targetZ) / Math.max(0.1, d);
+        this._damageRival(r, Math.round(stats.magicPower * 2.5), stats.element, Math.min(0.95, stats.critChance + 0.35), {
+          kx: nx * 16.5,
+          kz: nz * 16.5,
+          ky: 10.5,
+          tag: `${edef.en} BURST!!`,
+        });
+      }
+    }
     for (const sl of this.slimes) {
       if (!sl.alive) continue;
       const d = Math.hypot(sl.x - targetX, sl.z - targetZ);
@@ -1218,6 +1425,65 @@ export class SurvivalArena {
   _addCombo(amount = 1) {
     this.combo += amount;
     this.comboTimer = 4.2;
+  }
+
+  _damageRival(rival, baseDmg, attackElement, critChance = 0.15, knock = {}) {
+    const edef = ELEMENT_DEFS[attackElement] || ELEMENT_DEFS.fire;
+    const isAdvantage = edef.beats === rival.element;
+    const isCrit = isAdvantage || Math.random() < critChance;
+    const finalDmg = Math.round(baseDmg * (isAdvantage ? 1.85 : isCrit ? 1.45 : 1.0));
+
+    rival.hp = Math.max(0, rival.hp - finalDmg);
+    rival.hpRatio = rival.hp / rival.maxHp;
+    rival.hitFlash = 0.22;
+    rival.stunTimer = 0.42;
+    rival.vx = (knock.kx ?? 0);
+    rival.vz = (knock.kz ?? 0);
+    rival.vy = Math.max(rival.vy * 0.35, knock.ky ?? 4.2);
+    this._addCombo(1);
+    this.mp = Math.min(this.maxMp, this.mp + 10);
+
+    this.pixelVfx?.spawnBurst(isCrit ? "crit_hit" : "hit_spark", {
+      x: rival.position.x,
+      y: 1.15 + rival.jumpY,
+      z: rival.position.z,
+      scale: isCrit ? 2.6 : 1.9,
+      fps: 20,
+    });
+    const prefix = knock.tag ? `${knock.tag} ` : "";
+    const label = isAdvantage ? `${prefix}${finalDmg} 상성!` : isCrit ? `${prefix}${finalDmg} CRIT!` : `${prefix}${finalDmg}`;
+    this.vfx?.spawnDamageNumber(rival.position.x, 1.9 + rival.jumpY, rival.position.z, label, isCrit || knock.tag ? "crit" : "normal");
+
+    if (rival.hp <= 0) {
+      rival.alive = false;
+      rival.respawnTimer = 4.8;
+      if (rival.actor) rival.actor.mesh.visible = false;
+      this.hitstopTimer = Math.max(this.hitstopTimer, 0.075);
+      this.screenShake = Math.max(this.screenShake, 0.28);
+
+      const rDef = ELEMENT_DEFS[rival.element] || ELEMENT_DEFS.fire;
+      this.pixelVfx?.spawnBurst(rDef.ultKey, {
+        x: rival.position.x,
+        y: 1.6,
+        z: rival.position.z,
+        scale: 3.4,
+        fps: 16,
+        additive: true,
+      });
+      this.vfx?.spawnDamageNumber(rival.position.x, 2.3, rival.position.z, "KO!! +45 CODE", "crit");
+      this.profile.code += Math.round(45 * this.getPlayerStats().coinBonusMul);
+      this._saveProfile();
+
+      if (this.mode === "teamplay") {
+        this.teamScore.blue += 1;
+        this.callbacks.onScoreChanged?.(this.teamScore);
+      }
+      for (let i = 0; i < 4; i++) {
+        const ang = (i / 4) * Math.PI * 2;
+        this.spawnCoin(rival.position.x, rival.position.z, Math.cos(ang) * 3.1, Math.sin(ang) * 3.1, 5.0, 14);
+      }
+      this.callbacks.onProfileChanged?.(this.profile, this.getPlayerStats());
+    }
   }
 
   _damageSlime(slime, baseDmg, attackElement, critChance = 0.15, knock = {}) {
@@ -1368,12 +1634,13 @@ export class SurvivalArena {
     this._resetBall(true);
   }
 
-  _syncHeroAura(heroPos, stats) {
+  _syncHeroAura(heroPos, stats, elapsed = 0) {
     if (!heroPos || !this.pixelVfx?.manifest?.pb_shield) return;
     const auraEl = stats.auraCard.element;
+    const edef = ELEMENT_DEFS[auraEl] || ELEMENT_DEFS.water;
+
     if (!this.heroAuraLoop || this.heroAuraElement !== auraEl) {
       if (this.heroAuraLoop) this.heroAuraLoop.dispose();
-      const edef = ELEMENT_DEFS[auraEl] || ELEMENT_DEFS.water;
       this.heroAuraLoop = this.pixelVfx.createLoopBillboard("pb_shield", {
         x: heroPos.x,
         y: 0.09,
@@ -1391,6 +1658,32 @@ export class SurvivalArena {
     }
     if (this.heroAuraLoop && this.heroAuraLoop.alive) {
       this.heroAuraLoop.mesh.position.set(heroPos.x, 0.085, heroPos.z);
+    }
+
+    // Orbiting Survival Project Spirit Pet (like Magic Penguin / Elemental Wisp)
+    if (this.pixelVfx?.manifest?.pb_sparkle) {
+      if (!this.heroPetLoop || this.heroPetElement !== auraEl) {
+        if (this.heroPetLoop) this.heroPetLoop.dispose();
+        this.heroPetLoop = this.pixelVfx.createLoopBillboard("pb_sparkle", {
+          x: heroPos.x - 1.0,
+          y: 1.55,
+          z: heroPos.z,
+          scale: 0.92,
+          fps: 14,
+          tint: edef.colorInt,
+          opacity: 0.92,
+          renderOrder: 13,
+        });
+        this.heroPetElement = auraEl;
+      }
+      if (this.heroPetLoop?.alive) {
+        const orbitA = elapsed * 1.9;
+        this.heroPetLoop.mesh.position.set(
+          heroPos.x + Math.cos(orbitA) * 1.05,
+          1.45 + (heroPos.y || 0) + Math.sin(elapsed * 4.2) * 0.14,
+          heroPos.z + Math.sin(orbitA) * 0.85
+        );
+      }
     }
   }
 
@@ -1428,9 +1721,29 @@ export class SurvivalArena {
 
     this._ensureSlimeSprites();
 
-    // Sync hero pixel aura ring
+    // Active buffs & match round countdown
+    if (this.heroInvuln > 0) this.heroInvuln = Math.max(0, this.heroInvuln - dt);
+    if (this.buffs.speed > 0) this.buffs.speed = Math.max(0, this.buffs.speed - dt);
+    if (this.buffs.power > 0) this.buffs.power = Math.max(0, this.buffs.power - dt);
+    if (this.buffs.shield > 0) this.buffs.shield = Math.max(0, this.buffs.shield - dt);
+    this.hp = Math.min(this.maxHp, this.hp + 3.2 * dt);
+
+    if (this.mode === "teamplay" || this.mode === "soccer") {
+      this.roundTimer = Math.max(0, this.roundTimer - dt);
+      if (this.roundTimer <= 0) {
+        const sc = this.getActiveScore();
+        const win = sc.blue >= sc.red;
+        const bonus = win ? 80 : 30;
+        this.profile.code += bonus;
+        this._saveProfile();
+        this.callbacks.onRoundEnd?.(this.mode, sc, win, bonus);
+        this.setGameMode(this.mode);
+      }
+    }
+
+    // Sync hero pixel aura ring & floating pet
     if (heroState?.pos) {
-      this._syncHeroAura(heroState.pos, stats);
+      this._syncHeroAura(heroState.pos, stats, elapsed);
     }
 
     // 1. Update Active Elemental Projectiles collisions (ball & crystals)
@@ -1479,6 +1792,51 @@ export class SurvivalArena {
           continue;
         }
 
+        // Projectile hits AI Rivals OR Hero!
+        if (proj.ownerId === "rival") {
+          if (heroState?.pos && Math.hypot(heroState.pos.x - px, heroState.pos.z - pz) < 1.15 && (heroState.pos.y || 0) < 1.15) {
+            if (this.isGuarding && this.guardElapsed <= 0.35) {
+              proj.vx = -proj.vx * 2.1;
+              proj.vz = -proj.vz * 2.1;
+              proj.ownerId = "local";
+              proj.age = 0;
+              this.hitstopTimer = 0.068;
+              this.mp = Math.min(this.maxMp, this.mp + 25);
+              this.pixelVfx?.spawnBurst("parry", { x: heroState.pos.x, y: 1.1, z: heroState.pos.z, scale: 3.0 });
+              this.vfx?.spawnDamageNumber(heroState.pos.x, 2.2, heroState.pos.z, "JUST PARRY!!", "crit");
+            } else if (this.isGuarding || this.buffs.shield > 0) {
+              proj.alive = false;
+              this.pixelVfx?.spawnBurst("hit_spark", { x: px, y: 1.0, z: pz, scale: 1.8 });
+              this.vfx?.spawnDamageNumber(heroState.pos.x, 2.0, heroState.pos.z, "GUARDED!", "magic");
+            } else if (!heroState.isSliding && this.heroInvuln <= 0) {
+              proj.alive = false;
+              this._damageHero(16, heroState.pos);
+            }
+          }
+          continue;
+        }
+
+        let hitRival = false;
+        for (const r of this.rivals) {
+          if (!r.alive || !r.actor?.mesh.visible) continue;
+          if (Math.hypot(r.position.x - px, r.position.z - pz) < 1.15 + proj.radius * 0.45) {
+            proj.alive = false;
+            hitRival = true;
+            if (proj.ownerId === "local") {
+              const spd = Math.hypot(proj.vx, proj.vz) || 1;
+              this._damageRival(r, Math.round(proj.power * 1.45), proj.element, stats.critChance, {
+                kx: (proj.vx / spd) * 12.0,
+                kz: (proj.vz / spd) * 12.0,
+                ky: 6.5,
+                tag: proj.power > stats.magicPower * 1.5 ? "OVERCHARGE!!" : "",
+              });
+              this.hitstopTimer = Math.max(this.hitstopTimer, 0.038);
+            }
+            break;
+          }
+        }
+        if (hitRival) continue;
+
         // Projectile hits Juggleable Slimes!
         let hitSlime = false;
         for (const sl of this.slimes) {
@@ -1520,6 +1878,12 @@ export class SurvivalArena {
 
     // 2.5 Update Juggleable Elemental Sparring Slimes & Dodge/Parry Orbs
     this._updateSlimesAndOrbs(dt, elapsed, heroState, stats);
+
+    // 2.6 Update AI Rival Survival Project Fighters (Dash-Slides + Melee + Shots!)
+    this._updateRivals(dt, elapsed, heroState);
+
+    // 2.7 Update Arena Circular Item Pickups (Boots / Sword / Shield / Potion)
+    this._updateArenaPickups(dt, elapsed, heroState, stats);
 
     // 3. Update Elemental Crystals bobbing & respawn
     for (const c of this.crystals) {
@@ -1862,8 +2226,23 @@ export class SurvivalArena {
       let removeOrb = orb.age > 3.2;
 
       if (!removeOrb && orb.reflected) {
-        // Reflected orb slams into slimes for massive counter damage!
-        for (const sl of this.slimes) {
+        // Reflected orb slams into rivals or slimes for massive counter damage!
+        for (const r of this.rivals) {
+          if (!r.alive || !r.actor?.mesh.visible) continue;
+          if (Math.hypot(r.position.x - orb.x, r.position.z - orb.z) < 1.35) {
+            this._damageRival(r, Math.round(stats.magicPower * 2.6), stats.element, 1.0, {
+              kx: orb.vx * 0.9,
+              kz: orb.vz * 0.9,
+              ky: 8.8,
+              tag: "PARRY COUNTER!!",
+            });
+            this.hitstopTimer = 0.065;
+            removeOrb = true;
+            break;
+          }
+        }
+        if (!removeOrb) {
+          for (const sl of this.slimes) {
           if (!sl.alive) continue;
           if (Math.hypot(sl.x - orb.x, sl.z - orb.z) < 1.35) {
             this._damageSlime(sl, Math.round(stats.magicPower * 2.6), stats.element, 1.0, {
@@ -1876,6 +2255,7 @@ export class SurvivalArena {
             removeOrb = true;
             break;
           }
+        }
         }
       } else if (!removeOrb && heroState?.pos) {
         const dHero = Math.hypot(heroState.pos.x - orb.x, heroState.pos.z - orb.z);
@@ -1933,10 +2313,362 @@ export class SurvivalArena {
     }
   }
 
+  _damageHero(dmg, heroPos, knockX = 0, knockZ = 0) {
+    if (this.heroInvuln > 0) return;
+    if (this.buffs.shield > 0) {
+      this.pixelVfx?.spawnBurst("parry", { x: heroPos.x, y: 1.1, z: heroPos.z, scale: 2.2 });
+      this.vfx?.spawnDamageNumber(heroPos.x, 2.0, heroPos.z, "SHIELD BLOCK!", "magic");
+      this.heroInvuln = 0.45;
+      return;
+    }
+    this.hp = Math.max(10, this.hp - dmg);
+    this.heroInvuln = 0.75;
+    this.screenShake = Math.max(this.screenShake, 0.2);
+    this.pixelVfx?.spawnBurst("hit_spark", { x: heroPos.x, y: 1.0, z: heroPos.z, scale: 2.0 });
+    this.vfx?.spawnDamageNumber(heroPos.x, 2.0, heroPos.z, `-${dmg} HIT!`, "normal");
+    this.callbacks.onHeroHit?.(knockX, knockZ);
+    if (this.hp <= 10 && this.mode === "teamplay") {
+      this.hp = this.maxHp;
+      this.teamScore.red += 1;
+      this.vfx?.spawnDamageNumber(heroPos.x, 2.5, heroPos.z, "RESPAWN! HP FULL", "heal");
+      this.callbacks.onScoreChanged?.(this.teamScore);
+    }
+  }
+
+  _updateRivals(dt, elapsed, heroState) {
+    const az = this.callbacks.getAzimuth?.() ?? 0;
+    for (let i = 0; i < this.rivals.length; i++) {
+      const r = this.rivals[i];
+      if (!r.actor) continue;
+      if (!r.alive) {
+        if (this.mode === "plaza" && i > 0) continue;
+        r.respawnTimer -= dt;
+        if (r.respawnTimer <= 0) {
+          r.alive = true;
+          r.hp = r.maxHp;
+          r.hpRatio = 1;
+          r.position.set(r.homeX, 0, this.mode === "soccer" ? this.pitch.cz : r.homeZ);
+          r.jumpY = 0; r.vx = 0; r.vy = 0; r.vz = 0;
+          r.actor.mesh.visible = true;
+          this.pixelVfx?.spawnBurst("collect_burst", { x: r.position.x, y: 1.2, z: r.position.z, scale: 2.2, additive: true });
+        }
+        continue;
+      }
+
+      if (r.hitFlash > 0) r.hitFlash = Math.max(0, r.hitFlash - dt);
+      if (r.stunTimer > 0) r.stunTimer = Math.max(0, r.stunTimer - dt);
+      if (r.dashCooldown > 0) r.dashCooldown = Math.max(0, r.dashCooldown - dt);
+      if (r.slideTimer > 0) r.slideTimer = Math.max(0, r.slideTimer - dt);
+      if (r.attackCooldown > 0) r.attackCooldown = Math.max(0, r.attackCooldown - dt);
+      if (r.castCooldown > 0) r.castCooldown = Math.max(0, r.castCooldown - dt);
+
+      // Gravity & slide friction
+      r.vy -= 21.0 * dt;
+      r.jumpY += r.vy * dt;
+      if (r.jumpY <= 0) {
+        r.jumpY = 0;
+        r.vy = Math.abs(r.vy) > 2.5 ? -r.vy * 0.42 : 0;
+      }
+
+      if (r.stunTimer <= 0 && heroState?.pos) {
+        // AI target: Soccer ball in soccer mode, Hero in teamplay/plaza!
+        const targetX = this.mode === "soccer" ? this.ball.x : heroState.pos.x;
+        const targetZ = this.mode === "soccer" ? this.ball.z : heroState.pos.z;
+        const dx = targetX - r.position.x;
+        const dz = targetZ - r.position.z;
+        const dist = Math.hypot(dx, dz) || 0.01;
+        const nx = dx / dist;
+        const nz = dz / dist;
+
+        if (r.slideTimer <= 0) {
+          r.facingAngle = Math.atan2(nx, nz);
+          const chaseSpd = this.mode === "plaza" ? 3.2 : 4.8;
+          const desiredDist = this.mode === "soccer" ? 0.6 : 2.3;
+          if (dist > desiredDist) {
+            r.vx += (nx * chaseSpd - r.vx) * Math.min(1, dt * 6);
+            r.vz += (nz * chaseSpd - r.vz) * Math.min(1, dt * 6);
+          } else {
+            r.vx *= Math.exp(-5 * dt);
+            r.vz *= Math.exp(-5 * dt);
+          }
+
+          // Survival Project Rival Dash-Slide!
+          if (dist > 3.6 && dist < 11.5 && r.dashCooldown <= 0) {
+            r.dashCooldown = this.mode === "plaza" ? 4.8 : 2.8 + Math.random() * 1.4;
+            r.slideTimer = 0.44;
+            r.vx = nx * 13.5;
+            r.vz = nz * 13.5;
+            r.actor.playAction("Dash", null, true);
+            this.pixelVfx?.spawnBurst("dash_strike", {
+              x: r.position.x,
+              y: 0.8,
+              z: r.position.z,
+              scale: 2.0,
+              fps: 22,
+              tint: 0xf43f5e,
+              additive: true,
+            });
+          }
+
+          // Soccer kick or TeamPlay melee slash / magic shot
+          if (this.mode === "soccer" && Math.hypot(this.ball.x - r.position.x, this.ball.z - r.position.z) < 1.3 && r.attackCooldown <= 0) {
+            r.attackCooldown = 1.2;
+            const gx = this.pitch.cx - this.pitch.halfW;
+            const gz = this.pitch.cz;
+            const gdx = gx - this.ball.x;
+            const gdz = gz - this.ball.z;
+            const gd = Math.hypot(gdx, gdz) || 1;
+            this.ball.vx = (gdx / gd) * 14.5;
+            this.ball.vz = (gdz / gd) * 14.5;
+            this.ball.vy = 3.2;
+            r.actor.playAction("Attack", null, true);
+            this.pixelVfx?.spawnBurst("sword_slash", { x: this.ball.x, y: 0.8, z: this.ball.z, scale: 2.0, tint: 0xf43f5e });
+          } else if (this.mode !== "soccer") {
+            if (dist < 2.25 && r.attackCooldown <= 0) {
+              r.attackCooldown = this.mode === "plaza" ? 3.2 : 1.7;
+              r.actor.playAction("Attack", null, true);
+              this.pixelVfx?.spawnBurst("sword_slash", {
+                x: r.position.x + nx * 1.1,
+                y: 1.0,
+                z: r.position.z + nz * 1.1,
+                scale: 2.2,
+                fps: 20,
+                tint: 0xf43f5e,
+              });
+              if (Math.hypot(heroState.pos.x - r.position.x, heroState.pos.z - r.position.z) < 2.15 && !this.isGuarding && !heroState.isSliding) {
+                this._damageHero(10, heroState.pos, nx * 8, nz * 8);
+              } else if (this.isGuarding && Math.hypot(heroState.pos.x - r.position.x, heroState.pos.z - r.position.z) < 2.2) {
+                this.pixelVfx?.spawnBurst("parry", { x: heroState.pos.x, y: 1.0, z: heroState.pos.z, scale: 2.2 });
+                this.vfx?.spawnDamageNumber(heroState.pos.x, 2.0, heroState.pos.z, "BLOCKED!", "magic");
+              }
+            } else if (dist > 3.2 && dist < 11.0 && r.castCooldown <= 0) {
+              r.castCooldown = this.mode === "plaza" ? 5.2 : 3.2 + Math.random() * 1.5;
+              const edef = ELEMENT_DEFS[r.element] || ELEMENT_DEFS.fire;
+              r.actor.playAction("Cast", null, true);
+              this.pixelVfx?.spawnProjectile(edef.projKey, {
+                x: r.position.x + nx * 0.9,
+                y: 1.05,
+                z: r.position.z + nz * 0.9,
+                vx: nx * 10.5,
+                vz: nz * 10.5,
+                scale: 1.65,
+                element: r.element,
+                power: 16,
+                ownerId: "rival",
+                maxAge: 1.55,
+              });
+            }
+          }
+        }
+      } else {
+        const damp = Math.exp(-3.4 * dt);
+        r.vx *= damp;
+        r.vz *= damp;
+      }
+
+      if (r.slideTimer > 0) {
+        const slideDamp = Math.exp(-2.6 * dt);
+        r.vx *= slideDamp;
+        r.vz *= slideDamp;
+        r.dustTimer += dt;
+        if (r.dustTimer >= 0.08) {
+          r.dustTimer = 0;
+          this.vfx?.spawnCloudTrail(r.position, { color: 0xe7d4a8, maxScale: 1.45, opacity: 0.64, life: 0.42 });
+        }
+      }
+
+      r.position.x = THREE.MathUtils.clamp(r.position.x + r.vx * dt, -9.2, 9.2);
+      const minZ = this.mode === "soccer" ? this.pitch.cz - this.pitch.halfD + 0.5 : -9.2;
+      const maxZ = this.mode === "soccer" ? this.pitch.cz + this.pitch.halfD - 0.5 : 20.0;
+      r.position.z = THREE.MathUtils.clamp(r.position.z + r.vz * dt, minZ, maxZ);
+
+      const spd = Math.hypot(r.vx, r.vz);
+      if (r.jumpY > 0.15) r.actor.playAction("Jump");
+      else if (r.slideTimer > 0) r.actor.playAction("Dash");
+      else if (spd > 1.2 && r.actor.currentAction !== "Attack" && r.actor.currentAction !== "Cast") r.actor.playAction("Run");
+      else if (spd <= 1.2 && r.actor.currentAction === "Run") r.actor.playAction("Idle");
+
+      r.actor.mesh.position.set(r.position.x, 0, r.position.z);
+      r.actor.setJumpHeight(r.jumpY, r.slideTimer > 0 ? 1.15 : 1, r.slideTimer > 0 ? 0.85 : 1, 0, 0xffffff, r.hitFlash > 0 ? 0.65 : 0);
+      r.actor.update(dt, az, r.facingAngle);
+    }
+  }
+
+  _updateArenaPickups(dt, elapsed, heroState, stats) {
+    this._pickupSpawnTimer -= dt;
+    if (this._pickupSpawnTimer <= 0 && this.pickups.length < 4) {
+      this._pickupSpawnTimer = 6.5;
+      const kinds = ["boots", "sword", "shield", "potion"];
+      const kind = kinds[Math.floor(Math.random() * kinds.length)];
+      if (!this._itemTexCache.has(kind)) {
+        const tex = createArenaItemTexture(kind);
+        this._itemTexCache.set(kind, tex);
+        this._disposables.push(tex);
+      }
+      const geo = new THREE.PlaneGeometry(0.95, 0.95);
+      const mat = new THREE.MeshBasicMaterial({
+        map: this._itemTexCache.get(kind),
+        transparent: true,
+        depthWrite: false,
+        side: THREE.DoubleSide,
+      });
+      const mesh = new THREE.Mesh(geo, mat);
+      const px = this.mode === "soccer" ? (Math.random() - 0.5) * 10 : (Math.random() - 0.5) * 14;
+      const pz = this.mode === "soccer" ? this.pitch.cz + (Math.random() - 0.5) * 5.2 : (Math.random() - 0.5) * 13;
+      mesh.position.set(px, 0.9, pz);
+      mesh.renderOrder = 12;
+      this.group.add(mesh);
+      this.pickups.push({ kind, x: px, z: pz, age: 0, mesh, geo, mat });
+    }
+
+    const az = this.callbacks.getAzimuth?.() ?? 0;
+    for (let i = this.pickups.length - 1; i >= 0; i--) {
+      const it = this.pickups[i];
+      it.age += dt;
+      it.mesh.rotation.y = az;
+      it.mesh.position.y = 0.88 + Math.sin(elapsed * 4.2 + i) * 0.14;
+
+      let picked = false;
+      if (heroState?.pos && Math.hypot(heroState.pos.x - it.x, heroState.pos.z - it.z) < 1.3) {
+        picked = true;
+        if (it.kind === "boots") {
+          this.buffs.speed = 10;
+          this.vfx?.spawnDamageNumber(it.x, 1.9, it.z, "SPEED BOOTS UP!!", "magic");
+        } else if (it.kind === "sword") {
+          this.buffs.power = 10;
+          this.vfx?.spawnDamageNumber(it.x, 1.9, it.z, "POWER SWORD UP!!", "crit");
+        } else if (it.kind === "shield") {
+          this.buffs.shield = 10;
+          this.vfx?.spawnDamageNumber(it.x, 1.9, it.z, "ARCADE SHIELD ON!", "heal");
+        } else {
+          this.mp = Math.min(this.maxMp, this.mp + 55);
+          this.hp = Math.min(this.maxHp, this.hp + 35);
+          this.vfx?.spawnDamageNumber(it.x, 1.9, it.z, "+55 MP POTION!", "heal");
+        }
+        this.pixelVfx?.spawnBurst("collect_burst", { x: it.x, y: 1.0, z: it.z, scale: 2.2, additive: true });
+        this.callbacks.onProfileChanged?.(this.profile, stats);
+      }
+
+      if (picked || it.age > 22) {
+        this.group.remove(it.mesh);
+        it.geo.dispose();
+        it.mat.dispose();
+        this.pickups.splice(i, 1);
+      }
+    }
+  }
+
+  /**
+   * Draw Survival Project style Top-Right Radar Minimap onto canvas.
+   */
+  drawMinimap(canvas, heroPos, heroFacing = 0) {
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    const w = canvas.width;
+    const h = canvas.height;
+    const mapX = (wx) => ((wx + 32) / 64) * w;
+    const mapY = (wz) => ((wz + 32) / 64) * h;
+
+    ctx.clearRect(0, 0, w, h);
+    ctx.fillStyle = "rgba(8, 22, 46, 0.72)";
+    ctx.fillRect(0, 0, w, h);
+
+    // Cross avenues & plaza
+    ctx.fillStyle = "rgba(255, 232, 165, 0.20)";
+    ctx.fillRect(mapX(-3.2), 0, mapX(3.2) - mapX(-3.2), h);
+    ctx.fillRect(0, mapY(-3.2), w, mapY(3.2) - mapY(-3.2));
+    ctx.fillRect(mapX(-9), mapY(-9), mapX(9) - mapX(-9), mapY(9) - mapY(-9));
+
+    // Soccer pitch in south
+    const px0 = mapX(this.pitch.cx - this.pitch.halfW);
+    const py0 = mapY(this.pitch.cz - this.pitch.halfD);
+    ctx.fillStyle = "rgba(34, 197, 94, 0.55)";
+    ctx.fillRect(px0, py0, mapX(this.pitch.cx + this.pitch.halfW) - px0, mapY(this.pitch.cz + this.pitch.halfD) - py0);
+    ctx.strokeStyle = "rgba(255,255,255,0.5)";
+    ctx.lineWidth = 1;
+    ctx.strokeRect(px0, py0, mapX(this.pitch.cx + this.pitch.halfW) - px0, mapY(this.pitch.cz + this.pitch.halfD) - py0);
+
+    // Crystals (gold/elemental diamonds)
+    for (const c of this.crystals) {
+      if (!c.alive) continue;
+      ctx.fillStyle = ELEMENT_DEFS[c.element]?.colorHex || "#fbbf24";
+      ctx.fillRect(mapX(c.x) - 2, mapY(c.z) - 2, 4, 4);
+    }
+
+    // Arena item pickups (cyan/green dots)
+    for (const it of this.pickups) {
+      ctx.fillStyle = "#fde047";
+      ctx.beginPath();
+      ctx.arc(mapX(it.x), mapY(it.z), 2.5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Slimes (orange dots)
+    ctx.fillStyle = "#fb923c";
+    for (const sl of this.slimes) {
+      if (!sl.alive) continue;
+      ctx.beginPath();
+      ctx.arc(mapX(sl.x), mapY(sl.z), 2.4, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // AI Rivals (red dots)
+    ctx.fillStyle = "#f43f5e";
+    for (const r of this.rivals) {
+      if (!r.alive || !r.actor?.mesh.visible) continue;
+      ctx.beginPath();
+      ctx.arc(mapX(r.position.x), mapY(r.position.z), 3.6, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Soccer ball (white dot)
+    ctx.fillStyle = "#ffffff";
+    ctx.beginPath();
+    ctx.arc(mapX(this.ball.x), mapY(this.ball.z), 2.8, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Hero (bright 1P blue dot + camera viewport frame)
+    if (heroPos) {
+      const hx = mapX(heroPos.x);
+      const hy = mapY(heroPos.z);
+      ctx.strokeStyle = "rgba(250, 204, 21, 0.72)";
+      ctx.strokeRect(hx - 20, hy - 14, 40, 28);
+
+      ctx.fillStyle = "#38bdf8";
+      ctx.beginPath();
+      ctx.arc(hx, hy, 4.2, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = "#ffffff";
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      ctx.strokeStyle = "#fde047";
+      ctx.beginPath();
+      ctx.moveTo(hx, hy);
+      ctx.lineTo(hx + Math.sin(heroFacing) * 9, hy + Math.cos(heroFacing) * 9);
+      ctx.stroke();
+    }
+  }
+
   dispose() {
     if (this.heroAuraLoop) this.heroAuraLoop.dispose();
+    if (this.heroPetLoop) this.heroPetLoop.dispose();
     if (this.guardShieldLoop) this.guardShieldLoop.dispose();
     if (this.chargeLoop) this.chargeLoop.dispose();
+    for (const r of this.rivals) {
+      if (r.actor) {
+        this.scene.remove(r.actor.mesh);
+        r.actor.dispose();
+      }
+    }
+    this.rivals.length = 0;
+    for (const it of this.pickups) {
+      this.group.remove(it.mesh);
+      it.geo.dispose();
+      it.mat.dispose();
+    }
+    this.pickups.length = 0;
     for (const sl of this.slimes) sl.loop?.dispose();
     this.slimes.length = 0;
     for (const orb of this.enemyOrbs) orb.loop?.dispose();

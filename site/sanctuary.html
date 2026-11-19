@@ -154,7 +154,7 @@
           </button>
         </nav>
 
-        <!-- Top-Left Survival Project Arcade Player HUD -->
+        <!-- Top-Left Survival Project Arcade Player HUD + Mode/Score/Timer -->
         <aside class="sp-player-hud" id="sp-player-hud" aria-label="플레이어 상태 및 게이지">
           <div class="sp-portrait-frame" id="sp-portrait-frame" title="클릭하여 캐릭터 변경">
             <div class="sp-portrait-sprite" id="sp-portrait-sprite" aria-hidden="true"></div>
@@ -166,17 +166,43 @@
               <span class="sp-code-badge" id="sp-code-badge" title="보유 CODE 코인">120 CODE</span>
             </div>
             <div class="sp-bar-row">
+              <span class="sp-bar-label">HP</span>
+              <div class="sp-bar-track"><div class="sp-bar-fill is-hp" id="sp-hp-bar" style="width:100%"></div></div>
+            </div>
+            <div class="sp-bar-row">
               <span class="sp-bar-label">SP</span>
               <div class="sp-bar-track"><div class="sp-bar-fill is-booster" id="sp-booster-bar" style="width:100%"></div></div>
             </div>
             <div class="sp-bar-row">
               <span class="sp-bar-label">MP</span>
-              <div class="sp-bar-track"><div class="sp-bar-fill is-mp" id="sp-mp-bar" style="width:60%"></div></div>
+              <div class="sp-bar-track"><div class="sp-bar-fill is-mp" id="sp-mp-bar" style="width:65%"></div></div>
+            </div>
+          </div>
+          <div class="sp-match-box" id="sp-match-box">
+            <div class="sp-mode-pills" id="sp-mode-pills" role="group" aria-label="게임 모드 선택">
+              <button type="button" class="sp-mode-pill is-active" data-sp-mode="plaza" title="자유 광장 & AI 위클리 아카이브">광장</button>
+              <button type="button" class="sp-mode-pill" data-sp-mode="teamplay" title="서프 팀플레이 대전 (AI 라이벌 난투)">팀대전</button>
+              <button type="button" class="sp-mode-pill" data-sp-mode="soccer" title="강진축구 90초 매치">축구</button>
+            </div>
+            <div class="sp-match-score">
+              <span class="is-blue" id="sp-match-blue">0</span>
+              <span class="is-vs">VS</span>
+              <span class="is-red" id="sp-match-red">0</span>
+              <span class="sp-match-timer" id="sp-match-timer" hidden>02:00</span>
             </div>
           </div>
           <div class="sp-combo-badge" id="sp-combo-badge" hidden>
             <strong id="sp-combo-num">0</strong>
             <span>COMBO</span>
+          </div>
+        </aside>
+
+        <!-- Top-Right Survival Project Real-Time Radar Minimap -->
+        <aside class="sp-minimap-box" id="sp-minimap-box" aria-label="실시간 미니맵 레이더">
+          <canvas id="sp-minimap" width="132" height="132"></canvas>
+          <div class="sp-minimap-foot">
+            <span>RADAR</span>
+            <span id="sp-minimap-mode">PLAZA</span>
           </div>
         </aside>
 
@@ -230,26 +256,29 @@
             </button>
           </div>
           <div class="sp-action-keys">
-            <button type="button" class="sp-key-btn is-melee" id="btn-sp-melee" title="3단 콤보 / 슬라이드 중 대시어택 / 공중 점프어택 (Z 또는 J)">
-              <kbd>Z</kbd><span>콤보·슛</span>
+            <button type="button" class="sp-key-btn is-melee" id="btn-sp-melee" title="3단 콤보 / 슬라이드 중 대시어택 / 공중 점프어택">
+              <kbd id="kbd-sp-melee">Z</kbd><span>콤보·슛</span>
             </button>
-            <button type="button" class="sp-key-btn is-magic" id="btn-sp-magic" title="탭=속성마법 / 길게 홀드=오버차지 강마법 (X 또는 K)">
-              <kbd>X</kbd><span>차지마법</span>
+            <button type="button" class="sp-key-btn is-magic" id="btn-sp-magic" title="탭=속성마법 / 길게 홀드=오버차지 강마법">
+              <kbd id="kbd-sp-magic">X</kbd><span>차지마법</span>
             </button>
-            <button type="button" class="sp-key-btn is-ult" id="btn-sp-ult" title="4속성 필살기 버스트 (V 또는 L)">
-              <kbd>V</kbd><span>필살기</span>
+            <button type="button" class="sp-key-btn is-ult" id="btn-sp-ult" title="4속성 필살기 버스트">
+              <kbd id="kbd-sp-ult">V</kbd><span>필살기</span>
             </button>
-            <button type="button" class="sp-key-btn is-guard" id="btn-sp-guard" title="가드 / 타이밍 맞춰 막으면 저스트 패리 반사 (F 또는 G 홀드)">
-              <kbd>F</kbd><span>가드·패리</span>
+            <button type="button" class="sp-key-btn is-guard" id="btn-sp-guard" title="가드 / 타이밍 맞춰 막으면 저스트 패리 반사">
+              <kbd id="kbd-sp-guard">F</kbd><span>가드·패리</span>
             </button>
-            <button type="button" class="sp-key-btn is-dash" id="btn-hero-dash" title="대시 슬라이딩 / 홀드 시 고속 질주 (Shift)">
-              <kbd>⇧</kbd><span>슬라이드</span>
+            <button type="button" class="sp-key-btn is-dash" id="btn-hero-dash" title="대시 슬라이딩 / 홀드 시 고속 질주">
+              <kbd id="kbd-sp-dash">⇧</kbd><span>슬라이드</span>
             </button>
-            <button type="button" class="sp-key-btn is-jump" id="btn-hero-jump" title="점프 / 슬라이드 중 롱점프 / 공중 Z=내려찍기 (Space)">
-              <kbd>⎵</kbd><span>점프</span>
+            <button type="button" class="sp-key-btn is-jump" id="btn-hero-jump" title="점프 / 슬라이드 중 롱점프">
+              <kbd id="kbd-sp-jump">⎵</kbd><span>점프</span>
             </button>
             <button type="button" class="sp-key-btn is-deck" id="btn-sp-deck" title="4속성 AI 카드 덱 & 합성 강화 (C)">
               <kbd>C</kbd><span>카드덱</span>
+            </button>
+            <button type="button" class="sp-key-btn is-keymap" id="btn-sp-keymap" title="조작 전환: 모던(WASD) ↔ 서프 클래식(방향키+A·S·D·Space)">
+              <kbd id="kbd-sp-keymap">모던</kbd><span>조작키</span>
             </button>
           </div>
         </div>

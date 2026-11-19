@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 /**
- * Sanctuary 2.5D Original HD-2D Chibi Sprite & Environment Baker
- * Generates 100% original 8-directional 28-column sprite sheets (2688x768 RGBA PNG, 96x96 cell)
+ * Sanctuary 2.5D Survival-Project-Style Chibi Sprite & Environment Baker
+ * Generates 100% original 8-directional 32-column sprite sheets (3072x768 RGBA PNG, 96x96 cell)
  * from 3-pose (Front | Profile | Back) magenta-chroma turnaround sheets under scripts/turnarounds/.
- * Includes dedicated Idle, Walk, Run, Dash, Jump, Cast/Cheer, and Sit motions.
+ * Applies 2.2-head Chibi arcade SD re-proportioning, bold dark-ink outline, and distinct keyframes:
+ *   Idle (0..3), Walk (4..9), Run (10..15), Dash/Slide (16..19), Jump (20..23),
+ *   Attack 4-frame Slash (24..27), Cast (28..29), Guard (30), Sit (31).
  */
 
 import fs from "node:fs";
@@ -19,20 +21,21 @@ const MODEL_DIR = path.join(ROOT_DIR, "site/public/assets/models");
 
 const DIRECTIONS = ["S", "SW", "W", "NW", "N", "NE", "E", "SE"];
 const ACTION_COLUMNS = {
-  Idle: { start: 0, end: 3, fps: 6, loop: true },
-  Walk: { start: 4, end: 9, fps: 10, loop: true },
-  Run: { start: 10, end: 15, fps: 14, loop: true },
-  Dash: { start: 16, end: 19, fps: 16, loop: false },
-  Jump: { start: 20, end: 23, fps: 10, loop: false },
-  Cast: { start: 24, end: 26, fps: 9, loop: false },
-  Cheer: { start: 24, end: 26, fps: 9, loop: false },
-  Interact: { start: 24, end: 26, fps: 9, loop: false },
-  Attack: { start: 16, end: 19, fps: 14, loop: false },
-  Sit: { start: 27, end: 27, fps: 4, loop: true },
-  SitChair: { start: 27, end: 27, fps: 4, loop: true },
+  Idle: { start: 0, end: 3, fps: 7, loop: true },
+  Walk: { start: 4, end: 9, fps: 12, loop: true },
+  Run: { start: 10, end: 15, fps: 16, loop: true },
+  Dash: { start: 16, end: 19, fps: 18, loop: false },
+  Jump: { start: 20, end: 23, fps: 11, loop: false },
+  Attack: { start: 24, end: 27, fps: 16, loop: false },
+  Cast: { start: 28, end: 29, fps: 10, loop: false },
+  Cheer: { start: 28, end: 29, fps: 8, loop: false },
+  Interact: { start: 28, end: 29, fps: 8, loop: false },
+  Guard: { start: 30, end: 30, fps: 8, loop: true },
+  Sit: { start: 31, end: 31, fps: 4, loop: true },
+  SitChair: { start: 31, end: 31, fps: 4, loop: true },
 };
 
-const TOTAL_COLS = 28;
+const TOTAL_COLS = 32;
 const TOTAL_ROWS = 8;
 const CELL_SIZE = 96;
 
@@ -124,7 +127,7 @@ function findTwoSplitColumns(rgb, w, h) {
   return [s1, s2];
 }
 
-async function extractAndResizePose(rgb, rw, rh, x0, x1, targetMaxH = 80, targetMaxW = 82) {
+async function extractAndResizePose(rgb, rw, rh, x0, x1, targetMaxH = 82, targetMaxW = 84) {
   const pw = x1 - x0;
   const rgba = new Uint8Array(pw * rh * 4);
   const bgMask = new Uint8Array(pw * rh);
@@ -207,7 +210,7 @@ async function extractAndResizePose(rgb, rw, rh, x0, x1, targetMaxH = 80, target
     }
   }
 
-  // 3. Despill magenta fringe on edge pixels
+  // 3. Despill magenta fringe
   for (let pass = 0; pass < 2; pass++) {
     for (let py = 1; py < rh - 1; py++) {
       for (let px = 1; px < pw - 1; px++) {
@@ -255,7 +258,7 @@ async function extractAndResizePose(rgb, rw, rh, x0, x1, targetMaxH = 80, target
     Buffer.from(rgba.buffer, srcOff, tw * 4).copy(cropped, dstOff);
   }
 
-  // 5. Resize proportionally with crisp Lanczos3 + subtle vividness polish & alpha threshold
+  // 5. Resize proportionally with Lanczos3 + Chibi 2.2-Head SD Re-Proportioning + Crisp Cartoon Outline
   const scale = Math.min(targetMaxH / th, targetMaxW / tw);
   const rwOut = Math.max(1, Math.round(tw * scale));
   const rhOut = Math.max(1, Math.round(th * scale));
@@ -267,52 +270,101 @@ async function extractAndResizePose(rgb, rw, rh, x0, x1, targetMaxH = 80, target
     .raw()
     .toBuffer({ resolveWithObject: true });
 
-  const out = new Uint8Array(resized);
+  const rawOut = new Uint8Array(resized);
   const ow = info.width;
   const oh = info.height;
-  for (let i = 0; i < out.length; i += 4) {
-    if (out[i + 3] < 145) {
-      out[i] = 0; out[i + 1] = 0; out[i + 2] = 0; out[i + 3] = 0;
+
+  // Survival Project bright arcade cel vibrancy boost + threshold
+  for (let i = 0; i < rawOut.length; i += 4) {
+    if (rawOut[i + 3] < 140) {
+      rawOut[i] = 0; rawOut[i + 1] = 0; rawOut[i + 2] = 0; rawOut[i + 3] = 0;
     } else {
-      out[i + 3] = 255;
-      let r = out[i], g = out[i + 1], b = out[i + 2];
+      rawOut[i + 3] = 255;
+      let r = rawOut[i], g = rawOut[i + 1], b = rawOut[i + 2];
       const spill = Math.min(r, b) - g;
-      if (spill > 40 && Math.abs(r - b) < 75 && r > 135 && b > 135) {
+      if (spill > 38 && Math.abs(r - b) < 75 && r > 135 && b > 135) {
         r = Math.max(0, r - spill);
         b = Math.max(0, b - spill);
       }
-      // Gentle anime color vibrancy boost (keeps skin & dark outlines clean)
       const [h, s, l] = rgbToHsl(r, g, b);
-      if (l > 0.14 && l < 0.92 && s > 0.12) {
-        [r, g, b] = hslToRgb(h, Math.min(1, s * 1.08), Math.min(0.95, l * 1.02));
+      if (l > 0.14 && l < 0.92 && s > 0.1) {
+        [r, g, b] = hslToRgb(h, Math.min(1, s * 1.14), Math.min(0.95, l * 1.04));
       }
-      out[i] = r; out[i + 1] = g; out[i + 2] = b;
+      rawOut[i] = r; rawOut[i + 1] = g; rawOut[i + 2] = b;
     }
   }
 
-  // 6. Clean warm sepia outline smoothing on outer rim
-  for (let py = 1; py < oh - 1; py++) {
-    for (let px = 1; px < ow - 1; px++) {
-      const idx = py * ow + px;
+  // Re-proportion vertically into cute 2.2-head Survival Project Chibi proportions:
+  // Expand head band (top 0..42% -> 48%), slightly widen head & torso, compact legs (72..100% -> 22%)
+  const cw = ow + 8;
+  const ch = oh;
+  const chibi = new Uint8Array(cw * ch * 4);
+  for (let dy = 0; dy < ch; dy++) {
+    const ny = dy / ch;
+    let srcNy;
+    let bandScaleX;
+    if (ny < 0.48) {
+      srcNy = (ny / 0.48) * 0.42;
+      bandScaleX = 1.12;
+    } else if (ny < 0.78) {
+      srcNy = 0.42 + ((ny - 0.48) / 0.30) * 0.31;
+      bandScaleX = 1.05;
+    } else {
+      srcNy = 0.73 + ((ny - 0.78) / 0.22) * 0.27;
+      bandScaleX = 1.02;
+    }
+    const sy = Math.min(oh - 1, Math.floor(srcNy * oh));
+    const halfCw = cw * 0.5;
+    const halfOw = ow * 0.5;
+    for (let dx = 0; dx < cw; dx++) {
+      const sx = Math.round(halfOw + (dx - halfCw) / bandScaleX);
+      if (sx < 0 || sx >= ow) continue;
+      const si = (sy * ow + sx) * 4;
+      if (rawOut[si + 3] === 0) continue;
+      const di = (dy * cw + dx) * 4;
+      chibi[di] = rawOut[si];
+      chibi[di + 1] = rawOut[si + 1];
+      chibi[di + 2] = rawOut[si + 2];
+      chibi[di + 3] = 255;
+    }
+  }
+
+  // Add crisp 1px dark arcade cartoon rim outline where transparent borders opaque pixels
+  const outlined = new Uint8Array(chibi);
+  for (let py = 1; py < ch - 1; py++) {
+    for (let px = 1; px < cw - 1; px++) {
+      const idx = py * cw + px;
       const di = idx * 4;
-      if (out[di + 3] === 0) continue;
-      const touchesBg =
-        out[((py - 1) * ow + px) * 4 + 3] === 0 ||
-        out[((py + 1) * ow + px) * 4 + 3] === 0 ||
-        out[(py * ow + px - 1) * 4 + 3] === 0 ||
-        out[(py * ow + px + 1) * 4 + 3] === 0;
-      if (touchesBg) {
-        const luma = (out[di] + out[di + 1] + out[di + 2]) / 3;
-        if (luma < 90) {
-          out[di] = Math.min(68, Math.round(out[di] * 0.75 + 14));
-          out[di + 1] = Math.min(48, Math.round(out[di + 1] * 0.72 + 8));
-          out[di + 2] = Math.min(46, Math.round(out[di + 2] * 0.72 + 8));
+      if (chibi[di + 3] > 0) {
+        // Darken rim pixels slightly for clean cartoon crispness
+        const rim =
+          chibi[((py - 1) * cw + px) * 4 + 3] === 0 ||
+          chibi[((py + 1) * cw + px) * 4 + 3] === 0 ||
+          chibi[(py * cw + px - 1) * 4 + 3] === 0 ||
+          chibi[(py * cw + px + 1) * 4 + 3] === 0;
+        if (rim) {
+          const luma = (chibi[di] + chibi[di + 1] + chibi[di + 2]) / 3;
+          if (luma < 115) {
+            outlined[di] = 28; outlined[di + 1] = 20; outlined[di + 2] = 34;
+          }
         }
+        continue;
+      }
+      const touchesOpaque =
+        chibi[((py - 1) * cw + px) * 4 + 3] > 0 ||
+        chibi[((py + 1) * cw + px) * 4 + 3] > 0 ||
+        chibi[(py * cw + px - 1) * 4 + 3] > 0 ||
+        chibi[(py * cw + px + 1) * 4 + 3] > 0;
+      if (touchesOpaque) {
+        outlined[di] = 30;
+        outlined[di + 1] = 22;
+        outlined[di + 2] = 36;
+        outlined[di + 3] = 255;
       }
     }
   }
 
-  return { w: ow, h: oh, data: out };
+  return { w: cw, h: ch, data: outlined };
 }
 
 function adaptPoseColors(cut, { hueShift = 0, satMult = 1.0 } = {}) {
@@ -346,6 +398,63 @@ function putPixelBlend(buf, w, h, x, y, r, g, b, a) {
     buf[i + 1] = Math.round(buf[i + 1] * inv + g * alpha);
     buf[i + 2] = Math.round(buf[i + 2] * inv + b * alpha);
     buf[i + 3] = Math.min(255, Math.max(buf[i + 3], a));
+  }
+}
+
+function drawArcSlash(cell, facingSign, phase, auraRgb) {
+  const [ar, ag, ab] = auraRgb;
+  const cx = CELL_SIZE * 0.5 + facingSign * 14;
+  const cy = CELL_SIZE * 0.56;
+  const radius = 26 + phase * 6;
+  const startA = facingSign >= 0 ? -1.45 + phase * 1.1 : Math.PI - 0.65 + phase * 1.1;
+  const sweep = 2.05;
+  for (let step = 0; step <= 48; step++) {
+    const t = step / 48;
+    const ang = startA + t * sweep * (facingSign >= 0 ? 1 : -1);
+    const thickness = Math.round((1 - Math.abs(t - 0.5) * 1.5) * 5) + 1;
+    for (let rOff = -thickness; rOff <= thickness; rOff++) {
+      const px = cx + Math.cos(ang) * (radius + rOff * 0.9);
+      const py = cy + Math.sin(ang) * (radius * 0.68 + rOff * 0.7);
+      const isCore = Math.abs(rOff) <= 1;
+      putPixelBlend(
+        cell,
+        CELL_SIZE,
+        CELL_SIZE,
+        px,
+        py,
+        isCore ? 255 : ar,
+        isCore ? 255 : ag,
+        isCore ? 245 : ab,
+        isCore ? 245 : 190
+      );
+    }
+  }
+}
+
+function drawGuardBarrier(cell, facingSign) {
+  const cx = CELL_SIZE * 0.5 + facingSign * 14;
+  const cy = CELL_SIZE * 0.58;
+  const rx = 20;
+  const ry = 28;
+  for (let step = 0; step <= 64; step++) {
+    const a = -Math.PI * 0.45 + (step / 64) * Math.PI * 0.9;
+    const dir = facingSign >= 0 ? 1 : -1;
+    for (let thick = -2; thick <= 2; thick++) {
+      const px = cx + dir * Math.cos(a) * (rx + thick);
+      const py = cy + Math.sin(a) * (ry + thick * 0.5);
+      const isEdge = Math.abs(thick) === 2;
+      putPixelBlend(
+        cell,
+        CELL_SIZE,
+        CELL_SIZE,
+        px,
+        py,
+        isEdge ? 255 : 56,
+        isEdge ? 255 : 189,
+        248,
+        isEdge ? 240 : 185
+      );
+    }
   }
 }
 
@@ -385,90 +494,105 @@ function renderCellFrom3Views(frontCut, sideCut, backCut, dir, col, auraRgb, sid
   const sw = src.w;
   const sh = src.h;
 
-  // Map col (0..27) to action & normalized phase
+  // Map col (0..31) to Survival Project Action & phase
   let action = "Idle", phase = 0;
   if (col <= 3) { action = "Idle"; phase = col / 4; }
   else if (col <= 9) { action = "Walk"; phase = (col - 4) / 6; }
   else if (col <= 15) { action = "Run"; phase = (col - 10) / 6; }
   else if (col <= 19) { action = "Dash"; phase = (col - 16) / 4; }
   else if (col <= 23) { action = "Jump"; phase = (col - 20) / 4; }
-  else if (col <= 26) { action = "Cast"; phase = (col - 24) / 3; }
+  else if (col <= 27) { action = "Attack"; phase = (col - 24) / 4; }
+  else if (col <= 29) { action = "Cast"; phase = (col - 28) / 2; }
+  else if (col === 30) { action = "Guard"; phase = 0; }
   else { action = "Sit"; phase = 0; }
 
   const facingSign = (dir === 6 || dir === 7 || dir === 5) ? 1 : (dir === 2 || dir === 1 || dir === 3) ? -1 : 0;
-  const idleBob = action === "Idle" ? (col === 1 || col === 2 ? 1 : 0) : 0;
+  const idleBob = action === "Idle" ? (col === 1 || col === 2 ? 1.5 : 0) : 0;
   const walkWave = action === "Walk" ? Math.sin(phase * Math.PI * 2) : 0;
-  const walkLift = action === "Walk" ? -Math.abs(Math.round(Math.cos(phase * Math.PI * 2) * 1.8)) : 0;
+  const walkLift = action === "Walk" ? -Math.abs(Math.round(Math.cos(phase * Math.PI * 2) * 2.2)) : 0;
 
-  // Run: faster bounce, dynamic forward lean, wider stride
   const runWave = action === "Run" ? Math.sin(phase * Math.PI * 2) : 0;
-  const runLift = action === "Run" ? -Math.abs(Math.round(Math.cos(phase * Math.PI * 2) * 3.5)) : 0;
+  const runLift = action === "Run" ? -Math.abs(Math.round(Math.cos(phase * Math.PI * 2) * 4.2)) : 0;
 
-  // Dash: strong forward lean + aerodynamic stretch
-  const dashSurge = action === "Dash" ? Math.sin((phase + 0.15) * Math.PI * 0.85) : 0;
+  const dashSurge = action === "Dash" ? (0.75 + 0.25 * Math.sin(phase * Math.PI)) : 0;
 
-  // Jump: 0 = squash takeoff, 1..2 = tucked airborne stretch, 3 = landing prep
-  let jumpScaleY = 1.0;
-  let jumpScaleX = 1.0;
-  let jumpLiftY = 0;
+  // Jump: 20 = launch squat, 21..22 = tucked knees high, 23 = landing stretch
+  let jumpScaleY = 1.0, jumpScaleX = 1.0, jumpLiftY = 0;
   if (action === "Jump") {
-    if (col === 20) {
-      jumpScaleY = 0.86; jumpScaleX = 1.12; jumpLiftY = 1;
-    } else if (col === 21) {
-      jumpScaleY = 1.08; jumpScaleX = 0.93; jumpLiftY = -6;
-    } else if (col === 22) {
-      jumpScaleY = 1.04; jumpScaleX = 0.96; jumpLiftY = -8;
-    } else {
-      jumpScaleY = 0.92; jumpScaleX = 1.06; jumpLiftY = -2;
-    }
+    if (col === 20) { jumpScaleY = 0.80; jumpScaleX = 1.16; jumpLiftY = 2; }
+    else if (col === 21) { jumpScaleY = 1.06; jumpScaleX = 0.94; jumpLiftY = -7; }
+    else if (col === 22) { jumpScaleY = 1.02; jumpScaleX = 0.98; jumpLiftY = -9; }
+    else { jumpScaleY = 0.88; jumpScaleX = 1.10; jumpLiftY = -1; }
   }
 
-  const castLift = action === "Cast" ? -Math.round(Math.sin((phase + 0.2) * Math.PI) * 3.2) : 0;
+  // Attack 4-frame lunge & squash
+  let atkScaleX = 1.0, atkScaleY = 1.0, atkShiftX = 0;
+  if (action === "Attack") {
+    if (col === 24) { atkScaleX = 0.94; atkScaleY = 1.04; atkShiftX = -facingSign * 4; }
+    else if (col === 25) { atkScaleX = 1.14; atkScaleY = 0.90; atkShiftX = facingSign * 8; }
+    else if (col === 26) { atkScaleX = 1.10; atkScaleY = 0.94; atkShiftX = facingSign * 6; }
+    else { atkScaleX = 1.02; atkScaleY = 0.98; atkShiftX = facingSign * 2; }
+  }
+
+  const castLift = action === "Cast" ? -Math.round(Math.sin((phase + 0.25) * Math.PI) * 3.8) : 0;
+  const guardScaleX = action === "Guard" ? 1.12 : 1.0;
+  const guardScaleY = action === "Guard" ? 0.88 : 1.0;
   const sitScaleY = action === "Sit" ? 0.84 : 1.0;
 
+  const dashCompressY = action === "Dash" ? 0.78 : 1.0;
+  const dashStretchX = action === "Dash" ? 1.16 : 1.0;
+
   const baseBottomY = CELL_SIZE - 4;
-  const targetH = Math.min(84, sh) * sitScaleY * jumpScaleY * (action === "Dash" ? 0.94 : 1.0);
+  const targetH = Math.min(84, sh) * sitScaleY * jumpScaleY * atkScaleY * guardScaleY * dashCompressY;
   const scaleY = targetH / sh;
-  const targetW = Math.round(sw * widthScale * jumpScaleX * (action === "Dash" ? 1.08 : 1.0));
+  const targetW = Math.round(sw * widthScale * jumpScaleX * atkScaleX * guardScaleX * dashStretchX);
 
   for (let dy = 0; dy < Math.round(targetH); dy++) {
     const syFloat = dy / scaleY;
     const sy = Math.min(sh - 1, Math.floor(syFloat));
     const normY = sy / sh;
 
-    let rowOffsetX = 0;
+    let rowOffsetX = atkShiftX;
     let rowOffsetY = idleBob + walkLift + runLift + jumpLiftY + castLift;
 
     if (action === "Walk") {
-      if (normY > 0.78) {
-        rowOffsetX += walkWave * 2.5;
-        rowOffsetY += normY > 0.88 ? Math.round(Math.abs(walkWave) * -1.4) : 0;
-      } else if (normY > 0.4) {
-        rowOffsetX += walkWave * 0.6;
+      if (normY > 0.74) {
+        rowOffsetX += walkWave * 3.4;
+        rowOffsetY += normY > 0.85 ? Math.round(Math.abs(walkWave) * -2.2) : 0;
+      } else if (normY > 0.44) {
+        rowOffsetX += walkWave * 0.9;
       }
     } else if (action === "Run") {
-      // Forward torso lean in movement direction
-      const leanDir = facingSign !== 0 ? facingSign : 0.4;
-      rowOffsetX += leanDir * (1 - normY) * 4.5;
-      if (normY > 0.74) {
-        rowOffsetX += runWave * 4.2;
-        rowOffsetY += normY > 0.85 ? Math.round(Math.abs(runWave) * -2.6) : 0;
-      } else if (normY < 0.35) {
-        // Hair flutter back slightly
-        rowOffsetX -= leanDir * Math.abs(runWave) * 1.1;
+      const leanDir = facingSign !== 0 ? facingSign : 0.45;
+      rowOffsetX += leanDir * (1 - normY) * 6.5;
+      if (normY > 0.70) {
+        rowOffsetX += runWave * 5.6;
+        rowOffsetY += normY > 0.82 ? Math.round(Math.abs(runWave) * -3.5) : 0;
+      } else if (normY < 0.38) {
+        rowOffsetX -= leanDir * Math.abs(runWave) * 1.4;
       }
     } else if (action === "Dash") {
-      const leanDir = facingSign !== 0 ? facingSign : 0.7;
-      rowOffsetX += leanDir * (1 - normY) * (7.5 * dashSurge);
-      rowOffsetY += Math.round(-2 * dashSurge);
+      // Iconic Survival Project crouched skating forward slide!
+      const leanDir = facingSign !== 0 ? facingSign : 0.85;
+      rowOffsetX += leanDir * ((1 - normY) * 12.5 * dashSurge - 4.0);
+      if (normY > 0.76) {
+        // Rear trailing skate kick!
+        rowOffsetX -= leanDir * (normY - 0.76) * 26;
+        rowOffsetY -= Math.round((normY - 0.76) * 8);
+      }
     } else if (action === "Jump") {
-      if ((col === 21 || col === 22) && normY > 0.76) {
-        // Tuck legs up slightly mid-air
-        rowOffsetY -= Math.round((normY - 0.76) * 14);
+      if ((col === 21 || col === 22) && normY > 0.72) {
+        rowOffsetY -= Math.round((normY - 0.72) * 18);
+      }
+    } else if (action === "Attack") {
+      const leanDir = facingSign !== 0 ? facingSign : 0.6;
+      const swingFactor = col === 24 ? -0.5 : col === 25 ? 1.1 : col === 26 ? 0.7 : 0.2;
+      if (normY < 0.72) {
+        rowOffsetX += leanDir * (1 - normY) * 6.5 * swingFactor;
       }
     } else if (action === "Sit") {
-      if (normY > 0.74) {
-        rowOffsetX += (flipX ? 3.5 : -3.5) * ((normY - 0.74) / 0.26);
+      if (normY > 0.72) {
+        rowOffsetX += (flipX ? 4.5 : -4.5) * ((normY - 0.72) / 0.28);
       }
       rowOffsetY += 1;
     }
@@ -484,14 +608,17 @@ function renderCellFrom3Views(frontCut, sideCut, backCut, dir, col, auraRgb, sid
       if (a === 0) continue;
 
       let localX = dx;
-      if ((action === "Walk" || action === "Run") && normY > 0.76) {
-        const wave = action === "Run" ? runWave * 3.4 : walkWave * 1.9;
+      if ((action === "Walk" || action === "Run") && normY > 0.72) {
+        const wave = action === "Run" ? runWave * 4.5 : walkWave * 2.6;
         const isLeftHalf = dx < targetW * 0.5;
         localX += isLeftHalf ? wave : -wave;
-      } else if (action === "Jump" && (col === 21 || col === 22) && normY > 0.76) {
-        const spread = (normY - 0.76) * 8;
+      } else if (action === "Jump" && (col === 21 || col === 22) && normY > 0.74) {
+        const spread = (normY - 0.74) * 10;
         const isLeftHalf = dx < targetW * 0.5;
         localX += isLeftHalf ? -spread : spread;
+      } else if (action === "Guard" && normY > 0.72) {
+        const isLeftHalf = dx < targetW * 0.5;
+        localX += isLeftHalf ? -3.5 : 3.5;
       }
 
       const destX = Math.round(CELL_SIZE * 0.5 - targetW * 0.5 + localX + rowOffsetX);
@@ -504,48 +631,58 @@ function renderCellFrom3Views(frontCut, sideCut, backCut, dir, col, auraRgb, sid
     }
   }
 
-  // Dash speedlines & subtle glowing edge trail
+  // Dash speed streaks & tan dust wisps
   if (action === "Dash") {
     const [ar, ag, ab] = auraRgb;
     const trailDir = facingSign !== 0 ? -facingSign : -1;
     const lines = [
-      { y: 28, len: 18, off: 12 },
-      { y: 46, len: 24, off: 16 },
-      { y: 64, len: 20, off: 14 },
-      { y: 78, len: 16, off: 10 },
+      { y: 36, len: 20, off: 10 },
+      { y: 54, len: 26, off: 14 },
+      { y: 70, len: 22, off: 12 },
+      { y: 84, len: 18, off: 8 },
     ];
     for (const ln of lines) {
       const startX = CELL_SIZE * 0.5 + trailDir * (ln.off + phase * 6);
       for (let t = 0; t < ln.len; t++) {
-        const fade = Math.round((1 - t / ln.len) * 190 * dashSurge);
+        const fade = Math.round((1 - t / ln.len) * 210 * dashSurge);
         const px = startX + trailDir * t;
         putPixelBlend(cell, CELL_SIZE, CELL_SIZE, px, ln.y, ar, ag, ab, fade);
         if (t < ln.len * 0.5) {
-          putPixelBlend(cell, CELL_SIZE, CELL_SIZE, px, ln.y - 1, 255, 252, 238, Math.round(fade * 0.7));
+          putPixelBlend(cell, CELL_SIZE, CELL_SIZE, px, ln.y - 1, 255, 252, 238, Math.round(fade * 0.75));
         }
       }
     }
   }
 
-  // Cast / Cheer celebratory sparkle aura
+  // Attack crescent weapon arc right on the action frames
+  if (action === "Attack" && (col === 25 || col === 26)) {
+    drawArcSlash(cell, facingSign !== 0 ? facingSign : 1, (col - 25) * 0.5, auraRgb);
+  }
+
+  // Guard energy shield right in front
+  if (action === "Guard") {
+    drawGuardBarrier(cell, facingSign !== 0 ? facingSign : 1);
+  }
+
+  // Cast celebratory / elemental charge sparkles
   if (action === "Cast") {
     const [ar, ag, ab] = auraRgb;
-    const pulse = 0.6 + 0.4 * Math.sin(phase * Math.PI);
-    const sparkles = [[22, 30], [74, 26], [26, 60], [70, 56], [48, 12]];
+    const pulse = 0.7 + 0.3 * Math.sin(phase * Math.PI);
+    const sparkles = [[20, 26], [76, 22], [24, 58], [72, 54], [48, 10]];
     sparkles.forEach(([sx, sy], idx) => {
       const syAnim = sy - Math.round((phase * 10 + idx * 2) % 12);
-      putPixelBlend(cell, CELL_SIZE, CELL_SIZE, sx, syAnim, 255, 255, 255, Math.round(235 * pulse));
-      putPixelBlend(cell, CELL_SIZE, CELL_SIZE, sx - 1, syAnim, ar, ag, ab, Math.round(170 * pulse));
-      putPixelBlend(cell, CELL_SIZE, CELL_SIZE, sx + 1, syAnim, ar, ag, ab, Math.round(170 * pulse));
-      putPixelBlend(cell, CELL_SIZE, CELL_SIZE, sx, syAnim - 1, ar, ag, ab, Math.round(170 * pulse));
-      putPixelBlend(cell, CELL_SIZE, CELL_SIZE, sx, syAnim + 1, ar, ag, ab, Math.round(170 * pulse));
+      putPixelBlend(cell, CELL_SIZE, CELL_SIZE, sx, syAnim, 255, 255, 255, Math.round(240 * pulse));
+      putPixelBlend(cell, CELL_SIZE, CELL_SIZE, sx - 1, syAnim, ar, ag, ab, Math.round(180 * pulse));
+      putPixelBlend(cell, CELL_SIZE, CELL_SIZE, sx + 1, syAnim, ar, ag, ab, Math.round(180 * pulse));
+      putPixelBlend(cell, CELL_SIZE, CELL_SIZE, sx, syAnim - 1, ar, ag, ab, Math.round(180 * pulse));
+      putPixelBlend(cell, CELL_SIZE, CELL_SIZE, sx, syAnim + 1, ar, ag, ab, Math.round(180 * pulse));
     });
   }
 
   return cell;
 }
 
-async function bakeCharacter({ name, file, aura, height = 2.32, sideFacesRight = false, adapt = null }) {
+async function bakeCharacter({ name, file, aura, height = 2.52, sideFacesRight = false, adapt = null }) {
   const { data, info } = await sharp(file).removeAlpha().raw().toBuffer({ resolveWithObject: true });
   const [s1, s2] = findTwoSplitColumns(data, info.width, info.height);
 
@@ -595,7 +732,7 @@ async function bakeCharacter({ name, file, aura, height = 2.32, sideFacesRight =
     columns: ACTION_COLUMNS,
   };
   fs.writeFileSync(atlasPath, JSON.stringify(atlas, null, 2), "utf8");
-  console.log(`[Bake] ${name}: front=${frontCut.w}x${frontCut.h} side=${sideCut.w}x${sideCut.h} back=${backCut.w}x${backCut.h} -> ${path.relative(ROOT_DIR, sheetPath)}`);
+  console.log(`[Bake] ${name}: chibi=${frontCut.w}x${frontCut.h} cols=${TOTAL_COLS} -> ${path.relative(ROOT_DIR, sheetPath)}`);
 }
 
 /* ---------- Minimal Valid Binary glTF 2.0 Placeholder ---------- */
@@ -645,16 +782,16 @@ async function main() {
   fs.mkdirSync(MODEL_DIR, { recursive: true });
 
   const specs = [
-    { name: "Solar_Guard", file: path.join(TURNAROUND_DIR, "Solar_Guard_turnaround.jpg"), aura: [251, 191, 36], height: 2.32 },
-    { name: "Astral_Sage", file: path.join(TURNAROUND_DIR, "Astral_Sage_turnaround.jpg"), aura: [56, 189, 248], height: 2.28 },
-    { name: "Shadow_Reaper", file: path.join(TURNAROUND_DIR, "Shadow_Reaper_turnaround.jpg"), aura: [244, 63, 94], height: 2.32 },
-    { name: "Curator_Ella", file: path.join(TURNAROUND_DIR, "Curator_Ella_turnaround.jpg"), aura: [251, 191, 36], height: 2.28 },
-    { name: "Curator_Luna", file: path.join(TURNAROUND_DIR, "Curator_Luna_turnaround.jpg"), aura: [251, 113, 133], height: 2.28 },
-    { name: "Curator_Leon", file: path.join(TURNAROUND_DIR, "Curator_Leon_turnaround.jpg"), aura: [52, 211, 153], height: 2.38, sideFacesRight: true },
-    { name: "Citizen_Ranger", file: path.join(TURNAROUND_DIR, "Citizen_Ranger_turnaround.jpg"), aura: [250, 204, 21], height: 2.24 },
-    { name: "Citizen_Minstrel", file: path.join(TURNAROUND_DIR, "Citizen_Minstrel_turnaround.jpg"), aura: [251, 113, 133], height: 2.28 },
-    { name: "Citizen_Sura", file: path.join(TURNAROUND_DIR, "Citizen_Ranger_turnaround.jpg"), aura: [251, 146, 60], height: 2.24, adapt: { hueShift: 0.34, satMult: 1.1 } },
-    { name: "Citizen_Mechanic", file: path.join(TURNAROUND_DIR, "Curator_Ella_turnaround.jpg"), aura: [56, 189, 248], height: 2.24, adapt: { hueShift: 0.16, satMult: 1.1 } },
+    { name: "Solar_Guard", file: path.join(TURNAROUND_DIR, "Solar_Guard_turnaround.jpg"), aura: [251, 191, 36], height: 2.52 },
+    { name: "Astral_Sage", file: path.join(TURNAROUND_DIR, "Astral_Sage_turnaround.jpg"), aura: [56, 189, 248], height: 2.48 },
+    { name: "Shadow_Reaper", file: path.join(TURNAROUND_DIR, "Shadow_Reaper_turnaround.jpg"), aura: [244, 63, 94], height: 2.52 },
+    { name: "Curator_Ella", file: path.join(TURNAROUND_DIR, "Curator_Ella_turnaround.jpg"), aura: [251, 191, 36], height: 2.48 },
+    { name: "Curator_Luna", file: path.join(TURNAROUND_DIR, "Curator_Luna_turnaround.jpg"), aura: [251, 113, 133], height: 2.48 },
+    { name: "Curator_Leon", file: path.join(TURNAROUND_DIR, "Curator_Leon_turnaround.jpg"), aura: [52, 211, 153], height: 2.55, sideFacesRight: true },
+    { name: "Citizen_Ranger", file: path.join(TURNAROUND_DIR, "Citizen_Ranger_turnaround.jpg"), aura: [250, 204, 21], height: 2.45 },
+    { name: "Citizen_Minstrel", file: path.join(TURNAROUND_DIR, "Citizen_Minstrel_turnaround.jpg"), aura: [251, 113, 133], height: 2.46 },
+    { name: "Citizen_Sura", file: path.join(TURNAROUND_DIR, "Citizen_Ranger_turnaround.jpg"), aura: [251, 146, 60], height: 2.46, adapt: { hueShift: 0.34, satMult: 1.1 } },
+    { name: "Citizen_Mechanic", file: path.join(TURNAROUND_DIR, "Curator_Ella_turnaround.jpg"), aura: [56, 189, 248], height: 2.46, adapt: { hueShift: 0.16, satMult: 1.1 } },
   ];
 
   for (const sp of specs) {

@@ -7175,8 +7175,8 @@ body.sc-fullscreen-page .sc-reader-head {
 .sc-chat-box {
   position: absolute;
   left: 12px;
-  bottom: 12px;
-  width: min(312px, calc(100vw - 24px));
+  bottom: 10px;
+  width: min(278px, calc(100vw - 24px));
   z-index: 9;
   display: flex;
   flex-direction: column;
@@ -7982,10 +7982,10 @@ html[data-theme="light"] .sc-atmo-btn.is-action {
   margin-left: 2px;
 }
 
-/* Top-Left Survival Project Player HUD (Portrait + SP/MP + CODE + Combo) */
+/* Top-Left Survival Project Player HUD (Portrait + HP/SP/MP + CODE + Mode/Score + Combo) */
 .sp-player-hud {
   position: absolute;
-  top: 12px;
+  top: 54px;
   left: 12px;
   z-index: 6;
   display: flex;
@@ -8135,14 +8135,14 @@ html[data-theme="light"] .sc-atmo-btn.is-action {
 /* Bottom-Center Survival Project 3-Slot Card & Arcade Action Dock */
 .sp-arcade-dock {
   position: absolute;
-  left: 50%;
-  bottom: 12px;
+  left: calc(50% + 22px);
+  bottom: 10px;
   transform: translateX(-50%);
   z-index: 6;
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 8px;
+  gap: 5px;
+  padding: 5px 6px;
   border-radius: 16px;
   border: 1.5px solid rgba(255, 255, 255, 0.22);
   background: rgba(12, 18, 32, 0.8);
@@ -8165,9 +8165,9 @@ html[data-theme="light"] .sc-atmo-btn.is-action {
   flex-direction: column;
   align-items: stretch;
   justify-content: space-between;
-  min-width: 92px;
-  height: 46px;
-  padding: 5px 8px;
+  min-width: 78px;
+  height: 44px;
+  padding: 4px 6px;
   border-radius: 9px;
   border: 1.5px solid rgba(226, 232, 240, 0.45);
   background: linear-gradient(150deg, rgba(255, 255, 255, 0.16), rgba(15, 23, 42, 0.88));
@@ -8236,9 +8236,9 @@ html[data-theme="light"] .sc-atmo-btn.is-action {
   align-items: center;
   justify-content: center;
   gap: 1px;
-  min-width: 52px;
-  height: 46px;
-  padding: 3px 7px;
+  min-width: 46px;
+  height: 44px;
+  padding: 2px 5px;
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.16);
   background: rgba(30, 41, 59, 0.82);
@@ -8494,4 +8494,162 @@ html[data-theme="light"] .sc-atmo-btn.is-action {
     height: 40px;
     padding: 2px 4px;
   }
+}
+
+/* ---------- Survival Project Classic UI Enhancements (1P Shield, HP/MP Bars, Radar, Mode Selector) ---------- */
+.sp-plate-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.sp-team-shield {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  height: 15px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 900;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+}
+.sp-team-shield[hidden],
+.sp-mini-bars[hidden] {
+  display: none !important;
+}
+.sp-team-shield[data-team="blue"] { background: linear-gradient(180deg, #2563eb, #1d4ed8); }
+.sp-team-shield[data-team="red"] { background: linear-gradient(180deg, #ef4444, #b91c1c); }
+.sp-mini-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5px;
+  width: 66px;
+  margin-top: 2px;
+}
+.sp-mini-track {
+  width: 100%;
+  height: 3.5px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.9);
+  border: 0.5px solid rgba(255, 255, 255, 0.25);
+  overflow: hidden;
+}
+.sp-mini-fill {
+  height: 100%;
+  transition: width 0.1s linear;
+}
+.sp-mini-fill.is-hp { background: linear-gradient(90deg, #22c55e, #86efac); }
+.sp-mini-fill.is-mp { background: linear-gradient(90deg, #f59e0b, #fde047); }
+
+/* Hero Player HUD Glossy Blue-Gold Metal Accent + HP Bar + Match Mode Box */
+.sp-player-hud {
+  border: 1.5px solid rgba(250, 204, 21, 0.45);
+  background: linear-gradient(180deg, rgba(16, 36, 74, 0.88), rgba(10, 20, 42, 0.9));
+}
+.sp-portrait-sprite {
+  background-size: 3200% 800%;
+}
+.sp-bar-fill.is-hp {
+  background: linear-gradient(90deg, #16a34a, #4ade80);
+  box-shadow: 0 0 8px rgba(74, 222, 128, 0.45);
+}
+.sp-match-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding-left: 9px;
+  border-left: 1px solid rgba(255, 255, 255, 0.16);
+}
+.sp-mode-pills {
+  display: flex;
+  gap: 3px;
+}
+.sp-mode-pill {
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(15, 23, 42, 0.72);
+  color: #cbd5e1;
+  font-size: 10px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.sp-mode-pill.is-active {
+  border-color: #facc15;
+  background: linear-gradient(180deg, #2563eb, #1e40af);
+  color: #fde047;
+}
+.sp-match-score {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 900;
+}
+.sp-match-score .is-blue { color: #38bdf8; }
+.sp-match-score .is-vs { font-size: 9px; color: #facc15; }
+.sp-match-score .is-red { color: #fb7185; }
+.sp-match-timer {
+  margin-left: 4px;
+  padding: 1px 5px;
+  border-radius: 5px;
+  background: rgba(250, 204, 21, 0.18);
+  border: 1px solid rgba(250, 204, 21, 0.45);
+  color: #fde047;
+  font-size: 10.5px;
+}
+
+/* Top-Right Real-Time Radar Minimap */
+.sp-minimap-box {
+  position: absolute;
+  top: 54px;
+  right: 12px;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px;
+  border-radius: 12px;
+  border: 1.5px solid rgba(250, 204, 21, 0.48);
+  background: rgba(8, 22, 48, 0.82);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 24px rgba(2, 6, 23, 0.38);
+  pointer-events: auto;
+}
+.sp-minimap-box canvas {
+  display: block;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+.sp-minimap-foot {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 3px 3px 0;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 800;
+  color: #fde047;
+}
+
+/* Cobalt-Blue & Gold Metal Bottom Action Dock */
+.sp-arcade-dock {
+  border: 1.5px solid rgba(250, 204, 21, 0.48);
+  background: linear-gradient(180deg, rgba(20, 44, 88, 0.88), rgba(10, 20, 44, 0.92));
+}
+.sp-key-btn.is-keymap {
+  background: linear-gradient(180deg, rgba(37, 99, 235, 0.45), rgba(30, 58, 138, 0.72));
+  border-color: rgba(96, 165, 250, 0.65);
+}
+.sp-key-btn.is-keymap.is-classic {
+  border-color: #facc15;
+  box-shadow: 0 0 12px rgba(250, 204, 21, 0.45);
+}
+@media (max-width: 960px) {
+  .sp-minimap-box, .sp-match-box { display: none; }
 }
