@@ -310,6 +310,19 @@ export class SanctuaryVFX {
     this.overlayLayer.appendChild(el);
   }
 
+  spawnDamageNumber(x, y, z, text, type = "normal", badgeTag = "") {
+    if (!this._lastCamera) return;
+    this.spawnFloatingBadge(
+      { x, y: Math.max(0, y - 1.6), z },
+      text,
+      type,
+      badgeTag || (type === "crit" ? "CRITICAL" : ""),
+      this._lastCamera,
+      this._lastWidth,
+      this._lastHeight
+    );
+  }
+
   _ensureActorOverlay(id, role) {
     if (this.trackedElements.has(id)) return this.trackedElements.get(id);
 
@@ -395,6 +408,9 @@ export class SanctuaryVFX {
 
   updateTrackedOverlays(actors, camera, width, height, nowMs) {
     if (!this.overlayLayer || !camera) return;
+    this._lastCamera = camera;
+    this._lastWidth = width;
+    this._lastHeight = height;
     this._seenIds.clear();
     const wallNow = Date.now();
 

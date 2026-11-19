@@ -4,6 +4,14 @@ import { QuarterViewController } from "./sanctuary/QuarterViewController.js";
 import { SanctuaryVFX } from "./sanctuary/SanctuaryVFX.js";
 import { SanctuaryChat } from "./sanctuary/SanctuaryChat.js";
 import { SanctuaryAtmosphere } from "./sanctuary/SanctuaryAtmosphere.js";
+import { PixelVFXEngine } from "./sanctuary/PixelVFXEngine.js";
+import {
+  SurvivalArena,
+  CARD_CATALOG,
+  ELEMENT_DEFS,
+  getCardTier,
+  getUpgradeCost,
+} from "./sanctuary/SurvivalArena.js";
 
 const THEME_KEY = "aiw-theme";
 const DIR_NAMES = ["S", "SW", "W", "NW", "N", "NE", "E", "SE"];
@@ -264,6 +272,54 @@ class SanctuaryArchiveApp {
     this.renderer = this._createRenderer(this.canvas);
     this.controller = new QuarterViewController(this.canvas, this.canvas.clientWidth / Math.max(1, this.canvas.clientHeight));
     this.vfx = new SanctuaryVFX(this.scene, this.overlayLayer);
+    this.pixelVfx = new PixelVFXEngine(this.scene);
+    this._spDeckSlotFilter = "all";
+    this._goalBannerTimer = null;
+    this.arena = new SurvivalArena(this.scene, this.pixelVfx, this.vfx, {
+      onProfileChanged: () => {
+        this._syncSurvivalHud();
+        const modal = document.getElementById("sp-card-modal");
+        if (modal && !modal.hidden) this.renderCardDeckModal();
+      },
+      onScoreChanged: (score) => {
+        const el = document.getElementById("sp-soccer-score");
+        if (el) el.textContent = `${score.blue}:${score.red}`;
+      },
+      onGoal: (team, score, reward) => {
+        const label = team === "blue" ? "BLUE TEAM GOAL!!" : "RED TEAM GOAL!!";
+        this.chat?.addSystemMessage(`⚽ ${label} (${score.blue} : ${score.red}) · +${reward} CODE 획득!`);
+        this._showArcadeBanner("⚽ GOAL!!", `${label}  BLUE ${score.blue} : ${score.red} RED  (+${reward} CODE)`, 3200);
+        this.audio.playTone(523.25, 783.99, 0.28, "triangle", 0.08);
+        setTimeout(() => this.audio.playTone(659.25, 1046.5, 0.34, "triangle", 0.08), 120);
+      },
+      onSkillCast: (kind, element, x, z, facing) => {
+        this.chat?.broadcastFx("sp_skill", { skillKind: kind, element, x: +x.toFixed(2), z: +z.toFixed(2), facing: +facing.toFixed(2) });
+      },
+      onBallKick: (b) => {
+        this.chat?.broadcastFx("sp_ball", {
+          x: +b.x.toFixed(2),
+          y: +b.y.toFixed(2),
+          z: +b.z.toFixed(2),
+          vx: +b.vx.toFixed(2),
+          vy: +b.vy.toFixed(2),
+          vz: +b.vz.toFixed(2),
+          blue: this.arena?.score.blue || 0,
+          red: this.arena?.score.red || 0,
+        });
+      },
+      onBallSync: (b, sc) => {
+        this.chat?.broadcastFx("sp_ball", {
+          x: +b.x.toFixed(2),
+          y: +b.y.toFixed(2),
+          z: +b.z.toFixed(2),
+          vx: +b.vx.toFixed(2),
+          vy: +b.vy.toFixed(2),
+          vz: +b.vz.toFixed(2),
+          blue: sc.blue,
+          red: sc.red,
+        });
+      },
+    });
 
     this.raycaster = new THREE.Raycaster();
     this.walkableMeshes = [];
@@ -285,6 +341,7 @@ class SanctuaryArchiveApp {
     this.chat = new SanctuaryChat({
       onNicknameChange: (nick) => {
         this.hero.displayName = nick;
+        this._syncSurvivalHud();
       },
       onSelfPublicChat: (text) => {
         this.hero.chatText = text;
@@ -299,7 +356,14 @@ class SanctuaryArchiveApp {
           p.chatUntil = Date.now() + 10000;
         }
       },
-      onRemoteFx: () => {},
+      onRemoteFx: (data) => {
+        if (!data) return;
+        if (data.kind === "sp_skill") {
+          this.arena?.playRemoteSkill(data.skillKind, data.element, data.x || 0, data.z || 0, data.facing || 0);
+        } else if (data.kind === "sp_ball") {
+          this.arena?.applyRemoteBallState(data);
+        }
+      },
       onCommand: (cmd, arg) => this._handleAtmosphereCommand(cmd, arg),
     });
 
@@ -439,6 +503,7 @@ class SanctuaryArchiveApp {
     this._bindEvents();
     this.activateShrine("plugins", false);
     this._startTickerLoop();
+    this._syncSurvivalHud();
     this.chat.start();
     this.chat.updateZoneLabel(this._computeZoneName(this.hero.position));
     this.chat.broadcastState({
@@ -604,6 +669,7 @@ class SanctuaryArchiveApp {
       btn.setAttribute("aria-selected", active ? "true" : "false");
     });
     document.getElementById("btn-sit")?.classList.remove("is-active");
+    this._syncSurvivalHud();
 
     this.chat?.broadcastState?.({
       classKey: this.hero.classKey,
@@ -946,6 +1012,7 @@ class SanctuaryArchiveApp {
 
   warpToPlaza() {
     this.closeRoomDashboard();
+    this.closeCardDeckModal();
     this.dashboardDismissedInRoom = false;
     const target = new THREE.Vector3(0, 0, 3.6);
     if (this.hero.position.distanceTo(target) > 16) {
@@ -963,8 +1030,232 @@ class SanctuaryArchiveApp {
     this._syncDistrictBar();
   }
 
+  warpToSoccer() {
+    this.closeRoomDashboard();
+    this.closeCardDeckModal();
+    this.dashboardDismissedInRoom = false;
+    this.hero.isSitting = false;
+    const target = new THREE.Vector3(-2.6, 0, 16.2);
+    this.hero.position.copy(target);
+    this.hero.facingAngle = Math.PI * 0.5;
+    this.hero.actor?.mesh.position.copy(target);
+    this.hero.moveTarget = null;
+    this.hero.moveQueue = [];
+    this.vfx.setMoveTargetMarker(null);
+    this.pixelVfx?.spawnBurst("poof", { x: target.x, y: 0.9, z: target.z, scale: 2.0 });
+    this.vfx.spawnDamageNumber(target.x, 2.2, target.z, "⚽ 강진축구장 입장! Z=슛 · X=속성슛", "magic");
+    this._syncDistrictBar();
+  }
+
+  _showArcadeBanner(badgeText, mainText, durationMs = 3000) {
+    const banner = document.getElementById("sanctuary-festival-banner");
+    const badge = document.getElementById("festival-banner-badge");
+    const text = document.getElementById("festival-banner-text");
+    if (!banner) return;
+    if (badge) badge.textContent = badgeText;
+    if (text) text.textContent = mainText;
+    banner.hidden = false;
+    banner.classList.add("is-show");
+    clearTimeout(this._goalBannerTimer);
+    this._goalBannerTimer = setTimeout(() => {
+      if (this.atmosphere?.festivalPhase === "idle" || this.atmosphere?.festivalPhase === "cooldown") {
+        banner.hidden = true;
+        banner.classList.remove("is-show");
+      }
+    }, durationMs);
+  }
+
+  triggerMelee() {
+    if (!this.arena) return;
+    this.hero.isSitting = false;
+    const isDashing = this.hero.dashTimer > 0;
+    const ok = this.arena.triggerMeleeAction(
+      { x: this.hero.position.x, y: this.hero.jumpY, z: this.hero.position.z },
+      this.hero.facingAngle,
+      isDashing
+    );
+    if (ok) {
+      this.hero.actor?.playAction("Cast", () => this.hero.actor?.playAction("Idle", null, true), true);
+      this.audio.playTone(280, 520, 0.11, "triangle", 0.065);
+    }
+  }
+
+  triggerMagic() {
+    if (!this.arena) return;
+    this.hero.isSitting = false;
+    const ok = this.arena.triggerMagicAction(
+      { x: this.hero.position.x, y: this.hero.jumpY, z: this.hero.position.z },
+      this.hero.facingAngle
+    );
+    if (ok) {
+      this.hero.actor?.playAction("Cast", () => this.hero.actor?.playAction("Idle", null, true), true);
+      this.audio.playTone(440, 740, 0.14, "sine", 0.06);
+    } else if (this.arena.mp < 16) {
+      this.vfx.spawnDamageNumber(this.hero.position.x, 2.0, this.hero.position.z, "MP 부족!", "normal");
+    }
+  }
+
+  triggerUltimate() {
+    if (!this.arena) return;
+    this.hero.isSitting = false;
+    const ok = this.arena.triggerUltimateAction(
+      { x: this.hero.position.x, y: this.hero.jumpY, z: this.hero.position.z },
+      this.hero.facingAngle
+    );
+    if (ok) {
+      this.hero.actor?.playAction("Cheer", () => this.hero.actor?.playAction("Idle", null, true), true);
+      this.audio.playTone(330, 880, 0.24, "sawtooth", 0.055);
+    } else if (this.arena.mp < 50) {
+      this.vfx.spawnDamageNumber(this.hero.position.x, 2.0, this.hero.position.z, "필살기 MP 50 필요!", "normal");
+    }
+  }
+
+  _getAiFlavorForElement(element) {
+    if (element === "fire" && this.archiveData.news.items[0]) {
+      return `🔥 ${this.archiveData.news.items[0].title_ko || this.archiveData.news.items[0].headline}`;
+    }
+    if (element === "water" && this.archiveData.benchmarks.models[0]) {
+      const m = this.archiveData.benchmarks.models[0];
+      return `💧 ${m.model} (${m.arena_coding_elo || m.arena_elo} Elo)`;
+    }
+    if (element === "wind" && this.archiveData.plugins.items[0]) {
+      const p = this.archiveData.plugins.items[0];
+      return `🌪️ ${p.name} (+${Number(p.velocity_7d || 0).toLocaleString()}★)`;
+    }
+    if (element === "earth" && this.archiveData.social.items[0]) {
+      const s = this.archiveData.social.items[0];
+      return `🪨 ${s.author}: ${s.title_ko}`;
+    }
+    return `✨ ${ELEMENT_DEFS[element]?.contentDomain || "AI 위클리 연동"}`;
+  }
+
+  _syncSurvivalHud() {
+    if (!this.arena) return;
+    const stats = this.arena.getPlayerStats();
+    const spec = AVATAR_DEFS[this.hero.classKey] || AVATAR_DEFS.Solar_Guard;
+    const edef = ELEMENT_DEFS[stats.element] || ELEMENT_DEFS.fire;
+
+    const spriteEl = document.getElementById("sp-portrait-sprite");
+    if (spriteEl) {
+      const sheetUrl = `${SPRITE_DIR}/${this.hero.classKey}_8dir_sheet.png`;
+      if (spriteEl.dataset.sheet !== sheetUrl) {
+        spriteEl.dataset.sheet = sheetUrl;
+        spriteEl.style.backgroundImage = `url("${sheetUrl}")`;
+      }
+    }
+    const nameEl = document.getElementById("sp-hud-name");
+    if (nameEl) nameEl.textContent = this.hero.displayName || spec.displayName;
+    const pipEl = document.getElementById("sp-hud-el-pip");
+    if (pipEl) {
+      pipEl.dataset.el = edef.id;
+      pipEl.textContent = edef.label;
+    }
+    const codeEl = document.getElementById("sp-code-badge");
+    if (codeEl) codeEl.textContent = `${this.arena.profile.code.toLocaleString()} CODE`;
+
+    const slotMap = [
+      ["sp-slot-magic", "MAGIC", stats.magicCard],
+      ["sp-slot-boots", "BOOTS", stats.bootsCard],
+      ["sp-slot-aura", "AURA", stats.auraCard],
+    ];
+    for (const [elId, tag, card] of slotMap) {
+      const btn = document.getElementById(elId);
+      if (!btn || !card) continue;
+      btn.className = `sp-slot-card is-tier-${card.tier.id}`;
+      const shortName = card.name.split(" ")[0];
+      btn.innerHTML = `<span class="sp-slot-head"><span class="sp-slot-tag">${tag}·${ELEMENT_DEFS[card.element].label}</span><span class="sp-slot-lv">Lv.${card.level}</span></span><span class="sp-slot-name">${esc(shortName)}</span>`;
+    }
+  }
+
+  _syncSurvivalGauges() {
+    if (!this.arena) return;
+    const spBar = document.getElementById("sp-booster-bar");
+    if (spBar) spBar.style.width = `${Math.round((this.arena.booster / this.arena.maxBooster) * 100)}%`;
+    const mpBar = document.getElementById("sp-mp-bar");
+    if (mpBar) mpBar.style.width = `${Math.round((this.arena.mp / this.arena.maxMp) * 100)}%`;
+    const ultBtn = document.getElementById("btn-sp-ult");
+    if (ultBtn) ultBtn.classList.toggle("is-ready", this.arena.mp >= 50 && this.arena.ultCooldown <= 0);
+
+    const comboWrap = document.getElementById("sp-combo-badge");
+    const comboNum = document.getElementById("sp-combo-num");
+    if (comboWrap && comboNum) {
+      const show = this.arena.combo >= 2;
+      comboWrap.hidden = !show;
+      if (show && comboNum.textContent !== String(this.arena.combo)) {
+        comboNum.textContent = String(this.arena.combo);
+      }
+    }
+  }
+
+  openCardDeckModal(slotFilter = "all") {
+    this.closeRoomDashboard();
+    this._spDeckSlotFilter = slotFilter || "all";
+    const modal = document.getElementById("sp-card-modal");
+    if (modal) modal.hidden = false;
+    this.renderCardDeckModal();
+  }
+
+  closeCardDeckModal() {
+    const modal = document.getElementById("sp-card-modal");
+    if (modal) modal.hidden = true;
+  }
+
+  _showDeckFeedback(msg) {
+    const fb = document.getElementById("sp-deck-feedback");
+    if (!fb) return;
+    fb.textContent = msg;
+    fb.hidden = false;
+  }
+
+  renderCardDeckModal() {
+    if (!this.arena) return;
+    const grid = document.getElementById("sp-card-grid");
+    const codeEl = document.getElementById("sp-modal-code");
+    if (codeEl) codeEl.textContent = `${this.arena.profile.code.toLocaleString()} CODE`;
+
+    document.querySelectorAll("#sp-deck-tabs [data-slot]").forEach((btn) => {
+      btn.classList.toggle("is-active", btn.dataset.slot === this._spDeckSlotFilter);
+    });
+    if (!grid) return;
+
+    const list = CARD_CATALOG.filter((c) => this._spDeckSlotFilter === "all" || c.slot === this._spDeckSlotFilter);
+    grid.innerHTML = list.map((c) => {
+      const lv = this.arena.profile.cards[c.id] || 0;
+      const owned = lv > 0;
+      const tier = getCardTier(lv || 1);
+      const edef = ELEMENT_DEFS[c.element];
+      const equipped = this.arena.profile.equipped[c.slot] === c.id;
+      const upgCost = getUpgradeCost(lv || 1);
+      const flavor = this._getAiFlavorForElement(c.element);
+
+      return `
+        <article class="sp-deck-card is-tier-${tier.id} ${equipped ? "is-equipped" : ""} ${owned ? "" : "is-locked"}">
+          <div class="sp-deck-card-top">
+            <span style="color:${edef.colorHex}">${c.slot.toUpperCase()} · ${edef.label} (${edef.en})</span>
+            <span>${owned ? `Lv.${lv} ${tier.label}` : "미보유"}</span>
+          </div>
+          <div class="sp-deck-card-name">${esc(c.name)}</div>
+          <div class="sp-deck-card-desc">${esc(c.desc)}</div>
+          <div class="sp-deck-card-ai">${esc(flavor)}</div>
+          <div class="sp-deck-card-foot">
+            <button type="button" class="sp-deck-btn is-equip" data-card-equip="${esc(c.id)}" ${!owned || equipped ? "disabled" : ""}>
+              ${equipped ? "장착 중" : owned ? "장착" : "잠김"}
+            </button>
+            <button type="button" class="sp-deck-btn is-upgrade" data-card-upgrade="${esc(c.id)}" ${!owned || lv >= 9 || this.arena.profile.code < upgCost ? "disabled" : ""}>
+              ${lv >= 9 ? "MAX BLACK" : `강화 (${upgCost})`}
+            </button>
+          </div>
+        </article>
+      `;
+    }).join("");
+  }
+
   openRoomDashboard(roomId) {
+    this.closeCardDeckModal();
     const id = roomId || this.activeShrineId || "plugins";
+    if (this.arena && ROOM_DEFS[id]) {
+      this.arena.grantContentVisitReward(id, ROOM_DEFS[id].title, this.hero.position);
+    }
     if (this.activeShrineId !== id) {
       this.activeFilter = "all";
       this.searchQuery = "";
@@ -1002,7 +1293,13 @@ class SanctuaryArchiveApp {
   }
 
   _syncDistrictBar() {
-    const activeWarp = this.currentBuildingId || "plaza";
+    let activeWarp = this.currentBuildingId || "plaza";
+    if (!this.currentBuildingId && this.arena) {
+      const p = this.arena.pitch;
+      if (Math.abs(this.hero.position.x - p.cx) <= p.halfW + 1.5 && Math.abs(this.hero.position.z - p.cz) <= p.halfD + 1.8) {
+        activeWarp = "soccer";
+      }
+    }
     document.querySelectorAll("#sanctuary-district-bar [data-warp]").forEach((btn) => {
       btn.classList.toggle("is-active", btn.dataset.warp === activeWarp);
     });
@@ -1769,27 +2066,35 @@ class SanctuaryArchiveApp {
 
     this.hero.isSitting = false;
     document.getElementById("btn-sit")?.classList.remove("is-active");
+    const spStats = this.arena?.getPlayerStats();
+    if (this.arena && this.arena.booster < 18) return;
+    if (this.arena) this.arena.booster = Math.max(0, this.arena.booster - 22);
+
     this.hero.dashDir.copy(dir);
     this.hero.facingAngle = Math.atan2(dir.x, dir.z);
     this.hero.dashTimer = 0.26;
-    this.hero.dashCooldown = 1.05;
+    this.hero.dashCooldown = 1.05 * (spStats?.dashCooldownMul || 1.0);
     this.hero.dashGhostTimer = 0;
 
     const spec = AVATAR_DEFS[this.hero.classKey] || AVATAR_DEFS.Solar_Guard;
+    const elColor = spStats ? ELEMENT_DEFS[spStats.element].colorInt : (spec.dashTint || 0x38bdf8);
     this.hero.actor?.playAction("Dash", null, true);
-    this.vfx.spawnDustPuff(this.hero.position, { color: spec.dashTint || 0x38bdf8, maxScale: 2.35, opacity: 0.78, life: 0.34 });
-    this.vfx.spawnAfterimage(this.hero.actor, spec.dashTint || 0x38bdf8);
+    this.pixelVfx?.spawnBurst("poof", { x: this.hero.position.x, y: 0.65, z: this.hero.position.z, scale: 1.5, fps: 20 });
+    this.vfx.spawnDustPuff(this.hero.position, { color: elColor, maxScale: 2.35, opacity: 0.78, life: 0.34 });
+    this.vfx.spawnAfterimage(this.hero.actor, elColor);
     this.audio.playTone(320, 680, 0.14, "triangle", 0.06);
   }
 
   triggerJump() {
     if (this.hero.isJumping) return;
+    const spStats = this.arena?.getPlayerStats();
     this.hero.isSitting = false;
     document.getElementById("btn-sit")?.classList.remove("is-active");
     this.hero.isJumping = true;
-    this.hero.jumpVy = 9.2;
+    this.hero.jumpVy = 9.2 * (spStats?.jumpMul || 1.0);
     this.hero.landingSquashTimer = 0;
     this.hero.actor?.playAction("Jump", null, true);
+    this.pixelVfx?.spawnBurst("poof", { x: this.hero.position.x, y: 0.55, z: this.hero.position.z, scale: 1.25, fps: 20 });
     this.vfx.spawnDustPuff(this.hero.position, { color: 0xfef3c7, maxScale: 1.55, opacity: 0.62, life: 0.32 });
     this.audio.playTone(380, 580, 0.12, "sine", 0.055);
   }
@@ -1836,19 +2141,24 @@ class SanctuaryArchiveApp {
     }
 
     const spec = AVATAR_DEFS[this.hero.classKey] || AVATAR_DEFS.Solar_Guard;
-    const baseSpeed = spec.speed;
+    const spStats = this.arena?.getPlayerStats();
+    const baseSpeed = spec.speed * (spStats?.speedMul || 1.0);
     let isMoving = false;
     let isDashing = false;
     let isRunning = false;
+    this.hero.vx = 0;
+    this.hero.vz = 0;
 
     if (this.hero.dashTimer > 0) {
       isDashing = true;
       isMoving = true;
       this.hero.dashTimer = Math.max(0, this.hero.dashTimer - dt);
       const dashSpeed = baseSpeed * 2.75;
+      this.hero.vx = this.hero.dashDir.x * dashSpeed;
+      this.hero.vz = this.hero.dashDir.z * dashSpeed;
       const next = this._resolveCityCollisions(
-        this.hero.position.x + this.hero.dashDir.x * dashSpeed * dt,
-        this.hero.position.z + this.hero.dashDir.z * dashSpeed * dt
+        this.hero.position.x + this.hero.vx * dt,
+        this.hero.position.z + this.hero.vz * dt
       );
       this.hero.position.set(next.x, 0, next.z);
       this.hero.facingAngle = Math.atan2(this.hero.dashDir.x, this.hero.dashDir.z);
@@ -1856,15 +2166,18 @@ class SanctuaryArchiveApp {
       this.hero.dashGhostTimer += dt;
       if (this.hero.dashGhostTimer >= 0.07) {
         this.hero.dashGhostTimer = 0;
-        this.vfx.spawnAfterimage(this.hero.actor, spec.dashTint || 0x38bdf8);
+        const elColor = spStats ? ELEMENT_DEFS[spStats.element].colorInt : (spec.dashTint || 0x38bdf8);
+        this.vfx.spawnAfterimage(this.hero.actor, elColor);
       }
     } else if (moveVec.lengthSq() > 0.001) {
       isMoving = true;
-      isRunning = isShiftHeld;
+      isRunning = isShiftHeld && (!this.arena || this.arena.booster > 4);
       const speed = isRunning ? baseSpeed * 1.62 : baseSpeed;
+      this.hero.vx = moveVec.x * speed;
+      this.hero.vz = moveVec.z * speed;
       const next = this._resolveCityCollisions(
-        this.hero.position.x + moveVec.x * speed * dt,
-        this.hero.position.z + moveVec.z * speed * dt
+        this.hero.position.x + this.hero.vx * dt,
+        this.hero.position.z + this.hero.vz * dt
       );
       this.hero.position.set(next.x, 0, next.z);
       this.hero.facingAngle = Math.atan2(moveVec.x, moveVec.z);
@@ -2135,6 +2448,16 @@ class SanctuaryArchiveApp {
 
     this._updateHero(dt);
     this._updateBuildings(dt);
+    this.arena?.update(dt, this._elapsed, {
+      pos: { x: this.hero.position.x, y: this.hero.jumpY, z: this.hero.position.z },
+      vx: this.hero.vx || 0,
+      vz: this.hero.vz || 0,
+      isMoving: Math.hypot(this.hero.vx || 0, this.hero.vz || 0) > 0.2,
+      isRunning: this.hero.isRunning,
+      isDashing: this.hero.dashTimer > 0,
+    }, this.citizens);
+    this.pixelVfx?.update(dt, this.controller.cameraAzimuth);
+    this._syncSurvivalGauges();
     this.atmosphere?.update(dt, this.hero.position);
     if (now - (this._lastAtmoUiSync || 0) > 400) {
       this._lastAtmoUiSync = now;
@@ -2142,6 +2465,11 @@ class SanctuaryArchiveApp {
     }
 
     this.controller.update(dt, this.hero.position);
+    if (this.arena?.screenShake > 0.005) {
+      const s = this.arena.screenShake;
+      this.controller.camera.position.x += (Math.random() - 0.5) * s * 0.9;
+      this.controller.camera.position.y += (Math.random() - 0.5) * s * 0.7;
+    }
     if (this.dirLight) {
       this.dirLight.position.set(this.hero.position.x - 18, 28, this.hero.position.z + 14);
       this.dirLight.target.position.set(this.hero.position.x, 0, this.hero.position.z);
@@ -2190,6 +2518,8 @@ class SanctuaryArchiveApp {
     this._resizeObserver?.disconnect();
     this.controller?.dispose();
     this.atmosphere?.dispose();
+    this.arena?.dispose();
+    this.pixelVfx?.dispose();
     this.vfx?.dispose();
     this.hero.actor?.dispose();
     for (const sh of this.shrines) sh.actor?.dispose();
@@ -2270,6 +2600,16 @@ class SanctuaryArchiveApp {
     } else if (ev.phase === "burst") {
       const f0 = ev.pattern === "willow" ? 392 : ev.pattern === "ring" ? 587.33 : 523.25;
       this.audio.playTone(f0, f0 * 1.45, 0.16, "sine", 0.04);
+      if (typeof ev.x === "number" && typeof ev.z === "number") {
+        this.pixelVfx?.spawnBurst("firework_burst", {
+          x: ev.x,
+          y: ev.y || 4.8,
+          z: ev.z,
+          scale: 3.6,
+          fps: 14,
+          additive: true,
+        });
+      }
     } else if (ev.phase === "ended") {
       if (banner) {
         banner.hidden = true;
@@ -2325,10 +2665,92 @@ class SanctuaryArchiveApp {
         atmoPill.addEventListener(evName, (ev) => ev.stopPropagation());
       }
     }
-    document.getElementById("btn-hero-dash")?.addEventListener("click", () => {
+    for (const uiId of ["sp-player-hud", "sp-arcade-dock", "sp-card-modal"]) {
+      const uiEl = document.getElementById(uiId);
+      if (uiEl) {
+        for (const evName of ["pointerdown", "pointerup", "wheel"]) {
+          uiEl.addEventListener(evName, (ev) => ev.stopPropagation());
+        }
+      }
+    }
+    document.getElementById("sp-portrait-frame")?.addEventListener("click", (ev) => {
+      ev.stopPropagation();
+      this.cycleHeroClass();
+    });
+    document.getElementById("btn-sp-melee")?.addEventListener("click", (ev) => {
+      ev.stopPropagation();
+      this.triggerMelee();
+    });
+    document.getElementById("btn-sp-magic")?.addEventListener("click", (ev) => {
+      ev.stopPropagation();
+      this.triggerMagic();
+    });
+    document.getElementById("btn-sp-ult")?.addEventListener("click", (ev) => {
+      ev.stopPropagation();
+      this.triggerUltimate();
+    });
+    document.getElementById("btn-sp-deck")?.addEventListener("click", (ev) => {
+      ev.stopPropagation();
+      const modal = document.getElementById("sp-card-modal");
+      if (modal && !modal.hidden) this.closeCardDeckModal();
+      else this.openCardDeckModal("all");
+    });
+    document.getElementById("sp-equipped-slots")?.addEventListener("click", (ev) => {
+      ev.stopPropagation();
+      const slotBtn = ev.target.closest("[data-open-deck]");
+      if (slotBtn) this.openCardDeckModal(slotBtn.dataset.openDeck || "all");
+    });
+    document.getElementById("btn-sp-close-deck")?.addEventListener("click", () => {
+      this.closeCardDeckModal();
+    });
+    document.getElementById("btn-sp-open-pack")?.addEventListener("click", () => {
+      const res = this.arena?.openCardPack(this.hero.position);
+      if (!res) return;
+      if (res.ok) {
+        this._showDeckFeedback(
+          res.isNew
+            ? `🎉 신규 카드 획득! [${res.card.name}] Lv.${res.level} (${res.tier.label})`
+            : `✨ 카드 합성 성공! [${res.card.name}] Lv.${res.level} (${res.tier.label})`
+        );
+        this.audio.playTone(523.25, 880, 0.22, "triangle", 0.07);
+      } else {
+        this._showDeckFeedback(res.reason);
+      }
+    });
+    document.getElementById("sp-deck-tabs")?.addEventListener("click", (ev) => {
+      const tab = ev.target.closest("[data-slot]");
+      if (!tab) return;
+      this._spDeckSlotFilter = tab.dataset.slot || "all";
+      this.renderCardDeckModal();
+    });
+    document.getElementById("sp-card-grid")?.addEventListener("click", (ev) => {
+      const eqBtn = ev.target.closest("[data-card-equip]");
+      if (eqBtn) {
+        const cid = eqBtn.dataset.cardEquip;
+        if (this.arena?.equipCard(cid)) {
+          this._showDeckFeedback("카드 장착을 완료했습니다! 캐릭터 오라와 속성이 즉시 반영됩니다.");
+          this.audio.playTone(440, 660, 0.12, "sine", 0.055);
+        }
+        return;
+      }
+      const upBtn = ev.target.closest("[data-card-upgrade]");
+      if (upBtn) {
+        const cid = upBtn.dataset.cardUpgrade;
+        const res = this.arena?.upgradeCard(cid, this.hero.position);
+        if (res?.ok) {
+          this._showDeckFeedback(`⚡ 합성 강화 성공! Lv.${res.newLevel} (${res.tier.label}) 달성!`);
+          this.audio.playTone(587.33, 987.77, 0.2, "triangle", 0.07);
+        } else if (res?.reason) {
+          this._showDeckFeedback(res.reason);
+        }
+      }
+    });
+    document.getElementById("btn-hero-dash")?.addEventListener("click", (ev) => {
+      ev.stopPropagation();
       this.triggerDash();
     });
-    document.getElementById("btn-hero-jump")?.addEventListener("click", () => {
+    document.getElementById("btn-hero-jump")?.addEventListener("click", (ev) => {
+      ev.stopPropagation();
       this.triggerJump();
     });
     document.getElementById("btn-hero-class")?.addEventListener("click", () => {
@@ -2356,6 +2778,7 @@ class SanctuaryArchiveApp {
         if (warpBtn) {
           const targetId = warpBtn.dataset.warp;
           if (targetId === "plaza") this.warpToPlaza();
+          else if (targetId === "soccer") this.warpToSoccer();
           else this.enterBuildingById(targetId, { warpToDoor: true });
           return;
         }
@@ -2497,10 +2920,22 @@ class SanctuaryArchiveApp {
       } else if (ev.code === "Space" && tag !== "BUTTON") {
         ev.preventDefault();
         this.triggerJump();
-      } else if (ev.code === "KeyX") {
+      } else if (ev.code === "KeyZ" || ev.code === "KeyJ") {
+        this.triggerMelee();
+      } else if (ev.code === "KeyX" || ev.code === "KeyK") {
+        this.triggerMagic();
+      } else if (ev.code === "KeyV" || ev.code === "KeyL") {
+        this.triggerUltimate();
+      } else if (ev.code === "KeyC") {
+        const modal = document.getElementById("sp-card-modal");
+        if (modal && !modal.hidden) this.closeCardDeckModal();
+        else this.openCardDeckModal("all");
+      } else if (ev.code === "KeyB") {
         this.toggleSit();
       } else if (ev.code === "Digit0") {
         this.warpToPlaza();
+      } else if (ev.code === "Digit7") {
+        this.warpToSoccer();
       } else if (ev.code === "Digit1") {
         this.enterBuildingById("plugins", { warpToDoor: true });
       } else if (ev.code === "Digit2") {
@@ -2514,6 +2949,11 @@ class SanctuaryArchiveApp {
       } else if (ev.code === "Digit6") {
         this.enterBuildingById("workshop", { warpToDoor: true });
       } else if (ev.code === "Escape") {
+        const deckModal = document.getElementById("sp-card-modal");
+        if (deckModal && !deckModal.hidden) {
+          this.closeCardDeckModal();
+          return;
+        }
         const readerPanel = document.getElementById("sanctuary-reader");
         if (readerPanel && !readerPanel.hidden) this.minimizeRoomDashboard();
       }

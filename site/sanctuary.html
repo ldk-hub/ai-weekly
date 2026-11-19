@@ -113,11 +113,16 @@
         <div class="sc-hd2d-vignette" aria-hidden="true"></div>
         <div id="overlay-layer" class="sc-overlay-layer" aria-hidden="true"></div>
 
-        <!-- Top-Center District Quick-Warp & Room Monitor Control Bar -->
+        <!-- Top-Center District Quick-Warp, Soccer Scoreboard & Room Monitor Bar -->
         <nav class="sc-district-bar" id="sanctuary-district-bar" aria-label="건물·구역 바로 이동">
           <button type="button" class="sc-district-btn is-active" data-warp="plaza" title="중앙 분수 광장 (0)">
             <span class="sc-dist-key">0</span>
             <span>중앙 광장</span>
+          </button>
+          <button type="button" class="sc-district-btn is-soccer" data-warp="soccer" title="서프 강진축구장 바로 이동 (7)">
+            <span class="sc-dist-key">⚽</span>
+            <span>강진축구</span>
+            <span class="sp-score-pill" id="sp-soccer-score" aria-label="축구 스코어">0:0</span>
           </button>
           <button type="button" class="sc-district-btn" data-warp="plugins" title="인기 플러그인 공방 (1)">
             <span class="sc-dist-key">1</span>
@@ -149,7 +154,33 @@
           </button>
         </nav>
 
-        <!-- Night-Only Announced Grand Fireworks Festival Banner -->
+        <!-- Top-Left Survival Project Arcade Player HUD -->
+        <aside class="sp-player-hud" id="sp-player-hud" aria-label="플레이어 상태 및 게이지">
+          <div class="sp-portrait-frame" id="sp-portrait-frame" title="클릭하여 캐릭터 변경">
+            <div class="sp-portrait-sprite" id="sp-portrait-sprite" aria-hidden="true"></div>
+            <span class="sp-el-pip" id="sp-hud-el-pip" data-el="fire">불</span>
+          </div>
+          <div class="sp-hud-stats">
+            <div class="sp-hud-title-row">
+              <span class="sp-hud-name" id="sp-hud-name">솔라 아키비스트</span>
+              <span class="sp-code-badge" id="sp-code-badge" title="보유 CODE 코인">120 CODE</span>
+            </div>
+            <div class="sp-bar-row">
+              <span class="sp-bar-label">SP</span>
+              <div class="sp-bar-track"><div class="sp-bar-fill is-booster" id="sp-booster-bar" style="width:100%"></div></div>
+            </div>
+            <div class="sp-bar-row">
+              <span class="sp-bar-label">MP</span>
+              <div class="sp-bar-track"><div class="sp-bar-fill is-mp" id="sp-mp-bar" style="width:60%"></div></div>
+            </div>
+          </div>
+          <div class="sp-combo-badge" id="sp-combo-badge" hidden>
+            <strong id="sp-combo-num">0</strong>
+            <span>COMBO</span>
+          </div>
+        </aside>
+
+        <!-- Night-Only Announced Grand Fireworks Festival / Goal Banner -->
         <div class="sc-festival-banner" id="sanctuary-festival-banner" role="status" aria-live="polite" hidden>
           <span class="sc-festival-badge" id="festival-banner-badge">NIGHT FESTIVAL</span>
           <span class="sc-festival-text" id="festival-banner-text">잠시 후 위클리월드 밤하늘에 화려한 불꽃놀이가 시작됩니다!</span>
@@ -179,16 +210,49 @@
           </form>
         </section>
 
-        <!-- Compact Bottom-Right Movement Action, Character & Atmosphere Capsule -->
-        <div class="sc-atmo-pill" id="sanctuary-atmo-pill" role="group" aria-label="액션·캐릭터·시간대·계절">
-          <button type="button" class="sc-atmo-btn is-action" id="btn-hero-dash" title="대시 / Shift 홀드 시 달리기 (Shift)">
-            <span class="sc-atmo-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg></span>
-            <span>대시</span>
-          </button>
-          <button type="button" class="sc-atmo-btn is-action" id="btn-hero-jump" title="점프 (Space)">
-            <span class="sc-atmo-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/><path d="M12 9v12"/></svg></span>
-            <span>점프</span>
-          </button>
+        <!-- Bottom-Center Survival Project 3-Slot Card & Arcade Action Dock -->
+        <div class="sp-arcade-dock" id="sp-arcade-dock" role="toolbar" aria-label="서바이벌 카드 슬롯 및 액션 키">
+          <div class="sp-card-slots" id="sp-equipped-slots" aria-label="장착 카드 3슬롯">
+            <button type="button" class="sp-slot-card is-tier-white" id="sp-slot-magic" data-open-deck="magic" title="마법 카드 슬롯 (클릭하여 카드 덱 열기)">
+              <span class="sp-slot-tag">MAGIC</span>
+              <span class="sp-slot-name">파이어볼</span>
+              <span class="sp-slot-lv">Lv.1</span>
+            </button>
+            <button type="button" class="sp-slot-card is-tier-white" id="sp-slot-boots" data-open-deck="boots" title="부츠 카드 슬롯 (클릭하여 카드 덱 열기)">
+              <span class="sp-slot-tag">BOOTS</span>
+              <span class="sp-slot-name">제피르</span>
+              <span class="sp-slot-lv">Lv.1</span>
+            </button>
+            <button type="button" class="sp-slot-card is-tier-white" id="sp-slot-aura" data-open-deck="aura" title="정령 오라 슬롯 (클릭하여 카드 덱 열기)">
+              <span class="sp-slot-tag">AURA</span>
+              <span class="sp-slot-name">아쿠아</span>
+              <span class="sp-slot-lv">Lv.1</span>
+            </button>
+          </div>
+          <div class="sp-action-keys">
+            <button type="button" class="sp-key-btn is-melee" id="btn-sp-melee" title="근접 스윙 / 강진 슈팅 (J 또는 Z)">
+              <kbd>Z</kbd><span>스윙·슛</span>
+            </button>
+            <button type="button" class="sp-key-btn is-magic" id="btn-sp-magic" title="4속성 마법 투사체 발사 (K 또는 X)">
+              <kbd>X</kbd><span>속성마법</span>
+            </button>
+            <button type="button" class="sp-key-btn is-ult" id="btn-sp-ult" title="4속성 필살기 버스트 (L 또는 V)">
+              <kbd>V</kbd><span>필살기</span>
+            </button>
+            <button type="button" class="sp-key-btn is-dash" id="btn-hero-dash" title="부스터 대시 / 홀드 시 달리기 (Shift)">
+              <kbd>⇧</kbd><span>부스터</span>
+            </button>
+            <button type="button" class="sp-key-btn is-jump" id="btn-hero-jump" title="점프 (Space)">
+              <kbd>⎵</kbd><span>점프</span>
+            </button>
+            <button type="button" class="sp-key-btn is-deck" id="btn-sp-deck" title="4속성 AI 카드 덱 & 합성 강화 (C)">
+              <kbd>C</kbd><span>카드덱</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Compact Bottom-Right Character & Atmosphere Capsule -->
+        <div class="sc-atmo-pill" id="sanctuary-atmo-pill" role="group" aria-label="캐릭터·시간대·계절">
           <button type="button" class="sc-atmo-btn" id="btn-hero-class" title="클릭하여 HD-2D 캐릭터 변경 (아키비스트/메이지/크로니클러/나이트)">
             <span class="sc-atmo-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
             <span id="hero-class-text">아키비스트</span>
@@ -202,6 +266,31 @@
             <span id="atmo-season-text">봄 · 벚꽃</span>
           </button>
         </div>
+
+        <!-- Survival Project 4-Element Card Deck & Synthesis Modal -->
+        <aside class="sp-card-modal" id="sp-card-modal" role="dialog" aria-modal="false" aria-label="서바이벌 4속성 AI 카드 덱" hidden>
+          <div class="sp-modal-head">
+            <div>
+              <span class="sp-modal-kicker">SURVIVAL PROJECT · 4-ELEMENT DECK</span>
+              <h2 class="sp-modal-title">4속성 AI 카드 덱 &amp; 합성 강화</h2>
+            </div>
+            <div class="sp-modal-actions">
+              <span class="sp-modal-code" id="sp-modal-code">120 CODE</span>
+              <button type="button" class="sp-pack-btn" id="btn-sp-open-pack">카드 팩 개봉 (50 CODE)</button>
+              <button type="button" class="sc-reader-close" id="btn-sp-close-deck" aria-label="카드 덱 닫기">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="sp-modal-tabs" id="sp-deck-tabs" role="tablist">
+            <button type="button" class="sp-deck-tab is-active" data-slot="all">전체 카드</button>
+            <button type="button" class="sp-deck-tab" data-slot="magic">마법 (MAGIC)</button>
+            <button type="button" class="sp-deck-tab" data-slot="boots">부츠 (BOOTS)</button>
+            <button type="button" class="sp-deck-tab" data-slot="aura">정령 (AURA)</button>
+          </div>
+          <div class="sp-modal-feedback" id="sp-deck-feedback" hidden></div>
+          <div class="sp-card-grid" id="sp-card-grid"></div>
+        </aside>
       </section>
 
       <!-- Full-Screen Room Monitor Dashboard (opened automatically inside a building or via Wall Screen) -->

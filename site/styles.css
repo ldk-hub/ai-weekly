@@ -7174,9 +7174,9 @@ body.sc-fullscreen-page .sc-reader-head {
 /* In-World Bottom-Left Multi-User Chat Box */
 .sc-chat-box {
   position: absolute;
-  left: 14px;
-  bottom: 14px;
-  width: min(370px, calc(100vw - 28px));
+  left: 12px;
+  bottom: 12px;
+  width: min(312px, calc(100vw - 24px));
   z-index: 9;
   display: flex;
   flex-direction: column;
@@ -7955,5 +7955,539 @@ html[data-theme="light"] .sc-atmo-btn.is-action {
     animation: none !important;
     transition: none !important;
     transform: none !important;
+  }
+}
+
+
+/* ==========================================================================
+   SURVIVAL PROJECT (서바이벌 프로젝트) ARCADE HUD, CARD DECK & SOCCER UI
+   ========================================================================== */
+
+/* Top-Center Soccer Warp + Scoreboard Pill */
+.sc-district-btn.is-soccer {
+  border-color: rgba(52, 211, 153, 0.45);
+  background: rgba(16, 185, 129, 0.16);
+}
+.sp-score-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.72);
+  color: #fde047;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  margin-left: 2px;
+}
+
+/* Top-Left Survival Project Player HUD (Portrait + SP/MP + CODE + Combo) */
+.sp-player-hud {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 11px 7px 8px;
+  border-radius: 14px;
+  border: 1.5px solid rgba(255, 255, 255, 0.24);
+  background: rgba(12, 18, 32, 0.78);
+  backdrop-filter: blur(14px) saturate(165%);
+  -webkit-backdrop-filter: blur(14px) saturate(165%);
+  box-shadow: 0 10px 26px rgba(2, 6, 23, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  color: #f8fafc;
+  pointer-events: auto;
+}
+.sp-portrait-frame {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border-radius: 11px;
+  border: 2px solid rgba(251, 191, 36, 0.78);
+  background: radial-gradient(circle at 50% 35%, rgba(251, 191, 36, 0.28), rgba(15, 23, 42, 0.92));
+  overflow: hidden;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+.sp-portrait-sprite {
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: 2800% 800%;
+  background-position: 0% 0%;
+  image-rendering: pixelated;
+  transform: scale(1.42) translateY(6px);
+  transform-origin: center top;
+}
+.sp-el-pip {
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+  padding: 1px 5px;
+  border-radius: 6px;
+  font-size: 9.5px;
+  font-weight: 900;
+  color: #0b1120;
+  line-height: 1.25;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+}
+.sp-el-pip[data-el="fire"] { background: #fb923c; }
+.sp-el-pip[data-el="water"] { background: #38bdf8; }
+.sp-el-pip[data-el="wind"] { background: #34d399; }
+.sp-el-pip[data-el="earth"] { background: #facc15; }
+
+.sp-hud-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 158px;
+}
+.sp-hud-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.sp-hud-name {
+  font-size: 12px;
+  font-weight: 800;
+  color: #f8fafc;
+  white-space: nowrap;
+}
+.sp-code-badge {
+  padding: 1.5px 7px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(250, 204, 21, 0.26), rgba(245, 158, 11, 0.16));
+  border: 1px solid rgba(250, 204, 21, 0.52);
+  color: #fde047;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.sp-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.sp-bar-label {
+  width: 18px;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 800;
+  color: rgba(226, 232, 240, 0.84);
+}
+.sp-bar-track {
+  flex: 1 1 auto;
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  overflow: hidden;
+}
+.sp-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.08s linear;
+}
+.sp-bar-fill.is-booster {
+  background: linear-gradient(90deg, #f59e0b, #fde047);
+  box-shadow: 0 0 8px rgba(250, 204, 21, 0.55);
+}
+.sp-bar-fill.is-mp {
+  background: linear-gradient(90deg, #0284c7, #38bdf8, #a7f3d0);
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.5);
+}
+.sp-combo-badge {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #f97316, #ef4444);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.48);
+  animation: spComboPop 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.sp-combo-badge[hidden] { display: none !important; }
+.sp-combo-badge strong {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  line-height: 1;
+}
+.sp-combo-badge span {
+  font-size: 8.5px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+@keyframes spComboPop {
+  0% { transform: scale(0.75); }
+  60% { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+
+/* Bottom-Center Survival Project 3-Slot Card & Arcade Action Dock */
+.sp-arcade-dock {
+  position: absolute;
+  left: 50%;
+  bottom: 12px;
+  transform: translateX(-50%);
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 16px;
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  background: rgba(12, 18, 32, 0.8);
+  backdrop-filter: blur(14px) saturate(165%);
+  -webkit-backdrop-filter: blur(14px) saturate(165%);
+  box-shadow: 0 12px 28px rgba(2, 6, 23, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  pointer-events: auto;
+  max-width: calc(100% - 24px);
+}
+.sp-card-slots {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding-right: 8px;
+  border-right: 1px solid rgba(255, 255, 255, 0.14);
+}
+.sp-slot-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-between;
+  min-width: 92px;
+  height: 46px;
+  padding: 5px 8px;
+  border-radius: 9px;
+  border: 1.5px solid rgba(226, 232, 240, 0.45);
+  background: linear-gradient(150deg, rgba(255, 255, 255, 0.16), rgba(15, 23, 42, 0.88));
+  color: #f8fafc;
+  cursor: pointer;
+  transition: transform 0.14s ease, box-shadow 0.14s ease;
+}
+.sp-slot-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  width: 100%;
+}
+.sp-slot-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.36);
+}
+.sp-slot-card.is-tier-white { border-color: #e2e8f0; }
+.sp-slot-card.is-tier-silver {
+  border-color: #94a3b8;
+  background: linear-gradient(150deg, rgba(203, 213, 225, 0.28), rgba(15, 23, 42, 0.9));
+}
+.sp-slot-card.is-tier-gold {
+  border-color: #facc15;
+  background: linear-gradient(150deg, rgba(250, 204, 21, 0.3), rgba(30, 20, 8, 0.9));
+  box-shadow: 0 0 12px rgba(250, 204, 21, 0.25);
+}
+.sp-slot-card.is-tier-black {
+  border-color: #c084fc;
+  background: linear-gradient(150deg, rgba(168, 85, 247, 0.34), rgba(8, 8, 18, 0.96));
+  box-shadow: 0 0 14px rgba(192, 132, 252, 0.35);
+}
+.sp-slot-tag {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 800;
+  opacity: 0.78;
+  letter-spacing: 0.05em;
+}
+.sp-slot-name {
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+  max-width: 72px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sp-slot-lv {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 900;
+  color: #fde047;
+  white-space: nowrap;
+}
+
+.sp-action-keys {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.sp-key-btn {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  min-width: 52px;
+  height: 46px;
+  padding: 3px 7px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(30, 41, 59, 0.82);
+  color: #f8fafc;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: transform 0.1s ease, background-color 0.14s ease, border-color 0.14s ease;
+}
+.sp-key-btn:hover {
+  transform: translateY(-2px);
+  border-color: rgba(251, 191, 36, 0.7);
+}
+.sp-key-btn:active {
+  transform: translateY(0) scale(0.95);
+}
+.sp-key-btn kbd {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 900;
+  padding: 0 5px;
+  border-radius: 4px;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #fde047;
+  line-height: 1.4;
+}
+.sp-key-btn span {
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.sp-key-btn.is-melee { background: linear-gradient(180deg, rgba(249, 115, 22, 0.34), rgba(154, 52, 18, 0.55)); border-color: rgba(251, 146, 60, 0.55); }
+.sp-key-btn.is-magic { background: linear-gradient(180deg, rgba(14, 165, 233, 0.34), rgba(7, 89, 133, 0.55)); border-color: rgba(56, 189, 248, 0.55); }
+.sp-key-btn.is-ult { background: linear-gradient(180deg, rgba(168, 85, 247, 0.36), rgba(88, 28, 135, 0.58)); border-color: rgba(192, 132, 252, 0.6); }
+.sp-key-btn.is-ult.is-ready { box-shadow: 0 0 14px rgba(192, 132, 252, 0.6); }
+.sp-key-btn.is-deck { background: linear-gradient(180deg, rgba(234, 179, 8, 0.3), rgba(133, 77, 14, 0.55)); border-color: rgba(250, 204, 21, 0.55); }
+
+/* Survival Project 4-Element Card Deck & Synthesis Modal */
+.sp-card-modal {
+  position: absolute;
+  top: 56px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(860px, calc(100% - 28px));
+  max-height: calc(100% - 134px);
+  z-index: 12;
+  display: flex;
+  flex-direction: column;
+  border-radius: 18px;
+  border: 1.5px solid rgba(250, 204, 21, 0.38);
+  background: rgba(11, 17, 30, 0.94);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  box-shadow: 0 24px 54px rgba(2, 6, 23, 0.62);
+  color: #f8fafc;
+  overflow: hidden;
+  pointer-events: auto;
+}
+.sp-card-modal[hidden] { display: none !important; }
+.sp-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(30, 41, 59, 0.55);
+  flex-wrap: wrap;
+}
+.sp-modal-kicker {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 800;
+  color: #fbbf24;
+  letter-spacing: 0.08em;
+}
+.sp-modal-title {
+  margin: 2px 0 0;
+  font-size: 16px;
+  font-weight: 800;
+  color: #ffffff;
+}
+.sp-modal-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sp-modal-code {
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(250, 204, 21, 0.55);
+  background: rgba(250, 204, 21, 0.16);
+  color: #fde047;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 800;
+}
+.sp-pack-btn {
+  height: 32px;
+  padding: 0 13px;
+  border-radius: 9px;
+  border: 1px solid rgba(250, 204, 21, 0.8);
+  background: linear-gradient(135deg, #f59e0b, #ea580c);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.12s ease, filter 0.12s ease;
+}
+.sp-pack-btn:hover { transform: translateY(-1px); filter: brightness(1.1); }
+
+.sp-modal-tabs {
+  display: flex;
+  gap: 6px;
+  padding: 10px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  flex-wrap: wrap;
+}
+.sp-deck-tab {
+  height: 28px;
+  padding: 0 11px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(30, 41, 59, 0.5);
+  color: #cbd5e1;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.sp-deck-tab.is-active {
+  border-color: #fbbf24;
+  background: rgba(251, 191, 36, 0.22);
+  color: #fde047;
+}
+.sp-modal-feedback {
+  margin: 10px 16px 0;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(52, 211, 153, 0.45);
+  background: rgba(16, 185, 129, 0.16);
+  color: #a7f3d0;
+  font-size: 12px;
+  font-weight: 700;
+}
+.sp-modal-feedback[hidden] { display: none !important; }
+.sp-card-grid {
+  padding: 12px 16px 16px;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
+  gap: 10px;
+}
+.sp-deck-card {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 11px 12px;
+  border-radius: 12px;
+  border: 1.5px solid rgba(255, 255, 255, 0.16);
+  background: rgba(30, 41, 59, 0.65);
+}
+.sp-deck-card.is-equipped {
+  box-shadow: 0 0 0 1.5px #fbbf24, 0 8px 20px rgba(251, 191, 36, 0.18);
+}
+.sp-deck-card.is-locked { opacity: 0.56; }
+.sp-deck-card.is-tier-silver { border-color: #94a3b8; }
+.sp-deck-card.is-tier-gold { border-color: #facc15; background: rgba(66, 46, 12, 0.48); }
+.sp-deck-card.is-tier-black { border-color: #c084fc; background: rgba(38, 16, 66, 0.62); }
+.sp-deck-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 800;
+}
+.sp-deck-card-name {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #ffffff;
+}
+.sp-deck-card-desc {
+  font-size: 11.5px;
+  color: #cbd5e1;
+  line-height: 1.45;
+}
+.sp-deck-card-ai {
+  padding: 5px 7px;
+  border-radius: 7px;
+  background: rgba(15, 23, 42, 0.62);
+  font-size: 10.5px;
+  color: #93c5fd;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sp-deck-card-foot {
+  display: flex;
+  gap: 6px;
+  margin-top: auto;
+}
+.sp-deck-btn {
+  flex: 1 1 auto;
+  height: 28px;
+  padding: 0 8px;
+  border-radius: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(15, 23, 42, 0.72);
+  color: #f8fafc;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.sp-deck-btn.is-equip {
+  border-color: rgba(56, 189, 248, 0.6);
+  background: rgba(14, 165, 233, 0.26);
+  color: #bae6fd;
+}
+.sp-deck-btn.is-upgrade {
+  border-color: rgba(250, 204, 21, 0.65);
+  background: rgba(234, 179, 8, 0.22);
+  color: #fef08a;
+}
+.sp-deck-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+@media (max-width: 1120px) {
+  .sp-card-slots { display: none; }
+}
+@media (max-width: 768px) {
+  .sp-player-hud {
+    top: 52px;
+    left: 8px;
+    padding: 5px 8px;
+    gap: 7px;
+  }
+  .sp-portrait-frame { width: 38px; height: 38px; }
+  .sp-hud-stats { min-width: 116px; }
+  .sp-arcade-dock {
+    bottom: 8px;
+    padding: 4px 5px;
+    gap: 4px;
+  }
+  .sp-key-btn {
+    min-width: 44px;
+    height: 40px;
+    padding: 2px 4px;
   }
 }
