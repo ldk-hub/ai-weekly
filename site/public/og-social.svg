@@ -10,7 +10,7 @@
   <g transform="translate(910, 58)">
     <rect x="0" y="0" width="230" height="36" rx="18" fill="#162032" stroke="#243044" stroke-width="1"/>
     <circle cx="20" cy="18" r="4.5" fill="#3dd6b5"/>
-    <text x="124" y="23" font-size="13" font-weight="600" fill="#f8fafc" text-anchor="middle">2026-11-18 · 선별 20건</text>
+    <text x="124" y="23" font-size="13" font-weight="600" fill="#f8fafc" text-anchor="middle">2026-11-19 · 선별 20건</text>
   </g>
   <text x="60" y="186" font-size="44" font-weight="700" fill="#f8fafc" letter-spacing="-1.2">AI <tspan fill="#3dd6b5">인플루언서</tspan>의 오늘 <tspan fill="#f8e473">한 수</tspan></text>
   <text x="60" y="230" font-size="17" font-weight="500" fill="#94a3b8">매일 골라 정리하는 실전 프롬프트 · 워크플로우 · AI 활용 팁</text>
@@ -21,46 +21,46 @@
         <rect x="22" y="22" width="46" height="24" rx="6" fill="#0284c7"/>
         <text x="45" y="38" font-size="11.5" font-weight="700" fill="#ffffff" text-anchor="middle">X</text>
         <text x="78" y="38" font-size="13" font-weight="600" fill="#94a3b8">@openai</text>
-        <text x="22" y="82" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">오픈AI, GPT-6.2</text>
-      <text x="22" y="109" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">아스트라·솔 공식 출시</text>
-        <text x="22" y="148" font-size="13" font-weight="500" fill="#cbd5e1">오픈AI가 차세대 모델 GPT-6.2</text>
-      <text x="22" y="169" font-size="13" font-weight="500" fill="#cbd5e1">아스트라(Astra)와 솔(Sol)의 정식</text>
-      <text x="22" y="190" font-size="13" font-weight="500" fill="#cbd5e1">제공을 시작했다. 실제 업무 현장에…</text>
+        <text x="22" y="82" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">오픈AI 모델, GPU IP</text>
+      <text x="22" y="109" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">성능·전력·면적 14% 개선</text>
+        <text x="22" y="148" font-size="13" font-weight="500" fill="#cbd5e1">오픈AI 모델이 5개월 만에 AMD</text>
+      <text x="22" y="169" font-size="13" font-weight="500" fill="#cbd5e1">엔지니어가 수년간 최적화한</text>
+      <text x="22" y="190" font-size="13" font-weight="500" fill="#cbd5e1">플래그십 GPU IP에서 최대 14%의 PP…</text>
         <line x1="22" y1="244" x2="325" y2="244" stroke="#243044" stroke-width="1"/>
-        <text x="22" y="270" font-size="12.5" font-weight="700" fill="#3dd6b5">점수 93</text>
-        <text x="325" y="270" font-size="12.5" font-weight="600" fill="#f8e473" text-anchor="end">♥ 28,908</text>
+        <text x="22" y="270" font-size="12.5" font-weight="700" fill="#3dd6b5">점수 85</text>
+        <text x="325" y="270" font-size="12.5" font-weight="600" fill="#f8e473" text-anchor="end">♥ 3,745</text>
       </g>
     </g>
     <g transform="translate(427, 276)">
       <rect x="0" y="0" width="347" height="292" rx="18" fill="#111827" stroke="#243044" stroke-width="1.5"/>
       <g clip-path="url(#socCardClip1)">
-        <rect x="22" y="22" width="46" height="24" rx="6" fill="#0284c7"/>
-        <text x="45" y="38" font-size="11.5" font-weight="700" fill="#ffffff" text-anchor="middle">X</text>
-        <text x="78" y="38" font-size="13" font-weight="600" fill="#94a3b8">@omarsar0</text>
-        <text x="22" y="82" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">구글, 하네스 단위 지속적</text>
-      <text x="22" y="109" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">자기개선 논문 발표</text>
-        <text x="22" y="148" font-size="13" font-weight="500" fill="#cbd5e1">구글 연구진이 에이전트 하네스</text>
-      <text x="22" y="169" font-size="13" font-weight="500" fill="#cbd5e1">수준에서 지속적으로 스스로를</text>
-      <text x="22" y="190" font-size="13" font-weight="500" fill="#cbd5e1">개선하는 재귀적 자기개선(RSI…</text>
+        <rect x="22" y="22" width="103" height="24" rx="6" fill="#db2777"/>
+        <text x="73.5" y="38" font-size="11.5" font-weight="700" fill="#ffffff" text-anchor="middle">Instagram</text>
+        <text x="135" y="38" font-size="13" font-weight="600" fill="#94a3b8">@prompt_what</text>
+        <text x="22" y="82" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">챗GPT 사진 이름</text>
+      <text x="22" y="109" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">저장(@나)으로 얼…</text>
+        <text x="22" y="148" font-size="13" font-weight="500" fill="#cbd5e1">챗GPT의 사진 이름 저장 기능을</text>
+      <text x="22" y="169" font-size="13" font-weight="500" fill="#cbd5e1">활용해 셀카를 &apos;나&apos;로 등록해 두면 새</text>
+      <text x="22" y="190" font-size="13" font-weight="500" fill="#cbd5e1">대화창에서 @나 태그만으로 매…</text>
         <line x1="22" y1="244" x2="325" y2="244" stroke="#243044" stroke-width="1"/>
-        <text x="22" y="270" font-size="12.5" font-weight="700" fill="#3dd6b5">점수 78</text>
-        <text x="325" y="270" font-size="12.5" font-weight="600" fill="#f8e473" text-anchor="end">♥ 684</text>
+        <text x="22" y="270" font-size="12.5" font-weight="700" fill="#3dd6b5">점수 82</text>
+        <text x="325" y="270" font-size="12.5" font-weight="600" fill="#f8e473" text-anchor="end">♥ 765</text>
       </g>
     </g>
     <g transform="translate(794, 276)">
       <rect x="0" y="0" width="347" height="292" rx="18" fill="#111827" stroke="#243044" stroke-width="1.5"/>
       <g clip-path="url(#socCardClip2)">
-        <rect x="22" y="22" width="46" height="24" rx="6" fill="#0284c7"/>
-        <text x="45" y="38" font-size="11.5" font-weight="700" fill="#ffffff" text-anchor="middle">X</text>
-        <text x="78" y="38" font-size="13" font-weight="600" fill="#94a3b8">@minchoi</text>
-        <text x="22" y="82" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">미호요, API 없이 화면</text>
-      <text x="22" y="109" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">보고 게임하는 AI 공개</text>
-        <text x="22" y="148" font-size="13" font-weight="500" fill="#cbd5e1">원신 개발사 미호요(miHoYo)가 게임</text>
-      <text x="22" y="169" font-size="13" font-weight="500" fill="#cbd5e1">내부 API 연동 없이 화면만 보고</text>
-      <text x="22" y="190" font-size="13" font-weight="500" fill="#cbd5e1">키보드와 마우스로 플레이하는 A…</text>
+        <rect x="22" y="22" width="103" height="24" rx="6" fill="#db2777"/>
+        <text x="73.5" y="38" font-size="11.5" font-weight="700" fill="#ffffff" text-anchor="middle">Instagram</text>
+        <text x="135" y="38" font-size="13" font-weight="600" fill="#94a3b8">@prompt_what</text>
+        <text x="22" y="82" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">영상 AI 없이 Claude</text>
+      <text x="22" y="109" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">Code로 99종 화풍 영…</text>
+        <text x="22" y="148" font-size="13" font-weight="500" fill="#cbd5e1">Claude Code용 오픈소스 스타일</text>
+      <text x="22" y="169" font-size="13" font-weight="500" fill="#cbd5e1">라이브러리 Lemo-Opuscar가 33종을</text>
+      <text x="22" y="190" font-size="13" font-weight="500" fill="#cbd5e1">추가해 총 99가지 영상 화풍…</text>
         <line x1="22" y1="244" x2="325" y2="244" stroke="#243044" stroke-width="1"/>
-        <text x="22" y="270" font-size="12.5" font-weight="700" fill="#3dd6b5">점수 68</text>
-        <text x="325" y="270" font-size="12.5" font-weight="600" fill="#f8e473" text-anchor="end">♥ 56</text>
+        <text x="22" y="270" font-size="12.5" font-weight="700" fill="#3dd6b5">점수 80</text>
+        <text x="325" y="270" font-size="12.5" font-weight="600" fill="#f8e473" text-anchor="end">♥ 361</text>
       </g>
     </g>
   <text x="60" y="602" font-size="12" font-weight="600" fill="#94a3b8">매일 자동 수집 · 한국어 요약 · AI Weekly Social Feed</text>

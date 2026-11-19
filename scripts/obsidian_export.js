@@ -328,6 +328,41 @@ tags: [ai-weekly, benchmarks, frontier-models, market-share, pipeline, staleness
 // 3. 작업 일지들
 const LOGS = [
   {
+    filename: "2026-11-19 작업일지.md",
+    title: "2026-11-19 작업일지 — 평일 데일리 파이프라인(cc-daily) 완수",
+    date: "2026-11-19",
+    content: `---
+title: 2026-11-19 작업일지
+date: 2026-11-19
+type: work-log
+tags: [ai-weekly, work-log, cc-daily, cc-star, cc-news, cc-social, obsidian-sync]
+status: completed
+author: ldk-hub <orm6711@gmail.com>
+---
+
+# 📅 2026-11-19 작업일지 (평일 데일리 파이프라인 cc-daily 완수)
+
+## 📌 1. 평일 파이프라인 실행 요약
+
+### 1) 스타보드 갱신 (cc-star)
+- **추적 대상 및 성공률**: 총 626개 오픈소스 리포지토리 전수 추적 완료 (\`Success: 626 (100%)\`, 당일 체크 577건, \`404 Gone: 49\`, \`Renames: 0\`, \`Suspects: 0\`).
+- **일일 스타 증가 Top 5**: \`morluto/rea\` (+1,660★, 468,255★), \`mdiri-ai/SoduWork\` (+1,057★, 2,883★), \`stablyai/orca\` (+877★, 128,877★), \`affaan-m/ECC\` (+834★, 306,485★), \`DietrichGebert/ponytail\` (+764★, 194,018★).
+
+### 2) 데일리 AI 뉴스 큐레이션 (cc-news)
+- **수집 현황**: 8개 활성 매체 총 69건 수집(\`geeknews\` 5, \`aitimes\` 5, \`hackernews\` 16, \`hfpapers\` 12, \`bluesky\` 12, \`x\` 6, \`threads\` 3, \`instagram\` 10; \`github\`은 \`cc-star\` 전담 이관). \`[MISSING]\`: Reddit(5개 서브레딧 모두 429/404 rate limit으로 0건). X는 쿠키 미설정으로 Scrapling 폴백 동작해 6건 수집. 최근 7일 배포분(12개 파일·108 URL)과 겹친 1건 사전 차단(업데이트 0건).
+- **큐레이션 및 검증**: 18건 균형 선별(\`model\` 3, \`research\` 3, \`devtool\` 3, \`product\` 3, \`policy\` 2, \`oss\` 2, \`practice\` 1, \`insight\` 1), 매체 분포 \`Hacker News\` 4·\`GeekNews\` 2·\`AI타임스\` 2·\`HF Daily Papers\` 2·\`Bluesky\` 2·\`X\` 2·\`Threads\` 2·\`Instagram\` 2. \`curate_news.js --validate\` 및 \`--selfcheck\` 통과, \`archive/news_2026-11-19.json\`·\`news_index.json\` 양쪽 동기화 완료.
+- **주요 이슈**: 구글 Gemini 4 Neon(AAII 3위·Coding Agent 1위·작업 비용 32% 절감), Claude Fable 5.2 대규모 단백질 서열 학습 정황(54% vs 9%), Energy-Based Reasoners(345배 추론 효율), Vals AI 게임 위장 군사 표적 우회, Grok Bot 31회 무단 접근 및 부인, Mastra Factory, ForceHarness, Weight-Space Programming, 코딩 에이전트 토큰 예산 플라시보 실험 등.
+
+### 3) 소셜 피드 갱신 (cc-social)
+- **수집 현황**: 활성 시드(\`x\` 8, \`threads\` 3, \`instagram\` 6, \`reddit\` 6) 기준 원본 \`x=40\`, \`threads=15\`, \`reddit=0\`(429/404), \`instagram=19\` 수집 후 7일 중복 7건 제외하여 24시간 후보 37건(\`x:20\`, \`threads:4\`, \`instagram:13\`) 확보.
+- **큐레이션 및 아카이브**: 20건 균형 선별(\`x:10\`, \`instagram:7\`, \`threads:3\`), \`build_social_archive.js\` 누적 7일·124건 동기화 및 \`curate_social.js --validate\` 통과.
+
+### 4) 리소스 갱신·빌드·옵시디언 동기화
+- **배포 리소스 및 빌드**: \`lounge_latest.json\`(스레드 1·댓글 1), \`feed.xml\`, \`news-feed.xml\`, \`sitemap.xml\`, OG 이미지 4종(\`og.svg/png\`, \`og-social.svg/png\`) 갱신 및 \`vite build\`(410ms) 완료.
+- **옵시디언 볼트**: \`npm run sync:obsidian\`으로 작업일지 및 대시보드 동기화 완료.
+`,
+  },
+  {
     filename: "2026-11-18 작업일지.md",
     title: "2026-11-18 작업일지 — 평일 데일리 파이프라인(cc-daily) 완수",
     date: "2026-11-18",
