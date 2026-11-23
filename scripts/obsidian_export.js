@@ -102,6 +102,8 @@ graph TD
 - [[05-benchmarks 점유율·성능 파이프라인|📊 benchmarks 점유율·성능 파이프라인 명세]]
 
 ### 📅 날짜별 작업 일지 (Work Logs)
+- [[2026-11-23 작업일지|📅 2026-11-23 작업일지 (주간 cc-weekly 완수 및 파이프라인 개선점 진단: 스타보드 626개 100%, 트렌드 35건·신규 7종 사전 확충, 벤치마크 검증, 뉴스 18건·소셜 20건 배포, 시드 5건 승격)]]
+- [[2026-11-19 작업일지|📅 2026-11-19 작업일지 (평일 cc-daily 완수: 스타보드 626개 100% 갱신, 데일리 뉴스 18건·소셜 피드 20건 큐레이션 및 검증 통과, RSS/OG/라운지·빌드·옵시디언 동기화)]]
 - [[2026-11-18 작업일지|📅 2026-11-18 작업일지 (평일 cc-daily 완수: 스타보드 626개 100% 갱신, 데일리 뉴스 18건·소셜 피드 20건 큐레이션 및 검증 통과, RSS/OG/라운지·빌드·옵시디언 동기화)]]
 - [[2026-11-17 작업일지|📅 2026-11-17 작업일지 (주간 cc-weekly 완수 및 파이프라인 6대 취약점 패치: 스타보드 622개 100%, 트렌드 33건·신규 13종 사전 확충, 벤치마크 검증, 뉴스 18건·소셜 19건 배포, 빌드·테스트 10/10 통과)]]
 - [[2026-11-16 작업일지|📅 2026-11-16 작업일지 (주간 cc-weekly: 스타보드 622개 추적, 트렌드 33건, 벤치마크 검증, 뉴스 18건 배포)]]
@@ -327,6 +329,49 @@ tags: [ai-weekly, benchmarks, frontier-models, market-share, pipeline, staleness
 
 // 3. 작업 일지들
 const LOGS = [
+  {
+    filename: "2026-11-23 작업일지.md",
+    title: "2026-11-23 작업일지 — 주간 종합 파이프라인(cc-weekly) 완수 및 6대 개선점 진단",
+    date: "2026-11-23",
+    content: `---
+title: 2026-11-23 작업일지
+date: 2026-11-23
+type: work-log
+tags: [ai-weekly, work-log, cc-weekly, cc-star, cc-trends, cc-benchmarks, cc-news, cc-social, obsidian-sync]
+status: completed
+author: ldk-hub <orm6711@gmail.com>
+---
+
+# 📅 2026-11-23 작업일지 (주간 종합 파이프라인 cc-weekly 완수)
+
+## 📌 1. 주간 종합 파이프라인 실행 요약
+
+### 1) 스타보드 갱신 (cc-star)
+- **추적 대상 및 성공률**: 총 626개 오픈소스 리포지토리 전수 추적 완료 (\`Success: 626 (100%)\`, \`404 Gone: 49\`, \`Renames: 1\`, \`Suspects: 0\`).
+- **주요 스타 상승 Top 5 (7일 일평균)**: \`morluto/rea\` (+1,705.9/일, 474,053★), \`stablyai/orca\` (+1,013.0/일, 132,953★), \`mdiri-ai/SoduWork\` (+838.6/일, 6,815★), \`DietrichGebert/ponytail\` (+767.9/일, 196,869★), \`mattpocock/skills\` (+748.0/일, 330,469★).
+
+### 2) Claude Code 트렌드 갱신 (cc-trends)
+- **수집 및 보안 스캔**: \`collect.js\`로 60/148건 후보 수집(주간 성장률 중앙값 1.38%/week), \`scan-install-entry.js\` 전수 스캔 결과 \`NousResearch/hermes-agent\` 1건 차단.
+- **사전 확충 및 큐레이션**: \`curated-knowledge-ext.js\`에 신규 후보 7종(\`erkamyaman/rust-anything\`, \`sybil-solutions/inference-optimisation-skill\`, \`EL4CTEO/fast-anything\`, \`kubai087/kubai-icons\`, \`artemnovitckii/claude-animation-skills\`, \`Dodaios/ste80-humanizer\`, \`blader/humanizer\`) 정밀 한국어 사전 추가. 최종 35건(Rising 20건: \`skill\` 8·\`mcp\` 6·\`agent\` 4·\`harness\` 2 / Classic 15건: \`skill\` 6·\`mcp\` 4·\`agent\` 3·\`harness\` 2) \`--validate\` 통과 및 아카이브 인덱스 43건 양쪽 동기화 완료.
+- **Rising Top 5**: \`morluto/rea\`(74점), \`ersinkoc/phonebox\`(72점), \`juliobsz/skills\`(72점), \`erkamyaman/rust-anything\`(70점, 신규), \`mdiri-ai/SoduWork\`(70점).
+
+### 3) AI 점유율 및 프론티어 성능 (cc-benchmarks)
+- **실시간 검증**: OpenRouter API 476개 모델 동기화 및 Scrapling 5대 출처(LMArena, AA, LiveBench, OpenRouter Rankings, Trakkr AI Index) 실시간 확인 완료.
+- **게이트 통과**: 7개 출처 최신성 게이트(0~12일 전) 전원 통과, 6개 점유율 3곳 평균 합계 100.00%, 10개 프론티어 모델 통과 및 \`benchmarks_2026-11-23.json\` 아카이빙 완료.
+- **주요 지표**: 점유율 1~3위는 ChatGPT(54.07%)·Claude(19.53%)·Gemini(17.10%), 모델 종합/코딩 1~3위는 Claude Fable 5.2(92.8/94.6)·Gemini 4 Carbon(92.4/93.8)·Muse Wonder(89.7/90.9).
+
+### 4) 데일리 AI 뉴스 큐레이션 (cc-news)
+- **수집 현황**: 활성 매체 총 43건 수집(\`geeknews\` 5, \`aitimes\` 5, \`hackernews\` 13, \`bluesky\` 12, \`x\` 3, \`threads\` 5; \`github\`은 \`cc-star\` 전담 이관). \`[MISSING]\`: Reddit(429/404 rate limit), HF Daily Papers(주말 UTC 일·토요일 공백), Instagram(24시간 내 신규 0건). 최근 7일 배포분(8개 파일·72 URL) 중복 0건·업데이트 0건.
+- **큐레이션 및 검증**: 18건 균형 선별(\`practice\` 4, \`model\` 3, \`devtool\` 3, \`policy\` 3, \`research\` 2, \`oss\` 2, \`product\` 1), 매체 분포 \`Hacker News\` 4·\`Bluesky\` 4·\`AI타임스\` 3·\`GeekNews\` 3·\`X\` 2·\`Threads\` 2. \`curate_news.js --validate\` 및 \`--selfcheck\` 통과, \`archive/news_2026-11-23.json\`·\`news_index.json\` 양쪽 동기화 완료.
+
+### 5) 소셜 피드 갱신 (cc-social)
+- **시드 발굴 및 수집**: \`discover_seeds.js\`에서 5건 승격(\`x:@googledeepmind\`, \`x:@thinkymachines\`, \`x:@thesupermannx\`, \`x:@john_ssuh\`, \`instagram:@pollo.ai_official\`), 퇴출 0건, 활성 시드 \`{x:10, threads:3, instagram:7, reddit:6}\`. \`collect_social.js\`로 7일 중복 2건 제외 후 26건 수집(\`x\` 12, \`threads\` 5, \`instagram\` 9; \`reddit\`은 429/404로 0건).
+- **큐레이션 및 아카이브**: 20건 균형 선별(\`x\` 9, \`instagram\` 7, \`threads\` 4), \`build_social_archive.js\` 누적 8일·144건 동기화 및 \`curate_social.js --validate\` 통과.
+
+### 6) 사이트 리소스·빌드·옵시디언 동기화
+- **리소스 및 빌드**: \`lounge_latest.json\`(스레드 1·댓글 1), \`feed.xml\`, \`news-feed.xml\`, \`sitemap.xml\`, OG 이미지 4종(\`og.svg/png\`, \`og-social.svg/png\`) 생성 및 \`vite build\`(463ms) 완료.
+`,
+  },
   {
     filename: "2026-11-19 작업일지.md",
     title: "2026-11-19 작업일지 — 평일 데일리 파이프라인(cc-daily) 완수",

@@ -1,36 +1,72 @@
 {
-  "runAt": "2026-11-17T00:16:31.644Z",
+  "runAt": "2026-11-22T23:55:51.878Z",
   "anchorKeywords": [
-    "프롬프트",
     "클로드 코드",
+    "오픈소스",
+    "프롬프트",
+    "오픈ai",
     "mcp",
     "클로드코드",
-    "프롬프트 팁",
-    "anthropic",
     "gemini 4",
-    "openai",
     "업무 자동화",
     "워크플로우",
     "클로드",
-    "오픈소스",
-    "엔비디아",
-    "ai 브리핑",
-    "xai"
+    "프롬프트 팁",
+    "anthropic",
+    "openai",
+    "벤치마크",
+    "ai 안전"
   ],
   "activeCounts": {
-    "x": 8,
+    "x": 10,
     "threads": 3,
-    "instagram": 6,
+    "instagram": 7,
     "reddit": 6
   },
   "promoted": [
     {
       "platform": "x",
-      "handle": "anthropicai",
-      "verifiedAt": "2026-11-17T00:16:31.644Z",
-      "discoveredFrom": "corpus:news_2026-11-10.json, corpus:news_2026-11-16.json",
-      "verifyScore": 66,
+      "handle": "googledeepmind",
+      "verifiedAt": "2026-11-22T23:55:51.878Z",
+      "discoveredFrom": "corpus:news_2026-11-12.json, corpus:news_2026-11-16.json",
+      "verifyScore": 80,
+      "aiRatio": 1,
+      "sampleCount": 4
+    },
+    {
+      "platform": "x",
+      "handle": "thinkymachines",
+      "verifiedAt": "2026-11-22T23:55:51.878Z",
+      "discoveredFrom": "x_graph:@minchoi",
+      "verifyScore": 80,
+      "aiRatio": 1,
+      "sampleCount": 4
+    },
+    {
+      "platform": "x",
+      "handle": "thesupermannx",
+      "verifiedAt": "2026-11-22T23:55:51.878Z",
+      "discoveredFrom": "x_graph:@godofprompt",
+      "verifyScore": 70,
       "aiRatio": 0.75,
+      "sampleCount": 4
+    },
+    {
+      "platform": "x",
+      "handle": "john_ssuh",
+      "verifiedAt": "2026-11-22T23:55:51.878Z",
+      "discoveredFrom": "x_graph:@godofprompt",
+      "verifyScore": 62,
+      "aiRatio": 0.75,
+      "sampleCount": 4
+    },
+    {
+      "platform": "instagram",
+      "handle": "pollo.ai_official",
+      "verifiedAt": "2026-11-22T23:55:51.878Z",
+      "discoveredFrom": "mention:@prompt_what",
+      "verifyScore": 73,
+      "aiRatio": 1,
       "sampleCount": 4
     }
   ],
@@ -38,103 +74,19 @@
   "rejected": {
     "x": [
       {
-        "handle": "googledeepmind",
-        "passed": false,
-        "reason": "low_verify_score",
-        "verifyScore": 50,
-        "aiRatio": 0.5,
-        "spamRatio": 0,
-        "sampleCount": 4,
-        "freshCount": 4,
-        "latestPostAt": "2026-11-16T16:31:37.311Z",
-        "discoveredFrom": "corpus:news_2026-11-10.json, corpus:news_2026-11-11.json, corpus:news_2026-11-12.json"
-      },
-      {
-        "handle": "bot",
+        "handle": "tesla",
         "passed": false,
         "reason": "low_ai_ratio",
-        "verifyScore": 31,
-        "aiRatio": 0.25,
-        "spamRatio": 0,
-        "sampleCount": 4,
-        "freshCount": 4,
-        "latestPostAt": "2026-11-16T17:49:14.084Z",
-        "discoveredFrom": "x_graph:@minchoi"
-      },
-      {
-        "handle": "business",
-        "passed": false,
-        "reason": "low_ai_ratio",
-        "verifyScore": 8,
+        "verifyScore": 16,
         "aiRatio": 0,
         "spamRatio": 0,
         "sampleCount": 4,
-        "freshCount": 4,
-        "latestPostAt": "2026-11-17T00:15:09.201Z",
-        "discoveredFrom": "x_graph:@minchoi"
-      },
-      {
-        "handle": "elonmusk",
-        "passed": false,
-        "reason": "low_ai_ratio",
-        "verifyScore": 17,
-        "aiRatio": 0,
-        "spamRatio": 0,
-        "sampleCount": 4,
-        "freshCount": 4,
-        "latestPostAt": "2026-11-16T23:30:15.108Z",
+        "freshCount": 3,
+        "latestPostAt": "2026-11-22T16:40:23.624Z",
         "discoveredFrom": "x_graph:@minchoi"
       }
     ],
     "threads": [
-      {
-        "handle": "meta",
-        "passed": false,
-        "reason": "low_ai_ratio",
-        "verifyScore": 29,
-        "aiRatio": 0.25,
-        "spamRatio": 0,
-        "sampleCount": 4,
-        "freshCount": 4,
-        "latestPostAt": "2026-11-16T17:07:10.000Z",
-        "discoveredFrom": "corpus:news_2026-11-10.json, corpus:news_2026-11-16.json"
-      },
-      {
-        "handle": "openai",
-        "passed": false,
-        "reason": "low_ai_ratio",
-        "verifyScore": 30,
-        "aiRatio": 0.33,
-        "spamRatio": 0,
-        "sampleCount": 3,
-        "freshCount": 1,
-        "latestPostAt": "2026-10-30T20:23:06.000Z",
-        "discoveredFrom": "corpus:news_2026-11-11.json, corpus:news_2026-11-16.json"
-      },
-      {
-        "handle": "sama",
-        "passed": false,
-        "reason": "stale_account",
-        "verifyScore": 28,
-        "aiRatio": 0.25,
-        "spamRatio": 0,
-        "sampleCount": 4,
-        "freshCount": 0,
-        "latestPostAt": "2024-09-23T17:01:10.000Z",
-        "discoveredFrom": "corpus:news_2026-11-10.json"
-      },
-      {
-        "handle": "karpathy",
-        "passed": false,
-        "reason": "stale_account",
-        "verifyScore": 9,
-        "aiRatio": 0,
-        "spamRatio": 0,
-        "sampleCount": 4,
-        "freshCount": 0,
-        "latestPostAt": "2026-03-13T05:44:55.000Z",
-        "discoveredFrom": "corpus:news_2026-11-11.json"
-      },
       {
         "handle": "subinium",
         "passed": false,
@@ -146,14 +98,75 @@
         "freshCount": 0,
         "latestPostAt": "2026-06-30T00:31:17.000Z",
         "discoveredFrom": "corpus:news_2026-11-12.json"
+      },
+      {
+        "handle": "openai",
+        "passed": false,
+        "reason": "low_ai_ratio",
+        "verifyScore": 29,
+        "aiRatio": 0.25,
+        "spamRatio": 0,
+        "sampleCount": 4,
+        "freshCount": 3,
+        "latestPostAt": "2026-11-21T14:23:56.000Z",
+        "discoveredFrom": "corpus:news_2026-11-16.json"
+      },
+      {
+        "handle": "meta",
+        "passed": false,
+        "reason": "low_verify_score",
+        "verifyScore": 44,
+        "aiRatio": 0.5,
+        "spamRatio": 0,
+        "sampleCount": 4,
+        "freshCount": 4,
+        "latestPostAt": "2026-11-20T19:40:49.000Z",
+        "discoveredFrom": "corpus:news_2026-11-16.json"
       }
     ],
-    "instagram": [],
+    "instagram": [
+      {
+        "handle": "name",
+        "passed": false,
+        "reason": "insufficient_samples",
+        "verifyScore": 0,
+        "aiRatio": 0,
+        "spamRatio": 0,
+        "sampleCount": 0,
+        "freshCount": 0,
+        "latestPostAt": null,
+        "discoveredFrom": "mention:@prompt_what"
+      },
+      {
+        "handle": "pollo.ai_kr",
+        "passed": false,
+        "reason": "low_ai_ratio",
+        "verifyScore": 14,
+        "aiRatio": 0,
+        "spamRatio": 0,
+        "sampleCount": 4,
+        "freshCount": 4,
+        "latestPostAt": "2026-11-22T12:00:00.000Z",
+        "discoveredFrom": "mention:@prompt_what"
+      },
+      {
+        "handle": "affaanmustafa",
+        "passed": false,
+        "reason": "low_ai_ratio",
+        "verifyScore": 36,
+        "aiRatio": 0.33,
+        "spamRatio": 0,
+        "sampleCount": 3,
+        "freshCount": 1,
+        "latestPostAt": "2026-11-22T00:26:53.000Z",
+        "discoveredFrom": "mention:@ai_insight.kr"
+      }
+    ],
     "reddit": [
       {
         "handle": "openai",
         "passed": false,
-        "reason": "fetch_error:Status code 403"
+        "reason": "fetch_error:Status code 404"
       },
       {
         "handle": "machinelearning",
@@ -181,80 +194,80 @@
     "instagram:sebia.ai": {
       "platform": "instagram",
       "handle": "sebia.ai",
-      "curatedCount": 2,
-      "candidatesSeen": 0,
+      "curatedCount": 3,
+      "candidatesSeen": 1,
       "spamCount": 0,
-      "totalRelevance": 184,
+      "totalRelevance": 273,
       "survivalRate": 1,
-      "avgRelevance": 92
+      "avgRelevance": 91
     },
     "x:minchoi": {
       "platform": "x",
       "handle": "minchoi",
-      "curatedCount": 8,
-      "candidatesSeen": 3,
+      "curatedCount": 12,
+      "candidatesSeen": 5,
       "spamCount": 0,
-      "totalRelevance": 709,
+      "totalRelevance": 1056,
       "survivalRate": 1,
-      "avgRelevance": 89
+      "avgRelevance": 88
     },
     "instagram:joshproductletter": {
       "platform": "instagram",
       "handle": "joshproductletter",
-      "curatedCount": 12,
-      "candidatesSeen": 4,
+      "curatedCount": 21,
+      "candidatesSeen": 3,
       "spamCount": 0,
-      "totalRelevance": 1060,
+      "totalRelevance": 1841,
       "survivalRate": 1,
       "avgRelevance": 88
     },
     "instagram:prompt_what": {
       "platform": "instagram",
       "handle": "prompt_what",
-      "curatedCount": 3,
-      "candidatesSeen": 1,
+      "curatedCount": 6,
+      "candidatesSeen": 4,
       "spamCount": 0,
-      "totalRelevance": 258,
+      "totalRelevance": 528,
       "survivalRate": 1,
-      "avgRelevance": 86
+      "avgRelevance": 88
     },
     "x:omarsar0": {
       "platform": "x",
       "handle": "omarsar0",
-      "curatedCount": 8,
-      "candidatesSeen": 1,
+      "curatedCount": 19,
+      "candidatesSeen": 5,
       "spamCount": 0,
-      "totalRelevance": 681,
+      "totalRelevance": 1634,
       "survivalRate": 1,
-      "avgRelevance": 85
+      "avgRelevance": 86
     },
     "x:godofprompt": {
       "platform": "x",
       "handle": "godofprompt",
-      "curatedCount": 4,
+      "curatedCount": 6,
       "candidatesSeen": 2,
       "spamCount": 0,
-      "totalRelevance": 350,
+      "totalRelevance": 519,
       "survivalRate": 1,
-      "avgRelevance": 88
+      "avgRelevance": 87
     },
     "threads:choi.openai": {
       "platform": "threads",
       "handle": "choi.openai",
-      "curatedCount": 7,
+      "curatedCount": 15,
       "candidatesSeen": 4,
       "spamCount": 0,
-      "totalRelevance": 615,
+      "totalRelevance": 1310,
       "survivalRate": 1,
-      "avgRelevance": 88
+      "avgRelevance": 87
     },
     "instagram:aiscene.kr": {
       "platform": "instagram",
       "handle": "aiscene.kr",
-      "curatedCount": 9,
+      "curatedCount": 12,
       "candidatesSeen": 3,
       "spamCount": 0,
-      "totalRelevance": 796,
+      "totalRelevance": 1050,
       "survivalRate": 1,
       "avgRelevance": 88
     },
@@ -282,7 +295,7 @@
       "platform": "reddit",
       "handle": "promptengineering",
       "curatedCount": 8,
-      "candidatesSeen": 5,
+      "candidatesSeen": 0,
       "spamCount": 0,
       "totalRelevance": 688,
       "survivalRate": 1,
@@ -301,18 +314,58 @@
     "x:openai": {
       "platform": "x",
       "handle": "openai",
-      "curatedCount": 1,
-      "candidatesSeen": 1,
+      "curatedCount": 8,
+      "candidatesSeen": 3,
       "spamCount": 0,
-      "totalRelevance": 92,
+      "totalRelevance": 713,
       "survivalRate": 1,
-      "avgRelevance": 92
+      "avgRelevance": 89
     },
-    "reddit:chatgpt": {
-      "platform": "reddit",
-      "handle": "chatgpt",
+    "x:therundownai": {
+      "platform": "x",
+      "handle": "therundownai",
+      "curatedCount": 6,
+      "candidatesSeen": 4,
+      "spamCount": 0,
+      "totalRelevance": 513,
+      "survivalRate": 1,
+      "avgRelevance": 86
+    },
+    "instagram:vibe.trender": {
+      "platform": "instagram",
+      "handle": "vibe.trender",
+      "curatedCount": 2,
+      "candidatesSeen": 0,
+      "spamCount": 0,
+      "totalRelevance": 174,
+      "survivalRate": 1,
+      "avgRelevance": 87
+    },
+    "threads:rowancheung": {
+      "platform": "threads",
+      "handle": "rowancheung",
+      "curatedCount": 1,
+      "candidatesSeen": 0,
+      "spamCount": 0,
+      "totalRelevance": 82,
+      "survivalRate": 1,
+      "avgRelevance": 82
+    },
+    "instagram:ai_insight.kr": {
+      "platform": "instagram",
+      "handle": "ai_insight.kr",
+      "curatedCount": 2,
+      "candidatesSeen": 2,
+      "spamCount": 0,
+      "totalRelevance": 166,
+      "survivalRate": 1,
+      "avgRelevance": 83
+    },
+    "x:anthropicai": {
+      "platform": "x",
+      "handle": "anthropicai",
       "curatedCount": 0,
-      "candidatesSeen": 5,
+      "candidatesSeen": 1,
       "spamCount": 0,
       "totalRelevance": 0,
       "survivalRate": 0,

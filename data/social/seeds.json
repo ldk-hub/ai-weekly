@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "updatedAt": "2026-11-17T00:16:31.644Z",
-  "lastDiscoveryAt": "2026-11-17T00:16:31.644Z",
+  "updatedAt": "2026-11-22T23:55:51.878Z",
+  "lastDiscoveryAt": "2026-11-22T23:55:51.878Z",
   "core": {
     "x": [
       "rowancheung",
@@ -44,24 +44,49 @@
         "sampleCount": 4
       },
       {
+        "handle": "googledeepmind",
+        "verifiedAt": "2026-11-22T23:55:51.878Z",
+        "discoveredFrom": "corpus:news_2026-11-12.json, corpus:news_2026-11-16.json",
+        "verifyScore": 80,
+        "aiRatio": 1,
+        "sampleCount": 4
+      },
+      {
+        "handle": "thinkymachines",
+        "verifiedAt": "2026-11-22T23:55:51.878Z",
+        "discoveredFrom": "x_graph:@minchoi",
+        "verifyScore": 80,
+        "aiRatio": 1,
+        "sampleCount": 4
+      },
+      {
+        "handle": "thesupermannx",
+        "verifiedAt": "2026-11-22T23:55:51.878Z",
+        "discoveredFrom": "x_graph:@godofprompt",
+        "verifyScore": 70,
+        "aiRatio": 0.75,
+        "sampleCount": 4
+      },
+      {
         "handle": "anthropicai",
         "verifiedAt": "2026-11-17T00:16:31.644Z",
         "discoveredFrom": "corpus:news_2026-11-10.json, corpus:news_2026-11-16.json",
         "verifyScore": 66,
         "aiRatio": 0.75,
         "sampleCount": 4
-      },
-      {
-        "handle": "therundownai",
-        "verifiedAt": "2026-11-16T00:40:13.706Z",
-        "discoveredFrom": "x_graph:@rowancheung",
-        "verifyScore": 64,
-        "aiRatio": 0.75,
-        "sampleCount": 4
       }
     ],
     "threads": [],
-    "instagram": [],
+    "instagram": [
+      {
+        "handle": "pollo.ai_official",
+        "verifiedAt": "2026-11-22T23:55:51.878Z",
+        "discoveredFrom": "mention:@prompt_what",
+        "verifyScore": 73,
+        "aiRatio": 1,
+        "sampleCount": 4
+      }
+    ],
     "reddit": [
       {
         "handle": "ainewsrumors",
@@ -98,8 +123,10 @@
     "heybarsee",
     "omarsar0",
     "openai",
-    "anthropicai",
-    "therundownai"
+    "googledeepmind",
+    "thinkymachines",
+    "thesupermannx",
+    "anthropicai"
   ],
   "threads": [
     "prompt_what",
@@ -112,7 +139,8 @@
     "sebia.ai",
     "vibe.trender",
     "ai_insight.kr",
-    "joshproductletter"
+    "joshproductletter",
+    "pollo.ai_official"
   ],
   "reddit": [
     "promptengineering",

@@ -1249,6 +1249,97 @@ module.exports = {
     ],
     use_case: "Claude Code가 작업 중 어떤 스킬과 서브에이전트를 거쳐 도구를 호출하는지 실시간으로 관찰할 때",
     tags: ["agent-observability", "visualization", "claude-code-plugin", "typescript", "local-first"]
+  },
+  "erkamyaman/rust-anything": {
+    category: "skill",
+    title_ko: "rust-anything — 기존 애플리케이션을 동작 검증과 함께 점진적으로 Rust로 포팅하는 스킬",
+    catchphrase: "TypeScript·Python·C·Go·Ruby·Java 앱을 원본 동작 기록과 단계별로 대조하며 Rust로 재작성",
+    summary_ko: "TypeScript, Python, C, Go, Ruby, Java로 작성된 CLI, HTTP 서버, 라이브러리를 한 번에 한 조각씩 안전하게 Rust로 마이그레이션하도록 돕는 코딩 에이전트 스킬입니다. 원본 애플리케이션의 실행 동작을 먼저 기록한 뒤 매 포팅 단계마다 동일한 입출력 및 동작 정합성을 자동 검증하여 회귀 없는 Rust 재작성을 보장합니다.",
+    key_features: [
+      "TypeScript·Python·C·Go·Ruby·Java 6대 언어의 점진적 Rust 포팅 파이프라인",
+      "원본 애플리케이션의 기록된 동작(Recorded Behavior) 기반 단계별 정합성 검증",
+      "CLI·HTTP 서버·FFI/NAPI/PyO3 라이브러리 마이그레이션 자동화"
+    ],
+    use_case: "기존 다언어 백엔드나 CLI 도구를 기능 회귀 없이 점진적으로 고성능 Rust 코드로 전환할 때",
+    tags: ["rust", "code-migration", "claude-skills", "ffi", "pyo3"]
+  },
+  "sybil-solutions/inference-optimisation-skill": {
+    category: "skill",
+    title_ko: "inference-optimisation-skill — 로컬 LLM 추론 속도를 하드웨어별로 자동 튜닝하는 스킬",
+    catchphrase: "디코드, 추측 디코딩, 프리필, KV 캐시, TTFT를 반복 벤치마킹해 최고 서빙 속도를 탐색",
+    summary_ko: "임의의 하드웨어와 양자화 환경에서 로컬 LLM 서빙 속도(Decode, Speculative Decoding, Prefill, KV 캐시, 콜드 스타트, TTFT)를 언덕 오르기(Hill-climbing) 방식으로 자동 최적화하는 에이전트 스킬입니다. 실험 설정 변경과 벤치마크 측정을 반복하며 해당 장비에서 달성 가능한 최적의 추론 파라미터 조합을 찾아냅니다.",
+    key_features: [
+      "Decode·Speculative Decoding·Prefill·KV 캐시·TTFT 전 구간 속도 벤치마킹",
+      "하드웨어 및 양자화 포맷 맞춤형 Hill-climbing 파라미터 자동 탐색",
+      "로컬 LLM 서빙 엔진의 처리량 및 초기 응답 지연(TTFT) 실측 최적화"
+    ],
+    use_case: "로컬 GPU나 맥북에서 LLM 추론 서버의 초당 토큰 생성 속도와 TTFT를 극한까지 끌어올릴 때",
+    tags: ["llm-inference", "speculative-decoding", "benchmarking", "claude-skills", "optimization"]
+  },
+  "EL4CTEO/fast-anything": {
+    category: "skill",
+    title_ko: "fast-anything — 전체 재작성 대신 가장 느린 5% 핫스팟 함수만 Rust로 가속하는 스킬",
+    catchphrase: "Python·Node·Ruby 앱을 프로파일링해 병목 함수만 FFI/PyO3/NAPI-RS로 이식하고 동등성 증명",
+    summary_ko: "애플리케이션 전체를 무리하게 Rust로 새로 짜는 대신, 실행 시간의 대부분을 차지하는 상위 5% 병목 구간만 프로파일러로 찾아내 코딩 에이전트로 Rust(PyO3, NAPI-RS, FFI) 이식 및 동작 동등성 검증까지 완료하는 성능 최적화 스킬입니다. 최소한의 코드 변경으로 기존 Python, Node.js, Ruby 서비스의 처리 성능을 극대화합니다.",
+    key_features: [
+      "실시간 프로파일링 기반 상위 5% 핫스팟 병목 함수 정밀 식별",
+      "PyO3·NAPI-RS·FFI 바인딩을 통한 핫 함수 자동 Rust 포팅",
+      "원본 함수와의 입출력 및 엣지 케이스 동작 동등성 자동 검증"
+    ],
+    use_case: "운영 중인 Python·Node·Ruby 서비스에서 전체 재작성 없이 느린 병목 구간만 빠르게 가속할 때",
+    tags: ["performance", "profiler", "rust-ffi", "pyo3", "napi-rs"]
+  },
+  "kubai087/kubai-icons": {
+    category: "skill",
+    title_ko: "kubai-icons — 일관된 디자인 스타일의 애니메이션 아이콘을 생성하는 에이전트 스킬",
+    catchphrase: "React·Vue·SVG용 2,600개 이상의 오픈소스 아이콘과 커스텀 애니메이션 아이콘 생성 지원",
+    summary_ko: "Claude Code, Codex 등 코딩 에이전트가 단일 디자인 시스템에 맞춘 일관된 스타일의 애니메이션 아이콘을 직접 그리거나 조합할 수 있게 해주는 스킬입니다. React, Vue, 순수 SVG에서 즉시 사용할 수 있는 2,600개 이상의 오픈소스 아이콘 라이브러리와 웹 브라우저 탐색기를 함께 제공합니다.",
+    key_features: [
+      "2,600개 이상의 React·Vue·SVG 호환 오픈소스 애니메이션 아이콘 제공",
+      "일관된 선 굵기와 모션 규칙을 따르는 커스텀 아이콘 자동 드로잉",
+      "호버 이펙트 및 인터랙티브 상태 전환 내장 디자인 시스템 연동"
+    ],
+    use_case: "웹 프론트엔드에 통일감 있는 고품질 애니메이션 SVG 아이콘 세트를 빠르게 적용하고 싶을 때",
+    tags: ["animated-icons", "svg", "design-system", "react", "claude-skills"]
+  },
+  "artemnovitckii/claude-animation-skills": {
+    category: "skill",
+    title_ko: "claude-animation-skills — 촬영 원본 없이 11가지 스타일의 릴스 영상을 코딩하는 스킬 모음",
+    catchphrase: "로우폴리, 복셀, 3D 카툰, Kurzgesagt 우주풍, 라인아트 등 11종 애니메이션 자동 생성",
+    summary_ko: "별도의 촬영 영상 소재 없이 순수 코드만으로 인스타그램 릴스나 쇼츠용 고품질 애니메이션을 제작하는 11종의 Claude Code 스킬 패키지입니다. 로우폴리(Low-poly), 마인크래프트 스타일 복셀, 3D 카툰 해설, Kurzgesagt 스타일 우주 그래픽, Dan Koe풍 라인아트, 3D 지도 경로, 분해도(Exploded view) 등을 지원합니다.",
+    key_features: [
+      "로우폴리·복셀·Kurzgesagt풍·3D 지도·분해도 등 11종 전용 애니메이션 스킬",
+      "촬영 영상 없이 Three.js 및 코드 렌더링만으로 완결된 숏폼 비디오 제작",
+      "해설 영상(Explainer) 및 테크 스토리텔링에 최적화된 시각 템플릿 내장"
+    ],
+    use_case: "기술 설명이나 스토리텔링 쇼츠 영상을 3D 복셀이나 인포그래픽 애니메이션으로 제작할 때",
+    tags: ["threejs", "motion-graphics", "reels", "voxel", "claude-skills"]
+  },
+  "Dodaios/ste80-humanizer": {
+    category: "skill",
+    title_ko: "ste80-humanizer — ASD-STE100 기술 영어 표준으로 AI 특유의 문체를 정제하는 스킬",
+    catchphrase: "안드레이 카파시가 공유한 Simplified Technical English 기법을 적용해 명확한 문장으로 재작성",
+    summary_ko: "텍스트에서 AI 생성물 특유의 상투적 어투(AI tells)를 제거하고, 안드레이 카파시(Andrej Karpathy)가 소개한 항공우주 표준 기술 영어(ASD-STE100, Simplified Technical English) 수준에 80% 부합하도록 명료하고 간결하게 재작성해 주는 에이전트 스킬입니다.",
+    key_features: [
+      "ASD-STE100(Simplified Technical English) 규격 기반의 명확한 문장 정제",
+      "AI 특유의 과장된 수식어와 모호한 표현 자동 탐지 및 제거",
+      "Claude Code·Codex·Cursor 환경 호환 기술 문서 및 블로그 교정"
+    ],
+    use_case: "AI가 작성한 영문 기술 문서나 아티클에서 상투적 표현을 걷어내고 명쾌한 엔지니어링 문체로 다듬을 때",
+    tags: ["asd-ste100", "humanizer", "technical-writing", "claude-skills", "plain-language"]
+  },
+  "blader/humanizer": {
+    category: "skill",
+    title_ko: "humanizer — 텍스트에서 AI 생성 흔적과 기계적 문장 패턴을 제거하는 대표 글쓰기 스킬",
+    catchphrase: "전형적인 LLM 상투어와 반복 리듬을 자연스러운 인간의 호흡과 문체로 교정하는 스킬",
+    summary_ko: "LLM이 생성한 초안에서 흔히 나타나는 전형적인 어휘 선택, 대칭적 문장 구조, 과도한 접속사 및 기계적인 문단 패턴을 감지해 사람이 직접 쓴 것처럼 자연스럽게 다듬어주는 에이전트 스킬입니다. 에세이, 기술 블로그, 이메일, 제품 카피라이팅의 가독성과 설득력을 높여줍니다.",
+    key_features: [
+      "LLM 특유의 상투적 클리셰 및 반복적 문장 리듬 패턴 정밀 교정",
+      "원문의 핵심 정보와 톤앤매너를 유지하는 자연스러운 문체 재구성",
+      "Claude Code·Cursor·Codex 등 주요 에이전트 워크플로우 즉시 연동"
+    ],
+    use_case: "AI로 작성한 초안에서 기계적인 느낌을 지우고 자연스러운 사람의 글솜씨로 다듬고 싶을 때",
+    tags: ["ai-humanizer", "writing-tools", "prompt-engineering", "claude-skills", "copywriting"]
   }
 };
 

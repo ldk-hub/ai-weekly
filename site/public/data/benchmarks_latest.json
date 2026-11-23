@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-17T00:02:05.105Z",
+  "updated_at": "2026-11-22T23:49:30.055Z",
   "policy": {
     "filter_rule": "multi_source_ensemble_average",
     "staleness_gate": {
@@ -34,7 +34,7 @@
       "aggregate": true,
       "header": true,
       "as_of": "2026-11-17",
-      "retrieved_at": "2026-11-16T23:59:12.800Z",
+      "retrieved_at": "2026-11-22T23:49:24.909Z",
       "evidence": "evidence/trakkr-ai-index-2026-10.json"
     },
     {
@@ -46,8 +46,8 @@
       "kind": "api",
       "aggregate": true,
       "header": true,
-      "as_of": "2026-11-11",
-      "retrieved_at": "2026-11-16T23:59:12.800Z"
+      "as_of": "2026-11-23",
+      "retrieved_at": "2026-11-22T23:49:24.909Z"
     },
     {
       "id": "arena",
@@ -59,7 +59,7 @@
       "aggregate": true,
       "header": true,
       "as_of": "2026-11-11",
-      "retrieved_at": "2026-11-16T23:59:12.800Z",
+      "retrieved_at": "2026-11-22T23:49:24.909Z",
       "evidence": "evidence/arena-text-2026-10-22.txt",
       "screenshot": "evidence/arena-2026-10-22.png"
     },
@@ -73,7 +73,7 @@
       "aggregate": true,
       "header": true,
       "as_of": "2026-11-11",
-      "retrieved_at": "2026-11-16T23:59:12.800Z"
+      "retrieved_at": "2026-11-22T23:49:24.909Z"
     },
     {
       "id": "livebench",
@@ -85,7 +85,7 @@
       "aggregate": true,
       "header": true,
       "as_of": "2026-11-11",
-      "retrieved_at": "2026-11-16T23:59:12.800Z"
+      "retrieved_at": "2026-11-22T23:49:24.909Z"
     },
     {
       "id": "openrouter",
@@ -96,8 +96,8 @@
       "kind": "api",
       "aggregate": true,
       "header": false,
-      "as_of": "2026-11-17",
-      "retrieved_at": "2026-11-16T23:59:12.800Z",
+      "as_of": "2026-11-23",
+      "retrieved_at": "2026-11-22T23:49:24.909Z",
       "evidence": "evidence/openrouter-models-2026-10-22.json"
     }
   ],
@@ -329,7 +329,7 @@
       "mmlu_pro": 87.5,
       "pricing_in_1m": 0.435,
       "pricing_out_1m": 0.87,
-      "context_window": "1,050K",
+      "context_window": "1,049K",
       "badge_type": "open-weights"
     },
     {
@@ -369,8 +369,8 @@
       "swe_bench_verified": null,
       "gpqa_diamond": 83.9,
       "mmlu_pro": 86.8,
-      "pricing_in_1m": 0.051,
-      "pricing_out_1m": 0.567,
+      "pricing_in_1m": 0.0498,
+      "pricing_out_1m": 0.1992,
       "context_window": "1,049K",
       "badge_type": "open-weights"
     },
