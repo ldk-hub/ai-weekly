@@ -26,18 +26,21 @@ async function load(source) {
   if (isStarboardPage) {
     try {
       const [metaRes, ledgerRes] = await Promise.all([
-        fetch("data/stars_meta.json"),
-        fetch("data/stars_ledger.json")
+        fetch("data/stars_meta.json", { cache: "no-store" }),
+        fetch("data/stars_ledger.json", { cache: "no-store" })
       ]);
       if (!metaRes.ok) throw new Error("HTTP " + metaRes.status);
       if (!ledgerRes.ok) throw new Error("HTTP " + ledgerRes.status);
       const meta = await metaRes.json();
       const ledger = await ledgerRes.json();
+      const kstDate = meta.updated_date || (meta.generated_at
+        ? new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Seoul" }).format(new Date(meta.generated_at))
+        : null);
       STATE.data = {
         meta,
         ledger,
         generated_at: meta.generated_at || new Date().toISOString(),
-        version: meta.generated_at ? `v${new Date(meta.generated_at).getUTCFullYear()}.${String(new Date(meta.generated_at).getUTCMonth() + 1).padStart(2, '0')}.${String(new Date(meta.generated_at).getUTCDate()).padStart(2, '0')}` : null
+        version: meta.version || (kstDate ? `v${kstDate.replaceAll("-", ".")}` : null)
       };
       // Process data into leagues
       processStarboardData();

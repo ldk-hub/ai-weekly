@@ -25,6 +25,7 @@ const LEGACY_PATTERNS = [
   /3\.5\s*haiku/i,
   /claude\s*3\.7/i,
   /gpt-4o/i,
+  /gpt-5\./i,
   /claude-2/i,
   /llama-2/i,
   /llama-3/i,
@@ -32,6 +33,10 @@ const LEGACY_PATTERNS = [
   /gemini\s*2\.0/i,
   /gemini\s*2\.5/i,
   /gemini\s*3\.1\s*(?:pro|flash-lite)/i,
+  /gemini\s*4\s*carbon/i,
+  /qwen3\.8-max/i,
+  /kimi\s*k3(?!\.)/i,
+  /grok\s*4\.[0-5]/i,
   /mistral-7b-instruct-v0\.1/i,
 ];
 

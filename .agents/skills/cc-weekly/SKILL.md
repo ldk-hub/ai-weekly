@@ -35,11 +35,12 @@ graph TD
   3. 트렌드 큐레이션 및 인덱스 빌드: `node scripts/plugins/curate.js` (Rising 최대 20건, Classic 최대 16건 정원제 선별, 한글 큐레이션)
   4. 품질 게이트 검증: `node scripts/plugins/curate.js --validate` (미번역 및 제네릭 폴백 차단)
   5. 아카이브 인덱스 갱신: `node scripts/core/build-archive-index.js`
-- **산출물:** `site/public/data/latest.json`, `data/archive/YYYY-MM-DD.json`, `site/public/data/archive/index.json`
+  6. 스타보드 신규 리포 증분 동기화: `GH_TOKEN=... node scripts/stars/collect-stars.js --sync-new` (이번 주 트렌드에서 신규 발굴·선정된 리포지토리를 스타보드 원장 및 메타데이터에 즉시 편입)
+- **산출물:** `site/public/data/latest.json`, `data/archive/YYYY-MM-DD.json`, `site/public/data/archive/index.json`, `data/stars/stars_ledger.json`, `data/stars/stars_meta.json`
 
 ### 3. Step 3: CC Benchmarks (AI 점유율 및 프론티어 성능 갱신) ⭐ [신규]
-- **명령어:** `npm run data:benchmarks` (동일: `node scripts/benchmarks/curate-benchmarks.js`)
-- **역할:** 주요 AI 챗봇의 3대 출처 점유율과 최신 현행(Active Frontier) 모델 벤치마크를 검증 및 갱신한다. (JavaScript 동적 렌더링 대시보드인 LMArena, Artificial Analysis, Similarweb 조사는 **Scrapling 플러그인(`scrapling_mcp` 도구 및 `StealthyFetcher`)**을 통해 자가 치유 셀렉터로 크롤링 지원).
+- **명령어:** `npm run data:benchmarks` (동일: `node scripts/benchmarks/fetch-openrouter.js && node scripts/benchmarks/curate-benchmarks.js`)
+- **역할:** 주요 AI 챗봇의 3대 출처 점유율과 최신 현행(Active Frontier) 모델 벤치마크를 실시간 동기화·검증 및 갱신한다. (`fetch-openrouter.js`가 OpenRouter API 및 Scrapling `fetchWithScrapling(..., { raw: true })`를 통해 벤더별 구형 대표 모델을 현행 프론티어 플래그십으로 자동 승격하고, LMArena·Artificial Analysis·OpenRouter 지표를 실시간 동기화).
 - **핵심 검문 게이트:**
   1. **최신성 게이트(Staleness Gate)**: 실행일(Run Date) 기준 점유율 출처 45일, 성능 출처 30일 이내 최신 데이터인지 검증. 과거 갱신 중단된 구형 링크(`swebench.com` 등) 원천 차단.
   2. **다중 출처 3곳 앙상블 평균**: 점유율은 Similarweb(웹 방문) + Trakkr(AI 리퍼럴) + OpenRouter(개발자 API) 3곳 산술 평균 및 합계 100.0% 검증.

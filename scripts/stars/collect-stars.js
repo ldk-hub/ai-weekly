@@ -9,6 +9,7 @@ const ROOT = path.resolve(__dirname, "..", "..");
 const LEDGER_PATH = path.join(ROOT, 'data', 'stars', 'stars_ledger.json');
 const META_PATH = path.join(ROOT, 'data', 'stars', 'stars_meta.json');
 const LATEST_PATH = path.join(ROOT, 'site', 'public', 'data', 'latest.json');
+const CANDIDATES_PATH = path.join(ROOT, '.tmp', 'candidates.json');
 
 function mergeSamples(ledger, oldId, newId) {
   const oldSamples = ledger[oldId] || [];
@@ -136,6 +137,8 @@ async function fetchRepo(id, token) {
     pushed_at: data.pushed_at,
     archived: data.archived,
     description: data.description,
+    language: data.language || "",
+    topics: Array.isArray(data.topics) ? data.topics : [],
     owner_avatar: data.owner && data.owner.avatar_url
   };
 }
@@ -144,6 +147,7 @@ async function main() {
   const args = process.argv.slice(2);
   const isDryRun = args.includes('--dry-run');
   const isSelfCheck = args.includes('--selfcheck');
+  const isSyncNew = args.includes('--sync-new');
   
   if (isSelfCheck) {
     selfCheck();
@@ -151,26 +155,45 @@ async function main() {
   
   const ledger = load();
   const populationSet = new Set(Object.keys(ledger));
+  const localEnrichment = new Map();
   
   if (fs.existsSync(LATEST_PATH)) {
     try {
       const latest = JSON.parse(fs.readFileSync(LATEST_PATH, 'utf8'));
-      for (const it of (latest.rising || [])) populationSet.add(it.id);
-      for (const it of (latest.classic || [])) populationSet.add(it.id);
+      for (const it of [...(latest.rising || []), ...(latest.classic || [])]) {
+        if (it && it.id) {
+          populationSet.add(it.id);
+          localEnrichment.set(it.id, {
+            topics: Array.isArray(it.tags) ? it.tags : [],
+            description: it.summary_ko || ""
+          });
+        }
+      }
     } catch (e) {
       console.warn("Failed to parse latest.json");
     }
   }
-  
-  const population = Array.from(populationSet);
-  
-  if (isDryRun) {
-    console.log(`[DRY-RUN] Target population: ${population.length} repositories`);
-    console.log(`[DRY-RUN] Expected GitHub API calls: ${population.length}`);
-    process.exit(0);
+
+  if (fs.existsSync(CANDIDATES_PATH)) {
+    try {
+      const candidates = JSON.parse(fs.readFileSync(CANDIDATES_PATH, 'utf8'));
+      const list = Array.isArray(candidates) ? candidates : (candidates.items || candidates.candidates || []);
+      for (const it of list) {
+        const repoId = it && (it.id || it.full_name);
+        if (repoId && /^[^/\s]+\/[^/\s]+$/.test(repoId)) {
+          populationSet.add(repoId);
+          const prev = localEnrichment.get(repoId) || {};
+          localEnrichment.set(repoId, {
+            language: it.language || prev.language || "",
+            topics: (Array.isArray(it.topics) && it.topics.length) ? it.topics : (prev.topics || []),
+            description: it.description || prev.description || ""
+          });
+        }
+      }
+    } catch (e) {
+      console.warn("Failed to parse .tmp/candidates.json");
+    }
   }
-  
-  const token = getToken();
   
   let meta = { generated_at: new Date().toISOString(), repos: {} };
   if (fs.existsSync(META_PATH)) {
@@ -179,9 +202,38 @@ async function main() {
       if (oldMeta.repos) meta.repos = oldMeta.repos;
     } catch(e) {}
   }
-  meta.generated_at = new Date().toISOString();
-  
+
+  for (const [repoId, info] of localEnrichment.entries()) {
+    if (meta.repos[repoId]) {
+      if (info.language && !meta.repos[repoId].language) meta.repos[repoId].language = info.language;
+      if (info.topics && info.topics.length && (!meta.repos[repoId].topics || !meta.repos[repoId].topics.length)) {
+        meta.repos[repoId].topics = info.topics;
+      }
+    }
+  }
+
   const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Seoul" }).format(new Date());
+  meta.generated_at = new Date().toISOString();
+  meta.updated_date = today;
+  meta.version = `v${today.replace(/-/g, '.')}`;
+
+  const allPopulation = Array.from(populationSet);
+  const population = isSyncNew
+    ? allPopulation.filter((id) => {
+        const hasLedgerToday = Array.isArray(ledger[id]) && ledger[id].some((s) => s.date === today);
+        const repoMeta = meta.repos[id];
+        if (repoMeta && repoMeta.gone) return false;
+        return !hasLedgerToday || !repoMeta || repoMeta.checked_at !== today;
+      })
+    : allPopulation;
+  
+  if (isDryRun) {
+    console.log(`[DRY-RUN] Target population: ${population.length} repositories (total tracked: ${allPopulation.length})`);
+    console.log(`[DRY-RUN] Expected GitHub API calls: ${population.length}`);
+    process.exit(0);
+  }
+  
+  const token = getToken();
   
   let successCount = 0;
   let notFoundCount = 0;
@@ -242,6 +294,8 @@ async function main() {
         meta.repos[canonicalId].suspect = suspectMsg || meta.repos[canonicalId].suspect;
         meta.repos[canonicalId].dormant = isDormant;
         meta.repos[canonicalId].description = repoData.description || "";
+        meta.repos[canonicalId].language = repoData.language || meta.repos[canonicalId].language || "";
+        meta.repos[canonicalId].topics = (repoData.topics && repoData.topics.length) ? repoData.topics : (meta.repos[canonicalId].topics || []);
         meta.repos[canonicalId].owner_avatar = repoData.owner_avatar || "";
         
         successCount++;
