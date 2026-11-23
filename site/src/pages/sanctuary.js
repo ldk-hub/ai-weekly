@@ -42,7 +42,10 @@ class RctSanctuaryApp {
       if (evt === "place") this.audio.playPlace();
       else if (evt === "bulldoze") this.audio.playBulldoze();
       else if (evt === "cash") this.audio.playCash();
-      else if (evt === "pop") this.audio.playPop();
+      else if (evt === "pop") {
+        if ((this.sim.fireworks || []).length > 0) this.audio.playFireworkBurst();
+        else this.audio.playPop();
+      }
       else if (evt === "scream") this.audio.playScream();
       else if (evt === "breakdown") this.audio.playBreakdown();
       else if (evt === "repair") this.audio.playRepair();
@@ -80,6 +83,7 @@ class RctSanctuaryApp {
     });
 
     this.audio.startAmbientOnFirstGesture();
+    this.audio.loadManifest();
     this._spawnReferrerGuest();
     this._initChat();
     this._bindEvents();
@@ -142,13 +146,22 @@ class RctSanctuaryApp {
     if (!hud) return;
     const p = this.sim.getControlledPeep();
     hud.hidden = !p;
-    if (!p) return;
     const badgeEl = document.getElementById("rct-pov-badge");
     const nameEl = document.getElementById("rct-pov-name");
     const thoughtEl = document.getElementById("rct-pov-thought");
-    if (badgeEl) badgeEl.textContent = `🕹 ${p.originBadge || "손님 체험"}`;
+    if (badgeEl) badgeEl.textContent = p ? `🕹️ 손님체험 · ${p.name}` : "🕹️ 손님체험";
+    if (!p) return;
     const stateTxt = p.state === "riding" ? "🎢 탑승 중" : "🚶 걷는 중";
-    if (nameEl) nameEl.textContent = `${p.name} (${stateTxt} · $${Math.round(p.cash)})`;
+    if (nameEl) {
+      nameEl.textContent = "";
+      const routeSpan = document.createElement("span");
+      routeSpan.className = "rct-route-badge";
+      routeSpan.style.color = p.originColor || "#94a3b8";
+      routeSpan.textContent = p.originBadge || "🎟 정문";
+      const metaSpan = document.createElement("span");
+      metaSpan.textContent = ` ${stateTxt} · $${Math.round(p.cash)}`;
+      nameEl.append(routeSpan, metaSpan);
+    }
     if (thoughtEl) thoughtEl.textContent = p.thoughts[0] || "WASD · 방향키 · 바닥 클릭으로 공원을 자유롭게 걸어보세요!";
   }
 
@@ -175,9 +188,22 @@ class RctSanctuaryApp {
   _initChat() {
     this.chat = new SanctuaryChat({
       onPeerUpdate: (peer, isNew) => {
-        if (isNew) {
-          this.sim._spawnGuest(this.sim.entrance.x, Math.max(1, this.sim.entrance.y - 1), true);
-          this.sim.pushNews(`📻 [무전기] ${peer.nickname} 님이 공원에 방문했습니다!`, "good");
+        this.sim.syncPeerAvatar(peer, isNew);
+      },
+      onPeerLeave: (clientId) => {
+        this.sim.removePeerAvatar(clientId);
+      },
+      onSelfPublicChat: (text) => {
+        this.sim.triggerPeerChatBubble(null, text, this.chat?.nickname);
+      },
+      onPeerPublicChat: (clientId, text) => {
+        this.sim.triggerPeerChatBubble(clientId, text);
+      },
+      onRemoteFx: (data) => {
+        if (data?.kind === "emote") {
+          this.sim.triggerPeerEmote(data.clientId, data.emoji || "🎉");
+        } else if (data?.kind === "finale_fireworks") {
+          this.sim.spawnMultiplayerFinaleFireworks();
         }
       },
     });
@@ -188,23 +214,49 @@ class RctSanctuaryApp {
       this.chat.setCollapsed(!this.chat.collapsed);
       this.audio.playClick();
     });
+    document.querySelectorAll("[data-chat-emote]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const emoji = btn.dataset.chatEmote || "🎉";
+        this.sim.triggerPeerEmote(null, emoji);
+        this.chat?.broadcastFx("emote", { emoji });
+        this.audio.playPop();
+      });
+    });
+    document.getElementById("chat-user-tabs")?.addEventListener("click", (ev) => {
+      const tab = ev.target.closest("[data-thread-id]");
+      const tid = tab?.dataset?.threadId;
+      if (tid && tid !== "global") {
+        const vip = this.sim.peeps.find((p) => p.peerClientId === tid);
+        if (vip) this.renderer.centerOnTile(Math.round(vip.x), Math.round(vip.y));
+      }
+    });
   }
 
   async _loadLiveAiData() {
     try {
-      const [pluginsRes, newsRes, socialRes, benchRes] = await Promise.allSettled([
+      const [pluginsRes, newsRes, socialRes, benchRes, ledgerRes] = await Promise.allSettled([
         fetch("data/latest.json").then((r) => (r.ok ? r.json() : null)),
         fetch("data/news_latest.json").then((r) => (r.ok ? r.json() : null)),
         fetch("data/social_latest.json").then((r) => (r.ok ? r.json() : null)),
         fetch("data/benchmarks_latest.json").then((r) => (r.ok ? r.json() : null)),
+        fetch("data/stars_ledger.json").then((r) => (r.ok ? r.json() : null)),
       ]);
       const pVal = pluginsRes.status === "fulfilled" ? pluginsRes.value : null;
       const nVal = newsRes.status === "fulfilled" ? newsRes.value : null;
       const sVal = socialRes.status === "fulfilled" ? socialRes.value : null;
       const bVal = benchRes.status === "fulfilled" ? benchRes.value : null;
+      const lVal = ledgerRes.status === "fulfilled" ? ledgerRes.value : null;
       const pluginsList = pVal
         ? [...(pVal.rising || []), ...(pVal.classic || []), ...(pVal.plugins || pVal.items || [])]
         : [];
+      if (lVal && typeof lVal === "object") {
+        for (const it of pluginsList) {
+          const hist = lVal[it.repo];
+          if (Array.isArray(hist) && hist.length >= 2 && !it.velocity_7d) {
+            it.velocity_7d = Math.max(0, Number(hist[hist.length - 1]?.stars || 0) - Number(hist[hist.length - 2]?.stars || 0));
+          }
+        }
+      }
       this.sim.syncAiWeeklyData({
         plugins: pluginsList,
         news: nVal ? nVal.news || nVal.items || [] : [],
@@ -238,14 +290,35 @@ class RctSanctuaryApp {
     } catch {}
   }
 
-  setActiveTool(tool) {
+  setActiveTool(tool, silent = false) {
     this.renderer.activeTool = { facing: 0, ...tool };
     if (tool.type !== "pincer") this.renderer.pincerCarry = null;
 
+    if (this.canvas) {
+      let cursorKind = "inspect";
+      if (tool.type === "bulldoze") cursorKind = "bulldoze";
+      else if (["land_up", "land_down", "water_up", "water_down", "surface"].includes(tool.type)) cursorKind = "terrain";
+      else if (["path", "path_add", "scenery", "place_ride", "blueprint", "custom_coaster"].includes(tool.type)) cursorKind = "build";
+      else if (tool.type === "pincer") cursorKind = "pincer";
+      this.canvas.dataset.toolCursor = cursorKind;
+    }
+
     const indText = document.getElementById("rct-tool-text");
     const cancelBtn = document.getElementById("rct-btn-cancel-tool");
-    const bulldozeBtn = document.getElementById("rct-btn-bulldoze");
-    bulldozeBtn?.classList.toggle("is-active", tool.type === "bulldoze");
+    document.getElementById("rct-btn-bulldoze")?.classList.toggle("is-active", tool.type === "bulldoze");
+    document.querySelector('[data-win="terraform"]')?.classList.toggle(
+      "is-active",
+      ["land_up", "land_down", "water_up", "water_down", "surface"].includes(tool.type)
+    );
+    document.querySelector('[data-win="footpath"]')?.classList.toggle(
+      "is-active",
+      tool.type === "path" || tool.type === "path_add"
+    );
+    document.querySelector('[data-win="scenery"]')?.classList.toggle("is-active", tool.type === "scenery");
+    document.querySelector('[data-win="build"]')?.classList.toggle(
+      "is-active",
+      ["place_ride", "blueprint", "custom_coaster"].includes(tool.type)
+    );
 
     const labelMap = {
       inspect: "👆 클릭: 기구·손님·직원·외곽 광고판 확인 | 우클릭 드래그: 이동 | 휠: 줌",
@@ -265,7 +338,7 @@ class RctSanctuaryApp {
     };
     if (indText) indText.textContent = labelMap[tool.type] || labelMap.inspect;
     if (cancelBtn) cancelBtn.hidden = tool.type === "inspect";
-    this.audio.playClick();
+    if (!silent) this.audio.playClick();
   }
 
   _bindEvents() {
@@ -336,10 +409,14 @@ class RctSanctuaryApp {
     const minimapPod = document.getElementById("rct-minimap-pod");
     const minimapCanvas = document.getElementById("rct-minimap-canvas");
     const povBtn = document.getElementById("rct-btn-guest-pov");
+    const nightLabel = document.getElementById("rct-night-label");
 
     this._syncModeButtons = () => {
+      const lm = this.sim.lightingMode || (this.sim.nightMode ? "night" : "day");
+      const lmNames = { day: "야간·폭죽", golden: "골든아워", night: "야간쇼", cycle: "자동주야간" };
       freeBtn?.classList.toggle("is-active", Boolean(this.sim.freeBuildMode));
-      nightBtn?.classList.toggle("is-active", Boolean(this.sim.nightMode));
+      nightBtn?.classList.toggle("is-active", lm !== "day" || Boolean(this.sim.nightMode));
+      if (nightLabel) nightLabel.textContent = lmNames[lm] || "야간·폭죽";
       bgmBtn?.classList.toggle("is-active", Boolean(this.audio.bgmEnabled));
       povBtn?.classList.toggle("is-active", Boolean(this.sim.controlledPeepId));
       if (minimapPod) {
@@ -348,6 +425,29 @@ class RctSanctuaryApp {
       this._syncGuestPovHud?.();
     };
     this._syncModeButtons();
+    this.setActiveTool({ type: "inspect" }, true);
+    document.addEventListener("rct-sync-hud", () => this._syncModeButtons?.());
+
+    // Right-click SFX or BGM button opens 4-channel Spatial Audio Mixer
+    for (const ab of [sfxBtn, bgmBtn]) {
+      ab?.addEventListener("contextmenu", (ev) => {
+        ev.preventDefault();
+        this.windows.openWindow("audio-mixer");
+      });
+    }
+
+    document.getElementById("rct-btn-photo")?.addEventListener("click", () => {
+      const dataUrl = this.renderer.renderPhotoSnapshot();
+      this.windows.openWindow("photo-preview", { dataUrl });
+      try {
+        const a = document.createElement("a");
+        a.href = dataUrl;
+        a.download = "ai-weekly-sanctuary-photo.png";
+        a.click();
+      } catch {}
+      this.audio.playAward();
+      this.sim.pushNews("📸 위클리월드 폴라로이드 기념 사진이 촬영되었습니다!", "good");
+    });
 
     povBtn?.addEventListener("click", () => {
       if (this.sim.controlledPeepId) {
@@ -398,12 +498,17 @@ class RctSanctuaryApp {
     });
 
     nightBtn?.addEventListener("click", () => {
-      this.sim.nightMode = !this.sim.nightMode;
-      if (this.sim.nightMode) {
-        this.sim.launchFireworksAt(22, 18);
-        this.sim.pushNews("🌙 야간 조명 및 불꽃놀이 모드가 활성화되었습니다!", "good");
+      const nextMode = this.sim.cycleLightingMode();
+      if (nextMode === "night") {
+        this.sim.spawnMultiplayerFinaleFireworks();
+        this.audio.playFireworkBurst();
+        this.chat?.broadcastFx("finale_fireworks");
+      } else if (nextMode === "golden") {
+        this.sim.pushNews("🌇 황금빛 골든아워 조명으로 전환했습니다!", "info");
+      } else if (nextMode === "cycle") {
+        this.sim.pushNews("🌅 자동 주야간 순환 사이클이 시작되었습니다!", "info");
       } else {
-        this.sim.pushNews("☀️ 주간 모드로 전환했습니다.", "info");
+        this.sim.pushNews("☀️ 맑은 낮 조명으로 복귀했습니다.", "info");
       }
       this._syncModeButtons();
       this.audio.playClick();
@@ -471,6 +576,9 @@ class RctSanctuaryApp {
       if (ev.button === 2 || ev.button === 1) {
         this._panning = true;
         this._panStart = { x: ev.clientX, y: ev.clientY, camX: this.renderer.camX, camY: this.renderer.camY };
+        this._panPrev = { x: ev.clientX, y: ev.clientY, t: performance.now() };
+        this.renderer.panVelX = 0;
+        this.renderer.panVelY = 0;
         this.canvas.setPointerCapture?.(ev.pointerId);
         return;
       }
@@ -495,10 +603,17 @@ class RctSanctuaryApp {
       const cssY = ev.clientY - rect.top;
 
       if (this._panning) {
+        const nowT = performance.now();
         const dx = ev.clientX - this._panStart.x;
         const dy = ev.clientY - this._panStart.y;
         this.renderer.camX = this._panStart.camX - dx / this.renderer.zoom;
         this.renderer.camY = this._panStart.camY - dy / this.renderer.zoom;
+        if (this._panPrev && nowT > this._panPrev.t) {
+          const dtMove = Math.max(0.008, (nowT - this._panPrev.t) / 1000);
+          this.renderer.panVelX = (-(ev.clientX - this._panPrev.x) / this.renderer.zoom) / dtMove;
+          this.renderer.panVelY = (-(ev.clientY - this._panPrev.y) / this.renderer.zoom) / dtMove;
+        }
+        this._panPrev = { x: ev.clientX, y: ev.clientY, t: nowT };
         return;
       }
 
@@ -518,6 +633,11 @@ class RctSanctuaryApp {
     window.addEventListener("pointerup", (ev) => {
       if (this._panning && (ev.button === 2 || ev.button === 1)) {
         this._panning = false;
+        if (!this._panPrev || (performance.now() - this._panPrev.t) > 90) {
+          this.renderer.panVelX = 0;
+          this.renderer.panVelY = 0;
+        }
+        this._panPrev = null;
         return;
       }
       if (ev.button === 0 && this._painting) {
@@ -571,7 +691,24 @@ class RctSanctuaryApp {
         } else if (this.renderer.activeTool.type !== "inspect") {
           this.setActiveTool({ type: "inspect" });
         } else {
-          this.windows.closeUnpinned();
+          this.windows.closeTopUnpinned();
+        }
+      } else {
+        const hotkeyMap = {
+          Digit1: "terraform",
+          Digit2: "footpath",
+          Digit3: "scenery",
+          Digit4: "build",
+          Digit5: "rides-list",
+          Digit6: "park",
+          Digit7: "staff",
+          Digit8: "guests-list",
+          Digit9: "finances",
+        };
+        const targetWin = hotkeyMap[ev.code];
+        if (targetWin) {
+          if (this.windows.windows.has(targetWin)) this.windows.closeWindow(targetWin);
+          else this.windows.openWindow(targetWin);
         }
       }
     });
@@ -674,6 +811,10 @@ class RctSanctuaryApp {
       this.windows.openWindow("billboard-post", { billboardId: hit.id });
       return;
     }
+    if (hit.kind === "supernova") {
+      this.windows.openWindow("supernova");
+      return;
+    }
     if (hit.kind === "peep") {
       this.windows.openWindow("peep-detail", { peepId: hit.id });
       return;
@@ -722,7 +863,18 @@ class RctSanctuaryApp {
       if (this.keys.has("KeyD") || this.keys.has("ArrowRight")) this.renderer.camX += panSpeed * dt;
     }
 
+    this.renderer.stepCamera(dt);
     this.sim.step(dt);
+    this.audio.updateSpatialField({
+      camX: this.renderer.camX,
+      camY: this.renderer.camY,
+      zoom: this.renderer.zoom,
+      rides: this.sim.rides,
+      rotation: this.renderer.rotation,
+      mapSize: this.sim.mapSize,
+      weather: this.sim.weather,
+      nowMs,
+    });
 
     // Smooth camera follow when Guest POV Manual Mode is active
     const followPeep = this.sim.getControlledPeep();

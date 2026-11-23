@@ -19,8 +19,20 @@ export class RctIsoRenderer {
 
     this.rotation = 0; // 0..3 (90 deg steps)
     this.zoom = 1.05;
+    this.targetZoom = 1.05;
+    this.zoomAnchorX = null;
+    this.zoomAnchorY = null;
     this.camX = 0;
     this.camY = 210;
+    this.panVelX = 0;
+    this.panVelY = 0;
+
+    this.currentFps = 60;
+    this._fpsFrames = 0;
+    this._fpsLastMs = typeof performance !== "undefined" ? performance.now() : 0;
+    this._baseFloorCache = null;
+    this._baseFloorKey = "";
+    this._lightmapCanvas = null;
 
     this.seeThroughRides = false;
     this.seeThroughScenery = false;
@@ -47,23 +59,48 @@ export class RctIsoRenderer {
     const iso = worldToIso(tileX, tileY, t ? t.height : 2, this.rotation, this.sim.mapSize);
     this.camX = iso.screenX;
     this.camY = iso.screenY;
+    this.panVelX = 0;
+    this.panVelY = 0;
   }
 
   rotateCamera(delta = 1) {
     this.rotation = (((this.rotation + delta) % 4) + 4) % 4;
+    this._baseFloorKey = "";
   }
 
   zoomBy(factor, anchorCssX = null, anchorCssY = null) {
-    const prevZoom = this.zoom;
-    const nextZoom = Math.max(0.65, Math.min(2.6, prevZoom * factor));
-    if (anchorCssX !== null && anchorCssY !== null) {
-      const rect = this.canvas.getBoundingClientRect();
-      const dx = anchorCssX - rect.width * 0.5;
-      const dy = anchorCssY - rect.height * 0.5;
-      this.camX += dx / prevZoom - dx / nextZoom;
-      this.camY += dy / prevZoom - dy / nextZoom;
+    this.targetZoom = Math.max(0.55, Math.min(2.8, this.targetZoom * factor));
+    this.zoomAnchorX = anchorCssX;
+    this.zoomAnchorY = anchorCssY;
+  }
+
+  stepCamera(dt) {
+    // Smooth cursor-anchored lerp zoom
+    const zDiff = this.targetZoom - this.zoom;
+    if (Math.abs(zDiff) > 0.0008) {
+      const prevZoom = this.zoom;
+      const alpha = Math.min(1, dt * 14);
+      const nextZoom = prevZoom + zDiff * alpha;
+      if (this.zoomAnchorX !== null && this.zoomAnchorY !== null && this.canvas) {
+        const rect = this.canvas.getBoundingClientRect();
+        const dx = this.zoomAnchorX - rect.width * 0.5;
+        const dy = this.zoomAnchorY - rect.height * 0.5;
+        this.camX += dx / prevZoom - dx / nextZoom;
+        this.camY += dy / prevZoom - dy / nextZoom;
+      }
+      this.zoom = nextZoom;
+    } else if (this.zoom !== this.targetZoom) {
+      this.zoom = this.targetZoom;
     }
-    this.zoom = nextZoom;
+
+    // Smooth drag inertia panning decay
+    if (Math.abs(this.panVelX) > 0.5 || Math.abs(this.panVelY) > 0.5) {
+      this.camX += this.panVelX * dt;
+      this.camY += this.panVelY * dt;
+      const damp = Math.exp(-8.5 * dt);
+      this.panVelX *= damp;
+      this.panVelY *= damp;
+    }
   }
 
   screenToWorldIso(cssX, cssY) {
@@ -119,6 +156,15 @@ export class RctIsoRenderer {
     const { w, h, dpr } = this.resize();
     this._hitBoxes = [];
 
+    // Live FPS tracker
+    this._fpsFrames++;
+    const nowMs = nowSec * 1000;
+    if (nowMs - this._fpsLastMs >= 500) {
+      this.currentFps = Math.max(1, Math.round((this._fpsFrames * 1000) / Math.max(1, nowMs - this._fpsLastMs)));
+      this._fpsFrames = 0;
+      this._fpsLastMs = nowMs;
+    }
+
     this.ctx.save();
     this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     this.ctx.imageSmoothingEnabled = false;
@@ -136,6 +182,61 @@ export class RctIsoRenderer {
     });
 
     this.ctx.restore();
+  }
+
+  renderPhotoSnapshot() {
+    this.atlas.ensureBaked();
+    const out = document.createElement("canvas");
+    out.width = 1280;
+    out.height = 800;
+    const ctx = out.getContext("2d");
+
+    // Dark Signal Terminal x Polaroid frame backdrop
+    ctx.fillStyle = "#090d13";
+    ctx.fillRect(0, 0, 1280, 800);
+
+    // Offscreen clean world render inside inner viewport (no hover overlays)
+    const snapW = 1232;
+    const snapH = 684;
+    const inner = document.createElement("canvas");
+    inner.width = snapW;
+    inner.height = snapH;
+    const ictx = inner.getContext("2d");
+    ictx.imageSmoothingEnabled = false;
+    this._renderWorld({
+      ctx: ictx,
+      viewW: snapW,
+      viewH: snapH,
+      camX: this.camX,
+      camY: this.camY,
+      zoom: this.zoom,
+      nowSec: performance.now() / 1000,
+      collectHitboxes: false,
+      drawOverlays: false,
+    });
+
+    ctx.strokeStyle = this.sim.championModel?.accent || "#fde047";
+    ctx.lineWidth = 3;
+    ctx.strokeRect(22, 22, snapW + 4, snapH + 4);
+    ctx.drawImage(inner, 24, 24);
+
+    // Footer Polaroid / Signal Terminal stamp bar
+    ctx.fillStyle = "#0f172a";
+    ctx.fillRect(24, 714, snapW, 64);
+    ctx.fillStyle = "#f8fafc";
+    ctx.font = "bold 20px 'JetBrains Mono', monospace";
+    ctx.textAlign = "left";
+    ctx.fillText(`🎡 ${this.sim.parkName} — Year ${this.sim.date.year}, ${this.sim.date.month}월 ${this.sim.date.day}일`, 40, 744);
+    ctx.fillStyle = "#94a3b8";
+    ctx.font = "14px 'JetBrains Mono', monospace";
+    const champ = this.sim.championModel ? `${this.sim.championModel.name} (${this.sim.championModel.elo})` : "AI Weekly";
+    ctx.fillText(`관람객 ${this.sim.peeps.length}명 · 평점 ${this.sim.parkRating}/999 · 챔피언 모델: ${champ}`, 40, 767);
+    ctx.fillStyle = this.sim.championModel?.accent || "#38bdf8";
+    ctx.font = "bold 16px monospace";
+    ctx.textAlign = "right";
+    ctx.fillText("AI WEEKLY · WEEKLY WORLD ARCHIVE", snapW + 8, 756);
+
+    return out.toDataURL("image/png");
   }
 
   renderMiniViewport(targetCanvas, worldTileX, worldTileY, heightZ = 2, nowSec = 0) {
@@ -273,12 +374,144 @@ export class RctIsoRenderer {
     return out;
   }
 
+  _ensureBaseFloorCache() {
+    const N = this.sim.mapSize;
+    const key = `${this.sim.terrainVersion || 1}:${this.rotation}:${N}`;
+    if (this._baseFloorCache && this._baseFloorKey === key) {
+      return this._baseFloorCache;
+    }
+    const W = ISO_METRICS.TILE_W;
+    const H = ISO_METRICS.TILE_H;
+    let minX = Infinity;
+    let minY = Infinity;
+    let maxX = -Infinity;
+    let maxY = -Infinity;
+    for (const [cx, cy] of [[0, 0], [N - 1, 0], [0, N - 1], [N - 1, N - 1]]) {
+      const iso = worldToIso(cx, cy, 2, this.rotation, N);
+      minX = Math.min(minX, iso.screenX - W * 0.5);
+      minY = Math.min(minY, iso.screenY - H * 0.5);
+      maxX = Math.max(maxX, iso.screenX + W * 0.5);
+      maxY = Math.max(maxY, iso.screenY + H * 0.5);
+    }
+    const cw = Math.max(1, Math.ceil(maxX - minX));
+    const ch = Math.max(1, Math.ceil(maxY - minY));
+    const canvas = document.createElement("canvas");
+    canvas.width = cw;
+    canvas.height = ch;
+    const fctx = canvas.getContext("2d");
+    fctx.imageSmoothingEnabled = false;
+
+    const m = N - 1;
+    for (let depth = 0; depth <= (N - 1) * 2; depth++) {
+      for (let rX = 0; rX < N; rX++) {
+        const rY = depth - rX;
+        if (rY < 0 || rY >= N) continue;
+        const gx = this.rotation === 0 ? rX : this.rotation === 1 ? rY : this.rotation === 2 ? m - rX : m - rY;
+        const gy = this.rotation === 0 ? rY : this.rotation === 1 ? m - rX : this.rotation === 2 ? m - rY : rX;
+        const tile = this.sim.getTile(gx, gy);
+        if (!tile || tile.height !== 2 || tile.waterHeight > tile.height) continue;
+        const iso = worldToIso(tile.x, tile.y, 2, this.rotation, N);
+        const variant = (tile.x + tile.y) & 1;
+        const sprKey = `${tile.surface}_${tile.surface === "grass" || tile.surface === "sand" ? variant : 0}`;
+        fctx.drawImage(
+          this.atlas.terrain[sprKey] || this.atlas.terrain.grass_0,
+          Math.round(iso.screenX - W * 0.5 - minX),
+          Math.round(iso.screenY - H * 0.5 - minY),
+          W,
+          H
+        );
+      }
+    }
+    this._baseFloorCache = { canvas, originIsoX: minX, originIsoY: minY, w: cw, h: ch };
+    this._baseFloorKey = key;
+    return this._baseFloorCache;
+  }
+
+  _drawSupernovaPavilion(ctx, pav, iso, toScreenX, toScreenY, zoom, nowSec, collectHitboxes) {
+    const px = toScreenX(iso.screenX);
+    const py = toScreenY(iso.screenY);
+    const pulse = 0.5 + 0.5 * Math.sin(nowSec * 3.5);
+    const bob = Math.sin(nowSec * 2.5) * 3 * zoom;
+
+    // Golden Marble Base Platform
+    ctx.fillStyle = "#451a03";
+    ctx.beginPath();
+    ctx.moveTo(px, py - 14 * zoom);
+    ctx.lineTo(px + 24 * zoom, py);
+    ctx.lineTo(px, py + 14 * zoom);
+    ctx.lineTo(px - 24 * zoom, py);
+    ctx.closePath();
+    ctx.fill();
+    ctx.strokeStyle = "#fde047";
+    ctx.lineWidth = 1.6;
+    ctx.stroke();
+
+    // Hologram Gold Pillar & Floating Star Crystal
+    ctx.fillStyle = `rgba(250, 204, 21, ${0.22 + pulse * 0.2})`;
+    ctx.beginPath();
+    ctx.moveTo(px - 10 * zoom, py);
+    ctx.lineTo(px + 10 * zoom, py);
+    ctx.lineTo(px + 6 * zoom, py - 40 * zoom);
+    ctx.lineTo(px - 6 * zoom, py - 40 * zoom);
+    ctx.closePath();
+    ctx.fill();
+
+    // Floating Star Diamond
+    const sy = py - 38 * zoom + bob;
+    ctx.fillStyle = "#fde047";
+    ctx.beginPath();
+    ctx.moveTo(px, sy - 11 * zoom);
+    ctx.lineTo(px + 10 * zoom, sy);
+    ctx.lineTo(px, sy + 11 * zoom);
+    ctx.lineTo(px - 10 * zoom, sy);
+    ctx.closePath();
+    ctx.fill();
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(px - 2 * zoom, sy - 3 * zoom, 4 * zoom, 4 * zoom);
+
+    // Label Pill
+    const label = `${pav.isSupernova ? "🌟" : "⭐"} ${String(pav.name || "").slice(0, 14)}`;
+    ctx.font = `bold ${Math.max(8, Math.round(9.5 * zoom))}px sans-serif`;
+    const tw = ctx.measureText(label).width;
+    ctx.fillStyle = "rgba(9, 13, 19, 0.9)";
+    ctx.fillRect(px - tw * 0.5 - 5, sy - 27 * zoom, tw + 10, 14);
+    ctx.strokeStyle = "#fde047";
+    ctx.lineWidth = 1.2;
+    ctx.strokeRect(px - tw * 0.5 - 5, sy - 27 * zoom, tw + 10, 14);
+    ctx.fillStyle = "#fde047";
+    ctx.textAlign = "center";
+    ctx.fillText(label, px, sy - 27 * zoom + 11);
+
+    if (collectHitboxes) {
+      this._hitBoxes.push({
+        kind: "supernova",
+        id: pav.name,
+        x: px - 22 * zoom,
+        y: sy - 28 * zoom,
+        w: 44 * zoom,
+        h: 64 * zoom,
+      });
+    }
+  }
+
   _renderWorld({ ctx, viewW, viewH, camX, camY, zoom, nowSec, collectHitboxes, drawOverlays }) {
     ctx.fillStyle = this.sim.weather === "rain" ? "#131b24" : "#0e131b";
     ctx.fillRect(0, 0, viewW, viewH);
 
     const toScreenX = (isoX) => (isoX - camX) * zoom + viewW * 0.5;
     const toScreenY = (isoY) => (isoY - camY) * zoom + viewH * 0.5;
+
+    // 1-Shot Cached Flat Terrain Blit (cuts ~1,500 static tile drawImages/frame down to 1)
+    const floorCache = this._ensureBaseFloorCache();
+    if (floorCache) {
+      ctx.drawImage(
+        floorCache.canvas,
+        Math.round(toScreenX(floorCache.originIsoX)),
+        Math.round(toScreenY(floorCache.originIsoY)),
+        Math.round(floorCache.w * zoom),
+        Math.round(floorCache.h * zoom)
+      );
+    }
 
     const W = ISO_METRICS.TILE_W;
     const H = ISO_METRICS.TILE_H;
@@ -347,6 +580,12 @@ export class RctIsoRenderer {
       const iso = worldToIso(bb.tileX, bb.tileY, hz, this.rotation, N);
       pushBucket(iso.rX + iso.rY + 0.3, { type: "perimeter_billboard", bb, iso });
     }
+    if (this.sim.supernovaPavilion) {
+      const pav = this.sim.supernovaPavilion;
+      const pt = this.sim.getTile(pav.tileX, pav.tileY);
+      const iso = worldToIso(pav.tileX, pav.tileY, pt?.height || 2, this.rotation, N);
+      pushBucket(iso.rX + iso.rY + 0.28, { type: "supernova", pav, iso });
+    }
 
     const frontLeftOffset =
       this.rotation === 0 ? [0, 1] : this.rotation === 1 ? [1, 0] : this.rotation === 2 ? [0, -1] : [-1, 0];
@@ -403,10 +642,12 @@ export class RctIsoRenderer {
           }
         }
 
-        // 2. Terrain Diamond
-        const variant = (tile.x + tile.y) & 1;
-        const sprKey = `${tile.surface}_${tile.surface === "grass" || tile.surface === "sand" ? variant : 0}`;
-        ctx.drawImage(this.atlas.terrain[sprKey] || this.atlas.terrain.grass_0, sx, sy, dw, dh);
+        // 2. Terrain Diamond (skip height-2 dry tiles already drawn in 1-shot offscreen floor cache)
+        if (tile.height !== 2 || tile.waterHeight > tile.height) {
+          const variant = (tile.x + tile.y) & 1;
+          const sprKey = `${tile.surface}_${tile.surface === "grass" || tile.surface === "sand" ? variant : 0}`;
+          ctx.drawImage(this.atlas.terrain[sprKey] || this.atlas.terrain.grass_0, sx, sy, dw, dh);
+        }
 
         // Wooden Park Boundary Fence Posts on Park Perimeter
         if (tile.owned && (tile.x === 1 || tile.y === 1 || tile.x === N - 2 || tile.y === N - 2)) {
@@ -440,7 +681,7 @@ export class RctIsoRenderer {
           ctx.fillText(`${tile.height * 3}m`, sx + dw * 0.5, sy + dh * 0.56);
         }
 
-        // 3. Water Surface
+        // 3. Water Surface + Pixel Shimmer Ripples
         let topSurfaceY = sy;
         if (tile.waterHeight > tile.height) {
           const wDiff = tile.waterHeight - tile.height;
@@ -448,7 +689,22 @@ export class RctIsoRenderer {
           ctx.fillStyle = "rgba(26, 92, 152, 0.58)";
           ctx.fillRect(sx + dw * 0.1, wy + dh * 0.5, dw * 0.8, wDiff * STEP * zoom);
           ctx.drawImage(this.atlas.waterFrames[waterFrame], sx, wy, dw, dh);
+          const ripple = Math.sin(nowSec * 3.4 + tile.x * 1.3 + tile.y * 0.9);
+          if (ripple > 0.35) {
+            ctx.fillStyle = this.sim.nightMode ? "rgba(56, 189, 248, 0.35)" : "rgba(224, 242, 254, 0.32)";
+            ctx.fillRect(sx + dw * (0.35 + ripple * 0.12), wy + dh * 0.45, 7 * zoom, 1.6 * zoom);
+          }
           topSurfaceY = wy;
+        }
+
+        // Rain puddle ripples on paths
+        if (drawOverlays && this.sim.weather === "rain" && tile.path && (tile.x + tile.y) % 3 === 0) {
+          const rPhase = (nowSec * 2 + tile.x * 0.3) % 1;
+          ctx.strokeStyle = `rgba(186, 230, 253, ${(1 - rPhase) * 0.45})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.ellipse(sx + dw * 0.5, topSurfaceY + dh * 0.5, (2 + rPhase * 8) * zoom, (1 + rPhase * 4) * zoom, 0, 0, Math.PI * 2);
+          ctx.stroke();
         }
 
         // 4. Footpath + Bridge + Path Additions
@@ -503,11 +759,15 @@ export class RctIsoRenderer {
           }
         }
 
-        // 5. Park Entrance Gate
+        // 5. Park Entrance Gate + Benchmark #1 Champion Banner Strip
         if (tile.x === this.sim.entrance.x && tile.y === this.sim.entrance.y) {
           const ew = this.atlas.entrance.width * zoom;
           const eh = this.atlas.entrance.height * zoom;
           ctx.drawImage(this.atlas.entrance, sx + dw * 0.5 - ew * 0.5, sy + dh * 0.72 - eh, ew, eh);
+          if (this.sim.championModel?.accent) {
+            ctx.fillStyle = this.sim.championModel.accent;
+            ctx.fillRect(sx + dw * 0.5 - 12 * zoom, sy + dh * 0.72 - eh + 14 * zoom, 24 * zoom, 3 * zoom);
+          }
         }
 
         // 6. Scenery
@@ -561,6 +821,8 @@ export class RctIsoRenderer {
             this._drawStaff(ctx, item.staff, item.iso, toScreenX, toScreenY, zoom, collectHitboxes);
           } else if (item.type === "perimeter_billboard") {
             this._drawPerimeterBillboard(ctx, item.bb, item.iso, toScreenX, toScreenY, zoom, nowSec, collectHitboxes);
+          } else if (item.type === "supernova") {
+            this._drawSupernovaPavilion(ctx, item.pav, item.iso, toScreenX, toScreenY, zoom, nowSec, collectHitboxes);
           }
         }
       }
@@ -578,6 +840,22 @@ export class RctIsoRenderer {
       ctx.fillStyle = ft.color;
       ctx.fillText(ft.text, fx, fy);
       ctx.globalAlpha = 1;
+    }
+
+    // Particles (confetti, dust, coaster trail, emote bursts)
+    if ((this.sim.particles || []).length > 0) {
+      for (const pt of this.sim.particles) {
+        const pIso = worldToIso(pt.x, pt.y, pt.z, this.rotation, N);
+        const px = toScreenX(pIso.screenX);
+        const py = toScreenY(pIso.screenY);
+        const alpha = Math.max(0, Math.min(1, pt.life / (pt.maxLife || 1.2)));
+        ctx.save();
+        ctx.globalAlpha = alpha;
+        ctx.fillStyle = pt.color || "#fde047";
+        const sz = pt.kind === "confetti" ? Math.max(2, 3.2 * zoom) : Math.max(1.5, 2.4 * zoom);
+        ctx.fillRect(px - sz * 0.5, py - sz * 0.5, sz, sz);
+        ctx.restore();
+      }
     }
 
     // Firework Particles
@@ -599,46 +877,115 @@ export class RctIsoRenderer {
       }
     }
 
-    // Night Mode Atmospheric Twilight + Warm Lamp & Billboard Glows
-    if (drawOverlays && this.sim.nightMode) {
-      ctx.fillStyle = "rgba(6, 12, 32, 0.34)";
-      ctx.fillRect(0, 0, viewW, viewH);
-
-      ctx.save();
-      ctx.globalCompositeOperation = "lighter";
-      const glowCircle = (wx, wy, wz, radiusPx, rgbaCol) => {
-        const gIso = worldToIso(wx, wy, wz, this.rotation, N);
-        const gx = toScreenX(gIso.screenX);
-        const gy = toScreenY(gIso.screenY);
-        if (gx < -radiusPx || gx > viewW + radiusPx || gy < -radiusPx || gy > viewH + radiusPx) return;
-        ctx.fillStyle = rgbaCol;
-        ctx.beginPath();
-        ctx.arc(gx, gy, radiusPx, 0, Math.PI * 2);
-        ctx.fill();
-      };
-      for (const bb of this.sim.perimeterBillboards || []) {
-        const bt = this.sim.getTile(bb.tileX, bb.tileY);
-        glowCircle(bb.tileX, bb.tileY, (bt?.height || 2) + 2, 38 * zoom, "rgba(56, 189, 248, 0.14)");
+    // Multi-Layer Cinematic Lightmap (Day / Golden Hour / Night / Auto-Cycle)
+    if (drawOverlays) {
+      let nightStrength = 0;
+      let goldenStrength = 0;
+      const mode = this.sim.lightingMode || (this.sim.nightMode ? "night" : "day");
+      if (mode === "night" || this.sim.nightMode) {
+        nightStrength = 0.44;
+      } else if (mode === "golden") {
+        goldenStrength = 0.18;
+        nightStrength = 0.08;
+      } else if (mode === "cycle") {
+        const ph = this.sim.dayNightPhase || 0.25;
+        // Sunset/sunrise amber peaks near ph 0.55 and 0.92; midnight peak near 0.78
+        goldenStrength = Math.max(0, Math.sin((ph - 0.35) * Math.PI * 2) * 0.16);
+        nightStrength = ph >= 0.55 && ph <= 0.95 ? Math.sin(((ph - 0.55) / 0.4) * Math.PI) * 0.44 : 0;
       }
-      glowCircle(this.sim.entrance.x, this.sim.entrance.y, 3, 52 * zoom, "rgba(250, 204, 21, 0.18)");
-      for (let y = 0; y < N; y++) {
-        for (let x = 0; x < N; x++) {
-          const tile = this.sim.getTile(x, y);
-          if (!tile) continue;
-          if (tile.pathAddition === "lamp") {
-            glowCircle(x, y, Math.max(tile.height, tile.waterHeight || 0) + 1.5, 28 * zoom, "rgba(254, 240, 138, 0.2)");
-          } else if (tile.scenery?.id === "neon_arch" || tile.scenery?.id === "statue_mascot") {
-            glowCircle(x, y, tile.height + 1.5, 26 * zoom, "rgba(236, 72, 153, 0.18)");
+
+      if (goldenStrength > 0.01) {
+        ctx.fillStyle = `rgba(217, 119, 6, ${goldenStrength.toFixed(3)})`;
+        ctx.fillRect(0, 0, viewW, viewH);
+      }
+
+      if (nightStrength > 0.02) {
+        if (!this._lightmapCanvas) this._lightmapCanvas = document.createElement("canvas");
+        if (this._lightmapCanvas.width !== viewW || this._lightmapCanvas.height !== viewH) {
+          this._lightmapCanvas.width = viewW;
+          this._lightmapCanvas.height = viewH;
+        }
+        const lctx = this._lightmapCanvas.getContext("2d");
+        lctx.globalCompositeOperation = "source-over";
+        lctx.clearRect(0, 0, viewW, viewH);
+        lctx.fillStyle = `rgba(6, 12, 34, ${nightStrength.toFixed(3)})`;
+        lctx.fillRect(0, 0, viewW, viewH);
+
+        // Cut soft radial light pools out of darkness mask
+        lctx.globalCompositeOperation = "destination-out";
+        const punchLight = (wx, wy, wz, radiusPx) => {
+          const gIso = worldToIso(wx, wy, wz, this.rotation, N);
+          const gx = toScreenX(gIso.screenX);
+          const gy = toScreenY(gIso.screenY);
+          if (gx < -radiusPx || gx > viewW + radiusPx || gy < -radiusPx || gy > viewH + radiusPx) return;
+          const grad = lctx.createRadialGradient(gx, gy, radiusPx * 0.1, gx, gy, radiusPx);
+          grad.addColorStop(0, "rgba(0,0,0,0.92)");
+          grad.addColorStop(0.55, "rgba(0,0,0,0.45)");
+          grad.addColorStop(1, "rgba(0,0,0,0)");
+          lctx.fillStyle = grad;
+          lctx.beginPath();
+          lctx.arc(gx, gy, radiusPx, 0, Math.PI * 2);
+          lctx.fill();
+        };
+
+        punchLight(this.sim.entrance.x, this.sim.entrance.y, 3, 90 * zoom);
+        if (this.sim.supernovaPavilion) {
+          punchLight(this.sim.supernovaPavilion.tileX, this.sim.supernovaPavilion.tileY, 3, 80 * zoom);
+        }
+        for (const r of this.sim.rides) {
+          if (r.status === "open") punchLight(r.x, r.y, r.z || 2, (r.category === "shop" ? 48 : 74) * zoom);
+        }
+        for (const bb of this.sim.perimeterBillboards || []) {
+          punchLight(bb.tileX, bb.tileY, 4, 60 * zoom);
+        }
+        for (let y = 0; y < N; y++) {
+          for (let x = 0; x < N; x++) {
+            const tile = this.sim.getTile(x, y);
+            if (tile?.pathAddition === "lamp") punchLight(x, y, Math.max(tile.height, tile.waterHeight || 0) + 1.5, 48 * zoom);
           }
         }
+        ctx.drawImage(this._lightmapCanvas, 0, 0);
+
+        // Additive warm glow halos & firework ground reflection
+        ctx.save();
+        ctx.globalCompositeOperation = "lighter";
+        const glowCircle = (wx, wy, wz, radiusPx, rgbaCol) => {
+          const gIso = worldToIso(wx, wy, wz, this.rotation, N);
+          const gx = toScreenX(gIso.screenX);
+          const gy = toScreenY(gIso.screenY);
+          if (gx < -radiusPx || gx > viewW + radiusPx || gy < -radiusPx || gy > viewH + radiusPx) return;
+          ctx.fillStyle = rgbaCol;
+          ctx.beginPath();
+          ctx.arc(gx, gy, radiusPx, 0, Math.PI * 2);
+          ctx.fill();
+        };
+        for (const bb of this.sim.perimeterBillboards || []) {
+          glowCircle(bb.tileX, bb.tileY, 4, 34 * zoom, "rgba(56, 189, 248, 0.13)");
+        }
+        glowCircle(this.sim.entrance.x, this.sim.entrance.y, 3, 50 * zoom, "rgba(250, 204, 21, 0.16)");
+        for (let y = 0; y < N; y++) {
+          for (let x = 0; x < N; x++) {
+            const tile = this.sim.getTile(x, y);
+            if (!tile) continue;
+            if (tile.pathAddition === "lamp") {
+              glowCircle(x, y, Math.max(tile.height, tile.waterHeight || 0) + 1.5, 28 * zoom, "rgba(254, 240, 138, 0.18)");
+            } else if (tile.scenery?.id === "neon_arch" || tile.scenery?.id === "statue_mascot") {
+              glowCircle(x, y, tile.height + 1.5, 26 * zoom, "rgba(236, 72, 153, 0.16)");
+            }
+          }
+        }
+        if ((this.sim.fireworks || []).length > 0) {
+          const fw0 = this.sim.fireworks[0];
+          glowCircle(fw0.x, fw0.y, 2, 110 * zoom, "rgba(250, 204, 21, 0.12)");
+        }
+        ctx.restore();
       }
-      ctx.restore();
     }
 
     if (drawOverlays && this.sim.weather === "rain") {
-      ctx.fillStyle = "rgba(15, 23, 42, 0.22)";
+      ctx.fillStyle = "rgba(15, 23, 42, 0.2)";
       ctx.fillRect(0, 0, viewW, viewH);
-      ctx.strokeStyle = "rgba(186, 230, 253, 0.48)";
+      ctx.strokeStyle = "rgba(186, 230, 253, 0.5)";
       ctx.lineWidth = 1;
       for (const drop of this._rainDrops) {
         const dx = (drop.x * viewW + nowSec * 120) % viewW;
@@ -648,6 +995,18 @@ export class RctIsoRenderer {
         ctx.lineTo(dx - 3, dy + 11);
         ctx.stroke();
       }
+    } else if (drawOverlays && this.sim.weather === "rainbow") {
+      ctx.save();
+      ctx.globalAlpha = 0.22;
+      const rCols = ["#ef4444", "#f97316", "#facc15", "#22c55e", "#38bdf8", "#a855f7"];
+      for (let i = 0; i < rCols.length; i++) {
+        ctx.strokeStyle = rCols[i];
+        ctx.lineWidth = 6;
+        ctx.beginPath();
+        ctx.arc(viewW * 0.78, viewH * 0.28, 175 - i * 6, Math.PI * 1.08, Math.PI * 1.88);
+        ctx.stroke();
+      }
+      ctx.restore();
     }
 
     if (drawOverlays && this.hoverTile) {
@@ -1028,8 +1387,9 @@ export class RctIsoRenderer {
   }
 
   _drawFlatRide(ctx, ride, iso, toScreenX, toScreenY, zoom, nowSec, collectHitboxes) {
+    const bounceOff = ride.placeBounce > 0 ? Math.abs(Math.sin(ride.placeBounce * Math.PI * 2)) * 12 * ride.placeBounce * zoom : 0;
     const cx = toScreenX(iso.screenX);
-    const cy = toScreenY(iso.screenY) + 4 * zoom;
+    const cy = toScreenY(iso.screenY) + 4 * zoom - bounceOff;
     const phase = ride.animPhase || 0;
     const def = RIDE_CATALOG[ride.catalogId] || RIDE_CATALOG.merry_go_round;
 
@@ -1622,7 +1982,7 @@ export class RctIsoRenderer {
     }
 
     if (this.sim.weather === "rain" && p.hasUmbrella) {
-      ctx.fillStyle = "#ef4444";
+      ctx.fillStyle = p.umbrellaColor || "#ef4444";
       ctx.beginPath(); ctx.arc(px, py - 20.5 * zoom, 8.2 * zoom, Math.PI, Math.PI * 2); ctx.fill();
       ctx.fillStyle = "#ffffff";
       ctx.beginPath(); ctx.arc(px, py - 20.5 * zoom, 3.8 * zoom, Math.PI, Math.PI * 2); ctx.fill();
@@ -1644,32 +2004,54 @@ export class RctIsoRenderer {
       }
     }
 
-    // Overhead Route / Manual Control Badge
-    if (isControlled || (p.isExternalRoute && zoom >= 0.85)) {
+    // Overhead VIP Nickname / Route / Manual Control Badge + Live Speech Bubble
+    if (isControlled || p.peerClientId || (p.isExternalRoute && zoom >= 0.85)) {
       const label = isControlled
-        ? `🕹 ${p.originBadge || "체험"} · ${p.name}`
-        : zoom >= 1.25
-          ? `${p.originBadge}`
-          : String(p.originBadge || "").split(" ")[0];
+        ? `🕹 ${p.name}`
+        : p.peerClientId
+          ? `👑 ${p.name}`
+          : zoom >= 1.25
+            ? `${p.originBadge}`
+            : String(p.originBadge || "").split(" ")[0];
       if (label) {
         ctx.save();
-        ctx.font = `bold ${Math.max(8, Math.round((isControlled ? 10 : 8.5) * Math.min(zoom, 1.3)))}px sans-serif`;
+        ctx.font = `bold ${Math.max(8, Math.round((isControlled || p.peerClientId ? 10 : 8.5) * Math.min(zoom, 1.3)))}px sans-serif`;
         const textW = ctx.measureText(label).width;
-        const padX = isControlled ? 6 : 4;
+        const padX = isControlled || p.peerClientId ? 6 : 4;
         const boxW = textW + padX * 2;
-        const boxH = isControlled ? 16 : 13;
+        const boxH = isControlled || p.peerClientId ? 16 : 13;
         const boxX = px - boxW * 0.5;
         const boxY = py - (p.hasBalloon ? 39 : 34) * zoom;
-        ctx.fillStyle = isControlled ? "#090d13" : "rgba(15, 23, 42, 0.86)";
+        ctx.fillStyle = isControlled || p.peerClientId ? "#090d13" : "rgba(15, 23, 42, 0.86)";
         ctx.fillRect(boxX, boxY, boxW, boxH);
-        ctx.strokeStyle = isControlled ? "#fde047" : p.originColor || "#38bdf8";
-        ctx.lineWidth = isControlled ? 1.5 : 1;
+        ctx.strokeStyle = isControlled ? "#fde047" : p.peerClientId ? "#f97316" : p.originColor || "#38bdf8";
+        ctx.lineWidth = isControlled || p.peerClientId ? 1.5 : 1;
         ctx.strokeRect(boxX, boxY, boxW, boxH);
-        ctx.fillStyle = isControlled ? "#fde047" : "#f8fafc";
+        ctx.fillStyle = isControlled ? "#fde047" : p.peerClientId ? "#fed7aa" : "#f8fafc";
         ctx.textAlign = "center";
-        ctx.fillText(label, px, boxY + boxH - (isControlled ? 4 : 3));
+        ctx.fillText(label, px, boxY + boxH - (isControlled || p.peerClientId ? 4 : 3));
         ctx.restore();
       }
+    }
+
+    if (p.speechBubble && p.speechTimer > 0 && zoom >= 0.65) {
+      ctx.save();
+      const txt = String(p.speechBubble).slice(0, 34);
+      ctx.font = `bold ${Math.max(9, Math.round(9.5 * Math.min(zoom, 1.25)))}px sans-serif`;
+      const tw = ctx.measureText(txt).width;
+      const bw = tw + 12;
+      const bh = 18;
+      const bx = px - bw * 0.5;
+      const by = py - (p.hasBalloon ? 58 : 53) * zoom;
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(bx, by, bw, bh);
+      ctx.strokeStyle = "#090d13";
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(bx, by, bw, bh);
+      ctx.fillStyle = "#090d13";
+      ctx.textAlign = "center";
+      ctx.fillText(txt, px, by + 13);
+      ctx.restore();
     }
 
     if (collectHitboxes) {

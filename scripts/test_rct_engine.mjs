@@ -431,3 +431,84 @@ test("test_external_route_guests_and_manual_pov_control", async () => {
   assert.ok(restoredExt);
   assert.equal(restoredExt.isExternalRoute, true);
 });
+
+test("test_lighting_cycle_and_rainbow_weather", () => {
+  const sim = new RctParkSimulation();
+  sim.loadScenario("ai_weekly_park");
+  assert.equal(sim.lightingMode, "day");
+
+  assert.equal(sim.cycleLightingMode(), "golden");
+  assert.equal(sim.nightMode, false);
+
+  assert.equal(sim.cycleLightingMode(), "night");
+  assert.equal(sim.nightMode, true);
+
+  assert.equal(sim.cycleLightingMode(), "cycle");
+  assert.equal(sim.cycleLightingMode(), "day");
+  assert.equal(sim.nightMode, false);
+
+  sim.setWeather("rain");
+  assert.equal(sim.weather, "rain");
+  const umbrellaCount = sim.peeps.filter((p) => p.hasUmbrella).length;
+  assert.ok(umbrellaCount > 0, "Guests should open umbrellas in rain");
+
+  sim.setWeather("rainbow");
+  assert.equal(sim.weather, "rainbow");
+});
+
+test("test_ai_supernova_pavilion_and_champion_model", () => {
+  const sim = new RctParkSimulation();
+  sim.loadScenario("ai_weekly_park");
+
+  sim.syncAiWeeklyData({
+    plugins: [
+      {
+        id: "org/super-agent",
+        name: "SuperAgent",
+        repo: "org/super-agent",
+        stars: 4200,
+        velocity_7d: 340,
+        summary_ko: "초신성 200★+ 급상승 테스트 저장소",
+        official_url: "https://github.com/org/super-agent",
+      },
+    ],
+    news: [{ title_ko: "Gemini 4 Argon 출시", summary_ko: "초고속 코딩 모델", url: "https://example.com" }],
+    benchmarks: [{ model: "Gemini 4 Argon", provider: "Google", arena_coding_elo: 1425 }],
+  });
+
+  assert.ok(sim.supernovaPavilion, "Supernova pavilion should be populated");
+  assert.equal(sim.supernovaPavilion.tileX, 22);
+  assert.equal(sim.supernovaPavilion.tileY, 23);
+  assert.equal(sim.supernovaPavilion.isSupernova, true);
+  assert.ok(sim.supernovaPavilion.installCmd.includes("org/super-agent"));
+
+  assert.equal(sim.championModel.name, "Gemini 4 Argon");
+  assert.equal(sim.championModel.elo, 1425);
+  assert.ok(sim.championModel.accent.startsWith("#"));
+  assert.ok((sim._newsHeadlines || []).length > 0);
+});
+
+test("test_multiplayer_vip_avatars_emotes_and_fireworks", () => {
+  const sim = new RctParkSimulation();
+  sim.loadScenario("ai_weekly_park");
+
+  const vip = sim.syncPeerAvatar({ clientId: "peer-99", name: "아키텍트K" }, true);
+  assert.ok(vip);
+  assert.equal(vip.peerClientId, "peer-99");
+  assert.equal(vip.isVipPeer, true);
+  assert.equal(vip.hatType, "crown");
+
+  sim.triggerPeerChatBubble("peer-99", "코스터 스릴 넘치네요!");
+  assert.equal(vip.speechBubble, "코스터 스릴 넘치네요!");
+
+  sim.triggerPeerEmote("peer-99", "🚀");
+  assert.equal(vip.speechBubble, "🚀");
+
+  const beforeFw = (sim.fireworks || []).length;
+  sim.spawnMultiplayerFinaleFireworks();
+  assert.ok((sim.fireworks || []).length > beforeFw);
+
+  sim.removePeerAvatar("peer-99");
+  assert.equal(sim.peeps.some((p) => p.peerClientId === "peer-99"), false);
+});
+

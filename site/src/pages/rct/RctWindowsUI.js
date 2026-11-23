@@ -61,6 +61,28 @@ export class RctWindowsUI {
     this._aiQuery = "";
     this._brushSize = 1;
     this._lastStatusSync = 0;
+
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", () => {
+        for (const entry of this.windows.values()) {
+          this._clampWindowPosition(entry.el);
+        }
+      });
+    }
+  }
+
+  _clampWindowPosition(winEl) {
+    if (!winEl || !this.layerEl) return;
+    const layerW = this.layerEl.clientWidth || window.innerWidth;
+    const layerH = this.layerEl.clientHeight || window.innerHeight;
+    const winW = winEl.offsetWidth || parseFloat(winEl.style.width) || 340;
+    const minTop = 44; // Keep clear of the top guidance pill (#rct-tool-indicator)
+    const maxLeft = Math.max(4, layerW - winW - 4);
+    const maxTop = Math.max(minTop, layerH - 92);
+    const curLeft = parseFloat(winEl.style.left) || 12;
+    const curTop = parseFloat(winEl.style.top) || minTop;
+    winEl.style.left = `${Math.max(4, Math.min(maxLeft, curLeft))}px`;
+    winEl.style.top = `${Math.max(minTop, Math.min(maxTop, curTop))}px`;
   }
 
   openWindow(key, state = {}) {
@@ -72,6 +94,7 @@ export class RctWindowsUI {
       existing.state = { ...existing.state, ...state };
       this._focusWindow(existing.el);
       this._renderWindowContent(key);
+      this._clampWindowPosition(existing.el);
       return;
     }
 
@@ -79,23 +102,29 @@ export class RctWindowsUI {
     const winEl = document.createElement("aside");
     winEl.className = "rct-window";
     winEl.dataset.winKey = key;
-    const cascadeX = window.innerWidth >= 1024 ? 18 + (offsetIdx % 3) * 290 : 12 + offsetIdx * 20;
-    const cascadeY = window.innerWidth >= 1024 ? 14 + Math.floor(offsetIdx / 3) * 42 : 14 + offsetIdx * 24;
-    winEl.style.left = `${Math.min(cascadeX, Math.max(12, window.innerWidth - 400))}px`;
+    const widthPx =
+      key === "photo-preview"
+        ? 540
+        : key === "ai-archive" || key === "build"
+          ? 450
+          : key === "ride-detail"
+            ? 430
+            : key === "billboard-post" || key === "supernova"
+              ? 410
+              : key === "coaster-builder"
+                ? 390
+                : 340;
+    const cascadeX = window.innerWidth >= 1024 ? 14 + (offsetIdx % 3) * 260 : 8 + offsetIdx * 12;
+    const cascadeY = window.innerWidth >= 1024 ? 46 + Math.floor(offsetIdx / 3) * 38 : 46 + offsetIdx * 20;
+    winEl.style.width = `${widthPx}px`;
+    winEl.style.left = `${Math.min(cascadeX, Math.max(4, (this.layerEl.clientWidth || window.innerWidth) - widthPx - 8))}px`;
     winEl.style.top = `${cascadeY}px`;
-    winEl.style.width =
-      key === "ai-archive" || key === "build"
-        ? "450px"
-        : key === "billboard-post"
-          ? "410px"
-          : key === "coaster-builder"
-            ? "390px"
-            : "340px";
     winEl.style.zIndex = String(++this._zCounter);
 
     this.layerEl.appendChild(winEl);
     this.windows.set(key, { key, el: winEl, pinned: false, state });
     this._renderWindowContent(key);
+    this._clampWindowPosition(winEl);
     this._makeDraggable(winEl, key);
     this.audio.playClick();
   }
@@ -109,6 +138,24 @@ export class RctWindowsUI {
       this.renderer.customCoasterId = null;
     }
     this.audio.playClick();
+  }
+
+  closeTopUnpinned() {
+    let topEntry = null;
+    let maxZ = -1;
+    for (const entry of this.windows.values()) {
+      if (entry.pinned) continue;
+      const z = Number(entry.el.style.zIndex || 0);
+      if (z >= maxZ) {
+        maxZ = z;
+        topEntry = entry;
+      }
+    }
+    if (topEntry) {
+      this.closeWindow(topEntry.key);
+      return true;
+    }
+    return false;
   }
 
   closeUnpinned() {
@@ -144,8 +191,9 @@ export class RctWindowsUI {
       if (!dragging) return;
       const dx = ev.clientX - startX;
       const dy = ev.clientY - startY;
-      winEl.style.left = `${Math.max(4, Math.min(window.innerWidth - 180, origLeft + dx))}px`;
-      winEl.style.top = `${Math.max(4, Math.min(window.innerHeight - 160, origTop + dy))}px`;
+      winEl.style.left = `${origLeft + dx}px`;
+      winEl.style.top = `${origTop + dy}px`;
+      this._clampWindowPosition(winEl);
     });
     window.addEventListener("pointerup", () => {
       dragging = false;
@@ -172,6 +220,15 @@ export class RctWindowsUI {
       if (ev.target.id === "rct-ai-search") {
         this._aiQuery = ev.target.value || "";
         this._renderWindowContent("ai-archive");
+        return;
+      }
+      const chSlider = ev.target.closest("[data-audio-channel]");
+      if (chSlider) {
+        const ch = chSlider.dataset.audioChannel;
+        const val = Number(chSlider.value) / 100;
+        this.audio.setChannelVolume(ch, val);
+        const lbl = chSlider.parentElement?.querySelector(".rct-mixer-pct");
+        if (lbl) lbl.textContent = `${Math.round(val * 100)}%`;
       }
     });
   }
@@ -183,8 +240,10 @@ export class RctWindowsUI {
       <div class="rct-win-titlebar ${themeClass}">
         <span>${esc(title)}</span>
         <div class="rct-win-actions">
-          <button type="button" class="rct-win-pin ${pinned}" data-win-pin title="창 고정 (ESC 시 유지)">📌</button>
-          <button type="button" class="rct-win-close" data-win-close title="닫기">✕</button>
+          <button type="button" class="rct-win-pin ${pinned}" data-win-pin title="창 고정 (ESC 시 유지)" aria-label="창 고정">📌</button>
+          <button type="button" class="rct-win-close" data-win-close title="닫기 (ESC)" aria-label="창 닫기">
+            <svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true"><path d="M2 2L10 10M10 2L2 10" stroke="currentColor" stroke-width="2.2" stroke-linecap="square"/></svg>
+          </button>
         </div>
       </div>
       <div class="rct-win-body">${bodyHtml}</div>
@@ -307,42 +366,61 @@ export class RctWindowsUI {
       }
       const st = ride.stats || { excitement: 0, intensity: 0, nausea: 0 };
       const isShop = ride.category === "shop";
+      const mkStatGauge = (label, valText, pct, color = "#22c55e") => `
+        <div class="rct-inset" style="padding:4px 6px; display:flex; flex-direction:column; gap:3px; min-width:0;">
+          <div style="display:flex; justify-content:space-between; font-size:10.5px;">
+            <span style="color:#e2e8f0;">${label}</span>
+            <b style="color:${color};">${valText}</b>
+          </div>
+          <div class="rct-stat-bar-track"><div class="rct-stat-bar-fill" style="width:${Math.max(0, Math.min(100, pct))}%; background:${color};"></div></div>
+        </div>
+      `;
       el.innerHTML = this._wrapWindow(key, `🎡 ${ride.name}`, "is-blue", `
-        <div style="display:grid; grid-template-columns:168px 1fr; gap:8px; align-items:start;">
-          <div>
-            <canvas class="rct-mini-cam" id="rct-ride-minicam" width="168" height="104" data-ride-id="${esc(ride.id)}"></canvas>
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:5px;">
+        <!-- Tier 1: Live Mini Preview + Status & Traffic Lights -->
+        <div class="rct-ride-tier1">
+          <canvas class="rct-mini-cam" id="rct-ride-minicam" width="160" height="98" data-ride-id="${esc(ride.id)}"></canvas>
+          <div class="rct-inset" style="font-size:11px; display:flex; flex-direction:column; gap:5px; min-width:0;">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; flex-wrap:wrap;">
               <div class="rct-traffic-lights">
                 <button type="button" class="rct-light-btn is-red ${ride.status === "closed" || ride.broken ? "is-active" : ""}" data-ride-status="${esc(ride.id)}:closed" title="폐쇄"></button>
                 ${!isShop ? `<button type="button" class="rct-light-btn is-amber ${ride.status === "testing" ? "is-active" : ""}" data-ride-status="${esc(ride.id)}:testing" title="시운전"></button>` : ""}
                 <button type="button" class="rct-light-btn is-green ${ride.status === "open" && !ride.broken ? "is-active" : ""}" data-ride-status="${esc(ride.id)}:open" title="개장"></button>
               </div>
-              <span style="font-size:10.5px; color:${ride.broken ? "#fca5a5" : "#4ade80"}; font-weight:800;">
-                ${ride.broken ? "⚠ 고장!" : ride.status === "open" ? "운행 중" : ride.status === "testing" ? "시운전" : "폐쇄"}
+              <span style="font-size:11px; color:${ride.broken ? "#fca5a5" : "#4ade80"}; font-weight:800;">
+                ${ride.broken ? "⚠ 고장!" : ride.status === "open" ? "● 운행 중" : ride.status === "testing" ? "● 시운전" : "● 폐쇄"}
               </span>
             </div>
-          </div>
-          <div class="rct-inset" style="font-size:11px; display:flex; flex-direction:column; gap:4px;">
-            ${!isShop ? `
-              <div>흥미도 (Excitement): <b style="color:#4ade80;">${Number(st.excitement || 0).toFixed(2)}</b></div>
-              <div>격렬도 (Intensity): <b style="color:#fbbf24;">${Number(st.intensity || 0).toFixed(2)}</b></div>
-              <div>멀미도 (Nausea): <b style="color:${st.nausea >= 4 ? "#f87171" : "#93c5fd"};">${Number(st.nausea || 0).toFixed(2)}</b></div>
-              ${ride.track && st.maxSpeedKmh ? `<div>최고속도: <b>${st.maxSpeedKmh}km/h</b> · 낙하 <b>${st.drops}회</b> · 루프 <b>${st.inversions}</b></div>` : ""}
-              <div>신뢰도: <b>${Math.round(ride.reliability)}%</b> · 탑승객: <b>${ride.passengers.length}/${ride.capacity}</b></div>
-            ` : `<div>이용 횟수: <b>${ride.totalRiders}명</b></div>`}
+            ${!isShop
+              ? `<div>탑승객: <b>${ride.passengers.length} / ${ride.capacity}명</b> · 누적 <b>${ride.totalRiders}회</b></div>`
+              : `<div>누적 손님: <b>${ride.totalRiders}명</b></div>`}
             <div>누적 수익: <b style="color:#4ade80;">${formatMoney(ride.totalProfit)}</b></div>
-            <div style="display:flex; align-items:center; gap:5px; margin-top:2px;">
-              <span>요금: <b>$${ride.price.toFixed(1)}</b></span>
+          </div>
+        </div>
+
+        <!-- Tier 2: 2-Column Responsive Stat Gauge Bars -->
+        ${!isShop ? `
+          <div class="rct-stat-grid-2col">
+            ${mkStatGauge("흥미도 (Excitement)", Number(st.excitement || 0).toFixed(2), (Number(st.excitement || 0) / 10) * 100, "#4ade80")}
+            ${mkStatGauge("격렬도 (Intensity)", Number(st.intensity || 0).toFixed(2), (Number(st.intensity || 0) / 10) * 100, "#fbbf24")}
+            ${mkStatGauge("멀미도 (Nausea)", Number(st.nausea || 0).toFixed(2), (Number(st.nausea || 0) / 8) * 100, st.nausea >= 4 ? "#f87171" : "#38bdf8")}
+            ${mkStatGauge("신뢰도 (Reliability)", `${Math.round(ride.reliability)}%`, Number(ride.reliability || 0), ride.reliability < 45 ? "#f87171" : "#a78bfa")}
+          </div>
+          ${ride.track && st.maxSpeedKmh ? `<div class="rct-inset" style="font-size:11px;">🚄 최고속도 <b>${st.maxSpeedKmh}km/h</b> · 낙하 <b>${st.drops}회</b> · 루프 <b>${st.inversions}개</b></div>` : ""}
+        ` : ""}
+
+        ${ride.broken ? `<div class="rct-inset" style="background:#7f1d1d; color:#fecaca; font-size:11px;">🚨 ${esc(ride.breakdownReason)}</div>` : ""}
+
+        <!-- Tier 3: Price Stepper + Rename + Color Swatches + Actions -->
+        <div class="rct-inset" style="display:flex; flex-direction:column; gap:6px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap; font-size:11px;">
+            <div style="display:flex; align-items:center; gap:5px;">
+              <span>이용 요금: <b style="color:#fde047;">$${ride.price.toFixed(1)}</b></span>
               <button type="button" class="rct-mini-btn" data-ride-price="${esc(ride.id)}:-0.5">-</button>
               <button type="button" class="rct-mini-btn" data-ride-price="${esc(ride.id)}:0.5">+</button>
             </div>
-            <div style="display:flex; align-items:center; gap:4px; margin-top:3px;">
-              <input type="text" class="rct-name-input" id="rct-ride-rename-input" maxlength="28" value="${esc(ride.name)}" aria-label="놀이기구 이름 변경" />
-              <button type="button" class="rct-mini-btn is-primary" data-ride-rename="${esc(ride.id)}">이름변경</button>
-            </div>
             ${!isShop ? `
-              <div style="display:flex; align-items:center; gap:4px; flex-wrap:wrap; margin-top:2px;">
-                <span style="font-size:10px; color:#cbd5e1;">도색:</span>
+              <div style="display:flex; align-items:center; gap:4px; flex-wrap:wrap;">
+                <span style="font-size:10.5px; color:#cbd5e1;">도색:</span>
                 ${RIDE_COLOR_PALETTES.map((pal) => `
                   <button type="button"
                     class="rct-color-swatch ${ride.colorPrimary === pal.primary ? "is-active" : ""}"
@@ -353,8 +431,11 @@ export class RctWindowsUI {
               </div>
             ` : ""}
           </div>
+          <div style="display:flex; align-items:center; gap:5px;">
+            <input type="text" class="rct-name-input" id="rct-ride-rename-input" maxlength="28" value="${esc(ride.name)}" aria-label="놀이기구 이름 변경" />
+            <button type="button" class="rct-mini-btn is-primary" data-ride-rename="${esc(ride.id)}">이름변경</button>
+          </div>
         </div>
-        ${ride.broken ? `<div class="rct-inset" style="background:#7f1d1d; color:#fecaca; font-size:11px;">🚨 ${esc(ride.breakdownReason)}</div>` : ""}
         <div style="display:flex; flex-wrap:wrap; gap:5px;">
           ${!isShop ? `<button type="button" class="rct-btn" data-ride-call-mech="${esc(ride.id)}">🔧 정비사 호출</button>` : ""}
           ${ride.track ? `<button type="button" class="rct-btn is-warn" data-ride-edit-track="${esc(ride.id)}">🎢 트랙 편집</button>` : ""}
@@ -661,13 +742,33 @@ export class RctWindowsUI {
     }
 
     if (key === "view-opts") {
-      el.innerHTML = this._wrapWindow(key, "👁 화면 투시 및 보기 옵션", "is-blue", `
-        <div style="display:flex; flex-direction:column; gap:6px;">
+      const lm = this.sim.lightingMode || "day";
+      const wm = this.sim.weather || "sunny";
+      el.innerHTML = this._wrapWindow(key, "👁 화면 · 조명 · 날씨 · 믹서", "is-blue", `
+        <div style="display:flex; flex-direction:column; gap:5px;">
           <button type="button" class="rct-btn ${this.renderer.seeThroughRides ? "is-active" : ""}" data-view-toggle="seeThroughRides">놀이기구·코스터 투명화 (See-Through Rides)</button>
           <button type="button" class="rct-btn ${this.renderer.seeThroughScenery ? "is-active" : ""}" data-view-toggle="seeThroughScenery">나무·풍경 숨기기 (See-Through Scenery)</button>
           <button type="button" class="rct-btn ${this.renderer.showGrid ? "is-active" : ""}" data-view-toggle="showGrid">타일 격자선 표시 (Grid)</button>
           <button type="button" class="rct-btn ${this.renderer.showHeightMarks ? "is-active" : ""}" data-view-toggle="showHeightMarks">지형 고도 수치 표시 (Height Marks)</button>
         </div>
+        <div class="rct-inset" style="font-size:11px;">
+          <div style="font-weight:800; color:#fde047; margin-bottom:4px;">🌅 주야간 라이트맵 사이클 (현재 FPS: ${this.renderer.currentFps || 60})</div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:4px;">
+            <button type="button" class="rct-mini-btn ${lm === "day" ? "is-active" : ""}" data-set-lighting="day">☀️ 낮 고정</button>
+            <button type="button" class="rct-mini-btn ${lm === "golden" ? "is-active" : ""}" data-set-lighting="golden">🌇 골든아워</button>
+            <button type="button" class="rct-mini-btn ${lm === "night" ? "is-active" : ""}" data-set-lighting="night">🌙 야간·폭죽쇼</button>
+            <button type="button" class="rct-mini-btn ${lm === "cycle" ? "is-active" : ""}" data-set-lighting="cycle">🔄 자동 사이클</button>
+          </div>
+        </div>
+        <div class="rct-inset" style="font-size:11px;">
+          <div style="font-weight:800; color:#93c5fd; margin-bottom:4px;">🌦 실시간 날씨 제어</div>
+          <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:4px;">
+            <button type="button" class="rct-mini-btn ${wm === "sunny" ? "is-active" : ""}" data-set-weather="sunny">☀️ 맑음</button>
+            <button type="button" class="rct-mini-btn ${wm === "rain" ? "is-active" : ""}" data-set-weather="rain">🌧 소나기</button>
+            <button type="button" class="rct-mini-btn ${wm === "rainbow" ? "is-active" : ""}" data-set-weather="rainbow">🌈 무지개</button>
+          </div>
+        </div>
+        <button type="button" class="rct-btn is-primary" data-win-open="audio-mixer">🎛 4채널 공간 음향 믹서 열기</button>
       `);
       return;
     }
@@ -788,6 +889,73 @@ export class RctWindowsUI {
               ? `<a class="rct-btn is-primary" href="${esc(safeUrl)}" target="_blank" rel="noopener" style="text-decoration:none;">🔗 원문 열기</a>`
               : `<button type="button" class="rct-btn is-primary" data-win-open="ai-archive">🔬 AI연구소</button>`}
           </div>
+        </div>
+      `);
+      return;
+    }
+
+    if (key === "audio-mixer") {
+      const chs = [
+        { id: "master", label: "🔊 마스터 볼륨" },
+        { id: "bgm", label: "🎶 오르간 배경음" },
+        { id: "sfx", label: "🔔 기구·UI 효과음" },
+        { id: "ambient", label: "🌬 공원 환경음·비" },
+      ];
+      el.innerHTML = this._wrapWindow(key, "🎛 4채널 공간 음향 볼륨 믹서", "is-blue", `
+        <div class="rct-inset" style="font-size:11px; color:#cbd5e1;">
+          카메라 위치와 줌 배율에 따라 코스터 체인리프트·폭죽·환경음이 입체 패닝됩니다.
+        </div>
+        <div style="display:flex; flex-direction:column; gap:7px;">
+          ${chs.map((ch) => {
+            const pct = Math.round((this.audio.volumes?.[ch.id] ?? 0.8) * 100);
+            return `
+              <label class="rct-inset" style="display:flex; align-items:center; justify-content:space-between; gap:8px; font-size:11px;">
+                <span style="min-width:118px;">${esc(ch.label)}</span>
+                <input type="range" min="0" max="100" value="${pct}" data-audio-channel="${esc(ch.id)}" style="flex:1 1 auto; accent-color:#38bdf8;" />
+                <b class="rct-mixer-pct" style="min-width:36px; text-align:right; color:#fde047;">${pct}%</b>
+              </label>
+            `;
+          }).join("")}
+        </div>
+      `);
+      return;
+    }
+
+    if (key === "supernova") {
+      const pav = this.sim.supernovaPavilion;
+      if (!pav) {
+        el.innerHTML = this._wrapWindow(key, "🌟 스타보드 초신성 팝업 부스", "is-gold", `<div class="rct-inset">초신성 오픈소스 데이터를 불러오는 중입니다.</div>`);
+        return;
+      }
+      const extUrl = safeHref(pav.url);
+      el.innerHTML = this._wrapWindow(key, `🌟 초신성 부스: ${pav.name}`, "is-gold", `
+        <div class="rct-inset" style="display:flex; flex-direction:column; gap:6px; font-size:11.5px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <b style="color:#fde047; font-size:13px;">${esc(pav.repo)}</b>
+            <span class="rct-billboard-badge" style="background:#fde047;">★ ${Number(pav.stars).toLocaleString()} (+${Number(pav.weeklyDelta).toLocaleString()})</span>
+          </div>
+          <div style="color:#e2e8f0; line-height:1.45;">${esc(pav.summary)}</div>
+          <div style="background:#0f172a; border:1px solid #334155; padding:5px 7px; font-family:monospace; font-size:10.5px; color:#4ade80; overflow-x:auto;">
+            ${esc(pav.installCmd)}
+          </div>
+        </div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+          <button type="button" class="rct-btn is-primary" data-copy-cmd="${esc(pav.installCmd)}">📋 CLI 명령어 복사</button>
+          <button type="button" class="rct-btn is-warn" data-ai-sponsor="${esc(pav.name)}">🎢 스폰서 명명</button>
+          ${extUrl !== "#" ? `<a class="rct-btn" href="${esc(extUrl)}" target="_blank" rel="noopener" style="text-decoration:none;">🔗 원문</a>` : ""}
+        </div>
+      `);
+      return;
+    }
+
+    if (key === "photo-preview") {
+      const url = typeof state.dataUrl === "string" && state.dataUrl.startsWith("data:image/png;base64,") ? state.dataUrl : "";
+      el.innerHTML = this._wrapWindow(key, "📸 위클리월드 포토 프레임", "is-purple", `
+        <div class="rct-inset" style="text-align:center;">
+          ${url ? `<img src="${esc(url)}" alt="AI위클리 위클리월드 기념 사진" style="max-width:100%; height:auto; border:1px solid #475569;" />` : `<div>캡처 이미지 생성 중…</div>`}
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:6px;">
+          ${url ? `<a class="rct-btn is-primary" href="${esc(url)}" download="ai-weekly-sanctuary-photo.png" style="text-decoration:none;">💾 PNG 저장</a>` : ""}
         </div>
       `);
     }
@@ -1137,6 +1305,29 @@ export class RctWindowsUI {
     const winOpen = t.closest("[data-win-open]");
     if (winOpen) {
       this.openWindow(winOpen.dataset.winOpen);
+      return;
+    }
+    const setLightBtn = t.closest("[data-set-lighting]");
+    if (setLightBtn) {
+      this.sim.setLightingMode(setLightBtn.dataset.setLighting);
+      document.dispatchEvent(new CustomEvent("rct-sync-hud"));
+      this._renderWindowContent("view-opts");
+      this.audio.playClick();
+      return;
+    }
+    const setWeatherBtn = t.closest("[data-set-weather]");
+    if (setWeatherBtn) {
+      this.sim.setWeather(setWeatherBtn.dataset.setWeather);
+      this._renderWindowContent("view-opts");
+      this.audio.playClick();
+      return;
+    }
+    const copyCmdBtn = t.closest("[data-copy-cmd]");
+    if (copyCmdBtn) {
+      const cmd = copyCmdBtn.dataset.copyCmd || "";
+      navigator.clipboard?.writeText(cmd).catch(() => {});
+      this.sim.pushNews(`📋 CLI 명령어 복사됨: ${cmd}`, "good");
+      this.audio.playCash();
     }
   }
 
@@ -1172,7 +1363,7 @@ export class RctWindowsUI {
     this._lastStatusSync = nowSec;
 
     const wIcon = document.getElementById("rct-weather-icon");
-    if (wIcon) wIcon.textContent = this.sim.weather === "rain" ? "🌧️" : this.sim.weather === "cloudy" ? "⛅" : "☀️";
+    if (wIcon) wIcon.textContent = this.sim.weather === "rain" ? "🌧️" : this.sim.weather === "rainbow" ? "🌈" : this.sim.weather === "cloudy" ? "⛅" : "☀️";
     const dEl = document.getElementById("rct-date-text");
     if (dEl) dEl.textContent = `Year ${this.sim.date.year}, ${this.sim.date.month}월 ${this.sim.date.day}일`;
 

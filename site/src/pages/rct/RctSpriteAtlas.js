@@ -84,6 +84,9 @@ export class RctSpriteAtlas {
     this.shops = {};
     this.entrance = null;
     this._baked = false;
+    this.externalLoaded = false;
+    this.externalMeta = null;
+    this._externalAttempted = false;
   }
 
   ensureBaked() {
@@ -96,6 +99,47 @@ export class RctSpriteAtlas {
     this._bakeScenery();
     this._bakeShops();
     this._bakeEntrance();
+    if (typeof fetch === "function" && typeof document !== "undefined") {
+      this.loadExternalAtlas();
+    }
+  }
+
+  /**
+   * Loads optional pre-rendered sprite sheet metadata (`sanctuary-assets/atlas.json`).
+   * Preserves procedural offscreen canvases cleanly whenever `externalEnabled` is false.
+   */
+  async loadExternalAtlas(manifestUrl = "sanctuary-assets/atlas.json") {
+    if (this._externalAttempted) return this.externalLoaded;
+    this._externalAttempted = true;
+    try {
+      const res = await fetch(manifestUrl, { cache: "no-cache" });
+      if (!res.ok) return false;
+      const meta = await res.json();
+      this.externalMeta = meta;
+      if (!meta || !meta.externalEnabled || !meta.sheet || !meta.frames || typeof Image === "undefined") {
+        return false;
+      }
+      const img = await new Promise((resolve, reject) => {
+        const el = new Image();
+        el.onload = () => resolve(el);
+        el.onerror = reject;
+        el.src = meta.sheet.startsWith("sanctuary-assets/") ? meta.sheet : `sanctuary-assets/${meta.sheet}`;
+      });
+      for (const [id, spec] of Object.entries(meta.frames)) {
+        if (!spec || !spec.w || !spec.h) continue;
+        const { c, ctx } = makeCanvas(spec.w, spec.h);
+        ctx.drawImage(img, spec.x || 0, spec.y || 0, spec.w, spec.h, 0, 0, spec.w, spec.h);
+        if (spec.group === "shop") this.shops[id] = c;
+        else if (spec.group === "scenery") this.scenery[id] = c;
+        else if (spec.group === "terrain") this.terrain[id] = c;
+        else if (spec.group === "path") this.paths[id] = c;
+        else if (spec.group === "entrance") this.entrance = c;
+      }
+      this.externalLoaded = true;
+      return true;
+    } catch {
+      return false;
+    }
   }
 
   _bakeTerrain() {

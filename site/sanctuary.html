@@ -122,15 +122,16 @@
           <button type="button" class="rct-tb-btn" id="rct-btn-rotate" title="90° 카메라 회전 (R)">🔄<span>회전</span></button>
           <button type="button" class="rct-tb-btn" id="rct-btn-view-opts" title="투시·그리드·높이 표시 전환">👁<span>투시</span></button>
           <button type="button" class="rct-tb-btn is-active" id="rct-btn-minimap" title="44x44 미니맵 열기/숨기기">🗺<span>지도</span></button>
+          <button type="button" class="rct-tb-btn" id="rct-btn-photo" title="Signal Terminal 폴라로이드 포토 캡처">📸<span>포토</span></button>
         </div>
         <div class="rct-tb-group">
           <button type="button" class="rct-tb-btn" id="rct-btn-freebuild" title="자유꾸미기 샌드박스 무제한 모드 전환">♾️<span>자유꾸미기</span></button>
-          <button type="button" class="rct-tb-btn" id="rct-btn-night" title="야간 조명 및 불꽃놀이 모드 전환">🌙<span>야간·폭죽</span></button>
+          <button type="button" class="rct-tb-btn" id="rct-btn-night" title="조명 사이클 전환 (낮 → 골든아워 → 야간·폭죽 → 자동)">🌙<span id="rct-night-label">야간·폭죽</span></button>
           <button type="button" class="rct-tb-btn" id="rct-btn-bulldoze" title="철거 도구 (불도저)">💣<span>철거</span></button>
           <button type="button" class="rct-tb-btn" data-win="terraform" title="지형 높낮이 & 물 편집">⛰<span>지형·물</span></button>
           <button type="button" class="rct-tb-btn" data-win="footpath" title="보도·대기열·벤치·쓰레기통">🛤<span>보도</span></button>
           <button type="button" class="rct-tb-btn" data-win="scenery" title="나무·분수·동상·AI전광판">🌲<span>풍경</span></button>
-          <button type="button" class="rct-tb-btn is-highlight" data-win="build" title="롤러코스터·놀이기구·상점 건설">🎢<span>건설</span></button>
+          <button type="button" class="rct-tb-btn" data-win="build" title="롤러코스터·놀이기구·상점 건설">🎢<span>건설</span></button>
         </div>
         <div class="rct-tb-group">
           <button type="button" class="rct-tb-btn" data-win="rides-list" title="전체 놀이기구 목록">🎡<span>기구</span></button>
@@ -157,8 +158,10 @@
         <!-- Guest POV Manual Control Floating HUD -->
         <aside class="rct-pov-hud" id="rct-guest-pov-hud" hidden aria-label="손님 시점 직접 조작 패널">
           <div class="rct-win-titlebar is-purple">
-            <span id="rct-pov-badge">🕹 손님 시점 체험</span>
-            <button type="button" class="rct-win-close" id="rct-pov-exit" title="손님 조작 종료 (ESC)">✕</button>
+            <span id="rct-pov-badge">🕹️ 손님체험</span>
+            <button type="button" class="rct-win-close" id="rct-pov-exit" title="손님 조작 종료 (ESC)" aria-label="손님 조작 종료">
+              <svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true"><path d="M2 2L10 10M10 2L2 10" stroke="currentColor" stroke-width="2.2" stroke-linecap="square"/></svg>
+            </button>
           </div>
           <div class="rct-pov-body">
             <div class="rct-pov-info">
@@ -190,7 +193,9 @@
         <aside class="rct-minimap-pod" id="rct-minimap-pod" aria-label="44x44 공원 미니맵">
           <div class="rct-win-titlebar">
             <span>🗺 44×44 공원 지도</span>
-            <button type="button" class="rct-win-close" id="rct-minimap-close" title="미니맵 닫기">✕</button>
+            <button type="button" class="rct-win-close" id="rct-minimap-close" title="미니맵 닫기" aria-label="미니맵 닫기">
+              <svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true"><path d="M2 2L10 10M10 2L2 10" stroke="currentColor" stroke-width="2.2" stroke-linecap="square"/></svg>
+            </button>
           </div>
           <div class="rct-minimap-body">
             <canvas id="rct-minimap-canvas" width="132" height="132" title="클릭·드래그하여 시점 이동"></canvas>
@@ -218,6 +223,13 @@
           <div class="rct-chat-body">
             <div class="sc-chat-tabs" id="chat-user-tabs" role="tablist"></div>
             <div class="sc-chat-log" id="chat-message-log" role="log" aria-live="polite"></div>
+            <div class="rct-emote-bar" aria-label="빠른 이모트">
+              <button type="button" class="rct-mini-btn" data-chat-emote="🎉">🎉</button>
+              <button type="button" class="rct-mini-btn" data-chat-emote="🔥">🔥</button>
+              <button type="button" class="rct-mini-btn" data-chat-emote="👏">👏</button>
+              <button type="button" class="rct-mini-btn" data-chat-emote="🤯">🤯</button>
+              <button type="button" class="rct-mini-btn" data-chat-emote="🚀">🚀</button>
+            </div>
             <form class="sc-chat-form" id="chat-form" autocomplete="off">
               <input type="text" class="sc-chat-input" id="chat-input" maxlength="200" placeholder="무전 입력 (Enter 전송)" aria-label="무전 메시지" />
               <button type="submit" class="rct-btn">전송</button>

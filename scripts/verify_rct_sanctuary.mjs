@@ -68,6 +68,11 @@ try {
     const cash = document.getElementById("rct-cash-text")?.textContent?.trim();
     const guests = document.getElementById("rct-guests-text")?.textContent?.trim();
     const rating = document.getElementById("rct-rating-text")?.textContent?.trim();
+    const buildBtn = document.querySelector('#rct-top-toolbar [data-win="build"]');
+    const toolText = document.getElementById("rct-tool-text")?.textContent?.trim() || "";
+    const indicatorEl = document.getElementById("rct-tool-indicator");
+    const indicatorZ = indicatorEl ? parseInt(getComputedStyle(indicatorEl).zIndex || "0", 10) : 0;
+    const docOverflow = document.documentElement.scrollWidth > window.innerWidth;
     return {
       canvasW: rect?.width || 0,
       canvasH: rect?.height || 0,
@@ -77,6 +82,10 @@ try {
       cash,
       guests,
       rating,
+      buildHasHighlight: Boolean(buildBtn?.classList.contains("is-highlight") || buildBtn?.classList.contains("is-active")),
+      toolText,
+      indicatorZ,
+      docOverflow,
     };
   });
   console.log("Overview layout:", layoutStats);
@@ -86,6 +95,10 @@ try {
   assert.ok(layoutStats.cash?.startsWith("$"), "Cash pod missing");
   assert.ok(layoutStats.guests?.includes("명"), "Guests pod missing");
   assert.ok(Number(layoutStats.rating) > 0, "Rating pod missing");
+  assert.equal(layoutStats.buildHasHighlight, false, "P0-5 failed: Build button should NOT be highlighted on initial inspect boot");
+  assert.ok(layoutStats.toolText.includes("확인"), "P0-5 failed: Initial banner should indicate default inspect mode");
+  assert.ok(layoutStats.indicatorZ >= 90, `P0-4 failed: #rct-tool-indicator z-index (${layoutStats.indicatorZ}) must be >= 90`);
+  assert.equal(layoutStats.docOverflow, false, "Desktop horizontal overflow detected");
   assert.equal(await page.locator("#rct-btn-bgm.is-active").count(), 1, "BGM button should be active by default");
 
   // Capture screenshot 1: 44x44 Park Overview with Minimap & Perimeter Billboards
@@ -117,10 +130,25 @@ try {
   await page.click('[data-win-key="rides-list"] [data-open-ride]');
   await page.waitForTimeout(350);
 
-  const rideDetailText = await page.locator('[data-win-key="ride-detail"]').innerText();
-  assert.ok(rideDetailText.includes("흥미도"), "Excitement stat missing");
-  assert.ok(rideDetailText.includes("격렬도"), "Intensity stat missing");
-  assert.ok(rideDetailText.includes("멀미도"), "Nausea stat missing");
+  const rideDetailStats = await page.evaluate(() => {
+    const win = document.querySelector('[data-win-key="ride-detail"]');
+    const body = win?.querySelector('.rct-win-body');
+    const closeSvg = win?.querySelector('.rct-win-close svg');
+    return {
+      text: win?.innerText || "",
+      winOverflow: win ? win.scrollWidth > win.clientWidth : true,
+      bodyOverflow: body ? body.scrollWidth > body.clientWidth : true,
+      hasCloseSvg: Boolean(closeSvg),
+      topPx: win ? parseFloat(win.style.top || "0") : 0,
+    };
+  });
+  assert.ok(rideDetailStats.text.includes("흥미도"), "Excitement stat missing");
+  assert.ok(rideDetailStats.text.includes("격렬도"), "Intensity stat missing");
+  assert.ok(rideDetailStats.text.includes("멀미도"), "Nausea stat missing");
+  assert.equal(rideDetailStats.winOverflow, false, "P0-1 failed: ride-detail window horizontal overflow detected");
+  assert.equal(rideDetailStats.bodyOverflow, false, "P0-1 failed: ride-detail body horizontal overflow detected");
+  assert.equal(rideDetailStats.hasCloseSvg, true, "P0-3 failed: WCAG close SVG missing in ride-detail");
+  assert.ok(rideDetailStats.topPx >= 44, `P0-4 failed: window spawned at top=${rideDetailStats.topPx}px overlapping banner`);
   assert.equal(await page.locator("#rct-ride-minicam").count(), 1, "Live mini-viewport canvas missing in ride-detail");
 
   await page.fill("#rct-ride-rename-input", "네온 하이퍼 코스터");
@@ -133,7 +161,7 @@ try {
     await page.waitForTimeout(100);
   }
 
-  // 3. Open Custom Coaster Builder & Verify 4-Tab 28-Attraction Build Window & Night Mode
+  // 3. Open Custom Coaster Builder & Verify 4-Tab 28-Attraction Build Window & 4-Stage Lighting Cycle
   const editTrackBtn = page.locator("[data-ride-edit-track]");
   if ((await editTrackBtn.count()) > 0) {
     await editTrackBtn.click();
@@ -151,15 +179,43 @@ try {
   const coasterTabText = await page.locator('[data-win-key="build"]').innerText();
   assert.ok(coasterTabText.includes("인버티드"), "New inverted coaster missing from Build catalog");
 
+  // Cycle lighting: day -> golden -> night (capture night show) -> cycle -> day
   await page.click("#rct-btn-night");
-  await page.waitForTimeout(250);
+  await page.waitForTimeout(150);
+  assert.equal(await page.locator("#rct-night-label").innerText(), "골든아워", "1st lighting click should enter golden hour");
+  await page.click("#rct-btn-night");
+  await page.waitForTimeout(300);
+  assert.equal(await page.locator("#rct-night-label").innerText(), "야간쇼", "2nd lighting click should enter night fireworks");
   assert.equal(await page.locator("#rct-btn-night.is-active").count(), 1, "Night & fireworks mode did not activate");
 
   // Capture screenshot 2: Coaster Builder + Ride Detail + 4-Tab Build Window + Night Mode Fireworks
   await page.screenshot({ path: path.join(ARTIFACT_DIR, "rct_coaster_builder.png") });
-  await page.click("#rct-btn-night");
+  await page.click("#rct-btn-night"); // cycle
+  await page.click("#rct-btn-night"); // back to day
   await page.keyboard.press("Escape");
   await page.waitForTimeout(150);
+
+  // 3A. Test View Options (Rain -> Rainbow) + Spatial Audio Mixer + Polaroid Photo Mode
+  await page.click("#rct-btn-view-opts");
+  await page.waitForTimeout(200);
+  assert.equal(await page.locator('[data-win-key="view-opts"]').count(), 1, "View options window failed to open");
+  await page.click('[data-set-weather="rain"]');
+  await page.waitForTimeout(120);
+  await page.click('[data-set-weather="rainbow"]');
+  await page.waitForTimeout(120);
+  assert.equal(await page.locator('[data-set-weather="rainbow"].is-active').count(), 1, "Rainbow weather did not activate");
+  await page.click('[data-win-open="audio-mixer"]');
+  await page.waitForTimeout(200);
+  assert.equal(await page.locator('[data-win-key="audio-mixer"] [data-audio-channel="master"]').count(), 1, "Spatial audio mixer missing master channel");
+  await page.keyboard.press("Escape");
+  await page.keyboard.press("Escape");
+  await page.waitForTimeout(120);
+
+  await page.click("#rct-btn-photo");
+  await page.waitForTimeout(250);
+  assert.equal(await page.locator('[data-win-key="photo-preview"] img').count(), 1, "Polaroid photo preview PNG missing");
+  await page.keyboard.press("Escape");
+  await page.waitForTimeout(120);
 
   // 3B. Check Scenery 3 Tabs (18 Props) & Terraform Surface Brush
   await page.click('#rct-top-toolbar [data-win="scenery"]');
@@ -187,6 +243,9 @@ try {
   await page.click('[data-spawn-route="github"]');
   await page.waitForTimeout(250);
   assert.equal(await page.locator("#rct-guest-pov-hud").isVisible(), true, "Guest POV HUD did not appear");
+  const povBadge = await page.locator("#rct-pov-badge").innerText();
+  assert.ok(povBadge.includes("손님체험 ·"), `P0-2 failed: expected '손님체험 ·' badge, got "${povBadge}"`);
+  assert.equal(povBadge.includes("📻 무전기"), false, `P0-2 failed: bad title leaked: "${povBadge}"`);
   const povName = await page.locator("#rct-pov-name").innerText();
   assert.ok(povName.length > 0, "POV guest name empty");
 

@@ -1,0 +1,82 @@
+{
+  "version": 1,
+  "styleSpec": {
+    "projection": "2:1 isometric (64x32 tile base, 24px sprite cell base)",
+    "lighting": "45-degree top-left directional pixel shading with crisp dark 1px outline",
+    "paletteName": "RCT2 x Signal Terminal Hybrid (32 colors)",
+    "palette": [
+      "#0b101b", "#111827", "#1e293b", "#334155", "#475569", "#64748b", "#94a3b8", "#f8fafc",
+      "#38bdf8", "#0284c7", "#1d4ed8", "#312e81", "#7c3aed", "#a855f7", "#ec4899", "#f43f5e",
+      "#dc2626", "#991b1b", "#ea580c", "#f97316", "#f59e0b", "#facc15", "#fde047", "#fef3c7",
+      "#10b981", "#22c55e", "#4a8636", "#386c28", "#92400e", "#78350f", "#d97706", "#06b6d4"
+    ]
+  },
+  "attractions": [
+    { "id": "wooden_coaster", "group": "coaster", "footprint": "custom_track", "prompt": "Isometric 1999 pixel art classic wooden roller coaster station and lattice timber track structure, crisp 1px dark outline, top-left lighting" },
+    { "id": "steel_looping", "group": "coaster", "footprint": "custom_track", "prompt": "Isometric pixel art tubular steel looping roller coaster track with cobalt blue and crimson vertical loop supports" },
+    { "id": "mine_train", "group": "coaster", "footprint": "custom_track", "prompt": "Isometric pixel art western mine train roller coaster station with rustic oak timber beams and iron ore mine cart" },
+    { "id": "inverted_coaster", "group": "coaster", "footprint": "custom_track", "prompt": "Isometric pixel art cyber neon inverted suspended roller coaster track in violet cyan and gold" },
+    { "id": "hyper_coaster", "group": "coaster", "footprint": "custom_track", "prompt": "Isometric pixel art mega hyper giga coaster high steel tower track in royal gold and crimson" },
+    { "id": "merry_go_round", "group": "gentle", "footprint": "2x2", "prompt": "Isometric pixel art classic vintage merry-go-round carousel with striped crimson gold canopy and ornate wooden horses" },
+    { "id": "ferris_wheel", "group": "gentle", "footprint": "2x2", "prompt": "Isometric pixel art tall observation ferris wheel with cobalt lattice spokes and glowing yellow gondolas" },
+    { "id": "observation_tower", "group": "gentle", "footprint": "2x2", "prompt": "Isometric pixel art spire observation tower with teal rotating panoramic cabin deck" },
+    { "id": "haunted_house", "group": "gentle", "footprint": "2x2", "prompt": "Isometric pixel art Victorian gothic haunted mansion attraction with purple slate gables and lantern windows" },
+    { "id": "spiral_slide", "group": "gentle", "footprint": "2x2", "prompt": "Isometric pixel art red and white striped lighthouse tower spiral helter-skelter slide" },
+    { "id": "spinning_teacups", "group": "gentle", "footprint": "2x2", "prompt": "Isometric pixel art colorful porcelain spinning teacups ride on rotary gold turntable platform" },
+    { "id": "pirate_ship", "group": "thrill", "footprint": "2x2", "prompt": "Isometric pixel art swinging galleon pirate ship pendulum ride on wooden A-frame supports" },
+    { "id": "launched_freefall", "group": "thrill", "footprint": "2x2", "prompt": "Isometric pixel art steel lattice vertical drop tower with violet yellow freefall ring" },
+    { "id": "go_karts", "group": "thrill", "footprint": "2x2", "prompt": "Isometric pixel art mini go-kart checkered pit lane station with red and blue racing karts" },
+    { "id": "enterprise_wheel", "group": "thrill", "footprint": "2x2", "prompt": "Isometric pixel art hydraulic arm rotating enterprise wheel ride with orange blue pods" },
+    { "id": "top_spin", "group": "thrill", "footprint": "2x2", "prompt": "Isometric pixel art twin hydraulic pylon top-spin ride with crimson gold suspended gondola" },
+    { "id": "roto_drop", "group": "thrill", "footprint": "2x2", "prompt": "Isometric pixel art giant gyro swing pendulum ride in cyan and coral" },
+    { "id": "log_flume", "group": "water", "footprint": "2x2", "prompt": "Isometric pixel art timber water log flume chute attraction with hollowed log boats and splash" },
+    { "id": "river_rapids", "group": "water", "footprint": "2x2", "prompt": "Isometric pixel art circular river rapids raft ride with orange inflatable raft in turbulent blue channel" },
+    { "id": "bumper_boats", "group": "water", "footprint": "2x2", "prompt": "Isometric pixel art water pool bumper boats basin with yellow and sky-blue tire tubes" },
+    { "id": "burger_bar", "group": "shop", "footprint": "1x1", "prompt": "Isometric pixel art themed burger stall kiosk with giant sesame bun hamburger roof" },
+    { "id": "drink_stall", "group": "shop", "footprint": "1x1", "prompt": "Isometric pixel art themed soda drinks booth shaped like a giant red-white striped soda cup with straw" },
+    { "id": "ice_cream_stall", "group": "shop", "footprint": "1x1", "prompt": "Isometric pixel art soft ice cream parlor stall topped with triple-scoop waffle cone and cherry" },
+    { "id": "balloon_stall", "group": "shop", "footprint": "1x1", "prompt": "Isometric pixel art colorful balloon vendor booth with floating cluster of primary colored helium balloons" },
+    { "id": "info_kiosk", "group": "shop", "footprint": "1x1", "prompt": "Isometric pixel art park information kiosk booth with red roof umbrella emblem and park map board" },
+    { "id": "restroom", "group": "shop", "footprint": "1x1", "prompt": "Isometric pixel art neat slate stone theme park restroom pavilion with clean WC signage" },
+    { "id": "first_aid", "group": "shop", "footprint": "1x1", "prompt": "Isometric pixel art crisp white first aid medical clinic booth with bright red cross sign" },
+    { "id": "atm", "group": "shop", "footprint": "1x1", "prompt": "Isometric pixel art royal blue cash machine ATM kiosk with glowing green terminal screen" }
+  ],
+  "scenery": [
+    { "id": "tree_pine", "group": "scenery", "prompt": "Isometric pixel art layered evergreen pine conifer tree, crisp pixel foliage shading" },
+    { "id": "tree_oak", "group": "scenery", "prompt": "Isometric pixel art lush broad-canopy oak tree with textured trunk" },
+    { "id": "tree_palm", "group": "scenery", "prompt": "Isometric pixel art curved tropical palm tree with feathery fronds" },
+    { "id": "tree_cherry", "group": "scenery", "prompt": "Isometric pixel art blooming pink spring cherry blossom sakura tree" },
+    { "id": "flowerbed", "group": "scenery", "prompt": "Isometric pixel art brick-bordered flowerbed with tulip red yellow blooms" },
+    { "id": "rose_garden", "group": "scenery", "prompt": "Isometric pixel art trimmed geometric hedge rose garden with scarlet blossoms" },
+    { "id": "topiary_heart", "group": "scenery", "prompt": "Isometric pixel art sculpted green heart topiary hedge bush on stone plinth" },
+    { "id": "rock_boulder", "group": "scenery", "prompt": "Isometric pixel art moss-accented limestone garden boulder formation" },
+    { "id": "fountain", "group": "scenery", "prompt": "Isometric pixel art classic three-tier stone fountain with sparkling blue water jets" },
+    { "id": "jumping_fountain", "group": "scenery", "prompt": "Isometric pixel art illuminated rainbow laminar jumping water jets fountain" },
+    { "id": "statue_sawyer", "group": "scenery", "prompt": "Isometric pixel art bronze theme park pioneer statue holding blueprint scroll on marble pedestal" },
+    { "id": "statue_mascot", "group": "scenery", "prompt": "Isometric pixel art glowing gold Signal Terminal holographic cube mascot monument" },
+    { "id": "castle_tower", "group": "scenery", "prompt": "Isometric pixel art stone medieval castle turret with cobalt conical spire and pennant" },
+    { "id": "fence_white", "group": "scenery", "prompt": "Isometric pixel art crisp white wooden garden picket fence segment" },
+    { "id": "neon_arch", "group": "scenery", "prompt": "Isometric pixel art futuristic glowing cyan magenta cyberpunk walkway arch" },
+    { "id": "banner_sign", "group": "scenery", "prompt": "Isometric pixel art festive crimson gold park welcome archway banner" },
+    { "id": "ai_billboard", "group": "scenery", "prompt": "Isometric pixel art miniature dark LED digital news ticker pylon billboard" },
+    { "id": "firework_launcher", "group": "scenery", "prompt": "Isometric pixel art brass pyrotechnic mortar firework launcher rack" }
+  ],
+  "characters": [
+    { "id": "guest_base", "group": "character", "prompt": "Isometric tiny theme park guest walking sprite 4-directional walk cycle, crisp pixel silhouette" },
+    { "id": "guest_umbrella", "group": "character", "prompt": "Isometric tiny guest holding bright colorful rain umbrella above head" },
+    { "id": "guest_vip_crown", "group": "character", "prompt": "Isometric tiny VIP guest wearing glowing golden pixel crown badge" },
+    { "id": "staff_handyman", "group": "character", "prompt": "Isometric park handyman in blue overalls pushing broom and dustpan" },
+    { "id": "staff_mechanic", "group": "character", "prompt": "Isometric ride mechanic in orange jumpsuit carrying crescent wrench" },
+    { "id": "staff_guard", "group": "character", "prompt": "Isometric park security guard in dark navy uniform with cap" },
+    { "id": "staff_entertainer", "group": "character", "prompt": "Isometric giant friendly panda mascot entertainer waving hands" },
+    { "id": "park_entrance", "group": "entrance", "prompt": "Isometric twin stone castle towers park entrance marquee with red pointed roofs and turnstiles" },
+    { "id": "supernova_pavilion", "group": "monument", "prompt": "Isometric golden open-source supernova popup pavilion booth with holographic star trophy" }
+  ],
+  "uiIcons": [
+    "icon_pause", "icon_speed_1x", "icon_speed_4x", "icon_build_ride", "icon_coaster",
+    "icon_scenery", "icon_terrain_up", "icon_terrain_down", "icon_water", "icon_path",
+    "icon_queue", "icon_bulldoze", "icon_staff", "icon_guests", "icon_finance",
+    "icon_marketing", "icon_pov", "icon_free_mode", "icon_rotate", "icon_lighting",
+    "icon_weather", "icon_photo", "icon_bgm", "icon_sfx", "icon_minimap", "icon_save"
+  ]
+}

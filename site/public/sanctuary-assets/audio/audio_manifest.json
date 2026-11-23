@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "basePath": "sanctuary-assets/audio/",
+  "description": "Drop CC0 or ElevenLabs .ogg/.mp3 buffers here and set url to override procedural WebAudio synths automatically.",
+  "tracks": {
+    "bgm_waltz": { "url": null, "loop": true, "channel": "bgm", "volume": 0.45 },
+    "ambient_crowd": { "url": null, "loop": true, "channel": "ambient", "volume": 0.35 },
+    "ambient_rain": { "url": null, "loop": true, "channel": "ambient", "volume": 0.4 },
+    "sfx_click": { "url": null, "channel": "sfx", "volume": 0.6 },
+    "sfx_place": { "url": null, "channel": "sfx", "volume": 0.7 },
+    "sfx_bulldoze": { "url": null, "channel": "sfx", "volume": 0.75 },
+    "sfx_cash": { "url": null, "channel": "sfx", "volume": 0.65 },
+    "sfx_pop": { "url": null, "channel": "sfx", "volume": 0.7 },
+    "sfx_firework": { "url": null, "channel": "sfx", "volume": 0.8 },
+    "sfx_chainlift": { "url": null, "channel": "sfx", "volume": 0.5 },
+    "sfx_scream": { "url": null, "channel": "sfx", "volume": 0.55 },
+    "sfx_breakdown": { "url": null, "channel": "sfx", "volume": 0.7 },
+    "sfx_repair": { "url": null, "channel": "sfx", "volume": 0.65 },
+    "sfx_award": { "url": null, "channel": "sfx", "volume": 0.8 }
+  }
+}

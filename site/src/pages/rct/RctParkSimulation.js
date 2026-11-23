@@ -44,11 +44,14 @@ export class RctParkSimulation {
     this.companyValue = 0;
     this.speedMultiplier = 1; // 0 = pause, 1, 2, 4
     this.date = { year: 1, month: 3, day: 1, dayProgress: 0 };
-    this.weather = "sunny"; // "sunny" | "cloudy" | "rain"
+    this.weather = "sunny"; // "sunny" | "cloudy" | "rain" | "rainbow"
     this.weatherTimer = 45;
     this.entrance = { x: 22, y: 42 };
     this.freeBuildMode = false;
     this.nightMode = false;
+    this.lightingMode = "day"; // "day" | "golden" | "night" | "cycle"
+    this.dayNightPhase = 0.25;
+    this.terrainVersion = 1;
     this.controlledPeepId = null;
 
     this.rides = [];
@@ -58,9 +61,17 @@ export class RctParkSimulation {
     this.awards = [];
     this.activeCampaigns = [];
     this.floatingTexts = [];
+    this.particles = [];
     this.fireworks = [];
-    this.controlledPeepId = null;
     this.perimeterBillboards = [];
+    this.supernovaPavilion = null;
+    this.championModel = {
+      name: "Claude / Gemini Frontier",
+      provider: "AI Weekly",
+      elo: 1410,
+      accent: "#fde047",
+    };
+    this._newsHeadlines = [];
     this.monthlyFinances = this._createEmptyFinances();
     this.financeHistory = [];
 
@@ -148,7 +159,9 @@ export class RctParkSimulation {
     this.awards = [];
     this.activeCampaigns = [];
     this.floatingTexts = [];
+    this.particles = [];
     this.fireworks = [];
+    this.terrainVersion += 1;
     this.controlledPeepId = null;
     this.monthlyFinances = this._createEmptyFinances();
     this.financeHistory = [];
@@ -537,8 +550,135 @@ export class RctParkSimulation {
     if (t.surface === surfaceType) return { ok: true, reason: "이미 동일한 지면입니다" };
     if (!this._spend(5)) return { ok: false, reason: "현금이 부족합니다 ($5 필요)" };
     t.surface = surfaceType;
+    this.terrainVersion += 1;
     this.onSfx?.("place");
     return { ok: true, reason: `${surfaceType} 지면 페인트 완료` };
+  }
+
+  setLightingMode(mode = "day") {
+    const allowed = ["day", "golden", "night", "cycle"];
+    this.lightingMode = allowed.includes(mode) ? mode : "day";
+    if (this.lightingMode === "day") this.dayNightPhase = 0.25;
+    else if (this.lightingMode === "golden") this.dayNightPhase = 0.56;
+    else if (this.lightingMode === "night") this.dayNightPhase = 0.8;
+    this.nightMode = this.lightingMode === "night" || (this.lightingMode === "cycle" && this.dayNightPhase >= 0.65);
+    return this.lightingMode;
+  }
+
+  cycleLightingMode() {
+    const order = ["day", "golden", "night", "cycle"];
+    const next = order[(order.indexOf(this.lightingMode) + 1) % order.length];
+    return this.setLightingMode(next);
+  }
+
+  setWeather(nextWeather) {
+    const allowed = ["sunny", "cloudy", "rain", "rainbow"];
+    if (!allowed.includes(nextWeather)) return this.weather;
+    this.weather = nextWeather;
+    if (nextWeather === "rain") {
+      for (const p of this.peeps) {
+        if (!p.hasUmbrella && Math.random() < 0.78) p.hasUmbrella = true;
+      }
+      this.pushNews("🌧️ 소나기가 내립니다! 관람객들이 형형색색 우산을 펼쳤습니다.", "info");
+    } else if (nextWeather === "rainbow") {
+      this.pushNews("🌈 비가 그치고 공원 하늘에 무지개가 떠올랐습니다! 관람객 행복도 상승!", "good");
+      for (const p of this.peeps) {
+        p.happiness = Math.min(100, p.happiness + 12);
+      }
+      this.spawnParticleBatch("confetti", 22, 24, 5, 24);
+    }
+    return this.weather;
+  }
+
+  spawnParticleBatch(kind, tileX, tileY, heightZ = 3, count = 12, color = null, text = null) {
+    const palette = color ? [color] : ["#fde047", "#38bdf8", "#f472b6", "#4ade80", "#fb923c"];
+    for (let i = 0; i < count; i++) {
+      const ang = Math.random() * Math.PI * 2;
+      const spd = kind === "dust" ? 0.5 + Math.random() * 0.7 : 0.7 + Math.random() * 1.1;
+      this.particles.push({
+        kind,
+        x: tileX + (Math.random() - 0.5) * 0.4,
+        y: tileY + (Math.random() - 0.5) * 0.4,
+        z: heightZ,
+        vx: Math.cos(ang) * spd,
+        vy: Math.sin(ang) * spd * 0.6,
+        vz: kind === "confetti" ? 0.9 + Math.random() * 0.8 : 0.4 + Math.random() * 0.5,
+        color: palette[i % palette.length],
+        text: i === 0 ? text : null,
+        life: kind === "emote" ? 1.8 : 0.85 + Math.random() * 0.5,
+        maxLife: kind === "emote" ? 1.8 : 1.2,
+      });
+    }
+    if (this.particles.length > 240) this.particles.splice(0, this.particles.length - 240);
+  }
+
+  spawnMultiplayerFinaleFireworks() {
+    for (const [fx, fy] of [[18, 22], [26, 22], [22, 16], [16, 28], [28, 28]]) {
+      this.launchFireworksAt(fx, fy);
+    }
+    this.pushNews("🎆 멀티플레이 협동 피날레 불꽃놀이가 밤하늘을 수놓습니다!", "good");
+  }
+
+  syncPeerAvatar(peer, isNew = false) {
+    if (!peer?.clientId) return null;
+    let avatar = this.peeps.find((p) => p.peerClientId === peer.clientId);
+    if (!avatar) {
+      const near = this._findNearestPathTile(22 + Math.round((Math.random() - 0.5) * 6), 24);
+      const sx = near?.x ?? this.entrance.x;
+      const sy = near?.y ?? Math.max(1, this.entrance.y - 1);
+      avatar = this._spawnGuest(sx, sy, true, {
+        originRouteId: "radio",
+        name: peer.nickname,
+      });
+      if (!avatar) return null;
+      avatar.peerClientId = peer.clientId;
+      avatar.hatType = "crown";
+      avatar.isVipPeer = true;
+      avatar.speechBubble = `${peer.nickname} 입장!`;
+      avatar.speechTimer = 3.5;
+      if (isNew) {
+        this.pushNews(`👑 [VIP 접속] ${peer.nickname} 님이 공원 중앙 광장에 나타났습니다!`, "good");
+      }
+    } else if (peer.nickname && avatar.name !== peer.nickname) {
+      avatar.name = peer.nickname;
+    }
+    return avatar;
+  }
+
+  triggerPeerChatBubble(clientId, text, fallbackNick = null) {
+    let target = clientId ? this.peeps.find((p) => p.peerClientId === clientId) : this.getControlledPeep();
+    if (!target && fallbackNick) {
+      target = this.peeps.find((p) => p.name === fallbackNick);
+    }
+    if (!target) {
+      target = this.peeps.find((p) => p.isVipPeer) || this.peeps[0];
+    }
+    if (target) {
+      target.speechBubble = String(text || "").trim().slice(0, 40);
+      target.speechTimer = 4.2;
+    }
+    return target;
+  }
+
+  triggerPeerEmote(clientId, emoji = "🎉") {
+    const target = clientId ? this.peeps.find((p) => p.peerClientId === clientId) : (this.getControlledPeep() || this.peeps[0]);
+    if (!target) return null;
+    const t = this.getTile(Math.round(target.x), Math.round(target.y));
+    const hz = (t?.height || 2) + 1.5;
+    target.speechBubble = emoji;
+    target.speechTimer = 2.8;
+    this.addFloatingText(target.x, target.y, hz, emoji, "#fde047");
+    this.spawnParticleBatch("confetti", target.x, target.y, hz, 12);
+    return target;
+  }
+
+  removePeerAvatar(clientId) {
+    const idx = this.peeps.findIndex((p) => p.peerClientId === clientId);
+    if (idx >= 0) {
+      const removed = this.peeps[idx];
+      if (this.controlledPeepId === removed.id) this.controlledPeepId = null;
+      this.peeps.splice(idx, 1);
+    }
   }
 
   customizeRide(rideId, { name, colorPrimary, colorTrack } = {}) {
@@ -602,6 +742,7 @@ export class RctParkSimulation {
     }
     t.height = nextH;
     if (t.waterHeight <= t.height) t.waterHeight = 0;
+    this.terrainVersion += 1;
     this.onSfx?.("place");
     return { ok: true, cost, reason: `지형 높이 ${nextH * 3}m` };
   }
@@ -619,11 +760,13 @@ export class RctParkSimulation {
       if (t.waterHeight === 0) return { ok: true, cost: 0, reason: "이미 마른 땅입니다" };
       if (!this._spend(cost)) return { ok: false, cost: 0, reason: "현금이 부족합니다" };
       t.waterHeight = 0;
+      this.terrainVersion += 1;
       this.onSfx?.("place");
       return { ok: true, cost, reason: "물 배수 완료" };
     }
     if (!this._spend(cost)) return { ok: false, cost: 0, reason: "현금이 부족합니다 ($25 필요)" };
     t.waterHeight = Math.min(ISO_METRICS.MAX_HEIGHT, targetHeight);
+    this.terrainVersion += 1;
     this.onSfx?.("place");
     return { ok: true, cost, reason: "물 채우기 완료" };
   }
@@ -644,6 +787,7 @@ export class RctParkSimulation {
     t.scenery = null;
     t.path = { type: def.id, isQueue: Boolean(isQueue || def.isQueue), mask: 0 };
     this._recomputeAllPathMasks();
+    this.terrainVersion += 1;
     this.onSfx?.("place");
     return { ok: true, cost, reason: `${def.name} 설치 완료` };
   }
@@ -771,10 +915,12 @@ export class RctParkSimulation {
       }
 
       this.rides.push(ride);
+      ride.placeBounce = options.free ? 0 : 1.0;
       this.rebuildPerimeterBillboards();
       this._recomputeAllPathMasks();
       this._updateParkValuation();
       if (!options.free) {
+        this.spawnParticleBatch("dust", tileX, tileY, originZ + 0.5, 14, "#cbd5e1");
         this.onSfx?.("place");
         this.pushNews(`🎢 신규 롤러코스터 [${ride.name}] 완공! (흥미도 ${ride.stats.excitement})`, "good", { rideId: ride.id });
       }
@@ -847,9 +993,11 @@ export class RctParkSimulation {
     }
 
     this.rides.push(ride);
+    ride.placeBounce = options.free ? 0 : 1.0;
     this._recomputeAllPathMasks();
     this._updateParkValuation();
     if (!options.free) {
+      this.spawnParticleBatch("dust", tileX + w * 0.5, tileY + h * 0.5, baseZ + 0.5, 12, "#fde047");
       this.onSfx?.("place");
       this.pushNews(`🎡 신규 시설 [${ride.name}] 배치 완료!`, "good", { rideId: ride.id });
     }
@@ -1078,6 +1226,7 @@ export class RctParkSimulation {
     }
 
     this.cash += refund;
+    this.terrainVersion += 1;
     this._recomputeAllPathMasks();
     this._updateParkValuation();
     this.onSfx?.("bulldoze");
@@ -1293,6 +1442,53 @@ export class RctParkSimulation {
       benchmarks: Array.isArray(archiveData.benchmarks) ? archiveData.benchmarks : [],
     };
     this.rebuildPerimeterBillboards();
+
+    // Supernova 200+ weekly star spike pavilion near main plaza (22, 23)
+    const rankedPlugins = [...this.aiArchive.plugins].sort(
+      (a, b) => Number(b.velocity_7d || b.weeklyDelta || 0) - Number(a.velocity_7d || a.weeklyDelta || 0)
+    );
+    const starHero = rankedPlugins[0];
+    if (starHero) {
+      const repoSlug = starHero.repo || (starHero.repo_url ? String(starHero.repo_url).replace(/^https?:\/\/github\.com\//i, "").replace(/\/$/, "") : starHero.name);
+      const stars = Number(starHero.stars || starHero.totalStars || 0);
+      const delta = Number(starHero.velocity_7d || starHero.weeklyDelta || 0);
+      this.supernovaPavilion = {
+        tileX: 22,
+        tileY: 23,
+        name: starHero.name || repoSlug || "Supernova AI Tool",
+        repo: repoSlug || "ai-weekly/tool",
+        stars,
+        weeklyDelta: delta,
+        isSupernova: delta >= 200 || stars >= 5000,
+        summary: starHero.summary_ko || starHero.title_ko || starHero.catchphrase || "이번 주 급상승 초신성 오픈소스 AI 도구입니다.",
+        installCmd: repoSlug && repoSlug.includes("/") ? `git clone https://github.com/${repoSlug}.git` : `npx skills add ${starHero.name}`,
+        url: starHero.official_url || starHero.repo_url || "starboard",
+      };
+    }
+
+    // Benchmark #1 Arena Accent Theme
+    const champ = this.aiArchive.benchmarks[0];
+    if (champ) {
+      const prov = String(champ.provider || champ.org || "").toLowerCase();
+      let accent = "#fde047";
+      if (prov.includes("anthropic") || prov.includes("claude")) accent = "#f97316";
+      else if (prov.includes("google") || prov.includes("gemini")) accent = "#38bdf8";
+      else if (prov.includes("openai")) accent = "#10b981";
+      else if (prov.includes("deepseek") || prov.includes("meta")) accent = "#60a5fa";
+      this.championModel = {
+        name: champ.model || "Frontier #1",
+        provider: champ.provider || champ.org || "Leaderboard",
+        elo: champ.arena_coding_elo || champ.arena_elo || champ.elo || "—",
+        accent,
+      };
+    }
+
+    // Headlines pool for guest speech bubbles
+    this._newsHeadlines = [
+      ...this.aiArchive.news.slice(0, 8).map((n) => `📰 "${String(n.title_ko || n.headline || "").slice(0, 26)}" 봤어?`),
+      ...rankedPlugins.slice(0, 4).map((p) => `⭐ ${p.name} 이번 주 대박이네!`),
+    ].filter(Boolean);
+
     const topNews = this.aiArchive.news[0];
     if (topNews) {
       this.pushNews(`📡 [AI위클리 특보] ${topNews.title_ko || topNews.headline}`, "info");
@@ -1482,11 +1678,14 @@ export class RctParkSimulation {
       toilet: 10,
       hasBalloon: vip || Math.random() < 0.18,
       balloonColor: balloonColors[Math.floor(Math.random() * balloonColors.length)],
-      hasUmbrella: false,
+      hasUmbrella: Math.random() < 0.72,
+      umbrellaColor: ["#ef4444", "#3b82f6", "#facc15", "#ec4899", "#22c55e", "#a855f7"][Math.floor(Math.random() * 6)],
       hasBurger: false,
       hasDrink: false,
       hasIceCream: false,
       hasMap: Boolean(route.isExternal),
+      speechBubble: null,
+      speechTimer: 0,
       state: "walking", // "walking" | "riding" | "sitting" | "leaving"
       ridingRideId: null,
       rideTimer: 0,
@@ -1782,11 +1981,20 @@ export class RctParkSimulation {
     if (this.speedMultiplier <= 0) return;
     const simDt = Math.min(0.1, dtSeconds) * this.speedMultiplier;
 
-    // 1. Floating text & firework particle decay
+    // 1. Floating text, particle & firework decay + cycle day/night progression
     for (let i = this.floatingTexts.length - 1; i >= 0; i--) {
       this.floatingTexts[i].life -= dtSeconds;
       this.floatingTexts[i].heightZ += dtSeconds * 0.85;
       if (this.floatingTexts[i].life <= 0) this.floatingTexts.splice(i, 1);
+    }
+    for (let i = (this.particles || []).length - 1; i >= 0; i--) {
+      const pt = this.particles[i];
+      pt.life -= dtSeconds;
+      pt.x += pt.vx * dtSeconds;
+      pt.y += pt.vy * dtSeconds;
+      pt.z += pt.vz * dtSeconds;
+      pt.vz -= (pt.kind === "confetti" ? 1.0 : 1.5) * dtSeconds;
+      if (pt.life <= 0) this.particles.splice(i, 1);
     }
     for (let i = this.fireworks.length - 1; i >= 0; i--) {
       const fw = this.fireworks[i];
@@ -1796,6 +2004,10 @@ export class RctParkSimulation {
       fw.z += fw.vz * dtSeconds;
       fw.vz -= 1.4 * dtSeconds;
       if (fw.life <= 0) this.fireworks.splice(i, 1);
+    }
+    if (this.lightingMode === "cycle") {
+      this.dayNightPhase = (this.dayNightPhase + simDt * 0.012) % 1;
+      this.nightMode = this.dayNightPhase >= 0.65 && this.dayNightPhase < 0.92;
     }
     if (this.nightMode && Math.random() < 0.045) {
       const launchers = [];
@@ -1807,6 +2019,16 @@ export class RctParkSimulation {
       if (launchers.length > 0) {
         const [lx, ly] = launchers[Math.floor(Math.random() * launchers.length)];
         this.launchFireworksAt(lx, ly);
+      }
+    }
+
+    // Occasional guest AI news speech bubble
+    if ((this._newsHeadlines || []).length > 0 && Math.random() < 0.025 * dtSeconds * 20) {
+      const talkers = this.peeps.filter((p) => p.state === "walking" && !p.speechBubble && !p.peerClientId);
+      if (talkers.length > 0) {
+        const chosen = talkers[Math.floor(Math.random() * talkers.length)];
+        chosen.speechBubble = this._newsHeadlines[Math.floor(Math.random() * this._newsHeadlines.length)];
+        chosen.speechTimer = 4.2;
       }
     }
 
@@ -1822,12 +2044,12 @@ export class RctParkSimulation {
       this.weatherTimer = 35 + Math.random() * 35;
       const roll = Math.random();
       const prev = this.weather;
-      this.weather = this.scenarioId === "dynamite_dunes"
-        ? (roll < 0.85 ? "sunny" : "cloudy")
-        : (roll < 0.62 ? "sunny" : roll < 0.85 ? "cloudy" : "rain");
-      if (this.weather !== prev && this.weather === "rain") {
-        this.pushNews("🌧️ 공원에 비가 내리기 시작했습니다! 안내소 우산 판매량이 급증합니다.", "info");
-      }
+      const next = prev === "rain" && roll < 0.55
+        ? "rainbow"
+        : this.scenarioId === "dynamite_dunes"
+          ? (roll < 0.85 ? "sunny" : "cloudy")
+          : (roll < 0.62 ? "sunny" : roll < 0.85 ? "cloudy" : "rain");
+      if (next !== prev) this.setWeather(next);
     }
 
     // 3. Guest spawning from Entrance based on Park Rating + Marketing Campaigns
@@ -1975,10 +2197,19 @@ export class RctParkSimulation {
 
   _tickRides(dt) {
     for (const r of this.rides) {
+      if (r.placeBounce > 0) {
+        r.placeBounce = Math.max(0, r.placeBounce - dt * 2.8);
+      }
       if (r.category === "shop") continue;
       const active = r.status === "open" || r.status === "testing";
       if (r.track) {
         r.track.stepTrains(dt, active && !r.broken);
+        if (active && !r.broken && r.track.trains?.[0] && Math.random() < 0.35) {
+          const pose = r.track.samplePoseAtDistance(r.track.trains[0].distance);
+          if (pose?.piece?.dz < 0) {
+            this.spawnParticleBatch("coaster_trail", pose.x, pose.y, pose.z + 0.3, 2, r.colorPrimary || "#fde047");
+          }
+        }
       } else if (active && !r.broken) {
         r.animPhase += dt * (r.catalogId === "launched_freefall" ? 1.4 : 2.1);
       }
@@ -1990,6 +2221,9 @@ export class RctParkSimulation {
         if (r.cycleTimer >= dur * 0.35) {
           r.cycleTimer = 0;
           const exiting = r.passengers.splice(0, Math.min(4, r.passengers.length));
+          if (exiting.length > 0 && (r.stats?.excitement || 0) >= 3.5) {
+            this.spawnParticleBatch("confetti", r.x, r.y, (r.z || 2) + 1.2, 6);
+          }
           for (const p of exiting) {
             p.state = "walking";
             p.ridingRideId = null;
@@ -2102,6 +2336,10 @@ export class RctParkSimulation {
 
   _tickPeeps(dt) {
     for (const p of this.peeps) {
+      if (p.speechTimer > 0) {
+        p.speechTimer = Math.max(0, p.speechTimer - dt);
+        if (p.speechTimer === 0) p.speechBubble = null;
+      }
       if (p.state === "riding") continue;
       if (p.cooldownTimer > 0) p.cooldownTimer -= dt;
 

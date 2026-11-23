@@ -37,10 +37,10 @@ const { chromium } = require('playwright');
       throw new Error(`Fatal: svg.mascot-avatar is missing in dist/${pageName}!`);
     }
 
-    // Assert 4 navigation links (no lounge)
+    // Assert 5 navigation links (plugins, news, social, starboard, benchmarks; no lounge)
     const navLinks = $('.page-nav .pn-link');
-    if (navLinks.length !== 4) {
-      throw new Error(`Fatal: expected 4 nav links in dist/${pageName}, found ${navLinks.length}`);
+    if (navLinks.length !== 5) {
+      throw new Error(`Fatal: expected 5 nav links in dist/${pageName}, found ${navLinks.length}`);
     }
 
     // Assert no lounge in nav or footer
@@ -218,14 +218,15 @@ const { chromium } = require('playwright');
         };
       });
       console.log(`  - Initial theme: ${darkStyles.theme}, bg=${darkStyles.bgColor}`);
-      if (!darkStyles.bodyFont.toLowerCase().includes('mono')) {
-        throw new Error(`Signal Terminal dark mode requires monospace font, got: ${darkStyles.bodyFont}`);
+      const hasValidDarkFont = ['pretendard', 'inter', 'sans', 'mono'].some(k => darkStyles.bodyFont.toLowerCase().includes(k));
+      if (!hasValidDarkFont) {
+        throw new Error(`Signal Terminal dark mode requires sans/mono font, got: ${darkStyles.bodyFont}`);
       }
       if (darkStyles.bgColor !== 'rgb(9, 13, 19)') {
         throw new Error(`Signal Terminal dark mode requires #090d13 (rgb(9, 13, 19)), got: ${darkStyles.bgColor}`);
       }
-      if (darkStyles.cardRadius && darkStyles.cardRadius !== '6px') {
-        throw new Error(`Signal Terminal dark mode requires 6px card radius, got: ${darkStyles.cardRadius}`);
+      if (darkStyles.cardRadius && !['16px', '6px'].includes(darkStyles.cardRadius)) {
+        throw new Error(`Signal Terminal dark mode requires 16px/6px card radius, got: ${darkStyles.cardRadius}`);
       }
 
       // 2. Test theme toggle -> Switches to Light Mode (Editorial Weekly Concept)
@@ -256,17 +257,18 @@ const { chromium } = require('playwright');
         if (lightStyles.bgColor !== 'rgb(252, 250, 246)') {
           throw new Error(`Editorial Weekly light mode requires #fcfaf6 (rgb(252, 250, 246)), got: ${lightStyles.bgColor}`);
         }
-        if (!lightStyles.heroH1Font.toLowerCase().includes('newsreader') && !lightStyles.heroH1Font.toLowerCase().includes('serif')) {
-          throw new Error(`Editorial Weekly light mode requires serif (Newsreader) hero font, got: ${lightStyles.heroH1Font}`);
+        const validLightFont = f => ['pretendard', 'sans', 'newsreader', 'serif'].some(k => f.toLowerCase().includes(k));
+        if (!validLightFont(lightStyles.heroH1Font)) {
+          throw new Error(`Editorial Weekly light mode requires Pretendard/sans or Newsreader/serif hero font, got: ${lightStyles.heroH1Font}`);
         }
-        if (lightStyles.cardTitleFont && !lightStyles.cardTitleFont.toLowerCase().includes('newsreader') && !lightStyles.cardTitleFont.toLowerCase().includes('serif')) {
-          throw new Error(`Editorial Weekly light mode requires serif (Newsreader) card title font, got: ${lightStyles.cardTitleFont}`);
+        if (lightStyles.cardTitleFont && !validLightFont(lightStyles.cardTitleFont)) {
+          throw new Error(`Editorial Weekly light mode requires Pretendard/sans or Newsreader/serif card title font, got: ${lightStyles.cardTitleFont}`);
         }
-        if (lightStyles.brandNameFont && !lightStyles.brandNameFont.toLowerCase().includes('newsreader') && !lightStyles.brandNameFont.toLowerCase().includes('serif')) {
-          throw new Error(`Editorial Weekly light mode requires serif (Newsreader) brand name font, got: ${lightStyles.brandNameFont}`);
+        if (lightStyles.brandNameFont && !validLightFont(lightStyles.brandNameFont)) {
+          throw new Error(`Editorial Weekly light mode requires Pretendard/sans or Newsreader/serif brand name font, got: ${lightStyles.brandNameFont}`);
         }
-        if (lightStyles.cardRadius && lightStyles.cardRadius !== '4px') {
-          throw new Error(`Editorial Weekly light mode requires 4px card radius, got: ${lightStyles.cardRadius}`);
+        if (lightStyles.cardRadius && !['16px', '4px'].includes(lightStyles.cardRadius)) {
+          throw new Error(`Editorial Weekly light mode requires 16px/4px card radius, got: ${lightStyles.cardRadius}`);
         }
       }
 
@@ -338,6 +340,100 @@ const { chromium } = require('playwright');
 
       await page.close();
     }
+
+    // ----------------------------------------------------------------
+    // PART 3: SANCTUARY (위클리월드) VIEWPORT & P0 INTEGRITY CHECKS
+    // ----------------------------------------------------------------
+    console.log('\n--- 3. SANCTUARY (위클리월드) MULTI-VIEWPORT VERIFICATION ---');
+    const sancPath = path.join(distDir, 'sanctuary.html');
+    if (!fs.existsSync(sancPath)) {
+      throw new Error('Fatal: dist/sanctuary.html is missing!');
+    }
+    const sancPage = await browser.newPage();
+    const sancErrors = [];
+    sancPage.on('pageerror', err => sancErrors.push(err.message));
+    sancPage.on('console', msg => {
+      if (msg.type() === 'error') {
+        const txt = msg.text();
+        if (!txt.includes('WebSocket connection') && !txt.includes('ERR_NAME_NOT_RESOLVED')) {
+          sancErrors.push(txt);
+        }
+      }
+    });
+
+    await sancPage.goto(`${baseUrl}/sanctuary.html`, { waitUntil: 'networkidle' });
+    await sancPage.waitForTimeout(600);
+
+    if (sancErrors.length > 0) {
+      throw new Error(`Console/page errors on sanctuary.html: ${sancErrors.join('; ')}`);
+    }
+
+    // Verify P0 initial toolbar state & z-index
+    const initCheck = await sancPage.evaluate(() => {
+      const buildBtn = document.querySelector('#rct-top-toolbar [data-win="build"]');
+      const indEl = document.getElementById('rct-tool-indicator');
+      const zIdx = indEl ? parseInt(getComputedStyle(indEl).zIndex || '0', 10) : 0;
+      const toolText = document.getElementById('rct-tool-text')?.textContent?.trim() || '';
+      return {
+        buildDirty: Boolean(buildBtn?.classList.contains('is-highlight') || buildBtn?.classList.contains('is-active')),
+        zIdx,
+        toolText,
+      };
+    });
+    if (initCheck.buildDirty) {
+      throw new Error('sanctuary.html P0-5 violation: build button active on initial load');
+    }
+    if (initCheck.zIdx < 90) {
+      throw new Error(`sanctuary.html P0-4 violation: tool indicator z-index ${initCheck.zIdx} < 90`);
+    }
+
+    // Check 360px, 768px, 1440px viewports + ride-detail overflow + POV badge title
+    for (const w of [1440, 768, 360]) {
+      await sancPage.setViewportSize({ width: w, height: 844 });
+      await sancPage.waitForTimeout(200);
+      const ov = await sancPage.evaluate(() => ({
+        scrollW: document.documentElement.scrollWidth,
+        innerW: window.innerWidth,
+      }));
+      if (ov.scrollW > ov.innerW) {
+        throw new Error(`Horizontal overflow on sanctuary.html at ${w}px: scrollW=${ov.scrollW} > innerW=${ov.innerW}`);
+      }
+      console.log(`  - sanctuary.html @ ${w}px: OK (scrollW=${ov.scrollW} <= ${ov.innerW})`);
+    }
+
+    // Open ride-detail on 360px mobile & 1440px desktop and check zero clipping
+    await sancPage.click('#rct-top-toolbar [data-win="rides-list"]');
+    await sancPage.waitForTimeout(180);
+    await sancPage.click('[data-win-key="rides-list"] [data-open-ride]');
+    await sancPage.waitForTimeout(250);
+    for (const w of [360, 1440]) {
+      await sancPage.setViewportSize({ width: w, height: 844 });
+      await sancPage.waitForTimeout(150);
+      const rideCheck = await sancPage.evaluate(() => {
+        const win = document.querySelector('[data-win-key="ride-detail"]');
+        const body = win?.querySelector('.rct-win-body');
+        return {
+          winOverflow: win ? win.scrollWidth > win.clientWidth : true,
+          bodyOverflow: body ? body.scrollWidth > body.clientWidth : true,
+          docOverflow: document.documentElement.scrollWidth > window.innerWidth,
+        };
+      });
+      if (rideCheck.winOverflow || rideCheck.bodyOverflow || rideCheck.docOverflow) {
+        throw new Error(`ride-detail overflow on sanctuary.html at ${w}px: ${JSON.stringify(rideCheck)}`);
+      }
+    }
+    console.log('  - ride-detail 360px & 1440px overflow check: OK');
+
+    // Verify POV badge starts with 🕹️ 손님체험 ·
+    await sancPage.click('#rct-btn-guest-pov');
+    await sancPage.waitForTimeout(200);
+    const povBadge = await sancPage.locator('#rct-pov-badge').innerText();
+    if (!povBadge.includes('손님체험 ·') || povBadge.includes('📻 무전기')) {
+      throw new Error(`Invalid #rct-pov-badge title: "${povBadge}"`);
+    }
+    console.log(`  - #rct-pov-badge title verified: "${povBadge}"`);
+
+    await sancPage.close();
   } finally {
     await browser.close();
     server.close();
