@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-23T01:08:24.638Z",
+  "updated_at": "2026-11-23T01:15:43.100Z",
   "policy": {
     "filter_rule": "multi_source_ensemble_average",
     "staleness_gate": {
@@ -34,7 +34,7 @@
       "aggregate": true,
       "header": true,
       "as_of": "2026-11-23",
-      "retrieved_at": "2026-11-23T01:08:20.272Z",
+      "retrieved_at": "2026-11-23T01:15:38.695Z",
       "evidence": "evidence/trakkr-ai-index-2026-11.json"
     },
     {
@@ -47,7 +47,7 @@
       "aggregate": true,
       "header": true,
       "as_of": "2026-11-23",
-      "retrieved_at": "2026-11-23T01:08:20.272Z"
+      "retrieved_at": "2026-11-23T01:15:38.695Z"
     },
     {
       "id": "arena",
@@ -59,7 +59,7 @@
       "aggregate": true,
       "header": true,
       "as_of": "2026-11-23",
-      "retrieved_at": "2026-11-23T01:08:20.272Z"
+      "retrieved_at": "2026-11-23T01:15:38.695Z"
     },
     {
       "id": "artificial_analysis",
@@ -71,7 +71,7 @@
       "aggregate": true,
       "header": true,
       "as_of": "2026-11-23",
-      "retrieved_at": "2026-11-23T01:08:20.272Z"
+      "retrieved_at": "2026-11-23T01:15:38.695Z"
     },
     {
       "id": "livebench",
@@ -95,7 +95,7 @@
       "aggregate": true,
       "header": false,
       "as_of": "2026-11-23",
-      "retrieved_at": "2026-11-23T01:08:20.272Z"
+      "retrieved_at": "2026-11-23T01:15:38.695Z"
     }
   ],
   "market_shares": [
@@ -246,6 +246,48 @@
       "badge_type": ""
     },
     {
+      "model": "Gemini 4 Carbon",
+      "provider": "Google",
+      "openrouter_id": "google/gemini-4-carbon",
+      "arena_name": "Gemini 4 Carbon (High)",
+      "composite_score": 92.5,
+      "coding_composite_score": 87.7,
+      "arena_elo": 1527,
+      "arena_coding_elo": 1769,
+      "aa_intelligence": 60,
+      "aa_coding": 93.6,
+      "livebench_score": 89.2,
+      "livebench_coding": 91,
+      "swe_bench_verified": null,
+      "gpqa_diamond": 90.5,
+      "mmlu_pro": 92.3,
+      "pricing_in_1m": 2,
+      "pricing_out_1m": 10,
+      "context_window": "1,049K",
+      "badge_type": ""
+    },
+    {
+      "model": "Claude Opus 5.5",
+      "provider": "Anthropic",
+      "openrouter_id": "anthropic/claude-opus-5.5",
+      "arena_name": "Claude Opus 5.5 (High / Max)",
+      "composite_score": 92.2,
+      "coding_composite_score": 90.9,
+      "arena_elo": 1507,
+      "arena_coding_elo": 1820,
+      "aa_intelligence": 59.1,
+      "aa_coding": 95.1,
+      "livebench_score": 89.6,
+      "livebench_coding": 91.8,
+      "swe_bench_verified": null,
+      "gpqa_diamond": 91.2,
+      "mmlu_pro": 92.7,
+      "pricing_in_1m": 4,
+      "pricing_out_1m": 20,
+      "context_window": "1,000K",
+      "badge_type": ""
+    },
+    {
       "model": "GPT-6.2 Astra",
       "provider": "OpenAI",
       "openrouter_id": "openai/gpt-6.2-astra",
@@ -264,6 +306,90 @@
       "pricing_in_1m": 8,
       "pricing_out_1m": 40,
       "context_window": "1,050K",
+      "badge_type": ""
+    },
+    {
+      "model": "Gemini 4 Hydrogen",
+      "provider": "Google",
+      "openrouter_id": "google/gemini-4-hydrogen",
+      "arena_name": "Gemini 4 Hydrogen (High)",
+      "composite_score": 88.1,
+      "coding_composite_score": 79.6,
+      "arena_elo": 1490,
+      "arena_coding_elo": 1701,
+      "aa_intelligence": 53.9,
+      "aa_coding": 91.5,
+      "livebench_score": 87.5,
+      "livebench_coding": 89.2,
+      "swe_bench_verified": null,
+      "gpqa_diamond": 88.8,
+      "mmlu_pro": 90.8,
+      "pricing_in_1m": 1.5,
+      "pricing_out_1m": 7.5,
+      "context_window": "1,049K",
+      "badge_type": ""
+    },
+    {
+      "model": "GPT-6.2 Sol",
+      "provider": "OpenAI",
+      "openrouter_id": "openai/gpt-6.2-sol",
+      "arena_name": "GPT-6.2 Sol (Max)",
+      "composite_score": 88,
+      "coding_composite_score": 85.2,
+      "arena_elo": 1464,
+      "arena_coding_elo": 1755,
+      "aa_intelligence": 57.3,
+      "aa_coding": 92.8,
+      "livebench_score": 88.6,
+      "livebench_coding": 90.2,
+      "swe_bench_verified": null,
+      "gpqa_diamond": 89.7,
+      "mmlu_pro": 91.5,
+      "pricing_in_1m": 2,
+      "pricing_out_1m": 10,
+      "context_window": "1,050K",
+      "badge_type": ""
+    },
+    {
+      "model": "Claude Sonnet 5.5",
+      "provider": "Anthropic",
+      "openrouter_id": "anthropic/claude-sonnet-5.5",
+      "arena_name": "Claude Sonnet 5.5 (xHigh)",
+      "composite_score": 87.2,
+      "coding_composite_score": 84.9,
+      "arena_elo": 1473,
+      "arena_coding_elo": 1772,
+      "aa_intelligence": 54.5,
+      "aa_coding": 93.4,
+      "livebench_score": 88.1,
+      "livebench_coding": 90.1,
+      "swe_bench_verified": null,
+      "gpqa_diamond": 89.1,
+      "mmlu_pro": 91.2,
+      "pricing_in_1m": 2,
+      "pricing_out_1m": 10,
+      "context_window": "1,000K",
+      "badge_type": ""
+    },
+    {
+      "model": "Gemini 4 Argon",
+      "provider": "Google",
+      "openrouter_id": "google/gemini-4-argon",
+      "arena_name": "Gemini 4 Argon (High)",
+      "composite_score": 87,
+      "coding_composite_score": 76.2,
+      "arena_elo": 1520,
+      "arena_coding_elo": 1681,
+      "aa_intelligence": 50.4,
+      "aa_coding": 90.4,
+      "livebench_score": 86.9,
+      "livebench_coding": 88.4,
+      "swe_bench_verified": null,
+      "gpqa_diamond": 88.2,
+      "mmlu_pro": 90.1,
+      "pricing_in_1m": 2,
+      "pricing_out_1m": 10,
+      "context_window": "1,049K",
       "badge_type": ""
     },
     {
@@ -286,6 +412,27 @@
       "pricing_out_1m": 20,
       "context_window": "1,049K",
       "badge_type": "open-weights"
+    },
+    {
+      "model": "GPT-6.1 Terra",
+      "provider": "OpenAI",
+      "openrouter_id": "openai/gpt-6.1-terra",
+      "arena_name": "GPT-6.1 Terra (Max)",
+      "composite_score": 85.3,
+      "coding_composite_score": 77.1,
+      "arena_elo": 1474,
+      "arena_coding_elo": 1686,
+      "aa_intelligence": 51.3,
+      "aa_coding": 90.6,
+      "livebench_score": 87.1,
+      "livebench_coding": 88.8,
+      "swe_bench_verified": null,
+      "gpqa_diamond": 88,
+      "mmlu_pro": 90.2,
+      "pricing_in_1m": 1,
+      "pricing_out_1m": 5,
+      "context_window": "1,050K",
+      "badge_type": ""
     },
     {
       "model": "Kimi K3.1 Pro",

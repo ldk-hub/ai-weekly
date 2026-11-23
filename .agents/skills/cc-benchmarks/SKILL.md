@@ -36,9 +36,9 @@ graph TD
   2. `Artificial Analysis`: 품질·지능 종합 지수(Quality Index) 및 Throughput
   3. `LiveBench`: 월간 질문 교체 기반 오염 방지 객관식/코딩 벤치마크 점수
 
-### 1.3 구버전(Legacy) 모델 배제 및 대표 모델 원칙
-- **현행 최신 모델만 수록**: 이미 단종되거나 세대교체된 구버전 모델(Claude 3.5/3.7, GPT-4o, Llama 2/3, Gemini 1.5/2.5 등)은 블랙리스트로 자동 배제.
-- **기업별 대표 모델 1개 원칙**: 특정 벤더의 파생 모델 독식을 막고 주요 AI 연구소(OpenAI, Anthropic, Google, DeepSeek, xAI, Meta 등)의 최고 순위 모델 1개씩 선별.
+### 1.3 구버전(Legacy) 모델 배제 및 상위 프론티어 주요 라인업 다중 수록 원칙
+- **현행 최신 모델만 수록**: 이미 단종되거나 세대교체된 구버전 모델(Claude 3.5/3.7, GPT-4o/5.x, Llama 2/3, Gemini 1.5/2.5/3.1 등)은 블랙리스트로 자동 배제.
+- **벤더별 주요 프론티어 라인업 다중 수록 (최대 4개)**: 상위권을 주도하는 핵심 프론티어 라인업(예: Anthropic의 `Claude Fable 5.2`·`Claude Opus 5.5`·`Claude Sonnet 5.5`, Google의 `Gemini 4 Neon`·`Gemini 4 Carbon`·`Gemini 4 Hydrogen`·`Gemini 4 Argon`, OpenAI의 `GPT-6.2 Astra`·`GPT-6.2 Sol`·`GPT-6.1 Terra` 등 AA 지능 지수 50.0 이상 상위 모델)은 기업당 최대 4개까지 함께 수록하며, 그 외 주요 연구소(Meta, Moonshot, Alibaba, DeepSeek, Tencent, Xiaomi, Z.ai, xAI, Thinking Machines)의 대표 플래그십을 포괄해 집계.
 
 ---
 

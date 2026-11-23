@@ -45,7 +45,7 @@ graph TD
   1. **최신성 게이트(Staleness Gate)**: 실행일(Run Date) 기준 점유율 출처 45일, 성능 출처 30일 이내 최신 데이터인지 검증. 과거 갱신 중단된 구형 링크(`swebench.com` 등) 원천 차단.
   2. **다중 출처 3곳 앙상블 평균**: 점유율은 Similarweb(웹 방문) + Trakkr(AI 리퍼럴) + OpenRouter(개발자 API) 3곳 산술 평균 및 합계 100.0% 검증.
   3. **3대 리더보드 필수 수록**: LMArena(Elo/Coding), Artificial Analysis(지능 지수), LiveBench(오염방지 점수) 및 100만 토큰당 가격 필수.
-  4. **구버전 모델(Legacy Models) 배제**: Claude 3.5, GPT-4o, Llama 2/3 등 구버전 차단 및 기업별 대표 플래그십 1개 원칙 준수.
+  4. **구버전 모델(Legacy Models) 배제 및 상위 프론티어 주요 라인업 다중 수록**: Claude 3.5, GPT-4o/5.x, Llama 2/3 등 구버전 차단 및 상위권을 주도하는 벤더별 주요 프론티어 라인업(기업당 최대 4개, AA 지능 지수 50.0+ 자동 편입) 수록 원칙 준수.
 - **산출물:** `site/public/data/benchmarks_latest.json`
 
 ### 4. Step 4: CC News (AI 기술 신호 큐레이션 및 배포)

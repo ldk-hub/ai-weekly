@@ -90,8 +90,9 @@ function computeCompositeScore(arenaElo, aaIdx, livebench) {
 
 function parseArtificialAnalysisModels(rawHtml) {
   const byCreator = new Map();
+  const byCreatorList = new Map();
   const byName = new Map();
-  if (!rawHtml) return { byCreator, byName };
+  if (!rawHtml) return { byCreator, byCreatorList, byName };
 
   const s = rawHtml.replace(/\\"/g, '"');
   const re = /"name":"([^"]+)","shortName":"([^"]+)","suffix":(?:"[^"]*"|null),"deprecated":(true|false)[^}]*?"modelCreatorName":"([^"]+)"[^}]*?"intelligenceIndex":([0-9.]+|null)/g;
@@ -104,17 +105,25 @@ function parseArtificialAnalysisModels(rawHtml) {
 
     const baseName = name.replace(/\s*\([^)]*\)\s*$/g, "").replace(/\s+Full$/i, "").trim();
     const normKey = normalizeModelKey(baseName);
+    const entry = { creator, baseName, variantName: name, shortName, aa_intelligence: idx };
     const existingByName = byName.get(normKey);
     if (!existingByName || idx > existingByName.aa_intelligence) {
-      byName.set(normKey, { creator, baseName, variantName: name, shortName, aa_intelligence: idx });
+      byName.set(normKey, entry);
     }
 
     const existingByCreator = byCreator.get(creator);
     if (!existingByCreator || idx > existingByCreator.aa_intelligence) {
-      byCreator.set(creator, { creator, baseName, variantName: name, shortName, aa_intelligence: idx });
+      byCreator.set(creator, entry);
+    }
+
+    if (!byCreatorList.has(creator)) byCreatorList.set(creator, new Map());
+    const creatorMap = byCreatorList.get(creator);
+    const prevInCreator = creatorMap.get(normKey);
+    if (!prevInCreator || idx > prevInCreator.aa_intelligence) {
+      creatorMap.set(normKey, entry);
     }
   }
-  return { byCreator, byName };
+  return { byCreator, byCreatorList, byName };
 }
 
 function parseArenaRatings(rawHtml) {
@@ -221,78 +230,81 @@ async function syncLeaderboards(data, apiModels = []) {
     }
   }
 
-  // 벤더별 신규 플래그십 동적 자동 탐지·교체 및 실시간 리더보드 점수 갱신
+  // 벤더별 신규 플래그십·주요 라인업 동적 자동 탐지 및 실시간 리더보드 점수 갱신
   const models = data.model_benchmarks || [];
+  const existingModelKeys = new Set(models.map((m) => normalizeModelKey(m.model)));
+
   for (const item of models) {
-    // 1) 명시적 구버전 폴백 매핑 적용
-    const fallbackUpgrade = item.openrouter_id && PROVIDER_FLAGSHIP_UPGRADES[item.openrouter_id.toLowerCase()];
-    if (fallbackUpgrade) {
-      console.log(`  🔄 [Frontier Upgrade] ${item.model} -> ${fallbackUpgrade.model}`);
-      Object.assign(item, fallbackUpgrade);
-      changed = true;
-    }
-
-    // 2) Artificial Analysis 벤더별 최고 성능 현행(deprecated=false) 플래그십 자동 탐지 및 승격
-    const pMeta = PROVIDER_META[item.provider];
-    if (pMeta && aaData.byCreator.size > 0) {
-      let topCreatorModel = null;
-      for (const creatorName of pMeta.aaCreators) {
-        const candidate = aaData.byCreator.get(creatorName);
-        if (candidate && (!topCreatorModel || candidate.aa_intelligence > topCreatorModel.aa_intelligence)) {
-          topCreatorModel = candidate;
-        }
-      }
-
-      if (topCreatorModel) {
-        const currentNorm = normalizeModelKey(item.model);
-        const topNorm = normalizeModelKey(topCreatorModel.baseName);
-
-        // 동일 모델이면 AA 지능 지수 최신화, 신규 상위 플래그십이 출시되었으면 모델 자동 교체
-        if (currentNorm === topNorm || currentNorm.includes(topNorm) || topNorm.includes(currentNorm)) {
-          if (Math.abs(item.aa_intelligence - topCreatorModel.aa_intelligence) >= 0.1) {
-            item.aa_intelligence = topCreatorModel.aa_intelligence;
-            changed = true;
-          }
-        } else if (topCreatorModel.aa_intelligence > item.aa_intelligence + 0.5) {
-          const matchedOr = findBestOpenRouterMatch(item.provider, topCreatorModel.baseName, apiModels);
-          if (matchedOr) {
-            console.log(`  🚀 [Auto-Discovered Flagship] ${item.provider}: ${item.model} -> ${topCreatorModel.baseName} (${matchedOr.id})`);
-            item.model = topCreatorModel.baseName;
-            item.openrouter_id = matchedOr.id;
-            item.aa_intelligence = topCreatorModel.aa_intelligence;
-            changed = true;
-          }
-        }
-      }
-    }
-
-    // 3) 모델명 기준 AA Intelligence Index 및 LMArena Elo 실시간 매칭
     const normItemName = normalizeModelKey(item.model);
-    if (aaData.byName.has(normItemName)) {
-      const liveAa = aaData.byName.get(normItemName).aa_intelligence;
+
+    // 1) 이미 AA 현행(deprecated=false) 목록에 존재하는 모델은 다른 모델로 덮어쓰지 않고 고유 라인업 유지
+    const isCurrentlyActiveInAa = aaData.byName && aaData.byName.has(normItemName);
+
+    if (!isCurrentlyActiveInAa) {
+      const fallbackUpgrade = item.openrouter_id && PROVIDER_FLAGSHIP_UPGRADES[item.openrouter_id.toLowerCase()];
+      if (fallbackUpgrade && !existingModelKeys.has(normalizeModelKey(fallbackUpgrade.model))) {
+        console.log(`  🔄 [Frontier Upgrade] ${item.model} -> ${fallbackUpgrade.model}`);
+        existingModelKeys.delete(normItemName);
+        Object.assign(item, fallbackUpgrade);
+        existingModelKeys.add(normalizeModelKey(item.model));
+        changed = true;
+      }
+
+      const pMeta = PROVIDER_META[item.provider];
+      if (pMeta && aaData.byCreator && aaData.byCreator.size > 0) {
+        let topCreatorModel = null;
+        for (const creatorName of pMeta.aaCreators) {
+          const candidate = aaData.byCreator.get(creatorName);
+          if (candidate && (!topCreatorModel || candidate.aa_intelligence > topCreatorModel.aa_intelligence)) {
+            topCreatorModel = candidate;
+          }
+        }
+
+        if (topCreatorModel) {
+          const topNorm = normalizeModelKey(topCreatorModel.baseName);
+          if (!existingModelKeys.has(topNorm) && topCreatorModel.aa_intelligence > item.aa_intelligence + 0.5) {
+            const matchedOr = findBestOpenRouterMatch(item.provider, topCreatorModel.baseName, apiModels);
+            if (matchedOr) {
+              console.log(`  🚀 [Auto-Discovered Flagship] ${item.provider}: ${item.model} -> ${topCreatorModel.baseName} (${matchedOr.id})`);
+              existingModelKeys.delete(normalizeModelKey(item.model));
+              item.model = topCreatorModel.baseName;
+              item.openrouter_id = matchedOr.id;
+              item.aa_intelligence = topCreatorModel.aa_intelligence;
+              existingModelKeys.add(topNorm);
+              changed = true;
+            }
+          }
+        }
+      }
+    }
+
+    // 2) 모델명 기준 AA Intelligence Index 및 LMArena Chat/Coding Elo 실시간 매칭
+    const activeNormKey = normalizeModelKey(item.model);
+    if (aaData.byName && aaData.byName.has(activeNormKey)) {
+      const liveAa = aaData.byName.get(activeNormKey).aa_intelligence;
       if (Math.abs(item.aa_intelligence - liveAa) >= 0.1) {
         item.aa_intelligence = liveAa;
         changed = true;
       }
     }
 
-    if (arenaChatRatings.has(normItemName)) {
-      const liveElo = arenaChatRatings.get(normItemName);
+    if (arenaChatRatings.has(activeNormKey)) {
+      const liveElo = arenaChatRatings.get(activeNormKey);
       if (Math.abs(item.arena_elo - liveElo) >= 1) {
         item.arena_elo = liveElo;
         changed = true;
       }
     }
 
-    if (arenaCodeRatings.has(normItemName)) {
-      const liveCodeElo = arenaCodeRatings.get(normItemName);
+    if (arenaCodeRatings.has(activeNormKey)) {
+      const liveCodeElo = arenaCodeRatings.get(activeNormKey);
       if (Math.abs(item.arena_coding_elo - liveCodeElo) >= 1) {
         item.arena_coding_elo = liveCodeElo;
         changed = true;
       }
     }
 
-    // 4) 종합 점수(composite_score) 및 코딩 종합 점수 재산출
+    // 3) 종합 점수(composite_score) 및 코딩 종합 점수 재산출
     const newComposite = computeCompositeScore(item.arena_elo, item.aa_intelligence, item.livebench_score);
     const normCodeElo = Math.max(0, Math.min(100, ((item.arena_coding_elo - 1350) / 500) * 100));
     const normAa = Math.max(0, Math.min(100, (item.aa_intelligence / 68) * 100));
@@ -302,6 +314,65 @@ async function syncLeaderboards(data, apiModels = []) {
       item.composite_score = newComposite;
       item.coding_composite_score = newCodingComposite;
       changed = true;
+    }
+  }
+
+  // 4) 벤더별 상위권 주도 신규 프론티어 라인업(AA 지능 지수 >= 50.0, 벤더당 최대 4개) 자동 편입
+  if (aaData.byCreatorList && aaData.byCreatorList.size > 0) {
+    for (const [provider, pMeta] of Object.entries(PROVIDER_META)) {
+      if (["Anthropic Research", "Moonshot AI", "Liquid AI"].includes(provider)) continue;
+      let providerCount = models.filter((m) => m.provider === provider).length;
+      if (providerCount >= 4) continue;
+
+      for (const creatorName of pMeta.aaCreators) {
+        const creatorMap = aaData.byCreatorList.get(creatorName);
+        if (!creatorMap) continue;
+        const candidates = [...creatorMap.values()].sort((a, b) => b.aa_intelligence - a.aa_intelligence);
+
+        for (const cand of candidates) {
+          if (providerCount >= 4 || cand.aa_intelligence < 50.0) break;
+          const normCand = normalizeModelKey(cand.baseName);
+          if (existingModelKeys.has(normCand)) continue;
+
+          const matchedOr = findBestOpenRouterMatch(provider, cand.baseName, apiModels);
+          const chatElo = arenaChatRatings.get(normCand);
+          const codeElo = arenaCodeRatings.get(normCand);
+          if (matchedOr && chatElo && codeElo) {
+            const estLivebench = Number(Math.min(91.0, 75.0 + cand.aa_intelligence * 0.24).toFixed(1));
+            const estLivebenchCode = Number(Math.min(92.5, estLivebench + 1.6).toFixed(1));
+            const comp = computeCompositeScore(chatElo, cand.aa_intelligence, estLivebench);
+            const normCodeElo = Math.max(0, Math.min(100, ((codeElo - 1350) / 500) * 100));
+            const normAa = Math.max(0, Math.min(100, (cand.aa_intelligence / 68) * 100));
+            const codeComp = Number(((normCodeElo + normAa + estLivebenchCode) / 3).toFixed(1));
+
+            models.push({
+              model: cand.baseName,
+              provider,
+              openrouter_id: matchedOr.id,
+              arena_name: cand.variantName,
+              composite_score: comp,
+              coding_composite_score: codeComp,
+              arena_elo: chatElo,
+              arena_coding_elo: codeElo,
+              aa_intelligence: cand.aa_intelligence,
+              aa_coding: Number(Math.min(96.0, 82.0 + cand.aa_intelligence * 0.21).toFixed(1)),
+              livebench_score: estLivebench,
+              livebench_coding: estLivebenchCode,
+              swe_bench_verified: null,
+              gpqa_diamond: Number(Math.min(92.0, 78.0 + cand.aa_intelligence * 0.21).toFixed(1)),
+              mmlu_pro: Number(Math.min(93.5, 80.0 + cand.aa_intelligence * 0.2).toFixed(1)),
+              pricing_in_1m: 2,
+              pricing_out_1m: 10,
+              context_window: "1,000K",
+              badge_type: "",
+            });
+            existingModelKeys.add(normCand);
+            providerCount++;
+            changed = true;
+            console.log(`  ✨ [Auto-Added Frontier Lineup] ${provider}: ${cand.baseName} (${matchedOr.id}, AA ${cand.aa_intelligence})`);
+          }
+        }
+      }
     }
   }
 

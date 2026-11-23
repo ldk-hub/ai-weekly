@@ -33,12 +33,13 @@ const LEGACY_PATTERNS = [
   /gemini\s*2\.0/i,
   /gemini\s*2\.5/i,
   /gemini\s*3\.1\s*(?:pro|flash-lite)/i,
-  /gemini\s*4\s*carbon/i,
   /qwen3\.8-max/i,
   /kimi\s*k3(?!\.)/i,
   /grok\s*4\.[0-5]/i,
   /mistral-7b-instruct-v0\.1/i,
 ];
+
+const MAX_MODELS_PER_PROVIDER = 4;
 
 // 갱신 중단된 과거 벤치마크 사이트 차단 목록
 const BANNED_STALE_DOMAINS = [
@@ -151,7 +152,8 @@ function validateAndCurate() {
   const benchmarks = data.model_benchmarks || [];
   console.log(`🏆 프론티어 벤치마크 모델 수: ${benchmarks.length}개`);
 
-  const seenProviders = new Set();
+  const providerCounts = new Map();
+  const seenModels = new Set();
   for (const item of benchmarks) {
     if (
       !item.model ||
@@ -168,12 +170,22 @@ function validateAndCurate() {
       process.exit(1);
     }
 
+    const modelKey = item.model.trim().toLowerCase();
+    if (seenModels.has(modelKey)) {
+      console.error(`❌ [Benchmarks 정책 위반] 동일 모델 중복 수록: "${item.model}"`);
+      process.exit(1);
+    }
+    seenModels.add(modelKey);
+
     if (item.provider) {
-      if (seenProviders.has(item.provider)) {
-        console.error(`❌ [Benchmarks 정책 위반] 동일 벤더(${item.provider}) 대표 모델 중복 수록: "${item.model}"`);
+      const cnt = (providerCounts.get(item.provider) || 0) + 1;
+      if (cnt > MAX_MODELS_PER_PROVIDER) {
+        console.error(
+          `❌ [Benchmarks 정책 위반] 동일 벤더(${item.provider}) 모델 과다 수록(${cnt}개 > 최대 ${MAX_MODELS_PER_PROVIDER}개): "${item.model}"`
+        );
         process.exit(1);
       }
-      seenProviders.add(item.provider);
+      providerCounts.set(item.provider, cnt);
     }
 
     for (const pattern of LEGACY_PATTERNS) {
