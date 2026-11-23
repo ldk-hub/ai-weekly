@@ -277,7 +277,7 @@ export class CoasterTrack {
     const visited = new Map([[startKey, 0]]);
     let expansions = 0;
 
-    while (queue.length > 0 && expansions < 6000) {
+    while (queue.length > 0 && expansions < 9000) {
       // Pop lowest f-score
       let bestIdx = 0;
       for (let i = 1; i < queue.length; i++) {
@@ -297,7 +297,7 @@ export class CoasterTrack {
         return { ok: true, addedCount: cur.path.length, reason: `트랙 ${cur.path.length}조각 자동 연결 완료` };
       }
 
-      if (cur.path.length >= 44) continue;
+      if (cur.path.length >= 64) continue;
       if (isBlocked(cur.x, cur.y, cur.z)) continue;
 
       for (const pId of candidatePieces) {

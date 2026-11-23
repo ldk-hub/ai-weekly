@@ -492,6 +492,222 @@ export class RctSpriteAtlas {
       ctx.fillRect(34, 25, 14, 4);
       this.scenery.ai_billboard = c;
     }
+
+    // Cherry Blossom Tree
+    {
+      const { c, ctx } = makeCanvas(60, 74);
+      ctx.fillStyle = "rgba(0,0,0,0.26)";
+      ctx.beginPath(); ctx.ellipse(30, 64, 17, 8, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = "#5c270b";
+      ctx.fillRect(27, 40, 6, 23);
+      ctx.fillStyle = "#78350f";
+      ctx.fillRect(28, 40, 3, 21);
+      const puffs = [
+        [30, 22, 16, "#db2777"], [20, 28, 12, "#f472b6"], [40, 27, 12, "#f472b6"],
+        [27, 15, 11, "#f9a8d4"], [36, 17, 10, "#f9a8d4"], [30, 24, 9, "#fce7f3"],
+      ];
+      for (const [px, py, r, col] of puffs) {
+        ctx.fillStyle = col;
+        ctx.beginPath(); ctx.arc(px, py, r, 0, Math.PI * 2); ctx.fill();
+      }
+      ctx.fillStyle = "#fff1f2";
+      for (const [fx, fy] of [[22, 20], [34, 14], [42, 25], [17, 30], [30, 28]]) {
+        ctx.fillRect(fx, fy, 2, 2);
+      }
+      this.scenery.tree_cherry = c;
+    }
+
+    // Heart Topiary Bush
+    {
+      const { c, ctx } = makeCanvas(52, 54);
+      ctx.fillStyle = "rgba(0,0,0,0.24)";
+      ctx.beginPath(); ctx.ellipse(26, 45, 14, 6, 0, 0, Math.PI * 2); ctx.fill();
+      fillIsoPrism(ctx, 26, 30, 11, 5.5, 9, "#b45309", "#92400e", "#78350f");
+      ctx.fillStyle = "#15803d";
+      ctx.beginPath();
+      ctx.arc(21, 18, 8, 0, Math.PI * 2);
+      ctx.arc(31, 18, 8, 0, Math.PI * 2);
+      ctx.moveTo(13.5, 20); ctx.lineTo(26, 34); ctx.lineTo(38.5, 20); ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle = "#22c55e";
+      ctx.beginPath();
+      ctx.arc(20, 16, 5, 0, Math.PI * 2);
+      ctx.arc(30, 16, 5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#fb7185";
+      for (const [bx, by] of [[18, 17], [26, 22], [33, 17], [24, 27]]) ctx.fillRect(bx, by, 2, 2);
+      this.scenery.topiary_heart = c;
+    }
+
+    // Granite Rock Boulder Cluster
+    {
+      const { c, ctx } = makeCanvas(56, 46);
+      ctx.fillStyle = "rgba(0,0,0,0.28)";
+      ctx.beginPath(); ctx.ellipse(28, 37, 19, 8.5, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = "#475569";
+      ctx.beginPath();
+      ctx.moveTo(10, 34); ctx.lineTo(14, 17); ctx.lineTo(26, 10); ctx.lineTo(39, 16); ctx.lineTo(46, 32); ctx.lineTo(32, 39); ctx.lineTo(14, 37);
+      ctx.closePath(); ctx.fill();
+      ctx.fillStyle = "#94a3b8";
+      ctx.beginPath();
+      ctx.moveTo(14, 17); ctx.lineTo(26, 10); ctx.lineTo(32, 21); ctx.lineTo(20, 26);
+      ctx.closePath(); ctx.fill();
+      ctx.fillStyle = "#64748b";
+      ctx.beginPath();
+      ctx.moveTo(26, 10); ctx.lineTo(39, 16); ctx.lineTo(35, 31); ctx.lineTo(32, 21);
+      ctx.closePath(); ctx.fill();
+      ctx.fillStyle = "#22c55e";
+      ctx.fillRect(14, 32, 5, 3); ctx.fillRect(36, 31, 4, 3);
+      this.scenery.rock_boulder = c;
+    }
+
+    // Rose Garden Archway
+    {
+      const { c, ctx } = makeCanvas(58, 56);
+      ctx.fillStyle = "rgba(0,0,0,0.24)";
+      ctx.beginPath(); ctx.ellipse(29, 46, 20, 9, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = "#166534";
+      ctx.beginPath(); ctx.moveTo(29, 32); ctx.lineTo(48, 41); ctx.lineTo(29, 50); ctx.lineTo(10, 41); ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = "#f8fafc";
+      ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.moveTo(16, 42); ctx.lineTo(16, 20); ctx.arc(29, 20, 13, Math.PI, 0); ctx.lineTo(42, 42); ctx.stroke();
+      ctx.fillStyle = "#15803d";
+      for (const [lx, ly] of [[15, 22], [19, 12], [29, 7], [38, 12], [41, 22], [17, 32], [40, 32]]) {
+        ctx.beginPath(); ctx.arc(lx, ly, 4, 0, Math.PI * 2); ctx.fill();
+      }
+      ctx.fillStyle = "#f43f5e";
+      for (const [rx, ry] of [[15, 20], [21, 10], [29, 7], [37, 11], [41, 23], [22, 40], [35, 40]]) {
+        ctx.fillRect(rx - 1, ry - 1, 3, 3);
+      }
+      this.scenery.rose_garden = c;
+    }
+
+    // Jumping Jet Fountain
+    {
+      const { c, ctx } = makeCanvas(54, 52);
+      ctx.fillStyle = "#334155";
+      ctx.beginPath(); ctx.ellipse(27, 40, 16, 7.5, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = "#0ea5e9";
+      ctx.beginPath(); ctx.ellipse(27, 39, 12, 5.5, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = "#bae6fd";
+      ctx.lineWidth = 2.5;
+      ctx.beginPath(); ctx.moveTo(20, 38); ctx.quadraticCurveTo(27, 6, 35, 38); ctx.stroke();
+      ctx.strokeStyle = "#ffffff";
+      ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.moveTo(22, 37); ctx.quadraticCurveTo(27, 10, 33, 37); ctx.stroke();
+      ctx.fillStyle = "#e0f2fe";
+      ctx.fillRect(25, 11, 4, 3);
+      this.scenery.jumping_fountain = c;
+    }
+
+    // Cyber Mascot Statue
+    {
+      const { c, ctx } = makeCanvas(52, 64);
+      ctx.fillStyle = "rgba(0,0,0,0.3)";
+      ctx.beginPath(); ctx.ellipse(26, 54, 13, 6, 0, 0, Math.PI * 2); ctx.fill();
+      fillIsoPrism(ctx, 26, 36, 12, 6, 13, "#334155", "#1e293b", "#0f172a");
+      ctx.fillStyle = "#06b6d4";
+      ctx.fillRect(20, 17, 12, 16);
+      ctx.fillStyle = "#0f172a";
+      ctx.fillRect(22, 19, 8, 6);
+      ctx.fillStyle = "#fde047";
+      ctx.fillRect(23, 21, 2, 2); ctx.fillRect(27, 21, 2, 2);
+      ctx.fillStyle = "#22d3ee";
+      ctx.fillRect(25, 11, 2, 6);
+      ctx.fillStyle = "#ec4899";
+      ctx.fillRect(24, 9, 4, 3);
+      this.scenery.statue_mascot = c;
+    }
+
+    // Castle Turret Tower
+    {
+      const { c, ctx } = makeCanvas(58, 78);
+      ctx.fillStyle = "rgba(0,0,0,0.3)";
+      ctx.beginPath(); ctx.ellipse(29, 67, 18, 8, 0, 0, Math.PI * 2); ctx.fill();
+      fillIsoPrism(ctx, 29, 26, 14, 7, 36, "#cbd5e1", "#94a3b8", "#64748b");
+      ctx.fillStyle = "#1e293b";
+      ctx.fillRect(21, 36, 4, 7); ctx.fillRect(34, 41, 4, 6);
+      ctx.fillStyle = "#b91c1c";
+      ctx.beginPath(); ctx.moveTo(29, 4); ctx.lineTo(44, 26); ctx.lineTo(14, 26); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = "#ef4444";
+      ctx.beginPath(); ctx.moveTo(29, 4); ctx.lineTo(29, 26); ctx.lineTo(14, 26); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = "#fde047";
+      ctx.fillRect(28, 2, 2, 5);
+      ctx.fillRect(30, 3, 6, 3);
+      this.scenery.castle_tower = c;
+    }
+
+    // Neon Light Arch
+    {
+      const { c, ctx } = makeCanvas(60, 62);
+      ctx.fillStyle = "rgba(0,0,0,0.28)";
+      ctx.beginPath(); ctx.ellipse(30, 52, 20, 8, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = "#1e293b";
+      ctx.fillRect(10, 26, 6, 26); ctx.fillRect(44, 26, 6, 26);
+      ctx.strokeStyle = "#ec4899";
+      ctx.lineWidth = 5;
+      ctx.beginPath(); ctx.arc(30, 28, 17, Math.PI, 0); ctx.stroke();
+      ctx.strokeStyle = "#22d3ee";
+      ctx.lineWidth = 2.5;
+      ctx.beginPath(); ctx.arc(30, 28, 17, Math.PI, 0); ctx.stroke();
+      ctx.fillStyle = "#fde047";
+      ctx.fillRect(27, 8, 6, 4);
+      this.scenery.neon_arch = c;
+    }
+
+    // White Picket Fence
+    {
+      const { c, ctx } = makeCanvas(54, 40);
+      ctx.fillStyle = "rgba(0,0,0,0.2)";
+      ctx.fillRect(12, 28, 30, 4);
+      ctx.fillStyle = "#cbd5e1";
+      ctx.fillRect(13, 21, 28, 3);
+      ctx.fillRect(13, 26, 28, 3);
+      for (const fx of [13, 19, 25, 31, 37]) {
+        ctx.fillStyle = "#f8fafc";
+        ctx.fillRect(fx, 15, 3.5, 16);
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(fx + 0.5, 13, 2.5, 2);
+      }
+      this.scenery.fence_white = c;
+    }
+
+    // Illuminated Park Banner Sign
+    {
+      const { c, ctx } = makeCanvas(56, 56);
+      ctx.fillStyle = "rgba(0,0,0,0.26)";
+      ctx.beginPath(); ctx.ellipse(28, 47, 14, 6, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = "#475569";
+      ctx.fillRect(16, 30, 4, 17); ctx.fillRect(36, 30, 4, 17);
+      ctx.fillStyle = "#0f172a";
+      ctx.fillRect(10, 12, 36, 20);
+      ctx.strokeStyle = "#facc15";
+      ctx.lineWidth = 2;
+      ctx.strokeRect(11, 13, 34, 18);
+      ctx.fillStyle = "#38bdf8";
+      ctx.fillRect(14, 16, 28, 5);
+      ctx.fillStyle = "#f472b6";
+      ctx.fillRect(14, 24, 20, 4);
+      this.scenery.banner_sign = c;
+    }
+
+    // Firework Mortar Launcher
+    {
+      const { c, ctx } = makeCanvas(54, 48);
+      ctx.fillStyle = "rgba(0,0,0,0.3)";
+      ctx.beginPath(); ctx.ellipse(27, 40, 15, 7, 0, 0, Math.PI * 2); ctx.fill();
+      fillIsoPrism(ctx, 27, 25, 13, 6.5, 10, "#facc15", "#1e293b", "#0f172a");
+      ctx.fillStyle = "#475569";
+      for (const mx of [19, 24, 29, 34]) {
+        ctx.fillRect(mx, 14, 3, 12);
+        ctx.fillStyle = "#ef4444";
+        ctx.fillRect(mx, 12, 3, 3);
+        ctx.fillStyle = "#475569";
+      }
+      ctx.fillStyle = "#fde047";
+      ctx.fillRect(21, 29, 12, 3);
+      this.scenery.firework_launcher = c;
+    }
   }
 
   _bakeShops() {
@@ -628,6 +844,28 @@ export class RctSpriteAtlas {
       ctx.textAlign = "center";
       ctx.fillText("ATM", 32, 34);
       this.shops.atm = c;
+    }
+
+    // Ice Cream Stall (Triple Scoop Cone Roof)
+    {
+      const { c, ctx } = makeCanvas(64, 78);
+      drawBaseBooth(ctx, "#f472b6", "#be185d", "#fbcfe8", "#38bdf8", "#fdf2f8");
+      // Waffle Cone
+      ctx.fillStyle = "#d97706";
+      ctx.beginPath(); ctx.moveTo(23, 25); ctx.lineTo(41, 25); ctx.lineTo(32, 41); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = "#f59e0b";
+      ctx.fillRect(27, 26, 10, 4);
+      // Triple Scoops (Vanilla, Strawberry, Mint)
+      ctx.fillStyle = "#fef3c7";
+      ctx.beginPath(); ctx.arc(26, 22, 6, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = "#6ee7b7";
+      ctx.beginPath(); ctx.arc(38, 22, 6, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = "#fb7185";
+      ctx.beginPath(); ctx.arc(32, 16, 7, 0, Math.PI * 2); ctx.fill();
+      // Cherry on top
+      ctx.fillStyle = "#dc2626";
+      ctx.beginPath(); ctx.arc(32, 8, 2.5, 0, Math.PI * 2); ctx.fill();
+      this.shops.ice_cream_stall = c;
     }
   }
 

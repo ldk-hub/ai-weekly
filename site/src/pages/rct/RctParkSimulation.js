@@ -43,7 +43,9 @@ export class RctParkSimulation {
     this.date = { year: 1, month: 3, day: 1, dayProgress: 0 };
     this.weather = "sunny"; // "sunny" | "cloudy" | "rain"
     this.weatherTimer = 45;
-    this.entrance = { x: 14, y: 26 };
+    this.entrance = { x: 22, y: 42 };
+    this.freeBuildMode = false;
+    this.nightMode = false;
 
     this.rides = [];
     this.peeps = [];
@@ -52,6 +54,8 @@ export class RctParkSimulation {
     this.awards = [];
     this.activeCampaigns = [];
     this.floatingTexts = [];
+    this.fireworks = [];
+    this.perimeterBillboards = [];
     this.monthlyFinances = this._createEmptyFinances();
     this.financeHistory = [];
 
@@ -129,6 +133,8 @@ export class RctParkSimulation {
     this.weather = "sunny";
     this.weatherTimer = 45;
     this.speedMultiplier = 1;
+    this.freeBuildMode = Boolean(preset.freeBuildDefault);
+    this.nightMode = false;
 
     this.rides = [];
     this.peeps = [];
@@ -137,6 +143,7 @@ export class RctParkSimulation {
     this.awards = [];
     this.activeCampaigns = [];
     this.floatingTexts = [];
+    this.fireworks = [];
     this.monthlyFinances = this._createEmptyFinances();
     this.financeHistory = [];
     this._totalAdmissions = 0;
@@ -147,7 +154,7 @@ export class RctParkSimulation {
 
     this._initGrid(preset.terrainTheme, 2);
 
-    // Outer entrance approach road (unowned tile at y = 27)
+    // Outer entrance approach road
     const approach = this.getTile(this.entrance.x, this.entrance.y + 1);
     if (approach) {
       approach.path = { type: "tarmac", isQueue: false, mask: 0 };
@@ -160,28 +167,29 @@ export class RctParkSimulation {
 
     if (preset.id === "ai_weekly_park") {
       this._buildAiWeeklyParkPreset();
+    } else if (preset.id === "sandbox_canvas") {
+      this._buildSandboxPreset();
     } else if (preset.id === "dynamite_dunes") {
       this._buildDynamiteDunesPreset();
     } else {
       this._buildForestFrontiersPreset();
     }
 
+    this.rebuildPerimeterBillboards();
     this._recomputeAllPathMasks();
     this._updateParkValuation();
     this.pushNews(`${preset.name} 시나리오를 시작했습니다! (${preset.objectiveText})`, "good");
   }
 
   _buildForestFrontiersPreset() {
-    // Starter footpath plaza from entrance
-    for (let y = 18; y <= 25; y++) {
-      this._setPathRaw(14, y, "tarmac", false);
+    for (let y = 26; y <= 41; y++) {
+      this._setPathRaw(22, y, "tarmac", false);
     }
-    for (let x = 11; x <= 17; x++) {
-      this._setPathRaw(x, 18, "crazy", false);
+    for (let x = 18; x <= 26; x++) {
+      this._setPathRaw(x, 26, "crazy", false);
     }
-    // Natural terrain hills & pond on far corner
-    for (let y = 3; y <= 6; y++) {
-      for (let x = 20; x <= 23; x++) {
+    for (let y = 4; y <= 10; y++) {
+      for (let x = 32; x <= 38; x++) {
         const t = this.getTile(x, y);
         if (t) {
           t.height = 1;
@@ -189,35 +197,57 @@ export class RctParkSimulation {
         }
       }
     }
-    for (let y = 3; y <= 7; y++) {
-      for (let x = 3; x <= 7; x++) {
+    for (let y = 4; y <= 9; y++) {
+      for (let x = 4; x <= 9; x++) {
         const t = this.getTile(x, y);
-        if (t) t.height = x === 5 && y === 5 ? 4 : 3;
+        if (t) t.height = x === 6 && y === 6 ? 4 : 3;
       }
     }
-    // Lush forest perimeter trees
-    for (let x = 2; x <= 25; x += 2) {
-      for (let y = 2; y <= 24; y += 3) {
-        if (Math.abs(x - 14) <= 4 && y >= 16) continue;
+    for (let x = 3; x <= 40; x += 3) {
+      for (let y = 3; y <= 39; y += 4) {
+        if (Math.abs(x - 22) <= 5 && y >= 24) continue;
         const t = this.getTile(x, y);
         if (t && t.waterHeight === 0 && !t.path) {
-          t.scenery = { id: (x + y) % 3 === 0 ? "tree_oak" : "tree_pine" };
+          t.scenery = { id: (x + y) % 3 === 0 ? "tree_oak" : (x + y) % 5 === 0 ? "tree_cherry" : "tree_pine" };
         }
       }
     }
-    this._placeSceneryRaw(12, 24, "flowerbed");
-    this._placeSceneryRaw(16, 24, "flowerbed");
-    this._placeSceneryRaw(14, 17, "fountain");
-    this.hireStaff("handyman", 14, 21, { free: true });
-    for (let i = 0; i < 8; i++) {
-      this._spawnGuest(14, 24 - (i % 4));
+    this._placeSceneryRaw(20, 39, "flowerbed");
+    this._placeSceneryRaw(24, 39, "flowerbed");
+    this._placeSceneryRaw(22, 24, "fountain");
+    this.hireStaff("handyman", 22, 34, { free: true });
+    for (let i = 0; i < 12; i++) {
+      this._spawnGuest(22, 40 - (i % 6));
+    }
+  }
+
+  _buildSandboxPreset() {
+    // Wide open customizable 44x44 park with clean central plaza and welcoming entrance gardens
+    for (let y = 22; y <= 41; y++) {
+      this._setPathRaw(21, y, "crazy", false);
+      this._setPathRaw(22, y, "crazy", false);
+    }
+    for (let x = 18; x <= 25; x++) {
+      this._setPathRaw(x, 22, "crazy", false);
+      this._setPathRaw(x, 23, "crazy", false);
+    }
+    this._placeSceneryRaw(20, 21, "jumping_fountain");
+    this._placeSceneryRaw(23, 21, "jumping_fountain");
+    this._placeSceneryRaw(19, 39, "tree_cherry");
+    this._placeSceneryRaw(24, 39, "tree_cherry");
+    this._placeSceneryRaw(20, 37, "rose_garden");
+    this._placeSceneryRaw(23, 37, "rose_garden");
+    this._placeSceneryRaw(22, 34, "banner_sign");
+    this.hireStaff("handyman", 21, 30, { free: true });
+    this.hireStaff("mechanic", 22, 26, { free: true });
+    for (let i = 0; i < 16; i++) {
+      this._spawnGuest(21 + (i % 2), 40 - (i % 10), i % 4 === 0);
     }
   }
 
   _buildDynamiteDunesPreset() {
-    // Central oasis pond & gentle desert dunes
-    for (let y = 12; y <= 15; y++) {
-      for (let x = 16; x <= 20; x++) {
+    for (let y = 16; y <= 22; y++) {
+      for (let x = 24; x <= 32; x++) {
         const t = this.getTile(x, y);
         if (t) {
           t.height = 1;
@@ -225,57 +255,54 @@ export class RctParkSimulation {
         }
       }
     }
-    for (let y = 3; y <= 6; y++) {
-      for (let x = 21; x <= 24; x++) {
+    for (let y = 5; y <= 10; y++) {
+      for (let x = 32; x <= 38; x++) {
         const t = this.getTile(x, y);
         if (t) t.height = 4;
       }
     }
-    // Desert avenue
-    for (let y = 16; y <= 25; y++) this._setPathRaw(14, y, "dirt", false);
-    for (let x = 6; x <= 14; x++) this._setPathRaw(x, 17, "dirt", false);
-    this._setPathRaw(6, 18, "queue", false);
+    for (let y = 25; y <= 41; y++) this._setPathRaw(22, y, "dirt", false);
+    for (let x = 6; x <= 22; x++) this._setPathRaw(x, 25, "dirt", false);
+    this._setPathRaw(6, 25, "queue", false);
 
-    // Starter Mine Train Coaster
-    this.placeRideOrShop(6, 18, "mine_train", {
+    this.placeRideOrShop(6, 26, "mine_train", {
       blueprintId: "mine_express",
       free: true,
       initialStatus: "open",
       customName: "사막 협곡 마인 익스프레스",
     });
-    this.placeRideOrShop(12, 22, "drink_stall", { free: true, initialStatus: "open" });
-    this.placeRideOrShop(16, 22, "burger_bar", { free: true, initialStatus: "open" });
+    this.placeRideOrShop(19, 34, "drink_stall", { free: true, initialStatus: "open" });
+    this.placeRideOrShop(24, 34, "burger_bar", { free: true, initialStatus: "open" });
+    this.placeRideOrShop(19, 36, "ice_cream_stall", { free: true, initialStatus: "open" });
 
-    // Palm trees & dune flowers
-    const palms = [[15, 11], [21, 12], [21, 15], [15, 16], [10, 23], [18, 24], [4, 10], [8, 8]];
+    const palms = [[23, 16], [33, 18], [33, 22], [23, 23], [16, 36], [28, 36], [5, 14], [12, 12], [18, 30]];
     for (const [px, py] of palms) this._placeSceneryRaw(px, py, "tree_palm");
-    this.hireStaff("handyman", 14, 20, { free: true });
-    this.hireStaff("mechanic", 13, 18, { free: true });
-    for (let i = 0; i < 16; i++) {
-      this._spawnGuest(14, 24 - (i % 7));
+    this.hireStaff("handyman", 22, 32, { free: true });
+    this.hireStaff("mechanic", 20, 26, { free: true });
+    for (let i = 0; i < 20; i++) {
+      this._spawnGuest(22, 40 - (i % 10));
     }
   }
 
   _buildAiWeeklyParkPreset() {
-    // 1. Multi-tiered scenic ridges & lake
-    for (let y = 2; y <= 24; y++) {
-      for (let x = 1; x <= 3; x++) {
+    // 1. Multi-tiered scenic ridges & waterfall lake (keeping y=1, x=1, x=42 open for perimeter billboards)
+    for (let y = 4; y <= 38; y++) {
+      for (let x = 2; x <= 3; x++) {
         const t = this.getTile(x, y);
-        if (t) t.height = x <= 2 && y >= 4 && y <= 14 ? 4 : 3;
+        if (t) t.height = x === 2 && y >= 6 && y <= 18 ? 4 : 3;
       }
     }
-    for (let y = 2; y <= 4; y++) {
-      for (let x = 21; x <= 25; x++) {
+    for (let y = 4; y <= 6; y++) {
+      for (let x = 36; x <= 40; x++) {
         const t = this.getTile(x, y);
         if (t) {
-          t.height = y <= 3 && x >= 23 ? 5 : 4;
+          t.height = y <= 5 && x >= 38 ? 5 : 4;
           if (t.height >= 5) t.surface = "rock";
         }
       }
     }
-    // Scenic lakeside & cliff overlook
-    for (let y = 5; y <= 9; y++) {
-      for (let x = 19; x <= 24; x++) {
+    for (let y = 7; y <= 14; y++) {
+      for (let x = 35; x <= 40; x++) {
         const t = this.getTile(x, y);
         if (t) {
           t.height = 1;
@@ -283,132 +310,154 @@ export class RctParkSimulation {
         }
       }
     }
-    for (let y = 17; y <= 24; y++) {
-      for (let x = 24; x <= 25; x++) {
+    for (let y = 26; y <= 38; y++) {
+      for (let x = 39; x <= 40; x++) {
         const t = this.getTile(x, y);
         if (t) t.height = 3;
       }
     }
 
-    // 2. Main spine, avenues, lake wooden pier bridge & coaster connectors
-    for (let y = 11; y <= 25; y++) this._setPathRaw(14, y, "crazy", false);
-    for (let x = 4; x <= 24; x++) this._setPathRaw(x, 15, "tarmac", false);
-    for (let x = 4; x <= 22; x++) this._setPathRaw(x, 11, "tarmac", false);
+    // 2. Grand Promenade & 3 Cross Avenues
+    for (let y = 17; y <= 41; y++) {
+      this._setPathRaw(21, y, "crazy", false);
+      this._setPathRaw(22, y, "crazy", false);
+    }
+    for (let x = 6; x <= 38; x++) this._setPathRaw(x, 17, "tarmac", false);
+    for (let x = 6; x <= 38; x++) this._setPathRaw(x, 24, "tarmac", false);
+    for (let x = 6; x <= 38; x++) this._setPathRaw(x, 33, "tarmac", false);
 
-    // Wooden pier bridge over the NE lake
-    for (let y = 5; y <= 10; y++) this._setPathRaw(21, y, "dirt", false);
+    // Lakeside wooden pier bridge
+    for (let x = 35; x <= 40; x++) this._setPathRaw(x, 11, "dirt", false);
+    for (let y = 11; y <= 17; y++) this._setPathRaw(35, y, "dirt", false);
 
-    // West path connector up to cyber_looper station (6,6)
-    for (let y = 5; y <= 14; y++) this._setPathRaw(4, y, "tarmac", false);
+    // Top Coaster Trio access paths
+    for (let y = 5; y <= 17; y++) this._setPathRaw(4, y, "tarmac", false);
     for (let x = 4; x <= 8; x++) this._setPathRaw(x, 5, "tarmac", false);
     this._setPathRaw(6, 5, "queue", false);
 
-    // Connector avenue at y=17 for southern coasters (titan_woodie & mine_express)
-    for (let x = 6; x <= 17; x++) this._setPathRaw(x, 17, "tarmac", false);
-    this._setPathRaw(14, 16, "crazy", false);
-    this._setPathRaw(16, 17, "queue", false);
-    this._setPathRaw(6, 17, "queue", false);
+    for (let y = 5; y <= 17; y++) this._setPathRaw(17, y, "tarmac", false);
+    for (let x = 17; x <= 22; x++) this._setPathRaw(x, 5, "tarmac", false);
+    this._setPathRaw(18, 5, "queue", false);
 
-    // Go-karts avenue at y=22
-    for (let x = 7; x <= 14; x++) this._setPathRaw(x, 22, "tarmac", false);
-    this._setPathRaw(7, 22, "queue", false);
+    for (let y = 7; y <= 17; y++) this._setPathRaw(24, y, "tarmac", false);
+    for (let x = 24; x <= 28; x++) this._setPathRaw(x, 7, "tarmac", false);
+    this._setPathRaw(26, 7, "queue", false);
 
-    // Benches, bins & street lamps along avenues
-    for (const bx of [8, 12, 16, 19, 22]) {
-      const t = this.getTile(bx, 15);
-      if (t?.path) t.pathAddition = bx % 4 === 0 ? "bench" : "bin";
-    }
-    for (const ly of [24, 21, 19, 13]) {
-      const t = this.getTile(14, ly);
-      if (t?.path) t.pathAddition = ly === 21 ? "bin" : "lamp";
-    }
-    for (const lx of [6, 10, 18]) {
-      const t = this.getTile(lx, 11);
-      if (t?.path) t.pathAddition = "lamp";
+    // Mid-Park Ride Queues (y=22..23 connecting to y=24 Avenue)
+    for (const qx of [6, 9, 12, 15, 18, 24, 27, 30, 33, 36]) {
+      this._setPathRaw(qx, 22, "queue", false);
+      this._setPathRaw(qx, 23, "queue", false);
     }
 
-    // 3. All 3 Roller Coasters + 6 Flat/Thrill/Water Rides + All 7 Shops
-    this.placeRideOrShop(16, 18, "wooden_coaster", {
-      blueprintId: "titan_woodie",
-      free: true,
-      initialStatus: "open",
-      customName: "타이탄 우드 코스터",
-    });
+    // Southern Coasters & Water/Kart Queues
+    this._setPathRaw(6, 25, "queue", false);
+    this._setPathRaw(24, 25, "queue", false);
+    for (const qx of [7, 11, 15, 25, 29]) {
+      this._setPathRaw(qx, 34, "queue", false);
+    }
+
+    // Streetlamps, benches, bins along avenues
+    for (const lx of [8, 14, 20, 26, 32, 37]) {
+      const t = this.getTile(lx, 24);
+      if (t?.path) t.pathAddition = lx % 3 === 0 ? "bench" : lx % 2 === 0 ? "lamp" : "bin";
+    }
+    for (const ly of [39, 36, 30, 27, 20]) {
+      const t = this.getTile(21, ly);
+      if (t?.path) t.pathAddition = ly % 2 === 0 ? "lamp" : "bin";
+      const t2 = this.getTile(22, ly);
+      if (t2?.path) t2.pathAddition = ly === 36 ? "bench" : "lamp";
+    }
+
+    // 3. All 5 Coasters + 15 Diverse Rides + 8 Shops
     this.placeRideOrShop(6, 6, "steel_looping", {
-      blueprintId: "cyber_looper",
-      free: true,
-      initialStatus: "open",
-      customName: "더블 루프 사이버 코스터",
+      blueprintId: "cyber_looper", free: true, initialStatus: "open", customName: "더블 루프 사이버 코스터",
     });
-    this.placeRideOrShop(6, 18, "mine_train", {
-      blueprintId: "mine_express",
-      free: true,
-      initialStatus: "open",
-      customName: "협곡 마인 익스프레스",
+    this.placeRideOrShop(18, 6, "inverted_coaster", {
+      blueprintId: "neon_invert", free: true, initialStatus: "open", customName: "네온 인버티드 비행 코스터",
+    });
+    this.placeRideOrShop(26, 8, "hyper_coaster", {
+      blueprintId: "giga_hyper", free: true, initialStatus: "open", customName: "기가 하이퍼 메가 코스터",
+    });
+    this.placeRideOrShop(6, 26, "mine_train", {
+      blueprintId: "mine_express", free: true, initialStatus: "open", customName: "협곡 마인 익스프레스",
+    });
+    this.placeRideOrShop(24, 26, "wooden_coaster", {
+      blueprintId: "titan_woodie", free: true, initialStatus: "open", customName: "타이탄 우드 코스터",
     });
 
-    this._setPathRaw(7, 14, "queue", false);
-    this.placeRideOrShop(7, 12, "merry_go_round", { free: true, initialStatus: "open" });
+    // Mid-Park 2x2 Flat & Thrill Rides
+    this.placeRideOrShop(6, 20, "merry_go_round", { free: true, initialStatus: "open" });
+    this.placeRideOrShop(9, 20, "pirate_ship", { free: true, initialStatus: "open" });
+    this.placeRideOrShop(12, 20, "ferris_wheel", { free: true, initialStatus: "open" });
+    this.placeRideOrShop(15, 20, "haunted_house", { free: true, initialStatus: "open" });
+    this.placeRideOrShop(18, 20, "spiral_slide", { free: true, initialStatus: "open" });
+    this.placeRideOrShop(24, 20, "launched_freefall", { free: true, initialStatus: "open" });
+    this.placeRideOrShop(27, 20, "enterprise_wheel", { free: true, initialStatus: "open" });
+    this.placeRideOrShop(30, 20, "top_spin", { free: true, initialStatus: "open" });
+    this.placeRideOrShop(33, 20, "roto_drop", { free: true, initialStatus: "open" });
+    this.placeRideOrShop(36, 20, "observation_tower", { free: true, initialStatus: "open" });
 
-    this._setPathRaw(10, 14, "queue", false);
-    this.placeRideOrShop(10, 12, "pirate_ship", { free: true, initialStatus: "open" });
+    // Lower Park Water & Kart Rides
+    this.placeRideOrShop(7, 35, "go_karts", { free: true, initialStatus: "open" });
+    this.placeRideOrShop(11, 35, "spinning_teacups", { free: true, initialStatus: "open" });
+    this.placeRideOrShop(15, 35, "bumper_boats", { free: true, initialStatus: "open" });
+    this.placeRideOrShop(25, 35, "log_flume", { free: true, initialStatus: "open" });
+    this.placeRideOrShop(29, 35, "river_rapids", { free: true, initialStatus: "open" });
 
-    this._setPathRaw(17, 14, "queue", false);
-    this.placeRideOrShop(17, 12, "ferris_wheel", { free: true, initialStatus: "open" });
+    // All 8 Shops
+    this.placeRideOrShop(14, 25, "burger_bar", { free: true, initialStatus: "open" });
+    this.placeRideOrShop(16, 25, "drink_stall", { free: true, initialStatus: "open" });
+    this.placeRideOrShop(18, 25, "ice_cream_stall", { free: true, initialStatus: "open" });
+    this.placeRideOrShop(20, 25, "balloon_stall", { free: true, initialStatus: "open" });
+    this.placeRideOrShop(15, 32, "restroom", { free: true, initialStatus: "open" });
+    this.placeRideOrShop(17, 32, "first_aid", { free: true, initialStatus: "open" });
+    this.placeRideOrShop(19, 40, "info_kiosk", { free: true, initialStatus: "open" });
+    this.placeRideOrShop(24, 40, "atm", { free: true, initialStatus: "open" });
 
-    this._setPathRaw(20, 14, "queue", false);
-    this.placeRideOrShop(20, 12, "launched_freefall", { free: true, initialStatus: "open" });
+    // 4. Gardens, Fountains, Cherry Blossoms, Castles, Fireworks & Mascots
+    this._placeSceneryRaw(20, 35, "ai_billboard");
+    this._placeSceneryRaw(23, 35, "statue_mascot");
+    this._placeSceneryRaw(20, 28, "jumping_fountain");
+    this._placeSceneryRaw(23, 28, "jumping_fountain");
+    this._placeSceneryRaw(20, 19, "fountain");
+    this._placeSceneryRaw(23, 19, "fountain");
+    this._placeSceneryRaw(20, 38, "firework_launcher");
+    this._placeSceneryRaw(23, 38, "firework_launcher");
+    this._placeSceneryRaw(19, 31, "castle_tower");
+    this._placeSceneryRaw(24, 31, "castle_tower");
+    this._placeSceneryRaw(20, 34, "neon_arch");
+    this._placeSceneryRaw(23, 34, "neon_arch");
 
-    this._setPathRaw(23, 14, "queue", false);
-    this.placeRideOrShop(23, 12, "log_flume", { free: true, initialStatus: "open" });
-
-    this.placeRideOrShop(7, 23, "go_karts", { free: true, initialStatus: "open" });
-
-    // Stalls & services along y=16 and entrance
-    this.placeRideOrShop(10, 16, "burger_bar", { free: true, initialStatus: "open" });
-    this.placeRideOrShop(12, 16, "drink_stall", { free: true, initialStatus: "open" });
-    this.placeRideOrShop(16, 16, "balloon_stall", { free: true, initialStatus: "open" });
-    this.placeRideOrShop(18, 16, "restroom", { free: true, initialStatus: "open" });
-    this.placeRideOrShop(20, 16, "first_aid", { free: true, initialStatus: "open" });
-    this.placeRideOrShop(13, 24, "info_kiosk", { free: true, initialStatus: "open" });
-    this.placeRideOrShop(15, 24, "atm", { free: true, initialStatus: "open" });
-
-    // 4. Lush Scenery, Fountains, Gardens & AI Weekly Billboards
-    this._placeSceneryRaw(13, 21, "ai_billboard");
-    this._placeSceneryRaw(15, 21, "statue_sawyer");
-    this._placeSceneryRaw(13, 14, "fountain");
-    this._placeSceneryRaw(15, 14, "fountain");
-    this._placeSceneryRaw(20, 4, "statue_sawyer");
     for (const [tx, ty, sid] of [
-      [2, 4, "tree_pine"], [2, 7, "tree_oak"], [2, 10, "tree_pine"], [2, 13, "tree_oak"],
-      [2, 17, "tree_pine"], [2, 20, "tree_oak"], [2, 23, "tree_pine"],
-      [3, 4, "tree_oak"], [3, 9, "tree_pine"], [3, 16, "tree_oak"], [3, 22, "tree_pine"],
-      [18, 4, "tree_oak"], [19, 3, "tree_pine"], [25, 6, "tree_pine"], [25, 10, "tree_oak"],
-      [24, 17, "tree_pine"], [24, 20, "tree_oak"], [24, 23, "tree_pine"],
-      [12, 23, "flowerbed"], [16, 23, "flowerbed"], [12, 25, "flowerbed"], [16, 25, "flowerbed"],
-      [8, 16, "flowerbed"], [22, 16, "flowerbed"], [12, 12, "flowerbed"], [16, 12, "flowerbed"],
-      [12, 18, "tree_oak"], [13, 19, "flowerbed"], [15, 19, "flowerbed"],
+      [2, 5, "tree_pine"], [2, 9, "tree_oak"], [2, 13, "tree_cherry"], [2, 17, "tree_pine"],
+      [2, 22, "tree_oak"], [2, 27, "tree_cherry"], [2, 32, "tree_pine"], [2, 36, "tree_oak"],
+      [3, 7, "tree_cherry"], [3, 15, "tree_pine"], [3, 25, "tree_oak"], [3, 34, "tree_cherry"],
+      [35, 4, "statue_sawyer"], [34, 10, "rock_boulder"], [34, 13, "tree_cherry"],
+      [39, 27, "tree_pine"], [39, 31, "tree_oak"], [39, 35, "tree_cherry"],
+      [19, 37, "rose_garden"], [24, 37, "rose_garden"], [19, 39, "topiary_heart"], [24, 39, "topiary_heart"],
+      [18, 22, "flowerbed"], [25, 22, "flowerbed"], [13, 18, "rose_garden"], [29, 18, "rose_garden"],
     ]) {
       this._placeSceneryRaw(tx, ty, sid);
     }
 
-    // 5. Staff
-    this.hireStaff("handyman", 14, 18, { free: true });
-    this.hireStaff("handyman", 14, 12, { free: true });
-    this.hireStaff("mechanic", 14, 14, { free: true });
-    this.hireStaff("entertainer", 11, 15, { free: true });
-    this.hireStaff("guard", 14, 23, { free: true });
+    // 5. Staff (including 2 mechanics near central hub for quick breakdown response)
+    this.hireStaff("handyman", 21, 30, { free: true });
+    this.hireStaff("handyman", 15, 24, { free: true });
+    this.hireStaff("handyman", 30, 24, { free: true });
+    this.hireStaff("mechanic", 21, 22, { free: true });
+    this.hireStaff("mechanic", 12, 24, { free: true });
+    this.hireStaff("entertainer", 21, 35, { free: true });
+    this.hireStaff("guard", 22, 38, { free: true });
 
     // 6. Guests
     const walkSpots = [
-      [14, 24], [14, 22], [14, 19], [14, 15], [12, 15], [10, 15],
-      [8, 15], [16, 15], [18, 15], [20, 15], [22, 15], [14, 11],
-      [10, 11], [17, 11], [21, 9], [21, 7], [4, 11], [4, 7], [6, 5],
-      [9, 22], [11, 17],
+      [21, 39], [22, 37], [21, 33], [14, 33], [28, 33], [21, 24], [10, 24], [16, 24],
+      [28, 24], [34, 24], [21, 17], [10, 17], [17, 17], [24, 17], [37, 11], [39, 11],
+      [4, 10], [6, 5], [18, 5], [26, 7],
     ];
-    for (let i = 0; i < 36; i++) {
+    for (let i = 0; i < 48; i++) {
       const [gx, gy] = walkSpots[i % walkSpots.length];
-      this._spawnGuest(gx, gy, i % 6 === 0);
+      this._spawnGuest(gx, gy, i % 7 === 0);
     }
   }
 
@@ -446,10 +495,87 @@ export class RctParkSimulation {
   }
 
   _spend(amount) {
+    if (this.freeBuildMode) {
+      this.cash = Math.max(this.cash, 99999);
+      return true;
+    }
     if (this.cash < amount) return false;
     this.cash = Math.round((this.cash - amount) * 100) / 100;
     this.monthlyFinances.constructionCost += amount;
     return true;
+  }
+
+  toggleFreeBuildMode(forceValue = null) {
+    this.freeBuildMode = forceValue === null ? !this.freeBuildMode : Boolean(forceValue);
+    if (this.freeBuildMode && this.cash < 99999) {
+      this.cash = 99999;
+    }
+    this.pushNews(
+      this.freeBuildMode
+        ? "♾️ 자유 꾸미기 샌드박스 모드 ON — 자금 무제한으로 자유롭게 건설·꾸미기가 가능합니다!"
+        : "💰 일반 타이쿤 경영 모드로 복귀했습니다.",
+      "info"
+    );
+    this.onSfx?.("click");
+    return this.freeBuildMode;
+  }
+
+  paintSurface(tileX, tileY, surfaceType = "grass") {
+    if (!["grass", "sand", "dirt", "rock"].includes(surfaceType)) {
+      return { ok: false, reason: "지원하지 않는 지면 재질입니다" };
+    }
+    if (!this._isOwnedBuildable(tileX, tileY)) {
+      return { ok: false, reason: "공원 소유 영역 밖입니다" };
+    }
+    const t = this.getTile(tileX, tileY);
+    if (t.surface === surfaceType) return { ok: true, reason: "이미 동일한 지면입니다" };
+    if (!this._spend(5)) return { ok: false, reason: "현금이 부족합니다 ($5 필요)" };
+    t.surface = surfaceType;
+    this.onSfx?.("place");
+    return { ok: true, reason: `${surfaceType} 지면 페인트 완료` };
+  }
+
+  customizeRide(rideId, { name, colorPrimary, colorTrack } = {}) {
+    const ride = this.rides.find((r) => r.id === rideId);
+    if (!ride) return { ok: false, reason: "놀이기구를 찾을 수 없습니다" };
+    if (name && String(name).trim()) {
+      ride.name = String(name).trim().slice(0, 36);
+      if (ride.track) ride.track.name = ride.name;
+    }
+    if (colorPrimary) {
+      ride.colorPrimary = colorPrimary;
+      if (ride.track) ride.track.colorPrimary = colorPrimary;
+    }
+    if (colorTrack) {
+      ride.colorTrack = colorTrack;
+      if (ride.track) ride.track.colorTrack = colorTrack;
+    }
+    this.onSfx?.("click");
+    return { ok: true };
+  }
+
+  launchFireworksAt(tileX, tileY) {
+    const t = this.getTile(tileX, tileY);
+    const hz = (t?.height || 2) + 4.2;
+    const palette = ["#facc15", "#ef4444", "#38bdf8", "#a855f7", "#4ade80", "#f472b6"];
+    const baseCol = palette[Math.floor(Math.random() * palette.length)];
+    for (let i = 0; i < 18; i++) {
+      const ang = (i / 18) * Math.PI * 2;
+      const spd = 0.6 + Math.random() * 0.9;
+      this.fireworks.push({
+        x: tileX,
+        y: tileY,
+        z: hz,
+        vx: Math.cos(ang) * spd,
+        vy: Math.sin(ang) * spd * 0.6,
+        vz: 0.6 + Math.random() * 0.9,
+        color: i % 2 === 0 ? baseCol : "#ffffff",
+        life: 1.2 + Math.random() * 0.5,
+        maxLife: 1.5,
+      });
+    }
+    if (this.fireworks.length > 180) this.fireworks.splice(0, this.fireworks.length - 180);
+    this.onSfx?.("pop");
   }
 
   raiseLowerLand(tileX, tileY, delta) {
@@ -639,6 +765,7 @@ export class RctParkSimulation {
       }
 
       this.rides.push(ride);
+      this.rebuildPerimeterBillboards();
       this._recomputeAllPathMasks();
       this._updateParkValuation();
       if (!options.free) {
@@ -791,7 +918,7 @@ export class RctParkSimulation {
     const ride = this.rides.find((r) => r.id === rideId);
     if (!ride || !ride.track) return { ok: false, reason: "코스터를 찾을 수 없습니다" };
     const pieceCost = pieceId === "vertical_loop" ? 160 : 35;
-    if (this.cash < pieceCost) {
+    if (!this.freeBuildMode && this.cash < pieceCost) {
       return { ok: false, reason: `현금이 부족합니다 ($${pieceCost} 필요)` };
     }
     const res = ride.track.appendPiece(pieceId);
@@ -840,7 +967,9 @@ export class RctParkSimulation {
     const res = ride.track.autoCloseToStation();
     if (!res.ok) return res;
     const cost = res.addedCount * 30;
-    this.cash = Math.max(0, this.cash - cost);
+    if (!this.freeBuildMode) {
+      this.cash = Math.max(0, this.cash - cost);
+    }
     const statsRes = ride.track.validateAndComputeStats({
       nearbySceneryCount: this._countNearbyScenery(ride.x, ride.y, 5),
     });
@@ -1157,10 +1286,117 @@ export class RctParkSimulation {
       social: Array.isArray(archiveData.social) ? archiveData.social : [],
       benchmarks: Array.isArray(archiveData.benchmarks) ? archiveData.benchmarks : [],
     };
+    this.rebuildPerimeterBillboards();
     const topNews = this.aiArchive.news[0];
     if (topNews) {
       this.pushNews(`📡 [AI위클리 특보] ${topNews.title_ko || topNews.headline}`, "info");
     }
+  }
+
+  rebuildPerimeterBillboards() {
+    const slots = [];
+    // North edge (y = 1): 9 mega-billboards
+    for (const x of [5, 9, 13, 17, 21, 25, 29, 33, 37]) slots.push({ tileX: x, tileY: 1, edge: "N" });
+    // West edge (x = 1): 7 mega-billboards
+    for (const y of [6, 11, 16, 21, 26, 31, 36]) slots.push({ tileX: 1, tileY: y, edge: "W" });
+    // East edge (x = 42): 8 mega-billboards
+    for (const y of [6, 11, 16, 21, 26, 31, 36, 40]) slots.push({ tileX: 42, tileY: y, edge: "E" });
+
+    const plugins = this.aiArchive.plugins || [];
+    const news = this.aiArchive.news || [];
+    const social = this.aiArchive.social || [];
+    const benchmarks = this.aiArchive.benchmarks || [];
+
+    const fallbacks = {
+      plugins: [
+        { name: "superpowers", title_ko: "에이전트 TDD·플래닝 핵심 워크플로우", stars: 18400, velocity_7d: 920, category: "workflow", summary_ko: "체계적 설계·브레인스토밍·검증 게이트 스킬 팩", official_url: "./" },
+        { name: "career-copilot-kr", title_ko: "한국 시니어 백엔드 커리어 코파일럿", stars: 3420, velocity_7d: 410, category: "career", summary_ko: "채용공고 분석·이력서 맞춤 최적화 자동화", official_url: "./" },
+      ],
+      news: [
+        { title_ko: "프론티어 코딩 모델 에이전트 벤치마크 신기록 경신", category_name: "모델 릴리스", importance: 94, summary_ko: "최신 프론티어 모델들의 추론 및 코드 생성 성능 대폭 향상", tags: ["LLM", "Coding"], url: "news" },
+        { title_ko: "오픈소스 AI 에이전트 하네스 생태계 주간 동향", category_name: "개발자 도구", importance: 88, summary_ko: "MCP 서버와 샌드박스 도구 연동 표준화 가속", tags: ["MCP", "Agent"], url: "news" },
+      ],
+      social: [
+        { author: "@ai_builder", title_ko: "클로드 코드 + 서브에이전트 병렬 실행 팁 요약", platform: "X", summary_ko: "컨텍스트 오염 없이 리팩토링을 끝내는 실전 팁", url: "social" },
+        { author: "@dev_curator", title_ko: "로컬 에이전트 워크플로우 생산성 3배 루틴", platform: "Threads", summary_ko: "자동 검증 루프와 슬래시 커맨드 결합 사례", url: "social" },
+      ],
+      benchmarks: [
+        { model: "Claude 4.5 / Opus Tier", provider: "Anthropic", arena_coding_elo: 1410, share_pct: 28.4 },
+        { model: "Gemini 4 Argon", provider: "Google", arena_coding_elo: 1395, share_pct: 26.1 },
+      ],
+    };
+
+    const pickFeed = (list, fb, idx) => (list.length > 0 ? list[idx % list.length] : fb[idx % fb.length]);
+
+    let pIdx = 0;
+    let nIdx = 0;
+    let sIdx = 0;
+    let bIdx = 0;
+
+    this.perimeterBillboards = slots.map((slot, i) => {
+      if (slot.edge === "N" && i % 2 === 0) {
+        const it = pickFeed(plugins, fallbacks.plugins, pIdx++);
+        return {
+          id: `bb-${i}`,
+          ...slot,
+          category: "plugins",
+          badge: "인기 플러그인",
+          accent: "#fbbf24",
+          title: it.name || it.title_ko || "인기 플러그인",
+          subtitle: it.title_ko || it.catchphrase || "",
+          summary: it.summary_ko || it.catchphrase || "GitHub 및 커뮤니티 급상승 플러그인 정보입니다.",
+          metric: `★ ${Number(it.stars || 0).toLocaleString()} (+${Number(it.velocity_7d || 0).toLocaleString()})`,
+          tags: [it.category || "plugin", ...(it.sources || []).slice(0, 2)],
+          url: it.official_url || it.repo_url || "./",
+        };
+      }
+      if (slot.edge === "N" || (slot.edge === "E" && bIdx >= 4)) {
+        const it = pickFeed(news, fallbacks.news, nIdx++);
+        return {
+          id: `bb-${i}`,
+          ...slot,
+          category: "news",
+          badge: "AI 뉴스",
+          accent: "#38bdf8",
+          title: it.title_ko || it.headline || "AI 위클리 뉴스",
+          subtitle: `${it.category_name || "AI 기술 신호"} · 중요도 ${it.importance ?? 85}`,
+          summary: String(it.body_ko || it.summary_ko || "").replace(/\*\*/g, ""),
+          metric: `중요도 ${it.importance ?? 85}`,
+          tags: Array.isArray(it.tags) ? it.tags : ["AI News"],
+          url: it.url || "news",
+        };
+      }
+      if (slot.edge === "W") {
+        const it = pickFeed(social, fallbacks.social, sIdx++);
+        return {
+          id: `bb-${i}`,
+          ...slot,
+          category: "social",
+          badge: "소셜 피드",
+          accent: "#f472b6",
+          title: it.title_ko || `${it.author || "크리에이터"} 포스트`,
+          subtitle: `${it.author || "커뮤니티"} · ${it.platform || "Social"}`,
+          summary: it.summary_ko || it.body_ko || it.title_ko || "실시간 AI 인플루언서 인사이트 요약입니다.",
+          metric: it.platform || "Social",
+          tags: Array.isArray(it.tags) ? it.tags : [it.platform || "Social"],
+          url: it.url || "social",
+        };
+      }
+      const it = pickFeed(benchmarks, fallbacks.benchmarks, bIdx++);
+      return {
+        id: `bb-${i}`,
+        ...slot,
+        category: "benchmarks",
+        badge: "점유율·성능",
+        accent: "#34d399",
+        title: it.model || "Frontier LLM",
+        subtitle: `${it.provider || "AI Lab"} · 점유율·성능 지표`,
+        summary: `코딩 Elo ${it.arena_coding_elo || it.arena_elo || "—"} · SWE/추론 리더보드 프론티어 모델 성능 데이터`,
+        metric: `Elo ${it.arena_coding_elo || it.arena_elo || "—"}`,
+        tags: [it.provider || "Benchmark"],
+        url: "benchmarks",
+      };
+    });
   }
 
   _findNearestPathTile(fromX, fromY) {
@@ -1238,11 +1474,32 @@ export class RctParkSimulation {
     if (this.speedMultiplier <= 0) return;
     const simDt = Math.min(0.1, dtSeconds) * this.speedMultiplier;
 
-    // 1. Floating text decay
+    // 1. Floating text & firework particle decay
     for (let i = this.floatingTexts.length - 1; i >= 0; i--) {
       this.floatingTexts[i].life -= dtSeconds;
       this.floatingTexts[i].heightZ += dtSeconds * 0.85;
       if (this.floatingTexts[i].life <= 0) this.floatingTexts.splice(i, 1);
+    }
+    for (let i = this.fireworks.length - 1; i >= 0; i--) {
+      const fw = this.fireworks[i];
+      fw.life -= dtSeconds;
+      fw.x += fw.vx * dtSeconds;
+      fw.y += fw.vy * dtSeconds;
+      fw.z += fw.vz * dtSeconds;
+      fw.vz -= 1.4 * dtSeconds;
+      if (fw.life <= 0) this.fireworks.splice(i, 1);
+    }
+    if (this.nightMode && Math.random() < 0.045) {
+      const launchers = [];
+      for (let y = 2; y < this.mapSize - 2; y++) {
+        for (let x = 2; x < this.mapSize - 2; x++) {
+          if (this.grid[y][x]?.scenery?.id === "firework_launcher") launchers.push([x, y]);
+        }
+      }
+      if (launchers.length > 0) {
+        const [lx, ly] = launchers[Math.floor(Math.random() * launchers.length)];
+        this.launchFireworksAt(lx, ly);
+      }
     }
 
     // 2. Calendar & Weather progression (1 game day = ~4.5 real sec at 1x)
@@ -1778,6 +2035,8 @@ export class RctParkSimulation {
       breakdownReason: r.breakdownReason,
       totalRiders: r.totalRiders,
       totalProfit: r.totalProfit,
+      colorPrimary: r.colorPrimary,
+      colorTrack: r.colorTrack,
       stats: r.stats,
       sponsorLabel: r.sponsorLabel,
       track: r.track
@@ -1800,6 +2059,7 @@ export class RctParkSimulation {
       parkRating: this.parkRating,
       date: this.date,
       weather: this.weather,
+      freeBuildMode: this.freeBuildMode,
       awards: this.awards,
       tiles,
       rides,
@@ -1836,6 +2096,7 @@ export class RctParkSimulation {
       this.parkRating = Number(data.parkRating ?? 700);
       this.date = data.date && Number.isFinite(data.date.year) ? data.date : { year: 1, month: 3, day: 1, dayProgress: 0 };
       this.weather = data.weather || "sunny";
+      this.freeBuildMode = Boolean(data.freeBuildMode);
       this.awards = Array.isArray(data.awards) ? data.awards : [];
       this.entrance = { ...preset.entrance };
 
@@ -1874,6 +2135,8 @@ export class RctParkSimulation {
             facing: r.track.origin.dir,
             mode: r.track.mode || "circuit",
             name: r.name,
+            colorPrimary: r.colorPrimary,
+            colorTrack: r.colorTrack,
           });
           for (const pId of r.track.pieces) track.appendPiece(pId, { skipCollision: true });
           track.spawnDefaultTrain(3);
@@ -1895,6 +2158,7 @@ export class RctParkSimulation {
         if (spot) this._spawnGuest(spot.x, spot.y);
       }
 
+      this.rebuildPerimeterBillboards();
       this._recomputeAllPathMasks();
       this._updateParkValuation();
       this.pushNews(`💾 저장된 파크 [${this.parkName}] 불러오기 완료`, "good");

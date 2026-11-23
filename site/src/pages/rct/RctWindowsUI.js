@@ -7,6 +7,7 @@
 import {
   TRACK_PIECE_CATALOG,
   RIDE_CATALOG,
+  RIDE_COLOR_PALETTES,
   SCENERY_CATALOG,
   PATH_TYPES,
   STAFF_TYPES,
@@ -51,9 +52,11 @@ export class RctWindowsUI {
     this.windows = new Map(); // key -> { key, el, titleTheme, pinned, state }
     this._zCounter = 20;
     this._buildTab = "coaster";
+    this._sceneryTab = "nature";
     this._staffTab = "handyman";
     this._aiTab = "plugins";
     this._aiQuery = "";
+    this._brushSize = 1;
     this._lastStatusSync = 0;
   }
 
@@ -77,7 +80,14 @@ export class RctWindowsUI {
     const cascadeY = window.innerWidth >= 1024 ? 14 + Math.floor(offsetIdx / 3) * 42 : 14 + offsetIdx * 24;
     winEl.style.left = `${Math.min(cascadeX, Math.max(12, window.innerWidth - 400))}px`;
     winEl.style.top = `${cascadeY}px`;
-    winEl.style.width = key === "ai-archive" || key === "build" ? "450px" : key === "coaster-builder" ? "390px" : "340px";
+    winEl.style.width =
+      key === "ai-archive" || key === "build"
+        ? "450px"
+        : key === "billboard-post"
+          ? "410px"
+          : key === "coaster-builder"
+            ? "390px"
+            : "340px";
     winEl.style.zIndex = String(++this._zCounter);
 
     this.layerEl.appendChild(winEl);
@@ -184,11 +194,13 @@ export class RctWindowsUI {
     const { el, state } = entry;
 
     if (key === "build") {
+      const priceLabel = (cost) => (this.sim.freeBuildMode ? "무료" : `$${cost}`);
       const tabs = `
         <div class="rct-tabs">
-          <button type="button" class="rct-tab ${this._buildTab === "coaster" ? "is-active" : ""}" data-build-tab="coaster">롤러코스터</button>
-          <button type="button" class="rct-tab ${this._buildTab === "rides" ? "is-active" : ""}" data-build-tab="rides">보통·스릴·워터</button>
-          <button type="button" class="rct-tab ${this._buildTab === "shop" ? "is-active" : ""}" data-build-tab="shop">상점·편의시설</button>
+          <button type="button" class="rct-tab ${this._buildTab === "coaster" ? "is-active" : ""}" data-build-tab="coaster">코스터</button>
+          <button type="button" class="rct-tab ${this._buildTab === "gentle" ? "is-active" : ""}" data-build-tab="gentle">젠틀</button>
+          <button type="button" class="rct-tab ${this._buildTab === "thrill_water" ? "is-active" : ""}" data-build-tab="thrill_water">스릴·워터</button>
+          <button type="button" class="rct-tab ${this._buildTab === "shop" ? "is-active" : ""}" data-build-tab="shop">상점</button>
         </div>
       `;
       let rows = "";
@@ -197,7 +209,7 @@ export class RctWindowsUI {
         const bps = Object.values(COASTER_BLUEPRINTS);
         rows = `
           <div class="rct-inset" style="font-size:11px; color:#fde047;">
-            💡 <b>커스텀 승강장 건설</b>로 트랙을 1조각씩 직접 설계하거나, <b>완성 설계도</b>를 통째로 배치할 수 있습니다.
+            💡 <b>커스텀 승강장 건설</b> 또는 <b>5종 완성 설계도</b>로 44×44 공원 어디든 코스터를 세울 수 있습니다.
           </div>
           <div class="rct-list-grid">
             ${coasters.map((c) => `
@@ -206,26 +218,27 @@ export class RctWindowsUI {
                   <div style="font-weight:800;">🎢 ${esc(c.name)}</div>
                   <div style="font-size:10.5px; color:#cbd5e1;">${esc(c.description)}</div>
                 </div>
-                <button type="button" class="rct-btn is-primary" data-tool-custom-coaster="${esc(c.id)}">직접 건설 ($180~)</button>
+                <button type="button" class="rct-btn is-primary" data-tool-custom-coaster="${esc(c.id)}">직접 건설 (${this.sim.freeBuildMode ? "무료" : "$180~"})</button>
               </div>
             `).join("")}
             ${bps.map((bp) => `
               <div class="rct-card-row">
                 <div>
                   <div style="font-weight:800; color:#93c5fd;">📐 [설계도] ${esc(bp.name)}</div>
-                  <div style="font-size:10.5px; color:#cbd5e1;">${bp.pieces.length}조각 완성 폐곡선 블루프린트</div>
+                  <div style="font-size:10.5px; color:#cbd5e1;">${bp.pieces.length}조각 폐곡선 블루프린트</div>
                 </div>
                 <button type="button" class="rct-btn" data-tool-blueprint="${esc(bp.id)}">설계도 배치</button>
               </div>
             `).join("")}
           </div>
         `;
-      } else if (this._buildTab === "rides") {
-        const rides = Object.values(RIDE_CATALOG).filter((r) => ["gentle", "thrill", "water"].includes(r.category));
+      } else if (this._buildTab === "gentle" || this._buildTab === "thrill_water") {
+        const cats = this._buildTab === "gentle" ? ["gentle"] : ["thrill", "water"];
+        const rides = Object.values(RIDE_CATALOG).filter((r) => cats.includes(r.category));
         rows = `<div class="rct-list-grid">` + rides.map((r) => `
           <div class="rct-card-row">
             <div>
-              <div style="font-weight:800;">🎡 ${esc(r.name)} <span style="color:#fde047;">$${r.baseCost}</span></div>
+              <div style="font-weight:800;">🎡 ${esc(r.name)} <span style="color:#fde047;">${priceLabel(r.baseCost)}</span></div>
               <div style="font-size:10.5px; color:#cbd5e1;">흥미 ${r.excitement} · 격렬 ${r.intensity} · 멀미 ${r.nausea} · ${r.footprintW}×${r.footprintH}</div>
             </div>
             <button type="button" class="rct-btn is-primary" data-tool-place-ride="${esc(r.id)}">선택</button>
@@ -236,14 +249,14 @@ export class RctWindowsUI {
         rows = `<div class="rct-list-grid">` + shops.map((r) => `
           <div class="rct-card-row">
             <div>
-              <div style="font-weight:800;">🏪 ${esc(r.name)} <span style="color:#fde047;">$${r.baseCost}</span></div>
+              <div style="font-weight:800;">🏪 ${esc(r.name)} <span style="color:#fde047;">${priceLabel(r.baseCost)}</span></div>
               <div style="font-size:10.5px; color:#cbd5e1;">${esc(r.description)}</div>
             </div>
             <button type="button" class="rct-btn is-primary" data-tool-place-ride="${esc(r.id)}">선택</button>
           </div>
         `).join("") + `</div>`;
       }
-      el.innerHTML = this._wrapWindow(key, "🎢 신규 놀이기구 · 상점 건설", "is-maroon", tabs + rows);
+      el.innerHTML = this._wrapWindow(key, "🎢 신규 놀이기구 · 상점 건설 (28종)", "is-maroon", tabs + rows);
       return;
     }
 
@@ -320,6 +333,22 @@ export class RctWindowsUI {
               <button type="button" class="rct-mini-btn" data-ride-price="${esc(ride.id)}:-0.5">-</button>
               <button type="button" class="rct-mini-btn" data-ride-price="${esc(ride.id)}:0.5">+</button>
             </div>
+            <div style="display:flex; align-items:center; gap:4px; margin-top:3px;">
+              <input type="text" class="rct-name-input" id="rct-ride-rename-input" maxlength="28" value="${esc(ride.name)}" aria-label="놀이기구 이름 변경" />
+              <button type="button" class="rct-mini-btn is-primary" data-ride-rename="${esc(ride.id)}">이름변경</button>
+            </div>
+            ${!isShop ? `
+              <div style="display:flex; align-items:center; gap:4px; flex-wrap:wrap; margin-top:2px;">
+                <span style="font-size:10px; color:#cbd5e1;">도색:</span>
+                ${RIDE_COLOR_PALETTES.map((pal) => `
+                  <button type="button"
+                    class="rct-color-swatch ${ride.colorPrimary === pal.primary ? "is-active" : ""}"
+                    data-ride-color="${esc(ride.id)}:${esc(pal.id)}"
+                    title="${esc(pal.name)}"
+                    style="background: linear-gradient(135deg, ${esc(pal.primary)} 55%, ${esc(pal.track)} 55%);"></button>
+                `).join("")}
+              </div>
+            ` : ""}
           </div>
         </div>
         ${ride.broken ? `<div class="rct-inset" style="background:#7f1d1d; color:#fecaca; font-size:11px;">🚨 ${esc(ride.breakdownReason)}</div>` : ""}
@@ -373,14 +402,29 @@ export class RctWindowsUI {
 
     if (key === "terraform") {
       const cur = this.renderer.activeTool.type;
-      el.innerHTML = this._wrapWindow(key, "⛰ 지형 및 물 편집", "is-green", `
+      const curSurf = this.renderer.activeTool.subId;
+      const bSize = this._brushSize || 1;
+      el.innerHTML = this._wrapWindow(key, "⛰ 지형 · 물 · 지면 페인트", "is-green", `
+        <div style="display:flex; align-items:center; justify-content:space-between; font-size:11px;">
+          <span>브러시 크기 (드래그 칠하기 지원):</span>
+          <div style="display:flex; gap:4px;">
+            <button type="button" class="rct-mini-btn ${bSize === 1 ? "is-active" : ""}" data-set-brush="1">1×1</button>
+            <button type="button" class="rct-mini-btn ${bSize === 3 ? "is-active" : ""}" data-set-brush="3">3×3</button>
+          </div>
+        </div>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
           <button type="button" class="rct-btn ${cur === "land_up" ? "is-active" : ""}" data-set-tool="land_up">⛰ 지형 올리기 (+3m · $20)</button>
           <button type="button" class="rct-btn ${cur === "land_down" ? "is-active" : ""}" data-set-tool="land_down">🕳 지형 내리기 (-3m · $20)</button>
           <button type="button" class="rct-btn ${cur === "water_up" ? "is-active" : ""}" data-set-tool="water_up">💧 물 채우기 ($25)</button>
           <button type="button" class="rct-btn ${cur === "water_down" ? "is-active" : ""}" data-set-tool="water_down">🏜 물 배수 ($25)</button>
         </div>
-        <div class="rct-inset" style="font-size:11px;">도구를 선택한 후 공원 지면 타일을 클릭하세요.</div>
+        <div style="font-size:11px; font-weight:800; color:#fde047;">🎨 지면 재질 페인트 (자유꾸미기 무료)</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:5px;">
+          <button type="button" class="rct-btn ${cur === "surface" && curSurf === "grass" ? "is-active" : ""}" data-set-surface="grass">🌿 푸른 잔디</button>
+          <button type="button" class="rct-btn ${cur === "surface" && curSurf === "sand" ? "is-active" : ""}" data-set-surface="sand">🏖 사막 모래</button>
+          <button type="button" class="rct-btn ${cur === "surface" && curSurf === "dirt" ? "is-active" : ""}" data-set-surface="dirt">🟫 황토/흙길</button>
+          <button type="button" class="rct-btn ${cur === "surface" && curSurf === "rock" ? "is-active" : ""}" data-set-surface="rock">🪨 화강암 암석</button>
+        </div>
       `);
       return;
     }
@@ -408,11 +452,20 @@ export class RctWindowsUI {
 
     if (key === "scenery") {
       const activeSub = this.renderer.activeTool.subId;
-      el.innerHTML = this._wrapWindow(key, "🌲 풍경 · 조각상 · 전광판", "is-green", `
+      const items = Object.values(SCENERY_CATALOG).filter((sc) => (sc.group || "nature") === this._sceneryTab);
+      el.innerHTML = this._wrapWindow(key, "🌲 풍경 · 조경 · 불꽃놀이 (18종)", "is-green", `
+        <div class="rct-tabs">
+          <button type="button" class="rct-tab ${this._sceneryTab === "nature" ? "is-active" : ""}" data-scenery-tab="nature">🌳 자연·수목</button>
+          <button type="button" class="rct-tab ${this._sceneryTab === "monument" ? "is-active" : ""}" data-scenery-tab="monument">🗿 조형·캐슬</button>
+          <button type="button" class="rct-tab ${this._sceneryTab === "tech" ? "is-active" : ""}" data-scenery-tab="tech">🎆 네온·폭죽</button>
+        </div>
         <div class="rct-list-grid">
-          ${Object.values(SCENERY_CATALOG).map((sc) => `
+          ${items.map((sc) => `
             <div class="rct-card-row">
-              <span>${esc(sc.name)} ($${sc.cost} · 흥미 보너스 +${sc.excitementBonus})</span>
+              <div>
+                <div style="font-weight:800;">${esc(sc.name)} <span style="color:#fde047;">${this.sim.freeBuildMode ? "무료" : `$${sc.cost}`}</span></div>
+                <div style="font-size:10px; color:#cbd5e1;">흥미 보너스 +${sc.excitementBonus}${sc.id === "firework_launcher" ? " · 클릭/야간 시 폭죽 발사!" : ""}</div>
+              </div>
               <button type="button" class="rct-btn ${this.renderer.activeTool.type === "scenery" && activeSub === sc.id ? "is-active" : ""}" data-set-scenery="${esc(sc.id)}">배치</button>
             </div>
           `).join("")}
@@ -647,6 +700,55 @@ export class RctWindowsUI {
         : `<div class="rct-inset">데이터를 불러오는 중이거나 검색 결과가 없습니다.</div>`;
 
       el.innerHTML = this._wrapWindow(key, "🔬 AI위클리 실시간 데이터 연구소", "is-purple", `${tabs}<div class="rct-list-grid">${listHtml}</div>`);
+      return;
+    }
+
+    if (key === "billboard-post") {
+      const list = this.sim.perimeterBillboards || [];
+      const curIdx = Math.max(
+        0,
+        list.findIndex((b) => b.id === state.billboardId)
+      );
+      const bb = list[curIdx];
+      if (!bb) {
+        el.innerHTML = this._wrapWindow(key, "📢 외곽 AI위클리 광고판", "is-purple", `<div class="rct-inset">표시할 포스트 광고판이 없습니다.</div>`);
+        return;
+      }
+      const prevBb = list[(curIdx - 1 + list.length) % list.length];
+      const nextBb = list[(curIdx + 1) % list.length];
+      const safeUrl = safeHref(bb.url);
+      const hasExternalUrl = safeUrl !== "#";
+
+      el.innerHTML = this._wrapWindow(key, `📢 외곽 메가 광고판 (#${curIdx + 1}/${list.length})`, "is-purple", `
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:6px;">
+          <span class="rct-billboard-badge" style="background:${esc(bb.accent || "#38bdf8")};">${esc(bb.badge || "POST")}</span>
+          <span style="font-size:10.5px; color:#cbd5e1;">위치 (${bb.tileX}, ${bb.tileY}) · <b style="color:#fde047;">${esc(bb.metric || "")}</b></span>
+        </div>
+        <div class="rct-inset" style="display:flex; flex-direction:column; gap:6px;">
+          <div style="font-size:13px; font-weight:800; color:#f8fafc; line-height:1.35;">${esc(bb.title)}</div>
+          ${bb.subtitle ? `<div style="font-size:11px; color:#93c5fd;">${esc(bb.subtitle)}</div>` : ""}
+          <div style="font-size:11.5px; color:#e2e8f0; line-height:1.5; max-height:160px; overflow-y:auto;">
+            ${esc(bb.summary || "상세 요약이 준비 중입니다.")}
+          </div>
+          ${Array.isArray(bb.tags) && bb.tags.length > 0 ? `
+            <div class="rct-billboard-tags">
+              ${bb.tags.map((tg) => `<span class="rct-billboard-tag">#${esc(tg)}</span>`).join("")}
+            </div>
+          ` : ""}
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:5px; justify-content:space-between;">
+          <div style="display:flex; gap:4px;">
+            <button type="button" class="rct-btn" data-bb-nav="${esc(prevBb.id)}">◀ 이전 광고판</button>
+            <button type="button" class="rct-btn" data-bb-nav="${esc(nextBb.id)}">다음 광고판 ▶</button>
+          </div>
+          <div style="display:flex; gap:4px;">
+            <button type="button" class="rct-btn is-warn" data-ai-sponsor="${esc((bb.title || "").slice(0, 14))}">🎢 스폰서 명명</button>
+            ${hasExternalUrl
+              ? `<a class="rct-btn is-primary" href="${esc(safeUrl)}" target="_blank" rel="noopener" style="text-decoration:none;">🔗 원문 열기</a>`
+              : `<button type="button" class="rct-btn is-primary" data-win-open="ai-archive">🔬 AI연구소</button>`}
+          </div>
+        </div>
+      `);
     }
   }
 
@@ -748,6 +850,30 @@ export class RctWindowsUI {
       }
       return;
     }
+    const renameBtn = t.closest("[data-ride-rename]");
+    if (renameBtn) {
+      const inp = document.getElementById("rct-ride-rename-input");
+      const nextName = inp ? inp.value.trim() : "";
+      if (nextName) {
+        const res = this.sim.customizeRide(renameBtn.dataset.rideRename, { name: nextName });
+        if (res?.ok) {
+          this._renderWindowContent("ride-detail");
+          this.audio.playAward();
+        }
+      }
+      return;
+    }
+    const colorBtn = t.closest("[data-ride-color]");
+    if (colorBtn) {
+      const [rid, palId] = colorBtn.dataset.rideColor.split(":");
+      const pal = RIDE_COLOR_PALETTES.find((p) => p.id === palId);
+      if (pal) {
+        this.sim.customizeRide(rid, { colorPrimary: pal.primary, colorTrack: pal.track });
+        this._renderWindowContent("ride-detail");
+        this.audio.playClick();
+      }
+      return;
+    }
 
     // Peep actions
     const pincerPeep = t.closest("[data-peep-pincer]");
@@ -766,11 +892,33 @@ export class RctWindowsUI {
       return;
     }
 
-    // Terraform / Path / Scenery / View tools
+    // Terraform / Surface / Path / Scenery / View tools
+    const brushBtn = t.closest("[data-set-brush]");
+    if (brushBtn) {
+      this._brushSize = Number(brushBtn.dataset.setBrush) === 3 ? 3 : 1;
+      const cur = this.renderer.activeTool;
+      if (["surface", "land_up", "land_down", "water_up", "water_down"].includes(cur.type)) {
+        this.onToolChange({ ...cur, brushSize: this._brushSize });
+      }
+      this._renderWindowContent("terraform");
+      return;
+    }
+    const surfBtn = t.closest("[data-set-surface]");
+    if (surfBtn) {
+      this.onToolChange({ type: "surface", subId: surfBtn.dataset.setSurface, brushSize: this._brushSize || 1 });
+      this._renderWindowContent("terraform");
+      return;
+    }
     const toolBtn = t.closest("[data-set-tool]");
     if (toolBtn) {
-      this.onToolChange({ type: toolBtn.dataset.setTool });
+      this.onToolChange({ type: toolBtn.dataset.setTool, brushSize: this._brushSize || 1 });
       this._renderWindowContent("terraform");
+      return;
+    }
+    const scTab = t.closest("[data-scenery-tab]");
+    if (scTab) {
+      this._sceneryTab = scTab.dataset.sceneryTab;
+      this._renderWindowContent("scenery");
       return;
     }
     const pathBtn = t.closest("[data-set-path]");
@@ -897,6 +1045,20 @@ export class RctWindowsUI {
         this.sim.pushNews(`🏷️ [${targetRide.name}] AI 스폰서십 명명 완료!`, "good");
         this.audio.playAward();
       }
+      return;
+    }
+    const bbNav = t.closest("[data-bb-nav]");
+    if (bbNav) {
+      const bb = (this.sim.perimeterBillboards || []).find((b) => b.id === bbNav.dataset.bbNav);
+      if (bb) {
+        this.renderer.centerOnTile(bb.tileX, bb.tileY);
+        this.openWindow("billboard-post", { billboardId: bb.id });
+      }
+      return;
+    }
+    const winOpen = t.closest("[data-win-open]");
+    if (winOpen) {
+      this.openWindow(winOpen.dataset.winOpen);
     }
   }
 

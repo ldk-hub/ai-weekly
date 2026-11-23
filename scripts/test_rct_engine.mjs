@@ -193,8 +193,8 @@ test("test_ride_breakdown_and_mechanic_repair_cycle", () => {
   assert.equal(openRide.broken, true);
   assert.equal(openRide.status, "broken");
 
-  const mech = sim.staff.find((s) => s.role === "mechanic");
-  assert.ok(mech);
+  const mech = sim.staff.find((s) => s.role === "mechanic" && s.targetRideId === openRide.id);
+  assert.ok(mech, "Expected a mechanic to be dispatched to the broken ride");
   assert.equal(mech.targetRideId, openRide.id);
 
   // Step simulation enough seconds for mechanic to arrive and finish repair
@@ -282,4 +282,102 @@ test("test_serialize_roundtrip_and_corrupted_save_payload_graceful_fallback", ()
   const sim4 = new RctParkSimulation();
   assert.equal(sim4.deserialize(JSON.stringify({ version: 1, tiles: "bad", cash: NaN })), false);
   assert.equal(sim4.scenarioId, "ai_weekly_park");
+});
+
+test("test_map_expansion_44x44_and_28_attractions_roster", async () => {
+  const {
+    ISO_METRICS,
+    RIDE_CATALOG,
+    SCENERY_CATALOG,
+    COASTER_BLUEPRINTS,
+    RIDE_COLOR_PALETTES,
+  } = await import("../site/src/pages/rct/RctConstants.js");
+  const { CoasterTrack } = await import("../site/src/pages/rct/RctCoasterEngine.js");
+
+  assert.equal(ISO_METRICS.MAP_SIZE, 44);
+  assert.equal(Object.keys(RIDE_CATALOG).length, 28);
+  assert.equal(Object.keys(SCENERY_CATALOG).length, 18);
+  assert.equal(Object.keys(COASTER_BLUEPRINTS).length, 5);
+  assert.equal(RIDE_COLOR_PALETTES.length, 6);
+
+  const sim = new RctParkSimulation();
+  sim.loadScenario("ai_weekly_park");
+  assert.equal(sim.entrance.x, 22);
+  assert.equal(sim.entrance.y, 42);
+  assert.equal(sim.rides.length >= 16, true, `Expected >= 16 rides, got ${sim.rides.length}`);
+
+  for (const [bpId, bp] of Object.entries(COASTER_BLUEPRINTS)) {
+    const track = CoasterTrack.fromBlueprint(
+      bp,
+      bp.defaultOrigin.x,
+      bp.defaultOrigin.y,
+      bp.defaultOrigin.z,
+      bp.defaultOrigin.facing
+    );
+    assert.equal(track.isClosed(), true, `Blueprint ${bpId} did not form a complete circuit`);
+    const stats = track.validateAndComputeStats({ nearbySceneryCount: 4 });
+    assert.equal(stats.valid, true, `Blueprint ${bpId} invalid: ${stats.reason}`);
+  }
+});
+
+test("test_perimeter_billboards_sandbox_freebuild_and_customization", () => {
+  const sim = new RctParkSimulation();
+  sim.syncAiWeeklyData({
+    plugins: [
+      { id: "p1", name: "SuperTool", repo: "org/supertool", description: "AI 도구", totalStars: 1200, weeklyDelta: 320, url: "https://example.com/p1" },
+      { id: "p2", name: "CodeGraph", repo: "org/codegraph", description: "그래프 엔진", totalStars: 850, weeklyDelta: 110, url: "https://example.com/p2" },
+    ],
+    news: [
+      { id: "n1", title: "Gemini 4 발표", summary: "차세대 모델 공개", source: "AI타임스", url: "https://example.com/n1" },
+    ],
+    social: [
+      { id: "s1", author: "@dev_kr", text: "로컬 에이전트 벤치 결과 공유", source: "X", url: "https://example.com/s1" },
+    ],
+    benchmarks: [
+      { id: "b1", model: "Gemini-4-Argon", org: "Google", elo: 1420, summary: "코딩 1위", url: "https://example.com/b1" },
+    ],
+  });
+
+  assert.equal(sim.perimeterBillboards.length, 24);
+  for (const bb of sim.perimeterBillboards) {
+    const onPerimeter = bb.tileY === 1 || bb.tileX === 1 || bb.tileX === 42;
+    assert.equal(onPerimeter, true, `Billboard ${bb.id} not on perimeter: (${bb.tileX}, ${bb.tileY})`);
+    assert.equal(typeof bb.title, "string");
+  }
+
+  sim.loadScenario("sandbox_canvas");
+  assert.equal(sim.scenarioId, "sandbox_canvas");
+  const freeOn = sim.toggleFreeBuildMode(true);
+  assert.equal(freeOn, true);
+  const cashStart = sim.cash;
+
+  const paintRes = sim.paintSurface(15, 15, "sand");
+  assert.equal(paintRes.ok, true);
+  assert.equal(sim.getTile(15, 15).surface, "sand");
+  assert.equal(sim.cash, cashStart);
+
+  const flatRes = sim.placeRideOrShop(18, 18, "haunted_house");
+  assert.equal(flatRes.ok, true, flatRes.reason);
+  assert.equal(sim.cash, cashStart);
+
+  const custRes = sim.customizeRide(flatRes.ride.id, {
+    name: "사이버 유령성",
+    colorPrimary: "#06b6d4",
+    colorTrack: "#ec4899",
+  });
+  assert.equal(custRes.ok, true);
+  assert.equal(flatRes.ride.name, "사이버 유령성");
+  assert.equal(flatRes.ride.colorPrimary, "#06b6d4");
+
+  sim.launchFireworksAt(20, 20);
+  assert.equal(sim.fireworks.length > 0, true);
+
+  const saved = sim.serialize();
+  const simReloaded = new RctParkSimulation();
+  assert.equal(simReloaded.deserialize(saved), true);
+  const reloadedRide = simReloaded.rides.find((r) => r.id === flatRes.ride.id);
+  assert.ok(reloadedRide);
+  assert.equal(reloadedRide.name, "사이버 유령성");
+  assert.equal(reloadedRide.colorPrimary, "#06b6d4");
+  assert.equal(simReloaded.getTile(15, 15).surface, "sand");
 });

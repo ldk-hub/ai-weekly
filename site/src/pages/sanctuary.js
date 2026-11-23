@@ -25,6 +25,9 @@ class RctSanctuaryApp {
     this._panning = false;
     this._panStart = { x: 0, y: 0, camX: 0, camY: 0 };
     this._pointerDown = null;
+    this._painting = false;
+    this._lastPaintKey = null;
+    this._lastMinimapDraw = 0;
     this._lastTime = performance.now();
     this._lastAutosave = performance.now();
   }
@@ -66,8 +69,9 @@ class RctSanctuaryApp {
       onLoadLocal: () => this.loadFromLocal(),
       onSwitchScenario: (id) => {
         this.sim.loadScenario(id);
-        this.renderer.centerOnTile(14, 16);
+        this.renderer.centerOnTile(22, 24);
         this.windows.closeUnpinned();
+        this._syncModeButtons?.();
         this.audio.playClick();
       },
     });
@@ -157,7 +161,8 @@ class RctSanctuaryApp {
         return;
       }
       this.sim.deserialize(raw);
-      this.renderer.centerOnTile(14, 16);
+      this.renderer.centerOnTile(22, 24);
+      this._syncModeButtons?.();
       this.audio.playCash();
     } catch {}
   }
@@ -172,15 +177,16 @@ class RctSanctuaryApp {
     bulldozeBtn?.classList.toggle("is-active", tool.type === "bulldoze");
 
     const labelMap = {
-      inspect: "👆 클릭: 기구·손님·직원 정보 확인 | 우클릭 드래그: 화면 이동 | 휠: 확대/축소",
-      bulldoze: "💣 철거 모드: 제거할 보도·나무·기구를 클릭하세요",
-      land_up: "⛰ 지형 올리기: 높일 타일을 클릭하세요 (+3m · $20)",
-      land_down: "🕳 지형 내리기: 낮출 타일을 클릭하세요 (-3m · $20)",
-      water_up: "💧 물 채우기: 연못을 만들 타일을 클릭하세요 ($25)",
-      water_down: "🏜 물 배수: 물을 뺄 타일을 클릭하세요 ($25)",
-      path: `🛤 보도 설치 (${tool.subId}): 보도를 깔 타일을 클릭하세요`,
+      inspect: "👆 클릭: 기구·손님·직원·외곽 광고판 확인 | 우클릭 드래그: 이동 | 휠: 줌",
+      bulldoze: "💣 철거 모드: 클릭 또는 드래그해 보도·나무·기구를 철거하세요",
+      land_up: `⛰ 지형 올리기 (${tool.brushSize || 1}×${tool.brushSize || 1}): 클릭/드래그하세요 (+3m · $20)`,
+      land_down: `🕳 지형 내리기 (${tool.brushSize || 1}×${tool.brushSize || 1}): 클릭/드래그하세요 (-3m · $20)`,
+      water_up: `💧 물 채우기 (${tool.brushSize || 1}×${tool.brushSize || 1}): 클릭/드래그하세요 ($25)`,
+      water_down: `🏜 물 배수 (${tool.brushSize || 1}×${tool.brushSize || 1}): 클릭/드래그하세요 ($25)`,
+      surface: `🎨 지면 칠하기 (${tool.subId} · ${tool.brushSize || 1}×${tool.brushSize || 1}): 마우스 드래그로 칠하세요`,
+      path: `🛤 보도 설치 (${tool.subId}): 클릭·드래그로 보도를 이어 그리세요`,
       path_add: `🪑 보도 소품 (${tool.subId}): 보도 위를 클릭하세요`,
-      scenery: `🌲 풍경 배치 (${tool.subId}): 빈 땅을 클릭하세요`,
+      scenery: `🌲 풍경 배치 (${tool.subId}): 클릭·드래그로 빈 땅에 배치하세요`,
       place_ride: `🎡 시설 배치 (${RIDE_CATALOG[tool.subId]?.name || tool.subId}): 부지를 클릭하세요`,
       blueprint: `📐 설계도 배치 (${COASTER_BLUEPRINTS[tool.subId]?.name || tool.subId}): 시작 타일을 클릭하세요`,
       custom_coaster: `🎢 커스텀 코스터 시작: 승강장을 놓을 빈 타일을 클릭하세요`,
@@ -253,6 +259,83 @@ class RctSanctuaryApp {
       this.setActiveTool({ type: "inspect" });
     });
 
+    const freeBtn = document.getElementById("rct-btn-freebuild");
+    const nightBtn = document.getElementById("rct-btn-night");
+    const minimapBtn = document.getElementById("rct-btn-minimap");
+    const minimapPod = document.getElementById("rct-minimap-pod");
+    const minimapCanvas = document.getElementById("rct-minimap-canvas");
+
+    this._syncModeButtons = () => {
+      freeBtn?.classList.toggle("is-active", Boolean(this.sim.freeBuildMode));
+      nightBtn?.classList.toggle("is-active", Boolean(this.sim.nightMode));
+      if (minimapPod) {
+        minimapBtn?.classList.toggle("is-active", !minimapPod.classList.contains("is-hidden"));
+      }
+    };
+    this._syncModeButtons();
+
+    freeBtn?.addEventListener("click", () => {
+      const on = this.sim.toggleFreeBuildMode();
+      this._syncModeButtons();
+      this.audio.playCash();
+      if (this.windows.windows.has("build")) this.windows._renderWindowContent("build");
+      if (this.windows.windows.has("scenery")) this.windows._renderWindowContent("scenery");
+      if (on && this.sim.rides.length === 0) this.renderer.centerOnTile(22, 24);
+    });
+
+    nightBtn?.addEventListener("click", () => {
+      this.sim.nightMode = !this.sim.nightMode;
+      if (this.sim.nightMode) {
+        this.sim.launchFireworksAt(22, 18);
+        this.sim.pushNews("🌙 야간 조명 및 불꽃놀이 모드가 활성화되었습니다!", "good");
+      } else {
+        this.sim.pushNews("☀️ 주간 모드로 전환했습니다.", "info");
+      }
+      this._syncModeButtons();
+      this.audio.playClick();
+    });
+
+    const toggleMinimap = () => {
+      minimapPod?.classList.toggle("is-hidden");
+      this._syncModeButtons();
+      this.audio.playClick();
+    };
+    minimapBtn?.addEventListener("click", toggleMinimap);
+    document.getElementById("rct-minimap-close")?.addEventListener("click", toggleMinimap);
+
+    if (minimapCanvas) {
+      let miniDragging = false;
+      const jumpFromMini = (ev) => {
+        const rect = minimapCanvas.getBoundingClientRect();
+        const pos = this.renderer.minimapPointToTile(minimapCanvas, ev.clientX - rect.left, ev.clientY - rect.top);
+        this.renderer.centerOnTile(pos.tileX, pos.tileY);
+      };
+      minimapCanvas.addEventListener("pointerdown", (ev) => {
+        if (ev.button !== 0) return;
+        miniDragging = true;
+        jumpFromMini(ev);
+        this.audio.playClick();
+      });
+      window.addEventListener("pointermove", (ev) => {
+        if (miniDragging) jumpFromMini(ev);
+      });
+      window.addEventListener("pointerup", () => {
+        miniDragging = false;
+      });
+    }
+
+    document.getElementById("rct-jump-billboards")?.addEventListener("click", () => {
+      const firstBb = this.sim.perimeterBillboards?.[0];
+      if (firstBb) {
+        this.renderer.centerOnTile(firstBb.tileX, firstBb.tileY);
+        this.windows.openWindow("billboard-post", { billboardId: firstBb.id });
+      }
+    });
+    document.getElementById("rct-jump-plaza")?.addEventListener("click", () => {
+      this.renderer.centerOnTile(22, 24);
+      this.audio.playClick();
+    });
+
     document.querySelectorAll("#rct-top-toolbar [data-win]").forEach((btn) => {
       btn.addEventListener("click", () => {
         this.windows.openWindow(btn.dataset.win);
@@ -278,7 +361,17 @@ class RctSanctuaryApp {
         return;
       }
       if (ev.button === 0) {
-        this._pointerDown = { x: cssX, y: cssY, rawX: ev.clientX, rawY: ev.clientY };
+        const dragTools = new Set(["bulldoze", "path", "surface", "scenery", "land_up", "land_down", "water_up", "water_down"]);
+        const toolType = this.renderer.activeTool.type;
+        if (dragTools.has(toolType)) {
+          this._painting = true;
+          this._lastPaintKey = null;
+          const { tileX, tileY } = this.renderer.pickTileAtScreen(cssX, cssY);
+          this._lastPaintKey = `${tileX},${tileY}`;
+          this._applyActiveToolAtTile(tileX, tileY);
+        } else {
+          this._pointerDown = { x: cssX, y: cssY, rawX: ev.clientX, rawY: ev.clientY };
+        }
       }
     });
 
@@ -296,13 +389,26 @@ class RctSanctuaryApp {
       }
 
       if (cssX >= 0 && cssY >= 0 && cssX <= rect.width && cssY <= rect.height) {
-        this.renderer.hoverTile = this.renderer.pickTileAtScreen(cssX, cssY);
+        const picked = this.renderer.pickTileAtScreen(cssX, cssY);
+        this.renderer.hoverTile = picked;
+        if (this._painting) {
+          const pKey = `${picked.tileX},${picked.tileY}`;
+          if (pKey !== this._lastPaintKey) {
+            this._lastPaintKey = pKey;
+            this._applyActiveToolAtTile(picked.tileX, picked.tileY);
+          }
+        }
       }
     });
 
     window.addEventListener("pointerup", (ev) => {
       if (this._panning && (ev.button === 2 || ev.button === 1)) {
         this._panning = false;
+        return;
+      }
+      if (ev.button === 0 && this._painting) {
+        this._painting = false;
+        this._lastPaintKey = null;
         return;
       }
       if (ev.button === 0 && this._pointerDown) {
@@ -345,6 +451,69 @@ class RctSanctuaryApp {
     window.addEventListener("blur", () => this.keys.clear());
   }
 
+  _applyActiveToolAtTile(tileX, tileY) {
+    const tool = this.renderer.activeTool;
+    const brush = tool.brushSize === 3 ? [-1, 0, 1] : [0];
+    let lastRes = null;
+
+    if (tool.type === "surface") {
+      for (const dy of brush) {
+        for (const dx of brush) {
+          lastRes = this.sim.paintSurface(tileX + dx, tileY + dy, tool.subId || "grass");
+        }
+      }
+      if (lastRes?.ok) this.audio.playClick();
+    } else if (["land_up", "land_down", "water_up", "water_down"].includes(tool.type)) {
+      for (const dy of brush) {
+        for (const dx of brush) {
+          const tx = tileX + dx;
+          const ty = tileY + dy;
+          if (tool.type === "land_up") lastRes = this.sim.raiseLowerLand(tx, ty, 1);
+          else if (tool.type === "land_down") lastRes = this.sim.raiseLowerLand(tx, ty, -1);
+          else if (tool.type === "water_up") {
+            const cur = this.sim.getTile(tx, ty);
+            lastRes = this.sim.setWaterLevel(tx, ty, Math.max((cur?.height || 2) + 1, cur?.waterHeight || 2));
+          } else {
+            lastRes = this.sim.setWaterLevel(tx, ty, 0);
+          }
+        }
+      }
+    } else if (tool.type === "bulldoze") {
+      lastRes = this.sim.bulldozeTile(tileX, tileY);
+    } else if (tool.type === "path") {
+      lastRes = this.sim.placeFootpath(tileX, tileY, tool.subId, tool.subId === "queue");
+    } else if (tool.type === "path_add") {
+      lastRes = this.sim.placePathAddition(tileX, tileY, tool.subId);
+    } else if (tool.type === "scenery") {
+      lastRes = this.sim.placeScenery(tileX, tileY, tool.subId);
+    } else if (tool.type === "place_ride") {
+      lastRes = this.sim.placeRideOrShop(tileX, tileY, tool.subId);
+      if (lastRes?.ok) {
+        this.setActiveTool({ type: "inspect" });
+        this.windows.openWindow("ride-detail", { rideId: lastRes.ride.id });
+      }
+    } else if (tool.type === "blueprint") {
+      const bp = COASTER_BLUEPRINTS[tool.subId];
+      lastRes = this.sim.placeRideOrShop(tileX, tileY, bp?.rideCatalogId || "wooden_coaster", {
+        blueprintId: tool.subId,
+      });
+      if (lastRes?.ok) {
+        this.setActiveTool({ type: "inspect" });
+        this.windows.openWindow("ride-detail", { rideId: lastRes.ride.id });
+      }
+    } else if (tool.type === "custom_coaster") {
+      lastRes = this.sim.startCustomCoaster(tileX, tileY, tool.subId, tool.facing || 0);
+      if (lastRes?.ok) {
+        this.setActiveTool({ type: "inspect" });
+        this.windows.openWindow("coaster-builder", { rideId: lastRes.ride.id });
+      }
+    }
+
+    if (lastRes && !lastRes.ok && lastRes.reason && !this._painting) {
+      this.sim.pushNews(lastRes.reason, "warn");
+    }
+  }
+
   _handleCanvasClick(cssX, cssY) {
     const tool = this.renderer.activeTool;
 
@@ -362,55 +531,19 @@ class RctSanctuaryApp {
 
     if (tool.type !== "inspect") {
       const { tileX, tileY } = this.renderer.pickTileAtScreen(cssX, cssY);
-      let res = null;
-      if (tool.type === "bulldoze") res = this.sim.bulldozeTile(tileX, tileY);
-      else if (tool.type === "land_up") res = this.sim.raiseLowerLand(tileX, tileY, 1);
-      else if (tool.type === "land_down") res = this.sim.raiseLowerLand(tileX, tileY, -1);
-      else if (tool.type === "water_up") {
-        const cur = this.sim.getTile(tileX, tileY);
-        res = this.sim.setWaterLevel(tileX, tileY, Math.max((cur?.height || 2) + 1, cur?.waterHeight || 2));
-      } else if (tool.type === "water_down") {
-        res = this.sim.setWaterLevel(tileX, tileY, 0);
-      } else if (tool.type === "path") {
-        res = this.sim.placeFootpath(tileX, tileY, tool.subId, tool.subId === "queue");
-      } else if (tool.type === "path_add") {
-        res = this.sim.placePathAddition(tileX, tileY, tool.subId);
-      } else if (tool.type === "scenery") {
-        res = this.sim.placeScenery(tileX, tileY, tool.subId);
-      } else if (tool.type === "place_ride") {
-        res = this.sim.placeRideOrShop(tileX, tileY, tool.subId);
-        if (res?.ok) {
-          this.setActiveTool({ type: "inspect" });
-          this.windows.openWindow("ride-detail", { rideId: res.ride.id });
-        }
-      } else if (tool.type === "blueprint") {
-        const bp = COASTER_BLUEPRINTS[tool.subId];
-        res = this.sim.placeRideOrShop(tileX, tileY, bp?.rideCatalogId || "wooden_coaster", {
-          blueprintId: tool.subId,
-        });
-        if (res?.ok) {
-          this.setActiveTool({ type: "inspect" });
-          this.windows.openWindow("ride-detail", { rideId: res.ride.id });
-        }
-      } else if (tool.type === "custom_coaster") {
-        res = this.sim.startCustomCoaster(tileX, tileY, tool.subId, tool.facing || 0);
-        if (res?.ok) {
-          this.setActiveTool({ type: "inspect" });
-          this.windows.openWindow("coaster-builder", { rideId: res.ride.id });
-        }
-      }
-
-      if (res && !res.ok && res.reason) {
-        this.sim.pushNews(res.reason, "warn");
-      }
+      this._applyActiveToolAtTile(tileX, tileY);
       return;
     }
 
-    // Inspect mode: pop balloon, inspect guest, staff, or ride
+    // Inspect mode: pop balloon, read billboard, fire mortar, inspect guest/staff/ride
     const hit = this.renderer.pickEntityAtScreen(cssX, cssY);
     if (!hit) return;
     if (hit.kind === "balloon") {
       this.sim.popBalloonAt(hit.id);
+      return;
+    }
+    if (hit.kind === "billboard") {
+      this.windows.openWindow("billboard-post", { billboardId: hit.id });
       return;
     }
     if (hit.kind === "peep") {
@@ -423,6 +556,13 @@ class RctSanctuaryApp {
     }
     if (hit.kind === "ride") {
       this.windows.openWindow("ride-detail", { rideId: hit.id });
+      return;
+    }
+    if (hit.kind === "tile") {
+      const t = this.sim.getTile(hit.tileX, hit.tileY);
+      if (t?.scenery?.id === "firework_launcher") {
+        this.sim.launchFireworksAt(hit.tileX, hit.tileY);
+      }
     }
   }
 
@@ -441,6 +581,14 @@ class RctSanctuaryApp {
     const nowSec = nowMs / 1000;
     this.renderer.render(nowSec);
     this.windows.refreshLiveState(nowSec);
+
+    if (nowMs - this._lastMinimapDraw > 120) {
+      this._lastMinimapDraw = nowMs;
+      const mmCanvas = document.getElementById("rct-minimap-canvas");
+      if (mmCanvas && !mmCanvas.closest(".rct-minimap-pod")?.classList.contains("is-hidden")) {
+        this.renderer.renderMinimap(mmCanvas);
+      }
+    }
 
     if (nowMs - this._lastAutosave > 25000) {
       this._lastAutosave = nowMs;

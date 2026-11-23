@@ -18,7 +18,7 @@ export class RctIsoRenderer {
     this.atlas = new RctSpriteAtlas();
 
     this.rotation = 0; // 0..3 (90 deg steps)
-    this.zoom = 1.25;
+    this.zoom = 1.05;
     this.camX = 0;
     this.camY = 210;
 
@@ -28,7 +28,7 @@ export class RctIsoRenderer {
     this.showHeightMarks = false;
 
     this.hoverTile = null;
-    this.activeTool = { type: "inspect", subId: null, facing: 0 };
+    this.activeTool = { type: "inspect", subId: null, facing: 0, brushSize: 1 };
     this.pincerCarry = null;
     this.customCoasterId = null;
 
@@ -39,7 +39,7 @@ export class RctIsoRenderer {
       speed: 0.75 + Math.random() * 0.55,
     }));
 
-    this.centerOnTile(14, 15);
+    this.centerOnTile(22, 24);
   }
 
   centerOnTile(tileX, tileY) {
@@ -157,6 +157,83 @@ export class RctIsoRenderer {
     });
   }
 
+  minimapPointToTile(minimapCanvas, offsetX, offsetY) {
+    const N = this.sim.mapSize;
+    const rect = minimapCanvas.getBoundingClientRect();
+    const rx = Math.max(0, Math.min(N - 1, Math.floor((offsetX / Math.max(1, rect.width)) * N)));
+    const ry = Math.max(0, Math.min(N - 1, Math.floor((offsetY / Math.max(1, rect.height)) * N)));
+    const m = N - 1;
+    const tileX = this.rotation === 0 ? rx : this.rotation === 1 ? ry : this.rotation === 2 ? m - rx : m - ry;
+    const tileY = this.rotation === 0 ? ry : this.rotation === 1 ? m - rx : this.rotation === 2 ? m - ry : rx;
+    return { tileX, tileY };
+  }
+
+  renderMinimap(minimapCanvas) {
+    if (!minimapCanvas) return;
+    const ctx = minimapCanvas.getContext("2d");
+    const N = this.sim.mapSize;
+    const cw = minimapCanvas.width;
+    const ch = minimapCanvas.height;
+    const cellW = cw / N;
+    const cellH = ch / N;
+
+    ctx.fillStyle = "#090d13";
+    ctx.fillRect(0, 0, cw, ch);
+
+    const m = N - 1;
+    for (let rx = 0; rx < N; rx++) {
+      for (let ry = 0; ry < N; ry++) {
+        const gx = this.rotation === 0 ? rx : this.rotation === 1 ? ry : this.rotation === 2 ? m - rx : m - ry;
+        const gy = this.rotation === 0 ? ry : this.rotation === 1 ? m - rx : this.rotation === 2 ? m - ry : rx;
+        const t = this.sim.getTile(gx, gy);
+        if (!t) continue;
+        let col = "#2e6b2b";
+        if (!t.owned) col = "#192d19";
+        else if (t.waterHeight > t.height) col = "#0284c7";
+        else if (t.surface === "sand") col = "#d9b97e";
+        else if (t.surface === "dirt") col = "#7c5338";
+        else if (t.surface === "rock") col = "#64748b";
+        if (t.path) col = "#cbd5e1";
+        else if (t.rideId) col = "#f43f5e";
+        else if (t.scenery) col = "#14532d";
+        if (gx === this.sim.entrance.x && gy === this.sim.entrance.y) col = "#fde047";
+
+        ctx.fillStyle = col;
+        ctx.fillRect(Math.floor(rx * cellW), Math.floor(ry * cellH), Math.ceil(cellW), Math.ceil(cellH));
+      }
+    }
+
+    // Perimeter AI Weekly billboards highlight dots
+    for (const bb of this.sim.perimeterBillboards || []) {
+      const rx =
+        this.rotation === 0 ? bb.tileX : this.rotation === 1 ? m - bb.tileY : this.rotation === 2 ? m - bb.tileX : bb.tileY;
+      const ry =
+        this.rotation === 0 ? bb.tileY : this.rotation === 1 ? bb.tileX : this.rotation === 2 ? m - bb.tileY : m - bb.tileX;
+      ctx.fillStyle = bb.accent || "#38bdf8";
+      ctx.fillRect(rx * cellW - 1, ry * cellH - 1, Math.max(3, cellW + 1), Math.max(3, cellH + 1));
+    }
+
+    // Current camera viewport indicator box
+    const rect = this.canvas.getBoundingClientRect();
+    if (rect.width > 0 && rect.height > 0) {
+      const center = this.pickTileAtScreen(rect.width * 0.5, rect.height * 0.5);
+      const crx =
+        this.rotation === 0 ? center.tileX : this.rotation === 1 ? m - center.tileY : this.rotation === 2 ? m - center.tileX : center.tileY;
+      const cry =
+        this.rotation === 0 ? center.tileY : this.rotation === 1 ? center.tileX : this.rotation === 2 ? m - center.tileY : m - center.tileX;
+      const spanX = Math.max(4, Math.min(N, (rect.width / (ISO_METRICS.TILE_W * this.zoom)) * 1.4));
+      const spanY = Math.max(4, Math.min(N, (rect.height / (ISO_METRICS.TILE_H * this.zoom)) * 1.4));
+      ctx.strokeStyle = "#fde047";
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(
+        (crx - spanX * 0.5) * cellW,
+        (cry - spanY * 0.5) * cellH,
+        spanX * cellW,
+        spanY * cellH
+      );
+    }
+  }
+
   _rotateMask(mask) {
     let out = 0;
     for (let i = 0; i < 4; i++) {
@@ -234,6 +311,12 @@ export class RctIsoRenderer {
       const hz = t ? Math.max(t.height, t.waterHeight || 0) : 2;
       const iso = worldToIso(s.x, s.y, hz, this.rotation, N);
       pushBucket(iso.rX + iso.rY + 0.08, { type: "staff", staff: s, iso });
+    }
+    for (const bb of this.sim.perimeterBillboards || []) {
+      const t = this.sim.getTile(bb.tileX, bb.tileY);
+      const hz = t ? Math.max(t.height, t.waterHeight || 0) : 2;
+      const iso = worldToIso(bb.tileX, bb.tileY, hz, this.rotation, N);
+      pushBucket(iso.rX + iso.rY + 0.3, { type: "perimeter_billboard", bb, iso });
     }
 
     const frontLeftOffset =
@@ -447,6 +530,8 @@ export class RctIsoRenderer {
             this._drawPeep(ctx, item.peep, item.iso, toScreenX, toScreenY, zoom, nowSec, collectHitboxes);
           } else if (item.type === "staff") {
             this._drawStaff(ctx, item.staff, item.iso, toScreenX, toScreenY, zoom, collectHitboxes);
+          } else if (item.type === "perimeter_billboard") {
+            this._drawPerimeterBillboard(ctx, item.bb, item.iso, toScreenX, toScreenY, zoom, nowSec, collectHitboxes);
           }
         }
       }
@@ -464,6 +549,61 @@ export class RctIsoRenderer {
       ctx.fillStyle = ft.color;
       ctx.fillText(ft.text, fx, fy);
       ctx.globalAlpha = 1;
+    }
+
+    // Firework Particles
+    if ((this.sim.fireworks || []).length > 0) {
+      for (const fw of this.sim.fireworks) {
+        const fwIso = worldToIso(fw.x, fw.y, fw.z, this.rotation, N);
+        const fx = toScreenX(fwIso.screenX);
+        const fy = toScreenY(fwIso.screenY);
+        const alpha = Math.max(0, Math.min(1, fw.life / (fw.maxLife || 1.5)));
+        ctx.save();
+        ctx.globalAlpha = alpha;
+        ctx.fillStyle = fw.color;
+        ctx.beginPath();
+        ctx.arc(fx, fy, Math.max(1.8, 3.2 * zoom), 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = "rgba(255,255,255,0.65)";
+        ctx.fillRect(fx - 1, fy - 1, 2, 2);
+        ctx.restore();
+      }
+    }
+
+    // Night Mode Atmospheric Twilight + Warm Lamp & Billboard Glows
+    if (drawOverlays && this.sim.nightMode) {
+      ctx.fillStyle = "rgba(6, 12, 32, 0.34)";
+      ctx.fillRect(0, 0, viewW, viewH);
+
+      ctx.save();
+      ctx.globalCompositeOperation = "lighter";
+      const glowCircle = (wx, wy, wz, radiusPx, rgbaCol) => {
+        const gIso = worldToIso(wx, wy, wz, this.rotation, N);
+        const gx = toScreenX(gIso.screenX);
+        const gy = toScreenY(gIso.screenY);
+        if (gx < -radiusPx || gx > viewW + radiusPx || gy < -radiusPx || gy > viewH + radiusPx) return;
+        ctx.fillStyle = rgbaCol;
+        ctx.beginPath();
+        ctx.arc(gx, gy, radiusPx, 0, Math.PI * 2);
+        ctx.fill();
+      };
+      for (const bb of this.sim.perimeterBillboards || []) {
+        const bt = this.sim.getTile(bb.tileX, bb.tileY);
+        glowCircle(bb.tileX, bb.tileY, (bt?.height || 2) + 2, 38 * zoom, "rgba(56, 189, 248, 0.14)");
+      }
+      glowCircle(this.sim.entrance.x, this.sim.entrance.y, 3, 52 * zoom, "rgba(250, 204, 21, 0.18)");
+      for (let y = 0; y < N; y++) {
+        for (let x = 0; x < N; x++) {
+          const tile = this.sim.getTile(x, y);
+          if (!tile) continue;
+          if (tile.pathAddition === "lamp") {
+            glowCircle(x, y, Math.max(tile.height, tile.waterHeight || 0) + 1.5, 28 * zoom, "rgba(254, 240, 138, 0.2)");
+          } else if (tile.scenery?.id === "neon_arch" || tile.scenery?.id === "statue_mascot") {
+            glowCircle(x, y, tile.height + 1.5, 26 * zoom, "rgba(236, 72, 153, 0.18)");
+          }
+        }
+      }
+      ctx.restore();
     }
 
     if (drawOverlays && this.sim.weather === "rain") {
@@ -486,7 +626,87 @@ export class RctIsoRenderer {
     }
   }
 
-  _drawDualRailSegment(ctx, x1, y1, x2, y2, zoom, def, piece, nowSec) {
+  _drawPerimeterBillboard(ctx, bb, iso, toScreenX, toScreenY, zoom, nowSec, collectHitboxes) {
+    const bx = toScreenX(iso.screenX);
+    const by = toScreenY(iso.screenY) + 4 * zoom;
+    const bw = 96 * zoom;
+    const bh = 46 * zoom;
+    const lx = bx - bw * 0.5;
+    const ty = by - bh - 22 * zoom;
+    const accent = bb.accent || "#38bdf8";
+
+    // Steel truss support legs
+    ctx.fillStyle = "#334155";
+    ctx.fillRect(bx - bw * 0.34, by - 24 * zoom, 5 * zoom, 24 * zoom);
+    ctx.fillRect(bx + bw * 0.34 - 5 * zoom, by - 24 * zoom, 5 * zoom, 24 * zoom);
+    ctx.fillStyle = "#64748b";
+    ctx.fillRect(bx - bw * 0.42, by - 3 * zoom, bw * 0.84, 3 * zoom);
+
+    // Shadow & Cabinet
+    ctx.fillStyle = "rgba(0,0,0,0.42)";
+    ctx.fillRect(lx - 2 * zoom, ty - 2 * zoom, bw + 6 * zoom, bh + 6 * zoom);
+    ctx.fillStyle = "#09111e";
+    ctx.fillRect(lx, ty, bw, bh);
+    ctx.strokeStyle = accent;
+    ctx.lineWidth = Math.max(1.5, 2.2 * zoom);
+    ctx.strokeRect(lx, ty, bw, bh);
+
+    // Top Animated Marquee Bulbs
+    const blink = Math.floor(nowSec * 3) % 2 === 0;
+    for (let k = 0; k < 6; k++) {
+      ctx.fillStyle = (k + (blink ? 0 : 1)) % 2 === 0 ? "#fde047" : accent;
+      ctx.fillRect(lx + (6 + k * 15) * zoom, ty - 4 * zoom, 3 * zoom, 3 * zoom);
+    }
+
+    // Header Badge Strip
+    ctx.fillStyle = accent;
+    ctx.fillRect(lx + 4 * zoom, ty + 4 * zoom, 34 * zoom, 10 * zoom);
+    ctx.fillStyle = "#090d13";
+    ctx.font = `bold ${Math.max(7, Math.round(7.5 * zoom))}px monospace`;
+    ctx.textAlign = "center";
+    ctx.fillText(String(bb.badge || "POST").slice(0, 7), lx + 21 * zoom, ty + 11.5 * zoom);
+
+    ctx.fillStyle = "#fde047";
+    ctx.font = `bold ${Math.max(6, Math.round(7 * zoom))}px monospace`;
+    ctx.textAlign = "right";
+    ctx.fillText(String(bb.metric || "").slice(0, 12), lx + bw - 5 * zoom, ty + 11.5 * zoom);
+
+    // Post Title (2 compact wrapped lines)
+    if (zoom >= 0.45) {
+      const rawTitle = String(bb.title || "AI Weekly Post").replace(/\s+/g, " ").trim();
+      const line1 = rawTitle.slice(0, 13);
+      const line2 = rawTitle.length > 13 ? rawTitle.slice(13, 25) + (rawTitle.length > 25 ? "…" : "") : "";
+      ctx.fillStyle = "#f8fafc";
+      ctx.font = `bold ${Math.max(7, Math.round(8.5 * zoom))}px sans-serif`;
+      ctx.textAlign = "left";
+      ctx.fillText(line1, lx + 5 * zoom, ty + 24 * zoom);
+      if (line2) {
+        ctx.fillStyle = "#cbd5e1";
+        ctx.fillText(line2, lx + 5 * zoom, ty + 35 * zoom);
+      }
+    }
+
+    // Bottom edge bar
+    ctx.fillStyle = "#1e293b";
+    ctx.fillRect(lx + 4 * zoom, ty + bh - 8 * zoom, bw - 8 * zoom, 5 * zoom);
+    ctx.fillStyle = accent;
+    ctx.fillRect(lx + 4 * zoom, ty + bh - 8 * zoom, Math.max(12 * zoom, (bw - 8 * zoom) * 0.45), 5 * zoom);
+
+    if (collectHitboxes) {
+      this._hitBoxes.push({
+        kind: "billboard",
+        id: bb.id,
+        billboard: bb,
+        x: lx,
+        y: ty - 4 * zoom,
+        w: bw,
+        h: bh + 22 * zoom,
+      });
+    }
+  }
+
+  _drawDualRailSegment(ctx, x1, y1, x2, y2, zoom, def, piece, nowSec, trackColOverride = null) {
+    const trkCol = trackColOverride || def.colorTrack;
     const dx = x2 - x1;
     const dy = y2 - y1;
     const len = Math.max(1, Math.hypot(dx, dy));
@@ -504,7 +724,7 @@ export class RctIsoRenderer {
 
     // 2. Perpendicular crossties (침목)
     const tieCount = Math.max(3, Math.floor(len / (6 * zoom)));
-    ctx.strokeStyle = def.id === "wooden_coaster" ? "#78350f" : def.colorTrack;
+    ctx.strokeStyle = def.id === "wooden_coaster" ? "#78350f" : trkCol;
     ctx.lineWidth = Math.max(1.5, 2.2 * zoom);
     for (let i = 0; i <= tieCount; i++) {
       const t = i / tieCount;
@@ -518,7 +738,7 @@ export class RctIsoRenderer {
 
     // 3. Left & Right twin running rails
     const railCol = piece.isBooster ? "#38bdf8" : piece.isBrake ? "#ef4444" : def.colorRail;
-    ctx.strokeStyle = def.colorTrack;
+    ctx.strokeStyle = trkCol;
     ctx.lineWidth = Math.max(1.8, 2.6 * zoom);
     ctx.beginPath();
     ctx.moveTo(x1 - nx, y1 - ny); ctx.lineTo(x2 - nx, y2 - ny);
@@ -553,15 +773,19 @@ export class RctIsoRenderer {
   _drawTrackNode(ctx, ride, node, toScreenX, toScreenY, zoom, nowSec, collectHitboxes) {
     const N = this.sim.mapSize;
     const def = RIDE_CATALOG[ride.catalogId] || RIDE_CATALOG.wooden_coaster;
+    const customPrimary = ride.colorPrimary || def.colorPrimary;
+    const customTrack = ride.colorTrack || def.colorTrack;
+    const isInv = Boolean(def.isInverted);
+    const invOff = isInv ? -10 * zoom : 0;
     const groundTile = this.sim.getTile(node.x, node.y);
     const groundH = groundTile ? groundTile.height : 1;
 
     const p1 = worldToIso(node.x, node.y, node.z, this.rotation, N);
     const p2 = worldToIso(node.nextX, node.nextY, node.nextZ, this.rotation, N);
     const x1 = toScreenX(p1.screenX);
-    const y1 = toScreenY(p1.screenY);
+    const y1 = toScreenY(p1.screenY) + invOff;
     const x2 = toScreenX(p2.screenX);
-    const y2 = toScreenY(p2.screenY);
+    const y2 = toScreenY(p2.screenY) + invOff;
 
     const pG1 = worldToIso(node.x, node.y, groundH, this.rotation, N);
     const pG2 = worldToIso(node.nextX, node.nextY, groundH, this.rotation, N);
@@ -569,7 +793,7 @@ export class RctIsoRenderer {
     const gy2 = toScreenY(pG2.screenY);
 
     // 1. Ground Shadow under elevated track
-    if (node.z > groundH) {
+    if (node.z > groundH || isInv) {
       ctx.strokeStyle = "rgba(0, 0, 0, 0.24)";
       ctx.lineWidth = Math.max(3, 6 * zoom);
       ctx.beginPath();
@@ -579,23 +803,20 @@ export class RctIsoRenderer {
     }
 
     // 2. Full 3D Trestle / Steel Supports with horizontal ledgers & X-bracing
-    if (node.z > groundH || node.piece.isStation) {
+    if (node.z > groundH || node.piece.isStation || isInv) {
       const levels = Math.max(1, node.z - groundH);
       const stepPx = (gy1 - y1) / levels;
       if (ride.catalogId === "wooden_coaster") {
         const hw = 7.5 * zoom;
-        // Footing blocks
         ctx.fillStyle = "#64748b";
         ctx.fillRect(x1 - hw - 2, gy1 - 2, 4, 3);
         ctx.fillRect(x1 + hw - 2, gy1 - 2, 4, 3);
-        // Main twin timber posts
         ctx.strokeStyle = "#6b3c1a";
         ctx.lineWidth = Math.max(1.5, 2.2 * zoom);
         ctx.beginPath();
         ctx.moveTo(x1 - hw, y1 + 3 * zoom); ctx.lineTo(x1 - hw, gy1);
         ctx.moveTo(x1 + hw, y1 + 3 * zoom); ctx.lineTo(x1 + hw, gy1);
         ctx.stroke();
-        // Horizontal ledgers + X-bracing every elevation step
         ctx.strokeStyle = "#8f5324";
         ctx.lineWidth = Math.max(1, 1.3 * zoom);
         for (let lv = 0; lv < levels; lv++) {
@@ -608,30 +829,33 @@ export class RctIsoRenderer {
           ctx.stroke();
         }
       } else {
-        // Tubular steel column + footing + Y-yoke top bracket
+        const colX = isInv ? x1 + 8 * zoom : x1;
         ctx.fillStyle = "#64748b";
-        ctx.fillRect(x1 - 3 * zoom, gy1 - 2, 6 * zoom, 3);
+        ctx.fillRect(colX - 3 * zoom, gy1 - 2, 6 * zoom, 3);
         ctx.strokeStyle = "#334155";
         ctx.lineWidth = Math.max(2.5, 3.6 * zoom);
         ctx.beginPath();
-        ctx.moveTo(x1, y1 + 3 * zoom); ctx.lineTo(x1, gy1);
+        ctx.moveTo(colX, y1 + 3 * zoom); ctx.lineTo(colX, gy1);
+        if (isInv) {
+          ctx.moveTo(colX, y1 + 3 * zoom);
+          ctx.lineTo(x1, y1 + 1.5 * zoom);
+        }
         ctx.stroke();
         ctx.strokeStyle = "#94a3b8";
         ctx.lineWidth = Math.max(1, 1.3 * zoom);
         ctx.beginPath();
-        ctx.moveTo(x1 - 0.8 * zoom, y1 + 3 * zoom); ctx.lineTo(x1 - 0.8 * zoom, gy1);
+        ctx.moveTo(colX - 0.8 * zoom, y1 + 3 * zoom); ctx.lineTo(colX - 0.8 * zoom, gy1);
         ctx.stroke();
       }
     }
 
     // 3. Track Segment Rendering
     if (node.piece.isLoop) {
-      this._drawDualRailSegment(ctx, x1, y1, x2, y2, zoom, def, node.piece, nowSec);
+      this._drawDualRailSegment(ctx, x1, y1, x2, y2, zoom, def, node.piece, nowSec, customTrack);
       const mx = (x1 + x2) * 0.5;
       const my = (y1 + y2) * 0.5;
       const r = 24 * zoom;
 
-      // Diagonal A-frame loop support struts
       ctx.strokeStyle = "#475569";
       ctx.lineWidth = Math.max(2, 2.8 * zoom);
       ctx.beginPath();
@@ -639,8 +863,7 @@ export class RctIsoRenderer {
       ctx.moveTo(mx + r * 0.7, my - r); ctx.lineTo(mx + r * 0.9, my + 2 * zoom);
       ctx.stroke();
 
-      // Radial loop cross-ties
-      ctx.strokeStyle = def.colorTrack;
+      ctx.strokeStyle = customTrack;
       ctx.lineWidth = Math.max(1.2, 1.8 * zoom);
       for (let k = 0; k < 16; k++) {
         const a = (k * Math.PI * 2) / 16;
@@ -650,8 +873,7 @@ export class RctIsoRenderer {
         ctx.stroke();
       }
 
-      // Twin concentric loop rails
-      ctx.strokeStyle = def.colorTrack;
+      ctx.strokeStyle = customTrack;
       ctx.lineWidth = Math.max(2.5, 4 * zoom);
       ctx.beginPath(); ctx.arc(mx, my - r, r, 0, Math.PI * 2); ctx.stroke();
       ctx.strokeStyle = def.colorRail;
@@ -663,41 +885,38 @@ export class RctIsoRenderer {
       const qx = (t) => (1 - t) * (1 - t) * x1 + 2 * (1 - t) * t * mx + t * t * x2;
       const qy = (t) => (1 - t) * (1 - t) * y1 + 2 * (1 - t) * t * my + t * t * y2;
       for (let s = 0; s < 5; s++) {
-        this._drawDualRailSegment(ctx, qx(s / 5), qy(s / 5), qx((s + 1) / 5), qy((s + 1) / 5), zoom, def, node.piece, nowSec);
+        this._drawDualRailSegment(ctx, qx(s / 5), qy(s / 5), qx((s + 1) / 5), qy((s + 1) / 5), zoom, def, node.piece, nowSec, customTrack);
       }
     } else {
-      this._drawDualRailSegment(ctx, x1, y1, x2, y2, zoom, def, node.piece, nowSec);
+      this._drawDualRailSegment(ctx, x1, y1, x2, y2, zoom, def, node.piece, nowSec, customTrack);
     }
 
     // 4. Victorian Boarding Station Platform & Canopy
     if (node.piece.isStation) {
-      // Brick platform deck
+      const stY = y1 - invOff;
       ctx.fillStyle = "#334155";
-      ctx.fillRect(x1 - 15 * zoom, y1 - 3 * zoom, 30 * zoom, 7 * zoom);
+      ctx.fillRect(x1 - 15 * zoom, stY - 3 * zoom, 30 * zoom, 7 * zoom);
       ctx.fillStyle = "#facc15";
-      ctx.fillRect(x1 - 15 * zoom, y1 - 3 * zoom, 30 * zoom, 1.5 * zoom);
-      // Canopy posts
+      ctx.fillRect(x1 - 15 * zoom, stY - 3 * zoom, 30 * zoom, 1.5 * zoom);
       ctx.fillStyle = "#cbd5e1";
-      ctx.fillRect(x1 - 14 * zoom, y1 - 21 * zoom, 2 * zoom, 18 * zoom);
-      ctx.fillRect(x1 + 12 * zoom, y1 - 21 * zoom, 2 * zoom, 18 * zoom);
-      // Striped Victorian pitched roof
-      ctx.fillStyle = ride.broken ? "#ef4444" : def.colorPrimary;
+      ctx.fillRect(x1 - 14 * zoom, stY - 21 * zoom, 2 * zoom, 18 * zoom);
+      ctx.fillRect(x1 + 12 * zoom, stY - 21 * zoom, 2 * zoom, 18 * zoom);
+      ctx.fillStyle = ride.broken ? "#ef4444" : customPrimary;
       ctx.beginPath();
-      ctx.moveTo(x1 - 17 * zoom, y1 - 20 * zoom);
-      ctx.lineTo(x1, y1 - 29 * zoom);
-      ctx.lineTo(x1 + 17 * zoom, y1 - 20 * zoom);
+      ctx.moveTo(x1 - 17 * zoom, stY - 20 * zoom);
+      ctx.lineTo(x1, stY - 29 * zoom);
+      ctx.lineTo(x1 + 17 * zoom, stY - 20 * zoom);
       ctx.closePath();
       ctx.fill();
       ctx.fillStyle = "#fef3c7";
-      ctx.fillRect(x1 - 8 * zoom, y1 - 23 * zoom, 4 * zoom, 3 * zoom);
-      ctx.fillRect(x1 + 4 * zoom, y1 - 23 * zoom, 4 * zoom, 3 * zoom);
+      ctx.fillRect(x1 - 8 * zoom, stY - 23 * zoom, 4 * zoom, 3 * zoom);
+      ctx.fillRect(x1 + 4 * zoom, stY - 23 * zoom, 4 * zoom, 3 * zoom);
 
       if (node.index === 0) {
-        // Green IN / Red OUT mini turnstile booths at station start
         ctx.fillStyle = "#15803d";
-        ctx.fillRect(x1 - 18 * zoom, y1 - 11 * zoom, 7 * zoom, 9 * zoom);
+        ctx.fillRect(x1 - 18 * zoom, stY - 11 * zoom, 7 * zoom, 9 * zoom);
         ctx.fillStyle = "#86efac";
-        ctx.fillRect(x1 - 17 * zoom, y1 - 10 * zoom, 5 * zoom, 2 * zoom);
+        ctx.fillRect(x1 - 17 * zoom, stY - 10 * zoom, 5 * zoom, 2 * zoom);
       }
     }
 
@@ -716,9 +935,11 @@ export class RctIsoRenderer {
   }
 
   _drawCoasterCar(ctx, ride, pose, iso, screenAngle, toScreenX, toScreenY, zoom, isLead, collectHitboxes) {
-    const cx = toScreenX(iso.screenX);
-    const cy = toScreenY(iso.screenY) - 4 * zoom;
     const def = RIDE_CATALOG[ride.catalogId] || RIDE_CATALOG.wooden_coaster;
+    const isInv = Boolean(def.isInverted);
+    const customPrimary = ride.colorPrimary || def.colorPrimary;
+    const cx = toScreenX(iso.screenX);
+    const cy = toScreenY(iso.screenY) + (isInv ? 2 * zoom : -4 * zoom);
     const handsUp = pose.piece.dz < 0 || pose.piece.isLoop || pose.piece.isAirtime;
 
     ctx.save();
@@ -728,20 +949,25 @@ export class RctIsoRenderer {
     const w = 15 * zoom;
     const h = 8.5 * zoom;
 
-    // Undercarriage wheel bogies
-    ctx.fillStyle = "#1e293b";
-    ctx.fillRect(-w * 0.35, h * 0.35, 3 * zoom, 2.5 * zoom);
-    ctx.fillRect(w * 0.15, h * 0.35, 3 * zoom, 2.5 * zoom);
+    if (isInv) {
+      // Overhead ski-lift bogie & hanger arm above inverted car
+      ctx.fillStyle = "#94a3b8";
+      ctx.fillRect(-3 * zoom, -13 * zoom, 6 * zoom, 3 * zoom);
+      ctx.fillStyle = "#475569";
+      ctx.fillRect(-1.5 * zoom, -10 * zoom, 3 * zoom, 7 * zoom);
+    } else {
+      ctx.fillStyle = "#1e293b";
+      ctx.fillRect(-w * 0.35, h * 0.35, 3 * zoom, 2.5 * zoom);
+      ctx.fillRect(w * 0.15, h * 0.35, 3 * zoom, 2.5 * zoom);
+    }
 
-    // 3D Shaded Car Body + Nose Cone
     ctx.fillStyle = "#090d13";
     ctx.fillRect(-w * 0.5 - 1, -h * 0.5 - 1, w + 2, h + 2);
-    ctx.fillStyle = def.colorPrimary;
+    ctx.fillStyle = customPrimary;
     ctx.fillRect(-w * 0.5, -h * 0.5, w, h);
     ctx.fillStyle = isLead ? "#fde047" : "#f8fafc";
     ctx.fillRect(-w * 0.5, -1 * zoom, w, 2 * zoom);
 
-    // Nose accent on lead car
     if (isLead) {
       ctx.fillStyle = "#fde047";
       ctx.beginPath();
@@ -752,7 +978,6 @@ export class RctIsoRenderer {
       ctx.fill();
     }
 
-    // Two riders with waving hands on drops!
     for (const rx of [-3 * zoom, 2 * zoom]) {
       ctx.fillStyle = "#fed7aa";
       ctx.fillRect(rx, -h * 0.5 - 3.5 * zoom, 3 * zoom, 3 * zoom);
@@ -761,11 +986,15 @@ export class RctIsoRenderer {
         ctx.fillRect(rx - 1 * zoom, -h * 0.5 - 6 * zoom, 1.2 * zoom, 3 * zoom);
         ctx.fillRect(rx + 2.8 * zoom, -h * 0.5 - 6 * zoom, 1.2 * zoom, 3 * zoom);
       }
+      if (isInv) {
+        ctx.fillStyle = "#1e293b";
+        ctx.fillRect(rx, h * 0.5, 2.5 * zoom, 3.2 * zoom);
+      }
     }
     ctx.restore();
 
     if (collectHitboxes) {
-      this._hitBoxes.push({ kind: "ride", id: ride.id, x: cx - 10 * zoom, y: cy - 10 * zoom, w: 20 * zoom, h: 20 * zoom });
+      this._hitBoxes.push({ kind: "ride", id: ride.id, x: cx - 10 * zoom, y: cy - 12 * zoom, w: 20 * zoom, h: 24 * zoom });
     }
   }
 
@@ -997,6 +1226,193 @@ export class RctIsoRenderer {
         ctx.fillStyle = ["#ef4444", "#fde047", "#38bdf8", "#22c55e"][k];
         ctx.fillRect(kx - 3.5 * zoom, ky - 2.5 * zoom, 7 * zoom, 5 * zoom);
       }
+    } else if (ride.catalogId === "haunted_house") {
+      // Gothic Mansion + Purple Gabled Roof + Floating Translucent Ghost
+      const accent = ride.colorPrimary || def.colorPrimary;
+      ctx.fillStyle = "#1e1b4b";
+      ctx.fillRect(cx - 20 * zoom, cy - 30 * zoom, 40 * zoom, 30 * zoom);
+      ctx.fillStyle = accent;
+      ctx.beginPath();
+      ctx.moveTo(cx - 23 * zoom, cy - 30 * zoom);
+      ctx.lineTo(cx, cy - 52 * zoom);
+      ctx.lineTo(cx + 23 * zoom, cy - 30 * zoom);
+      ctx.closePath();
+      ctx.fill();
+      // Spire tower
+      ctx.fillStyle = "#312e81";
+      ctx.fillRect(cx + 8 * zoom, cy - 46 * zoom, 10 * zoom, 24 * zoom);
+      ctx.fillStyle = "#581c87";
+      ctx.beginPath();
+      ctx.moveTo(cx + 6 * zoom, cy - 46 * zoom);
+      ctx.lineTo(cx + 13 * zoom, cy - 62 * zoom);
+      ctx.lineTo(cx + 20 * zoom, cy - 46 * zoom);
+      ctx.closePath();
+      ctx.fill();
+      // Glowing eerie amber windows & arched door
+      ctx.fillStyle = "#f59e0b";
+      ctx.fillRect(cx - 14 * zoom, cy - 22 * zoom, 6 * zoom, 8 * zoom);
+      ctx.fillRect(cx + 6 * zoom, cy - 22 * zoom, 6 * zoom, 8 * zoom);
+      ctx.fillStyle = "#090d13";
+      ctx.fillRect(cx - 4 * zoom, cy - 14 * zoom, 8 * zoom, 14 * zoom);
+      // Bobbing ghost above gables
+      const gx = cx - 12 * zoom + Math.sin(phase * 1.4) * 14 * zoom;
+      const gy = cy - 48 * zoom + Math.cos(phase * 2.2) * 5 * zoom;
+      ctx.fillStyle = "rgba(224, 242, 254, 0.85)";
+      ctx.beginPath(); ctx.arc(gx, gy, 5.5 * zoom, Math.PI, 0); ctx.lineTo(gx + 5.5 * zoom, gy + 7 * zoom); ctx.lineTo(gx - 5.5 * zoom, gy + 7 * zoom); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = "#0f172a";
+      ctx.fillRect(gx - 2.5 * zoom, gy - 1 * zoom, 1.5 * zoom, 2 * zoom);
+      ctx.fillRect(gx + 1 * zoom, gy - 1 * zoom, 1.5 * zoom, 2 * zoom);
+    } else if (ride.catalogId === "spiral_slide") {
+      // Rainbow Lighthouse Corkscrew Slide Tower
+      const towerColors = ["#ef4444", "#f8fafc", "#38bdf8", "#facc15"];
+      for (let tier = 0; tier < 4; tier++) {
+        ctx.fillStyle = tier === 0 ? (ride.colorPrimary || def.colorPrimary) : towerColors[tier];
+        ctx.fillRect(cx - 10 * zoom, cy - (tier + 1) * 14 * zoom, 20 * zoom, 14 * zoom);
+      }
+      ctx.fillStyle = "#facc15";
+      ctx.beginPath();
+      ctx.moveTo(cx - 13 * zoom, cy - 56 * zoom);
+      ctx.lineTo(cx, cy - 70 * zoom);
+      ctx.lineTo(cx + 13 * zoom, cy - 56 * zoom);
+      ctx.closePath();
+      ctx.fill();
+      // Helical orange-yellow slide ramp wrapping down tower
+      ctx.strokeStyle = "#fb923c";
+      ctx.lineWidth = Math.max(3, 5 * zoom);
+      ctx.beginPath();
+      ctx.moveTo(cx + 9 * zoom, cy - 54 * zoom);
+      ctx.bezierCurveTo(cx + 28 * zoom, cy - 42 * zoom, cx - 28 * zoom, cy - 28 * zoom, cx + 22 * zoom, cy - 8 * zoom);
+      ctx.stroke();
+      const sProg = (phase * 0.45) % 1;
+      const sxDot = cx + Math.sin(sProg * Math.PI * 3) * 18 * zoom;
+      const syDot = cy - 52 * zoom + sProg * 44 * zoom;
+      ctx.fillStyle = "#22c55e";
+      ctx.beginPath(); ctx.arc(sxDot, syDot, 3 * zoom, 0, Math.PI * 2); ctx.fill();
+    } else if (ride.catalogId === "spinning_teacups") {
+      // Turntable Floor + 4 Colorful Spinning Teacups
+      ctx.fillStyle = "#b45309";
+      ctx.beginPath(); ctx.ellipse(cx, cy, 31 * zoom, 16 * zoom, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = "#fde047";
+      ctx.beginPath(); ctx.ellipse(cx, cy - 2 * zoom, 28 * zoom, 14 * zoom, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = ride.colorPrimary || "#ec4899";
+      ctx.beginPath(); ctx.arc(cx, cy - 6 * zoom, 5 * zoom, 0, Math.PI * 2); ctx.fill();
+      const cupCols = ["#f472b6", "#38bdf8", "#a855f7", "#22c55e"];
+      for (let i = 0; i < 4; i++) {
+        const a = phase * 1.1 + (i * Math.PI) / 2;
+        const tx = cx + Math.cos(a) * 17 * zoom;
+        const ty = cy - 4 * zoom + Math.sin(a) * 8.5 * zoom;
+        ctx.fillStyle = cupCols[i];
+        ctx.beginPath(); ctx.ellipse(tx, ty, 6.5 * zoom, 4 * zoom, 0, 0, Math.PI); ctx.fill();
+        ctx.fillStyle = "#ffffff";
+        ctx.beginPath(); ctx.ellipse(tx, ty - 2 * zoom, 6.5 * zoom, 2.5 * zoom, 0, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = "#fed7aa";
+        ctx.fillRect(tx - 1.5 * zoom, ty - 6 * zoom, 3 * zoom, 3 * zoom);
+      }
+    } else if (ride.catalogId === "enterprise_wheel") {
+      // Hydraulic Arm Lifting Spinning 12-Gondola Wheel into Vertical Tilt
+      const tilt = 0.35 + 0.55 * (0.5 + 0.5 * Math.sin(phase * 0.45));
+      const liftY = cy - (16 + tilt * 32) * zoom;
+      ctx.strokeStyle = "#475569";
+      ctx.lineWidth = 4 * zoom;
+      ctx.beginPath(); ctx.moveTo(cx - 8 * zoom, cy); ctx.lineTo(cx, liftY); ctx.stroke();
+      const rx = 28 * zoom;
+      const ry = (26 - tilt * 12) * zoom;
+      ctx.strokeStyle = ride.colorPrimary || def.colorPrimary;
+      ctx.lineWidth = 2.6 * zoom;
+      ctx.beginPath(); ctx.ellipse(cx, liftY, rx, ry, 0, 0, Math.PI * 2); ctx.stroke();
+      for (let i = 0; i < 8; i++) {
+        const a = phase * 1.9 + (i * Math.PI) / 4;
+        const gx = cx + Math.cos(a) * rx;
+        const gy = liftY + Math.sin(a) * ry;
+        ctx.strokeStyle = "#cbd5e1";
+        ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(cx, liftY); ctx.lineTo(gx, gy); ctx.stroke();
+        ctx.fillStyle = i % 2 === 0 ? "#fde047" : "#38bdf8";
+        ctx.fillRect(gx - 3.5 * zoom, gy - 2.5 * zoom, 7 * zoom, 5 * zoom);
+      }
+    } else if (ride.catalogId === "top_spin") {
+      // Twin Supports + Swinging Rotating Passenger Gondola Bar
+      ctx.strokeStyle = "#991b1b";
+      ctx.lineWidth = 3.5 * zoom;
+      ctx.beginPath();
+      ctx.moveTo(cx - 24 * zoom, cy + 2 * zoom); ctx.lineTo(cx - 18 * zoom, cy - 42 * zoom);
+      ctx.moveTo(cx + 24 * zoom, cy - 2 * zoom); ctx.lineTo(cx + 18 * zoom, cy - 42 * zoom);
+      ctx.stroke();
+      const swingAng = Math.sin(phase * 1.25) * 2.2;
+      const armX = Math.sin(swingAng) * 16 * zoom;
+      const armY = -Math.cos(swingAng) * 16 * zoom;
+      ctx.strokeStyle = "#facc15";
+      ctx.lineWidth = 2.8 * zoom;
+      ctx.beginPath();
+      ctx.moveTo(cx - 18 * zoom, cy - 42 * zoom);
+      ctx.lineTo(cx - 18 * zoom + armX, cy - 42 * zoom + armY);
+      ctx.moveTo(cx + 18 * zoom, cy - 42 * zoom);
+      ctx.lineTo(cx + 18 * zoom + armX, cy - 42 * zoom + armY);
+      ctx.stroke();
+      // Main passenger gondola row
+      ctx.fillStyle = ride.colorPrimary || def.colorPrimary;
+      ctx.fillRect(cx - 19 * zoom + armX, cy - 45 * zoom + armY, 38 * zoom, 7 * zoom);
+      ctx.fillStyle = "#fde047";
+      ctx.fillRect(cx - 16 * zoom + armX, cy - 43 * zoom + armY, 32 * zoom, 2 * zoom);
+    } else if (ride.catalogId === "roto_drop") {
+      // Cylindrical Lattice Spire + Rotating Freefall Ring Gondola
+      const towerH = 92 * zoom;
+      ctx.fillStyle = "#0ea5e9";
+      ctx.fillRect(cx - 5 * zoom, cy - towerH, 10 * zoom, towerH);
+      ctx.fillStyle = "#facc15";
+      ctx.fillRect(cx - 9 * zoom, cy - towerH - 5 * zoom, 18 * zoom, 5 * zoom);
+      const tNorm = (phase * 0.34) % 1;
+      const lift = tNorm < 0.7 ? tNorm / 0.7 : Math.max(0, 1 - (tNorm - 0.7) * 5.6);
+      const ringY = cy - 10 * zoom - lift * (towerH - 22 * zoom);
+      ctx.fillStyle = ride.colorPrimary || def.colorPrimary;
+      ctx.beginPath(); ctx.ellipse(cx, ringY, 19 * zoom, 8.5 * zoom, 0, 0, Math.PI * 2); ctx.fill();
+      for (let s = 0; s < 6; s++) {
+        const ra = phase * 1.4 + (s * Math.PI) / 3;
+        ctx.fillStyle = "#fde047";
+        ctx.fillRect(cx + Math.cos(ra) * 14 * zoom - 2 * zoom, ringY + Math.sin(ra) * 5.5 * zoom - 2 * zoom, 4 * zoom, 4 * zoom);
+      }
+    } else if (ride.catalogId === "river_rapids") {
+      // Swirling Foamy Whitewater Trough + Rock Island + Circular Yellow Rafts
+      ctx.strokeStyle = "#0369a1";
+      ctx.lineWidth = 14 * zoom;
+      ctx.beginPath(); ctx.ellipse(cx, cy - 2 * zoom, 26 * zoom, 13 * zoom, 0, 0, Math.PI * 2); ctx.stroke();
+      ctx.strokeStyle = "#38bdf8";
+      ctx.lineWidth = 9 * zoom;
+      ctx.beginPath(); ctx.ellipse(cx, cy - 2 * zoom, 26 * zoom, 13 * zoom, 0, 0, Math.PI * 2); ctx.stroke();
+      // Center rocky island
+      ctx.fillStyle = "#64748b";
+      ctx.beginPath(); ctx.ellipse(cx, cy - 2 * zoom, 11 * zoom, 5.5 * zoom, 0, 0, Math.PI * 2); ctx.fill();
+      for (let b = 0; b < 2; b++) {
+        const ba = phase * 1.25 + b * Math.PI;
+        const bx = cx + Math.cos(ba) * 26 * zoom;
+        const by = cy - 2 * zoom + Math.sin(ba) * 13 * zoom;
+        ctx.fillStyle = b === 0 ? (ride.colorPrimary || "#facc15") : "#38bdf8";
+        ctx.beginPath(); ctx.ellipse(bx, by, 6 * zoom, 4 * zoom, 0, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = "#0f172a";
+        ctx.beginPath(); ctx.ellipse(bx, by, 3.2 * zoom, 2 * zoom, 0, 0, Math.PI * 2); ctx.fill();
+      }
+    } else if (ride.catalogId === "bumper_boats") {
+      // Splash Pool Basin + Bumping Pastel Round Boats
+      ctx.fillStyle = "#0284c7";
+      ctx.beginPath();
+      ctx.moveTo(cx, cy - 20 * zoom);
+      ctx.lineTo(cx + 38 * zoom, cy);
+      ctx.lineTo(cx, cy + 20 * zoom);
+      ctx.lineTo(cx - 38 * zoom, cy);
+      ctx.closePath();
+      ctx.fill();
+      ctx.strokeStyle = "#f8fafc";
+      ctx.lineWidth = 2 * zoom;
+      ctx.stroke();
+      const boatCols = [ride.colorPrimary || "#ef4444", "#fde047", "#4ade80", "#f472b6"];
+      for (let k = 0; k < 4; k++) {
+        const bx = cx + Math.sin(phase * 1.3 + k * 1.9) * 18 * zoom;
+        const by = cy + Math.cos(phase * 1.7 + k * 2.3) * 8 * zoom;
+        ctx.fillStyle = boatCols[k];
+        ctx.beginPath(); ctx.ellipse(bx, by, 5.5 * zoom, 3.5 * zoom, 0, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = "#fed7aa";
+        ctx.fillRect(bx - 1.5 * zoom, by - 4 * zoom, 3 * zoom, 3 * zoom);
+      }
     } else {
       // Log Flume elevated timber chute + water + splashing log boat
       ctx.strokeStyle = "#78350f";
@@ -1154,22 +1570,59 @@ export class RctIsoRenderer {
 
     const W = ISO_METRICS.TILE_W;
     const H = ISO_METRICS.TILE_H;
-    const iso = worldToIso(tileX, tileY, Math.max(t.height, t.waterHeight || 0), this.rotation, this.sim.mapSize);
-    const sx = toScreenX(iso.screenX - W * 0.5);
-    const sy = toScreenY(iso.screenY - H * 0.5);
     const dw = W * zoom;
     const dh = H * zoom;
+    const drawDiamond = (tx, ty, strokeCol, fillCol = null) => {
+      const tt = this.sim.getTile(tx, ty);
+      if (!tt) return;
+      const iso = worldToIso(tx, ty, Math.max(tt.height, tt.waterHeight || 0), this.rotation, this.sim.mapSize);
+      const sx = toScreenX(iso.screenX - W * 0.5);
+      const sy = toScreenY(iso.screenY - H * 0.5);
+      ctx.beginPath();
+      ctx.moveTo(sx + dw * 0.5, sy);
+      ctx.lineTo(sx + dw, sy + dh * 0.5);
+      ctx.lineTo(sx + dw * 0.5, sy + dh);
+      ctx.lineTo(sx, sy + dh * 0.5);
+      ctx.closePath();
+      if (fillCol) {
+        ctx.fillStyle = fillCol;
+        ctx.fill();
+      }
+      ctx.strokeStyle = strokeCol;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    };
 
-    ctx.strokeStyle =
-      this.activeTool.type === "bulldoze" ? "#ef4444" : this.pincerCarry ? "#fde047" : "#38bdf8";
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(sx + dw * 0.5, sy);
-    ctx.lineTo(sx + dw, sy + dh * 0.5);
-    ctx.lineTo(sx + dw * 0.5, sy + dh);
-    ctx.lineTo(sx, sy + dh * 0.5);
-    ctx.closePath();
-    ctx.stroke();
+    if ((this.activeTool.type === "place_ride" || this.activeTool.type === "build_ride") && RIDE_CATALOG[this.activeTool.subId]) {
+      const def = RIDE_CATALOG[this.activeTool.subId];
+      const fw = def.footprintW || def.w || 1;
+      const fh = def.footprintH || def.h || 1;
+      let canPlace = true;
+      for (let dy = 0; dy < fh; dy++) {
+        for (let dx = 0; dx < fw; dx++) {
+          const ct = this.sim.getTile(tileX + dx, tileY + dy);
+          if (!ct || !ct.owned || ct.rideId || ct.path || ct.scenery || tileX + dx <= 1 || tileY + dy <= 1 || tileX + dx >= this.sim.mapSize - 2 || tileY + dy >= this.sim.mapSize - 2) {
+            canPlace = false;
+          }
+        }
+      }
+      const stroke = canPlace ? "#4ade80" : "#ef4444";
+      const fill = canPlace ? "rgba(74, 222, 128, 0.25)" : "rgba(239, 68, 68, 0.28)";
+      for (let dy = 0; dy < fh; dy++) {
+        for (let dx = 0; dx < fw; dx++) {
+          drawDiamond(tileX + dx, tileY + dy, stroke, fill);
+        }
+      }
+    } else if (["surface", "land_up", "land_down", "water_up", "water_down", "terraform"].includes(this.activeTool.type) && (this.activeTool.brushSize || 1) === 3) {
+      for (let dy = -1; dy <= 1; dy++) {
+        for (let dx = -1; dx <= 1; dx++) {
+          drawDiamond(tileX + dx, tileY + dy, "#facc15", "rgba(250, 204, 21, 0.16)");
+        }
+      }
+    } else {
+      const col = this.activeTool.type === "bulldoze" ? "#ef4444" : this.pincerCarry ? "#fde047" : "#38bdf8";
+      drawDiamond(tileX, tileY, col, this.activeTool.type === "bulldoze" ? "rgba(239, 68, 68, 0.2)" : null);
+    }
 
     if (this.customCoasterId) {
       const ride = this.sim.rides.find((r) => r.id === this.customCoasterId);

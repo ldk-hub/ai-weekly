@@ -56,12 +56,14 @@ try {
   });
 
   await page.goto("http://localhost:4175/sanctuary", { waitUntil: "networkidle" });
-  await page.waitForTimeout(800);
+  await page.waitForTimeout(1000);
 
-  // 1. Verify Isometric Canvas, Top Toolbar, and Bottom Status Bar
+  // 1. Verify Isometric Canvas, Top Toolbar, Minimap, and Bottom Status Bar
   const layoutStats = await page.evaluate(() => {
     const canvas = document.getElementById("rct-canvas");
     const rect = canvas?.getBoundingClientRect();
+    const mmCanvas = document.getElementById("rct-minimap-canvas");
+    const mmRect = mmCanvas?.getBoundingClientRect();
     const toolbarBtns = document.querySelectorAll("#rct-top-toolbar .rct-tb-btn").length;
     const cash = document.getElementById("rct-cash-text")?.textContent?.trim();
     const guests = document.getElementById("rct-guests-text")?.textContent?.trim();
@@ -69,6 +71,8 @@ try {
     return {
       canvasW: rect?.width || 0,
       canvasH: rect?.height || 0,
+      minimapW: mmRect?.width || 0,
+      minimapH: mmRect?.height || 0,
       toolbarBtns,
       cash,
       guests,
@@ -77,15 +81,36 @@ try {
   });
   console.log("Overview layout:", layoutStats);
   assert.ok(layoutStats.canvasW > 800 && layoutStats.canvasH > 450, "Canvas dimensions invalid");
-  assert.ok(layoutStats.toolbarBtns >= 15, "Toolbar buttons missing");
+  assert.ok(layoutStats.minimapW >= 110 && layoutStats.minimapH >= 110, "44x44 minimap canvas missing or hidden");
+  assert.ok(layoutStats.toolbarBtns >= 18, "Toolbar buttons missing");
   assert.ok(layoutStats.cash?.startsWith("$"), "Cash pod missing");
   assert.ok(layoutStats.guests?.includes("명"), "Guests pod missing");
   assert.ok(Number(layoutStats.rating) > 0, "Rating pod missing");
 
-  // Capture screenshot 1: Park Overview
+  // Capture screenshot 1: 44x44 Park Overview with Minimap & Perimeter Billboards
   await page.screenshot({ path: path.join(ARTIFACT_DIR, "rct_sanctuary_overview.png") });
 
-  // 2. Open Rides List -> Click Roller Coaster -> Verify Ride Detail + E/I/N + Mini-Viewport
+  // 1B. Verify Perimeter Billboard Post Reader + Tour + Minimap Plaza Jump
+  await page.click("#rct-jump-billboards");
+  await page.waitForTimeout(250);
+  const bbWin = page.locator('[data-win-key="billboard-post"]');
+  assert.equal(await bbWin.count(), 1, "Billboard Post Reader window did not open");
+  const firstBbTitle = await bbWin.innerText();
+  assert.ok(firstBbTitle.includes("외곽 메가 광고판"), "Billboard reader header missing");
+
+  await page.click('[data-win-key="billboard-post"] [data-bb-nav]:nth-of-type(2)');
+  await page.waitForTimeout(200);
+  const secondBbTitle = await bbWin.innerText();
+  assert.ok(secondBbTitle.includes("#2/24"), "Billboard next tour failed to advance to #2/24");
+  await page.click('[data-win-key="billboard-post"] [data-win-close]');
+  await page.click("#rct-jump-plaza");
+  await page.waitForTimeout(150);
+
+  // 2. Toggle Free Build Mode & Open Rides List -> Click Roller Coaster -> Customize Name/Color
+  await page.click("#rct-btn-freebuild");
+  await page.waitForTimeout(150);
+  assert.equal(await page.locator("#rct-btn-freebuild.is-active").count(), 1, "Free Build Mode did not activate");
+
   await page.click('#rct-top-toolbar [data-win="rides-list"]');
   await page.waitForTimeout(200);
   await page.click('[data-win-key="rides-list"] [data-open-ride]');
@@ -95,26 +120,61 @@ try {
   assert.ok(rideDetailText.includes("흥미도"), "Excitement stat missing");
   assert.ok(rideDetailText.includes("격렬도"), "Intensity stat missing");
   assert.ok(rideDetailText.includes("멀미도"), "Nausea stat missing");
-  const miniCamCount = await page.locator("#rct-ride-minicam").count();
-  assert.equal(miniCamCount, 1, "Live mini-viewport canvas missing in ride-detail");
+  assert.equal(await page.locator("#rct-ride-minicam").count(), 1, "Live mini-viewport canvas missing in ride-detail");
 
-  // 3. Open Custom Coaster Builder via [트랙 편집] or [건설]
-  const editTrackBtn = page.locator('[data-ride-edit-track]');
+  await page.fill("#rct-ride-rename-input", "네온 하이퍼 코스터");
+  await page.click('[data-ride-rename]');
+  await page.waitForTimeout(150);
+  const updatedRideTitle = await page.locator('[data-win-key="ride-detail"] .rct-win-titlebar').innerText();
+  assert.ok(updatedRideTitle.includes("네온 하이퍼 코스터"), "Ride rename did not update window title");
+  if ((await page.locator("[data-ride-color]").count()) > 0) {
+    await page.locator("[data-ride-color]").nth(1).click();
+    await page.waitForTimeout(100);
+  }
+
+  // 3. Open Custom Coaster Builder & Verify 4-Tab 28-Attraction Build Window & Night Mode
+  const editTrackBtn = page.locator("[data-ride-edit-track]");
   if ((await editTrackBtn.count()) > 0) {
     await editTrackBtn.click();
     await page.waitForTimeout(250);
   }
   assert.equal(await page.locator('[data-win-key="coaster-builder"]').count(), 1, "Coaster builder window did not open");
 
-  // Open Build window too and check tabs
   await page.click('#rct-top-toolbar [data-win="build"]');
   await page.waitForTimeout(200);
   assert.equal(await page.locator('[data-win-key="build"]').count(), 1, "Build window did not open");
+  for (const bTab of ["gentle", "thrill_water", "shop", "coaster"]) {
+    await page.click(`[data-build-tab="${bTab}"]`);
+    await page.waitForTimeout(120);
+  }
+  const coasterTabText = await page.locator('[data-win-key="build"]').innerText();
+  assert.ok(coasterTabText.includes("인버티드"), "New inverted coaster missing from Build catalog");
 
-  // Capture screenshot 2: Coaster Builder + Ride Detail + Build Window
+  await page.click("#rct-btn-night");
+  await page.waitForTimeout(250);
+  assert.equal(await page.locator("#rct-btn-night.is-active").count(), 1, "Night & fireworks mode did not activate");
+
+  // Capture screenshot 2: Coaster Builder + Ride Detail + 4-Tab Build Window + Night Mode Fireworks
   await page.screenshot({ path: path.join(ARTIFACT_DIR, "rct_coaster_builder.png") });
+  await page.click("#rct-btn-night");
   await page.keyboard.press("Escape");
   await page.waitForTimeout(150);
+
+  // 3B. Check Scenery 3 Tabs (18 Props) & Terraform Surface Brush
+  await page.click('#rct-top-toolbar [data-win="scenery"]');
+  await page.waitForTimeout(150);
+  await page.click('[data-scenery-tab="tech"]');
+  await page.waitForTimeout(120);
+  const techSceneryText = await page.locator('[data-win-key="scenery"]').innerText();
+  assert.ok(techSceneryText.includes("폭죽"), "Firework launcher scenery missing in tech tab");
+
+  await page.click('#rct-top-toolbar [data-win="terraform"]');
+  await page.waitForTimeout(150);
+  await page.click('[data-set-brush="3"]');
+  await page.click('[data-set-surface="sand"]');
+  await page.waitForTimeout(120);
+  await page.keyboard.press("Escape");
+  await page.waitForTimeout(120);
 
   // 4. Open Guests List -> Inspect Peep -> Verify Thoughts & Pincer
   await page.click('#rct-top-toolbar [data-win="guests-list"]');
