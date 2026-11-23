@@ -3747,27 +3747,54 @@ table.bm-table { width: 100%; border-collapse: collapse; font-size: 14px; }
 .bm-scatter-svg text {
   font-family: inherit;
 }
+.bm-scatter-point-group {
+  cursor: pointer;
+  transition: opacity 0.18s ease;
+}
+.bm-scatter-svg:has(.bm-scatter-point-group:hover) .bm-scatter-point-group:not(:hover) {
+  opacity: 0.32;
+}
+.bm-scatter-point-group:hover .bm-scatter-dot {
+  r: 8.5;
+  filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.3));
+}
+.bm-scatter-point-group:hover .bm-scatter-leader {
+  stroke-width: 1.8;
+  opacity: 0.95;
+}
+.bm-scatter-leader {
+  stroke-width: 1.2;
+  stroke-dasharray: 2.5 2;
+  opacity: 0.55;
+  pointer-events: none;
+  transition: opacity 0.15s ease, stroke-width 0.15s ease;
+}
 .bm-scatter-dot {
   cursor: pointer;
   transition: r 0.15s ease, opacity 0.15s ease, filter 0.15s ease;
 }
-.bm-scatter-dot:hover {
-  r: 9;
-  filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.3));
-}
-.bm-scatter-dot:focus-visible {
+.bm-scatter-dot:focus-visible,
+.bm-scatter-point-group:focus-visible {
   outline: 2px solid var(--accent);
 }
 .bm-scatter-label {
   font-size: 11px;
   font-weight: 700;
   fill: var(--ink);
-  pointer-events: none;
+  paint-order: stroke fill;
+  stroke: var(--card);
+  stroke-width: 3.5px;
+  stroke-linejoin: round;
+  cursor: pointer;
 }
 .bm-scatter-sublabel {
   font-size: 9.5px;
   fill: var(--muted);
-  pointer-events: none;
+  paint-order: stroke fill;
+  stroke: var(--card);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  cursor: pointer;
 }
 .bm-scatter-quadrant-label {
   font-size: 11px;

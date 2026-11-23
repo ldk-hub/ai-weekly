@@ -2380,12 +2380,12 @@ function openBenchmarkScopeModal() {
 }
 
 function buildScatterSVG(models, domainFilter) {
-  const width = 800;
-  const height = 340;
-  const padLeft = 65;
-  const padRight = 30;
-  const padTop = 28;
-  const padBottom = 45;
+  const width = 880;
+  const height = 440;
+  const padLeft = 66;
+  const padRight = 34;
+  const padTop = 38;
+  const padBottom = 48;
 
   const chartW = width - padLeft - padRight;
   const chartH = height - padTop - padBottom;
@@ -2411,8 +2411,8 @@ function buildScatterSVG(models, domainFilter) {
   if (!filtered.length) filtered = [...models];
 
   const prices = filtered.map(blended);
-  const minP = Math.max(0.05, Math.min(...prices) * 0.75);
-  const maxP = Math.max(10, Math.max(...prices) * 1.3);
+  const minP = Math.max(0.05, Math.min(...prices) * 0.72);
+  const maxP = Math.max(10, Math.max(...prices) * 1.35);
   const logMinP = Math.log10(minP);
   const logMaxP = Math.log10(maxP);
 
@@ -2423,8 +2423,8 @@ function buildScatterSVG(models, domainFilter) {
   };
 
   const scores = filtered.map(m => m[scoreKey] ?? 85);
-  const minS = Math.min(...scores) - 1.2;
-  const maxS = Math.max(...scores) + 1.2;
+  const minS = Math.min(...scores) - 1.8;
+  const maxS = Math.max(...scores) + 1.8;
 
   const getY = s => {
     const ratio = (s - minS) / (maxS - minS);
@@ -2475,21 +2475,152 @@ function buildScatterSVG(models, domainFilter) {
     </text>
   `;
 
-  const dots = filtered.map(m => {
+  const pts = filtered.map((m, idx) => {
     const p = blended(m);
     const s = m[scoreKey] ?? 85;
-    const cx = getX(p);
-    const cy = getY(s);
-    const color = getProviderColor(m.provider);
-    const shortName = m.model.replace(/\s*(Argon|Sol|Wonder|Max|Pro|Flash).*/i, " $1");
+    const shortName = m.model.replace(/\s*\(\d+\)$/, "").replace(/\s*(Argon|Sol|Wonder|Max|Pro|Flash).*/i, " $1");
+    const subText = `${s.toFixed(1)}pt · $${p.toFixed(2)}`;
+    const boxW = Math.ceil(Math.max(shortName.length * 6.6, subText.length * 5.6) + 10);
+    const boxH = 26;
+    return {
+      m,
+      p,
+      s,
+      cx: getX(p),
+      cy: getY(s),
+      color: getProviderColor(m.provider),
+      shortName,
+      subText,
+      boxW,
+      boxH,
+      idx
+    };
+  });
+
+  // 1) 동일하거나 매우 근접한 점(Dot)끼리 완전히 포개지지 않도록 미세 분산
+  for (let pass = 0; pass < 3; pass++) {
+    for (let i = 0; i < pts.length; i++) {
+      for (let j = i + 1; j < pts.length; j++) {
+        const dx = pts[j].cx - pts[i].cx;
+        const dy = pts[j].cy - pts[i].cy;
+        const dist = Math.hypot(dx, dy);
+        if (dist < 11) {
+          const angle = dist > 0.1 ? Math.atan2(dy, dx) : (j - i) * 1.1;
+          const push = (11 - dist) * 0.55;
+          pts[j].cx += Math.cos(angle) * push;
+          pts[j].cy += Math.sin(angle) * push;
+          pts[i].cx -= Math.cos(angle) * push;
+          pts[i].cy -= Math.sin(angle) * push;
+        }
+      }
+    }
+  }
+
+  // 2) 4분면 워터마크 및 타 모델 점·라벨과의 2D 바운딩 박스 충돌 회피 배치
+  const obstacles = [
+    { x1: padLeft + 8, y1: padTop + 4, x2: padLeft + 210, y2: padTop + 24 },
+    { x1: width - padRight - 220, y1: padTop + 4, x2: width - padRight - 8, y2: padTop + 24 },
+    { x1: padLeft + 8, y1: height - padBottom - 24, x2: padLeft + 230, y2: height - padBottom - 4 },
+    { x1: width - padRight - 200, y1: height - padBottom - 24, x2: width - padRight - 8, y2: height - padBottom - 4 },
+  ];
+
+  const overlapArea = (a, b, pad = 3) => {
+    const ox = Math.max(0, Math.min(a.x2 + pad, b.x2 + pad) - Math.max(a.x1 - pad, b.x1 - pad));
+    const oy = Math.max(0, Math.min(a.y2 + pad, b.y2 + pad) - Math.max(a.y1 - pad, b.y1 - pad));
+    return ox * oy;
+  };
+
+  const candidates = [
+    { dx: 10, dy: -12, anchor: "start" },
+    { dx: -10, dy: -12, anchor: "end" },
+    { dx: 10, dy: -28, anchor: "start" },
+    { dx: 10, dy: 6, anchor: "start" },
+    { dx: -10, dy: -28, anchor: "end" },
+    { dx: -10, dy: 6, anchor: "end" },
+    { dx: 0, dy: -34, anchor: "middle" },
+    { dx: 0, dy: 14, anchor: "middle" },
+    { dx: 22, dy: -38, anchor: "start" },
+    { dx: 22, dy: 16, anchor: "start" },
+    { dx: -22, dy: -38, anchor: "end" },
+    { dx: -22, dy: 16, anchor: "end" },
+    { dx: 14, dy: -52, anchor: "start" },
+    { dx: 14, dy: 30, anchor: "start" },
+    { dx: -14, dy: -52, anchor: "end" },
+    { dx: -14, dy: 30, anchor: "end" },
+    { dx: 36, dy: -24, anchor: "start" },
+    { dx: -36, dy: -24, anchor: "end" },
+    { dx: 26, dy: -66, anchor: "start" },
+    { dx: 26, dy: 44, anchor: "start" },
+    { dx: -26, dy: -66, anchor: "end" },
+    { dx: -26, dy: 44, anchor: "end" },
+  ];
+
+  const placed = [];
+  for (const pt of pts) {
+    let bestBox = null;
+    let bestScore = Infinity;
+
+    for (const c of candidates) {
+      const x1 = c.anchor === "start"
+        ? pt.cx + c.dx
+        : c.anchor === "end"
+        ? pt.cx + c.dx - pt.boxW
+        : pt.cx + c.dx - pt.boxW / 2;
+      const y1 = pt.cy + c.dy;
+      const box = {
+        x1,
+        y1,
+        x2: x1 + pt.boxW,
+        y2: y1 + pt.boxH,
+        anchor: c.anchor,
+        tx: pt.cx + c.dx,
+        ty: y1 + 11
+      };
+
+      let score = Math.hypot(c.dx, c.dy + 12) * 1.2;
+      if (c.anchor === "end" && pt.cx < width - padRight - 150) score += 8;
+
+      if (box.x1 < padLeft + 6 || box.x2 > width - padRight - 6 || box.y1 < padTop + 6 || box.y2 > height - padBottom - 6) {
+        score += 50000;
+      }
+      for (const obs of obstacles) score += overlapArea(box, obs, 2) * 30;
+      for (const other of pts) {
+        const dotBox = { x1: other.cx - 8, y1: other.cy - 8, x2: other.cx + 8, y2: other.cy + 8 };
+        score += overlapArea(box, dotBox, 2) * 80;
+      }
+      for (const pBox of placed) score += overlapArea(box, pBox, 3) * 100;
+
+      if (score < bestScore) {
+        bestScore = score;
+        bestBox = box;
+      }
+    }
+
+    pt.box = bestBox;
+    placed.push(bestBox);
+  }
+
+  const dots = pts.map(pt => {
+    const { m, p, s, cx, cy, color, shortName, subText, box } = pt;
+    const lx = Math.max(box.x1, Math.min(box.x2, cx));
+    const ly = Math.max(box.y1, Math.min(box.y2, cy));
+    const dist = Math.hypot(lx - cx, ly - cy);
+    let leaderHTML = "";
+    if (dist > 13) {
+      const ang = Math.atan2(ly - cy, lx - cx);
+      const x1 = cx + Math.cos(ang) * 7.5;
+      const y1 = cy + Math.sin(ang) * 7.5;
+      leaderHTML = `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${lx.toFixed(1)}" y2="${ly.toFixed(1)}" stroke="${color}" class="bm-scatter-leader" />`;
+    }
 
     return `
       <g class="bm-scatter-point-group" tabindex="0" role="button" aria-label="${escapeHTML(m.model)}: Score ${s.toFixed(1)}, Price $${p.toFixed(2)}" data-bm-model="${escapeHTML(m.model)}">
-        <circle cx="${cx}" cy="${cy}" r="6.5" fill="${color}" stroke="var(--card)" stroke-width="2" class="bm-scatter-dot" data-bm-model="${escapeHTML(m.model)}">
+        ${leaderHTML}
+        <circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="6.5" fill="${color}" stroke="var(--card)" stroke-width="2" class="bm-scatter-dot" data-bm-model="${escapeHTML(m.model)}">
           <title>${escapeHTML(m.model)} (${escapeHTML(m.provider)})\nScore: ${s.toFixed(1)} / 100\nPrice: $${p.toFixed(2)}/1M tokens\nContext: ${escapeHTML(m.context_window || "")}</title>
         </circle>
-        <text x="${cx + 8}" y="${cy - 2}" class="bm-scatter-label">${escapeHTML(shortName)}</text>
-        <text x="${cx + 8}" y="${cy + 8}" class="bm-scatter-sublabel">${s.toFixed(1)}pt · $${p.toFixed(2)}</text>
+        <text x="${box.tx.toFixed(1)}" y="${box.ty.toFixed(1)}" text-anchor="${box.anchor}" class="bm-scatter-label" data-bm-model="${escapeHTML(m.model)}">${escapeHTML(shortName)}</text>
+        <text x="${box.tx.toFixed(1)}" y="${(box.ty + 11).toFixed(1)}" text-anchor="${box.anchor}" class="bm-scatter-sublabel" data-bm-model="${escapeHTML(m.model)}">${escapeHTML(subText)}</text>
       </g>
     `;
   }).join("");
@@ -2925,7 +3056,7 @@ function renderBenchmarks() {
         <div class="bm-card-head">
           <div>
             <strong>글로벌 프론티어 대표 모델 ${filteredMs.length}종 — 3대 리더보드 종합</strong>
-            <span class="bm-card-sub">제작사별 최신 대표 모델 1개 · LMArena · Artificial Analysis · LiveBench 3곳 교차 검증</span>
+            <span class="bm-card-sub">상위권을 주도하는 벤더별 주요 프론티어 라인업 · LMArena · Artificial Analysis · LiveBench 3곳 교차 검증</span>
           </div>
         </div>
         <div class="bm-table-wrap"><table class="bm-table" id="bm-bench-table"><thead>${head}</thead><tbody>${body}</tbody></table></div>
