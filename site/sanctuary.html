@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>AI위클리 — 위클리월드 · 2.5D 아카이브</title>
-<meta name="description" content="AI위클리의 인기 플러그인, AI 뉴스, 소셜 피드, 점유율·성능 데이터를 8방향 SD 아바타와 3D 쿼터뷰 성역에서 실시간으로 탐색하는 인터랙티브 아카이브." />
+<title>AI위클리 — 위클리 타이쿤 · 1999 오리지널 테마파크</title>
+<meta name="description" content="1999년 클래식 오리지널 롤러코스터 타이쿤 스타일의 2:1 등각 투영 테마파크 건설·경영 시뮬레이터와 AI위클리 실시간 데이터 연구소." />
 <meta name="theme-color" content="#fcfaf6" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#090d13" media="(prefers-color-scheme: dark)" />
 <script>try{const t=localStorage.getItem('aiw-theme')||'dark';document.documentElement.dataset.theme=t;document.querySelectorAll('meta[name="theme-color"]').forEach(m=>{m.removeAttribute('media');m.content=t==='dark'?'#090d13':'#fcfaf6';});}catch(e){}</script>
@@ -15,14 +15,14 @@
 
 <link rel="canonical" href="https://ldk-hub.github.io/ai-weekly/sanctuary" />
 <meta property="og:type" content="website" />
-<meta property="og:title" content="AI위클리 — 위클리월드 · 2.5D 아카이브" />
-<meta property="og:description" content="방에 들어가 대형 스크린 대시보드로 플러그인·뉴스·소셜·벤치마크를 탐색하는 위클리월드 2.5D 아카이브" />
+<meta property="og:title" content="AI위클리 — 위클리 타이쿤 · 1999 오리지널 테마파크" />
+<meta property="og:description" content="2:1 등각 투영 픽셀 아트로 직접 트랙을 잇고 공원을 경영하는 1999 오리지널 롤러코스터 타이쿤 에디션" />
 <meta property="og:url" content="https://ldk-hub.github.io/ai-weekly/sanctuary" />
 <meta property="og:image" content="https://ldk-hub.github.io/ai-weekly/og.png" />
 <meta property="og:locale" content="ko_KR" />
 
 <link rel="icon" type="image/svg+xml" href="claude-code.svg?v=26" />
-<link rel="stylesheet" href="styles.css?v=30" />
+<link rel="stylesheet" href="styles.css?v=31" />
 
 <!-- Google Analytics 4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-YLKMDP5YKQ"></script>
@@ -34,7 +34,7 @@
 </script>
 </head>
 
-<body class="sc-fullscreen-page">
+<body class="rct-fullscreen-page">
 <a class="skip-link" href="#main">본문으로 건너뛰기</a>
 
 <div class="layout-wrapper">
@@ -95,7 +95,7 @@
         <a href="benchmarks" class="pn-link"><span>점유율·성능</span></a>
       </nav>
       <div class="brand-actions">
-        <a href="sanctuary" class="sanctuary-entry-btn is-active" aria-current="page" aria-label="위클리월드 2.5D 아카이브">
+        <a href="sanctuary" class="sanctuary-entry-btn is-active" aria-current="page" aria-label="위클리 타이쿤 테마파크">
           <span class="sc-entry-dot" aria-hidden="true"></span>
           <span>위클리월드</span>
         </a>
@@ -106,267 +106,101 @@
   </header>
 
   <main id="main">
-    <div class="sc-archive-grid">
-      <!-- 2.5D Quarter-View Archive World Stage (Fullscreen Stage) -->
-      <section class="sc-world-stage" aria-label="위클리월드 2.5D 아카이브 스테이지">
-        <canvas id="sanctuary-canvas" tabindex="0" aria-label="위클리월드 2.5D WebGL 캔버스"></canvas>
-        <div class="sc-hd2d-vignette" aria-hidden="true"></div>
-        <div id="overlay-layer" class="sc-overlay-layer" aria-hidden="true"></div>
+    <section class="rct-stage" id="rct-stage" aria-label="롤러코스터 타이쿤 1999 테마파크 시뮬레이터">
+      <!-- Top Classic 1999 Beveled Control Bar -->
+      <div class="rct-top-toolbar" id="rct-top-toolbar" role="toolbar" aria-label="공원 제어 툴바">
+        <div class="rct-tb-group">
+          <button type="button" class="rct-tb-btn" id="rct-btn-pause" title="일시정지 (Space)">⏸<span>정지</span></button>
+          <button type="button" class="rct-tb-btn is-active" id="rct-btn-speed" title="배속 전환 (1x/2x/4x)">⏩<span id="rct-speed-label">1x</span></button>
+          <button type="button" class="rct-tb-btn" data-win="scenario" title="시나리오·저장/불러오기">💾<span>파일</span></button>
+          <button type="button" class="rct-tb-btn is-active" id="rct-btn-sfx" title="효과음 켜기/끄기">🔔<span>효과음</span></button>
+          <button type="button" class="rct-tb-btn" id="rct-btn-bgm" title="유원지 오르간 BGM 켜기/끄기">🎶<span>오르간</span></button>
+        </div>
+        <div class="rct-tb-group">
+          <button type="button" class="rct-tb-btn" id="rct-btn-zoom-in" title="확대 (+)">🔍+<span>확대</span></button>
+          <button type="button" class="rct-tb-btn" id="rct-btn-zoom-out" title="축소 (-)">🔍-<span>축소</span></button>
+          <button type="button" class="rct-tb-btn" id="rct-btn-rotate" title="90° 카메라 회전 (R)">🔄<span>회전</span></button>
+          <button type="button" class="rct-tb-btn" id="rct-btn-view-opts" title="투시·그리드·높이 표시 전환">👁<span>투시</span></button>
+        </div>
+        <div class="rct-tb-group">
+          <button type="button" class="rct-tb-btn" id="rct-btn-bulldoze" title="철거 도구 (불도저)">💣<span>철거</span></button>
+          <button type="button" class="rct-tb-btn" data-win="terraform" title="지형 높낮이 & 물 편집">⛰<span>지형·물</span></button>
+          <button type="button" class="rct-tb-btn" data-win="footpath" title="보도·대기열·벤치·쓰레기통">🛤<span>보도</span></button>
+          <button type="button" class="rct-tb-btn" data-win="scenery" title="나무·분수·동상·AI전광판">🌲<span>풍경</span></button>
+          <button type="button" class="rct-tb-btn is-highlight" data-win="build" title="롤러코스터·놀이기구·상점 건설">🎢<span>건설</span></button>
+        </div>
+        <div class="rct-tb-group">
+          <button type="button" class="rct-tb-btn" data-win="rides-list" title="전체 놀이기구 목록">🎡<span>기구</span></button>
+          <button type="button" class="rct-tb-btn" data-win="park" title="공원 정보 및 트로피">🏰<span>공원</span></button>
+          <button type="button" class="rct-tb-btn" data-win="staff" title="직원 고용 및 관리">🧹<span>직원</span></button>
+          <button type="button" class="rct-tb-btn" data-win="guests-list" title="관람객 목록 및 생각">🧑<span>손님</span></button>
+          <button type="button" class="rct-tb-btn" data-win="finances" title="재무·대출·마케팅">💰<span>재무</span></button>
+          <button type="button" class="rct-tb-btn is-ai" data-win="ai-archive" title="AI위클리 실시간 데이터 연구소">🔬<span>AI연구소</span></button>
+          <button type="button" class="rct-tb-btn" id="rct-btn-radio" title="공원 무전기 실시간 채팅 열기/접기">📻<span>무전기</span></button>
+        </div>
+      </div>
 
-        <!-- Top-Center District Quick-Warp, Soccer Scoreboard & Room Monitor Bar -->
-        <nav class="sc-district-bar" id="sanctuary-district-bar" aria-label="건물·구역 바로 이동">
-          <button type="button" class="sc-district-btn is-active" data-warp="plaza" title="중앙 분수 광장 (0)">
-            <span class="sc-dist-key">0</span>
-            <span>중앙 광장</span>
-          </button>
-          <button type="button" class="sc-district-btn is-soccer" data-warp="soccer" title="서프 강진축구장 바로 이동 (7)">
-            <span class="sc-dist-key">⚽</span>
-            <span>강진축구</span>
-            <span class="sp-score-pill" id="sp-soccer-score" aria-label="축구 스코어">0:0</span>
-          </button>
-          <button type="button" class="sc-district-btn" data-warp="plugins" title="인기 플러그인 공방 (1)">
-            <span class="sc-dist-key">1</span>
-            <span>플러그인 공방</span>
-          </button>
-          <button type="button" class="sc-district-btn" data-warp="news" title="AI 뉴스 대도서관 (2)">
-            <span class="sc-dist-key">2</span>
-            <span>뉴스 도서관</span>
-          </button>
-          <button type="button" class="sc-district-btn" data-warp="social" title="소셜 피드 라운지 (3)">
-            <span class="sc-dist-key">3</span>
-            <span>소셜 라운지</span>
-          </button>
-          <button type="button" class="sc-district-btn" data-warp="benchmarks" title="벤치마크 관측소 (4)">
-            <span class="sc-dist-key">4</span>
-            <span>벤치마크 관측소</span>
-          </button>
-          <button type="button" class="sc-district-btn" data-warp="tavern" title="서쪽 여행자 여관 (5)">
-            <span class="sc-dist-key">5</span>
-            <span>여행자 여관</span>
-          </button>
-          <button type="button" class="sc-district-btn" data-warp="workshop" title="동쪽 장인 아틀리에 (6)">
-            <span class="sc-dist-key">6</span>
-            <span>장인 아틀리에</span>
-          </button>
-          <button type="button" class="sc-reopen-screen-btn" id="btn-reopen-screen" hidden title="현재 방의 전면 스크린 대시보드 열기">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
-            <span>실내 스크린 열기</span>
-          </button>
-        </nav>
+      <!-- Main Isometric Pixel Canvas + Floating Window Manager -->
+      <div class="rct-viewport-wrap">
+        <canvas id="rct-canvas" tabindex="0" aria-label="롤러코스터 타이쿤 등각 투영 공원 캔버스"></canvas>
 
-        <!-- Top-Left Survival Project Arcade Player HUD + Mode/Score/Timer -->
-        <aside class="sp-player-hud" id="sp-player-hud" aria-label="플레이어 상태 및 게이지">
-          <div class="sp-portrait-frame" id="sp-portrait-frame" title="클릭하여 캐릭터 변경">
-            <div class="sp-portrait-sprite" id="sp-portrait-sprite" aria-hidden="true"></div>
-            <span class="sp-el-pip" id="sp-hud-el-pip" data-el="fire">불</span>
-          </div>
-          <div class="sp-hud-stats">
-            <div class="sp-hud-title-row">
-              <span class="sp-hud-name" id="sp-hud-name">솔라 아키비스트</span>
-              <span class="sp-code-badge" id="sp-code-badge" title="보유 CODE 코인">120 CODE</span>
-            </div>
-            <div class="sp-bar-row">
-              <span class="sp-bar-label">HP</span>
-              <div class="sp-bar-track"><div class="sp-bar-fill is-hp" id="sp-hp-bar" style="width:100%"></div></div>
-            </div>
-            <div class="sp-bar-row">
-              <span class="sp-bar-label">SP</span>
-              <div class="sp-bar-track"><div class="sp-bar-fill is-booster" id="sp-booster-bar" style="width:100%"></div></div>
-            </div>
-            <div class="sp-bar-row">
-              <span class="sp-bar-label">MP</span>
-              <div class="sp-bar-track"><div class="sp-bar-fill is-mp" id="sp-mp-bar" style="width:65%"></div></div>
-            </div>
-          </div>
-          <div class="sp-match-box" id="sp-match-box">
-            <div class="sp-mode-pills" id="sp-mode-pills" role="group" aria-label="게임 모드 선택">
-              <button type="button" class="sp-mode-pill is-active" data-sp-mode="plaza" title="자유 광장 & AI 위클리 아카이브">광장</button>
-              <button type="button" class="sp-mode-pill" data-sp-mode="teamplay" title="서프 팀플레이 대전 (AI 라이벌 난투)">팀대전</button>
-              <button type="button" class="sp-mode-pill" data-sp-mode="soccer" title="강진축구 90초 매치">축구</button>
-            </div>
-            <div class="sp-match-score">
-              <span class="is-blue" id="sp-match-blue">0</span>
-              <span class="is-vs">VS</span>
-              <span class="is-red" id="sp-match-red">0</span>
-              <span class="sp-match-timer" id="sp-match-timer" hidden>02:00</span>
-            </div>
-          </div>
-          <div class="sp-combo-badge" id="sp-combo-badge" hidden>
-            <strong id="sp-combo-num">0</strong>
-            <span>COMBO</span>
-          </div>
-        </aside>
-
-        <!-- Top-Right Survival Project Real-Time Radar Minimap -->
-        <aside class="sp-minimap-box" id="sp-minimap-box" aria-label="실시간 미니맵 레이더">
-          <canvas id="sp-minimap" width="132" height="132"></canvas>
-          <div class="sp-minimap-foot">
-            <span>RADAR</span>
-            <span id="sp-minimap-mode">PLAZA</span>
-          </div>
-        </aside>
-
-        <!-- Night-Only Announced Grand Fireworks Festival / Goal Banner -->
-        <div class="sc-festival-banner" id="sanctuary-festival-banner" role="status" aria-live="polite" hidden>
-          <span class="sc-festival-badge" id="festival-banner-badge">NIGHT FESTIVAL</span>
-          <span class="sc-festival-text" id="festival-banner-text">잠시 후 위클리월드 밤하늘에 화려한 불꽃놀이가 시작됩니다!</span>
+        <!-- Active Tool / Pincer Indicator -->
+        <div class="rct-tool-indicator" id="rct-tool-indicator">
+          <span id="rct-tool-text">👆 클릭: 기구·손님·직원 정보 확인 | 우클릭 드래그: 화면 이동 | 휠: 확대/축소</span>
+          <button type="button" class="rct-mini-btn" id="rct-btn-cancel-tool" hidden>취소 (ESC)</button>
         </div>
 
-        <!-- Bottom-Left Live Multi-User City & Interior Chat Box -->
-        <section class="sc-chat-box" id="sanctuary-chat" aria-label="실시간 유저 채팅">
-          <div class="sc-chat-head">
+        <!-- Draggable Beveled 1999 Window Layer -->
+        <div class="rct-window-layer" id="rct-window-layer"></div>
+
+        <!-- Collapsible RCT1 Park Radio Multiplayer Chat -->
+        <section class="rct-chat-win sc-chat-box is-collapsed" id="sanctuary-chat" aria-label="공원 무전기 실시간 채팅">
+          <div class="sc-chat-head rct-win-titlebar is-blue">
             <div class="sc-chat-status">
               <span class="sc-chat-dot" id="chat-status-dot" aria-hidden="true"></span>
-              <span class="sc-chat-zone" id="chat-zone-label">중앙 광장</span>
+              <span class="sc-chat-zone" id="chat-zone-label">공원 무전기</span>
               <span class="sc-chat-count" id="chat-online-count">1명 접속</span>
             </div>
             <div class="sc-chat-head-right">
-              <button type="button" class="sc-chat-nick-btn" id="chat-nick-btn" title="클릭하여 닉네임 변경">모험가</button>
-              <input type="text" class="sc-chat-nick-input" id="chat-nick-input" maxlength="16" aria-label="닉네임 수정" hidden />
-              <button type="button" class="sc-chat-collapse-btn" id="chat-collapse-btn" aria-expanded="true">접기</button>
+              <button type="button" class="sc-chat-nick-btn" id="chat-nick-btn" title="닉네임 변경">원장님</button>
+              <input type="text" class="sc-chat-nick-input" id="chat-nick-input" maxlength="16" aria-label="닉네임 입력" hidden />
+              <button type="button" class="sc-chat-collapse-btn rct-win-close" id="chat-collapse-btn" aria-expanded="false">열기</button>
             </div>
           </div>
-          <div class="sc-chat-tabs" id="chat-user-tabs" role="tablist" aria-label="채팅 대상 선택"></div>
-          <div class="sc-chat-log" id="chat-message-log" role="log" aria-live="polite"></div>
-          <form class="sc-chat-form" id="chat-form" autocomplete="off">
-            <input type="text" class="sc-chat-input" id="chat-input" maxlength="220" placeholder="메시지 입력 (Enter 전송 · /w 닉네임 내용)" aria-label="채팅 메시지 입력" />
-            <button type="submit" class="sc-chat-send-btn" aria-label="메시지 전송" title="전송 (Enter)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
-            </button>
-          </form>
+          <div class="rct-chat-body">
+            <div class="sc-chat-tabs" id="chat-user-tabs" role="tablist"></div>
+            <div class="sc-chat-log" id="chat-message-log" role="log" aria-live="polite"></div>
+            <form class="sc-chat-form" id="chat-form" autocomplete="off">
+              <input type="text" class="sc-chat-input" id="chat-input" maxlength="200" placeholder="무전 입력 (Enter 전송)" aria-label="무전 메시지" />
+              <button type="submit" class="rct-btn">전송</button>
+            </form>
+          </div>
         </section>
+      </div>
 
-        <!-- Bottom-Center Survival Project 3-Slot Card & Arcade Action Dock -->
-        <div class="sp-arcade-dock" id="sp-arcade-dock" role="toolbar" aria-label="서바이벌 카드 슬롯 및 액션 키">
-          <div class="sp-card-slots" id="sp-equipped-slots" aria-label="장착 카드 3슬롯">
-            <button type="button" class="sp-slot-card is-tier-white" id="sp-slot-magic" data-open-deck="magic" title="마법 카드 슬롯 (클릭하여 카드 덱 열기)">
-              <span class="sp-slot-tag">MAGIC</span>
-              <span class="sp-slot-name">파이어볼</span>
-              <span class="sp-slot-lv">Lv.1</span>
-            </button>
-            <button type="button" class="sp-slot-card is-tier-white" id="sp-slot-boots" data-open-deck="boots" title="부츠 카드 슬롯 (클릭하여 카드 덱 열기)">
-              <span class="sp-slot-tag">BOOTS</span>
-              <span class="sp-slot-name">제피르</span>
-              <span class="sp-slot-lv">Lv.1</span>
-            </button>
-            <button type="button" class="sp-slot-card is-tier-white" id="sp-slot-aura" data-open-deck="aura" title="정령 오라 슬롯 (클릭하여 카드 덱 열기)">
-              <span class="sp-slot-tag">AURA</span>
-              <span class="sp-slot-name">아쿠아</span>
-              <span class="sp-slot-lv">Lv.1</span>
-            </button>
-          </div>
-          <div class="sp-action-keys">
-            <button type="button" class="sp-key-btn is-melee" id="btn-sp-melee" title="3단 콤보 / 슬라이드 중 대시어택 / 공중 점프어택">
-              <kbd id="kbd-sp-melee">Z</kbd><span>콤보·슛</span>
-            </button>
-            <button type="button" class="sp-key-btn is-magic" id="btn-sp-magic" title="탭=속성마법 / 길게 홀드=오버차지 강마법">
-              <kbd id="kbd-sp-magic">X</kbd><span>차지마법</span>
-            </button>
-            <button type="button" class="sp-key-btn is-ult" id="btn-sp-ult" title="4속성 필살기 버스트">
-              <kbd id="kbd-sp-ult">V</kbd><span>필살기</span>
-            </button>
-            <button type="button" class="sp-key-btn is-guard" id="btn-sp-guard" title="가드 / 타이밍 맞춰 막으면 저스트 패리 반사">
-              <kbd id="kbd-sp-guard">F</kbd><span>가드·패리</span>
-            </button>
-            <button type="button" class="sp-key-btn is-dash" id="btn-hero-dash" title="대시 슬라이딩 / 홀드 시 고속 질주">
-              <kbd id="kbd-sp-dash">⇧</kbd><span>슬라이드</span>
-            </button>
-            <button type="button" class="sp-key-btn is-jump" id="btn-hero-jump" title="점프 / 슬라이드 중 롱점프">
-              <kbd id="kbd-sp-jump">⎵</kbd><span>점프</span>
-            </button>
-            <button type="button" class="sp-key-btn is-deck" id="btn-sp-deck" title="4속성 AI 카드 덱 & 합성 강화 (C)">
-              <kbd>C</kbd><span>카드덱</span>
-            </button>
-            <button type="button" class="sp-key-btn is-keymap" id="btn-sp-keymap" title="조작 전환: 모던(WASD) ↔ 서프 클래식(방향키+A·S·D·Space)">
-              <kbd id="kbd-sp-keymap">모던</kbd><span>조작키</span>
-            </button>
+      <!-- Bottom Classic 1999 Status & News Ticker Bar -->
+      <footer class="rct-bottom-bar" id="rct-bottom-bar">
+        <div class="rct-status-pod rct-date-pod" id="rct-date-pod" title="날짜 및 날씨">
+          <span id="rct-weather-icon">☀️</span>
+          <span id="rct-date-text">Year 1, 3월 1일</span>
+        </div>
+        <button type="button" class="rct-status-pod rct-ticker-pod" id="rct-ticker-pod" title="클릭하여 최근 소식 및 공원 정보 보기">
+          <span class="rct-ticker-badge">NEWS</span>
+          <span class="rct-ticker-text" id="rct-ticker-text">AI위클리 메가 타이쿤 파크에 오신 것을 환영합니다!</span>
+        </button>
+        <div class="rct-status-pod rct-stats-pod" id="rct-stats-pod">
+          <span class="rct-stat-cash" id="rct-cash-text" title="보유 현금">$4,500.0</span>
+          <span class="rct-stat-sep">|</span>
+          <span class="rct-stat-guests" id="rct-guests-text" title="현재 관람객 수">🧑 28명</span>
+          <span class="rct-stat-sep">|</span>
+          <div class="rct-rating-wrap" title="공원 평점 (0~999)">
+            <span>평점</span>
+            <div class="rct-rating-track"><div class="rct-rating-fill" id="rct-rating-fill" style="width:70%"></div></div>
+            <strong id="rct-rating-text">700</strong>
           </div>
         </div>
-
-        <!-- Compact Bottom-Right Character & Atmosphere Capsule -->
-        <div class="sc-atmo-pill" id="sanctuary-atmo-pill" role="group" aria-label="캐릭터·시간대·계절">
-          <button type="button" class="sc-atmo-btn" id="btn-hero-class" title="클릭하여 HD-2D 캐릭터 변경 (아키비스트/메이지/크로니클러/나이트)">
-            <span class="sc-atmo-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
-            <span id="hero-class-text">아키비스트</span>
-          </button>
-          <button type="button" class="sc-atmo-btn" id="btn-atmo-time" title="클릭하여 낮/노을/밤/자동 전환 (밤에는 불꽃축제 자동 공지)">
-            <span class="sc-atmo-icon" id="atmo-time-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg></span>
-            <span id="atmo-time-text">낮</span>
-          </button>
-          <button type="button" class="sc-atmo-btn" id="btn-atmo-season" title="클릭하여 봄/여름/가을/겨울/자동 전환">
-            <span class="sc-atmo-icon" id="atmo-season-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7.5a4.5 4.5 0 1 1 4.5 4.5M12 7.5A4.5 4.5 0 1 0 7.5 12M12 7.5V9m-4.5 3a4.5 4.5 0 1 0 4.5 4.5M7.5 12H9m3 4.5a4.5 4.5 0 1 1 4.5-4.5M12 16.5V15m4.5-3H15"/><circle cx="12" cy="12" r="1.5"/></svg></span>
-            <span id="atmo-season-text">봄 · 벚꽃</span>
-          </button>
-        </div>
-
-        <!-- Survival Project 4-Element Card Deck & Synthesis Modal -->
-        <aside class="sp-card-modal" id="sp-card-modal" role="dialog" aria-modal="false" aria-label="서바이벌 4속성 AI 카드 덱" hidden>
-          <div class="sp-modal-head">
-            <div>
-              <span class="sp-modal-kicker">SURVIVAL PROJECT · 4-ELEMENT DECK</span>
-              <h2 class="sp-modal-title">4속성 AI 카드 덱 &amp; 합성 강화</h2>
-            </div>
-            <div class="sp-modal-actions">
-              <span class="sp-modal-code" id="sp-modal-code">120 CODE</span>
-              <button type="button" class="sp-pack-btn" id="btn-sp-open-pack">카드 팩 개봉 (50 CODE)</button>
-              <button type="button" class="sc-reader-close" id="btn-sp-close-deck" aria-label="카드 덱 닫기">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
-              </button>
-            </div>
-          </div>
-          <div class="sp-modal-tabs" id="sp-deck-tabs" role="tablist">
-            <button type="button" class="sp-deck-tab is-active" data-slot="all">전체 카드</button>
-            <button type="button" class="sp-deck-tab" data-slot="magic">마법 (MAGIC)</button>
-            <button type="button" class="sp-deck-tab" data-slot="boots">부츠 (BOOTS)</button>
-            <button type="button" class="sp-deck-tab" data-slot="aura">정령 (AURA)</button>
-          </div>
-          <div class="sp-modal-feedback" id="sp-deck-feedback" hidden></div>
-          <div class="sp-card-grid" id="sp-card-grid"></div>
-        </aside>
-      </section>
-
-      <!-- Full-Screen Room Monitor Dashboard (opened automatically inside a building or via Wall Screen) -->
-      <aside class="sc-reader-panel sc-room-dashboard" id="sanctuary-reader" role="dialog" aria-modal="false" aria-label="실내 대형 스크린 대시보드" hidden>
-        <div class="sc-reader-head">
-          <div class="sc-reader-title-group">
-            <span class="sc-room-badge" id="reader-room-badge">ARCHIVE TERMINAL</span>
-            <div>
-              <h2 class="sc-reader-title" id="reader-title">인기 플러그인 공방</h2>
-              <p class="sc-reader-sub" id="reader-sub">실시간 아카이브 데이터를 불러오는 중…</p>
-            </div>
-          </div>
-          <div class="sc-reader-head-actions">
-            <button type="button" class="sc-room-action-btn" id="btn-minimize-reader" title="대시보드를 접고 방 내부 3D 공간 보기">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-              <span>방 내부 둘러보기</span>
-            </button>
-            <button type="button" class="sc-room-action-btn is-exit" id="btn-exit-building" title="건물 밖 광장 방향으로 나가기">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
-              <span>건물 나가기</span>
-            </button>
-            <a class="sc-reader-ext" id="reader-page-link" href="./">
-              <span>전체 페이지</span>
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg>
-            </a>
-            <button type="button" class="sc-reader-close" id="btn-close-reader" aria-label="대시보드 닫기">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
-            </button>
-          </div>
-        </div>
-        <div class="sc-dash-kpis" id="reader-kpi-strip" aria-label="핵심 요약 지표"></div>
-        <div class="sc-dash-toolbar" id="reader-toolbar">
-          <div class="sc-dash-filters" id="reader-filter-tabs" role="tablist" aria-label="대시보드 필터"></div>
-          <div class="sc-dash-search-wrap">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-            <input type="search" class="sc-dash-search" id="reader-search-input" placeholder="제목·태그·모델명 검색…" aria-label="대시보드 검색" />
-          </div>
-        </div>
-        <div class="sc-dash-body" id="reader-dashboard-body">
-          <div class="sc-reader-list sc-dash-grid" id="reader-list" role="region" aria-live="polite"></div>
-          <article class="sc-dash-detail" id="reader-detail-pane" aria-label="선택 항목 상세 보기"></article>
-        </div>
-      </aside>
-    </div>
+      </footer>
+    </section>
   </main>
 
 </div>

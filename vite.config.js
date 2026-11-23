@@ -7,7 +7,7 @@ export default defineConfig({
   publicDir: 'public', // Static assets like latest.json go here (relative to root)
   build: {
     outDir: '../dist', // Output to the project root 'dist' folder
-    emptyOutDir: true,
+    emptyOutDir: process.env.CI === 'true',
     chunkSizeWarningLimit: 600,
     rollupOptions: {
       input: {

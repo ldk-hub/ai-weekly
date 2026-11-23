@@ -1,13 +1,7 @@
 # Third-Party Notices
 
-This project includes pixel-art visual effect sprite sheets generated from the following MIT-licensed open-source repositories:
+This project is MIT-licensed.
 
-## patch-gg/pixelfx
-- Repository: https://github.com/patch-gg/pixelfx
-- License: MIT License
-- Used for: Baked pixel-art VFX sprite sheets under `site/public/assets/vfx/` (`fireball`, `flame_pillar`, `ice_lance`, `frost_nova`, `tornado`, `lightning_strike`, `boulder`, `earth_spike`, `sword_slash`, `double_slash`, `heavy_cleave`, `spin_slash`, `thrust`, `dash_strike`, `ground_slam`, `parry`, `spell_charge`, `slime`, `crit_hit`, `hit_spark`, `poof`, `coin_spin`, `collect_burst`, `level_up`, `firework_burst`, `magic_circle`, `confetti`).
-
-## skulitom/Pixelbolt
-- Repository: https://github.com/skulitom/Pixelbolt
-- License: MIT License
-- Used for: Baked pixel-art VFX sprite sheets under `site/public/assets/vfx/` (`pb_shield`, `pb_sparkle`, `pb_heal_ring`).
+## Clean-Room Isometric Theme Park Engine (`site/src/pages/rct/`)
+- All 2:1 dimetric isometric pixel sprites, terrain tiles, coaster tracks, rides, guests, staff, and Windows-style beveled UI assets used in `/sanctuary` (`위클리 타이쿤 · 1999 오리지널 테마파크 시뮬레이터`) are procedurally generated at runtime in clean-room JavaScript (`RctSpriteAtlas.js`, `RctAudio.js`).
+- No proprietary binary assets (`g1.dat`, `css1.dat`) or GPL-3.0 sprite packs are bundled in this repository.

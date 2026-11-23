@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "bake:sanctuary": "node scripts/bake_sanctuary_assets.js",
+    "test:rct": "node --test scripts/test_rct_engine.mjs",
     "preview": "vite preview",
     "data:news": "node scripts/news/collect_news.js && node scripts/news/curate_news.js",
     "data:stars": "node scripts/stars/collect-stars.js",
