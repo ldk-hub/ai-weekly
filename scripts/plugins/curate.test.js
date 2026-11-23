@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // node scripts/plugins/curate.test.js
 const assert = require("assert");
-const { curate, toItem, readmeSimilarity, qualityScore, buzzScore, recencyScore, normalizeName, MAX_PER_OWNER } = require("./curate");
+const { curate, toItem, readmeSimilarity, qualityScore, buzzScore, recencyScore, normalizeName, MAX_PER_OWNER, applyRankDelta } = require("./curate");
 
 const base = (over) => ({
   id: "o/r",
@@ -173,6 +173,33 @@ assert.strictEqual(normalizeName("foo_v2"), normalizeName("foo"));
   assert.strictEqual(res.rising[0].is_supernova, true);
   const item = toItem(res.rising[0]);
   assert.ok(item.badges.includes("🌟 초신성"), "🌟 초신성 배지 포함");
+}
+
+// 직전 스냅샷 기반 is_new 및 rank_delta 자동 계산 검증
+{
+  const prevSnap = {
+    rising: [{ id: "a/one" }, { id: "b/two" }, { id: "c/three" }],
+    classic: [{ id: "d/four" }],
+  };
+  const currentSnap = {
+    rising: [{ id: "c/three" }, { id: "e/new-repo" }, { id: "a/one" }],
+    classic: [{ id: "d/four" }, { id: "b/two" }],
+  };
+  const annotated = applyRankDelta(currentSnap, prevSnap);
+  // c/three: 직전 3위 -> 현재 1위 (rank_delta = +2, is_new = false)
+  assert.strictEqual(annotated.rising[0].is_new, false);
+  assert.strictEqual(annotated.rising[0].prev_rank, 3);
+  assert.strictEqual(annotated.rising[0].rank_delta, 2);
+  // e/new-repo: 직전 스냅샷 미존재 (is_new = true, rank_delta = null)
+  assert.strictEqual(annotated.rising[1].is_new, true);
+  assert.strictEqual(annotated.rising[1].prev_rank, null);
+  assert.strictEqual(annotated.rising[1].rank_delta, null);
+  // a/one: 직전 1위 -> 현재 3위 (rank_delta = -2, is_new = false)
+  assert.strictEqual(annotated.rising[2].is_new, false);
+  assert.strictEqual(annotated.rising[2].rank_delta, -2);
+  // b/two: 직전 rising 에 있었고 이번 주 classic 으로 이동 (is_new = false, classic 내 prev_rank = null)
+  assert.strictEqual(annotated.classic[1].is_new, false);
+  assert.strictEqual(annotated.classic[1].rank_delta, null);
 }
 
 console.log("curate.test.js — all assertions passed");

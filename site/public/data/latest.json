@@ -99,7 +99,11 @@
         "security-audit",
         "agent-framework"
       ],
-      "thumbnail_url": "https://github.com/morluto.png"
+      "thumbnail_url": "https://github.com/morluto.png",
+      "rank": 1,
+      "prev_rank": 2,
+      "is_new": false,
+      "rank_delta": 1
     },
     {
       "id": "ersinkoc/phonebox",
@@ -154,7 +158,11 @@
         "widgets",
         "local-first"
       ],
-      "thumbnail_url": "https://github.com/ersinkoc.png"
+      "thumbnail_url": "https://github.com/ersinkoc.png",
+      "rank": 2,
+      "prev_rank": 5,
+      "is_new": false,
+      "rank_delta": 3
     },
     {
       "id": "juliobsz/skills",
@@ -220,7 +228,11 @@
         "webgl",
         "claude-skills"
       ],
-      "thumbnail_url": "https://github.com/juliobsz.png"
+      "thumbnail_url": "https://github.com/juliobsz.png",
+      "rank": 3,
+      "prev_rank": 3,
+      "is_new": false,
+      "rank_delta": 0
     },
     {
       "id": "erkamyaman/rust-anything",
@@ -269,7 +281,11 @@
         "ffi",
         "pyo3"
       ],
-      "thumbnail_url": "https://github.com/erkamyaman.png"
+      "thumbnail_url": "https://github.com/erkamyaman.png",
+      "rank": 4,
+      "prev_rank": null,
+      "is_new": true,
+      "rank_delta": null
     },
     {
       "id": "mdiri-ai/SoduWork",
@@ -318,7 +334,11 @@
         "human-in-the-loop",
         "orchestration"
       ],
-      "thumbnail_url": "https://github.com/mdiri-ai.png"
+      "thumbnail_url": "https://github.com/mdiri-ai.png",
+      "rank": 5,
+      "prev_rank": 11,
+      "is_new": false,
+      "rank_delta": 6
     },
     {
       "id": "JuneYaooo/rea-video",
@@ -366,7 +386,11 @@
         "reverse-engineering",
         "claude-code"
       ],
-      "thumbnail_url": "https://github.com/JuneYaooo.png"
+      "thumbnail_url": "https://github.com/JuneYaooo.png",
+      "rank": 6,
+      "prev_rank": 4,
+      "is_new": false,
+      "rank_delta": -2
     },
     {
       "id": "haydenschmitty/floorplan",
@@ -415,7 +439,11 @@
         "codex",
         "onboarding"
       ],
-      "thumbnail_url": "https://github.com/haydenschmitty.png"
+      "thumbnail_url": "https://github.com/haydenschmitty.png",
+      "rank": 7,
+      "prev_rank": 8,
+      "is_new": false,
+      "rank_delta": 1
     },
     {
       "id": "patch-gg/pixelfx",
@@ -464,7 +492,11 @@
         "canvas-animation",
         "claude-skills"
       ],
-      "thumbnail_url": "https://github.com/patch-gg.png"
+      "thumbnail_url": "https://github.com/patch-gg.png",
+      "rank": 8,
+      "prev_rank": 6,
+      "is_new": false,
+      "rank_delta": -2
     },
     {
       "id": "caru-ini/stack-diagram",
@@ -513,7 +545,11 @@
         "tech-stack",
         "visualization"
       ],
-      "thumbnail_url": "https://github.com/caru-ini.png"
+      "thumbnail_url": "https://github.com/caru-ini.png",
+      "rank": 9,
+      "prev_rank": null,
+      "is_new": true,
+      "rank_delta": null
     },
     {
       "id": "KKKKhazix/agent-autoloop",
@@ -562,7 +598,11 @@
         "cli-workflow",
         "background-agent"
       ],
-      "thumbnail_url": "https://github.com/KKKKhazix.png"
+      "thumbnail_url": "https://github.com/KKKKhazix.png",
+      "rank": 10,
+      "prev_rank": 7,
+      "is_new": false,
+      "rank_delta": -3
     },
     {
       "id": "qybaihe/bla",
@@ -611,7 +651,11 @@
         "reverse-engineering",
         "defense-shield"
       ],
-      "thumbnail_url": "https://github.com/qybaihe.png"
+      "thumbnail_url": "https://github.com/qybaihe.png",
+      "rank": 11,
+      "prev_rank": 1,
+      "is_new": false,
+      "rank_delta": -10
     },
     {
       "id": "alexeyw/lot-map",
@@ -660,7 +704,11 @@
         "typescript",
         "local-first"
       ],
-      "thumbnail_url": "https://github.com/alexeyw.png"
+      "thumbnail_url": "https://github.com/alexeyw.png",
+      "rank": 12,
+      "prev_rank": null,
+      "is_new": true,
+      "rank_delta": null
     },
     {
       "id": "DIYgod/pinky",
@@ -709,7 +757,11 @@
         "android",
         "ios"
       ],
-      "thumbnail_url": "https://github.com/DIYgod.png"
+      "thumbnail_url": "https://github.com/DIYgod.png",
+      "rank": 13,
+      "prev_rank": 15,
+      "is_new": false,
+      "rank_delta": 2
     },
     {
       "id": "elvarofficial/teardown",
@@ -758,7 +810,11 @@
         "threejs",
         "webgl"
       ],
-      "thumbnail_url": "https://github.com/elvarofficial.png"
+      "thumbnail_url": "https://github.com/elvarofficial.png",
+      "rank": 14,
+      "prev_rank": 10,
+      "is_new": false,
+      "rank_delta": -4
     },
     {
       "id": "N1nEmAn/sapper-v2",
@@ -807,7 +863,11 @@
         "swarm-intelligence",
         "agent-harness"
       ],
-      "thumbnail_url": "https://github.com/N1nEmAn.png"
+      "thumbnail_url": "https://github.com/N1nEmAn.png",
+      "rank": 15,
+      "prev_rank": 18,
+      "is_new": false,
+      "rank_delta": 3
     },
     {
       "id": "t3dotgg/tstack",
@@ -856,7 +916,11 @@
         "typescript",
         "theo-t3"
       ],
-      "thumbnail_url": "https://github.com/t3dotgg.png"
+      "thumbnail_url": "https://github.com/t3dotgg.png",
+      "rank": 16,
+      "prev_rank": 12,
+      "is_new": false,
+      "rank_delta": -4
     },
     {
       "id": "JosssphZhou/poki",
@@ -905,7 +969,11 @@
         "mobile-automation",
         "ai-agents"
       ],
-      "thumbnail_url": "https://github.com/JosssphZhou.png"
+      "thumbnail_url": "https://github.com/JosssphZhou.png",
+      "rank": 17,
+      "prev_rank": 9,
+      "is_new": false,
+      "rank_delta": -8
     },
     {
       "id": "DenisSergeevitch/ex-ussr-kinship-research",
@@ -953,7 +1021,11 @@
         "evidence-first",
         "claude-skills"
       ],
-      "thumbnail_url": "https://github.com/DenisSergeevitch.png"
+      "thumbnail_url": "https://github.com/DenisSergeevitch.png",
+      "rank": 18,
+      "prev_rank": 16,
+      "is_new": false,
+      "rank_delta": -2
     },
     {
       "id": "ZiChuanLan/agent-purge",
@@ -1002,7 +1074,11 @@
         "codex",
         "web-console"
       ],
-      "thumbnail_url": "https://github.com/ZiChuanLan.png"
+      "thumbnail_url": "https://github.com/ZiChuanLan.png",
+      "rank": 19,
+      "prev_rank": 13,
+      "is_new": false,
+      "rank_delta": -6
     },
     {
       "id": "emanuele-em/kanzo",
@@ -1051,7 +1127,11 @@
         "local-first",
         "coding-agents"
       ],
-      "thumbnail_url": "https://github.com/emanuele-em.png"
+      "thumbnail_url": "https://github.com/emanuele-em.png",
+      "rank": 20,
+      "prev_rank": 20,
+      "is_new": false,
+      "rank_delta": 0
     }
   ],
   "classic": [
@@ -1112,7 +1192,11 @@
         "anthropic",
         "terminal-tool"
       ],
-      "thumbnail_url": "https://github.com/anthropics.png"
+      "thumbnail_url": "https://github.com/anthropics.png",
+      "rank": 1,
+      "prev_rank": 12,
+      "is_new": false,
+      "rank_delta": 11
     },
     {
       "id": "affaan-m/ECC",
@@ -1171,7 +1255,11 @@
         "claude-code",
         "instincts"
       ],
-      "thumbnail_url": "https://github.com/affaan-m.png"
+      "thumbnail_url": "https://github.com/affaan-m.png",
+      "rank": 2,
+      "prev_rank": 5,
+      "is_new": false,
+      "rank_delta": 3
     },
     {
       "id": "nextlevelbuilder/ui-ux-pro-max-skill",
@@ -1219,7 +1307,11 @@
         "claude-skills",
         "tailwind"
       ],
-      "thumbnail_url": "https://github.com/nextlevelbuilder.png"
+      "thumbnail_url": "https://github.com/nextlevelbuilder.png",
+      "rank": 3,
+      "prev_rank": 1,
+      "is_new": false,
+      "rank_delta": -2
     },
     {
       "id": "Panniantong/Agent-Reach",
@@ -1267,7 +1359,11 @@
         "mcp-tool",
         "open-data"
       ],
-      "thumbnail_url": "https://github.com/Panniantong.png"
+      "thumbnail_url": "https://github.com/Panniantong.png",
+      "rank": 4,
+      "prev_rank": 4,
+      "is_new": false,
+      "rank_delta": 0
     },
     {
       "id": "D4Vinci/Scrapling",
@@ -1315,7 +1411,11 @@
         "data-extraction",
         "python"
       ],
-      "thumbnail_url": "https://github.com/D4Vinci.png"
+      "thumbnail_url": "https://github.com/D4Vinci.png",
+      "rank": 5,
+      "prev_rank": null,
+      "is_new": true,
+      "rank_delta": null
     },
     {
       "id": "addyosmani/agent-skills",
@@ -1363,7 +1463,11 @@
         "claude-skills",
         "best-practices"
       ],
-      "thumbnail_url": "https://github.com/addyosmani.png"
+      "thumbnail_url": "https://github.com/addyosmani.png",
+      "rank": 6,
+      "prev_rank": null,
+      "is_new": true,
+      "rank_delta": null
     },
     {
       "id": "thedotmack/claude-mem",
@@ -1411,7 +1515,11 @@
         "context-management",
         "claude-code"
       ],
-      "thumbnail_url": "https://github.com/thedotmack.png"
+      "thumbnail_url": "https://github.com/thedotmack.png",
+      "rank": 7,
+      "prev_rank": 2,
+      "is_new": false,
+      "rank_delta": -5
     },
     {
       "id": "JuliusBrussee/caveman",
@@ -1459,7 +1567,11 @@
         "claude-skills",
         "efficiency"
       ],
-      "thumbnail_url": "https://github.com/JuliusBrussee.png"
+      "thumbnail_url": "https://github.com/JuliusBrussee.png",
+      "rank": 8,
+      "prev_rank": 3,
+      "is_new": false,
+      "rank_delta": -5
     },
     {
       "id": "farion1231/cc-switch",
@@ -1507,7 +1619,11 @@
         "claude-code",
         "desktop-utility"
       ],
-      "thumbnail_url": "https://github.com/farion1231.png"
+      "thumbnail_url": "https://github.com/farion1231.png",
+      "rank": 9,
+      "prev_rank": 8,
+      "is_new": false,
+      "rank_delta": -1
     },
     {
       "id": "nexu-io/open-design",
@@ -1555,7 +1671,11 @@
         "mcp-tool",
         "ui-ux"
       ],
-      "thumbnail_url": "https://github.com/nexu-io.png"
+      "thumbnail_url": "https://github.com/nexu-io.png",
+      "rank": 10,
+      "prev_rank": 9,
+      "is_new": false,
+      "rank_delta": -1
     },
     {
       "id": "Egonex-AI/Understand-Anything",
@@ -1603,7 +1723,11 @@
         "mental-model",
         "architecture"
       ],
-      "thumbnail_url": "https://github.com/Egonex-AI.png"
+      "thumbnail_url": "https://github.com/Egonex-AI.png",
+      "rank": 11,
+      "prev_rank": 7,
+      "is_new": false,
+      "rank_delta": -4
     },
     {
       "id": "lidge-jun/opencodex",
@@ -1652,7 +1776,11 @@
         "claude-code",
         "multi-model"
       ],
-      "thumbnail_url": "https://github.com/lidge-jun.png"
+      "thumbnail_url": "https://github.com/lidge-jun.png",
+      "rank": 12,
+      "prev_rank": 6,
+      "is_new": false,
+      "rank_delta": -6
     },
     {
       "id": "ComposioHQ/awesome-claude-skills",
@@ -1701,7 +1829,11 @@
         "composio",
         "agent-resources"
       ],
-      "thumbnail_url": "https://github.com/ComposioHQ.png"
+      "thumbnail_url": "https://github.com/ComposioHQ.png",
+      "rank": 13,
+      "prev_rank": 10,
+      "is_new": false,
+      "rank_delta": -3
     },
     {
       "id": "garrytan/gstack",
@@ -1749,7 +1881,11 @@
         "claude-skills",
         "startup-stack"
       ],
-      "thumbnail_url": "https://github.com/garrytan.png"
+      "thumbnail_url": "https://github.com/garrytan.png",
+      "rank": 14,
+      "prev_rank": 11,
+      "is_new": false,
+      "rank_delta": -3
     },
     {
       "id": "google-gemini/gemini-cli",
@@ -1797,7 +1933,11 @@
         "terminal-agent",
         "large-context"
       ],
-      "thumbnail_url": "https://github.com/google-gemini.png"
+      "thumbnail_url": "https://github.com/google-gemini.png",
+      "rank": 15,
+      "prev_rank": 13,
+      "is_new": false,
+      "rank_delta": -2
     }
   ]
 }

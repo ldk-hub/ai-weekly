@@ -1321,6 +1321,51 @@ function curate(candidates) {
   return { rising, classic, pending };
 }
 
+function loadPreviousSnapshot(archiveDir = path.join(ROOT, "data", "archive"), excludeDate = "") {
+  if (!fs.existsSync(archiveDir)) return null;
+  const files = fs
+    .readdirSync(archiveDir)
+    .filter((f) => /^\d{4}-\d{2}-\d{2}\.json$/.test(f) && f !== `${excludeDate}.json`)
+    .sort();
+  if (!files.length) return null;
+  const prevFile = files[files.length - 1];
+  try {
+    return JSON.parse(fs.readFileSync(path.join(archiveDir, prevFile), "utf8"));
+  } catch (e) {
+    console.warn(`[curate] 직전 스냅샷(${prevFile}) 파싱 실패: ${e.message}`);
+    return null;
+  }
+}
+
+function applyRankDelta(current, prevSnapshot = null) {
+  const prevRising = prevSnapshot?.rising || [];
+  const prevClassic = prevSnapshot?.classic || [];
+  const allPrevIds = new Set([...prevRising, ...prevClassic].map((it) => it && it.id).filter(Boolean));
+  const hasPrev = allPrevIds.size > 0;
+
+  const annotate = (list, prevSectionList) => {
+    const prevRankMap = new Map((prevSectionList || []).map((it, idx) => [it.id, idx + 1]));
+    return (list || []).map((item, idx) => {
+      const curRank = idx + 1;
+      const isNew = hasPrev ? !allPrevIds.has(item.id) : false;
+      const prevRank = prevRankMap.has(item.id) ? prevRankMap.get(item.id) : null;
+      const rankDelta = prevRank != null ? prevRank - curRank : null;
+      return {
+        ...item,
+        rank: curRank,
+        prev_rank: prevRank,
+        is_new: isNew,
+        rank_delta: rankDelta,
+      };
+    });
+  };
+
+  return {
+    rising: annotate(current.rising, prevRising),
+    classic: annotate(current.classic, prevClassic),
+  };
+}
+
 module.exports = {
   curate,
   toItem,
@@ -1331,6 +1376,8 @@ module.exports = {
   normalizeName,
   MAX_PER_OWNER,
   groundTruthMerge,
+  loadPreviousSnapshot,
+  applyRankDelta,
 };
 
 async function main() {
@@ -1345,14 +1392,18 @@ async function main() {
     curated = await callGemini(candidates);
   }
 
-  const rising = groundTruthMerge(curated.rising, candMap, "rising");
-  const classic = groundTruthMerge(curated.classic, candMap, "classic");
-  if (rising.length + classic.length === 0) {
+  const rawRising = groundTruthMerge(curated.rising, candMap, "rising");
+  const rawClassic = groundTruthMerge(curated.classic, candMap, "classic");
+  if (rawRising.length + rawClassic.length === 0) {
     console.error("curation produced 0 items — keeping last week's data");
     process.exit(1);
   }
 
   const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Seoul" }).format(new Date());
+  const archiveDir = path.join(ROOT, "data", "archive");
+  const prevSnapshot = loadPreviousSnapshot(archiveDir, today);
+  const { rising, classic } = applyRankDelta({ rising: rawRising, classic: rawClassic }, prevSnapshot);
+
   const latest = {
     generated: today,
     generated_at: today,
@@ -1362,7 +1413,7 @@ async function main() {
   };
 
   fs.writeFileSync(LATEST, JSON.stringify(latest, null, 2));
-  const archivePath = path.join(ROOT, "data", "archive", `${today}.json`);
+  const archivePath = path.join(archiveDir, `${today}.json`);
   fs.mkdirSync(path.dirname(archivePath), { recursive: true });
   fs.writeFileSync(archivePath, JSON.stringify(latest, null, 2));
 
@@ -1371,7 +1422,8 @@ async function main() {
   fs.mkdirSync(publicArchiveDir, { recursive: true });
   fs.writeFileSync(path.join(publicArchiveDir, `${today}.json`), JSON.stringify(latest, null, 2));
 
-  console.log(`curated rising=${rising.length} classic=${classic.length} → latest.json + archive/${today}.json`);
+  const newCount = [...rising, ...classic].filter((it) => it.is_new).length;
+  console.log(`curated rising=${rising.length} classic=${classic.length} (new=${newCount}) → latest.json + archive/${today}.json`);
 }
 
 /**

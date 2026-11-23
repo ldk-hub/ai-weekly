@@ -34,6 +34,9 @@ function fetchWithScrapling(url, options = {}) {
   if (options.forceStealth) {
     args.push("--force-stealth");
   }
+  if (options.raw) {
+    args.push("--raw");
+  }
   if (options.cssSelector) {
     args.push("--css-selector", options.cssSelector);
   }
@@ -58,10 +61,20 @@ function fetchWithScrapling(url, options = {}) {
       }
     }
   } catch (error) {
-    console.warn(`[scrapling-bridge] fetch 실패 (${url}):`, error.message);
+    if (!options.silent) {
+      console.warn(`[scrapling-bridge] fetch 실패 (${url}):`, error.message);
+    }
   }
 
   return null;
+}
+
+/**
+ * RSS/XML/JSON 등 원본 응답 문자열을 Scrapling(curl-cffi TLS 위장)으로 우선 조회합니다.
+ */
+function fetchRawWithScrapling(url, options = {}) {
+  const res = fetchWithScrapling(url, { ...options, raw: true });
+  return res && res.ok && res.body ? res.body : null;
 }
 
 /**
@@ -118,6 +131,7 @@ function scrapeSocial(platform, options = {}) {
 
 module.exports = {
   fetchWithScrapling,
+  fetchRawWithScrapling,
   scrapeSocial
 };
 

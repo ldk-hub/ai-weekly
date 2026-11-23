@@ -10,7 +10,7 @@ const cheerio = require("cheerio");
 const moment = require("moment-timezone");
 const { execFileSync } = require("child_process");
 const { searchX } = require("../core/agent_reach");
-const { fetchWithScrapling, scrapeSocial } = require("../core/scrapling_fetch");
+const { fetchWithScrapling, fetchRawWithScrapling, scrapeSocial } = require("../core/scrapling_fetch");
 
 const ROOT = path.join(__dirname, "..", "..");
 const OUT = path.join(ROOT, ".tmp", "news_candidates.json");
@@ -176,13 +176,37 @@ async function fetchWithTimeout(url, { headers = {}, timeoutMs = NET_TIMEOUT_MS 
 }
 
 async function getJson(url, headers = {}) {
+  if (!headers || !headers.Authorization) {
+    try {
+      const raw = fetchRawWithScrapling(url, { timeoutMs: NET_TIMEOUT_MS, silent: true });
+      if (raw) return JSON.parse(raw);
+    } catch {
+      // 1차 Scrapling 실패 시 기존 fetchWithTimeout 폴백
+    }
+  }
   return (await fetchWithTimeout(url, { headers })).json();
 }
 
-// rss-parser 의 내장 http 클라이언트는 이 환경에서 타임아웃 나므로 fetch 로 받아 파싱만 위임
+// 1차 Scrapling(curl-cffi TLS 위장) 우선 수집 -> 실패 시 기존 fetchWithTimeout 폴백
 async function parseFeed(url) {
+  const parser = new Parser();
+  const tryUrls = url.includes("www.reddit.com/")
+    ? [url, url.replace("www.reddit.com/", "old.reddit.com/")]
+    : [url];
+
+  for (const targetUrl of tryUrls) {
+    try {
+      const rawXml = fetchRawWithScrapling(targetUrl, { timeoutMs: NET_TIMEOUT_MS, silent: true });
+      if (rawXml && rawXml.includes("<")) {
+        return await parser.parseString(rawXml);
+      }
+    } catch {
+      // 다음 URL 또는 폴백으로 진행
+    }
+  }
+
   const res = await fetchWithTimeout(url);
-  return new Parser().parseString(await res.text());
+  return parser.parseString(await res.text());
 }
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -246,34 +270,52 @@ async function fetchBody(url) {
   }
   if (NO_FETCH_HOSTS.some((h) => host === h || host.endsWith(`.${h}`))) return null;
 
+  const isProtectedOrSpa = /substack|medium|theverge|techcrunch|wired|ft\.com|wsj|information|nature|bloomberg/i.test(host);
+  let scraplingShortBody = null;
+
+  // 1차 우선 시도: Scrapling 고속 적응형 엔진 (TLS 핑거프린트 위장 / 보호 사이트 스텔스)
+  try {
+    const sRes = fetchWithScrapling(url, {
+      timeoutMs: 12000,
+      forceStealth: isProtectedOrSpa,
+      silent: true,
+    });
+    if (sRes && sRes.body) {
+      if (sRes.body.length >= BODY_MIN_CHARS) {
+        return sRes.body.slice(0, BODY_MAX_CHARS);
+      }
+      if (sRes.body.length >= 200) {
+        scraplingShortBody = sRes.body.slice(0, BODY_MAX_CHARS);
+      }
+    }
+  } catch {}
+
+  // 2차 폴백: 기존 Node fetch + cheerio 본문 추출
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), BODY_FETCH_TIMEOUT_MS);
-  let text = null;
   try {
     const res = await fetch(url, { headers: { "User-Agent": UA }, signal: controller.signal, redirect: "follow" });
     if (res.ok && (res.headers.get("content-type") || "").includes("text/html")) {
-      text = extractText(await res.text());
+      const text = extractText(await res.text());
       if (text && text.length >= BODY_MIN_CHARS) return text.slice(0, BODY_MAX_CHARS);
+      if (text && text.length >= 200 && !scraplingShortBody) scraplingShortBody = text.slice(0, BODY_MAX_CHARS);
     }
   } catch {
-    // 1차 fetch 실패 시 하단 Scrapling 스텔스 엔진으로 폴백
+    // 2차 폴백 실패 시 3차 Stealth 폴백 시도
   } finally {
     clearTimeout(timer);
   }
 
-  // 2차 폴백: Scrapling 고속 적응형 스텔스 엔진 (Cloudflare/SPA/봇 방어 사이트)
-  try {
-    const isProtectedOrSpa = /substack|medium|theverge|techcrunch|wired|ft\.com|wsj|information|nature|bloomberg/i.test(host);
-    const sRes = fetchWithScrapling(url, {
-      timeoutMs: 12000,
-      forceStealth: isProtectedOrSpa || (text !== null && text.length < 200)
-    });
-    if (sRes && sRes.body && sRes.body.length >= 200) {
-      return sRes.body.slice(0, BODY_MAX_CHARS);
-    }
-  } catch {}
+  if (!isProtectedOrSpa && !scraplingShortBody) {
+    try {
+      const stealthRes = fetchWithScrapling(url, { timeoutMs: 12000, forceStealth: true, silent: true });
+      if (stealthRes && stealthRes.body && stealthRes.body.length >= 200) {
+        return stealthRes.body.slice(0, BODY_MAX_CHARS);
+      }
+    } catch {}
+  }
 
-  return null;
+  return scraplingShortBody;
 }
 
 async function enrichBodies(candidates) {
@@ -555,37 +597,29 @@ const HF_PAPER_MAX_AGE_DAYS = Number(process.env.NEWS_HF_PAPER_MAX_AGE_DAYS || 2
 
 async function fetchHuggingFacePapers() {
   let listDate = new Date().toISOString().slice(0, 10); // HF 데일리 목록은 UTC 날짜 단위
-  let list;
-  try {
-    list = await getJson(`https://huggingface.co/api/daily_papers?date=${listDate}&limit=50`);
-  } catch (e) {
-    if (e.status === 400) {
-      const prevDate = new Date(Date.now() - 864e5).toISOString().slice(0, 10);
-      try {
-        list = await getJson(`https://huggingface.co/api/daily_papers?date=${prevDate}&limit=50`);
-        console.log(`[hfpapers] ${listDate} 목록 미생성으로 직전일(${prevDate}) 데일리 목록 수집`);
-        listDate = prevDate;
-      } catch (e2) {
-        console.warn(`[hfpapers] ${listDate} 및 ${prevDate} 목록 조회 실패:`, e2.message);
+  let list = [];
+  // 당일 및 주말(토·일)·월요일 오전 공백 대응을 위해 최대 3일 전(금요일 UTC 목록)까지 역순 탐색
+  for (let offset = 0; offset <= 3; offset++) {
+    const candidateDate = new Date(Date.now() - offset * 864e5).toISOString().slice(0, 10);
+    try {
+      const res = await getJson(`https://huggingface.co/api/daily_papers?date=${candidateDate}&limit=50`);
+      if (Array.isArray(res) && res.length > 0) {
+        if (offset > 0) {
+          console.log(`[hfpapers] 당일 목록 비어있음 -> ${offset}일 전(${candidateDate}) 데일리 목록 폴백 수집 (${res.length}건)`);
+        }
+        list = res;
+        listDate = candidateDate;
+        break;
+      }
+    } catch (e) {
+      if (offset === 3) {
+        console.warn(`[hfpapers] 최근 4일(${candidateDate}까지) 목록 조회 실패:`, e.message);
         return [];
       }
-    } else {
-      console.warn(`[hfpapers] ${listDate} 목록 조회 실패:`, e.message);
-      return [];
     }
   }
-  if (Array.isArray(list) && list.length === 0) {
-    const prevDate = new Date(Date.now() - 864e5).toISOString().slice(0, 10);
-    try {
-      list = await getJson(`https://huggingface.co/api/daily_papers?date=${prevDate}&limit=50`);
-      console.log(`[hfpapers] ${listDate} 목록 비어있음 -> 직전일(${prevDate}) 데일리 목록 수집 (${list.length}건)`);
-      listDate = prevDate;
-    } catch (e2) {
-      console.warn(`[hfpapers] 직전일 목록 조회 실패:`, e2.message);
-    }
-  }
-  if (!Array.isArray(list)) {
-    console.warn(`[hfpapers] 예상 밖 응답 형태 — 건너뜀`);
+  if (!Array.isArray(list) || list.length === 0) {
+    console.warn(`[hfpapers] 유효한 논문 목록 없음 — 건너뜀`);
     return [];
   }
 
@@ -745,85 +779,100 @@ async function fetchX(dynamicSeeds = []) {
   const seen = new Set();
   const out = [];
   let scanned = 0;
-  const queries = [...BSKY_QUERIES, ...dynamicSeeds.slice(0, 1)];
-  for (const [idx, q] of queries.entries()) {
-    if (idx > 0) await sleep(X_DELAY_MS);
-    let tweets;
+
+  // 1차 우선 수집: Scrapling 스텔스 크롤러로 공식 AI 연구소 및 시드 계정 타임라인 직접 수집
+  console.log("[x] 1차 Scrapling 스텔스 크롤러로 X 공식 AI 연구소·시드 트윗 우선 수집...");
+  try {
+    let xUsers = [];
     try {
-      tweets = await searchX(q, {
-        since: SINCE_DATE, minLikes: X_MIN_LIKES, max: 40, has: ["links"], exclude: ["retweets", "replies"],
-      });
-    } catch (e) {
-      console.warn(`[x] "${q}" 실패:`, e.message);
-      if (e.message.includes("쿠키 없음")) break; // 설정 전이면 남은 쿼리도 같은 이유로 실패한다
-      continue;
-    }
-    for (const t of tweets || []) {
+      const { loadSeeds } = require("../social/seeds");
+      xUsers = loadSeeds().x || [];
+    } catch {}
+    const scraplingItems = scrapeSocial("x", { users: xUsers, limit: 4 });
+    for (const item of scraplingItems) {
       scanned++;
-      if (!inWindow(t.createdAtISO, "x")) continue; // --since 는 날짜 단위라 창을 다시 자른다
-      const link = (t.urls || []).find((u) => {
-        try { return !X_HOSTS.includes(new URL(u).host.replace(/^www\./, "")); } catch { return false; }
-      });
-      if (!link || seen.has(link)) continue;
-      seen.add(link);
-      const handle = (t.author && t.author.screenName) || "";
-      const m = t.metrics || {};
+      if (!inWindow(item.publish_date, "x")) continue;
+      if (item.url && seen.has(item.url)) continue;
+      if (item.url) seen.add(item.url);
       out.push(makeCandidate({
         source: "x",
         sourceName: "X",
-        url: link,
-        title: String(t.text || "").split("\n")[0].slice(0, 120),
-        author: handle ? `@${handle}` : "X",
-        publishDate: t.createdAtISO,
-        body: t.text || "",
-        metrics: {
-          likes: m.likes || 0,
-          reposts: m.retweets || 0,
-          replies: m.replies || 0,
-          views: m.views || 0,
-          x_url: `https://x.com/${handle || "i"}/status/${t.id}`,
-        },
+        url: item.url,
+        title: item.title,
+        author: item.author,
+        publishDate: item.publish_date,
+        body: item.body,
+        metrics: item.metrics,
       }));
     }
+  } catch (err) {
+    console.warn("[x] 1차 Scrapling X 수집 경고 (폴백 진행):", err.message);
   }
-  await resolveShortLinks(out);
 
-  // Scrapling 폴백: X 쿠키 만료/미설정으로 0건일 경우 Scrapling 스텔스 브라우저로 주요 연구소 트윗 직접 수집 (비중 확대)
-  if (!out.length) {
-    console.log("[x] searchX 0건 또는 쿠키 부재 → Scrapling 스텔스 크롤러로 X 공식 AI 연구소 트윗 직접 수집 (확대 모드)");
-    try {
-      const fallbackItems = scrapeSocial("x", { limit: 4 });
-      for (const item of fallbackItems) {
-        if (!inWindow(item.publish_date, "x")) continue;
+  // 2차 폴백 및 보충: 기존 Agent-Reach(searchX) 검색 쿼리
+  if (out.length < 3) {
+    const queries = [...BSKY_QUERIES, ...dynamicSeeds.slice(0, 1)];
+    for (const [idx, q] of queries.entries()) {
+      if (idx > 0) await sleep(X_DELAY_MS);
+      let tweets;
+      try {
+        tweets = await searchX(q, {
+          since: SINCE_DATE, minLikes: X_MIN_LIKES, max: 40, has: ["links"], exclude: ["retweets", "replies"],
+        });
+      } catch (e) {
+        console.warn(`[x:fallback] "${q}" 실패:`, e.message);
+        if (e.message.includes("쿠키 없음")) break;
+        continue;
+      }
+      for (const t of tweets || []) {
+        scanned++;
+        if (!inWindow(t.createdAtISO, "x")) continue;
+        const link = (t.urls || []).find((u) => {
+          try { return !X_HOSTS.includes(new URL(u).host.replace(/^www\./, "")); } catch { return false; }
+        });
+        if (!link || seen.has(link)) continue;
+        seen.add(link);
+        const handle = (t.author && t.author.screenName) || "";
+        const m = t.metrics || {};
         out.push(makeCandidate({
           source: "x",
           sourceName: "X",
-          url: item.url,
-          title: item.title,
-          author: item.author,
-          publishDate: item.publish_date,
-          body: item.body,
-          metrics: item.metrics,
+          url: link,
+          title: String(t.text || "").split("\n")[0].slice(0, 120),
+          author: handle ? `@${handle}` : "X",
+          publishDate: t.createdAtISO,
+          body: t.text || "",
+          metrics: {
+            likes: m.likes || 0,
+            reposts: m.retweets || 0,
+            replies: m.replies || 0,
+            views: m.views || 0,
+            x_url: `https://x.com/${handle || "i"}/status/${t.id}`,
+          },
         }));
       }
-    } catch (err) {
-      console.warn("[x] Scrapling X 폴백 실패:", err.message);
     }
+    await resolveShortLinks(out);
   }
 
-  console.log(`[x] ${scanned}건 훑어 링크+좋아요${X_MIN_LIKES} 이상 ${out.length}건`);
+  console.log(`[x] ${scanned}건 훑어 최종 ${out.length}건 확보`);
   return out;
 }
 
-// ⑦ Threads — Scrapling 스텔스 크롤러 연동 (비중 확대)
+// ⑦ Threads — 1차 Scrapling 스텔스 크롤러 우선 + threads_profile 폴백
 async function fetchThreads() {
   if (process.env.NEWS_SKIP_THREADS === "1") {
     console.warn("[threads] NEWS_SKIP_THREADS=1 — 건너뜀");
     return [];
   }
-  console.log("[threads] Scrapling 스텔스 크롤러로 Threads 공식 AI 계정 수집 시작 (확대 모드)...");
+  console.log("[threads] 1차 Scrapling 스텔스 크롤러로 Threads 공식 AI 계정 수집 시작...");
   try {
-    const items = scrapeSocial("threads", { limit: 4 })
+    let threadUsers = [];
+    try {
+      const { loadSeeds } = require("../social/seeds");
+      threadUsers = loadSeeds().threads || [];
+    } catch {}
+    const items = scrapeSocial("threads", { users: threadUsers, limit: 4 })
       .filter((i) => inWindow(i.publish_date, "threads"));
     console.log(`[threads] Scrapling 수집 완료: ${items.length}건`);
     return items.map((i) => makeCandidate({
@@ -842,21 +891,25 @@ async function fetchThreads() {
   }
 }
 
-// ⑧ Instagram — Scrapling 크롤러 우선 + ego-browser 로그인 세션 폴백
+// ⑧ Instagram — 1차 Scrapling 스텔스 크롤러(활성 시드 연동) 우선 + 2차 ego-browser 로그인 세션 폴백
 async function fetchInstagram() {
   if (process.env.NEWS_SKIP_INSTAGRAM === "1") {
     console.warn("[instagram] NEWS_SKIP_INSTAGRAM=1 — 건너뜀");
     return [];
   }
-  console.log("[instagram] Instagram AI 채널 수집 시작...");
+  console.log("[instagram] 1차 Scrapling 크롤러로 Instagram AI 채널 우선 수집 시작...");
   try {
-    let items = scrapeSocial("instagram", { limit: 3 })
+    const { loadSeeds } = require("../social/seeds");
+    const { collectInstagramEgo, parseMetaCounts } = require("../social/ig_profile");
+    const seeds = loadSeeds();
+    const igUsers = seeds.instagram || [];
+
+    let items = scrapeSocial("instagram", { users: igUsers, limit: 3 })
       .filter((i) => inWindow(i.publish_date, "instagram"));
+
     if (!items.length) {
-      const { loadSeeds } = require("../social/seeds");
-      const { collectInstagramEgo, parseMetaCounts } = require("../social/ig_profile");
-      const seeds = loadSeeds();
-      const egoItems = await collectInstagramEgo(seeds.instagram || [], 3, WINDOW_HOURS);
+      console.log("[instagram] 1차 Scrapling 0건 → 2차 ego-browser 로그인 세션 폴백 실행...");
+      const egoItems = await collectInstagramEgo(igUsers, 3, WINDOW_HOURS);
       items = egoItems
         .map((raw) => {
           const body = String(raw.body || "").trim();

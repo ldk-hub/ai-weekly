@@ -179,59 +179,7 @@ async function main() {
     }
   }
 
-  // X / Reddit buzz 매칭: Agent-Reach (twitter-cli / rdt-cli) 가용 시 evidence 로 보강
-  let agentReach = null;
-  try {
-    agentReach = require("../core/agent_reach");
-  } catch (e) {}
-
-  if (agentReach) {
-    const SOCIAL_QUERIES = ["claude code", "mcp server", "claude skill"];
-    try {
-      for (const q of SOCIAL_QUERIES) {
-        const tweets = await agentReach.searchX(q, { max: 15 });
-        for (const t of tweets || []) {
-          const text = `${t.text || ""} ${(t.urls || []).join(" ")}`.toLowerCase();
-          for (const repo of repos.values()) {
-            if (text.includes(repo.id.toLowerCase()) || text.includes(repo.name.toLowerCase())) {
-              repo.x.push({
-                title: (t.text || "").slice(0, 100),
-                url: t.url || `https://x.com/i/web/status/${t.id}`,
-                author: t.author || "",
-                likes: t.likes || 0,
-                retweets: t.retweets || 0,
-              });
-            }
-          }
-        }
-      }
-    } catch (e) {
-      console.warn("[collect] X buzz skipped:", e.message);
-    }
-
-    try {
-      for (const q of SOCIAL_QUERIES) {
-        const posts = await agentReach.searchReddit(q, { limit: 15 });
-        for (const p of posts || []) {
-          const text = `${p.title || ""} ${p.url || ""} ${p.selftext || ""}`.toLowerCase();
-          for (const repo of repos.values()) {
-            if (text.includes(repo.id.toLowerCase()) || text.includes(repo.name.toLowerCase())) {
-              repo.reddit.push({
-                title: p.title || "",
-                url: p.url || `https://reddit.com${p.permalink}`,
-                points: p.score || 0,
-                comments: p.num_comments || 0,
-              });
-            }
-          }
-        }
-      }
-    } catch (e) {
-      console.warn("[collect] Reddit buzz skipped:", e.message);
-    }
-  }
-
-  // Scrapling & 데일리 아카이브 소셜 미디어(Threads, X, Instagram, Reddit) 주간 크로스 매칭
+  // 1차 우선: Scrapling & 데일리 아카이브/소셜 후보(Threads, X, Instagram, Reddit) 주간 크로스 매칭
   const archiveDir = path.join(ROOT, "data", "archive");
   const recentNewsItems = [];
   try {
@@ -252,6 +200,23 @@ async function main() {
     try {
       const nc = JSON.parse(fs.readFileSync(newsCandidatesPath, "utf8"));
       for (const item of (nc.candidates || nc || [])) recentNewsItems.push(item);
+    } catch {}
+  }
+
+  const socialCandidatesPath = path.join(ROOT, "data", "social_candidates.json");
+  if (fs.existsSync(socialCandidatesPath)) {
+    try {
+      const sc = JSON.parse(fs.readFileSync(socialCandidatesPath, "utf8"));
+      for (const p of (sc.posts || [])) {
+        recentNewsItems.push({
+          source: p.platform,
+          title: (p.text || "").split("\n")[0].slice(0, 100),
+          body: p.text || "",
+          url: p.url,
+          author: p.author,
+          metrics: p.metrics,
+        });
+      }
     } catch {}
   }
 
@@ -281,6 +246,64 @@ async function main() {
           if (!repo.reddit.some((r) => r.url === evidenceItem.url)) repo.reddit.push(evidenceItem);
         }
       }
+    }
+  }
+
+  // 2차 폴백 보충: Agent-Reach (twitter-cli / rdt-cli) 가용 시 추가 검색 매칭
+  let agentReach = null;
+  try {
+    agentReach = require("../core/agent_reach");
+  } catch (e) {}
+
+  if (agentReach) {
+    const SOCIAL_QUERIES = ["claude code", "mcp server", "claude skill"];
+    try {
+      for (const q of SOCIAL_QUERIES) {
+        const tweets = await agentReach.searchX(q, { max: 15 });
+        for (const t of tweets || []) {
+          const text = `${t.text || ""} ${(t.urls || []).join(" ")}`.toLowerCase();
+          for (const repo of repos.values()) {
+            if (text.includes(repo.id.toLowerCase()) || text.includes(repo.name.toLowerCase())) {
+              const url = t.url || `https://x.com/i/web/status/${t.id}`;
+              if (!repo.x.some((x) => x.url === url)) {
+                repo.x.push({
+                  title: (t.text || "").slice(0, 100),
+                  url,
+                  author: t.author || "",
+                  likes: t.likes || 0,
+                  retweets: t.retweets || 0,
+                });
+              }
+            }
+          }
+        }
+      }
+    } catch (e) {
+      console.warn("[collect:fallback] X buzz skipped:", e.message);
+    }
+
+    try {
+      for (const q of SOCIAL_QUERIES) {
+        const posts = await agentReach.searchReddit(q, { limit: 15 });
+        for (const p of posts || []) {
+          const text = `${p.title || ""} ${p.url || ""} ${p.selftext || ""}`.toLowerCase();
+          for (const repo of repos.values()) {
+            if (text.includes(repo.id.toLowerCase()) || text.includes(repo.name.toLowerCase())) {
+              const url = p.url || `https://reddit.com${p.permalink}`;
+              if (!repo.reddit.some((r) => r.url === url)) {
+                repo.reddit.push({
+                  title: p.title || "",
+                  url,
+                  points: p.score || 0,
+                  comments: p.num_comments || 0,
+                });
+              }
+            }
+          }
+        }
+      }
+    } catch (e) {
+      console.warn("[collect:fallback] Reddit buzz skipped:", e.message);
     }
   }
 

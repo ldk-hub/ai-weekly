@@ -150,7 +150,25 @@ assert.deepStrictEqual(
   "쉘 스크립트 base64 -d | sh 패턴 탐지"
 );
 assert.deepStrictEqual(
-  rules(scanContent("package.json", JSON.stringify({ name: "x", scripts: { postinstall: 'python3 -c "import os"' } }))),
+  rules(scanContent("package.json", JSON.stringify({ name: "x", scripts: { postinstall: 'python3 -c "import urllib.request; exec(urllib.request.urlopen(u).read())"' } }))),
+  ["install_script_network", "remote_fetch_exec"],
+  "package.json postinstall python3 -c 위험 패턴(urllib/exec) 결합 시 탐지"
+);
+assert.deepStrictEqual(
+  rules(scanContent("package.json", JSON.stringify({ name: "x", scripts: { preinstall: 'node -e "require(\'child_process\').execSync(\'sh payload.sh\')"' } }))),
   ["install_script_network"],
-  "package.json postinstall python3 -c 인라인 실행 탐지"
+  "package.json preinstall node -e + child_process 위험 패턴 결합 시 탐지"
+);
+assert.deepStrictEqual(
+  scanContent(
+    "package.json",
+    JSON.stringify({
+      name: "hermes-agent",
+      scripts: {
+        preinstall: "node -e \"const ua=(process.env.npm_config_user_agent||'').split(' ')[0];let pin=require('./pm/lock.json').packageManager;if(!ua.startsWith('pnpm'))process.exit(1)\"",
+      },
+    })
+  ),
+  [],
+  "네트워크/동적실행/서브프로세스가 없는 순수 로컬 환경 체크용 node -e 는 오탐이 아니어야 한다"
 );

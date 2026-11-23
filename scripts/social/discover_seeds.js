@@ -8,6 +8,7 @@ const { PLATFORMS, normalizeHandle, loadSeedRegistry, saveSeedRegistry } = requi
 const { normalizeScrapedX, normalizeThread, normalizeRedditItem, normalizeInstagram } = require("./collect_social");
 const { collectInstagramEgo } = require("./ig_profile");
 const { searchX } = require("../core/agent_reach");
+const { fetchRawWithScrapling, scrapeSocial } = require("../core/scrapling_fetch");
 
 const ROOT = path.join(__dirname, "..", "..");
 const SEEDS_FILE = path.join(ROOT, "data", "social", "seeds.json");
@@ -341,6 +342,18 @@ async function runPythonJson(scriptPath, args) {
 async function fetchCandidatePosts(platform, handle) {
   if (platform === "reddit") {
     const url = `https://www.reddit.com/r/${encodeURIComponent(handle)}/top/.rss?t=week`;
+    const altUrl = `https://old.reddit.com/r/${encodeURIComponent(handle)}/top/.rss?t=week`;
+    // 1차 우선 시도: Scrapling (curl-cffi 브라우저 TLS 위장)
+    for (const targetUrl of [url, altUrl]) {
+      try {
+        const rawXml = fetchRawWithScrapling(targetUrl, { timeoutMs: 15000, silent: true });
+        if (rawXml && rawXml.includes("<")) {
+          const feed = await rssParser.parseString(rawXml);
+          return (feed.items || []).slice(0, 5).map((it) => normalizeRedditItem(it, handle));
+        }
+      } catch {}
+    }
+    // 2차 폴백: 기존 rssParser.parseURL
     const feed = await rssParser.parseURL(url);
     return (feed.items || []).slice(0, 5).map((it) => normalizeRedditItem(it, handle));
   }
@@ -349,25 +362,35 @@ async function fetchCandidatePosts(platform, handle) {
     return (res.items || []).map(normalizeThread);
   }
   if (platform === "x") {
+    // 1차 우선 시도: Scrapling X 프로필 스텔스 크롤러
     try {
-      const tweets = await searchX(`from:${handle}`, { max: 5, type: "Latest", exclude: ["replies", "retweets"] });
-      if (tweets && tweets.length) {
-        return tweets.map((t) => ({
-          id: `x:${t.id}`,
-          platform: "x",
-          author: `@${(t.author && t.author.screenName) || handle}`,
-          text: String(t.text || ""),
-          publishedAt: t.createdAtISO || "",
-          metrics: t.metrics || {},
-        }));
+      const res = await runPythonJson(X_SCRIPT, ["--users", handle, "--limit", "4"]);
+      if (res && Array.isArray(res.items) && res.items.length > 0) {
+        return res.items.map(normalizeScrapedX);
       }
     } catch {
-      // Fallback to Scrapling X profile
+      // 1차 실패 시 2차 Agent-Reach(searchX) 폴백
     }
-    const res = await runPythonJson(X_SCRIPT, ["--users", handle, "--limit", "4"]);
-    return (res.items || []).map(normalizeScrapedX);
+    const tweets = await searchX(`from:${handle}`, { max: 5, type: "Latest", exclude: ["replies", "retweets"] });
+    return (tweets || []).map((t) => ({
+      id: `x:${t.id}`,
+      platform: "x",
+      author: `@${(t.author && t.author.screenName) || handle}`,
+      text: String(t.text || ""),
+      publishedAt: t.createdAtISO || "",
+      metrics: t.metrics || {},
+    }));
   }
   if (platform === "instagram") {
+    // 1차 우선 시도: Scrapling Instagram 크롤러
+    try {
+      const scraped = scrapeSocial("instagram", { users: [handle], limit: 4 }).map(normalizeInstagram);
+      if (scraped.length >= 2) {
+        return scraped;
+      }
+    } catch {
+      // 1차 실패 시 2차 ego-browser 폴백
+    }
     const items = await collectInstagramEgo([handle], 4, MAX_INACTIVE_DAYS * 24);
     return items.map(normalizeInstagram);
   }

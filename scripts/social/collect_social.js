@@ -9,6 +9,7 @@ const { loadSeeds, loadSeedRegistry } = require("./seeds");
 const { collectInstagramEgo, parseMetaCounts } = require("./ig_profile");
 const { loadRecentCuratedIds } = require("./curate_social");
 const { searchX } = require("../core/agent_reach");
+const { fetchRawWithScrapling, scrapeSocial } = require("../core/scrapling_fetch");
 
 const ROOT = path.join(__dirname, "..", "..");
 const OUT = path.join(ROOT, "data", "social_candidates.json");
@@ -112,6 +113,21 @@ function normalizeRedditItem(item, fallbackSub = "") {
 
 async function fetchRedditSub(sub) {
   const url = `https://www.reddit.com/r/${encodeURIComponent(sub)}/top/.rss?t=day`;
+  const altUrl = `https://old.reddit.com/r/${encodeURIComponent(sub)}/top/.rss?t=day`;
+
+  // 1차 우선 시도: Scrapling (curl-cffi 브라우저 TLS 핑거프린트 위장)
+  for (const targetUrl of [url, altUrl]) {
+    try {
+      const rawXml = fetchRawWithScrapling(targetUrl, { timeoutMs: 15000, silent: true });
+      if (rawXml && rawXml.includes("<")) {
+        return await rssParser.parseString(rawXml);
+      }
+    } catch {
+      // 다음 URL 또는 폴백으로 진행
+    }
+  }
+
+  // 2차 폴백: 기존 rssParser.parseURL
   try {
     return await rssParser.parseURL(url);
   } catch (e) {
@@ -159,33 +175,62 @@ async function runPythonScraper(scriptPath, handles, limit = 3) {
 
 async function collectX(handles, since) {
   const out = [];
-  for (const [i, h] of handles.entries()) {
-    if (i > 0) await sleep(X_DELAY_MS);
-    try {
-      const tweets = await searchX(`from:${h}`, { since, max: 10, type: "Latest", exclude: ["replies", "retweets"] });
-      out.push(...(tweets || []).map(normalizeTweet));
-    } catch (e) {
-      console.warn(`[social:x] ${h} 실패: ${e.message}`);
-      if (
-        e.message.includes("쿠키 없음") ||
-        e.message.includes("not_authenticated") ||
-        e.message.includes("ENOENT") ||
-        e.message.includes("실행 실패")
-      ) {
-        break;
+  // 1차 우선 수집: Scrapling X 프로필 스텔스 크롤러
+  console.log("[social:x] 1차 Scrapling X 프로필 크롤러 우선 실행...");
+  try {
+    const scraped = await runPythonScraper(X_SCRIPT, handles, 5);
+    out.push(...scraped.map(normalizeScrapedX));
+  } catch (err) {
+    console.warn(`[social:x] 1차 Scrapling 경고 (폴백 진행): ${err.message}`);
+  }
+
+  // 2차 폴백: Scrapling 수집 결과가 없을 경우 기존 Agent-Reach(searchX) 폴백
+  if (!out.length) {
+    console.log("[social:x] 1차 Scrapling 0건 → 2차 Agent-Reach(searchX) 폴백 실행...");
+    for (const [i, h] of handles.entries()) {
+      if (i > 0) await sleep(X_DELAY_MS);
+      try {
+        const tweets = await searchX(`from:${h}`, { since, max: 10, type: "Latest", exclude: ["replies", "retweets"] });
+        out.push(...(tweets || []).map(normalizeTweet));
+      } catch (e) {
+        console.warn(`[social:x:fallback] ${h} 실패: ${e.message}`);
+        if (
+          e.message.includes("쿠키 없음") ||
+          e.message.includes("not_authenticated") ||
+          e.message.includes("ENOENT") ||
+          e.message.includes("실행 실패")
+        ) {
+          break;
+        }
       }
     }
   }
-  if (!out.length) {
-    console.log("[social:x] Scrapling X 프로필 폴백 실행...");
-    try {
-      const scraped = await runPythonScraper(X_SCRIPT, handles, 5);
-      return scraped.map(normalizeScrapedX);
-    } catch (err) {
-      console.warn(`[social:x] Scrapling 폴백 실패: ${err.message}`);
-    }
-  }
   return out;
+}
+
+async function collectInstagram(handles, maxWindow) {
+  if (!handles || !handles.length) return [];
+  // 1차 우선 수집: Scrapling Instagram 크롤러
+  console.log("[social:instagram] 1차 Scrapling Instagram 크롤러 우선 실행...");
+  try {
+    const scraped = scrapeSocial("instagram", { users: handles, limit: 4 }).map(normalizeInstagram);
+    const validDated = filterByWindow(scraped, maxWindow);
+    if (validDated.length > 0) {
+      return scraped;
+    }
+  } catch (e) {
+    console.warn(`[social:instagram] 1차 Scrapling 경고 (폴백 진행): ${e.message}`);
+  }
+
+  // 2차 폴백: 기존 ego-browser 로그인 세션
+  console.log("[social:instagram] 1차 Scrapling 유효 게시물 부족 → 2차 ego-browser 로그인 세션 폴백 실행...");
+  try {
+    const egoItems = await collectInstagramEgo(handles, 4, maxWindow);
+    return egoItems.map(normalizeInstagram);
+  } catch (e) {
+    console.warn(`[social:instagram:fallback] 실패: ${e.message}`);
+    return [];
+  }
 }
 
 function normalizeInstagram(item) {
@@ -237,12 +282,7 @@ async function collect(opts = {}) {
     process.env.SOCIAL_SKIP_REDDIT === "1" ? [] : collectReddit(seeds.reddit || []),
     process.env.SOCIAL_SKIP_INSTAGRAM === "1"
       ? []
-      : collectInstagramEgo(seeds.instagram || [], 4, maxWindow)
-          .then((items) => items.map(normalizeInstagram))
-          .catch((e) => {
-            console.warn(`[social:instagram] 실패: ${e.message}`);
-            return [];
-          }),
+      : collectInstagram(seeds.instagram || [], maxWindow),
   ]);
 
   const deduped = dedupe([...xPosts, ...threadPosts, ...redditPosts, ...igPosts]);

@@ -116,17 +116,24 @@ function scanContent(filePath, text) {
     } catch {
       return findings;
     }
+    const INLINE_EXEC_RE = /\b(?:node\s+(?:-e|--eval)\b|python3?\s+-c\b)/;
+    const INLINE_DANGER_RE = /\b(?:child_process|https?|net|tls|dgram|dns|urllib|requests|httpx|socket|subprocess)\b|\bos\.(?:system|popen|exec|spawn)\w*\b/;
     for (const key of ["preinstall", "install", "postinstall"]) {
       const cmd = pkg.scripts?.[key];
-      if (
-        typeof cmd === "string" &&
+      if (typeof cmd !== "string") continue;
+      const hasInlineDanger =
+        INLINE_EXEC_RE.test(cmd) &&
         (RE.remoteFetch.test(cmd) ||
-          RE.shellPipeExec.test(cmd) ||
-          /https?:\/\//.test(cmd) ||
-          /node\s+-e/.test(cmd) ||
-          /\bpython3?\s+-c\b/.test(cmd))
+          RE.dynamicExec.test(cmd) ||
+          RE.opaqueDecode.test(cmd) ||
+          INLINE_DANGER_RE.test(cmd));
+      if (
+        RE.remoteFetch.test(cmd) ||
+        RE.shellPipeExec.test(cmd) ||
+        /https?:\/\//.test(cmd) ||
+        hasInlineDanger
       ) {
-        hit("install_script_network", `${key} 스크립트가 외부에서 코드를 받거나 인라인 실행한다: ${cmd.slice(0, 120)}`);
+        hit("install_script_network", `${key} 스크립트가 외부에서 코드를 받거나 위험한 인라인 명령을 실행한다: ${cmd.slice(0, 120)}`);
       }
     }
   }
