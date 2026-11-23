@@ -30,6 +30,18 @@
 
 > **"비결정적(Non-Deterministic) LLM 추론과 결정적(Deterministic) 수집·검증 파이프라인을 엄격히 분리하고, Scrapling 기반 스텔스 크롤링을 통합하여 환각 0%와 소셜 신호 다양성을 보장합니다."**
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/images/architecture-dark.png">
+  <img src="docs/images/architecture.png" alt="AI Weekly 전체 시스템 아키텍처: 1. Data Sources(GitHub & Feeds, Scrapling, OpenRouter) → 2. Pipeline & AI Curation(Collectors & Guard, Claude Code, Static Data, Obsidian Vault) → 3. Build & GitHub Pages(GitHub Actions, Vite 8, Playwright, AI Weekly App, 2.5D Sanctuary) → Reader" width="100%" style="border-radius: 10px; margin: 12px 0;" />
+</picture>
+
+<p align="center">
+  <sub><b>1. Data Sources</b> (GitHub/RSS · Scrapling 스텔스 · OpenRouter) → <b>2. Pipeline &amp; AI Curation</b> (Node.js 수집·C2 스캔 · Claude Code 큐레이션 · Hard Override JSON · Obsidian 동기화) → <b>3. Build &amp; GitHub Pages</b> (GitHub Actions · Vite 8 정적 번들 · Playwright E2E · 5대 탭 &amp; Three.js/Trystero 2.5D 성역) · <a href="docs/architecture.html">원본 HTML 보기</a></sub>
+</p>
+
+<details>
+<summary>세부 파이프라인 데이터 흐름 (Mermaid)</summary>
+
 ```mermaid
 flowchart LR
     subgraph Collect["1. 결정적 & 스텔스 수집"]
@@ -56,6 +68,8 @@ flowchart LR
 
     S1 & S2 & S3 --> G1 --> G2 --> G3 --> C1 --> C2 --> P1 & P2
 ```
+
+</details>
 
 | 설계 영역 | 문제 정의 (Problem) | 아키텍처 해법 (Engineering Solution) | 검증 및 운영 효과 (Impact) |
 | :--- | :--- | :--- | :--- |

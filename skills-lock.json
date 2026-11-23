@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "stack-diagram": {
+      "source": "caru-ini/stack-diagram",
+      "sourceType": "github",
+      "skillPath": "skills/stack-diagram/SKILL.md",
+      "computedHash": "1261628e172aa03b19ee21449b0eaf9931425d06ca02af51ccbb5ab2012fde5a"
+    }
+  }
+}
