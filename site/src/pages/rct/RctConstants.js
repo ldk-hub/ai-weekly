@@ -447,3 +447,23 @@ export const PEEP_FIRST_NAMES = [
 export const PEEP_LAST_NAMES = [
   "김", "이", "박", "최", "정", "강", "윤", "임", "S.", "M.", "K.", "L.",
 ];
+
+export const PEEP_PANTS_COLORS = [
+  "#1e3a8a", "#334155", "#4b5563", "#78350f", "#0f766e", "#3730a3",
+];
+
+export const PEEP_HAT_TYPES = [
+  "none", "cap", "sunhat", "visor", "crown", "ears",
+];
+
+export const GUEST_ORIGIN_ROUTES = Object.freeze({
+  plugins: { id: "plugins", badge: "🔌 플러그인", label: "인기 플러그인 탭", accent: "#38bdf8", isExternal: true },
+  news: { id: "news", badge: "📰 AI뉴스", label: "AI 뉴스 피드", accent: "#facc15", isExternal: true },
+  social: { id: "social", badge: "💬 소셜피드", label: "소셜 피드 탭", accent: "#f472b6", isExternal: true },
+  starboard: { id: "starboard", badge: "⭐ 스타보드", label: "스타보드 오픈소스", accent: "#a855f7", isExternal: true },
+  benchmarks: { id: "benchmarks", badge: "📊 벤치마크", label: "점유율·성능 탭", accent: "#4ade80", isExternal: true },
+  github: { id: "github", badge: "🐙 GitHub", label: "GitHub 유입", accent: "#fb923c", isExternal: true },
+  search: { id: "search", badge: "🌐 외부링크", label: "외부 검색/링크", accent: "#2dd4bf", isExternal: true },
+  radio: { id: "radio", badge: "📻 무전기", label: "멀티플레이 무전기", accent: "#60a5fa", isExternal: true },
+  direct: { id: "direct", badge: "🎟 정문입장", label: "공원 정문 입장", accent: "#94a3b8", isExternal: false },
+});

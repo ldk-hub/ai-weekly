@@ -15,6 +15,7 @@ import {
   COASTER_BLUEPRINTS,
   SCENARIO_PRESETS,
   DIR_LABELS,
+  GUEST_ORIGIN_ROUTES,
 } from "./RctConstants.js";
 
 function esc(str) {
@@ -39,7 +40,7 @@ function formatMoney(n) {
 }
 
 export class RctWindowsUI {
-  constructor({ sim, renderer, audio, onToolChange, onSaveLocal, onLoadLocal, onSwitchScenario }) {
+  constructor({ sim, renderer, audio, onToolChange, onSaveLocal, onLoadLocal, onSwitchScenario, onControlPeep }) {
     this.sim = sim;
     this.renderer = renderer;
     this.audio = audio;
@@ -47,6 +48,7 @@ export class RctWindowsUI {
     this.onSaveLocal = onSaveLocal;
     this.onLoadLocal = onLoadLocal;
     this.onSwitchScenario = onSwitchScenario;
+    this.onControlPeep = onControlPeep || (() => {});
 
     this.layerEl = document.getElementById("rct-window-layer");
     this.windows = new Map(); // key -> { key, el, titleTheme, pinned, state }
@@ -54,6 +56,7 @@ export class RctWindowsUI {
     this._buildTab = "coaster";
     this._sceneryTab = "nature";
     this._staffTab = "handyman";
+    this._guestTab = "all";
     this._aiTab = "plugins";
     this._aiQuery = "";
     this._brushSize = 1;
@@ -371,11 +374,20 @@ export class RctWindowsUI {
         const cls = inverseBad ? (val > 70 ? "is-bad" : val > 45 ? "is-warn" : "") : (val < 30 ? "is-bad" : val < 55 ? "is-warn" : "");
         return `<div class="rct-stat-bar"><span class="rct-stat-bar-label">${label}</span><div class="rct-stat-bar-track"><div class="rct-stat-bar-fill ${cls}" style="width:${Math.round(val)}%"></div></div></div>`;
       };
+      const isControlled = this.sim.controlledPeepId === peep.id;
       el.innerHTML = this._wrapWindow(key, `🧑 관람객: ${peep.name}`, "is-gold", `
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:6px; margin-bottom:5px;">
+          <span class="rct-route-badge" style="color:${esc(peep.originColor || "#94a3b8")};">${esc(peep.originBadge || "🎟 정문입장")}</span>
+          <span style="font-size:10.5px; color:#cbd5e1;">유입: ${esc(peep.originLabel || "정문 입장")}</span>
+        </div>
         <div style="display:grid; grid-template-columns:150px 1fr; gap:8px;">
           <div>
             <canvas class="rct-mini-cam" id="rct-peep-minicam" width="150" height="96" data-peep-id="${esc(peep.id)}"></canvas>
             <div style="display:flex; flex-direction:column; gap:4px; margin-top:5px;">
+              <button type="button" class="rct-btn ${isControlled ? "is-active" : "is-primary"}" data-control-peep="${esc(peep.id)}">
+                ${isControlled ? "🕹 조작 중 (해제)" : "🕹 이 손님 직접 조작"}
+              </button>
+              <button type="button" class="rct-btn" data-peep-interact="${esc(peep.id)}">🎡 기구·상점 이용</button>
               <button type="button" class="rct-btn is-warn" data-peep-pincer="${esc(peep.id)}">🦀 집게로 집기</button>
               ${peep.hasBalloon ? `<button type="button" class="rct-btn is-danger" data-peep-pop="${esc(peep.id)}">🎈 풍선 터뜨리기</button>` : ""}
             </div>
@@ -494,15 +506,44 @@ export class RctWindowsUI {
     }
 
     if (key === "guests-list") {
-      el.innerHTML = this._wrapWindow(key, `🧑 관람객 목록 (${this.sim.peeps.length}명)`, "is-gold", `
+      const extPeeps = this.sim.peeps.filter((p) => p.isExternalRoute);
+      const ctrlPeep = this.sim.getControlledPeep();
+      const filtered =
+        this._guestTab === "external"
+          ? extPeeps
+          : this._guestTab === "controlled"
+            ? (ctrlPeep ? [ctrlPeep] : [])
+            : this.sim.peeps;
+      const routeSpawnKeys = ["news", "plugins", "social", "starboard", "benchmarks", "github"];
+      el.innerHTML = this._wrapWindow(key, `🧑 관람객 · 타경로 유입 (${this.sim.peeps.length}명)`, "is-gold", `
+        <div class="rct-tabs">
+          <button type="button" class="rct-tab ${this._guestTab === "all" ? "is-active" : ""}" data-guest-tab="all">전체 (${this.sim.peeps.length})</button>
+          <button type="button" class="rct-tab ${this._guestTab === "external" ? "is-active" : ""}" data-guest-tab="external">🌐 타경로 (${extPeeps.length})</button>
+          <button type="button" class="rct-tab ${this._guestTab === "controlled" ? "is-active" : ""}" data-guest-tab="controlled">🕹 조작중</button>
+        </div>
+        <div class="rct-inset" style="font-size:10.5px; display:flex; flex-direction:column; gap:4px;">
+          <div style="color:#fde047; font-weight:800;">타 경로 손님 즉시 입장 + 수동 조작 체험:</div>
+          <div style="display:flex; flex-wrap:wrap; gap:4px;">
+            ${routeSpawnKeys.map((rk) => {
+              const rt = GUEST_ORIGIN_ROUTES[rk];
+              return `<button type="button" class="rct-mini-btn" style="border-color:${esc(rt.accent)}; color:${esc(rt.accent)};" data-spawn-route="${esc(rt.id)}">+ ${esc(rt.badge)}</button>`;
+            }).join("")}
+          </div>
+        </div>
         <div class="rct-list-grid">
-          ${this.sim.peeps.slice(0, 40).map((p) => `
+          ${filtered.length === 0 ? `<div class="rct-inset">해당 조건의 손님이 없습니다. 상단 경로 버튼을 눌러 입장시키세요!</div>` : filtered.slice(0, 45).map((p) => `
             <div class="rct-card-row">
-              <div>
-                <div style="font-weight:800;">${esc(p.name)} ${p.hasBalloon ? "🎈" : ""} ${p.nausea > 65 ? "🤢" : ""}</div>
-                <div style="font-size:10.5px; color:#cbd5e1;">"${esc(p.thoughts[0] || "즐거운 하루!")}"</div>
+              <div style="min-width:0;">
+                <div style="font-weight:800; display:flex; align-items:center; gap:5px; flex-wrap:wrap;">
+                  <span class="rct-route-badge" style="color:${esc(p.originColor || "#94a3b8")};">${esc(p.originBadge || "🎟 정문")}</span>
+                  <span>${esc(p.name)} ${p.hasBalloon ? "🎈" : ""} ${p.nausea > 65 ? "🤢" : ""}</span>
+                </div>
+                <div style="font-size:10px; color:#cbd5e1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">"${esc(p.thoughts[0] || "즐거운 하루!")}"</div>
               </div>
-              <button type="button" class="rct-mini-btn" data-open-peep="${esc(p.id)}">추적</button>
+              <div style="display:flex; gap:3px; flex-shrink:0;">
+                <button type="button" class="rct-mini-btn ${this.sim.controlledPeepId === p.id ? "is-active" : "is-primary"}" data-control-peep="${esc(p.id)}">🕹 조작</button>
+                <button type="button" class="rct-mini-btn" data-open-peep="${esc(p.id)}">보기</button>
+              </div>
             </div>
           `).join("")}
         </div>
@@ -964,6 +1005,43 @@ export class RctWindowsUI {
         this.renderer.centerOnTile(Math.round(p.x), Math.round(p.y));
         this.openWindow("peep-detail", { peepId: p.id });
       }
+      return;
+    }
+    const guestTab = t.closest("[data-guest-tab]");
+    if (guestTab) {
+      this._guestTab = guestTab.dataset.guestTab;
+      this._renderWindowContent("guests-list");
+      return;
+    }
+    const spawnRoute = t.closest("[data-spawn-route]");
+    if (spawnRoute) {
+      const peep = this.sim.spawnExternalRouteGuest(spawnRoute.dataset.spawnRoute, null, true);
+      if (peep) {
+        this.onControlPeep(peep.id);
+        this.renderer.centerOnTile(Math.round(peep.x), Math.round(peep.y));
+        this._renderWindowContent("guests-list");
+      }
+      return;
+    }
+    const ctrlPeep = t.closest("[data-control-peep]");
+    if (ctrlPeep) {
+      const targetId = ctrlPeep.dataset.controlPeep;
+      const nextId = this.sim.controlledPeepId === targetId ? null : targetId;
+      this.onControlPeep(nextId);
+      if (this.windows.has("peep-detail")) this._renderWindowContent("peep-detail");
+      if (this.windows.has("guests-list")) this._renderWindowContent("guests-list");
+      return;
+    }
+    const interactPeep = t.closest("[data-peep-interact]");
+    if (interactPeep) {
+      this.sim.setControlledPeep(interactPeep.dataset.peepInteract);
+      const res = this.sim.interactControlledPeepWithAdjacent();
+      if (!res.ok && res.reason) this.sim.pushNews(res.reason, "warn");
+      if (res.kind === "billboard" && res.billboard) {
+        this.openWindow("billboard-post", { billboardId: res.billboard.id });
+      }
+      this.onControlPeep(this.sim.controlledPeepId);
+      this._renderWindowContent("peep-detail");
       return;
     }
     const sTab = t.closest("[data-staff-tab]");

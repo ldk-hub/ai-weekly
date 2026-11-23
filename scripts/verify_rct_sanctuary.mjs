@@ -82,10 +82,11 @@ try {
   console.log("Overview layout:", layoutStats);
   assert.ok(layoutStats.canvasW > 800 && layoutStats.canvasH > 450, "Canvas dimensions invalid");
   assert.ok(layoutStats.minimapW >= 110 && layoutStats.minimapH >= 110, "44x44 minimap canvas missing or hidden");
-  assert.ok(layoutStats.toolbarBtns >= 18, "Toolbar buttons missing");
+  assert.ok(layoutStats.toolbarBtns >= 19, "Toolbar buttons missing");
   assert.ok(layoutStats.cash?.startsWith("$"), "Cash pod missing");
   assert.ok(layoutStats.guests?.includes("명"), "Guests pod missing");
   assert.ok(Number(layoutStats.rating) > 0, "Rating pod missing");
+  assert.equal(await page.locator("#rct-btn-bgm.is-active").count(), 1, "BGM button should be active by default");
 
   // Capture screenshot 1: 44x44 Park Overview with Minimap & Perimeter Billboards
   await page.screenshot({ path: path.join(ARTIFACT_DIR, "rct_sanctuary_overview.png") });
@@ -176,13 +177,34 @@ try {
   await page.keyboard.press("Escape");
   await page.waitForTimeout(120);
 
-  // 4. Open Guests List -> Inspect Peep -> Verify Thoughts & Pincer
+  // 4. Open Guests List -> External Route Tab -> Spawn & Manual Control + POV HUD
   await page.click('#rct-top-toolbar [data-win="guests-list"]');
   await page.waitForTimeout(200);
+  await page.click('[data-guest-tab="external"]');
+  await page.waitForTimeout(150);
+  const extListText = await page.locator('[data-win-key="guests-list"]').innerText();
+  assert.ok(extListText.includes("타경로"), "External-route guests tab missing");
+  await page.click('[data-spawn-route="github"]');
+  await page.waitForTimeout(250);
+  assert.equal(await page.locator("#rct-guest-pov-hud").isVisible(), true, "Guest POV HUD did not appear");
+  const povName = await page.locator("#rct-pov-name").innerText();
+  assert.ok(povName.length > 0, "POV guest name empty");
+
+  // Walk with on-screen D-pad & WASD, then inspect peep-detail
+  await page.click('[data-pov-move="up"]');
+  await page.keyboard.press("KeyW");
+  await page.waitForTimeout(300);
+  await page.click('#rct-btn-zoom-in');
+  await page.waitForTimeout(200);
+  await page.screenshot({ path: path.join(ARTIFACT_DIR, "rct_guest_pov.png") });
+  await page.click('#rct-pov-exit');
+  await page.waitForTimeout(150);
+
   await page.click('[data-win-key="guests-list"] [data-open-peep]');
   await page.waitForTimeout(250);
   const peepText = await page.locator('[data-win-key="peep-detail"]').innerText();
   assert.ok(peepText.includes("최근 생각"), "Peep thoughts missing");
+  assert.ok(peepText.includes("직접 조작"), "Manual control button missing in peep-detail");
   assert.equal(await page.locator('[data-peep-pincer]').count(), 1, "Pincer pickup button missing");
 
   // 5. Open Staff -> Hire Handyman

@@ -381,3 +381,53 @@ test("test_perimeter_billboards_sandbox_freebuild_and_customization", () => {
   assert.equal(reloadedRide.colorPrimary, "#06b6d4");
   assert.equal(simReloaded.getTile(15, 15).surface, "sand");
 });
+
+test("test_external_route_guests_and_manual_pov_control", async () => {
+  const { GUEST_ORIGIN_ROUTES } = await import("../site/src/pages/rct/RctConstants.js");
+  assert.ok(GUEST_ORIGIN_ROUTES.news && GUEST_ORIGIN_ROUTES.github);
+  assert.equal(GUEST_ORIGIN_ROUTES.news.isExternal, true);
+  assert.equal(GUEST_ORIGIN_ROUTES.direct.isExternal, false);
+
+  const sim = new RctParkSimulation();
+  sim.loadScenario("sandbox_canvas");
+
+  const extPeep = sim.spawnExternalRouteGuest("github", "테스터G", true);
+  assert.ok(extPeep);
+  assert.equal(extPeep.isExternalRoute, true);
+  assert.equal(extPeep.originRouteId, "github");
+  assert.equal(sim.controlledPeepId, extPeep.id);
+
+  // Move controlled guest north along main plaza path (-Y -> dir 3)
+  const startY = Math.round(extPeep.y);
+  const moveRes = sim.moveControlledPeepByDir(3);
+  assert.equal(moveRes.ok, true, moveRes.reason);
+  for (let i = 0; i < 15; i++) sim.step(0.05);
+  assert.equal(Math.round(extPeep.y) <= startY - 1, true);
+
+  // Walk via BFS to plaza tile (22, 35) and verify arrival stays under manual control
+  const walkRes = sim.walkControlledPeepToTile(22, 35);
+  assert.equal(walkRes.ok, true);
+  for (let i = 0; i < 80; i++) sim.step(0.05);
+  assert.equal(Math.round(extPeep.x), 22);
+  assert.equal(Math.round(extPeep.y), 35);
+
+  // Place ice_cream_stall at adjacent open grass (23, 35) and trigger manual shop interaction
+  const stallRes = sim.placeRideOrShop(23, 35, "ice_cream_stall");
+  assert.equal(stallRes.ok, true, stallRes.reason);
+  extPeep.facing = 0; // Face east toward (23, 35)
+  const actRes = sim.interactControlledPeepWithAdjacent();
+  assert.equal(actRes.ok, true, actRes.reason);
+  assert.equal(actRes.kind, "shop");
+  assert.equal(extPeep.hasIceCream, true);
+
+  // Cycle external-route guest & serialize roundtrip preserves controlled guest & route
+  const cycled = sim.cycleControlledExternalPeep();
+  assert.ok(cycled);
+  assert.equal(cycled.isExternalRoute, true);
+  const saved = sim.serialize();
+  const sim2 = new RctParkSimulation();
+  assert.equal(sim2.deserialize(saved), true);
+  const restoredExt = sim2.peeps.find((p) => p.originRouteId === "github" && p.name === "테스터G");
+  assert.ok(restoredExt);
+  assert.equal(restoredExt.isExternalRoute, true);
+});

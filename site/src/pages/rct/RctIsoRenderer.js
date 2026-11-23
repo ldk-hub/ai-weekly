@@ -213,6 +213,35 @@ export class RctIsoRenderer {
       ctx.fillRect(rx * cellW - 1, ry * cellH - 1, Math.max(3, cellW + 1), Math.max(3, cellH + 1));
     }
 
+    // External-route guests & controlled POV guest radar beacons
+    for (const p of this.sim.peeps || []) {
+      const isCtrl = p.id === this.sim.controlledPeepId;
+      if (!p.isExternalRoute && !isCtrl) continue;
+      let gx = Math.round(p.x);
+      let gy = Math.round(p.y);
+      if (p.state === "riding" && p.ridingRideId) {
+        const r = this.sim.rides.find((item) => item.id === p.ridingRideId);
+        if (r) {
+          gx = r.x;
+          gy = r.y;
+        }
+      }
+      const rx =
+        this.rotation === 0 ? gx : this.rotation === 1 ? m - gy : this.rotation === 2 ? m - gx : gy;
+      const ry =
+        this.rotation === 0 ? gy : this.rotation === 1 ? gx : this.rotation === 2 ? m - gy : m - gx;
+      if (isCtrl) {
+        ctx.fillStyle = "#fde047";
+        ctx.fillRect(rx * cellW - 2, ry * cellH - 2, Math.max(5, cellW + 3), Math.max(5, cellH + 3));
+        ctx.strokeStyle = "#ffffff";
+        ctx.lineWidth = 1;
+        ctx.strokeRect(rx * cellW - 2.5, ry * cellH - 2.5, Math.max(6, cellW + 4), Math.max(6, cellH + 4));
+      } else {
+        ctx.fillStyle = p.originColor || "#38bdf8";
+        ctx.fillRect(rx * cellW, ry * cellH, Math.max(2, cellW), Math.max(2, cellH));
+      }
+    }
+
     // Current camera viewport indicator box
     const rect = this.canvas.getBoundingClientRect();
     if (rect.width > 0 && rect.height > 0) {
@@ -1457,54 +1486,157 @@ export class RctIsoRenderer {
 
   _drawPeep(ctx, p, iso, toScreenX, toScreenY, zoom, nowSec, collectHitboxes) {
     const px = toScreenX(iso.screenX);
-    const swing = p.state === "sitting" ? 0 : Math.sin(p.walkPhase) * 1.5 * zoom;
-    const bounce = p.state === "sitting" ? 0 : Math.abs(Math.sin(p.walkPhase)) * 2 * zoom;
-    const py = toScreenY(iso.screenY) - bounce;
+    const isSitting = p.state === "sitting";
+    const isControlled = p.id === this.sim.controlledPeepId;
+    const swing = isSitting ? 0 : Math.sin(p.walkPhase) * 1.8 * zoom;
+    const armSwing = isSitting ? 0 : Math.sin(p.walkPhase + Math.PI) * 1.7 * zoom;
+    const bounce = isSitting ? 0 : Math.abs(Math.sin(p.walkPhase)) * 2.1 * zoom;
+    const baseY = toScreenY(iso.screenY);
+    const py = baseY - bounce;
 
-    ctx.fillStyle = "rgba(0, 0, 0, 0.35)";
-    ctx.fillRect(px - 3 * zoom, py - 1 * zoom, 6 * zoom, 2 * zoom);
+    // Ground locator ring for Controlled POV or External-Route visitor
+    if (isControlled) {
+      const pulse = 1 + 0.16 * Math.sin(nowSec * 6);
+      ctx.strokeStyle = "#fde047";
+      ctx.lineWidth = Math.max(1.5, 2.2 * zoom);
+      ctx.beginPath();
+      ctx.ellipse(px, baseY, 10 * zoom * pulse, 5 * zoom * pulse, 0, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.strokeStyle = "#38bdf8";
+      ctx.lineWidth = Math.max(1, 1.4 * zoom);
+      ctx.beginPath();
+      ctx.ellipse(px, baseY, 6.5 * zoom, 3.2 * zoom, 0, 0, Math.PI * 2);
+      ctx.stroke();
+    } else if (p.isExternalRoute) {
+      ctx.strokeStyle = p.originColor || "#38bdf8";
+      ctx.lineWidth = Math.max(1, 1.3 * zoom);
+      ctx.beginPath();
+      ctx.ellipse(px, baseY, 6.5 * zoom, 3.2 * zoom, 0, 0, Math.PI * 2);
+      ctx.stroke();
+    }
 
-    // Legs with walk stride
-    ctx.fillStyle = "#1e293b";
-    ctx.fillRect(px - 2.2 * zoom, py - 6 * zoom + swing * 0.5, 2 * zoom, 5 * zoom);
-    ctx.fillRect(px + 0.2 * zoom, py - 6 * zoom - swing * 0.5, 2 * zoom, 5 * zoom);
+    // Soft elliptical ground shadow
+    ctx.fillStyle = "rgba(0, 0, 0, 0.36)";
+    ctx.beginPath();
+    ctx.ellipse(px, baseY, 4.5 * zoom, 2.1 * zoom, 0, 0, Math.PI * 2);
+    ctx.fill();
 
-    // Shirt & Arms
+    // Backpack (behind torso for travelers)
+    if (p.backpackColor) {
+      ctx.fillStyle = "#090d13";
+      ctx.fillRect(px + 2 * zoom, py - 13 * zoom, 3.2 * zoom, 6 * zoom);
+      ctx.fillStyle = p.backpackColor;
+      ctx.fillRect(px + 2.3 * zoom, py - 12.6 * zoom, 2.4 * zoom, 5 * zoom);
+    }
+
+    // Legs (two-tone trousers + distinct shoes)
+    const pants = p.pantsColor || "#1e3a8a";
+    ctx.fillStyle = pants;
+    ctx.fillRect(px - 2.6 * zoom, py - 6.8 * zoom + swing * 0.45, 2.3 * zoom, 5.2 * zoom);
+    ctx.fillRect(px + 0.4 * zoom, py - 6.8 * zoom - swing * 0.45, 2.3 * zoom, 5.2 * zoom);
+    ctx.fillStyle = "#090d13";
+    ctx.fillRect(px - 2.8 * zoom, py - 2 * zoom + swing * 0.45, 2.6 * zoom, 1.6 * zoom);
+    ctx.fillRect(px + 0.3 * zoom, py - 2 * zoom - swing * 0.45, 2.6 * zoom, 1.6 * zoom);
+
+    // Torso shirt + subtle collar outline
+    ctx.fillStyle = "#090d13";
+    ctx.fillRect(px - 3.6 * zoom, py - 13.8 * zoom, 7.2 * zoom, 7.2 * zoom);
     ctx.fillStyle = p.shirtColor;
-    ctx.fillRect(px - 3 * zoom, py - 12 * zoom, 6 * zoom, 6 * zoom);
+    ctx.fillRect(px - 3.2 * zoom, py - 13.4 * zoom, 6.4 * zoom, 6.4 * zoom);
+    ctx.fillStyle = "#f8fafc";
+    ctx.fillRect(px - 1.1 * zoom, py - 13.4 * zoom, 2.2 * zoom, 1.4 * zoom);
 
-    // Head & Hair
+    // Swinging Arms + Hands
+    const skin = p.nausea > 65 ? "#86efac" : p.skinTone || "#fed7aa";
+    ctx.fillStyle = p.shirtColor;
+    ctx.fillRect(px - 5 * zoom, py - 13 * zoom + armSwing * 0.5, 1.8 * zoom, 3.8 * zoom);
+    ctx.fillRect(px + 3.2 * zoom, py - 13 * zoom - armSwing * 0.5, 1.8 * zoom, 3.8 * zoom);
+    ctx.fillStyle = skin;
+    ctx.fillRect(px - 5 * zoom, py - 9.4 * zoom + armSwing * 0.5, 1.7 * zoom, 1.8 * zoom);
+    ctx.fillRect(px + 3.3 * zoom, py - 9.4 * zoom - armSwing * 0.5, 1.7 * zoom, 1.8 * zoom);
+
+    // Head, Face & Directional Eyes
     const hair = PEEP_HAIR_COLORS[(p.name.charCodeAt(0) || 0) % PEEP_HAIR_COLORS.length];
-    ctx.fillStyle = p.nausea > 65 ? "#86efac" : "#fed7aa";
-    ctx.fillRect(px - 2.5 * zoom, py - 16.5 * zoom, 5 * zoom, 4.5 * zoom);
+    ctx.fillStyle = "#090d13";
+    ctx.fillRect(px - 3.2 * zoom, py - 19.2 * zoom, 6.4 * zoom, 5.6 * zoom);
+    ctx.fillStyle = skin;
+    ctx.fillRect(px - 2.8 * zoom, py - 18.8 * zoom, 5.6 * zoom, 4.9 * zoom);
     ctx.fillStyle = hair;
-    ctx.fillRect(px - 2.5 * zoom, py - 17.5 * zoom, 5 * zoom, 2 * zoom);
+    ctx.fillRect(px - 2.8 * zoom, py - 19.4 * zoom, 5.6 * zoom, 2.1 * zoom);
 
-    // Held Burger or Drink
-    if (p.hasBurger) {
+    const rotDir = ((p.facing || 0) + this.rotation) % 4;
+    if (rotDir === 1 || rotDir === 2 || isControlled) {
+      const eyeShift = rotDir === 0 ? 1 * zoom : rotDir === 2 ? -0.8 * zoom : 0;
+      ctx.fillStyle = "#090d13";
+      ctx.fillRect(px - 1.7 * zoom + eyeShift, py - 16.5 * zoom, 1.1 * zoom, 1.2 * zoom);
+      ctx.fillRect(px + 0.6 * zoom + eyeShift, py - 16.5 * zoom, 1.1 * zoom, 1.2 * zoom);
+    }
+
+    // Headgear (Cap / Sunhat / Neon Visor / Crown / Ears)
+    const hatCol = p.hatColor || p.shirtColor;
+    if (p.hatType === "cap") {
+      ctx.fillStyle = hatCol;
+      ctx.fillRect(px - 3.2 * zoom, py - 21 * zoom, 6.4 * zoom, 2.4 * zoom);
+      ctx.fillRect(px - 1 * zoom, py - 19.6 * zoom, 5 * zoom, 1.2 * zoom);
+    } else if (p.hatType === "sunhat") {
+      ctx.fillStyle = "#fde68a";
+      ctx.fillRect(px - 5 * zoom, py - 19.8 * zoom, 10 * zoom, 1.4 * zoom);
+      ctx.fillStyle = hatCol;
+      ctx.fillRect(px - 2.8 * zoom, py - 21.5 * zoom, 5.6 * zoom, 2 * zoom);
+    } else if (p.hatType === "visor") {
+      ctx.fillStyle = "#22d3ee";
+      ctx.fillRect(px - 3 * zoom, py - 17.5 * zoom, 6 * zoom, 1.6 * zoom);
+    } else if (p.hatType === "crown") {
+      ctx.fillStyle = "#facc15";
+      ctx.fillRect(px - 2.8 * zoom, py - 21 * zoom, 5.6 * zoom, 1.8 * zoom);
+      ctx.fillRect(px - 2.8 * zoom, py - 22.6 * zoom, 1.3 * zoom, 1.6 * zoom);
+      ctx.fillRect(px - 0.6 * zoom, py - 23 * zoom, 1.3 * zoom, 2 * zoom);
+      ctx.fillRect(px + 1.5 * zoom, py - 22.6 * zoom, 1.3 * zoom, 1.6 * zoom);
+    } else if (p.hatType === "ears") {
+      ctx.fillStyle = "#090d13";
+      ctx.beginPath(); ctx.arc(px - 2.8 * zoom, py - 21 * zoom, 1.9 * zoom, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(px + 2.8 * zoom, py - 21 * zoom, 1.9 * zoom, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = hatCol;
+      ctx.fillRect(px - 2.2 * zoom, py - 19.8 * zoom, 4.4 * zoom, 1 * zoom);
+    }
+
+    // Held Snacks, Drinks, Ice Cream, or Park Map
+    if (p.hasIceCream) {
+      ctx.fillStyle = "#d97706";
+      ctx.fillRect(px + 3.8 * zoom, py - 9.5 * zoom, 2 * zoom, 3 * zoom);
+      ctx.fillStyle = "#f472b6";
+      ctx.beginPath(); ctx.arc(px + 4.8 * zoom, py - 10.6 * zoom, 1.9 * zoom, 0, Math.PI * 2); ctx.fill();
+    } else if (p.hasBurger) {
       ctx.fillStyle = "#f59e0b";
-      ctx.fillRect(px + 3 * zoom, py - 10 * zoom, 2.5 * zoom, 2 * zoom);
+      ctx.fillRect(px + 3.5 * zoom, py - 9.8 * zoom, 2.8 * zoom, 2.2 * zoom);
     } else if (p.hasDrink) {
       ctx.fillStyle = "#38bdf8";
-      ctx.fillRect(px - 5 * zoom, py - 11 * zoom, 2 * zoom, 3 * zoom);
+      ctx.fillRect(px - 6.2 * zoom, py - 11.2 * zoom, 2.3 * zoom, 3.2 * zoom);
+      ctx.fillStyle = "#fde047";
+      ctx.fillRect(px - 5.4 * zoom, py - 13 * zoom, 0.9 * zoom, 2 * zoom);
+    } else if (p.hasMap && zoom >= 0.95) {
+      ctx.fillStyle = "#e0f2fe";
+      ctx.fillRect(px - 6.4 * zoom, py - 10.5 * zoom, 3 * zoom, 3.5 * zoom);
+      ctx.fillStyle = "#0284c7";
+      ctx.fillRect(px - 5.8 * zoom, py - 9.8 * zoom, 1.8 * zoom, 1 * zoom);
     }
 
     if (this.sim.weather === "rain" && p.hasUmbrella) {
       ctx.fillStyle = "#ef4444";
-      ctx.beginPath(); ctx.arc(px, py - 17 * zoom, 7.5 * zoom, Math.PI, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(px, py - 20.5 * zoom, 8.2 * zoom, Math.PI, Math.PI * 2); ctx.fill();
       ctx.fillStyle = "#ffffff";
-      ctx.beginPath(); ctx.arc(px, py - 17 * zoom, 3.5 * zoom, Math.PI, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(px, py - 20.5 * zoom, 3.8 * zoom, Math.PI, Math.PI * 2); ctx.fill();
     }
 
     if (p.hasBalloon) {
       const sway = Math.sin(nowSec * 3.2 + p.walkPhase) * 2.2 * zoom;
-      const bx = px + 4.5 * zoom + sway;
-      const by = py - 27 * zoom;
+      const bx = px + 5.2 * zoom + sway;
+      const by = py - 29 * zoom;
       ctx.strokeStyle = "#e2e8f0";
       ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.moveTo(px + 2 * zoom, py - 10 * zoom); ctx.lineTo(bx, by); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(px + 3.5 * zoom, py - 10 * zoom); ctx.lineTo(bx, by); ctx.stroke();
       ctx.fillStyle = p.balloonColor;
-      ctx.beginPath(); ctx.arc(bx, by, 4.2 * zoom, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(bx, by, 4.4 * zoom, 0, Math.PI * 2); ctx.fill();
       ctx.fillStyle = "#ffffff";
       ctx.fillRect(bx - 1.5 * zoom, by - 2 * zoom, 1.4 * zoom, 1.4 * zoom);
       if (collectHitboxes) {
@@ -1512,8 +1644,36 @@ export class RctIsoRenderer {
       }
     }
 
+    // Overhead Route / Manual Control Badge
+    if (isControlled || (p.isExternalRoute && zoom >= 0.85)) {
+      const label = isControlled
+        ? `🕹 ${p.originBadge || "체험"} · ${p.name}`
+        : zoom >= 1.25
+          ? `${p.originBadge}`
+          : String(p.originBadge || "").split(" ")[0];
+      if (label) {
+        ctx.save();
+        ctx.font = `bold ${Math.max(8, Math.round((isControlled ? 10 : 8.5) * Math.min(zoom, 1.3)))}px sans-serif`;
+        const textW = ctx.measureText(label).width;
+        const padX = isControlled ? 6 : 4;
+        const boxW = textW + padX * 2;
+        const boxH = isControlled ? 16 : 13;
+        const boxX = px - boxW * 0.5;
+        const boxY = py - (p.hasBalloon ? 39 : 34) * zoom;
+        ctx.fillStyle = isControlled ? "#090d13" : "rgba(15, 23, 42, 0.86)";
+        ctx.fillRect(boxX, boxY, boxW, boxH);
+        ctx.strokeStyle = isControlled ? "#fde047" : p.originColor || "#38bdf8";
+        ctx.lineWidth = isControlled ? 1.5 : 1;
+        ctx.strokeRect(boxX, boxY, boxW, boxH);
+        ctx.fillStyle = isControlled ? "#fde047" : "#f8fafc";
+        ctx.textAlign = "center";
+        ctx.fillText(label, px, boxY + boxH - (isControlled ? 4 : 3));
+        ctx.restore();
+      }
+    }
+
     if (collectHitboxes) {
-      this._hitBoxes.push({ kind: "peep", id: p.id, x: px - 6 * zoom, y: py - 18 * zoom, w: 12 * zoom, h: 20 * zoom });
+      this._hitBoxes.push({ kind: "peep", id: p.id, x: px - 8 * zoom, y: py - 24 * zoom, w: 16 * zoom, h: 26 * zoom });
     }
   }
 

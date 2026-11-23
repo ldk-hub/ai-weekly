@@ -7,9 +7,13 @@ export class RctAudio {
   constructor() {
     this.ctx = null;
     this.sfxEnabled = true;
-    this.bgmEnabled = false;
+    this.bgmEnabled = true;
     this._bgmTimer = null;
     this._bgmStep = 0;
+    this._bgmBus = null;
+    this._ambientSource = null;
+    this._ambientGain = null;
+    this._gestureBound = false;
   }
 
   _ensureCtx() {
@@ -23,6 +27,21 @@ export class RctAudio {
       this.ctx.resume().catch(() => {});
     }
     return this.ctx;
+  }
+
+  startAmbientOnFirstGesture() {
+    if (typeof window === "undefined" || this._gestureBound) return;
+    this._gestureBound = true;
+    const unlock = () => {
+      if (this.bgmEnabled && !this._bgmTimer) {
+        this._ensureCtx();
+        this._startBgmLoop();
+      }
+      window.removeEventListener("pointerdown", unlock);
+      window.removeEventListener("keydown", unlock);
+    };
+    window.addEventListener("pointerdown", unlock, { passive: true });
+    window.addEventListener("keydown", unlock, { passive: true });
   }
 
   toggleSfx() {
@@ -42,52 +61,178 @@ export class RctAudio {
     return this.bgmEnabled;
   }
 
+  _startAmbientBed(ctx) {
+    if (this._ambientSource) return;
+    try {
+      const sampleRate = ctx.sampleRate || 44100;
+      const length = Math.floor(sampleRate * 3.0);
+      const buffer = ctx.createBuffer(1, length, sampleRate);
+      const data = buffer.getChannelData(0);
+      let last = 0;
+      for (let i = 0; i < length; i++) {
+        const white = Math.random() * 2 - 1;
+        last = (last + 0.035 * white) / 1.035;
+        data[i] = last * 1.4;
+      }
+      const src = ctx.createBufferSource();
+      src.buffer = buffer;
+      src.loop = true;
+
+      const filter = ctx.createBiquadFilter();
+      filter.type = "bandpass";
+      filter.frequency.setValueAtTime(420, ctx.currentTime);
+      filter.Q.setValueAtTime(0.65, ctx.currentTime);
+
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(0.018, ctx.currentTime);
+
+      src.connect(filter).connect(gain).connect(ctx.destination);
+      src.start();
+      this._ambientSource = src;
+      this._ambientGain = gain;
+    } catch {}
+  }
+
   _startBgmLoop() {
     this._stopBgmLoop();
-    // Cheerful 3/4 Fairground Carousel Organ Waltz
+    const ctx = this._ensureCtx();
+    if (!ctx) return;
+
+    // Warm lowpass master bus so fairground bells & organ stay soft and relaxing
+    const filter = ctx.createBiquadFilter();
+    filter.type = "lowpass";
+    filter.frequency.setValueAtTime(1450, ctx.currentTime);
+    filter.Q.setValueAtTime(0.45, ctx.currentTime);
+
+    const bus = ctx.createGain();
+    bus.gain.setValueAtTime(0.65, ctx.currentTime);
+    filter.connect(bus).connect(ctx.destination);
+    this._bgmBus = filter;
+
+    this._startAmbientBed(ctx);
+
+    // Gentle 3/4 nostalgic amusement-park music-box & soft calliope waltz
     const melody = [
-      523.25, 659.25, 783.99, 1046.5, 783.99, 659.25,
-      587.33, 698.46, 880.0, 783.99, 659.25, 523.25,
-      440.0, 523.25, 659.25, 587.33, 493.88, 392.0,
+      523.25, 659.25, 783.99,  698.46, 659.25, 587.33,
+      523.25, 0,      659.25,  783.99, 880.0,  783.99,
+      698.46, 587.33, 659.25,  523.25, 0,      392.0,
+      440.0,  523.25, 659.25,  587.33, 523.25, 493.88,
+      523.25, 659.25, 783.99,  659.25, 587.33, 0,
+      587.33, 659.25, 523.25,  440.0,  392.0,  0,
     ];
-    const bass = [261.63, 196.0, 196.0, 220.0, 196.0, 196.0];
+    const chords = [
+      [130.81, 261.63, 329.63],
+      [146.83, 293.66, 349.23],
+      [130.81, 261.63, 329.63],
+      [196.0,  293.66, 392.0],
+      [174.61, 261.63, 349.23],
+      [196.0,  293.66, 392.0],
+      [220.0,  261.63, 329.63],
+      [146.83, 246.94, 349.23],
+      [130.81, 261.63, 329.63],
+      [196.0,  293.66, 392.0],
+      [174.61, 261.63, 329.63],
+      [130.81, 261.63, 329.63],
+    ];
+
     this._bgmTimer = setInterval(() => {
       if (!this.bgmEnabled) return;
-      const ctx = this._ensureCtx();
-      if (!ctx) return;
-      const now = ctx.currentTime;
-      const note = melody[this._bgmStep % melody.length];
-      const bassNote = bass[this._bgmStep % bass.length];
-      this._bgmStep++;
+      const ac = this._ensureCtx();
+      if (!ac || !this._bgmBus) return;
+      const now = ac.currentTime;
+      const step = this._bgmStep++;
+      const note = melody[step % melody.length];
+      const barIdx = Math.floor(step / 3) % chords.length;
+      const beatInBar = step % 3;
+      const chord = chords[barIdx];
 
-      // Pipe organ lead
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = "triangle";
-      osc.frequency.setValueAtTime(note, now);
-      gain.gain.setValueAtTime(0.032, now);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.24);
-      osc.connect(gain).connect(ctx.destination);
-      osc.start(now);
-      osc.stop(now + 0.25);
+      // 1. Music-box / Carousel bell melody with soft attack & gentle tail
+      if (note > 0) {
+        const osc = ac.createOscillator();
+        const gain = ac.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(note, now);
+        gain.gain.setValueAtTime(0.0005, now);
+        gain.gain.linearRampToValueAtTime(0.022, now + 0.035);
+        gain.gain.exponentialRampToValueAtTime(0.0006, now + 0.56);
+        osc.connect(gain).connect(this._bgmBus);
+        osc.start(now);
+        osc.stop(now + 0.58);
 
-      // Fairground waltz bass
-      const bOsc = ctx.createOscillator();
-      const bGain = ctx.createGain();
-      bOsc.type = "sine";
-      bOsc.frequency.setValueAtTime(bassNote * 0.5, now);
-      bGain.gain.setValueAtTime(0.024, now);
-      bGain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
-      bOsc.connect(bGain).connect(ctx.destination);
-      bOsc.start(now);
-      bOsc.stop(now + 0.23);
-    }, 260);
+        // Soft upper shimmer
+        const hOsc = ac.createOscillator();
+        const hGain = ac.createGain();
+        hOsc.type = "triangle";
+        hOsc.frequency.setValueAtTime(note * 2, now);
+        hGain.gain.setValueAtTime(0.0004, now);
+        hGain.gain.linearRampToValueAtTime(0.0045, now + 0.02);
+        hGain.gain.exponentialRampToValueAtTime(0.0004, now + 0.34);
+        hOsc.connect(hGain).connect(this._bgmBus);
+        hOsc.start(now);
+        hOsc.stop(now + 0.36);
+      }
+
+      // 2. Soft 3/4 waltz bass & accordion-pad accompaniment
+      if (beatInBar === 0) {
+        const bOsc = ac.createOscillator();
+        const bGain = ac.createGain();
+        bOsc.type = "sine";
+        bOsc.frequency.setValueAtTime(chord[0], now);
+        bGain.gain.setValueAtTime(0.0005, now);
+        bGain.gain.linearRampToValueAtTime(0.018, now + 0.04);
+        bGain.gain.exponentialRampToValueAtTime(0.0006, now + 0.52);
+        bOsc.connect(bGain).connect(this._bgmBus);
+        bOsc.start(now);
+        bOsc.stop(now + 0.54);
+      } else {
+        for (const freq of [chord[1], chord[2]]) {
+          const pOsc = ac.createOscillator();
+          const pGain = ac.createGain();
+          pOsc.type = "triangle";
+          pOsc.frequency.setValueAtTime(freq, now);
+          pGain.gain.setValueAtTime(0.0004, now);
+          pGain.gain.linearRampToValueAtTime(0.0085, now + 0.04);
+          pGain.gain.exponentialRampToValueAtTime(0.0005, now + 0.32);
+          pOsc.connect(pGain).connect(this._bgmBus);
+          pOsc.start(now);
+          pOsc.stop(now + 0.34);
+        }
+      }
+
+      // 3. Occasional distant park wind-chime / songbird twinkle
+      if (step % 18 === 11) {
+        const cOsc = ac.createOscillator();
+        const cGain = ac.createGain();
+        cOsc.type = "sine";
+        cOsc.frequency.setValueAtTime(1567.98, now + 0.08);
+        cOsc.frequency.exponentialRampToValueAtTime(1760.0, now + 0.24);
+        cGain.gain.setValueAtTime(0.0004, now + 0.08);
+        cGain.gain.linearRampToValueAtTime(0.006, now + 0.11);
+        cGain.gain.exponentialRampToValueAtTime(0.0004, now + 0.36);
+        cOsc.connect(cGain).connect(this._bgmBus);
+        cOsc.start(now + 0.08);
+        cOsc.stop(now + 0.38);
+      }
+    }, 380);
   }
 
   _stopBgmLoop() {
     if (this._bgmTimer) {
       clearInterval(this._bgmTimer);
       this._bgmTimer = null;
+    }
+    if (this._ambientSource) {
+      try {
+        this._ambientSource.stop();
+        this._ambientSource.disconnect();
+      } catch {}
+      this._ambientSource = null;
+    }
+    if (this._bgmBus) {
+      try {
+        this._bgmBus.disconnect();
+      } catch {}
+      this._bgmBus = null;
     }
   }
 
@@ -147,6 +292,10 @@ export class RctAudio {
 
   playSweep() {
     this._tone(340, 210, 0.06, "triangle", 0.02);
+  }
+
+  playFootstep() {
+    this._tone(185, 115, 0.045, "triangle", 0.016);
   }
 
   playAward() {

@@ -8,6 +8,7 @@ import { RctAudio } from "./rct/RctAudio.js";
 import { RctWindowsUI } from "./rct/RctWindowsUI.js";
 import { SanctuaryChat } from "./sanctuary/SanctuaryChat.js";
 import { RIDE_CATALOG, COASTER_BLUEPRINTS } from "./rct/RctConstants.js";
+import { worldToIso } from "./rct/RctCoasterEngine.js";
 
 const THEME_KEY = "aiw-theme";
 const SAVE_KEY = "aiw-rct1-save-v1";
@@ -28,6 +29,7 @@ class RctSanctuaryApp {
     this._painting = false;
     this._lastPaintKey = null;
     this._lastMinimapDraw = 0;
+    this._povStepCooldown = 0;
     this._lastTime = performance.now();
     this._lastAutosave = performance.now();
   }
@@ -74,14 +76,83 @@ class RctSanctuaryApp {
         this._syncModeButtons?.();
         this.audio.playClick();
       },
+      onControlPeep: (peepId) => this._setControlledPeep(peepId),
     });
 
+    this.audio.startAmbientOnFirstGesture();
+    this._spawnReferrerGuest();
     this._initChat();
     this._bindEvents();
     this._loadLiveAiData();
 
     this._loop(performance.now());
   }
+
+  _spawnReferrerGuest() {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const explicit = params.get("from") || params.get("route");
+      const ref = (document.referrer || "").toLowerCase();
+      let routeId = null;
+      if (explicit && ["plugins", "news", "social", "starboard", "benchmarks", "github", "search", "radio"].includes(explicit)) {
+        routeId = explicit;
+      } else if (ref.includes("news")) routeId = "news";
+      else if (ref.includes("social")) routeId = "social";
+      else if (ref.includes("starboard")) routeId = "starboard";
+      else if (ref.includes("benchmark")) routeId = "benchmarks";
+      else if (ref.includes("github.com")) routeId = "github";
+      else if (ref && !ref.includes("sanctuary")) routeId = ref.includes("ai-weekly") || ref.includes("localhost") ? "plugins" : "search";
+      if (routeId) {
+        this.sim.spawnExternalRouteGuest(routeId, "내 아바타", false);
+      }
+    } catch {}
+  }
+
+  _setControlledPeep(peepId) {
+    const p = this.sim.setControlledPeep(peepId);
+    this._syncModeButtons?.();
+    this._syncGuestPovHud?.();
+    if (p) {
+      this.renderer.centerOnTile(Math.round(p.x), Math.round(p.y));
+    }
+    if (this.windows?.windows?.has("guests-list")) this.windows._renderWindowContent("guests-list");
+    if (this.windows?.windows?.has("peep-detail")) this.windows._renderWindowContent("peep-detail");
+    this.audio.playClick();
+    return p;
+  }
+
+  _movePovScreenDirection(dirName) {
+    const baseDir = { right: 0, down: 1, left: 2, up: 3 }[dirName];
+    if (baseDir === undefined) return;
+    const worldDir = (baseDir - this.renderer.rotation + 4) % 4;
+    const res = this.sim.moveControlledPeepByDir(worldDir);
+    if (res?.ok) {
+      this.audio.playFootstep();
+      if (res.kind === "billboard" && res.billboard) {
+        this.windows.openWindow("billboard-post", { billboardId: res.billboard.id });
+      }
+    } else if (res?.reason && res.kind !== "ride") {
+      this.sim.pushNews(res.reason, "warn");
+    }
+    this._syncGuestPovHud?.();
+  }
+
+  _syncGuestPovHud() {
+    const hud = document.getElementById("rct-guest-pov-hud");
+    if (!hud) return;
+    const p = this.sim.getControlledPeep();
+    hud.hidden = !p;
+    if (!p) return;
+    const badgeEl = document.getElementById("rct-pov-badge");
+    const nameEl = document.getElementById("rct-pov-name");
+    const thoughtEl = document.getElementById("rct-pov-thought");
+    if (badgeEl) badgeEl.textContent = `🕹 ${p.originBadge || "손님 체험"}`;
+    const stateTxt = p.state === "riding" ? "🎢 탑승 중" : "🚶 걷는 중";
+    if (nameEl) nameEl.textContent = `${p.name} (${stateTxt} · $${Math.round(p.cash)})`;
+    if (thoughtEl) thoughtEl.textContent = p.thoughts[0] || "WASD · 방향키 · 바닥 클릭으로 공원을 자유롭게 걸어보세요!";
+  }
+
+  _syncThemeTogglePlaceholder() {}
 
   _initThemeToggle() {
     const btn = document.getElementById("theme-toggle");
@@ -264,15 +335,58 @@ class RctSanctuaryApp {
     const minimapBtn = document.getElementById("rct-btn-minimap");
     const minimapPod = document.getElementById("rct-minimap-pod");
     const minimapCanvas = document.getElementById("rct-minimap-canvas");
+    const povBtn = document.getElementById("rct-btn-guest-pov");
 
     this._syncModeButtons = () => {
       freeBtn?.classList.toggle("is-active", Boolean(this.sim.freeBuildMode));
       nightBtn?.classList.toggle("is-active", Boolean(this.sim.nightMode));
+      bgmBtn?.classList.toggle("is-active", Boolean(this.audio.bgmEnabled));
+      povBtn?.classList.toggle("is-active", Boolean(this.sim.controlledPeepId));
       if (minimapPod) {
         minimapBtn?.classList.toggle("is-active", !minimapPod.classList.contains("is-hidden"));
       }
+      this._syncGuestPovHud?.();
     };
     this._syncModeButtons();
+
+    povBtn?.addEventListener("click", () => {
+      if (this.sim.controlledPeepId) {
+        this._setControlledPeep(null);
+      } else {
+        const ext = this.sim.peeps.find((p) => p.isExternalRoute) || this.sim.peeps[0] || this.sim.spawnExternalRouteGuest("news");
+        if (ext) {
+          this.setActiveTool({ type: "inspect" });
+          this._setControlledPeep(ext.id);
+        }
+      }
+    });
+
+    document.getElementById("rct-pov-exit")?.addEventListener("click", () => {
+      this._setControlledPeep(null);
+    });
+    document.querySelectorAll("[data-pov-move]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        this._movePovScreenDirection(btn.dataset.povMove);
+      });
+    });
+    document.getElementById("rct-pov-interact")?.addEventListener("click", () => {
+      const res = this.sim.interactControlledPeepWithAdjacent();
+      if (!res.ok && res.reason) this.sim.pushNews(res.reason, "warn");
+      if (res.kind === "billboard" && res.billboard) {
+        this.windows.openWindow("billboard-post", { billboardId: res.billboard.id });
+      }
+      this._syncGuestPovHud?.();
+    });
+    document.getElementById("rct-pov-next-guest")?.addEventListener("click", () => {
+      const p = this.sim.cycleControlledExternalPeep();
+      this._syncModeButtons?.();
+      if (p) this.renderer.centerOnTile(Math.round(p.x), Math.round(p.y));
+      this.audio.playClick();
+    });
+    document.getElementById("rct-pov-spawn-route")?.addEventListener("click", () => {
+      this.windows._guestTab = "external";
+      this.windows.openWindow("guests-list");
+    });
 
     freeBtn?.addEventListener("click", () => {
       const on = this.sim.toggleFreeBuildMode();
@@ -433,6 +547,18 @@ class RctSanctuaryApp {
         return;
       }
       this.keys.add(ev.code);
+      if (this.sim.controlledPeepId && !ev.repeat) {
+        if (ev.code === "KeyW" || ev.code === "ArrowUp") { ev.preventDefault(); this._movePovScreenDirection("up"); this._povStepCooldown = 0.22; return; }
+        if (ev.code === "KeyS" || ev.code === "ArrowDown") { ev.preventDefault(); this._movePovScreenDirection("down"); this._povStepCooldown = 0.22; return; }
+        if (ev.code === "KeyA" || ev.code === "ArrowLeft") { ev.preventDefault(); this._movePovScreenDirection("left"); this._povStepCooldown = 0.22; return; }
+        if (ev.code === "KeyD" || ev.code === "ArrowRight") { ev.preventDefault(); this._movePovScreenDirection("right"); this._povStepCooldown = 0.22; return; }
+        if (ev.code === "KeyE") {
+          const res = this.sim.interactControlledPeepWithAdjacent();
+          if (res.kind === "billboard" && res.billboard) this.windows.openWindow("billboard-post", { billboardId: res.billboard.id });
+          this._syncGuestPovHud?.();
+          return;
+        }
+      }
       if (ev.code === "KeyR") {
         this.renderer.rotateCamera(1);
         this.audio.playClick();
@@ -440,7 +566,9 @@ class RctSanctuaryApp {
         ev.preventDefault();
         pauseBtn?.click();
       } else if (ev.code === "Escape") {
-        if (this.renderer.activeTool.type !== "inspect") {
+        if (this.sim.controlledPeepId) {
+          this._setControlledPeep(null);
+        } else if (this.renderer.activeTool.type !== "inspect") {
           this.setActiveTool({ type: "inspect" });
         } else {
           this.windows.closeUnpinned();
@@ -562,6 +690,12 @@ class RctSanctuaryApp {
       const t = this.sim.getTile(hit.tileX, hit.tileY);
       if (t?.scenery?.id === "firework_launcher") {
         this.sim.launchFireworksAt(hit.tileX, hit.tileY);
+        return;
+      }
+      if (this.sim.controlledPeepId) {
+        const res = this.sim.walkControlledPeepToTile(hit.tileX, hit.tileY);
+        if (res?.ok) this.audio.playFootstep();
+        this._syncGuestPovHud?.();
       }
     }
   }
@@ -570,20 +704,58 @@ class RctSanctuaryApp {
     const dt = Math.min(0.05, Math.max(0.001, (nowMs - this._lastTime) / 1000));
     this._lastTime = nowMs;
 
-    // Keyboard WASD / Arrow smooth camera pan
-    const panSpeed = 420 / this.renderer.zoom;
-    if (this.keys.has("KeyW") || this.keys.has("ArrowUp")) this.renderer.camY -= panSpeed * dt;
-    if (this.keys.has("KeyS") || this.keys.has("ArrowDown")) this.renderer.camY += panSpeed * dt;
-    if (this.keys.has("KeyA") || this.keys.has("ArrowLeft")) this.renderer.camX -= panSpeed * dt;
-    if (this.keys.has("KeyD") || this.keys.has("ArrowRight")) this.renderer.camX += panSpeed * dt;
+    const ctrlPeep = this.sim.getControlledPeep();
+    if (ctrlPeep) {
+      if (this._povStepCooldown > 0) this._povStepCooldown -= dt;
+      if (this._povStepCooldown <= 0) {
+        if (this.keys.has("KeyW") || this.keys.has("ArrowUp")) { this._movePovScreenDirection("up"); this._povStepCooldown = 0.22; }
+        else if (this.keys.has("KeyS") || this.keys.has("ArrowDown")) { this._movePovScreenDirection("down"); this._povStepCooldown = 0.22; }
+        else if (this.keys.has("KeyA") || this.keys.has("ArrowLeft")) { this._movePovScreenDirection("left"); this._povStepCooldown = 0.22; }
+        else if (this.keys.has("KeyD") || this.keys.has("ArrowRight")) { this._movePovScreenDirection("right"); this._povStepCooldown = 0.22; }
+      }
+    } else {
+      // Keyboard WASD / Arrow smooth camera pan
+      const panSpeed = 420 / this.renderer.zoom;
+      if (this.keys.has("KeyW") || this.keys.has("ArrowUp")) this.renderer.camY -= panSpeed * dt;
+      if (this.keys.has("KeyS") || this.keys.has("ArrowDown")) this.renderer.camY += panSpeed * dt;
+      if (this.keys.has("KeyA") || this.keys.has("ArrowLeft")) this.renderer.camX -= panSpeed * dt;
+      if (this.keys.has("KeyD") || this.keys.has("ArrowRight")) this.renderer.camX += panSpeed * dt;
+    }
 
     this.sim.step(dt);
+
+    // Smooth camera follow when Guest POV Manual Mode is active
+    const followPeep = this.sim.getControlledPeep();
+    if (followPeep) {
+      let fx = followPeep.x;
+      let fy = followPeep.y;
+      let fz = this.sim.getTile(Math.round(fx), Math.round(fy))?.height || 2;
+      if (followPeep.state === "riding" && followPeep.ridingRideId) {
+        const ride = this.sim.rides.find((r) => r.id === followPeep.ridingRideId);
+        if (ride?.track?.trains?.[0]) {
+          const pose = ride.track.samplePoseAtDistance(ride.track.trains[0].distance);
+          fx = pose.x;
+          fy = pose.y;
+          fz = pose.z;
+        } else if (ride) {
+          fx = ride.x;
+          fy = ride.y;
+          fz = ride.z;
+        }
+      }
+      const isoTarget = worldToIso(fx, fy, fz, this.renderer.rotation, this.sim.mapSize);
+      const lerpFactor = Math.min(1, dt * 6);
+      this.renderer.camX += (isoTarget.screenX - this.renderer.camX) * lerpFactor;
+      this.renderer.camY += (isoTarget.screenY - this.renderer.camY) * lerpFactor;
+    }
+
     const nowSec = nowMs / 1000;
     this.renderer.render(nowSec);
     this.windows.refreshLiveState(nowSec);
 
     if (nowMs - this._lastMinimapDraw > 120) {
       this._lastMinimapDraw = nowMs;
+      if (followPeep) this._syncGuestPovHud?.();
       const mmCanvas = document.getElementById("rct-minimap-canvas");
       if (mmCanvas && !mmCanvas.closest(".rct-minimap-pod")?.classList.contains("is-hidden")) {
         this.renderer.renderMinimap(mmCanvas);

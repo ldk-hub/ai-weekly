@@ -16,6 +16,9 @@ import {
   COASTER_BLUEPRINTS,
   SCENARIO_PRESETS,
   PEEP_SHIRT_COLORS,
+  PEEP_PANTS_COLORS,
+  PEEP_HAT_TYPES,
+  GUEST_ORIGIN_ROUTES,
   PEEP_FIRST_NAMES,
   PEEP_LAST_NAMES,
 } from "./RctConstants.js";
@@ -46,6 +49,7 @@ export class RctParkSimulation {
     this.entrance = { x: 22, y: 42 };
     this.freeBuildMode = false;
     this.nightMode = false;
+    this.controlledPeepId = null;
 
     this.rides = [];
     this.peeps = [];
@@ -55,6 +59,7 @@ export class RctParkSimulation {
     this.activeCampaigns = [];
     this.floatingTexts = [];
     this.fireworks = [];
+    this.controlledPeepId = null;
     this.perimeterBillboards = [];
     this.monthlyFinances = this._createEmptyFinances();
     this.financeHistory = [];
@@ -144,6 +149,7 @@ export class RctParkSimulation {
     this.activeCampaigns = [];
     this.floatingTexts = [];
     this.fireworks = [];
+    this.controlledPeepId = null;
     this.monthlyFinances = this._createEmptyFinances();
     this.financeHistory = [];
     this._totalAdmissions = 0;
@@ -1426,18 +1432,41 @@ export class RctParkSimulation {
     }
   }
 
-  _spawnGuest(spawnX = null, spawnY = null, vip = false) {
+  _spawnGuest(spawnX = null, spawnY = null, vip = false, routeOptions = null) {
     if (this.peeps.length >= 160) return null;
     const x = spawnX ?? this.entrance.x;
     const y = spawnY ?? Math.max(1, this.entrance.y - 1);
     const first = PEEP_FIRST_NAMES[Math.floor(Math.random() * PEEP_FIRST_NAMES.length)];
     const last = PEEP_LAST_NAMES[Math.floor(Math.random() * PEEP_LAST_NAMES.length)];
     const balloonColors = ["#ef4444", "#3b82f6", "#eab308", "#ec4899", "#22c55e"];
+    const skinTones = ["#fed7aa", "#f5d0a9", "#fde68a", "#e5b887"];
+
+    const extRouteKeys = ["plugins", "news", "social", "starboard", "benchmarks", "github"];
+    const routeKey =
+      routeOptions?.originRouteId ||
+      (vip
+        ? "radio"
+        : this._totalAdmissions % 3 !== 0
+          ? extRouteKeys[this._totalAdmissions % extRouteKeys.length]
+          : "direct");
+    const route = GUEST_ORIGIN_ROUTES[routeKey] || GUEST_ORIGIN_ROUTES.direct;
+    const hatType = vip
+      ? "crown"
+      : route.isExternal && this._totalAdmissions % 2 === 0
+        ? PEEP_HAT_TYPES[1 + (this._totalAdmissions % (PEEP_HAT_TYPES.length - 1))]
+        : Math.random() < 0.35
+          ? PEEP_HAT_TYPES[1 + Math.floor(Math.random() * 3)]
+          : "none";
 
     const peep = {
       id: nextUid("peep"),
-      name: `${last}${first}`,
+      name: routeOptions?.name || `${last}${first}`,
       shirtColor: PEEP_SHIRT_COLORS[Math.floor(Math.random() * PEEP_SHIRT_COLORS.length)],
+      pantsColor: PEEP_PANTS_COLORS[Math.floor(Math.random() * PEEP_PANTS_COLORS.length)],
+      skinTone: skinTones[Math.floor(Math.random() * skinTones.length)],
+      hatType,
+      hatColor: route.isExternal ? route.accent : balloonColors[Math.floor(Math.random() * balloonColors.length)],
+      backpackColor: route.isExternal ? route.accent : Math.random() < 0.35 ? "#475569" : null,
       x,
       y,
       targetX: x,
@@ -1456,18 +1485,297 @@ export class RctParkSimulation {
       hasUmbrella: false,
       hasBurger: false,
       hasDrink: false,
+      hasIceCream: false,
+      hasMap: Boolean(route.isExternal),
       state: "walking", // "walking" | "riding" | "sitting" | "leaving"
       ridingRideId: null,
       rideTimer: 0,
       sitTimer: 0,
       cooldownTimer: 0,
-      thoughts: ["여기에 오니 정말 신난다!", "어떤 롤러코스터부터 타볼까?"],
+      originRouteId: route.id,
+      originLabel: route.label,
+      originBadge: route.badge,
+      originColor: route.accent,
+      isExternalRoute: Boolean(route.isExternal),
+      manualPathQueue: [],
+      thoughts: route.isExternal
+        ? [`${route.label} 경로에서 놀러 왔다!`, "어떤 놀이기구부터 직접 타볼까?"]
+        : ["여기에 오니 정말 신난다!", "어떤 롤러코스터부터 타볼까?"],
       ridesRidden: 0,
       isVipPeer: vip,
     };
     this.peeps.push(peep);
     this._totalAdmissions++;
     return peep;
+  }
+
+  spawnExternalRouteGuest(originRouteId = "news", customName = null, autoControl = false) {
+    const spot = this._findNearestPathTile(this.entrance.x, Math.max(2, this.entrance.y - 2)) || {
+      x: this.entrance.x,
+      y: this.entrance.y,
+    };
+    const peep = this._spawnGuest(spot.x, spot.y, originRouteId === "radio", {
+      originRouteId,
+      name: customName,
+    });
+    if (!peep) return null;
+    this.pushNews(`${peep.originBadge} 경로에서 손님 '${peep.name}' 님이 입장했습니다!`, "good");
+    if (autoControl) this.setControlledPeep(peep.id);
+    return peep;
+  }
+
+  getControlledPeep() {
+    if (!this.controlledPeepId) return null;
+    return this.peeps.find((p) => p.id === this.controlledPeepId) || null;
+  }
+
+  setControlledPeep(peepId) {
+    if (!peepId) {
+      this.controlledPeepId = null;
+      return null;
+    }
+    const p = this.peeps.find((item) => item.id === peepId);
+    if (!p) {
+      this.controlledPeepId = null;
+      return null;
+    }
+    this.controlledPeepId = p.id;
+    if (p.state === "sitting") p.state = "walking";
+    p.manualPathQueue = [];
+    if (!p.thoughts[0]?.includes("직접 조작")) {
+      p.thoughts.unshift("🕹 내가 직접 공원을 걸어다니는 중!");
+      p.thoughts = p.thoughts.slice(0, 6);
+    }
+    return p;
+  }
+
+  cycleControlledExternalPeep() {
+    const ext = this.peeps.filter((p) => p.isExternalRoute);
+    if (ext.length === 0) {
+      return this.spawnExternalRouteGuest("news", null, true);
+    }
+    const curIdx = ext.findIndex((p) => p.id === this.controlledPeepId);
+    const next = ext[(curIdx + 1) % ext.length];
+    return this.setControlledPeep(next.id);
+  }
+
+  _disembarkControlledPeep(p) {
+    if (!p || p.state !== "riding") return;
+    const ride = this.rides.find((r) => r.id === p.ridingRideId);
+    if (ride) {
+      ride.passengers = ride.passengers.filter((item) => item.id !== p.id);
+    }
+    const near = this._findNearestPathTile(Math.round(p.x), Math.round(p.y));
+    if (near) {
+      p.x = near.x;
+      p.y = near.y;
+      p.targetX = near.x;
+      p.targetY = near.y;
+    }
+    p.state = "walking";
+    p.ridingRideId = null;
+    p.rideTimer = 0;
+  }
+
+  moveControlledPeepByDir(worldDir) {
+    const p = this.getControlledPeep();
+    if (!p) return { ok: false, reason: "조작 중인 손님이 없습니다." };
+    if (p.state === "riding") {
+      this._disembarkControlledPeep(p);
+    }
+    const curX = Math.round(p.x);
+    const curY = Math.round(p.y);
+    const curTile = this.getTile(curX, curY);
+    const nx = curX + DIR_DX[worldDir];
+    const ny = curY + DIR_DY[worldDir];
+    const nt = this.getTile(nx, ny);
+    p.facing = worldDir;
+    p.state = "walking";
+
+    if (!nt || !nt.owned) {
+      return { ok: false, reason: "공원 경계 바깥입니다." };
+    }
+    if (nt.rideId) {
+      return this.interactControlledPeepWithAdjacent();
+    }
+    if (nt.scenery) {
+      if (nt.scenery.id === "firework_launcher") {
+        this.launchFireworksAt(nx, ny);
+        return { ok: true, kind: "firework" };
+      }
+      return { ok: false, reason: "조형물이 길을 막고 있습니다." };
+    }
+    if (nt.waterHeight > nt.height && !nt.path) {
+      return { ok: false, reason: "물 위로는 걸을 수 없습니다." };
+    }
+    if (Math.abs(nt.height - (curTile?.height || 2)) > 1 && !nt.path) {
+      return { ok: false, reason: "절벽이 너무 가파릅니다." };
+    }
+
+    p.targetX = nx;
+    p.targetY = ny;
+    p.manualPathQueue = [];
+    return { ok: true, x: nx, y: ny };
+  }
+
+  walkControlledPeepToTile(destX, destY) {
+    const p = this.getControlledPeep();
+    if (!p) return { ok: false };
+    if (p.state === "riding") this._disembarkControlledPeep(p);
+    const startX = Math.round(p.x);
+    const startY = Math.round(p.y);
+    if (startX === destX && startY === destY) return { ok: true };
+
+    const isWalkable = (tx, ty) => {
+      const t = this.getTile(tx, ty);
+      return Boolean(
+        t &&
+          t.owned &&
+          (!t.waterHeight || t.waterHeight <= t.height || t.path) &&
+          !t.rideId &&
+          !t.scenery
+      );
+    };
+
+    const destTile = this.getTile(destX, destY);
+    if (!destTile || !destTile.owned) return { ok: false };
+
+    const queue = [[startX, startY]];
+    const parent = new Map();
+    const startKey = `${startX},${startY}`;
+    parent.set(startKey, null);
+    let foundKey = null;
+    let steps = 0;
+
+    while (queue.length > 0 && steps < 900) {
+      steps++;
+      const [cx, cy] = queue.shift();
+      const cTile = this.getTile(cx, cy);
+      if (cx === destX && cy === destY) {
+        foundKey = `${cx},${cy}`;
+        break;
+      }
+      // If destination is a ride/scenery, stop right beside it
+      if ((destTile.rideId || destTile.scenery) && Math.abs(cx - destX) + Math.abs(cy - destY) === 1) {
+        foundKey = `${cx},${cy}`;
+        break;
+      }
+      for (let dir = 0; dir < 4; dir++) {
+        const nx = cx + DIR_DX[dir];
+        const ny = cy + DIR_DY[dir];
+        const key = `${nx},${ny}`;
+        if (parent.has(key)) continue;
+        if (!isWalkable(nx, ny)) continue;
+        const nt = this.getTile(nx, ny);
+        if (Math.abs(nt.height - (cTile?.height || 2)) > 1 && !nt.path) continue;
+        parent.set(key, `${cx},${cy}`);
+        queue.push([nx, ny]);
+      }
+    }
+
+    if (!foundKey) {
+      // Fallback: step directly toward target if nearby
+      const dx = destX - startX;
+      const dy = destY - startY;
+      if (Math.abs(dx) >= Math.abs(dy) && dx !== 0) {
+        return this.moveControlledPeepByDir(dx > 0 ? 0 : 2);
+      }
+      if (dy !== 0) {
+        return this.moveControlledPeepByDir(dy > 0 ? 1 : 3);
+      }
+      return { ok: false };
+    }
+
+    const waypoints = [];
+    let cur = foundKey;
+    while (cur && cur !== startKey) {
+      const [wx, wy] = cur.split(",").map(Number);
+      waypoints.unshift({ x: wx, y: wy });
+      cur = parent.get(cur);
+    }
+    if (waypoints.length > 0) {
+      const first = waypoints.shift();
+      p.targetX = first.x;
+      p.targetY = first.y;
+      p.manualPathQueue = waypoints.slice(0, 44);
+      const dx = first.x - startX;
+      const dy = first.y - startY;
+      p.facing = Math.abs(dx) >= Math.abs(dy) ? (dx >= 0 ? 0 : 2) : (dy >= 0 ? 1 : 3);
+    }
+    return { ok: true, steps: waypoints.length + 1 };
+  }
+
+  interactControlledPeepWithAdjacent() {
+    const p = this.getControlledPeep();
+    if (!p) return { ok: false, reason: "조작 중인 손님이 없습니다." };
+    if (p.state === "riding") {
+      this._disembarkControlledPeep(p);
+      return { ok: true, kind: "disembark", reason: "놀이기구에서 하차했습니다." };
+    }
+    if (p.cash < 25) p.cash += 50;
+    const tx = Math.round(p.x);
+    const ty = Math.round(p.y);
+    const dirs = [p.facing, (p.facing + 1) % 4, (p.facing + 3) % 4, (p.facing + 2) % 4];
+
+    for (const dir of dirs) {
+      const nx = tx + DIR_DX[dir];
+      const ny = ty + DIR_DY[dir];
+      const bb = (this.perimeterBillboards || []).find((b) => b.tileX === nx && b.tileY === ny);
+      if (bb) {
+        p.thoughts.unshift(`📢 [${bb.badge}] ${bb.title} 광고판을 읽었다!`);
+        p.thoughts = p.thoughts.slice(0, 6);
+        return { ok: true, kind: "billboard", billboard: bb };
+      }
+      const nt = this.getTile(nx, ny);
+      if (!nt || !nt.rideId) continue;
+      const ride = this.rides.find((r) => r.id === nt.rideId);
+      if (!ride || ride.status !== "open" || ride.broken) continue;
+
+      if (ride.category === "shop") {
+        if (ride.catalogId === "ice_cream_stall") {
+          p.hasIceCream = true;
+          p.hunger = Math.max(0, p.hunger - 35);
+          p.happiness = Math.min(100, p.happiness + 10);
+        } else if (ride.catalogId === "burger_bar") {
+          p.hasBurger = true;
+          p.hunger = 0;
+        } else if (ride.catalogId === "drink_stall") {
+          p.hasDrink = true;
+          p.thirst = 0;
+        } else if (ride.catalogId === "balloon_stall") {
+          p.hasBalloon = true;
+        } else if (ride.catalogId === "restroom") {
+          p.toilet = 0;
+        } else if (ride.catalogId === "first_aid") {
+          p.nausea = 0;
+        } else {
+          p.hasMap = true;
+        }
+        p.cash = Math.max(0, p.cash - ride.price);
+        this._recordShopSale(ride, p);
+        p.thoughts.unshift(`🛍 ${ride.name}에서 신나게 쇼핑했다!`);
+        p.thoughts = p.thoughts.slice(0, 6);
+        return { ok: true, kind: "shop", ride };
+      }
+
+      if (ride.passengers.length < ride.capacity) {
+        p.cash = Math.max(0, p.cash - ride.price);
+        this.cash = Math.round((this.cash + ride.price) * 100) / 100;
+        ride.totalRiders += 1;
+        ride.totalProfit = Math.round((ride.totalProfit + ride.price) * 100) / 100;
+        this.monthlyFinances.rideIncome += ride.price;
+        p.state = "riding";
+        p.ridingRideId = ride.id;
+        p.ridesRidden += 1;
+        ride.passengers.push(p);
+        this.addFloatingText(ride.x, ride.y, ride.z + 1.5, `+$${ride.price.toFixed(1)}`, "#fde047");
+        this.onSfx?.("cash");
+        p.thoughts.unshift(`🎢 '${ride.name}' 직접 탑승 중! 최고예요!`);
+        p.thoughts = p.thoughts.slice(0, 6);
+        return { ok: true, kind: "ride", ride };
+      }
+    }
+    return { ok: false, reason: "인접한 타일에 이용할 수 있는 기구·상점·광고판이 없습니다." };
   }
 
   step(dtSeconds) {
@@ -1819,6 +2127,29 @@ export class RctParkSimulation {
       const cx = Math.round(p.x);
       const cy = Math.round(p.y);
       const tile = this.getTile(cx, cy);
+      const isControlled = p.id === this.controlledPeepId;
+
+      if (isControlled) {
+        const dToTarget = Math.hypot(p.targetX - p.x, p.targetY - p.y);
+        if (dToTarget < 0.08) {
+          p.x = p.targetX;
+          p.y = p.targetY;
+          if (Array.isArray(p.manualPathQueue) && p.manualPathQueue.length > 0) {
+            const nxt = p.manualPathQueue.shift();
+            const dx = nxt.x - Math.round(p.x);
+            const dy = nxt.y - Math.round(p.y);
+            p.facing = Math.abs(dx) >= Math.abs(dy) ? (dx >= 0 ? 0 : 2) : (dy >= 0 ? 1 : 3);
+            p.targetX = nxt.x;
+            p.targetY = nxt.y;
+          }
+        } else {
+          const move = Math.min(dToTarget, 2.85 * dt);
+          p.x += ((p.targetX - p.x) / dToTarget) * move;
+          p.y += ((p.targetY - p.y) / dToTarget) * move;
+          p.walkPhase += dt * 10.5;
+        }
+        continue;
+      }
 
       // Stranded recovery if path under peep was bulldozed
       if (!tile || !tile.path) {
@@ -1889,7 +2220,8 @@ export class RctParkSimulation {
         if (def.sells === "food" && peep.hunger > 45 && peep.cash >= ride.price) {
           peep.cash -= ride.price;
           peep.hunger = 0;
-          peep.hasBurger = true;
+          if (ride.catalogId === "ice_cream_stall") peep.hasIceCream = true;
+          else peep.hasBurger = true;
           peep.toilet = Math.min(100, peep.toilet + 25);
           this._recordShopSale(ride, peep);
           return true;
@@ -2064,6 +2396,25 @@ export class RctParkSimulation {
       tiles,
       rides,
       staff: this.staff,
+      controlledPeepId: this.controlledPeepId,
+      peeps: this.peeps.slice(0, 60).map((p) => ({
+        id: p.id,
+        name: p.name,
+        shirtColor: p.shirtColor,
+        pantsColor: p.pantsColor,
+        skinTone: p.skinTone,
+        hatType: p.hatType,
+        hatColor: p.hatColor,
+        backpackColor: p.backpackColor,
+        x: Math.round(p.x),
+        y: Math.round(p.y),
+        originRouteId: p.originRouteId,
+        isExternalRoute: p.isExternalRoute,
+        hasBalloon: p.hasBalloon,
+        balloonColor: p.balloonColor,
+        ridesRidden: p.ridesRidden,
+        isVipPeer: p.isVipPeer,
+      })),
     });
   }
 
@@ -2153,9 +2504,34 @@ export class RctParkSimulation {
 
       this.staff = Array.isArray(data.staff) ? data.staff : [];
       this.peeps = [];
-      for (let i = 0; i < 18; i++) {
-        const spot = this._findNearestPathTile(this.entrance.x, this.entrance.y - 2);
-        if (spot) this._spawnGuest(spot.x, spot.y);
+      this.controlledPeepId = null;
+      if (Array.isArray(data.peeps) && data.peeps.length > 0) {
+        for (const sp of data.peeps) {
+          const spawned = this._spawnGuest(sp.x, sp.y, Boolean(sp.isVipPeer), {
+            originRouteId: sp.originRouteId || "direct",
+            name: sp.name,
+          });
+          if (spawned) {
+            if (sp.id) spawned.id = sp.id;
+            if (sp.shirtColor) spawned.shirtColor = sp.shirtColor;
+            if (sp.pantsColor) spawned.pantsColor = sp.pantsColor;
+            if (sp.skinTone) spawned.skinTone = sp.skinTone;
+            if (sp.hatType) spawned.hatType = sp.hatType;
+            if (sp.hatColor) spawned.hatColor = sp.hatColor;
+            if (sp.backpackColor !== undefined) spawned.backpackColor = sp.backpackColor;
+            spawned.hasBalloon = Boolean(sp.hasBalloon);
+            if (sp.balloonColor) spawned.balloonColor = sp.balloonColor;
+            if (typeof sp.ridesRidden === "number") spawned.ridesRidden = sp.ridesRidden;
+          }
+        }
+        if (data.controlledPeepId && this.peeps.some((p) => p.id === data.controlledPeepId)) {
+          this.controlledPeepId = data.controlledPeepId;
+        }
+      } else {
+        for (let i = 0; i < 18; i++) {
+          const spot = this._findNearestPathTile(this.entrance.x, this.entrance.y - 2);
+          if (spot) this._spawnGuest(spot.x, spot.y);
+        }
       }
 
       this.rebuildPerimeterBillboards();

@@ -114,7 +114,7 @@
           <button type="button" class="rct-tb-btn is-active" id="rct-btn-speed" title="배속 전환 (1x/2x/4x)">⏩<span id="rct-speed-label">1x</span></button>
           <button type="button" class="rct-tb-btn" data-win="scenario" title="시나리오·저장/불러오기">💾<span>파일</span></button>
           <button type="button" class="rct-tb-btn is-active" id="rct-btn-sfx" title="효과음 켜기/끄기">🔔<span>효과음</span></button>
-          <button type="button" class="rct-tb-btn" id="rct-btn-bgm" title="유원지 오르간 BGM 켜기/끄기">🎶<span>오르간</span></button>
+          <button type="button" class="rct-tb-btn is-active" id="rct-btn-bgm" title="잔잔한 놀이동산 배경음 켜기/끄기">🎶<span>배경음</span></button>
         </div>
         <div class="rct-tb-group">
           <button type="button" class="rct-tb-btn" id="rct-btn-zoom-in" title="확대 (+)">🔍+<span>확대</span></button>
@@ -138,6 +138,7 @@
           <button type="button" class="rct-tb-btn" data-win="staff" title="직원 고용 및 관리">🧹<span>직원</span></button>
           <button type="button" class="rct-tb-btn" data-win="guests-list" title="관람객 목록 및 생각">🧑<span>손님</span></button>
           <button type="button" class="rct-tb-btn" data-win="finances" title="재무·대출·마케팅">💰<span>재무</span></button>
+          <button type="button" class="rct-tb-btn" id="rct-btn-guest-pov" title="손님 입장에서 공원 걷기 및 타경로 손님 수동 조작">🕹<span>손님체험</span></button>
           <button type="button" class="rct-tb-btn is-ai" data-win="ai-archive" title="AI위클리 실시간 데이터 연구소">🔬<span>AI연구소</span></button>
           <button type="button" class="rct-tb-btn" id="rct-btn-radio" title="공원 무전기 실시간 채팅 열기/접기">📻<span>무전기</span></button>
         </div>
@@ -152,6 +153,35 @@
           <span id="rct-tool-text">👆 클릭: 기구·손님·직원 정보 확인 | 우클릭 드래그: 화면 이동 | 휠: 확대/축소</span>
           <button type="button" class="rct-mini-btn" id="rct-btn-cancel-tool" hidden>취소 (ESC)</button>
         </div>
+
+        <!-- Guest POV Manual Control Floating HUD -->
+        <aside class="rct-pov-hud" id="rct-guest-pov-hud" hidden aria-label="손님 시점 직접 조작 패널">
+          <div class="rct-win-titlebar is-purple">
+            <span id="rct-pov-badge">🕹 손님 시점 체험</span>
+            <button type="button" class="rct-win-close" id="rct-pov-exit" title="손님 조작 종료 (ESC)">✕</button>
+          </div>
+          <div class="rct-pov-body">
+            <div class="rct-pov-info">
+              <div id="rct-pov-name" style="font-weight:800; color:#fde047;">손님 선택됨</div>
+              <div id="rct-pov-thought" style="font-size:10.5px; color:#cbd5e1;">WASD / 방향키 / 바닥 클릭으로 이동하세요</div>
+            </div>
+            <div class="rct-pov-dpad" aria-label="손님 방향 이동">
+              <span></span>
+              <button type="button" class="rct-btn" data-pov-move="up" title="위로 이동 (W/↑)">▲</button>
+              <span></span>
+              <button type="button" class="rct-btn" data-pov-move="left" title="왼쪽 이동 (A/←)">◀</button>
+              <button type="button" class="rct-btn is-primary" id="rct-pov-interact" title="인접 기구·상점·광고판 이용 (E)">🎡</button>
+              <button type="button" class="rct-btn" data-pov-move="right" title="오른쪽 이동 (D/→)">▶</button>
+              <span></span>
+              <button type="button" class="rct-btn" data-pov-move="down" title="아래로 이동 (S/↓)">▼</button>
+              <span></span>
+            </div>
+            <div class="rct-pov-actions">
+              <button type="button" class="rct-btn" id="rct-pov-next-guest" title="다른 타경로 손님으로 전환">🔄 다음 손님</button>
+              <button type="button" class="rct-btn is-warn" id="rct-pov-spawn-route" title="손님 목록 및 타경로 유입 확인">🌐 유입목록</button>
+            </div>
+          </div>
+        </aside>
 
         <!-- Draggable Beveled 1999 Window Layer -->
         <div class="rct-window-layer" id="rct-window-layer"></div>
