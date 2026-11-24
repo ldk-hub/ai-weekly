@@ -5,7 +5,7 @@
     "updatedAt": "2026-11-24T00:00:00Z",
     "author": "ldk-hub",
     "themePreset": "sunlit-cartoon",
-    "entrance": { "x": 0, "z": 66 }
+    "entrance": { "x": 0, "z": 124 }
   },
   "terrain": {
     "size": 300,
@@ -22,10 +22,13 @@
   "paths": [
     {
       "id": "path-grand-promenade",
-      "width": 5.0,
+      "width": 5.4,
       "style": "sandstone",
       "points": [
-        [0, 68],
+        [0, 130],
+        [0, 110],
+        [0, 88],
+        [0, 66],
         [0, 44],
         [0, 22],
         [0, 0],
@@ -106,8 +109,9 @@
     { "id": "pav-benchmarks", "archiveKey": "benchmarks", "title": "벤치마크 천문 관측소", "accent": "#34d399", "x": 28, "z": -26, "rotY": -2.4 }
   ],
   "scenery": [
-    { "id": "scn-gate", "type": "grand_arch", "x": 0, "z": 62, "rotY": 0, "scale": 1.15 },
-    { "id": "scn-garland-1", "type": "garland_arch", "x": 0, "z": 42, "rotY": 0, "scale": 1.0 },
+    { "id": "scn-gate", "type": "grand_arch", "x": 0, "z": 110, "rotY": 0, "scale": 1.28 },
+    { "id": "scn-garland-1", "type": "garland_arch", "x": 0, "z": 84, "rotY": 0, "scale": 1.05 },
+    { "id": "scn-garland-2", "type": "garland_arch", "x": 0, "z": 58, "rotY": 0, "scale": 1.0 },
     { "id": "scn-castle", "type": "fairy_castle", "x": 0, "z": -92, "rotY": 0, "scale": 1.15 },
     { "id": "scn-fountain-1", "type": "fountain", "x": 0, "z": 24, "rotY": 0, "scale": 1.0 },
     { "id": "scn-billboard", "type": "ai_billboard", "x": 0, "z": -38, "rotY": 0, "scale": 1.0 },
@@ -115,23 +119,31 @@
     { "id": "scn-popcorn-1", "type": "popcorn_cart", "x": 11, "z": 36, "rotY": -0.4, "scale": 1.0 },
     { "id": "scn-balloon-1", "type": "balloon_stall", "x": -14, "z": 16, "rotY": 0.6, "scale": 1.0 },
     { "id": "scn-fw-1", "type": "firework_launcher", "x": 14, "z": 16, "rotY": 0, "scale": 1.0 },
-    { "id": "scn-photo-1", "type": "heart_photozone", "x": 16, "z": 48, "rotY": -0.35, "scale": 1.0 },
-    { "id": "scn-statue-1", "type": "mascot_statue", "x": -16, "z": 48, "rotY": 0.35, "scale": 1.0 },
+    { "id": "scn-photo-1", "type": "heart_photozone", "x": 14, "z": 92, "rotY": -0.35, "scale": 1.0 },
+    { "id": "scn-statue-1", "type": "mascot_statue", "x": -14, "z": 92, "rotY": 0.35, "scale": 1.0 },
     { "id": "scn-flower-1", "type": "flower_bed", "x": -9, "z": 24, "rotY": 0, "scale": 1.0 },
     { "id": "scn-flower-2", "type": "flower_bed", "x": 9, "z": 24, "rotY": 0, "scale": 1.0 },
+    { "id": "scn-flower-3", "type": "flower_bed", "x": -11, "z": 118, "rotY": 0, "scale": 1.1 },
+    { "id": "scn-flower-4", "type": "flower_bed", "x": 11, "z": 118, "rotY": 0, "scale": 1.1 },
     { "id": "scn-bench-1", "type": "bench", "x": -6, "z": 18, "rotY": 0.7, "scale": 1.0 },
     { "id": "scn-bench-2", "type": "bench", "x": 6, "z": 18, "rotY": -0.7, "scale": 1.0 },
-    { "id": "scn-tree-1", "type": "tree_sakura", "x": -16, "z": 54, "rotY": 0.4, "scale": 1.2 },
-    { "id": "scn-tree-2", "type": "tree_sakura", "x": 16, "z": 54, "rotY": 1.8, "scale": 1.15 },
+    { "id": "scn-bench-3", "type": "bench", "x": -7, "z": 74, "rotY": 1.57, "scale": 1.0 },
+    { "id": "scn-bench-4", "type": "bench", "x": 7, "z": 74, "rotY": -1.57, "scale": 1.0 },
+    { "id": "scn-tree-1", "type": "tree_sakura", "x": -16, "z": 102, "rotY": 0.4, "scale": 1.25 },
+    { "id": "scn-tree-2", "type": "tree_sakura", "x": 16, "z": 102, "rotY": 1.8, "scale": 1.2 },
     { "id": "scn-tree-3", "type": "tree_sakura", "x": -16, "z": 10, "rotY": 0.9, "scale": 1.1 },
     { "id": "scn-tree-4", "type": "tree_sakura", "x": 16, "z": 10, "rotY": 2.2, "scale": 1.1 },
     { "id": "scn-tree-5", "type": "tree_pine", "x": -68, "z": -38, "rotY": 0.3, "scale": 1.4 },
     { "id": "scn-tree-6", "type": "tree_pine", "x": 68, "z": -38, "rotY": 1.1, "scale": 1.4 },
     { "id": "scn-tree-7", "type": "tree_oak", "x": -44, "z": 46, "rotY": 0.5, "scale": 1.25 },
     { "id": "scn-tree-8", "type": "tree_palm", "x": 68, "z": 48, "rotY": 1.2, "scale": 1.2 },
-    { "id": "scn-lamp-1", "type": "lamp_post", "x": -5, "z": 48, "rotY": 0, "scale": 1.0 },
-    { "id": "scn-lamp-2", "type": "lamp_post", "x": 5, "z": 48, "rotY": 0, "scale": 1.0 },
-    { "id": "scn-lamp-3", "type": "lamp_post", "x": -18, "z": 0, "rotY": 0, "scale": 1.0 },
-    { "id": "scn-lamp-4", "type": "lamp_post", "x": 18, "z": 0, "rotY": 0, "scale": 1.0 }
+    { "id": "scn-tree-9", "type": "tree_sakura", "x": -18, "z": 120, "rotY": 1.1, "scale": 1.2 },
+    { "id": "scn-tree-10", "type": "tree_sakura", "x": 18, "z": 120, "rotY": 2.6, "scale": 1.2 },
+    { "id": "scn-lamp-1", "type": "lamp_post", "x": -5.5, "z": 98, "rotY": 0, "scale": 1.0 },
+    { "id": "scn-lamp-2", "type": "lamp_post", "x": 5.5, "z": 98, "rotY": 0, "scale": 1.0 },
+    { "id": "scn-lamp-3", "type": "lamp_post", "x": -5.5, "z": 70, "rotY": 0, "scale": 1.0 },
+    { "id": "scn-lamp-4", "type": "lamp_post", "x": 5.5, "z": 70, "rotY": 0, "scale": 1.0 },
+    { "id": "scn-lamp-5", "type": "lamp_post", "x": -18, "z": 0, "rotY": 0, "scale": 1.0 },
+    { "id": "scn-lamp-6", "type": "lamp_post", "x": 18, "z": 0, "rotY": 0, "scale": 1.0 }
   ]
 }

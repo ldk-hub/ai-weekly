@@ -20,8 +20,8 @@ export class ParkCameraRig {
     this.distance = 16.5;
     this.targetDistance = 16.5;
 
-    this.focus = new THREE.Vector3(0, 1.6, 34);
-    this.targetFocus = new THREE.Vector3(0, 1.6, 34);
+    this.focus = new THREE.Vector3(0, 1.8, 124);
+    this.targetFocus = new THREE.Vector3(0, 1.8, 124);
     this._forward = new THREE.Vector3();
     this._right = new THREE.Vector3();
     this._smoothedUp = new THREE.Vector3(0, 1, 0);

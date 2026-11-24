@@ -908,6 +908,220 @@ body.wl-park-page #sanctuary-canvas {
   color: var(--wl-sem-ink-muted);
 }
 
+/* Welcome Onboarding Gate Modal */
+.wl-welcome-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 48;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(11, 17, 30, 0.52);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  pointer-events: auto;
+}
+
+.wl-welcome-backdrop[hidden] {
+  display: none;
+}
+
+.wl-welcome-card {
+  width: 100%;
+  max-width: 580px;
+  padding: 28px 28px 24px;
+  background: var(--wl-inspector-bg);
+  border: 1px solid var(--wl-sem-border-strong);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45);
+}
+
+.wl-welcome-eyebrow {
+  font-family: var(--wl-font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--wl-sem-accent);
+  margin-bottom: 8px;
+}
+
+.wl-welcome-title {
+  margin: 0 0 10px;
+  font-family: var(--wl-font-display);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--wl-sem-ink);
+}
+
+.wl-welcome-lead {
+  margin: 0 0 18px;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--wl-sem-ink-muted);
+}
+
+.wl-welcome-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.wl-welcome-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  border-radius: var(--wl-radius-sm);
+  border: 1px solid var(--wl-hud-border);
+  background: var(--wl-btn-bg);
+}
+
+.wl-welcome-item strong {
+  font-size: 12.5px;
+  color: var(--wl-sem-ink);
+}
+
+.wl-welcome-item span {
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--wl-sem-ink-muted);
+}
+
+.wl-welcome-item code {
+  font-family: var(--wl-font-mono);
+  font-size: 11px;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: var(--wl-sem-surface-strong);
+  color: var(--wl-sem-accent);
+}
+
+.wl-welcome-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.wl-welcome-enter-btn {
+  flex: 1 1 220px;
+  justify-content: center;
+  height: 42px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* Interactive AI Guest Inspector Card */
+.wl-guest-card {
+  position: absolute;
+  top: 104px;
+  right: 16px;
+  width: 288px;
+  padding: 16px;
+  z-index: 30;
+  background: var(--wl-inspector-bg);
+  pointer-events: auto;
+}
+
+.wl-guest-card[hidden] {
+  display: none;
+}
+
+.wl-guest-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.wl-guest-card-name-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--wl-sem-ink);
+}
+
+.wl-guest-badge {
+  font-family: var(--wl-font-mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: var(--wl-radius-pill);
+  background: var(--wl-btn-bg);
+  border: 1px solid var(--wl-hud-border);
+  color: var(--wl-sem-accent);
+}
+
+.wl-guest-state {
+  margin-top: 3px;
+  font-size: 11.5px;
+  color: var(--wl-sem-cyan);
+}
+
+.wl-guest-quote {
+  margin: 0 0 12px;
+  padding: 8px 10px;
+  border-radius: var(--wl-radius-sm);
+  background: var(--wl-btn-bg);
+  border-left: 3px solid var(--wl-sem-accent);
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--wl-sem-ink);
+}
+
+.wl-guest-meters {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.wl-meter-row {
+  display: grid;
+  grid-template-columns: 46px 1fr;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--wl-sem-ink-muted);
+}
+
+.wl-meter-track {
+  height: 7px;
+  border-radius: var(--wl-radius-pill);
+  background: var(--wl-btn-bg);
+  overflow: hidden;
+}
+
+.wl-meter-fill {
+  height: 100%;
+  border-radius: var(--wl-radius-pill);
+  transition: width 220ms ease;
+}
+
+.wl-meter-fill.is-happy { background: #34d399; }
+.wl-meter-fill.is-energy { background: #38bdf8; }
+.wl-meter-fill.is-full { background: #fbbf24; }
+
+.wl-guest-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.wl-guest-actions .wl-hud-btn {
+  justify-content: center;
+}
+
+@media (max-width: 640px) {
+  .wl-welcome-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .wl-hud-btn,
   .wl-catalog-item {

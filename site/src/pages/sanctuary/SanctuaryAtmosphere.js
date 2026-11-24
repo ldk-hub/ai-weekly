@@ -1,8 +1,9 @@
 import * as THREE from "three";
 
-const SEASONS = ["spring", "summer", "autumn", "winter"];
+const SEASONS = ["spring", "rain", "summer", "autumn", "winter"];
 const SEASON_LABELS = {
   spring: "봄 · 벚꽃",
+  rain: "장마 · 소나기",
   summer: "여름 · 반딧불",
   autumn: "가을 · 낙엽",
   winter: "겨울 · 눈",
@@ -37,6 +38,14 @@ function getSoftParticleTexture(shape = "circle") {
     ctx.beginPath();
     ctx.ellipse(0, 0, 22, 12, 0, 0, Math.PI * 2);
     ctx.fill();
+  } else if (shape === "rain") {
+    const g = ctx.createLinearGradient(32, 4, 32, 60);
+    g.addColorStop(0, "rgba(186,230,253,0)");
+    g.addColorStop(0.35, "rgba(186,230,253,0.92)");
+    g.addColorStop(0.8, "rgba(224,242,254,0.98)");
+    g.addColorStop(1, "rgba(255,255,255,0)");
+    ctx.fillStyle = g;
+    ctx.fillRect(28, 4, 8, 56);
   } else if (shape === "star") {
     const g = ctx.createRadialGradient(32, 32, 1, 32, 32, 30);
     g.addColorStop(0, "rgba(255,255,255,1)");
@@ -65,6 +74,7 @@ function getSoftParticleTexture(shape = "circle") {
 
 const SEASON_TARGETS = {
   spring: { hi: new THREE.Color(0xffb8d9), mid: new THREE.Color(0xf9a8d4), dark: new THREE.Color(0x6ee7b7), ground: new THREE.Color(0xffffff), ave: new THREE.Color(0xebd7b0) },
+  rain: { hi: new THREE.Color(0x86efac), mid: new THREE.Color(0x4ade80), dark: new THREE.Color(0x166534), ground: new THREE.Color(0xdbeafe), ave: new THREE.Color(0xcbd5e1) },
   summer: { hi: new THREE.Color(0xffffff), mid: new THREE.Color(0xffffff), dark: new THREE.Color(0xffffff), ground: new THREE.Color(0xffffff), ave: new THREE.Color(0xebd7b0) },
   autumn: { hi: new THREE.Color(0xfbbf24), mid: new THREE.Color(0xf97316), dark: new THREE.Color(0x9a3412), ground: new THREE.Color(0xfde68a), ave: new THREE.Color(0xe6c79c) },
   winter: { hi: new THREE.Color(0xffffff), mid: new THREE.Color(0xe2e8f0), dark: new THREE.Color(0x64748b), ground: new THREE.Color(0xdbeafe), ave: new THREE.Color(0xf1f5f9) },
@@ -136,6 +146,7 @@ export class SanctuaryAtmosphere {
     this._cNight = new THREE.Color(0x091122);
     this._cDusk = new THREE.Color(0xd98664);
     this._cDay = new THREE.Color(0xd9caa4);
+    this._cRainSky = new THREE.Color(0x6c8ba8);
     this._cSunNight = new THREE.Color(0x8bb4ff);
     this._cSunDay = new THREE.Color(0xffefc2);
     this._cSunDusk = new THREE.Color(0xff9b66);
@@ -161,6 +172,10 @@ export class SanctuaryAtmosphere {
   getCurrentSeason() {
     if (this.seasonMode !== "auto") return this.seasonMode;
     return SEASONS[this.seasonIndex % SEASONS.length];
+  }
+
+  isRaining() {
+    return this.getCurrentSeason() === "rain";
   }
 
   getTimeKey() {
@@ -208,7 +223,7 @@ export class SanctuaryAtmosphere {
   }
 
   cycleSeasonMode() {
-    const order = ["auto", "spring", "summer", "autumn", "winter"];
+    const order = ["auto", "spring", "rain", "summer", "autumn", "winter"];
     const next = order[(order.indexOf(this.seasonMode) + 1) % order.length];
     this.setSeasonMode(next);
     return this.getStatusLabels();
@@ -310,6 +325,7 @@ export class SanctuaryAtmosphere {
     const colAttr = this.weatherGeom.attributes.color;
     const palettes = {
       spring: [[1.0, 0.72, 0.86], [0.99, 0.58, 0.78], [1.0, 0.92, 0.96]],
+      rain: [[0.72, 0.90, 1.0], [0.56, 0.82, 0.98], [0.88, 0.96, 1.0]],
       summer: [[0.85, 1.0, 0.55], [1.0, 0.92, 0.45], [0.45, 0.95, 0.8]],
       autumn: [[0.98, 0.72, 0.18], [0.94, 0.42, 0.14], [0.85, 0.22, 0.18]],
       winter: [[0.98, 0.99, 1.0], [0.88, 0.95, 1.0], [1.0, 1.0, 1.0]],
@@ -322,7 +338,9 @@ export class SanctuaryAtmosphere {
     colAttr.needsUpdate = true;
 
     if (this.weatherMat) {
-      this.weatherMat.size = season === "winter" ? 0.5 : season === "summer" ? 0.38 : 0.58;
+      this.weatherMat.map = getSoftParticleTexture(season === "rain" ? "rain" : season === "winter" ? "circle" : "petal");
+      this.weatherMat.size = season === "rain" ? 1.35 : season === "winter" ? 0.52 : season === "summer" ? 0.42 : 0.62;
+      this.weatherMat.opacity = season === "rain" ? 0.86 : 0.96;
       this.weatherMat.blending = season === "summer" ? THREE.AdditiveBlending : THREE.NormalBlending;
       this.weatherMat.needsUpdate = true;
     }
@@ -603,14 +621,19 @@ export class SanctuaryAtmosphere {
     const duskFactor = Math.exp(-Math.pow((t - 0.72) / 0.075, 2)) + Math.exp(-Math.pow((t - 0.24) / 0.075, 2));
     const nightFactor = 1 - dayFactor;
 
+    const curSeason = this.getCurrentSeason();
+    const isRain = curSeason === "rain";
     this._tmpSky.copy(this._cNight).lerp(this._cDay, dayFactor).lerp(this._cDusk, Math.min(0.85, duskFactor * 0.85));
+    if (isRain) {
+      this._tmpSky.lerp(this._cRainSky, dayFactor * 0.62);
+    }
     if (this.scene.background?.isColor) this.scene.background.copy(this._tmpSky);
     if (this.scene.fog) this.scene.fog.color.copy(this._tmpSky);
 
     if (this.lights.dirLight) {
       this._tmpSun.copy(this._cSunNight).lerp(this._cSunDay, dayFactor).lerp(this._cSunDusk, Math.min(0.8, duskFactor));
       this.lights.dirLight.color.copy(this._tmpSun);
-      this.lights.dirLight.intensity = 0.42 + dayFactor * 2.15;
+      this.lights.dirLight.intensity = (0.42 + dayFactor * 2.15) * (isRain ? 0.68 : 1.0);
     }
     if (this.lights.ambientLight) {
       this._tmpAmb.copy(this._cAmbNight).lerp(this._cAmbDay, dayFactor);
@@ -660,7 +683,12 @@ export class SanctuaryAtmosphere {
         let y = posAttr.getY(i);
         let z = posAttr.getZ(i);
 
-        if (season === "summer") {
+        if (season === "rain") {
+          x += (-3.4 + v.vx * 0.35) * dt;
+          y += (v.vy * 8.2 - 10.5) * dt;
+          z += (-1.2 + v.vz * 0.35) * dt;
+          if (y < 0.2) y = 26 + Math.random() * 6;
+        } else if (season === "summer") {
           x += Math.sin(nowSec * 1.4 + v.phase) * 1.2 * dt;
           y += Math.abs(v.vy) * 0.45 * dt;
           z += Math.cos(nowSec * 1.2 + v.phase) * 1.2 * dt;

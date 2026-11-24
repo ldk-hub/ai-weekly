@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as SkeletonUtils from "three/examples/jsm/utils/SkeletonUtils.js";
-import { createToonMaterial, addToonOutline } from "./ToonMaterials.js";
+import { createToonMaterial, addToonOutline, getCarnivalStripeTexture } from "./ToonMaterials.js";
 
 const CHARACTER_MODELS = {
   Knight: "assets/models/characters/Knight.glb",
@@ -20,145 +20,471 @@ export const AVATAR_LABELS = {
   Barbarian: "하이퍼 바바리안",
 };
 
-const GUEST_COLORS = [0xff8274, 0x60c5f1, 0xffd166, 0x6ee7b7, 0xf9a8d4, 0xc4b5fd];
-const HAT_STYLES = ["bunny", "beret", "cap", "bow", "star"];
+const OUTFIT_COLORS = [0xff8274, 0x60c5f1, 0xffd166, 0x6ee7b7, 0xf9a8d4, 0xc4b5fd, 0xfb923c, 0x38bdf8];
+const PANTS_COLORS = [0x334155, 0x475569, 0x4c3d5e, 0x2c4a6b, 0x6b4c3b];
+const SKIN_COLORS = [0xffe4c8, 0xffd7b5, 0xf8cfa9];
+const HAIR_COLORS = [0x2a1f2d, 0x5c3a28, 0xc98a4b, 0x3b4d7a, 0x8b5cf6, 0xe06d88];
+const HAIR_STYLES = ["bob", "ponytail", "twin_buns", "spiky", "wavy"];
+const HAT_STYLES = ["bunny", "beret", "cap", "bow", "star", "none"];
+const UMBRELLA_PAIRS = [
+  ["#ff7657", "#fff7eb"],
+  ["#38bdf8", "#e0f2fe"],
+  ["#f472b6", "#fff1f2"],
+  ["#fbbf24", "#fefce8"],
+  ["#34d399", "#ecfdf5"],
+  ["#a78bfa", "#f5f3ff"],
+];
+
+const PERSONAS = [
+  { key: "thrill", label: "스릴 매니아", pref: ["ride", "coaster"], favRide: "스타보드 하이퍼 코스터" },
+  { key: "foodie", label: "공원 미식가", pref: ["food", "bench"], favRide: "아이스크림 카페" },
+  { key: "photo", label: "포토그래퍼", pref: ["photo", "ride"], favRide: "위클리 동화 성" },
+  { key: "tech", label: "AI 덕후", pref: ["pavilion", "billboard"], favRide: "AI위클리 파빌리온" },
+  { key: "chill", label: "여유 산책러", pref: ["bench", "photo", "ride"], favRide: "위클리 대관람차" },
+];
+
+const GUEST_NAMES = [
+  "민지", "준호", "서연", "도윤", "하린", "시우", "지아", "현우",
+  "유나", "건우", "소율", "태윤", "채원", "은우", "다은", "지훈",
+  "수빈", "예준", "아린", "민서", "윤호", "지유", "승현", "하은",
+];
+
+const CHAT_PAIRS = [
+  ["안녕! 하이퍼 코스터 타봤어?", "응! 뱅크턴 구간 진짜 짜릿해!"],
+  ["저기 동화 성 앞에서 사진 찍을까?", "좋아! 불꽃놀이 때 또 찍자!"],
+  ["아이스크림 카페 민트초코 맛있대!", "오 나도 먹으러 가야겠다!"],
+  ["오늘 AI위클리 1위 플러그인 봤어?", "방금 전광판에서 확인했지!"],
+  ["대관람차 위에서 공원 다 보이더라!", "노을 질 때 타면 최고겠네!"],
+];
+
+const STATE_LABELS = {
+  WALKING_TO_POI: "공원 이동 중",
+  WATCHING_RIDE: "놀이기구 구경 · 환호 중",
+  EATING_SNACK: "달콤한 간식 먹는 중",
+  RESTING: "벤치·광장에서 휴식 중",
+  TAKING_PHOTO: "기념사진 촬영 중",
+  READING_AI: "AI위클리 보드 감상 중",
+  CHATTING: "친구와 즐겁게 대화 중",
+  TALKING_TO_PLAYER: "당신과 대화 중",
+};
 
 /**
- * Cute 2.2-head SD Chibi Cartoon Park Guest with expressive eyes, blush cheeks,
- * themed amusement-park hats (bunny ears, ribbon, beret, cap), and floating pastel balloons!
+ * Creates a colorful scalloped cartoon rain umbrella mesh (starts collapsed scale 0).
  */
-function createCuteCartoonGuest(colorHex = 0xff8274, variantIdx = 0) {
+function createCartoonUmbrella(variantIdx = 0) {
   const g = new THREE.Group();
-  const outfitMat = createToonMaterial(colorHex);
-  const skinMat = createToonMaterial(0xffe4c8);
-  const eyeMat = new THREE.MeshBasicMaterial({ color: 0x261d2e });
-  const shineMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
-  const blushMat = new THREE.MeshBasicMaterial({ color: 0xff8fa3 });
-  const shoeMat = createToonMaterial(0x3f334d);
+  const [c1, c2] = UMBRELLA_PAIRS[variantIdx % UMBRELLA_PAIRS.length];
+  const poleMat = createToonMaterial(0xe2e8f0);
+  const handleMat = createToonMaterial(0x8d5b3c);
+  const canopyMat = createToonMaterial(0xffffff, {
+    map: getCarnivalStripeTexture(c1, c2, 8),
+    side: THREE.DoubleSide,
+  });
 
-  // Cute stubby legs/shoes
-  const shoeGeo = new THREE.SphereGeometry(0.14, 8, 8);
-  for (const sx of [-0.15, 0.15]) {
-    const shoe = new THREE.Mesh(shoeGeo, shoeMat);
-    shoe.position.set(sx, 0.14, 0.04);
-    shoe.scale.set(1, 0.78, 1.25);
-    g.add(shoe);
-  }
+  // Handle + vertical shaft
+  const handle = new THREE.Mesh(new THREE.TorusGeometry(0.075, 0.025, 6, 10, Math.PI), handleMat);
+  handle.position.set(0, -0.05, 0);
+  handle.rotation.z = Math.PI;
+  g.add(handle);
 
-  // Round chibi dress/tunic body
-  const body = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.34, 0.62, 12), outfitMat);
-  body.position.y = 0.56;
-  body.castShadow = true;
-  addToonOutline(body, 1.07);
-  g.add(body);
+  const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.022, 1.38, 6), poleMat);
+  shaft.position.y = 0.68;
+  g.add(shaft);
 
-  // Tiny swinging cartoon hands
-  const handGeo = new THREE.SphereGeometry(0.11, 8, 8);
-  for (const sx of [-0.34, 0.34]) {
-    const hand = new THREE.Mesh(handGeo, skinMat);
-    hand.position.set(sx, 0.62, 0.06);
-    addToonOutline(hand, 1.12);
-    g.add(hand);
-  }
+  // Scalloped dome canopy
+  const canopy = new THREE.Mesh(
+    new THREE.SphereGeometry(0.86, 12, 8, 0, Math.PI * 2, 0, Math.PI * 0.44),
+    canopyMat
+  );
+  canopy.position.y = 0.72;
+  canopy.scale.set(1.0, 0.78, 1.0);
+  canopy.castShadow = true;
+  addToonOutline(canopy, 1.045);
+  g.add(canopy);
 
-  // Big round chibi head (2.2-head proportion)
-  const head = new THREE.Mesh(new THREE.SphereGeometry(0.42, 16, 14), skinMat);
-  head.position.y = 1.22;
-  head.scale.set(1.06, 0.96, 1.0);
-  head.castShadow = true;
-  addToonOutline(head, 1.06);
-  g.add(head);
+  // Golden top finial tip
+  const tip = new THREE.Mesh(new THREE.ConeGeometry(0.055, 0.16, 6), createToonMaterial(0xffd166));
+  tip.position.y = 1.44;
+  g.add(tip);
 
-  // Glossy cartoon eyes + white sparkle highlight + rosy cheeks (+Z front)
-  const eyeGeo = new THREE.SphereGeometry(0.055, 8, 8);
-  const shineGeo = new THREE.SphereGeometry(0.02, 6, 6);
-  const blushGeo = new THREE.CircleGeometry(0.068, 10);
-  for (const sx of [-0.15, 0.15]) {
-    const eye = new THREE.Mesh(eyeGeo, eyeMat);
-    eye.position.set(sx, 1.24, 0.38);
-    g.add(eye);
-
-    const shine = new THREE.Mesh(shineGeo, shineMat);
-    shine.position.set(sx + 0.018, 1.265, 0.428);
-    g.add(shine);
-
-    const blush = new THREE.Mesh(blushGeo, blushMat);
-    blush.position.set(sx * 1.48, 1.15, 0.365);
-    blush.rotation.y = sx * 0.6;
-    g.add(blush);
-  }
-
-  // Hair cap / cute amusement park hat
-  const hatStyle = HAT_STYLES[variantIdx % HAT_STYLES.length];
-  const hatAccent = createToonMaterial(GUEST_COLORS[(variantIdx + 2) % GUEST_COLORS.length]);
-  if (hatStyle === "bunny") {
-    const band = new THREE.Mesh(new THREE.TorusGeometry(0.39, 0.045, 8, 20, Math.PI), hatAccent);
-    band.position.set(0, 1.28, 0);
-    g.add(band);
-    for (const sx of [-0.16, 0.16]) {
-      const ear = new THREE.Mesh(new THREE.CapsuleGeometry(0.08, 0.28, 6, 8), createToonMaterial(0xfff5f7));
-      ear.position.set(sx, 1.78, 0);
-      ear.rotation.z = sx * -0.45;
-      addToonOutline(ear, 1.09);
-      g.add(ear);
-    }
-  } else if (hatStyle === "beret") {
-    const beret = new THREE.Mesh(new THREE.SphereGeometry(0.42, 14, 10), hatAccent);
-    beret.scale.set(1.12, 0.46, 1.12);
-    beret.position.set(0.04, 1.56, -0.02);
-    beret.rotation.z = -0.18;
-    addToonOutline(beret, 1.06);
-    g.add(beret);
-  } else if (hatStyle === "bow") {
-    for (const sx of [-0.15, 0.15]) {
-      const wing = new THREE.Mesh(new THREE.ConeGeometry(0.14, 0.22, 6), hatAccent);
-      wing.position.set(sx, 1.62, 0.05);
-      wing.rotation.z = sx > 0 ? Math.PI * 0.5 : -Math.PI * 0.5;
-      g.add(wing);
-    }
-  } else if (hatStyle === "star") {
-    const starHat = new THREE.Mesh(new THREE.OctahedronGeometry(0.18, 0), createToonMaterial(0xfde047));
-    starHat.position.set(0, 1.72, 0);
-    addToonOutline(starHat, 1.09);
-    g.add(starHat);
-  } else {
-    const dome = new THREE.Mesh(new THREE.SphereGeometry(0.41, 14, 10, 0, Math.PI * 2, 0, Math.PI * 0.52), hatAccent);
-    dome.position.y = 1.32;
-    g.add(dome);
-    const brim = new THREE.Mesh(new THREE.BoxGeometry(0.46, 0.05, 0.34), hatAccent);
-    brim.position.set(0, 1.36, 0.32);
-    g.add(brim);
-  }
-
-  // Every 3rd park guest carries a floating pastel theme-park balloon!
-  if (variantIdx % 3 === 0) {
-    const string = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.012, 0.012, 1.35, 4),
-      new THREE.MeshBasicMaterial({ color: 0xffffff })
-    );
-    string.position.set(0.36, 1.35, 0.08);
-    g.add(string);
-
-    const balloon = new THREE.Mesh(
-      new THREE.SphereGeometry(0.34, 12, 12),
-      createToonMaterial(GUEST_COLORS[(variantIdx + 4) % GUEST_COLORS.length], { emissive: 0x331122, emissiveIntensity: 0.12 })
-    );
-    balloon.scale.set(0.92, 1.12, 0.92);
-    balloon.position.set(0.36, 2.22, 0.08);
-    addToonOutline(balloon, 1.07);
-    g.add(balloon);
-  }
-
+  g.visible = false;
+  g.scale.setScalar(0.001);
   return g;
 }
 
-function createFallbackAvatar(colorHex = 0xff8274, variantIdx = 0) {
-  return createCuteCartoonGuest(colorHex, variantIdx);
+/**
+ * Creates a floating pastel balloon prop on a string.
+ */
+function createBalloonProp(colorHex = 0xf9a8d4) {
+  const bg = new THREE.Group();
+  const string = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.011, 0.011, 1.25, 4),
+    new THREE.MeshBasicMaterial({ color: 0xffffff })
+  );
+  string.position.set(0, 0.62, 0);
+  bg.add(string);
+
+  const balloon = new THREE.Mesh(
+    new THREE.SphereGeometry(0.32, 12, 10),
+    createToonMaterial(colorHex, { emissive: 0x331122, emissiveIntensity: 0.12 })
+  );
+  balloon.scale.set(0.9, 1.14, 0.9);
+  balloon.position.set(0, 1.48, 0);
+  addToonOutline(balloon, 1.07);
+  bg.add(balloon);
+
+  const knot = new THREE.Mesh(new THREE.ConeGeometry(0.055, 0.08, 6), createToonMaterial(colorHex));
+  knot.position.set(0, 1.14, 0);
+  bg.add(knot);
+  return bg;
+}
+
+/**
+ * Expressive, Articulated Stylized Cartoon Chibi Guest (Animal Crossing × Planet Coaster aesthetic).
+ * Includes articulated legs, arms, head, 5 sculpted hairstyles, park hats, backpack,
+ * rain umbrella, ice cream snack, retro camera with flash, and balloon.
+ */
+function createDetailedCartoonGuest(variantIdx = 0) {
+  const root = new THREE.Group();
+
+  const outfitHex = OUTFIT_COLORS[variantIdx % OUTFIT_COLORS.length];
+  const accentHex = OUTFIT_COLORS[(variantIdx + 3) % OUTFIT_COLORS.length];
+  const pantsHex = PANTS_COLORS[variantIdx % PANTS_COLORS.length];
+  const skinHex = SKIN_COLORS[variantIdx % SKIN_COLORS.length];
+  const hairHex = HAIR_COLORS[variantIdx % HAIR_COLORS.length];
+
+  const outfitMat = createToonMaterial(outfitHex);
+  const accentMat = createToonMaterial(accentHex);
+  const pantsMat = createToonMaterial(pantsHex);
+  const skinMat = createToonMaterial(skinHex);
+  const hairMat = createToonMaterial(hairHex);
+  const whiteMat = createToonMaterial(0xfffbf5);
+  const shoeMat = createToonMaterial(0x283142);
+  const eyeMat = new THREE.MeshBasicMaterial({ color: 0x1e1629 });
+  const shineMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+  const blushMat = new THREE.MeshBasicMaterial({ color: 0xff8fa3, transparent: true, opacity: 0.78 });
+
+  // 1. Articulated Left & Right Legs (hip pivot at y = 0.54)
+  const buildLeg = (sx) => {
+    const legPivot = new THREE.Group();
+    legPivot.position.set(sx, 0.54, 0);
+
+    const thigh = new THREE.Mesh(new THREE.CapsuleGeometry(0.095, 0.24, 6, 8), pantsMat);
+    thigh.position.y = -0.18;
+    thigh.castShadow = true;
+    addToonOutline(thigh, 1.09);
+    legPivot.add(thigh);
+
+    const sock = new THREE.Mesh(new THREE.CylinderGeometry(0.082, 0.082, 0.12, 8), whiteMat);
+    sock.position.y = -0.36;
+    legPivot.add(sock);
+
+    const shoe = new THREE.Mesh(new THREE.SphereGeometry(0.115, 10, 8), shoeMat);
+    shoe.position.set(0, -0.45, 0.05);
+    shoe.scale.set(0.95, 0.72, 1.38);
+    addToonOutline(shoe, 1.09);
+    legPivot.add(shoe);
+
+    const sole = new THREE.Mesh(new THREE.BoxGeometry(0.19, 0.04, 0.29), whiteMat);
+    sole.position.set(0, -0.51, 0.05);
+    legPivot.add(sole);
+
+    return legPivot;
+  };
+
+  const leftLeg = buildLeg(-0.13);
+  const rightLeg = buildLeg(0.13);
+  root.add(leftLeg, rightLeg);
+
+  // 2. Sculpted Torso + Layered Jacket/Dress + Collar + Mini Backpack
+  const torsoGroup = new THREE.Group();
+  torsoGroup.position.y = 0.56;
+  root.add(torsoGroup);
+
+  const isDress = variantIdx % 2 === 1;
+  const torsoMesh = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.21, isDress ? 0.34 : 0.25, 0.54, 14),
+    outfitMat
+  );
+  torsoMesh.position.y = 0.27;
+  torsoMesh.castShadow = true;
+  addToonOutline(torsoMesh, 1.065);
+  torsoGroup.add(torsoMesh);
+
+  // Cute shirt collar / scarf rim
+  const collar = new THREE.Mesh(new THREE.TorusGeometry(0.19, 0.055, 8, 16), whiteMat);
+  collar.rotation.x = Math.PI * 0.5;
+  collar.position.y = 0.52;
+  torsoGroup.add(collar);
+
+  // Decorative outfit hem / belt stripe
+  const belt = new THREE.Mesh(new THREE.CylinderGeometry(isDress ? 0.31 : 0.255, isDress ? 0.33 : 0.26, 0.08, 14), accentMat);
+  belt.position.y = isDress ? 0.08 : 0.14;
+  torsoGroup.add(belt);
+
+  // Cute theme-park mini backpack on back!
+  const pack = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.36, 0.17), accentMat);
+  pack.position.set(0, 0.28, -0.26);
+  pack.castShadow = true;
+  addToonOutline(pack, 1.08);
+  torsoGroup.add(pack);
+  const packPocket = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.16, 0.06), whiteMat);
+  packPocket.position.set(0, 0.19, -0.35);
+  torsoGroup.add(packPocket);
+
+  // 3. Articulated Left & Right Arms (shoulder pivot at y = 0.48 inside torsoGroup)
+  const buildArm = (sx) => {
+    const armPivot = new THREE.Group();
+    armPivot.position.set(sx, 0.46, 0);
+
+    const sleeve = new THREE.Mesh(new THREE.CapsuleGeometry(0.082, 0.22, 6, 8), outfitMat);
+    sleeve.position.y = -0.15;
+    sleeve.castShadow = true;
+    addToonOutline(sleeve, 1.1);
+    armPivot.add(sleeve);
+
+    const hand = new THREE.Mesh(new THREE.SphereGeometry(0.088, 10, 8), skinMat);
+    hand.position.set(0, -0.32, 0.02);
+    addToonOutline(hand, 1.12);
+    armPivot.add(hand);
+
+    return armPivot;
+  };
+
+  const leftArm = buildArm(-0.29);
+  const rightArm = buildArm(0.29);
+  torsoGroup.add(leftArm, rightArm);
+
+  // Attach interactive props to hands
+  const umbrellaGroup = createCartoonUmbrella(variantIdx);
+  umbrellaGroup.position.set(0.02, -0.28, 0.12);
+  // Counter-rotate when arm lifts forward so umbrella stays straight upright
+  rightArm.add(umbrellaGroup);
+
+  // Snack prop (pastel double-scoop ice cream cone) on right hand
+  const snackGroup = new THREE.Group();
+  snackGroup.position.set(0, -0.30, 0.14);
+  const cone = new THREE.Mesh(new THREE.ConeGeometry(0.07, 0.20, 8), createToonMaterial(0xeab676));
+  cone.rotation.x = Math.PI;
+  snackGroup.add(cone);
+  const scoop1 = new THREE.Mesh(new THREE.SphereGeometry(0.085, 10, 8), createToonMaterial(0xffb3d9));
+  scoop1.position.y = 0.12;
+  snackGroup.add(scoop1);
+  const scoop2 = new THREE.Mesh(new THREE.SphereGeometry(0.07, 10, 8), createToonMaterial(0x99f6e4));
+  scoop2.position.y = 0.22;
+  snackGroup.add(scoop2);
+  snackGroup.visible = false;
+  rightArm.add(snackGroup);
+
+  // Camera prop + flash sphere on right hand
+  const cameraGroup = new THREE.Group();
+  cameraGroup.position.set(-0.08, -0.28, 0.22);
+  const camBody = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.16, 0.12), shoeMat);
+  cameraGroup.add(camBody);
+  const camLens = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.06, 0.08, 10), createToonMaterial(0x94a3b8));
+  camLens.rotation.x = Math.PI * 0.5;
+  camLens.position.z = 0.08;
+  cameraGroup.add(camLens);
+  const flashSphere = new THREE.Mesh(
+    new THREE.SphereGeometry(0.32, 8, 8),
+    new THREE.MeshBasicMaterial({ color: 0xfffff0, transparent: true, opacity: 0.9 })
+  );
+  flashSphere.position.set(0, 0.06, 0.16);
+  flashSphere.visible = false;
+  cameraGroup.add(flashSphere);
+  cameraGroup.visible = false;
+  rightArm.add(cameraGroup);
+
+  // Floating pastel park balloon on left hand
+  const balloonGroup = createBalloonProp(OUTFIT_COLORS[(variantIdx + 4) % OUTFIT_COLORS.length]);
+  balloonGroup.position.set(-0.05, -0.28, 0.05);
+  balloonGroup.visible = variantIdx % 3 === 0;
+  leftArm.add(balloonGroup);
+
+  // 4. Expressive Chibi Head + Sculpted Hairstyle + Face + Park Hat
+  const headGroup = new THREE.Group();
+  headGroup.position.y = 0.58;
+  torsoGroup.add(headGroup);
+
+  const head = new THREE.Mesh(new THREE.SphereGeometry(0.36, 18, 14), skinMat);
+  head.position.y = 0.34;
+  head.scale.set(1.04, 0.96, 0.98);
+  head.castShadow = true;
+  addToonOutline(head, 1.055);
+  headGroup.add(head);
+
+  // Cute side ears
+  for (const sx of [-0.35, 0.35]) {
+    const ear = new THREE.Mesh(new THREE.SphereGeometry(0.08, 8, 8), skinMat);
+    ear.position.set(sx, 0.32, 0.0);
+    headGroup.add(ear);
+  }
+
+  // Glossy eyes + sparkles + rosy cheeks + tiny smile (+Z face)
+  const eyeGeo = new THREE.SphereGeometry(0.052, 10, 8);
+  const shineGeo = new THREE.SphereGeometry(0.019, 6, 6);
+  const blushGeo = new THREE.CircleGeometry(0.062, 10);
+  for (const sx of [-0.135, 0.135]) {
+    const eye = new THREE.Mesh(eyeGeo, eyeMat);
+    eye.position.set(sx, 0.35, 0.33);
+    eye.scale.set(0.95, 1.15, 0.8);
+    headGroup.add(eye);
+
+    const shine = new THREE.Mesh(shineGeo, shineMat);
+    shine.position.set(sx + 0.017, 0.376, 0.372);
+    headGroup.add(shine);
+
+    const blush = new THREE.Mesh(blushGeo, blushMat);
+    blush.position.set(sx * 1.48, 0.27, 0.318);
+    blush.rotation.y = sx * 0.55;
+    headGroup.add(blush);
+  }
+
+  const smile = new THREE.Mesh(new THREE.TorusGeometry(0.052, 0.014, 6, 10, Math.PI), eyeMat);
+  smile.position.set(0, 0.24, 0.345);
+  smile.rotation.z = Math.PI;
+  headGroup.add(smile);
+
+  // Sculpted Hairstyles (full hair cap + front bangs + distinctive silhouette!)
+  const hairStyle = HAIR_STYLES[variantIdx % HAIR_STYLES.length];
+  const hairCap = new THREE.Mesh(
+    new THREE.SphereGeometry(0.385, 16, 12, 0, Math.PI * 2, 0, Math.PI * 0.62),
+    hairMat
+  );
+  hairCap.position.set(0, 0.37, -0.025);
+  hairCap.rotation.x = -0.22;
+  addToonOutline(hairCap, 1.05);
+  headGroup.add(hairCap);
+
+  // Front bangs tuft
+  for (const bx of [-0.16, 0, 0.16]) {
+    const bang = new THREE.Mesh(new THREE.SphereGeometry(0.12, 8, 8), hairMat);
+    bang.scale.set(1.1, 0.72, 0.7);
+    bang.position.set(bx, 0.54, 0.27 - Math.abs(bx) * 0.35);
+    headGroup.add(bang);
+  }
+
+  if (hairStyle === "bob") {
+    for (const sx of [-0.29, 0.29]) {
+      const side = new THREE.Mesh(new THREE.CapsuleGeometry(0.12, 0.24, 6, 8), hairMat);
+      side.position.set(sx, 0.26, -0.04);
+      addToonOutline(side, 1.07);
+      headGroup.add(side);
+    }
+    const backBob = new THREE.Mesh(new THREE.SphereGeometry(0.32, 12, 10), hairMat);
+    backBob.position.set(0, 0.26, -0.18);
+    headGroup.add(backBob);
+  } else if (hairStyle === "ponytail") {
+    const tie = new THREE.Mesh(new THREE.TorusGeometry(0.08, 0.03, 6, 10), accentMat);
+    tie.position.set(0, 0.44, -0.38);
+    headGroup.add(tie);
+    const tail = new THREE.Mesh(new THREE.CapsuleGeometry(0.13, 0.32, 6, 10), hairMat);
+    tail.position.set(0, 0.28, -0.46);
+    tail.rotation.x = 0.45;
+    addToonOutline(tail, 1.08);
+    headGroup.add(tail);
+  } else if (hairStyle === "twin_buns") {
+    for (const sx of [-0.30, 0.30]) {
+      const bun = new THREE.Mesh(new THREE.SphereGeometry(0.16, 10, 10), hairMat);
+      bun.position.set(sx, 0.62, -0.08);
+      addToonOutline(bun, 1.08);
+      headGroup.add(bun);
+      const ribbon = new THREE.Mesh(new THREE.TorusGeometry(0.12, 0.028, 6, 10), accentMat);
+      ribbon.position.set(sx * 0.92, 0.56, -0.06);
+      ribbon.rotation.y = sx > 0 ? 0.5 : -0.5;
+      headGroup.add(ribbon);
+    }
+  } else if (hairStyle === "spiky") {
+    for (let k = -2; k <= 2; k++) {
+      const spike = new THREE.Mesh(new THREE.ConeGeometry(0.10, 0.26, 6), hairMat);
+      spike.position.set(k * 0.11, 0.72 - Math.abs(k) * 0.04, 0.04 - Math.abs(k) * 0.05);
+      spike.rotation.z = -k * 0.26;
+      headGroup.add(spike);
+    }
+  } else {
+    // Wavy layered locks
+    for (const sx of [-0.31, 0.31]) {
+      const curl1 = new THREE.Mesh(new THREE.SphereGeometry(0.14, 10, 8), hairMat);
+      curl1.position.set(sx, 0.24, -0.06);
+      headGroup.add(curl1);
+      const curl2 = new THREE.Mesh(new THREE.SphereGeometry(0.12, 10, 8), hairMat);
+      curl2.position.set(sx * 0.95, 0.08, -0.10);
+      headGroup.add(curl2);
+    }
+  }
+
+  // Park Hat / Headband Accessories (cleanly layered on hair)
+  const hatStyle = HAT_STYLES[variantIdx % HAT_STYLES.length];
+  if (hatStyle === "bunny") {
+    const band = new THREE.Mesh(new THREE.TorusGeometry(0.37, 0.04, 8, 20, Math.PI), accentMat);
+    band.position.set(0, 0.42, 0);
+    headGroup.add(band);
+    for (const sx of [-0.15, 0.15]) {
+      const ear = new THREE.Mesh(new THREE.CapsuleGeometry(0.072, 0.26, 6, 8), whiteMat);
+      ear.position.set(sx, 0.88, 0);
+      ear.rotation.z = sx * -0.45;
+      addToonOutline(ear, 1.09);
+      headGroup.add(ear);
+    }
+  } else if (hatStyle === "beret") {
+    const beret = new THREE.Mesh(new THREE.SphereGeometry(0.39, 14, 10), accentMat);
+    beret.scale.set(1.12, 0.44, 1.12);
+    beret.position.set(0.05, 0.72, -0.03);
+    beret.rotation.z = -0.18;
+    addToonOutline(beret, 1.06);
+    headGroup.add(beret);
+  } else if (hatStyle === "cap") {
+    const capTop = new THREE.Mesh(new THREE.SphereGeometry(0.39, 14, 10, 0, Math.PI * 2, 0, Math.PI * 0.46), accentMat);
+    capTop.position.y = 0.44;
+    headGroup.add(capTop);
+    const brim = new THREE.Mesh(new THREE.BoxGeometry(0.46, 0.048, 0.34), accentMat);
+    brim.position.set(0, 0.52, 0.34);
+    headGroup.add(brim);
+  } else if (hatStyle === "bow") {
+    for (const sx of [-0.14, 0.14]) {
+      const wing = new THREE.Mesh(new THREE.ConeGeometry(0.13, 0.21, 6), accentMat);
+      wing.position.set(sx, 0.76, 0.06);
+      wing.rotation.z = sx > 0 ? Math.PI * 0.5 : -Math.PI * 0.5;
+      headGroup.add(wing);
+    }
+  } else if (hatStyle === "star") {
+    const starPin = new THREE.Mesh(new THREE.OctahedronGeometry(0.13, 0), createToonMaterial(0xfde047));
+    starPin.position.set(0.24, 0.68, 0.16);
+    addToonOutline(starPin, 1.09);
+    headGroup.add(starPin);
+  }
+
+  // Floating 3D Emote Sparkle/Heart above head (hidden unless cheering/interacting)
+  const emoteMesh = new THREE.Mesh(
+    new THREE.OctahedronGeometry(0.16, 0),
+    new THREE.MeshBasicMaterial({ color: 0xff6b9d })
+  );
+  emoteMesh.position.set(0, 2.08, 0);
+  emoteMesh.visible = false;
+  root.add(emoteMesh);
+
+  return {
+    root,
+    parts: {
+      leftLeg,
+      rightLeg,
+      torsoGroup,
+      leftArm,
+      rightArm,
+      headGroup,
+      umbrellaGroup,
+      snackGroup,
+      cameraGroup,
+      flashSphere,
+      balloonGroup,
+      emoteMesh,
+    },
+  };
 }
 
 /**
  * Manages Full-3D KayKit Rigged Player Avatar, Remote Multi-User Ride-Along Avatars,
- * and Autonomous AI Park Guest Crowd walking the paths & reacting to rides.
+ * and Autonomous Multi-State AI Park Guests with Rain Umbrellas & Direct Social Interaction.
  */
 export class CrowdAndAvatarEngine {
   constructor(scene, terrainEngine, overlayLayerEl) {
@@ -179,18 +505,29 @@ export class CrowdAndAvatarEngine {
       mixer: null,
       actions: {},
       activeAction: "",
-      position: new THREE.Vector3(0, 0, 34),
+      position: new THREE.Vector3(0, 0, 124),
       velocity: new THREE.Vector3(),
       facing: Math.PI,
       vy: 0,
       grounded: true,
-      riding: null, // { kind: 'coaster'|'ride', id, carIndex }
+      riding: null,
+      umbrellaGroup: null,
+      umbrellaOpen: 0,
+      balloonGroup: null,
     };
     this.player.root.position.copy(this.player.position);
     this.group.add(this.player.root);
 
-    this.remotePeers = new Map(); // clientId -> { root, pos, targetPos, facing, riding, tagEl, nick }
+    // Give the player a cute automatic rain umbrella too!
+    this.player.umbrellaGroup = createCartoonUmbrella(1);
+    this.player.umbrellaGroup.position.set(0.42, 1.05, 0.15);
+    this.player.root.add(this.player.umbrellaGroup);
+
+    this.remotePeers = new Map();
     this.aiGuests = [];
+    this.guestPickables = [];
+    this.poiList = [];
+    this.activeTalkingGuestId = null;
     this.guestLines = [
       "스타보드 코스터 뱅크턴 진짜 부드럽다!",
       "밤에 대관람차에서 보는 불꽃놀이 기대돼요!",
@@ -199,13 +536,115 @@ export class CrowdAndAvatarEngine {
     ];
     this._projVec = new THREE.Vector3();
     this._bubbleTimer = 0;
+    this._simTime = 0;
 
     this._mountFallbackToPlayer();
     this._spawnAIGuests(24);
   }
 
+  setSpawnPosition(x, z) {
+    const gy = this.terrain ? Math.max(this.terrain.waterLevel + 0.15, this.terrain.getHeightAt(x, z)) : 0;
+    this.player.position.set(x, gy, z);
+    this.player.facing = Math.PI; // Facing North (-Z) through Grand Arch into the park!
+    this.player.root.position.copy(this.player.position);
+    this.player.root.rotation.y = this.player.facing;
+  }
+
+  /**
+   * Feeds live park rides, food stalls, photo spots, benches, and pavilions into Guest AI brains.
+   */
+  setParkWorldContext(worldData) {
+    const list = [];
+    if (!worldData) return;
+
+    for (const c of worldData.coasters || []) {
+      const n0 = c.nodes?.[0];
+      if (n0) {
+        list.push({
+          id: c.id,
+          category: "coaster",
+          name: c.name || "롤러코스터",
+          x: n0.x + 5,
+          z: n0.z + 6,
+          lookX: n0.x,
+          lookZ: n0.z,
+          radius: 7.5,
+        });
+      }
+    }
+    for (const r of worldData.rides || []) {
+      list.push({
+        id: r.id,
+        category: "ride",
+        name: r.name || "놀이기구",
+        x: r.x,
+        z: r.z + 10.5,
+        lookX: r.x,
+        lookZ: r.z,
+        radius: 5.5,
+      });
+    }
+    for (const p of worldData.pavilions || []) {
+      list.push({
+        id: p.id,
+        category: "pavilion",
+        name: p.title || "AI 파빌리온",
+        x: p.x,
+        z: p.z + 6.5,
+        lookX: p.x,
+        lookZ: p.z,
+        radius: 4.5,
+      });
+    }
+    for (const s of worldData.scenery || []) {
+      if (["cafe_icecream", "popcorn_cart", "balloon_stall", "kiosk"].includes(s.type)) {
+        list.push({
+          id: s.id,
+          category: "food",
+          name: s.type === "cafe_icecream" ? "아이스크림 카페" : s.type === "popcorn_cart" ? "팝콘 카트" : "풍선 상점",
+          x: s.x,
+          z: s.z + 3.4,
+          lookX: s.x,
+          lookZ: s.z,
+          radius: 3.0,
+        });
+      } else if (["heart_photozone", "fairy_castle", "grand_arch", "fountain", "mascot_statue"].includes(s.type)) {
+        list.push({
+          id: s.id,
+          category: "photo",
+          name: s.type === "fairy_castle" ? "동화 성" : s.type === "grand_arch" ? "위클리랜드 정문" : "포토존",
+          x: s.x,
+          z: s.z + (s.type === "fairy_castle" ? 13 : 6.2),
+          lookX: s.x,
+          lookZ: s.z,
+          radius: 5.0,
+        });
+      } else if (s.type === "bench") {
+        list.push({
+          id: s.id,
+          category: "bench",
+          name: "공원 벤치",
+          x: s.x,
+          z: s.z + 1.5,
+          lookX: s.x,
+          lookZ: s.z + 4,
+          radius: 2.2,
+        });
+      }
+    }
+    this.poiList = list;
+
+    // Assign fresh intelligent goals to all guests immediately!
+    for (const g of this.aiGuests) {
+      if (g.state !== "TALKING_TO_PLAYER") {
+        this._pickNextGoal(g, false);
+      }
+    }
+  }
+
   _mountFallbackToPlayer() {
-    this.player.model = createFallbackAvatar(0xe07a52);
+    const built = createDetailedCartoonGuest(0);
+    this.player.model = built.root;
     this.player.root.add(this.player.model);
   }
 
@@ -288,30 +727,271 @@ export class CrowdAndAvatarEngine {
   }
 
   _spawnAIGuests(count) {
-    const names = ["민지", "준호", "서연", "도윤", "하린", "시우", "지아", "현우", "유나", "건우"];
+    this.guestPickables = [];
     for (let i = 0; i < count; i++) {
-      const color = GUEST_COLORS[i % GUEST_COLORS.length];
-      const mesh = createFallbackAvatar(color, i);
-      mesh.scale.setScalar(0.84 + (i % 3) * 0.06);
-      const wp = this.terrain.getRandomWaypoint();
-      mesh.position.copy(wp.position);
+      const built = createDetailedCartoonGuest(i);
+      const mesh = built.root;
+      mesh.scale.setScalar(0.92 + (i % 3) * 0.05);
+
+      const id = `ai-guest-${i}`;
+      mesh.traverse((obj) => {
+        if (obj.isMesh && !obj.userData.isToonOutline) {
+          obj.userData = { pickKind: "guest", guestId: id };
+          this.guestPickables.push(obj);
+        }
+      });
+
+      // Spawn first 5 guests around the new South Entrance Promenade so entrance feels lively right away!
+      let startPos;
+      if (i < 5) {
+        const sx = (i - 2) * 3.8 + (Math.random() - 0.5) * 1.6;
+        const sz = 98 + (i % 3) * 7.5;
+        const sy = this.terrain ? Math.max(this.terrain.waterLevel + 0.15, this.terrain.getHeightAt(sx, sz)) : 0;
+        startPos = new THREE.Vector3(sx, sy, sz);
+      } else {
+        const wp = this.terrain.getRandomWaypoint();
+        startPos = wp.position.clone();
+      }
+      mesh.position.copy(startPos);
       this.group.add(mesh);
 
-      const nextWp = this.terrain.getNextWaypoint(wp.index);
-      const bubbleEl = i < 4 ? this._createBubbleEl() : null;
-      this.aiGuests.push({
-        id: `ai-guest-${i}`,
-        name: `${names[i % names.length]} #${i + 1}`,
+      const persona = PERSONAS[i % PERSONAS.length];
+      const bubbleEl = i < 10 ? this._createBubbleEl() : null;
+      const g = {
+        id,
+        index: i,
+        name: `${GUEST_NAMES[i % GUEST_NAMES.length]} #${i + 1}`,
+        persona,
         mesh,
-        pos: wp.position.clone(),
-        targetIndex: nextWp.index,
-        targetPos: nextWp.position.clone(),
-        speed: 2.0 + (i % 4) * 0.45,
+        parts: built.parts,
+        pos: startPos.clone(),
+        facing: Math.PI,
+        targetPos: startPos.clone(),
+        lookPos: new THREE.Vector3(0, 0, 0),
+        targetPoi: null,
+        speed: 2.3 + (i % 4) * 0.35,
         phase: Math.random() * Math.PI * 2,
+        state: "WALKING_TO_POI",
+        stateTimer: 4 + Math.random() * 6,
+        chatCooldown: 4 + Math.random() * 10,
+        chatPartner: null,
+        happiness: 72 + (i * 7) % 24,
+        energy: 65 + (i * 11) % 30,
+        fullness: 58 + (i * 13) % 34,
+        umbrellaOpen: 0,
+        emoteTimer: 0,
+        flashTimer: 0,
+        hasBalloon: built.parts.balloonGroup.visible,
+        quote: "위클리랜드 오늘 날씨도 좋고 완전 신나요!",
         bubbleEl,
-        bubbleText: "",
         bubbleRemaining: 0,
-      });
+      };
+      const nxt = this.terrain.getRandomWaypoint();
+      g.targetPos.copy(nxt.position);
+      this.aiGuests.push(g);
+    }
+  }
+
+  _pickNextGoal(g, isRaining = false) {
+    g.chatPartner = null;
+    g.parts.snackGroup.visible = false;
+    g.parts.cameraGroup.visible = false;
+    g.parts.flashSphere.visible = false;
+
+    if (!this.poiList.length) {
+      const wp = this.terrain.getRandomWaypoint();
+      g.targetPos.copy(wp.position);
+      g.lookPos.copy(wp.position);
+      g.targetPoi = null;
+      g.state = "WALKING_TO_POI";
+      g.stateTimer = 8;
+      return;
+    }
+
+    // Need-driven & personality-weighted POI selection
+    let desiredCats = [...g.persona.pref];
+    if (isRaining && Math.random() < 0.55) {
+      desiredCats = ["pavilion", "food"];
+    } else if (g.energy < 38) {
+      desiredCats = ["bench", "photo"];
+    } else if (g.fullness < 40) {
+      desiredCats = ["food"];
+    }
+
+    const candidates = this.poiList.filter((p) => desiredCats.includes(p.category) && p.id !== g.targetPoi?.id);
+    const pool = candidates.length ? candidates : this.poiList;
+    const picked = pool[Math.floor(Math.random() * pool.length)];
+
+    const jitterAng = Math.random() * Math.PI * 2;
+    const jitterR = 1.2 + Math.random() * Math.min(3.2, picked.radius * 0.55);
+    g.targetPoi = picked;
+    g.targetPos.set(
+      THREE.MathUtils.clamp(picked.x + Math.cos(jitterAng) * jitterR, -135, 135),
+      0,
+      THREE.MathUtils.clamp(picked.z + Math.sin(jitterAng) * jitterR, -135, 135)
+    );
+    g.lookPos.set(picked.lookX ?? picked.x, 0, picked.lookZ ?? picked.z);
+    g.state = "WALKING_TO_POI";
+    g.stateTimer = 20;
+  }
+
+  _enterPoiActivity(g, isRaining) {
+    const cat = g.targetPoi?.category || "ride";
+    const poiName = g.targetPoi?.name || "위클리랜드";
+
+    if (cat === "food") {
+      g.state = "EATING_SNACK";
+      g.stateTimer = 6.5 + Math.random() * 4;
+      g.parts.snackGroup.visible = true;
+      g.quote = `${poiName} 간식 진짜 달콤해요!`;
+      this._showGuestBubble(g, g.quote, 4.5);
+    } else if (cat === "bench") {
+      g.state = "RESTING";
+      g.stateTimer = 7.0 + Math.random() * 4;
+      g.quote = isRaining ? "우산 쓰고 잠깐 쉬었다 가야지~" : "바람도 시원하고 잠깐 쉬니까 좋네요!";
+      this._showGuestBubble(g, g.quote, 4.2);
+    } else if (cat === "photo") {
+      g.state = "TAKING_PHOTO";
+      g.stateTimer = 5.5 + Math.random() * 3.5;
+      g.parts.cameraGroup.visible = true;
+      g.flashTimer = 0.8;
+      g.quote = `${poiName} 배경으로 인생샷 찰칵!`;
+      this._showGuestBubble(g, g.quote, 4.5);
+    } else if (cat === "pavilion" || cat === "billboard") {
+      g.state = "READING_AI";
+      g.stateTimer = 6.5 + Math.random() * 4;
+      const line = this.guestLines[Math.floor(Math.random() * this.guestLines.length)];
+      g.quote = isRaining ? `${poiName}에서 비도 피하고 AI 뉴스도 보고!` : line;
+      this._showGuestBubble(g, g.quote, 4.8);
+    } else {
+      g.state = "WATCHING_RIDE";
+      g.stateTimer = 6.0 + Math.random() * 4;
+      g.emoteTimer = 3.0;
+      g.quote = `${poiName} 엄청 신나 보인다! 나도 탈래!`;
+      this._showGuestBubble(g, g.quote, 4.5);
+    }
+  }
+
+  _showGuestBubble(g, text, duration = 4.5) {
+    g.quote = text;
+    if (!g.bubbleEl) return;
+    g.bubbleEl.textContent = `${g.name.split(" ")[0]}: ${text}`;
+    g.bubbleEl.hidden = false;
+    g.bubbleRemaining = duration;
+  }
+
+  getGuestPickables() {
+    return this.guestPickables;
+  }
+
+  findNearestGuest(worldPos, maxRadius = 4.5) {
+    let best = null;
+    let bestDist = Infinity;
+    for (const g of this.aiGuests) {
+      if (!g.mesh.visible) continue;
+      const d = Math.hypot(worldPos.x - g.pos.x, worldPos.z - g.pos.z);
+      if (d <= maxRadius && d < bestDist) {
+        bestDist = d;
+        best = g;
+      }
+    }
+    if (!best) return null;
+    return {
+      kind: "guest",
+      id: best.id,
+      label: `${best.name} (${best.persona.label})와 대화하기`,
+      pos: best.pos.clone(),
+    };
+  }
+
+  getGuestSnapshot(guestId) {
+    const g = this.aiGuests.find((x) => x.id === guestId);
+    if (!g) return null;
+    return {
+      id: g.id,
+      name: g.name,
+      persona: g.persona.label,
+      stateLabel: g.umbrellaOpen > 0.5 ? `우산 착용 · ${STATE_LABELS[g.state] || g.state}` : (STATE_LABELS[g.state] || g.state),
+      quote: g.quote,
+      happiness: Math.round(g.happiness),
+      energy: Math.round(g.energy),
+      fullness: Math.round(g.fullness),
+      hasBalloon: g.hasBalloon,
+    };
+  }
+
+  interactWithGuest(guestId, playerPos) {
+    if (this.activeTalkingGuestId && this.activeTalkingGuestId !== guestId) {
+      this.releaseTalkingGuest(this.activeTalkingGuestId);
+    }
+    const g = this.aiGuests.find((x) => x.id === guestId);
+    if (!g) return null;
+    this.activeTalkingGuestId = guestId;
+    g.state = "TALKING_TO_PLAYER";
+    g.stateTimer = 30;
+    g.parts.snackGroup.visible = false;
+    g.parts.cameraGroup.visible = false;
+    g.emoteTimer = 2.6;
+    if (playerPos) {
+      g.lookPos.copy(playerPos);
+      g.facing = Math.atan2(playerPos.x - g.pos.x, playerPos.z - g.pos.z);
+    }
+    const greet = g.umbrellaOpen > 0.5
+      ? "어머, 안녕하세요! 비가 와서 우산 썼어요. 공원 구경 재밌으신가요?"
+      : `안녕하세요! 저는 ${g.persona.label} ${g.name.split(" ")[0]}예요. 지금 ${g.targetPoi?.name || "공원"} 구경 중이에요!`;
+    this._showGuestBubble(g, greet, 5.5);
+    return this.getGuestSnapshot(guestId);
+  }
+
+  performGuestAction(guestId, action, playerPos) {
+    const g = this.aiGuests.find((x) => x.id === guestId);
+    if (!g) return null;
+    if (playerPos) {
+      g.lookPos.copy(playerPos);
+      g.facing = Math.atan2(playerPos.x - g.pos.x, playerPos.z - g.pos.z);
+    }
+    g.emoteTimer = 3.2;
+
+    if (action === "wave") {
+      g.happiness = Math.min(100, g.happiness + 8);
+      g.stateTimer = 18;
+      this._showGuestBubble(g, "반가워요! 오늘 위클리랜드에서 신나게 놀아요!", 5.0);
+    } else if (action === "balloon") {
+      g.hasBalloon = true;
+      g.parts.balloonGroup.visible = true;
+      g.happiness = Math.min(100, g.happiness + 16);
+      g.stateTimer = 18;
+      this._showGuestBubble(g, "와아! 예쁜 파스텔 풍선 선물 정말 고마워요!", 5.2);
+    } else if (action === "photo") {
+      g.parts.cameraGroup.visible = true;
+      g.flashTimer = 0.25;
+      g.happiness = Math.min(100, g.happiness + 12);
+      g.stateTimer = 15;
+      this._showGuestBubble(g, "하나, 둘, 셋, 치즈~! 찰칵! 멋진 추억 남겼어요!", 5.2);
+    } else if (action === "recommend") {
+      g.happiness = Math.min(100, g.happiness + 10);
+      g.energy = Math.min(100, g.energy + 12);
+      const coasterPoi = this.poiList.find((p) => p.category === "coaster") || this.poiList[0];
+      this.activeTalkingGuestId = null;
+      if (coasterPoi) {
+        g.targetPoi = coasterPoi;
+        g.targetPos.set(coasterPoi.x + (Math.random() - 0.5) * 4, 0, coasterPoi.z + (Math.random() - 0.5) * 4);
+        g.lookPos.set(coasterPoi.lookX, 0, coasterPoi.lookZ);
+        g.state = "WALKING_TO_POI";
+        g.stateTimer = 25;
+      }
+      this._showGuestBubble(g, "스타보드 하이퍼 코스터요?! 지금 바로 달려가 볼게요!", 5.2);
+    }
+    return this.getGuestSnapshot(guestId);
+  }
+
+  releaseTalkingGuest(guestId) {
+    const g = this.aiGuests.find((x) => x.id === guestId);
+    if (g && g.state === "TALKING_TO_PLAYER") {
+      this._pickNextGoal(g, g.umbrellaOpen > 0.5);
+    }
+    if (this.activeTalkingGuestId === guestId) {
+      this.activeTalkingGuestId = null;
     }
   }
 
@@ -338,15 +1018,15 @@ export class CrowdAndAvatarEngine {
     let rec = this.remotePeers.get(peer.clientId);
     if (!rec) {
       const root = new THREE.Group();
-      const avatar = createFallbackAvatar(0x38bdf8);
-      root.add(avatar);
+      const built = createDetailedCartoonGuest(peer.clientId.charCodeAt(0) % 8);
+      root.add(built.root);
       this.group.add(root);
       rec = {
         clientId: peer.clientId,
         root,
-        pos: new THREE.Vector3(peer.x || 0, peer.y || 0, peer.z || 40),
-        targetPos: new THREE.Vector3(peer.x || 0, peer.y || 0, peer.z || 40),
-        facing: peer.facing || 0,
+        pos: new THREE.Vector3(peer.x || 0, peer.y || 0, peer.z || 118),
+        targetPos: new THREE.Vector3(peer.x || 0, peer.y || 0, peer.z || 118),
+        facing: peer.facing || Math.PI,
         riding: peer.riding || null,
         tagEl: this._createTagEl(peer.nickname || "방문객"),
       };
@@ -382,10 +1062,11 @@ export class CrowdAndAvatarEngine {
     this._playPlayerAnim("idle");
   }
 
-  update(dt, input, cameraBasis, coasterEngine, flatRideEngine, camera, viewportW, viewportH) {
+  update(dt, input, cameraBasis, coasterEngine, flatRideEngine, camera, viewportW, viewportH, { isRaining = false } = {}) {
     const stepDt = Math.min(dt, 0.05);
+    this._simTime += stepDt;
 
-    // 1. Update local player (walking vs riding)
+    // 1. Update local player (walking vs riding) + auto rain umbrella
     if (this.player.riding) {
       const seat =
         this.player.riding.kind === "coaster"
@@ -438,11 +1119,19 @@ export class CrowdAndAvatarEngine {
       this.player.root.rotation.y = this.player.facing;
     }
 
+    if (this.player.umbrellaGroup) {
+      const wantOpen = isRaining && !this.player.riding ? 1 : 0;
+      this.player.umbrellaOpen += (wantOpen - this.player.umbrellaOpen) * Math.min(1, stepDt * 7.5);
+      const open = this.player.umbrellaOpen;
+      this.player.umbrellaGroup.visible = open > 0.03;
+      if (open > 0.03) this.player.umbrellaGroup.scale.setScalar(open * 1.15);
+    }
+
     if (this.player.mixer) {
       this.player.mixer.update(stepDt);
     }
 
-    // 2. Update Remote Multi-user Avatars (including ride-along seats)
+    // 2. Update Remote Multi-user Avatars
     for (const rec of this.remotePeers.values()) {
       if (rec.riding?.kind === "coaster") {
         const seat = coasterEngine.getSeatState(rec.riding.id, 0, Math.min(3, (rec.riding.carIndex || 1)));
@@ -460,45 +1149,205 @@ export class CrowdAndAvatarEngine {
       this._projectOverlayEl(rec.tagEl, rec.root.position, 2.2, camera, viewportW, viewportH);
     }
 
-    // 3. Autonomous AI Crowd walking paths + reaction speech bubbles
+    // 3. Autonomous AI Park Guests (State Machine + Needs + Rain Umbrellas + Expressive Animation)
     this._bubbleTimer += stepDt;
-    for (const g of this.aiGuests) {
-      const dx = g.targetPos.x - g.pos.x;
-      const dz = g.targetPos.z - g.pos.z;
-      const dist = Math.hypot(dx, dz);
-      if (dist < 1.1) {
-        const nxt = this.terrain.getNextWaypoint(g.targetIndex);
-        g.targetIndex = nxt.index;
-        g.targetPos.copy(nxt.position);
-      } else {
-        const step = Math.min(dist, g.speed * stepDt);
-        g.pos.x += (dx / dist) * step;
-        g.pos.z += (dz / dist) * step;
-        g.mesh.rotation.y = Math.atan2(dx, dz);
+    for (let idx = 0; idx < this.aiGuests.length; idx++) {
+      const g = this.aiGuests[idx];
+      if (!g.mesh.visible) continue;
+
+      // Smoothly open/close umbrella when raining!
+      const targetUmbrella = isRaining ? 1 : 0;
+      g.umbrellaOpen += (targetUmbrella - g.umbrellaOpen) * Math.min(1, stepDt * 6.5);
+      const u = g.umbrellaOpen;
+      g.parts.umbrellaGroup.visible = u > 0.03;
+      if (u > 0.03) {
+        g.parts.umbrellaGroup.scale.setScalar(u);
       }
 
-      const gy = Math.max(this.terrain.waterLevel + 0.15, this.terrain.getHeightAt(g.pos.x, g.pos.z));
-      g.phase += stepDt * 7.5;
-      g.pos.y = gy + Math.abs(Math.sin(g.phase)) * 0.12;
-      g.mesh.position.copy(g.pos);
+      // Passive needs simulation
+      g.energy = THREE.MathUtils.clamp(g.energy + (g.state === "RESTING" ? 4.8 : -0.35) * stepDt, 15, 100);
+      g.fullness = THREE.MathUtils.clamp(g.fullness + (g.state === "EATING_SNACK" ? 7.5 : -0.28) * stepDt, 18, 100);
+      g.happiness = THREE.MathUtils.clamp(
+        g.happiness + (g.state === "WATCHING_RIDE" || g.state === "CHATTING" ? 1.5 : isRaining ? -0.15 : 0.1) * stepDt,
+        40,
+        100
+      );
+      g.chatCooldown = Math.max(0, g.chatCooldown - stepDt);
+      g.stateTimer -= stepDt;
 
+      let walking = false;
+      if (g.state === "WALKING_TO_POI") {
+        const dx = g.targetPos.x - g.pos.x;
+        const dz = g.targetPos.z - g.pos.z;
+        const dist = Math.hypot(dx, dz);
+        if (dist < 1.2 || g.stateTimer <= 0) {
+          this._enterPoiActivity(g, isRaining);
+        } else {
+          walking = true;
+          const spd = g.speed * (isRaining ? 1.18 : 1.0);
+          const step = Math.min(dist, spd * stepDt);
+          g.pos.x += (dx / dist) * step;
+          g.pos.z += (dz / dist) * step;
+          const desiredYaw = Math.atan2(dx, dz);
+          g.facing = this._lerpAngle(g.facing, desiredYaw, Math.min(1, stepDt * 8));
+
+          // Check for friendly spontaneous chat with another nearby walking guest
+          if (g.chatCooldown <= 0) {
+            for (let j = idx + 1; j < this.aiGuests.length; j++) {
+              const other = this.aiGuests[j];
+              if (!other.mesh.visible || other.state !== "WALKING_TO_POI" || other.chatCooldown > 0) continue;
+              const dPeer = Math.hypot(other.pos.x - g.pos.x, other.pos.z - g.pos.z);
+              if (dPeer < 3.0) {
+                const pair = CHAT_PAIRS[(idx + j) % CHAT_PAIRS.length];
+                g.state = "CHATTING";
+                other.state = "CHATTING";
+                g.stateTimer = 4.6;
+                other.stateTimer = 4.6;
+                g.chatCooldown = 26;
+                other.chatCooldown = 26;
+                g.lookPos.copy(other.pos);
+                other.lookPos.copy(g.pos);
+                this._showGuestBubble(g, pair[0], 4.2);
+                this._showGuestBubble(other, pair[1], 4.2);
+                break;
+              }
+            }
+          }
+        }
+      } else if (g.state === "TALKING_TO_PLAYER") {
+        const dx = this.player.position.x - g.pos.x;
+        const dz = this.player.position.z - g.pos.z;
+        g.facing = this._lerpAngle(g.facing, Math.atan2(dx, dz), Math.min(1, stepDt * 9));
+        if (Math.hypot(dx, dz) > 15 || g.stateTimer <= 0) {
+          this.releaseTalkingGuest(g.id);
+        }
+      } else {
+        // Look at POI target (ride, castle, pavilion, friend)
+        const dx = g.lookPos.x - g.pos.x;
+        const dz = g.lookPos.z - g.pos.z;
+        if (Math.hypot(dx, dz) > 0.2) {
+          g.facing = this._lerpAngle(g.facing, Math.atan2(dx, dz), Math.min(1, stepDt * 6));
+        }
+        if (g.stateTimer <= 0) {
+          this._pickNextGoal(g, isRaining);
+        }
+      }
+
+      // Expressive Procedural Articulated Character Animation
+      const gy = Math.max(this.terrain.waterLevel + 0.15, this.terrain.getHeightAt(g.pos.x, g.pos.z));
+      const p = g.parts;
+      g.phase += stepDt * (walking ? 9.2 : 3.8);
+
+      let bounceY = 0;
+      let legSwing = 0;
+      let leftArmX = 0;
+      let leftArmZ = 0.12;
+      let rightArmX = 0;
+      let rightArmZ = -0.12;
+      let headPitch = 0;
+      let headYaw = 0;
+      let sitDrop = 0;
+
+      if (walking) {
+        legSwing = Math.sin(g.phase) * 0.65;
+        bounceY = Math.abs(Math.sin(g.phase)) * 0.08;
+        leftArmX = -legSwing * 0.68;
+        rightArmX = legSwing * 0.68;
+        headYaw = Math.sin(g.phase * 0.35) * 0.14;
+      } else if (g.state === "WATCHING_RIDE") {
+        bounceY = Math.max(0, Math.sin(g.phase * 2.2)) * 0.24;
+        leftArmX = -2.4 + Math.sin(g.phase * 3) * 0.25;
+        rightArmX = -2.4 - Math.sin(g.phase * 3) * 0.25;
+        headPitch = -0.28;
+      } else if (g.state === "EATING_SNACK") {
+        bounceY = Math.abs(Math.sin(g.phase * 1.1)) * 0.05;
+        rightArmX = -1.25 + Math.sin(g.phase * 1.8) * 0.22;
+        headPitch = Math.sin(g.phase * 1.8) * 0.1;
+      } else if (g.state === "RESTING") {
+        sitDrop = -0.22;
+        p.leftLeg.rotation.x = -1.15;
+        p.rightLeg.rotation.x = -1.15;
+        headYaw = Math.sin(g.phase * 0.5) * 0.22;
+      } else if (g.state === "TAKING_PHOTO") {
+        rightArmX = -1.45;
+        leftArmX = -1.2;
+        g.flashTimer -= stepDt;
+        if (g.flashTimer <= 0) {
+          g.flashTimer = 2.6;
+        }
+        p.flashSphere.visible = g.flashTimer > 2.42;
+      } else if (g.state === "READING_AI") {
+        headPitch = -0.18 + Math.sin(g.phase * 0.9) * 0.1;
+        headYaw = Math.sin(g.phase * 0.5) * 0.2;
+      } else if (g.state === "CHATTING" || g.state === "TALKING_TO_PLAYER") {
+        bounceY = Math.abs(Math.sin(g.phase * 1.5)) * 0.07;
+        rightArmZ = -2.35 + Math.sin(g.phase * 3.4) * 0.35;
+        rightArmX = -0.45;
+        if (g.state === "TALKING_TO_PLAYER" && g.parts.cameraGroup.visible) {
+          g.flashTimer -= stepDt;
+          p.flashSphere.visible = g.flashTimer > 0 && g.flashTimer < 0.2;
+          if (g.flashTimer < -1.0) g.parts.cameraGroup.visible = false;
+        }
+      }
+
+      // Override right arm hold angle cleanly when carrying an open rain umbrella!
+      if (u > 0.25) {
+        rightArmX = -0.82;
+        rightArmZ = -0.14;
+        p.umbrellaGroup.rotation.x = 0.82; // Keeps umbrella shaft vertical!
+      } else {
+        p.umbrellaGroup.rotation.x = 0;
+      }
+
+      if (g.state !== "RESTING") {
+        p.leftLeg.rotation.x = legSwing;
+        p.rightLeg.rotation.x = -legSwing;
+      }
+      p.leftArm.rotation.set(leftArmX, 0, leftArmZ);
+      p.rightArm.rotation.set(rightArmX, 0, rightArmZ);
+      p.headGroup.rotation.set(headPitch, headYaw, 0);
+      p.torsoGroup.position.y = 0.56 + sitDrop;
+
+      // Floating emote heart/sparkle animation
+      if (g.emoteTimer > 0) {
+        g.emoteTimer -= stepDt;
+        p.emoteMesh.visible = true;
+        p.emoteMesh.position.y = 2.08 + Math.sin(this._simTime * 7 + idx) * 0.12;
+        p.emoteMesh.rotation.y += stepDt * 3.2;
+      } else {
+        p.emoteMesh.visible = false;
+      }
+
+      // Gentle balloon sway
+      if (g.hasBalloon && p.balloonGroup.visible) {
+        p.balloonGroup.rotation.z = Math.sin(this._simTime * 2.2 + idx) * 0.09;
+      }
+
+      g.pos.y = gy + 0.12 + bounceY;
+      g.mesh.position.copy(g.pos);
+      g.mesh.rotation.y = g.facing;
+
+      // Speech bubble projection
       if (g.bubbleEl) {
         if (g.bubbleRemaining > 0) {
           g.bubbleRemaining -= stepDt;
           if (g.bubbleRemaining <= 0) {
             g.bubbleEl.hidden = true;
           } else {
-            this._projectOverlayEl(g.bubbleEl, g.pos, 2.1, camera, viewportW, viewportH);
+            this._projectOverlayEl(g.bubbleEl, g.pos, u > 0.5 ? 2.85 : 2.25, camera, viewportW, viewportH);
           }
-        } else if (this._bubbleTimer > 3.5 && Math.random() < 0.015) {
-          g.bubbleText = this.guestLines[Math.floor(Math.random() * this.guestLines.length)];
-          g.bubbleEl.textContent = g.bubbleText;
-          g.bubbleEl.hidden = false;
-          g.bubbleRemaining = 5.5;
+        } else if (isRaining && this._bubbleTimer > 4.0 && Math.random() < 0.025) {
+          this._showGuestBubble(g, "앗 소나기다! 얼른 우산 써야지!", 4.5);
           this._bubbleTimer = 0;
         }
       }
     }
+  }
+
+  _lerpAngle(a, b, t) {
+    let diff = ((b - a + Math.PI) % (Math.PI * 2)) - Math.PI;
+    if (diff < -Math.PI) diff += Math.PI * 2;
+    return a + diff * t;
   }
 
   _projectOverlayEl(el, worldPos, yOff, camera, w, h) {
@@ -524,22 +1373,8 @@ export class CrowdAndAvatarEngine {
       this.player.balloonGroup = null;
       return false;
     }
-    const bg = new THREE.Group();
-    const string = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.015, 0.015, 1.55, 5),
-      new THREE.MeshBasicMaterial({ color: 0xffffff })
-    );
-    string.position.set(0.46, 1.65, 0.12);
-    bg.add(string);
-
-    const balloon = new THREE.Mesh(
-      new THREE.SphereGeometry(0.42, 12, 12),
-      createToonMaterial(0xf9a8d4, { emissive: 0x331122, emissiveIntensity: 0.12 })
-    );
-    balloon.scale.set(0.92, 1.14, 0.92);
-    balloon.position.set(0.46, 2.65, 0.12);
-    addToonOutline(balloon, 1.07);
-    bg.add(balloon);
+    const bg = createBalloonProp(0xf9a8d4);
+    bg.position.set(0.46, 1.05, 0.12);
     this.player.root.add(bg);
     this.player.balloonGroup = bg;
     return true;
@@ -569,6 +1404,7 @@ export class CrowdAndAvatarEngine {
     for (const g of this.aiGuests) g.bubbleEl?.remove();
     this.remotePeers.clear();
     this.aiGuests = [];
+    this.guestPickables = [];
     this.scene.remove(this.group);
   }
 }

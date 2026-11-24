@@ -203,6 +203,85 @@
         <span id="wl-interact-label">상호작용하기</span>
       </button>
 
+      <!-- Park Entrance Welcome & Onboarding Guide Modal (Shown Before Entering) -->
+      <div class="wl-welcome-backdrop" id="wl-welcome-modal" role="dialog" aria-modal="true" aria-labelledby="wl-welcome-title">
+        <div class="wl-hud-panel wl-welcome-card">
+          <div class="wl-welcome-eyebrow">AI WEEKLY · 3D CARTOON THEME PARK</div>
+          <h2 class="wl-welcome-title" id="wl-welcome-title">위클리랜드 정문에 오신 것을 환영합니다</h2>
+          <p class="wl-welcome-lead">
+            실시간 AI위클리 데이터와 12종 놀이기구·하이퍼 코스터, 자율 행동 AI 관람객이 어우러진 300m 대형 3D 테마파크입니다.
+            지금 정문 매표소를 지나 공원 안으로 입장해 보세요.
+          </p>
+
+          <div class="wl-welcome-grid">
+            <div class="wl-welcome-item">
+              <strong>이동 · 시점 조작</strong>
+              <span><code>WASD</code> 이동 · <code>Shift</code> 달리기 · <code>Space</code> 점프 · 우클릭 드래그로 카메라 회전</span>
+            </div>
+            <div class="wl-welcome-item">
+              <strong>놀이기구 · 시설 · AI 손님 상호작용</strong>
+              <span>놀이기구·전광판·상점·AI 손님을 <strong>클릭</strong>하거나 가까이 다가가 <code>E</code> 키로 대화·탑승</span>
+            </div>
+            <div class="wl-welcome-item">
+              <strong>계절 날씨 &amp; 우산 · 불꽃축제</strong>
+              <span>우하단 계절 버튼으로 <strong>장마·소나기(자동 우산)</strong>, 벚꽃, 눈, 밤 불꽃놀이를 체험하세요</span>
+            </div>
+            <div class="wl-welcome-item">
+              <strong>관리자 세계 건설 (Architect)</strong>
+              <span>상단 <strong>세계 건설</strong> 버튼으로 코스터·32종 건물·보행로·지형을 자유롭게 꾸밀 수 있습니다</span>
+            </div>
+          </div>
+
+          <div class="wl-welcome-actions">
+            <button type="button" class="wl-hud-btn is-active wl-welcome-enter-btn" id="btn-wl-enter-park">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              <span>위클리랜드 입장하기</span>
+            </button>
+            <button type="button" class="wl-hud-btn" id="btn-wl-enter-drone">
+              <span>드론 시점으로 둘러보기</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive AI Guest Inspector & Social Card -->
+      <aside class="wl-hud-panel wl-guest-card" id="wl-guest-card" aria-label="AI 관람객 상호작용" hidden>
+        <div class="wl-guest-card-head">
+          <div>
+            <div class="wl-guest-card-name-row">
+              <strong id="wl-gc-name">민지 #1</strong>
+              <span class="wl-guest-badge" id="wl-gc-persona">스릴 매니아</span>
+            </div>
+            <div class="wl-guest-state" id="wl-gc-state">코스터 구경 중</div>
+          </div>
+          <button type="button" class="wl-hud-btn" id="btn-wl-gc-close">닫기</button>
+        </div>
+
+        <p class="wl-guest-quote" id="wl-gc-quote">"스타보드 코스터 진짜 재밌어 보여요!"</p>
+
+        <div class="wl-guest-meters">
+          <div class="wl-meter-row">
+            <span>행복도</span>
+            <div class="wl-meter-track"><div class="wl-meter-fill is-happy" id="wl-gc-happy" style="width:82%"></div></div>
+          </div>
+          <div class="wl-meter-row">
+            <span>에너지</span>
+            <div class="wl-meter-track"><div class="wl-meter-fill is-energy" id="wl-gc-energy" style="width:74%"></div></div>
+          </div>
+          <div class="wl-meter-row">
+            <span>포만감</span>
+            <div class="wl-meter-track"><div class="wl-meter-fill is-full" id="wl-gc-full" style="width:68%"></div></div>
+          </div>
+        </div>
+
+        <div class="wl-guest-actions">
+          <button type="button" class="wl-hud-btn is-active" data-guest-act="wave">반갑게 인사</button>
+          <button type="button" class="wl-hud-btn" data-guest-act="balloon">풍선 선물</button>
+          <button type="button" class="wl-hud-btn" data-guest-act="photo">같이 사진</button>
+          <button type="button" class="wl-hud-btn" data-guest-act="recommend">코스터 추천</button>
+        </div>
+      </aside>
+
       <!-- Architect Mode Bottom Builder Dock -->
       <div class="wl-hud-panel wl-builder-dock" id="wl-builder-dock" role="toolbar" aria-label="관리자 건설 도구" hidden>
         <button type="button" class="wl-hud-btn is-active" data-arch-tool="coaster">코스터</button>

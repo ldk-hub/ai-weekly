@@ -68,6 +68,8 @@ class WeeklyLandApp {
     this._presenceAccum = 0;
     this._broadcastPatchTimer = null;
     this.nearbySpot = null;
+    this.hasEntered = false;
+    this.activeGuestId = null;
 
     // Real-time Performance Optimizer State
     this.perf = {
@@ -155,6 +157,16 @@ class WeeklyLandApp {
     this.flatRide.syncAll(snap.rides, snap.scenery);
     this.pavilion.syncAll(snap.pavilions);
 
+    const entrance = snap.parkMeta?.entrance || { x: 0, z: 124 };
+    this.crowd.setSpawnPosition(entrance.x, entrance.z);
+    this.crowd.setParkWorldContext(snap);
+    this.cameraRig.focus.set(entrance.x, 3.0, entrance.z - 6);
+    this.cameraRig.targetFocus.set(entrance.x, 3.0, entrance.z - 6);
+    this.cameraRig.distance = 22;
+    this.cameraRig.targetDistance = 22;
+    this.cameraRig.pitch = 0.28;
+    this.cameraRig.targetPitch = 0.28;
+
     this.atmosphere = new SanctuaryAtmosphere(this.scene, this.lights, {}, {
       onFestivalEvent: (ev) => this._handleFestivalEvent(ev),
     });
@@ -201,11 +213,12 @@ class WeeklyLandApp {
     this._bindAtmosphereButtons();
     this._bindPerfOptimizer();
     this._bindInteractPrompt();
+    this._bindWelcomeGate();
+    this._bindGuestCard();
     this._bindKeyboardAndPick();
     this._bindResize();
 
     this.hud.updateParkStat(1, this.crowd.getGuestCount());
-    this.hud.showToast("위클리랜드 300m 대형 카툰 공원에 오신 것을 환영합니다! 건물·전광판·놀이기구를 클릭하거나 [E]로 상호작용하세요.", 4200);
 
     this.crowd.preloadCharacterModels();
     this.architect.loadPresets();
@@ -216,10 +229,88 @@ class WeeklyLandApp {
     });
 
     if (new URLSearchParams(window.location.search).get("architect") === "1") {
+      this._enterPark("guest");
       this.toggleArchitectMode(true);
     }
 
     this._loop();
+  }
+
+  _bindWelcomeGate() {
+    document.getElementById("btn-wl-enter-park")?.addEventListener("click", () => this._enterPark("guest"));
+    document.getElementById("btn-wl-enter-drone")?.addEventListener("click", () => this._enterPark("drone"));
+  }
+
+  _enterPark(mode = "guest") {
+    if (this.hasEntered) return;
+    this.hasEntered = true;
+    const modal = document.getElementById("wl-welcome-modal");
+    if (modal) modal.hidden = true;
+    this.audio.playClick(720);
+
+    if (mode === "drone") {
+      this.cameraRig.setMode("drone");
+      this.cameraRig.focusOn(new THREE.Vector3(0, 6, 12), 96);
+      this.hud.syncMode(this.worldState.mode, this.cameraRig.mode);
+      this.hud.showToast("드론 시점으로 위클리랜드에 입장했습니다! WASD로 자유롭게 비행하세요.", 4000);
+    } else {
+      this.cameraRig.setMode("guest_third");
+      this.cameraRig.targetDistance = 14.5;
+      this.cameraRig.targetPitch = 0.34;
+      this.hud.syncMode(this.worldState.mode, this.cameraRig.mode);
+      this.hud.showToast("위클리랜드 정문에 입장했습니다! 앞쪽 아치를 지나 놀이기구·AI 손님과 상호작용해 보세요.", 4200);
+    }
+    this.chat?.updateZoneLabel("위클리랜드 정문 광장");
+    this.canvas.focus?.();
+  }
+
+  _bindGuestCard() {
+    document.getElementById("btn-wl-gc-close")?.addEventListener("click", () => this._closeGuestCard());
+    document.querySelectorAll("[data-guest-act]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        if (!this.activeGuestId) return;
+        const act = btn.dataset.guestAct;
+        this.audio.playClick(740);
+        const snap = this.crowd.performGuestAction(this.activeGuestId, act, this.crowd.player.position);
+        if (act === "photo" || act === "wave") this.crowd.celebratePlayer();
+        if (snap) this._renderGuestCard(snap);
+        if (act === "recommend") {
+          this.hud.showToast(`${snap?.name || "손님"}에게 하이퍼 코스터를 추천했습니다! 신나서 달려갑니다.`);
+          setTimeout(() => this._closeGuestCard(), 1600);
+        }
+      });
+    });
+  }
+
+  _openGuestCard(guestId) {
+    const snap = this.crowd.interactWithGuest(guestId, this.crowd.player.position);
+    if (!snap) return;
+    this.activeGuestId = guestId;
+    this.audio.playClick(680);
+    this._renderGuestCard(snap);
+    const card = document.getElementById("wl-guest-card");
+    if (card) card.hidden = false;
+  }
+
+  _renderGuestCard(snap) {
+    const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    const setW = (id, pct) => { const el = document.getElementById(id); if (el) el.style.width = `${Math.max(0, Math.min(100, pct))}%`; };
+    setText("wl-gc-name", snap.name);
+    setText("wl-gc-persona", snap.persona);
+    setText("wl-gc-state", snap.stateLabel);
+    setText("wl-gc-quote", `"${snap.quote}"`);
+    setW("wl-gc-happy", snap.happiness);
+    setW("wl-gc-energy", snap.energy);
+    setW("wl-gc-full", snap.fullness);
+  }
+
+  _closeGuestCard() {
+    if (this.activeGuestId) {
+      this.crowd.releaseTalkingGuest(this.activeGuestId);
+      this.activeGuestId = null;
+    }
+    const card = document.getElementById("wl-guest-card");
+    if (card) card.hidden = true;
   }
 
   _bindWorldEvents() {
@@ -239,6 +330,9 @@ class WeeklyLandApp {
       }
       if (scope === "all") {
         this.pavilion.syncAll(data.pavilions);
+      }
+      if (scope === "all" || scope === "rides" || scope === "coasters") {
+        this.crowd.setParkWorldContext(data);
       }
       if (!this.perf.outlines) this._applyOutlineVisibility(false);
       if (broadcast && this.worldState.mode === "architect") {
@@ -300,8 +394,11 @@ class WeeklyLandApp {
       this._syncAtmoLabels();
     });
     document.getElementById("btn-atmo-season")?.addEventListener("click", () => {
-      this.atmosphere.cycleSeasonMode();
+      const labels = this.atmosphere.cycleSeasonMode();
       this._syncAtmoLabels();
+      if (labels.seasonKey === "rain") {
+        this.hud.showToast("장마 소나기가 내립니다! 공원의 모든 AI 손님과 캐릭터가 우산을 펼칩니다.");
+      }
     });
     document.getElementById("btn-wl-firework")?.addEventListener("click", () => {
       const f = this.cameraRig.focus;
@@ -429,6 +526,10 @@ class WeeklyLandApp {
     if (!spot) return;
     this.audio.playClick(680);
 
+    if (spot.kind === "guest") {
+      this._openGuestCard(spot.id);
+      return;
+    }
     if (spot.kind === "pavilion" || spot.kind === "mega_billboard") {
       this.openPavilion(spot.archiveKey);
       return;
@@ -536,6 +637,7 @@ class WeeklyLandApp {
 
   _bindKeyboardAndPick() {
     const mapKey = (code, down) => {
+      if (!this.hasEntered) return;
       if (["INPUT", "TEXTAREA", "SELECT"].includes(document.activeElement?.tagName)) return;
       if (code === "KeyW" || code === "ArrowUp") this.keys.forward = down;
       else if (code === "KeyS" || code === "ArrowDown") this.keys.backward = down;
@@ -546,7 +648,8 @@ class WeeklyLandApp {
       else if (down && code === "KeyE" && this.worldState.mode === "guest" && this.nearbySpot) {
         this._triggerInteraction(this.nearbySpot);
       } else if (down && code === "Escape") {
-        if (this.dashboard.isOpen()) this.dashboard.close();
+        if (this.activeGuestId) this._closeGuestCard();
+        else if (this.dashboard.isOpen()) this.dashboard.close();
         else if (this.crowd.player.riding) this.leaveAttraction();
       }
     };
@@ -555,17 +658,23 @@ class WeeklyLandApp {
     window.addEventListener("keyup", (ev) => mapKey(ev.code, false));
 
     this.canvas.addEventListener("click", (ev) => {
-      if (this.worldState.mode === "architect" || ev.button !== 0) return;
+      if (!this.hasEntered || this.worldState.mode === "architect" || ev.button !== 0) return;
       const rect = this.canvas.getBoundingClientRect();
       this.pointer.x = ((ev.clientX - rect.left) / Math.max(1, rect.width)) * 2 - 1;
       this.pointer.y = -((ev.clientY - rect.top) / Math.max(1, rect.height)) * 2 + 1;
       this.raycaster.setFromCamera(this.pointer, this.cameraRig.camera);
 
-      const targets = [...this.pavilion.pickables, ...this.flatRide.pickables];
+      const targets = [
+        ...this.crowd.getGuestPickables(),
+        ...this.pavilion.pickables,
+        ...this.flatRide.pickables,
+      ];
       const hits = this.raycaster.intersectObjects(targets, false);
       if (!hits.length) return;
       const ud = hits[0].object.userData;
-      if (ud.pickKind === "pavilion" || ud.pickKind === "mega_billboard") {
+      if (ud.pickKind === "guest") {
+        this._openGuestCard(ud.guestId);
+      } else if (ud.pickKind === "pavilion" || ud.pickKind === "mega_billboard") {
         this.openPavilion(ud.archiveKey);
       } else if (ud.pickKind === "ride") {
         this.boardAttraction("ride", ud.id);
@@ -626,20 +735,27 @@ class WeeklyLandApp {
     const promptBtn = document.getElementById("wl-interact-prompt");
     const labelEl = document.getElementById("wl-interact-label");
     if (!promptBtn || !labelEl) return;
-    if (this.worldState.mode !== "guest" || this.crowd.player.riding) {
+    if (!this.hasEntered || this.worldState.mode !== "guest" || this.crowd.player.riding) {
       this.nearbySpot = null;
       promptBtn.hidden = true;
       return;
     }
 
     const pos = this.crowd.player.position;
-    const spotA = this.pavilion.findNearestInteractable(pos);
-    const spotB = this.flatRide.findNearestInteractable(pos);
-    let chosen = spotA || spotB;
-    if (spotA && spotB) {
-      const da = pos.distanceTo(spotA.pos);
-      const db = pos.distanceTo(spotB.pos);
-      chosen = da <= db ? spotA : spotB;
+    const candidates = [
+      this.crowd.findNearestGuest(pos, 4.6),
+      this.pavilion.findNearestInteractable(pos),
+      this.flatRide.findNearestInteractable(pos),
+    ].filter(Boolean);
+
+    let chosen = null;
+    let bestDist = Infinity;
+    for (const c of candidates) {
+      const d = pos.distanceTo(c.pos);
+      if (d < bestDist) {
+        bestDist = d;
+        chosen = c;
+      }
     }
     this.nearbySpot = chosen;
     if (chosen) {
@@ -673,12 +789,25 @@ class WeeklyLandApp {
     this.pavilion.update(isNight);
 
     const basis = this.cameraRig.getGroundBasis();
-    const walkInput = this.cameraRig.mode === "guest_third" ? this.keys : null;
+    const walkInput = this.hasEntered && this.cameraRig.mode === "guest_third" ? this.keys : null;
     const w = this.canvas.clientWidth || window.innerWidth;
     const h = this.canvas.clientHeight || 640;
 
     this.crowd.player.root.visible = this.cameraRig.mode !== "ride_pov";
-    this.crowd.update(dt, walkInput, basis, this.coaster, this.flatRide, this.cameraRig.camera, w, h);
+    this.crowd.update(dt, walkInput, basis, this.coaster, this.flatRide, this.cameraRig.camera, w, h, {
+      isRaining: this.atmosphere.isRaining(),
+    });
+
+    if (this.activeGuestId) {
+      const gSnap = this.crowd.getGuestSnapshot(this.activeGuestId);
+      if (gSnap && gSnap.stateLabel.includes("대화 중")) {
+        this._renderGuestCard(gSnap);
+      } else if (!this.crowd.activeTalkingGuestId) {
+        const card = document.getElementById("wl-guest-card");
+        if (card) card.hidden = true;
+        this.activeGuestId = null;
+      }
+    }
 
     const riding = this.crowd.player.riding;
     const rideSeat = riding

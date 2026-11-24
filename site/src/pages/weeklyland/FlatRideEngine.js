@@ -1450,39 +1450,73 @@ export class FlatRideEngine {
   _buildGrandArch(root) {
     const stoneMat = createToonMaterial(0xfff7eb);
     const brassMat = createToonMaterial(0xffd166);
+    const roofStripe = createToonMaterial(0xffffff, { map: getCarnivalStripeTexture("#ff7657", "#fff7eb", 8) });
     const lightMat = new THREE.MeshStandardMaterial({ color: 0xfef08a, emissive: 0xf59e0b, emissiveIntensity: 0.6 });
     this.nightLights.push(lightMat);
 
+    // Underground stone plaza apron so entrance gate never floats
+    const apron = new THREE.Mesh(new THREE.BoxGeometry(19.0, 2.6, 5.4), createToonMaterial(0xe7e5e4));
+    apron.position.y = -1.2;
+    apron.receiveShadow = true;
+    root.add(apron);
+
+    // Red welcome carpet runner through the gate
+    const carpet = new THREE.Mesh(new THREE.BoxGeometry(5.6, 0.08, 6.4), createToonMaterial(0xff7657));
+    carpet.position.y = 0.14;
+    root.add(carpet);
+
     for (const px of [-5.4, 5.4]) {
-      const pillar = new THREE.Mesh(new THREE.BoxGeometry(1.6, 7.6, 1.6), stoneMat);
-      pillar.position.set(px, 3.8, 0);
+      const pillar = new THREE.Mesh(new THREE.BoxGeometry(1.7, 7.8, 1.7), stoneMat);
+      pillar.position.set(px, 3.9, 0);
       pillar.castShadow = true;
       addToonOutline(pillar, 1.04);
       root.add(pillar);
 
-      const cap = new THREE.Mesh(new THREE.ConeGeometry(1.35, 1.8, 4), brassMat);
-      cap.position.set(px, 8.5, 0);
+      const cap = new THREE.Mesh(new THREE.ConeGeometry(1.45, 2.0, 4), brassMat);
+      cap.position.set(px, 8.75, 0);
       cap.rotation.y = Math.PI * 0.25;
       addToonOutline(cap, 1.06);
       root.add(cap);
+
+      // Flanking cartoon Ticket Booth (매표소) beside each entrance pillar
+      const bx = px > 0 ? px + 2.4 : px - 2.4;
+      const booth = new THREE.Mesh(new THREE.BoxGeometry(2.6, 3.0, 2.4), stoneMat);
+      booth.position.set(bx, 1.5, 0.35);
+      booth.castShadow = true;
+      addToonOutline(booth, 1.04);
+      root.add(booth);
+
+      const win = new THREE.Mesh(new THREE.BoxGeometry(1.6, 1.1, 0.12), new THREE.MeshBasicMaterial({ color: 0xbae6fd }));
+      win.position.set(bx, 1.85, 1.58);
+      root.add(win);
+
+      const counter = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.18, 0.65), brassMat);
+      counter.position.set(bx, 1.25, 1.75);
+      root.add(counter);
+
+      const boothRoof = new THREE.Mesh(new THREE.ConeGeometry(2.35, 1.45, 4), roofStripe);
+      boothRoof.position.set(bx, 3.7, 0.35);
+      boothRoof.rotation.y = Math.PI * 0.25;
+      addToonOutline(boothRoof, 1.05);
+      root.add(boothRoof);
     }
 
-    const arch = new THREE.Mesh(new THREE.TorusGeometry(5.4, 0.52, 10, 24, Math.PI), brassMat);
+    const arch = new THREE.Mesh(new THREE.TorusGeometry(5.4, 0.54, 10, 24, Math.PI), brassMat);
     arch.position.set(0, 6.2, 0);
     arch.castShadow = true;
     root.add(arch);
 
-    const signTex = this._makeTextCanvas("WEEKLYLAND · 위클리랜드", "3D CARTOON THEME PARK", "#1a1714", "#fcf9f3", "#ff7657");
-    const sign = new THREE.Mesh(new THREE.BoxGeometry(8.0, 1.5, 0.38), stoneMat);
+    const signTex = this._makeTextCanvas("WEEKLYLAND · 위클리랜드", "MAIN ENTRANCE · 3D THEME PARK", "#1a1714", "#fcf9f3", "#ff7657");
+    const sign = new THREE.Mesh(new THREE.BoxGeometry(8.6, 1.6, 0.42), stoneMat);
     sign.position.set(0, 7.2, 0.35);
     root.add(sign);
 
-    const face = new THREE.Mesh(new THREE.PlaneGeometry(7.6, 1.3), new THREE.MeshBasicMaterial({ map: signTex }));
-    face.position.set(0, 7.2, 0.56);
+    const face = new THREE.Mesh(new THREE.PlaneGeometry(8.2, 1.38), new THREE.MeshBasicMaterial({ map: signTex }));
+    face.position.set(0, 7.2, 0.58);
     root.add(face);
     const faceBack = face.clone();
     faceBack.rotation.y = Math.PI;
-    faceBack.position.z = 0.14;
+    faceBack.position.z = 0.12;
     root.add(faceBack);
   }
 
