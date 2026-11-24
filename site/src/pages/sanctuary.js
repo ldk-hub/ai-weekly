@@ -60,7 +60,7 @@ class WeeklyLandApp {
     this.lights = this._createLights();
     this.audio = new ParkAudioEngine();
 
-    this.keys = { forward: false, backward: false, left: false, right: false, sprint: false, jump: false };
+    this.keys = { forward: false, backward: false, left: false, right: false, sprint: false, jump: false, analogX: 0, analogY: 0 };
     this.raycaster = new THREE.Raycaster();
     this.pointer = new THREE.Vector2();
     this.clock = new THREE.Clock();
@@ -206,9 +206,27 @@ class WeeklyLandApp {
         this.crowd.removeRemotePeer(clientId);
         this.hud.updateParkStat(1 + this.chat.peers.size, this.crowd.getGuestCount());
       },
+      onSelfPublicChat: (text) => this.crowd.showPlayerChatBubble(text),
+      onPeerPublicChat: (clientId, text) => this.crowd.showRemotePeerChatBubble(clientId, text),
       onCommand: (cmd, arg) => this._handleChatCommand(cmd, arg),
       onRemoteFx: (fx) => this._handleRemoteFx(fx),
     });
+    // Start multi-user Triple-Transport lobby (Nostr WSS Relays + Trystero WebRTC + BroadcastChannel)!
+    this.chat.start();
+    if (window.innerWidth <= 768) {
+      this.chat.setCollapsed(true);
+    }
+    const pInit = this.crowd.player;
+    this.chat.broadcastState({
+      classKey: pInit.classKey,
+      x: pInit.position.x,
+      y: pInit.position.y,
+      z: pInit.position.z,
+      facing: pInit.facing,
+      action: "Idle",
+      zone: "위클리랜드 정문 광장",
+      riding: null,
+    }, true, true);
 
     this._bindWorldEvents();
     this._bindAtmosphereButtons();
@@ -216,6 +234,7 @@ class WeeklyLandApp {
     this._bindInteractPrompt();
     this._bindWelcomeGate();
     this._bindGuestCard();
+    this._bindMobileControls();
     this._bindKeyboardAndPick();
     this._bindResize();
 
@@ -262,7 +281,80 @@ class WeeklyLandApp {
       this.hud.showToast("위클리랜드 정문에 입장했습니다! 앞쪽 아치를 지나 놀이기구·AI 손님과 상호작용해 보세요.", 4200);
     }
     this.chat?.updateZoneLabel("위클리랜드 정문 광장");
+    const mobPad = document.getElementById("wl-mobile-pad");
+    if (mobPad && mode === "guest") mobPad.hidden = false;
     this.canvas.focus?.();
+  }
+
+  _bindMobileControls() {
+    const stick = document.getElementById("wl-touch-stick");
+    const knob = document.getElementById("wl-touch-knob");
+    if (stick && knob) {
+      let stickPid = null;
+      const maxR = 34;
+      const updateStick = (clientX, clientY) => {
+        const rect = stick.getBoundingClientRect();
+        const cx = rect.left + rect.width * 0.5;
+        const cy = rect.top + rect.height * 0.5;
+        let dx = clientX - cx;
+        let dy = clientY - cy;
+        const dist = Math.hypot(dx, dy);
+        if (dist > maxR) {
+          dx = (dx / dist) * maxR;
+          dy = (dy / dist) * maxR;
+        }
+        knob.style.transform = `translate3d(${dx.toFixed(1)}px, ${dy.toFixed(1)}px, 0)`;
+        this.keys.analogX = dx / maxR;
+        this.keys.analogY = -dy / maxR;
+      };
+      const resetStick = () => {
+        stickPid = null;
+        knob.style.transform = "translate3d(0, 0, 0)";
+        this.keys.analogX = 0;
+        this.keys.analogY = 0;
+      };
+      stick.addEventListener("pointerdown", (ev) => {
+        ev.stopPropagation();
+        stickPid = ev.pointerId;
+        stick.setPointerCapture?.(ev.pointerId);
+        updateStick(ev.clientX, ev.clientY);
+      });
+      stick.addEventListener("pointermove", (ev) => {
+        if (stickPid !== ev.pointerId) return;
+        ev.stopPropagation();
+        updateStick(ev.clientX, ev.clientY);
+      });
+      stick.addEventListener("pointerup", (ev) => {
+        if (stickPid !== ev.pointerId) return;
+        resetStick();
+      });
+      stick.addEventListener("pointercancel", resetStick);
+    }
+
+    document.getElementById("btn-mob-jump")?.addEventListener("click", () => {
+      if (!this.hasEntered) return;
+      this.crowd.celebratePlayer();
+    });
+    document.getElementById("btn-mob-season")?.addEventListener("click", () => {
+      const labels = this.atmosphere.cycleSeasonMode();
+      this._syncAtmoLabels();
+      this.hud.showToast(
+        labels.seasonKey === "rain"
+          ? "장마 소나기가 내립니다! 공원의 모든 캐릭터가 우산을 펼칩니다."
+          : `날씨 전환: ${labels.seasonLabel}`
+      );
+    });
+    document.getElementById("btn-mob-firework")?.addEventListener("click", () => {
+      const f = this.cameraRig.focus;
+      this.atmosphere.launchManualFirework(f.x, f.z - 16, 4);
+      this.audio.playClick(760);
+      this.hud.showToast("축하 불꽃 폭죽 발사!");
+    });
+    document.getElementById("btn-mob-chat")?.addEventListener("click", () => {
+      if (!this.chat) return;
+      this.chat.setCollapsed(!this.chat.collapsed);
+      if (!this.chat.collapsed) this.chat.focusInput();
+    });
   }
 
   _bindGuestCard() {
@@ -688,6 +780,7 @@ class WeeklyLandApp {
 
     this.canvas.addEventListener("click", (ev) => {
       if (!this.hasEntered || this.worldState.mode === "architect" || ev.button !== 0) return;
+      if (this.cameraRig.consumeJustDragged()) return;
       const rect = this.canvas.getBoundingClientRect();
       this.pointer.x = ((ev.clientX - rect.left) / Math.max(1, rect.width)) * 2 - 1;
       this.pointer.y = -((ev.clientY - rect.top) / Math.max(1, rect.height)) * 2 + 1;
@@ -699,22 +792,35 @@ class WeeklyLandApp {
         ...this.flatRide.pickables,
       ];
       const hits = this.raycaster.intersectObjects(targets, false);
-      if (!hits.length) return;
-      const ud = hits[0].object.userData;
-      if (ud.pickKind === "guest") {
-        this._openGuestCard(ud.guestId);
-      } else if (ud.pickKind === "pavilion" || ud.pickKind === "mega_billboard") {
-        this.openPavilion(ud.archiveKey);
-      } else if (ud.pickKind === "ride") {
-        this.boardAttraction("ride", ud.id);
-      } else if (ud.pickKind === "scenery" && ud.interactiveAction) {
-        this._triggerInteraction({
-          kind: "scenery",
-          id: ud.id,
-          action: ud.interactiveAction,
-          label: ud.interactiveLabel,
-          pos: hits[0].point,
-        });
+      if (hits.length) {
+        const ud = hits[0].object.userData;
+        if (ud.pickKind === "guest") {
+          this._openGuestCard(ud.guestId);
+          return;
+        } else if (ud.pickKind === "pavilion" || ud.pickKind === "mega_billboard") {
+          this.openPavilion(ud.archiveKey);
+          return;
+        } else if (ud.pickKind === "ride") {
+          this.boardAttraction("ride", ud.id);
+          return;
+        } else if (ud.pickKind === "scenery" && ud.interactiveAction) {
+          this._triggerInteraction({
+            kind: "scenery",
+            id: ud.id,
+            action: ud.interactiveAction,
+            label: ud.interactiveLabel,
+            pos: hits[0].point,
+          });
+          return;
+        }
+      }
+
+      // Tap/Click on ground or paths -> smooth Tap-to-Move walking!
+      if (this.cameraRig.mode === "guest_third" && !this.crowd.player.riding && this.terrain?.terrainMesh) {
+        const groundHits = this.raycaster.intersectObject(this.terrain.terrainMesh, false);
+        if (groundHits.length) {
+          this.crowd.setPlayerMoveTarget(groundHits[0].point);
+        }
       }
     });
   }
@@ -872,7 +978,17 @@ class WeeklyLandApp {
         y: p.position.y,
         z: p.position.z,
         facing: p.facing,
-        action: p.riding ? "Sit" : this.keys.forward || this.keys.backward || this.keys.left || this.keys.right ? "Walk" : "Idle",
+        action: p.riding
+          ? "Sit"
+          : this.keys.forward ||
+              this.keys.backward ||
+              this.keys.left ||
+              this.keys.right ||
+              Math.abs(this.keys.analogX) > 0.08 ||
+              Math.abs(this.keys.analogY) > 0.08 ||
+              Boolean(p.moveTarget)
+            ? "Walk"
+            : "Idle",
         zone: p.riding ? "어트랙션 탑승" : "위클리랜드 광장",
         riding: p.riding,
       });

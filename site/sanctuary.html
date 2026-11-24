@@ -119,6 +119,7 @@
       <!-- Top Floating Park Navigation & Mode Switch -->
       <div class="wl-topbar">
         <nav class="wl-hud-panel wl-topbar-group" aria-label="어트랙션 바로 탑승">
+          <a href="./" class="wl-hud-btn wl-mobile-only" aria-label="AI위클리 홈으로 이동">← 홈</a>
           <h1 class="wl-park-title">위클리랜드</h1>
           <button type="button" class="wl-hud-btn is-active" data-wl-kind="coaster" data-wl-ride="coaster-starboard-hyper">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18c4-12 8-12 12 0s6 0 6-6"/><path d="M3 20h18"/></svg>
@@ -215,8 +216,8 @@
 
           <div class="wl-welcome-grid">
             <div class="wl-welcome-item">
-              <strong>이동 · 시점 조작</strong>
-              <span><code>WASD</code> 이동 · <code>Shift</code> 달리기 · <code>Space</code> 점프 · 우클릭 드래그로 카메라 회전</span>
+              <strong>이동 · 시점 조작 (PC &amp; 모바일)</strong>
+              <span>PC: <code>WASD</code> / 바닥 클릭 이동 · 모바일: <strong>바닥 탭 이동</strong> · 한 손가락 드래그 회전 · 두 손가락 줌</span>
             </div>
             <div class="wl-welcome-item">
               <strong>놀이기구 · 시설 · AI 손님 상호작용</strong>
@@ -317,6 +318,22 @@
           </button>
         </form>
       </section>
+
+      <!-- Mobile-Only Virtual Thumbstick & Quick Action Bar (Hidden on Desktop PC) -->
+      <div class="wl-mobile-pad" id="wl-mobile-pad" aria-label="모바일 이동 조이스틱" hidden>
+        <div class="wl-stick-base" id="wl-touch-stick">
+          <div class="wl-stick-knob" id="wl-touch-knob"></div>
+        </div>
+      </div>
+      <div class="wl-mobile-actions" id="wl-mobile-actions" aria-label="모바일 빠른 조작">
+        <button type="button" class="wl-hud-panel wl-mob-btn" id="btn-mob-jump">점프</button>
+        <button type="button" class="wl-hud-panel wl-mob-btn" id="btn-mob-season">날씨</button>
+        <button type="button" class="wl-hud-panel wl-mob-btn" id="btn-mob-firework">불꽃</button>
+        <button type="button" class="wl-hud-panel wl-mob-btn is-accent" id="btn-mob-chat">
+          <span>채팅</span>
+          <span class="wl-mob-badge" id="wl-mob-chat-badge" hidden>1</span>
+        </button>
+      </div>
 
       <!-- Bottom-Right Avatar, Time, Season, Fireworks, Audio & Performance Capsule -->
       <div class="wl-hud-panel wl-atmo-capsule" role="group" aria-label="아바타·시간·계절·성능 설정">

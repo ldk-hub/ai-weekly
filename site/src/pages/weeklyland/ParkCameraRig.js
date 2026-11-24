@@ -31,8 +31,18 @@ export class ParkCameraRig {
     this.isPanDragging = false;
     this.lastX = 0;
     this.lastY = 0;
+    this._touchPointers = new Map();
+    this._pinchDist = 0;
+    this._touchStartPos = null;
+    this._justDragged = false;
 
     this._bindEvents();
+  }
+
+  consumeJustDragged() {
+    if (!this._justDragged) return false;
+    this._justDragged = false;
+    return true;
   }
 
   setAspect(w, h) {
@@ -134,6 +144,21 @@ export class ParkCameraRig {
   _bindEvents() {
     this._onContext = (ev) => ev.preventDefault();
     this._onPointerDown = (ev) => {
+      if (ev.pointerType === "touch") {
+        this._touchPointers.set(ev.pointerId, { x: ev.clientX, y: ev.clientY });
+        if (this._touchPointers.size === 1) {
+          this._touchStartPos = { x: ev.clientX, y: ev.clientY };
+          this.lastX = ev.clientX;
+          this.lastY = ev.clientY;
+          this._justDragged = false;
+        } else if (this._touchPointers.size === 2) {
+          const pts = [...this._touchPointers.values()];
+          this._pinchDist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+          this._justDragged = true;
+        }
+        return;
+      }
+
       if (ev.button === 2 || (ev.button === 0 && ev.altKey)) {
         this.isOrbitDragging = true;
         this.lastX = ev.clientX;
@@ -147,6 +172,35 @@ export class ParkCameraRig {
       }
     };
     this._onPointerMove = (ev) => {
+      if (ev.pointerType === "touch" && this._touchPointers.has(ev.pointerId)) {
+        this._touchPointers.set(ev.pointerId, { x: ev.clientX, y: ev.clientY });
+        if (this._touchPointers.size === 1) {
+          const dx = ev.clientX - this.lastX;
+          const dy = ev.clientY - this.lastY;
+          this.lastX = ev.clientX;
+          this.lastY = ev.clientY;
+          if (this._touchStartPos && Math.hypot(ev.clientX - this._touchStartPos.x, ev.clientY - this._touchStartPos.y) > 8) {
+            this._justDragged = true;
+          }
+          if (this._justDragged && this.mode !== "ride_pov") {
+            this.targetAzimuth -= dx * 0.0085;
+            this.targetPitch = THREE.MathUtils.clamp(this.targetPitch + dy * 0.0065, 0.14, 1.32);
+          }
+        } else if (this._touchPointers.size === 2 && this.mode !== "ride_pov") {
+          const pts = [...this._touchPointers.values()];
+          const nextDist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+          if (this._pinchDist > 0) {
+            const delta = this._pinchDist - nextDist;
+            const minD = this.mode === "guest_third" ? 6 : 12;
+            const maxD = this.mode === "guest_third" ? 56 : 195;
+            this.targetDistance = THREE.MathUtils.clamp(this.targetDistance + delta * 0.08, minD, maxD);
+          }
+          this._pinchDist = nextDist;
+          this._justDragged = true;
+        }
+        return;
+      }
+
       const dx = ev.clientX - this.lastX;
       const dy = ev.clientY - this.lastY;
       this.lastX = ev.clientX;
@@ -162,7 +216,12 @@ export class ParkCameraRig {
         this.targetFocus.addScaledVector(forward, dy * scale);
       }
     };
-    this._onPointerUp = () => {
+    this._onPointerUp = (ev) => {
+      if (ev?.pointerType === "touch") {
+        this._touchPointers.delete(ev.pointerId);
+        if (this._touchPointers.size < 2) this._pinchDist = 0;
+        if (this._touchPointers.size === 0) this._touchStartPos = null;
+      }
       this.isOrbitDragging = false;
       this.isPanDragging = false;
     };
@@ -178,6 +237,7 @@ export class ParkCameraRig {
     this.domElement.addEventListener("pointerdown", this._onPointerDown);
     window.addEventListener("pointermove", this._onPointerMove);
     window.addEventListener("pointerup", this._onPointerUp);
+    window.addEventListener("pointercancel", this._onPointerUp);
     this.domElement.addEventListener("wheel", this._onWheel, { passive: false });
   }
 
@@ -186,6 +246,7 @@ export class ParkCameraRig {
     this.domElement.removeEventListener("pointerdown", this._onPointerDown);
     window.removeEventListener("pointermove", this._onPointerMove);
     window.removeEventListener("pointerup", this._onPointerUp);
+    window.removeEventListener("pointercancel", this._onPointerUp);
     this.domElement.removeEventListener("wheel", this._onWheel);
   }
 }

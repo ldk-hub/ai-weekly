@@ -8,10 +8,10 @@ const BC_NAME = "ai-weekly-sanctuary-chat-v1";
 
 // Empirically verified low-latency public Nostr relays supporting NIP-01 ephemeral kind pub/sub
 const VERIFIED_RELAYS = [
+  "wss://relay.primal.net",
   "wss://offchain.pub",
   "wss://nos.lol",
   "wss://nostr.mom",
-  "wss://relay.primal.net",
 ];
 const DIRECT_TOPIC = "ai-weekly-sanctuary-25d-v1:plaza-direct-v2";
 const DIRECT_KIND = 24377;
@@ -583,6 +583,20 @@ export class SanctuaryChat {
       this.els.collapseBtn.textContent = this.collapsed ? "열기" : "접기";
       this.els.collapseBtn.setAttribute("aria-expanded", this.collapsed ? "false" : "true");
     }
+    this._syncMobileUnreadBadge();
+  }
+
+  _syncMobileUnreadBadge() {
+    const badge = document.getElementById("wl-mob-chat-badge");
+    if (!badge) return;
+    let totalUnread = 0;
+    for (const v of this.unread.values()) totalUnread += v;
+    if (this.collapsed && totalUnread > 0) {
+      badge.textContent = totalUnread > 9 ? "9+" : String(totalUnread);
+      badge.hidden = false;
+    } else {
+      badge.hidden = true;
+    }
   }
 
   sendMessage(rawText) {
@@ -774,6 +788,7 @@ export class SanctuaryChat {
     if (this.activeThread !== threadId || this.collapsed) {
       this.unread.set(threadId, (this.unread.get(threadId) || 0) + 1);
       this._renderTabs();
+      this._syncMobileUnreadBadge();
     } else {
       this._renderMessages();
     }

@@ -1116,6 +1116,207 @@ body.wl-park-page #sanctuary-canvas {
   justify-content: center;
 }
 
+/* Mobile-Only Controls (Strictly Hidden on Desktop PC!) */
+.wl-mobile-only,
+.wl-mobile-pad,
+.wl-mobile-actions {
+  display: none;
+}
+
+.wl-mob-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--wl-sem-danger);
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  /* Mobile Fullscreen: remove site header completely and expand 3D viewport to 100dvh */
+  body.wl-park-page .header-container {
+    display: none !important;
+  }
+
+  .wl-stage-shell {
+    height: 100dvh;
+    min-height: 100dvh;
+  }
+
+  .wl-mobile-only {
+    display: inline-flex;
+  }
+
+  /* Compact single-row horizontal scrollable top strip */
+  .wl-topbar {
+    top: max(6px, env(safe-area-inset-top));
+    left: 6px;
+    right: 6px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 6px;
+    pointer-events: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .wl-topbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .wl-topbar-group {
+    flex: 0 0 auto;
+    flex-wrap: nowrap;
+    padding: 3px 6px;
+  }
+
+  .wl-park-title {
+    display: none;
+  }
+
+  .wl-hud-btn {
+    padding: 5px 8px;
+    font-size: 11.5px;
+  }
+
+  /* Hide wide desktop bottom-right capsule on mobile (replaced by compact mobile action pills) */
+  .wl-atmo-capsule {
+    display: none;
+  }
+
+  /* Mobile Chat: hide completely when collapsed so 3D view stays 100% unobstructed */
+  .sc-chat-box {
+    left: 8px;
+    right: 8px;
+    width: auto;
+    bottom: max(66px, calc(env(safe-area-inset-bottom) + 60px));
+    z-index: 36;
+  }
+
+  .sc-chat-box.is-collapsed {
+    display: none;
+  }
+
+  .wl-mobile-pad {
+    display: flex;
+    position: absolute;
+    left: 14px;
+    bottom: max(16px, env(safe-area-inset-bottom));
+    z-index: 26;
+    pointer-events: auto;
+    touch-action: none;
+  }
+
+  .wl-mobile-pad[hidden] {
+    display: none;
+  }
+
+  .wl-stick-base {
+    position: relative;
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background: rgba(15, 23, 42, 0.36);
+    border: 2px solid rgba(255, 255, 255, 0.28);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: none;
+  }
+
+  .wl-stick-knob {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: rgba(255, 118, 87, 0.88);
+    border: 2px solid #fff7eb;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+    pointer-events: none;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .wl-mobile-actions {
+    display: flex;
+    position: absolute;
+    right: 10px;
+    bottom: max(16px, env(safe-area-inset-bottom));
+    z-index: 26;
+    gap: 6px;
+    pointer-events: auto;
+  }
+
+  .wl-mob-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    min-width: 48px;
+    height: 40px;
+    padding: 0 11px;
+    font-size: 12px;
+    font-weight: 700;
+    border-radius: var(--wl-radius-pill);
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+
+  .wl-mob-btn.is-accent {
+    background: var(--wl-btn-active-bg);
+    color: var(--wl-btn-active-ink);
+    border-color: var(--wl-sem-accent);
+  }
+
+  .wl-interact-prompt {
+    bottom: 124px;
+  }
+
+  .wl-pov-hud {
+    bottom: 66px;
+    max-width: calc(100% - 16px);
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 6px 10px;
+    gap: 8px;
+  }
+
+  .wl-guest-card {
+    top: 56px;
+    left: 10px;
+    right: 10px;
+    width: auto;
+  }
+
+  .wl-welcome-card {
+    max-height: 88dvh;
+    overflow-y: auto;
+    padding: 18px 16px;
+  }
+
+  .wl-welcome-title {
+    font-size: 19px;
+  }
+
+  .wl-welcome-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .wl-toast {
+    top: 56px;
+    max-width: calc(100% - 20px);
+    font-size: 12px;
+    text-align: center;
+  }
+}
+
 @media (max-width: 640px) {
   .wl-welcome-grid {
     grid-template-columns: 1fr;

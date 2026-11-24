@@ -514,9 +514,23 @@ export class CrowdAndAvatarEngine {
       umbrellaGroup: null,
       umbrellaOpen: 0,
       balloonGroup: null,
+      moveTarget: null,
+      bubbleEl: null,
+      bubbleRemaining: 0,
     };
     this.player.root.position.copy(this.player.position);
     this.group.add(this.player.root);
+    this.player.bubbleEl = this._createBubbleEl();
+
+    // Animated Tap/Click-to-Move destination beacon ring on ground
+    const markerGeo = new THREE.RingGeometry(0.45, 0.72, 24);
+    markerGeo.rotateX(-Math.PI * 0.5);
+    this.moveMarker = new THREE.Mesh(
+      markerGeo,
+      new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.85, side: THREE.DoubleSide })
+    );
+    this.moveMarker.visible = false;
+    this.group.add(this.moveMarker);
 
     // Give the player a cute automatic rain umbrella too!
     this.player.umbrellaGroup = createCartoonUmbrella(1);
@@ -1015,6 +1029,42 @@ export class CrowdAndAvatarEngine {
     return el;
   }
 
+  setPlayerMoveTarget(worldPos) {
+    if (!worldPos || this.player.riding) {
+      this.player.moveTarget = null;
+      if (this.moveMarker) this.moveMarker.visible = false;
+      return;
+    }
+    const tx = THREE.MathUtils.clamp(worldPos.x, -142, 142);
+    const tz = THREE.MathUtils.clamp(worldPos.z, -142, 142);
+    const ty = this.terrain ? Math.max(this.terrain.waterLevel + 0.15, this.terrain.getHeightAt(tx, tz)) : 0;
+    this.player.moveTarget = new THREE.Vector3(tx, ty, tz);
+    if (this.moveMarker) {
+      this.moveMarker.position.set(tx, ty + 0.22, tz);
+      this.moveMarker.visible = true;
+    }
+  }
+
+  clearPlayerMoveTarget() {
+    this.player.moveTarget = null;
+    if (this.moveMarker) this.moveMarker.visible = false;
+  }
+
+  showPlayerChatBubble(text, duration = 4.5) {
+    if (!this.player.bubbleEl || !text) return;
+    this.player.bubbleEl.textContent = text;
+    this.player.bubbleEl.hidden = false;
+    this.player.bubbleRemaining = duration;
+  }
+
+  showRemotePeerChatBubble(clientId, text, duration = 4.8) {
+    const rec = this.remotePeers.get(clientId);
+    if (!rec || !rec.bubbleEl || !text) return;
+    rec.bubbleEl.textContent = `${rec.nickname || "방문객"}: ${text}`;
+    rec.bubbleEl.hidden = false;
+    rec.bubbleRemaining = duration;
+  }
+
   upsertRemotePeer(peer) {
     if (!peer?.clientId) return;
     let rec = this.remotePeers.get(peer.clientId);
@@ -1025,20 +1075,27 @@ export class CrowdAndAvatarEngine {
       this.group.add(root);
       rec = {
         clientId: peer.clientId,
+        nickname: peer.nickname || "방문객",
         root,
-        pos: new THREE.Vector3(peer.x || 0, peer.y || 0, peer.z || 118),
-        targetPos: new THREE.Vector3(peer.x || 0, peer.y || 0, peer.z || 118),
+        parts: built.parts,
+        pos: new THREE.Vector3(peer.x || 0, peer.y || 0, peer.z || 120),
+        targetPos: new THREE.Vector3(peer.x || 0, peer.y || 0, peer.z || 120),
         facing: peer.facing || Math.PI,
         riding: peer.riding || null,
+        phase: 0,
+        umbrellaOpen: 0,
         tagEl: this._createTagEl(peer.nickname || "방문객"),
+        bubbleEl: this._createBubbleEl(),
+        bubbleRemaining: 0,
       };
       this.remotePeers.set(peer.clientId, rec);
     }
+    rec.nickname = peer.nickname || rec.nickname;
     rec.targetPos.set(Number(peer.x || 0), Number(peer.y || 0), Number(peer.z || 0));
     rec.facing = Number(peer.facing || 0);
     rec.riding = peer.riding || null;
     if (rec.tagEl) {
-      rec.tagEl.textContent = peer.riding ? `${peer.nickname} · 탑승 중` : peer.nickname || "방문객";
+      rec.tagEl.textContent = peer.riding ? `${rec.nickname} · 탑승 중` : rec.nickname;
     }
   }
 
@@ -1047,6 +1104,7 @@ export class CrowdAndAvatarEngine {
     if (!rec) return;
     this.group.remove(rec.root);
     rec.tagEl?.remove();
+    rec.bubbleEl?.remove();
     this.remotePeers.delete(clientId);
   }
 
@@ -1082,12 +1140,14 @@ export class CrowdAndAvatarEngine {
         this.player.root.rotation.y = this.player.facing;
       }
     } else if (input) {
-      const moveX = (input.right ? 1 : 0) - (input.left ? 1 : 0);
-      const moveZ = (input.forward ? 1 : 0) - (input.backward ? 1 : 0);
-      const isMoving = moveX !== 0 || moveZ !== 0;
+      const moveX = (input.right ? 1 : 0) - (input.left ? 1 : 0) + (input.analogX || 0);
+      const moveZ = (input.forward ? 1 : 0) - (input.backward ? 1 : 0) + (input.analogY || 0);
+      const isManualMove = Math.abs(moveX) > 0.08 || Math.abs(moveZ) > 0.08;
 
-      if (isMoving) {
-        const speed = input.sprint ? 11.2 : 6.4;
+      if (isManualMove) {
+        this.clearPlayerMoveTarget();
+        const mag = Math.min(1, Math.hypot(moveX, moveZ));
+        const speed = (input.sprint ? 11.2 : 6.4) * Math.max(0.45, mag);
         const dir = this._moveDir
           .set(0, 0, 0)
           .addScaledVector(cameraBasis.forward, moveZ)
@@ -1097,6 +1157,25 @@ export class CrowdAndAvatarEngine {
         this.player.position.z = THREE.MathUtils.clamp(this.player.position.z + dir.z * speed * stepDt, -142, 142);
         this.player.facing = Math.atan2(dir.x, dir.z);
         this._playPlayerAnim(input.sprint ? "run" : "walk");
+      } else if (this.player.moveTarget) {
+        const dx = this.player.moveTarget.x - this.player.position.x;
+        const dz = this.player.moveTarget.z - this.player.position.z;
+        const dist = Math.hypot(dx, dz);
+        if (dist < 0.72) {
+          this.clearPlayerMoveTarget();
+          this._playPlayerAnim("idle");
+        } else {
+          const speed = dist > 14 ? 9.2 : 6.6;
+          const step = Math.min(dist, speed * stepDt);
+          this.player.position.x = THREE.MathUtils.clamp(this.player.position.x + (dx / dist) * step, -142, 142);
+          this.player.position.z = THREE.MathUtils.clamp(this.player.position.z + (dz / dist) * step, -142, 142);
+          this.player.facing = this._lerpAngle(this.player.facing, Math.atan2(dx, dz), Math.min(1, stepDt * 10));
+          this._playPlayerAnim(dist > 14 ? "run" : "walk");
+          if (this.moveMarker && this.moveMarker.visible) {
+            const pulse = 1 + Math.sin(this._simTime * 7) * 0.16;
+            this.moveMarker.scale.setScalar(pulse);
+          }
+        }
       } else {
         this._playPlayerAnim("idle");
       }
@@ -1134,7 +1213,15 @@ export class CrowdAndAvatarEngine {
       this.player.mixer.update(stepDt);
     }
 
-    // 2. Update Remote Multi-user Avatars
+    if (this.player.bubbleEl) {
+      if (this.player.bubbleRemaining > 0) {
+        this.player.bubbleRemaining -= stepDt;
+        if (this.player.bubbleRemaining <= 0) this.player.bubbleEl.hidden = true;
+        else this._projectOverlayEl(this.player.bubbleEl, this.player.position, 2.55, camera, viewportW, viewportH);
+      }
+    }
+
+    // 2. Update Remote Multi-user Avatars (walking limbs + rain umbrella + chat bubbles!)
     for (const rec of this.remotePeers.values()) {
       if (rec.riding?.kind === "coaster") {
         const seat = coasterEngine.getSeatState(rec.riding.id, 0, Math.min(3, (rec.riding.carIndex || 1)));
@@ -1144,12 +1231,36 @@ export class CrowdAndAvatarEngine {
           rec.root.rotation.y = Math.atan2(seat.tangent.x, seat.tangent.z);
         }
       } else {
+        const distMove = Math.hypot(rec.targetPos.x - rec.pos.x, rec.targetPos.z - rec.pos.z);
         rec.pos.lerp(rec.targetPos, Math.min(1, stepDt * 9));
-        rec.pos.y = Math.max(this.terrain.waterLevel + 0.15, this.terrain.getHeightAt(rec.pos.x, rec.pos.z));
+        rec.pos.y = Math.max(this.terrain.waterLevel + 0.15, this.terrain.getHeightAt(rec.pos.x, rec.pos.z)) + 0.12;
         rec.root.position.copy(rec.pos);
         rec.root.rotation.y = rec.facing;
+        if (rec.parts) {
+          const moving = distMove > 0.12;
+          rec.phase += stepDt * (moving ? 9.0 : 2.5);
+          const sw = moving ? Math.sin(rec.phase) * 0.6 : 0;
+          rec.parts.leftLeg.rotation.x = sw;
+          rec.parts.rightLeg.rotation.x = -sw;
+          rec.parts.leftArm.rotation.x = -sw * 0.65;
+          const wantU = isRaining ? 1 : 0;
+          rec.umbrellaOpen += (wantU - rec.umbrellaOpen) * Math.min(1, stepDt * 6.5);
+          rec.parts.umbrellaGroup.visible = rec.umbrellaOpen > 0.03;
+          if (rec.umbrellaOpen > 0.03) {
+            rec.parts.umbrellaGroup.scale.setScalar(rec.umbrellaOpen);
+            rec.parts.rightArm.rotation.set(-0.82, 0, -0.14);
+            rec.parts.umbrellaGroup.rotation.x = 0.82;
+          } else {
+            rec.parts.rightArm.rotation.set(sw * 0.65, 0, -0.12);
+          }
+        }
       }
-      this._projectOverlayEl(rec.tagEl, rec.root.position, 2.2, camera, viewportW, viewportH);
+      this._projectOverlayEl(rec.tagEl, rec.root.position, 2.25, camera, viewportW, viewportH);
+      if (rec.bubbleEl && rec.bubbleRemaining > 0) {
+        rec.bubbleRemaining -= stepDt;
+        if (rec.bubbleRemaining <= 0) rec.bubbleEl.hidden = true;
+        else this._projectOverlayEl(rec.bubbleEl, rec.root.position, 2.85, camera, viewportW, viewportH);
+      }
     }
 
     // 3. Autonomous AI Park Guests (State Machine + Needs + Rain Umbrellas + Distance LOD)
