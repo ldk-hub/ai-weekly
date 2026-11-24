@@ -142,20 +142,77 @@ export class SanctuaryAtmosphere {
     this.lastAnnouncedSec = -1;
     this._festivalCenter = new THREE.Vector3(0, 0, 0);
 
-    // Pre-allocated scratch Colors (Zero GC pressure in 60fps loop!)
-    this._cNight = new THREE.Color(0x091122);
-    this._cDusk = new THREE.Color(0xd98664);
-    this._cDay = new THREE.Color(0xd9caa4);
-    this._cRainSky = new THREE.Color(0x6c8ba8);
+    // Pre-allocated Emotional Atmospheric Sky Palettes (Zero GC pressure in 60fps loop!)
+    this._palDay = {
+      zenith: new THREE.Color(0x0f5bd6),
+      mid: new THREE.Color(0x45a8ff),
+      horizon: new THREE.Color(0xc9eeff),
+      sun: new THREE.Color(0xfff6d6),
+    };
+    this._palDawn = {
+      zenith: new THREE.Color(0x2a3f85),
+      mid: new THREE.Color(0xf28ca8),
+      horizon: new THREE.Color(0xffd28c),
+      sun: new THREE.Color(0xffc978),
+    };
+    this._palSunset = {
+      zenith: new THREE.Color(0x24225e),
+      mid: new THREE.Color(0xe65b73),
+      horizon: new THREE.Color(0xffaa4d),
+      sun: new THREE.Color(0xff8e42),
+    };
+    this._palNight = {
+      zenith: new THREE.Color(0x04091b),
+      mid: new THREE.Color(0x0d1b42),
+      horizon: new THREE.Color(0x1b3060),
+      sun: new THREE.Color(0x8bb4ff),
+    };
+    this._palRain = {
+      zenith: new THREE.Color(0x202a3a),
+      mid: new THREE.Color(0x3a485e),
+      horizon: new THREE.Color(0x66778e),
+    };
+
     this._cSunNight = new THREE.Color(0x8bb4ff);
-    this._cSunDay = new THREE.Color(0xffefc2);
-    this._cSunDusk = new THREE.Color(0xff9b66);
-    this._cAmbNight = new THREE.Color(0x3b4d70);
-    this._cAmbDay = new THREE.Color(0xfff5db);
+    this._cSunDay = new THREE.Color(0xfff5dc);
+    this._cSunDawn = new THREE.Color(0xffc88a);
+    this._cSunSunset = new THREE.Color(0xff8f52);
+    this._cAmbNight = new THREE.Color(0x2d3f66);
+    this._cAmbDay = new THREE.Color(0xeaf5ff);
+    this._cAmbSunset = new THREE.Color(0xffcab0);
+    this._cAmbRain = new THREE.Color(0x8fa3ba);
+    this._cHemiSkyDay = new THREE.Color(0x7cc8ff);
+    this._cHemiSkySunset = new THREE.Color(0xff9b85);
+    this._cHemiSkyNight = new THREE.Color(0x263b6b);
+    this._cHemiSkyRain = new THREE.Color(0x5d6e85);
+
     this._tmpSky = new THREE.Color();
+    this._tmpZenith = new THREE.Color();
+    this._tmpMid = new THREE.Color();
+    this._tmpHorizon = new THREE.Color();
     this._tmpSun = new THREE.Color();
     this._tmpAmb = new THREE.Color();
+    this._tmpHemi = new THREE.Color();
     this._tmpBurstColor = new THREE.Color();
+    this._sunDir = new THREE.Vector3(0.45, 0.65, -0.58).normalize();
+
+    this._lightning = 0;
+    this._lightningCooldown = 4.5;
+    this._skyState = {
+      isNight: false,
+      isRain: false,
+      dawnFactor: 0,
+      sunsetFactor: 0,
+      dayFactor: 1,
+      nightFactor: 0,
+      sunIntensity: 1,
+      lightning: 0,
+      zenithColor: this._tmpZenith,
+      midColor: this._tmpMid,
+      horizonColor: this._tmpHorizon,
+      sunDir: this._sunDir,
+      sunColor: this._tmpSun,
+    };
 
     // Shared firework rocket geometry + single pre-allocated flash PointLight (no shader recompiles!)
     this._rocketGeo = new THREE.SphereGeometry(0.18, 6, 6);
@@ -188,10 +245,14 @@ export class SanctuaryAtmosphere {
 
   getTimeLabel() {
     const key = this.getTimeKey();
-    if (key === "dawn") return "새벽";
-    if (key === "day") return "낮";
-    if (key === "sunset") return "노을";
-    return "밤";
+    if (key === "dawn") return "일출";
+    if (key === "day") return "맑은 낮";
+    if (key === "sunset") return "감성 노을";
+    return "별빛 밤";
+  }
+
+  getSkyState() {
+    return this._skyState;
   }
 
   getStatusLabels() {
@@ -617,32 +678,106 @@ export class SanctuaryAtmosphere {
 
     const t = this.timeOfDay;
     const sunElev = Math.sin((t - 0.25) * Math.PI * 2);
-    const dayFactor = THREE.MathUtils.clamp((sunElev + 0.25) / 1.25, 0, 1);
-    const duskFactor = Math.exp(-Math.pow((t - 0.72) / 0.075, 2)) + Math.exp(-Math.pow((t - 0.24) / 0.075, 2));
+    const dayFactor = THREE.MathUtils.clamp((sunElev + 0.22) / 1.22, 0, 1);
+    const dawnFactor = Math.exp(-Math.pow((t - 0.24) / 0.068, 2));
+    const sunsetFactor = Math.exp(-Math.pow((t - 0.72) / 0.068, 2));
+    const twilight = Math.min(1, dawnFactor + sunsetFactor);
     const nightFactor = 1 - dayFactor;
 
     const curSeason = this.getCurrentSeason();
     const isRain = curSeason === "rain";
-    this._tmpSky.copy(this._cNight).lerp(this._cDay, dayFactor).lerp(this._cDusk, Math.min(0.85, duskFactor * 0.85));
+
+    // Subtle distant storm lightning glow during rain
     if (isRain) {
-      this._tmpSky.lerp(this._cRainSky, dayFactor * 0.62);
+      this._lightningCooldown -= dt;
+      if (this._lightningCooldown <= 0) {
+        this._lightning = 0.85;
+        this._lightningCooldown = 5.5 + Math.random() * 7.5;
+      }
+      this._lightning = Math.max(0, this._lightning - dt * 3.8);
+    } else {
+      this._lightning = 0;
     }
-    if (this.scene.background?.isColor) this.scene.background.copy(this._tmpSky);
-    if (this.scene.fog) this.scene.fog.color.copy(this._tmpSky);
+
+    // Real solar arc: rises in North-East (dawn), arcs high overhead (day), sets in North-West (sunset)
+    // Placed in the -Z northern vista hemisphere so guests looking into the park see sunrise & sunset directly!
+    const arcProgress = THREE.MathUtils.clamp((t - 0.20) / 0.56, 0, 1); // 0 = dawn, 0.5 = noon, 1 = sunset
+    const sunAz = THREE.MathUtils.lerp(0.62, -0.62, arcProgress); // East (+X) -> West (-X)
+    const sunAlt = Math.max(0.06, Math.sin(arcProgress * Math.PI) * 0.72 + 0.06);
+    this._sunDir
+      .set(Math.sin(sunAz) * Math.cos(sunAlt), Math.sin(sunAlt), -Math.cos(sunAz) * Math.cos(sunAlt))
+      .normalize();
+
+    // Blend 3-stop Sky Dome Colors: Night -> Clear Azure Day -> Peach Sunrise -> Coral-Amber Sunset -> Storm Rain!
+    this._tmpZenith
+      .copy(this._palNight.zenith)
+      .lerp(this._palDay.zenith, dayFactor)
+      .lerp(this._palDawn.zenith, dawnFactor * 0.92)
+      .lerp(this._palSunset.zenith, sunsetFactor * 0.95);
+    this._tmpMid
+      .copy(this._palNight.mid)
+      .lerp(this._palDay.mid, dayFactor)
+      .lerp(this._palDawn.mid, dawnFactor * 0.95)
+      .lerp(this._palSunset.mid, sunsetFactor * 0.96);
+    this._tmpHorizon
+      .copy(this._palNight.horizon)
+      .lerp(this._palDay.horizon, dayFactor)
+      .lerp(this._palDawn.horizon, dawnFactor * 0.95)
+      .lerp(this._palSunset.horizon, sunsetFactor * 0.98);
+
+    if (isRain) {
+      const rainMix = 0.78;
+      this._tmpZenith.lerp(this._palRain.zenith, rainMix);
+      this._tmpMid.lerp(this._palRain.mid, rainMix);
+      this._tmpHorizon.lerp(this._palRain.horizon, rainMix);
+    }
+
+    if (this.scene.background?.isColor) this.scene.background.copy(this._tmpHorizon);
+    if (this.scene.fog) {
+      this.scene.fog.color.copy(this._tmpHorizon);
+      this.scene.fog.density = isRain ? 0.0028 : 0.0016;
+    }
+
+    this._tmpSun
+      .copy(this._cSunNight)
+      .lerp(this._cSunDay, dayFactor)
+      .lerp(this._cSunDawn, dawnFactor * 0.92)
+      .lerp(this._cSunSunset, sunsetFactor * 0.95);
 
     if (this.lights.dirLight) {
-      this._tmpSun.copy(this._cSunNight).lerp(this._cSunDay, dayFactor).lerp(this._cSunDusk, Math.min(0.8, duskFactor));
       this.lights.dirLight.color.copy(this._tmpSun);
-      this.lights.dirLight.intensity = (0.42 + dayFactor * 2.15) * (isRain ? 0.68 : 1.0);
+      this.lights.dirLight.position.set(this._sunDir.x * 135, Math.max(32, this._sunDir.y * 145), this._sunDir.z * 135);
+      const baseInt = (0.45 + dayFactor * 1.95 + twilight * 0.35) * (isRain ? 0.62 : 1.0);
+      this.lights.dirLight.intensity = baseInt + this._lightning * 0.9;
     }
     if (this.lights.ambientLight) {
-      this._tmpAmb.copy(this._cAmbNight).lerp(this._cAmbDay, dayFactor);
+      this._tmpAmb
+        .copy(this._cAmbNight)
+        .lerp(this._cAmbDay, dayFactor)
+        .lerp(this._cAmbSunset, twilight * 0.62);
+      if (isRain) this._tmpAmb.lerp(this._cAmbRain, 0.7);
       this.lights.ambientLight.color.copy(this._tmpAmb);
-      this.lights.ambientLight.intensity = 0.28 + dayFactor * 0.48;
+      this.lights.ambientLight.intensity = (0.34 + dayFactor * 0.44) * (isRain ? 0.85 : 1.0);
     }
     if (this.lights.hemiLight) {
-      this.lights.hemiLight.intensity = 0.30 + dayFactor * 0.58;
+      this._tmpHemi
+        .copy(this._cHemiSkyNight)
+        .lerp(this._cHemiSkyDay, dayFactor)
+        .lerp(this._cHemiSkySunset, twilight * 0.72);
+      if (isRain) this._tmpHemi.lerp(this._cHemiSkyRain, 0.78);
+      this.lights.hemiLight.color.copy(this._tmpHemi);
+      this.lights.hemiLight.intensity = (0.36 + dayFactor * 0.56) * (isRain ? 0.78 : 1.0);
     }
+
+    // Export unified sky state snapshot for CartoonSkyDecor shader & volumetric clouds
+    this._skyState.isNight = nightFactor > 0.6;
+    this._skyState.isRain = isRain;
+    this._skyState.dawnFactor = dawnFactor;
+    this._skyState.sunsetFactor = sunsetFactor;
+    this._skyState.dayFactor = dayFactor;
+    this._skyState.nightFactor = nightFactor;
+    this._skyState.sunIntensity = THREE.MathUtils.clamp((dayFactor + twilight * 0.85), 0, 1);
+    this._skyState.lightning = this._lightning;
     if (this.mats.lampGlowMat) {
       this.mats.lampGlowMat.emissiveIntensity = 0.5 + nightFactor * 2.8;
     }

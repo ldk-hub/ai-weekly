@@ -650,14 +650,21 @@ class WeeklyLandApp {
 
   _bindAtmosphereButtons() {
     document.getElementById("btn-atmo-time")?.addEventListener("click", () => {
-      this.atmosphere.cycleTimeMode();
+      const labels = this.atmosphere.cycleTimeMode();
       this._syncAtmoLabels();
+      const hints = {
+        dawn: "동쪽 지평선에서 따스한 일출이 떠오릅니다!",
+        day: "청명한 파란 하늘과 뭉게구름이 펼쳐졌습니다.",
+        sunset: "하늘이 붉고 따뜻한 감성 노을로 물듭니다.",
+        night: "별빛과 초승달, 오로라가 수놓은 밤하늘입니다.",
+      };
+      this.hud.showToast(`${labels.timeLabel} — ${hints[labels.timeKey] || ""}`);
     });
     document.getElementById("btn-atmo-season")?.addEventListener("click", () => {
       const labels = this.atmosphere.cycleSeasonMode();
       this._syncAtmoLabels();
       if (labels.seasonKey === "rain") {
-        this.hud.showToast("장마 소나기가 내립니다! 공원의 모든 AI 손님과 캐릭터가 우산을 펼칩니다.");
+        this.hud.showToast("하늘에 짙은 먹구름이 몰려오고 소나기가 내립니다! 모든 캐릭터가 우산을 펼칩니다.");
       }
     });
     document.getElementById("btn-wl-firework")?.addEventListener("click", () => {
@@ -1096,7 +1103,7 @@ class WeeklyLandApp {
     }
 
     this.terrain.update(dt, isNight);
-    this.skyDecor.update(dt, isNight);
+    this.skyDecor.update(dt, this.atmosphere.getSkyState(), this.cameraRig.camera.position);
     this.coaster.update(dt, isNight);
     this.flatRide.update(dt, isNight, this.cameraRig.camera.position);
     this.pavilion.update(isNight);
