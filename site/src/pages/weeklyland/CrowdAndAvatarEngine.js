@@ -4,21 +4,32 @@ import * as SkeletonUtils from "three/examples/jsm/utils/SkeletonUtils.js";
 import { createToonMaterial, addToonOutline, getCarnivalStripeTexture } from "./ToonMaterials.js";
 
 const CHARACTER_MODELS = {
-  Knight: "assets/models/characters/Knight.glb",
-  Mage: "assets/models/characters/Mage.glb",
-  Rogue: "assets/models/characters/Rogue.glb",
-  Rogue_Hooded: "assets/models/characters/Rogue_Hooded.glb",
-  Barbarian: "assets/models/characters/Barbarian.glb",
+  Sera_Street: "assets/models/characters/Sera_Street.glb",
+  Dohyun_Varsity: "assets/models/characters/Dohyun_Varsity.glb",
+  Harin_Pastel: "assets/models/characters/Harin_Pastel.glb",
+  Jihun_Creator: "assets/models/characters/Jihun_Creator.glb",
+  Luna_CyberPop: "assets/models/characters/Luna_CyberPop.glb",
+  Minjae_Resort: "assets/models/characters/Minjae_Resort.glb",
 };
 
 export const AVATAR_KEYS = Object.keys(CHARACTER_MODELS);
 export const AVATAR_LABELS = {
-  Knight: "기사 나이트",
-  Mage: "아스트랄 메이지",
-  Rogue: "스카웃 로그",
-  Rogue_Hooded: "후드 탐험가",
-  Barbarian: "하이퍼 바바리안",
+  Sera_Street: "세라 · 스트리트",
+  Dohyun_Varsity: "도현 · 바시티",
+  Harin_Pastel: "하린 · 파스텔",
+  Jihun_Creator: "지훈 · 포토그래퍼",
+  Luna_CyberPop: "루나 · 사이버팝",
+  Minjae_Resort: "민재 · 리조트",
 };
+
+const GUEST_OUTFIT_TINTS = [
+  { top: 0xffe8d6, bottom: 0x3b5998, accent: 0xf97316 },
+  { top: 0xdbeafe, bottom: 0x334155, accent: 0x38bdf8 },
+  { top: 0xfce7f3, bottom: 0x7c3aed, accent: 0xf472b6 },
+  { top: 0xd1fae5, bottom: 0x475569, accent: 0x10b981 },
+  { top: 0xfef3c7, bottom: 0x1e293b, accent: 0xef4444 },
+  { top: 0xede9fe, bottom: 0x312e81, accent: 0x14b8a6 },
+];
 
 const OUTFIT_COLORS = [0xff8274, 0x60c5f1, 0xffd166, 0x6ee7b7, 0xf9a8d4, 0xc4b5fd, 0xfb923c, 0x38bdf8];
 const PANTS_COLORS = [0x334155, 0x475569, 0x4c3d5e, 0x2c4a6b, 0x6b4c3b];
@@ -501,7 +512,7 @@ export class CrowdAndAvatarEngine {
     this.scene.add(this.group);
 
     this.player = {
-      classKey: "Knight",
+      classKey: AVATAR_KEYS[0],
       root: new THREE.Group(),
       model: null,
       mixer: null,
@@ -536,7 +547,7 @@ export class CrowdAndAvatarEngine {
 
     // Give the player a cute automatic rain umbrella too!
     this.player.umbrellaGroup = createCartoonUmbrella(1);
-    this.player.umbrellaGroup.position.set(0.42, 1.05, 0.15);
+    this.player.umbrellaGroup.position.set(0.32, 1.08, 0.14);
     this.player.root.add(this.player.umbrellaGroup);
 
     this.remotePeers = new Map();
@@ -695,10 +706,204 @@ export class CrowdAndAvatarEngine {
       })
     );
     this.setPlayerClass(this.player.classKey);
+    this._upgradeAllAIGuestsToBlenderModels();
+    this._upgradeAllRemotePeersToBlenderModels();
+  }
+
+  _buildMixerActions(clonedScene, animations) {
+    if (!animations?.length) return { mixer: null, actions: {} };
+    const mixer = new THREE.AnimationMixer(clonedScene);
+    const findClip = (patterns) =>
+      animations.find((c) => patterns.some((p) => c.name.toLowerCase().includes(p))) || animations[0];
+    const map = {
+      idle: findClip(["idle", "standing"]),
+      walk: findClip(["walk", "jog"]),
+      run: findClip(["run", "sprint"]),
+      sit: findClip(["sit", "cheer"]),
+      wave: findClip(["wave", "cheer", "idle"]),
+    };
+    const actions = {};
+    for (const [name, clip] of Object.entries(map)) {
+      if (clip) actions[name] = mixer.clipAction(clip);
+    }
+    return { mixer, actions };
+  }
+
+  _playActorAnim(actor, name) {
+    if (!actor?.mixer || actor.activeAction === name) return;
+    const next = actor.actions?.[name] || actor.actions?.idle;
+    if (!next) return;
+    const prev = actor.actions?.[actor.activeAction];
+    if (prev && prev !== next) prev.fadeOut(0.18);
+    next.reset().fadeIn(0.18).play();
+    actor.activeAction = name;
+  }
+
+  _upgradeAllAIGuestsToBlenderModels() {
+    if (!this.modelCache.size) return;
+    const loadedKeys = AVATAR_KEYS.filter((k) => this.modelCache.has(k));
+    if (!loadedKeys.length) return;
+
+    this.guestPickables = [];
+    const hitGeo = new THREE.CylinderGeometry(0.32, 0.32, 1.82, 8);
+    const hitMat = new THREE.MeshBasicMaterial({ visible: false });
+
+    for (let i = 0; i < this.aiGuests.length; i++) {
+      const g = this.aiGuests[i];
+      const key = loadedKeys[i % loadedKeys.length];
+      const cached = this.modelCache.get(key);
+      if (!cached) continue;
+
+      const wasVisible = g.mesh.visible;
+      this.group.remove(g.mesh);
+
+      const root = new THREE.Group();
+      root.visible = wasVisible;
+      root.position.copy(g.pos);
+      root.rotation.y = g.facing;
+
+      const cloned = SkeletonUtils.clone(cached.scene);
+      const scale = 0.96 + (i % 3) * 0.035;
+      cloned.scale.setScalar(scale);
+
+      // Give subtle tasteful outfit palette variation for guests beyond the initial 6 archetypes
+      const applyTint = i >= loadedKeys.length;
+      const tint = GUEST_OUTFIT_TINTS[i % GUEST_OUTFIT_TINTS.length];
+      cloned.traverse((obj) => {
+        if (obj.isMesh) {
+          obj.castShadow = true;
+          obj.receiveShadow = true;
+          obj.frustumCulled = false;
+          if (applyTint && obj.material) {
+            const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
+            const clonedMats = mats.map((m) => {
+              const nm = (m.name || "").toLowerCase();
+              if (nm.startsWith("top") || nm.startsWith("bottom") || nm.startsWith("accent")) {
+                const cm = m.clone();
+                if (nm.startsWith("top")) cm.color.setHex(tint.top);
+                else if (nm.startsWith("bottom")) cm.color.setHex(tint.bottom);
+                else cm.color.setHex(tint.accent);
+                return cm;
+              }
+              return m;
+            });
+            obj.material = Array.isArray(obj.material) ? clonedMats : clonedMats[0];
+          }
+        }
+      });
+      root.add(cloned);
+
+      // Fast & accurate invisible click proxy for guest selection
+      const hitProxy = new THREE.Mesh(hitGeo, hitMat);
+      hitProxy.position.y = 0.92;
+      hitProxy.userData = { pickKind: "guest", guestId: g.id };
+      root.add(hitProxy);
+      this.guestPickables.push(hitProxy);
+
+      // Mount interactive props at human hand/head heights
+      const umbrellaGroup = createCartoonUmbrella(i);
+      umbrellaGroup.position.set(-0.28, 1.05, 0.14);
+      root.add(umbrellaGroup);
+
+      const snackGroup = new THREE.Group();
+      snackGroup.position.set(-0.26, 1.04, 0.20);
+      const cone = new THREE.Mesh(new THREE.ConeGeometry(0.06, 0.18, 8), createToonMaterial(0xeab676));
+      cone.rotation.x = Math.PI;
+      snackGroup.add(cone);
+      const scoop = new THREE.Mesh(new THREE.SphereGeometry(0.075, 10, 8), createToonMaterial(0xffb3d9));
+      scoop.position.y = 0.11;
+      snackGroup.add(scoop);
+      snackGroup.visible = false;
+      root.add(snackGroup);
+
+      const cameraGroup = new THREE.Group();
+      cameraGroup.position.set(0.0, 1.38, 0.24);
+      const camBody = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.12, 0.09), createToonMaterial(0x1f2937));
+      cameraGroup.add(camBody);
+      const flashSphere = new THREE.Mesh(
+        new THREE.SphereGeometry(0.26, 8, 8),
+        new THREE.MeshBasicMaterial({ color: 0xfffff0, transparent: true, opacity: 0.9 })
+      );
+      flashSphere.position.set(0, 0.04, 0.14);
+      flashSphere.visible = false;
+      cameraGroup.add(flashSphere);
+      cameraGroup.visible = false;
+      root.add(cameraGroup);
+
+      const balloonGroup = createBalloonProp(OUTFIT_COLORS[(i + 4) % OUTFIT_COLORS.length]);
+      balloonGroup.position.set(0.30, 0.96, 0.08);
+      balloonGroup.visible = g.hasBalloon;
+      root.add(balloonGroup);
+
+      const emoteMesh = new THREE.Mesh(
+        new THREE.OctahedronGeometry(0.13, 0),
+        createToonMaterial(0xffd166, { emissive: 0xffb703, emissiveIntensity: 0.4 })
+      );
+      emoteMesh.position.set(0, 2.08, 0);
+      emoteMesh.visible = false;
+      root.add(emoteMesh);
+
+      const { mixer, actions } = this._buildMixerActions(cloned, cached.animations);
+      g.mesh = root;
+      g.glbModel = cloned;
+      g.modelKey = key;
+      g.isBlenderModel = true;
+      g.mixer = mixer;
+      g.actions = actions;
+      g.activeAction = "";
+      g.parts = {
+        umbrellaGroup,
+        snackGroup,
+        cameraGroup,
+        flashSphere,
+        balloonGroup,
+        emoteMesh,
+      };
+      this.group.add(root);
+      this._playActorAnim(g, g.state === "RIDING_RIDE" ? "sit" : "walk");
+    }
+  }
+
+  _upgradeAllRemotePeersToBlenderModels() {
+    for (const rec of this.remotePeers.values()) {
+      this._applyBlenderModelToRemotePeer(rec, rec.classKey);
+    }
+  }
+
+  _applyBlenderModelToRemotePeer(rec, classKey) {
+    const key = this.modelCache.has(classKey) ? classKey : AVATAR_KEYS[rec.clientId.charCodeAt(0) % AVATAR_KEYS.length];
+    const cached = this.modelCache.get(key);
+    if (!cached) return;
+    if (rec.glbModel && rec.modelKey === key) return;
+
+    while (rec.root.children.length) rec.root.remove(rec.root.children[0]);
+    const cloned = SkeletonUtils.clone(cached.scene);
+    cloned.scale.setScalar(1.04);
+    cloned.traverse((obj) => {
+      if (obj.isMesh) {
+        obj.castShadow = true;
+        obj.receiveShadow = true;
+        obj.frustumCulled = false;
+      }
+    });
+    rec.root.add(cloned);
+    const umbrellaGroup = createCartoonUmbrella(rec.clientId.charCodeAt(0) % 6);
+    umbrellaGroup.position.set(-0.28, 1.06, 0.14);
+    rec.root.add(umbrellaGroup);
+
+    const { mixer, actions } = this._buildMixerActions(cloned, cached.animations);
+    rec.glbModel = cloned;
+    rec.modelKey = key;
+    rec.isBlenderModel = true;
+    rec.mixer = mixer;
+    rec.actions = actions;
+    rec.activeAction = "";
+    rec.parts = { umbrellaGroup };
+    this._playActorAnim(rec, "idle");
   }
 
   setPlayerClass(classKey) {
-    const key = CHARACTER_MODELS[classKey] ? classKey : "Knight";
+    const key = CHARACTER_MODELS[classKey] ? classKey : AVATAR_KEYS[0];
     this.player.classKey = key;
 
     if (this.player.model) {
@@ -716,42 +921,26 @@ export class CrowdAndAvatarEngine {
     }
 
     const cloned = SkeletonUtils.clone(cached.scene);
-    cloned.scale.setScalar(0.88);
+    cloned.scale.setScalar(1.05);
+    cloned.position.y = 0.08;
     cloned.traverse((obj) => {
       if (obj.isMesh) {
         obj.castShadow = true;
         obj.receiveShadow = true;
+        obj.frustumCulled = false;
       }
     });
     this.player.root.add(cloned);
     this.player.model = cloned;
 
-    if (cached.animations?.length) {
-      const mixer = new THREE.AnimationMixer(cloned);
-      const findClip = (patterns) =>
-        cached.animations.find((c) => patterns.some((p) => c.name.toLowerCase().includes(p))) || cached.animations[0];
-      const map = {
-        idle: findClip(["idle", "standing"]),
-        walk: findClip(["walk", "jog"]),
-        run: findClip(["run", "sprint"]),
-        sit: findClip(["sit", "cheer", "idle"]),
-      };
-      for (const [name, clip] of Object.entries(map)) {
-        if (clip) this.player.actions[name] = mixer.clipAction(clip);
-      }
-      this.player.mixer = mixer;
-      this._playPlayerAnim("idle");
-    }
+    const { mixer, actions } = this._buildMixerActions(cloned, cached.animations);
+    this.player.mixer = mixer;
+    this.player.actions = actions;
+    this._playPlayerAnim("idle");
   }
 
   _playPlayerAnim(name) {
-    if (!this.player.mixer || this.player.activeAction === name) return;
-    const next = this.player.actions[name];
-    if (!next) return;
-    const prev = this.player.actions[this.player.activeAction];
-    if (prev) prev.fadeOut(0.18);
-    next.reset().fadeIn(0.18).play();
-    this.player.activeAction = name;
+    this._playActorAnim(this.player, name);
   }
 
   setGuestReactionLines(lines) {
@@ -1363,6 +1552,7 @@ export class CrowdAndAvatarEngine {
       this.group.add(root);
       rec = {
         clientId: peer.clientId,
+        classKey: peer.classKey || AVATAR_KEYS[0],
         nickname: peer.nickname || "방문객",
         root,
         parts: built.parts,
@@ -1377,8 +1567,17 @@ export class CrowdAndAvatarEngine {
         bubbleRemaining: 0,
       };
       this.remotePeers.set(peer.clientId, rec);
+      if (this.modelCache.size > 0) {
+        this._applyBlenderModelToRemotePeer(rec, rec.classKey);
+      }
     }
     rec.nickname = peer.nickname || rec.nickname;
+    if (peer.classKey && peer.classKey !== rec.classKey) {
+      rec.classKey = peer.classKey;
+      if (this.modelCache.size > 0) {
+        this._applyBlenderModelToRemotePeer(rec, rec.classKey);
+      }
+    }
     rec.targetPos.set(Number(peer.x || 0), Number(peer.y || 0), Number(peer.z || 0));
     rec.facing = Number(peer.facing || 0);
     rec.riding = peer.riding || null;
@@ -1509,23 +1708,32 @@ export class CrowdAndAvatarEngine {
       }
     }
 
-    // 2. Update Remote Multi-user Avatars (walking limbs + rain umbrella + chat bubbles!)
+    // 2. Update Remote Multi-user Avatars (Blender skeletal anim + rain umbrella + chat bubbles!)
     for (const rec of this.remotePeers.values()) {
       if (rec.riding?.kind === "coaster") {
         const seat = coasterEngine.getSeatState(rec.riding.id, 0, Math.min(3, (rec.riding.carIndex || 1)));
         if (seat) {
           rec.pos.copy(seat.position);
-          rec.root.position.copy(seat.position);
+          rec.root.position.set(seat.position.x, seat.position.y - 0.52, seat.position.z);
           rec.root.rotation.y = Math.atan2(seat.tangent.x, seat.tangent.z);
+          if (rec.isBlenderModel) this._playActorAnim(rec, "sit");
         }
       } else {
         const distMove = Math.hypot(rec.targetPos.x - rec.pos.x, rec.targetPos.z - rec.pos.z);
         rec.pos.lerp(rec.targetPos, Math.min(1, stepDt * 9));
-        rec.pos.y = Math.max(this.terrain.waterLevel + 0.15, this.terrain.getHeightAt(rec.pos.x, rec.pos.z)) + 0.12;
+        rec.pos.y = Math.max(this.terrain.waterLevel + 0.15, this.terrain.getHeightAt(rec.pos.x, rec.pos.z)) + (rec.isBlenderModel ? 0.08 : 0.12);
         rec.root.position.copy(rec.pos);
         rec.root.rotation.y = rec.facing;
-        if (rec.parts) {
-          const moving = distMove > 0.12;
+        const moving = distMove > 0.12;
+        if (rec.isBlenderModel) {
+          this._playActorAnim(rec, moving ? "walk" : "idle");
+          if (rec.parts?.umbrellaGroup) {
+            const wantU = isRaining ? 1 : 0;
+            rec.umbrellaOpen += (wantU - rec.umbrellaOpen) * Math.min(1, stepDt * 6.5);
+            rec.parts.umbrellaGroup.visible = rec.umbrellaOpen > 0.03;
+            if (rec.umbrellaOpen > 0.03) rec.parts.umbrellaGroup.scale.setScalar(rec.umbrellaOpen);
+          }
+        } else if (rec.parts) {
           rec.phase += stepDt * (moving ? 9.0 : 2.5);
           const sw = moving ? Math.sin(rec.phase) * 0.6 : 0;
           rec.parts.leftLeg.rotation.x = sw;
@@ -1543,6 +1751,7 @@ export class CrowdAndAvatarEngine {
           }
         }
       }
+      if (rec.mixer) rec.mixer.update(stepDt);
       this._projectOverlayEl(rec.tagEl, rec.root.position, 2.25, camera, viewportW, viewportH);
       if (rec.bubbleEl && rec.bubbleRemaining > 0) {
         rec.bubbleRemaining -= stepDt;
@@ -1580,15 +1789,20 @@ export class CrowdAndAvatarEngine {
           this._disembarkGuest(g, isRaining);
         } else {
           g.pos.copy(seat.position);
-          g.mesh.position.set(seat.position.x, seat.position.y - 0.55, seat.position.z);
+          g.mesh.position.set(seat.position.x, seat.position.y - 0.52, seat.position.z);
           g.mesh.rotation.y = Math.atan2(seat.tangent.x, seat.tangent.z);
-          g.parts.umbrellaGroup.visible = false;
-          g.parts.leftLeg.rotation.x = -1.2;
-          g.parts.rightLeg.rotation.x = -1.2;
-          g.phase += stepDt * 8.5;
-          g.parts.leftArm.rotation.set(-2.55 + Math.sin(g.phase) * 0.25, 0, 0.22);
-          g.parts.rightArm.rotation.set(-2.55 - Math.sin(g.phase) * 0.25, 0, -0.22);
-          g.parts.torsoGroup.position.y = 0.42;
+          if (g.parts?.umbrellaGroup) g.parts.umbrellaGroup.visible = false;
+          if (g.isBlenderModel) {
+            this._playActorAnim(g, "sit");
+            if (g.mixer) g.mixer.update(gDt);
+          } else {
+            g.parts.leftLeg.rotation.x = -1.2;
+            g.parts.rightLeg.rotation.x = -1.2;
+            g.phase += stepDt * 8.5;
+            g.parts.leftArm.rotation.set(-2.55 + Math.sin(g.phase) * 0.25, 0, 0.22);
+            g.parts.rightArm.rotation.set(-2.55 - Math.sin(g.phase) * 0.25, 0, -0.22);
+            g.parts.torsoGroup.position.y = 0.42;
+          }
           if (g.bubbleEl && g.bubbleRemaining > 0) {
             g.bubbleRemaining -= stepDt;
             if (g.bubbleRemaining <= 0) g.bubbleEl.hidden = true;
@@ -1695,99 +1909,136 @@ export class CrowdAndAvatarEngine {
         }
       }
 
-      // Expressive Procedural Articulated Character Animation
+      // Expressive Character Animation (Blender Skeletal Rig OR Procedural Fallback)
       const gy = Math.max(this.terrain.waterLevel + 0.15, this.terrain.getHeightAt(g.pos.x, g.pos.z));
       const p = g.parts;
-      g.phase += stepDt * (walking ? 9.2 : 3.8);
 
-      let bounceY = 0;
-      let legSwing = 0;
-      let leftArmX = 0;
-      let leftArmZ = 0.12;
-      let rightArmX = 0;
-      let rightArmZ = -0.12;
-      let headPitch = 0;
-      let headYaw = 0;
-      let sitDrop = 0;
+      if (g.isBlenderModel) {
+        let anim = "idle";
+        if (walking) anim = g.speed > 3.15 ? "run" : "walk";
+        else if (g.state === "WATCHING_RIDE" || g.state === "CHATTING" || g.state === "TALKING_TO_PLAYER") anim = "wave";
+        else if (g.state === "RESTING") anim = "sit";
 
-      if (walking) {
-        legSwing = Math.sin(g.phase) * 0.65;
-        bounceY = Math.abs(Math.sin(g.phase)) * 0.08;
-        leftArmX = -legSwing * 0.68;
-        rightArmX = legSwing * 0.68;
-        headYaw = Math.sin(g.phase * 0.35) * 0.14;
-      } else if (g.state === "WATCHING_RIDE") {
-        bounceY = Math.max(0, Math.sin(g.phase * 2.2)) * 0.24;
-        leftArmX = -2.4 + Math.sin(g.phase * 3) * 0.25;
-        rightArmX = -2.4 - Math.sin(g.phase * 3) * 0.25;
-        headPitch = -0.28;
-      } else if (g.state === "EATING_SNACK") {
-        bounceY = Math.abs(Math.sin(g.phase * 1.1)) * 0.05;
-        rightArmX = -1.25 + Math.sin(g.phase * 1.8) * 0.22;
-        headPitch = Math.sin(g.phase * 1.8) * 0.1;
-      } else if (g.state === "RESTING") {
-        sitDrop = -0.22;
-        p.leftLeg.rotation.x = -1.15;
-        p.rightLeg.rotation.x = -1.15;
-        headYaw = Math.sin(g.phase * 0.5) * 0.22;
-      } else if (g.state === "TAKING_PHOTO") {
-        rightArmX = -1.45;
-        leftArmX = -1.2;
-        g.flashTimer -= stepDt;
-        if (g.flashTimer <= 0) {
-          g.flashTimer = 2.6;
-        }
-        p.flashSphere.visible = g.flashTimer > 2.42;
-      } else if (g.state === "READING_AI") {
-        headPitch = -0.18 + Math.sin(g.phase * 0.9) * 0.1;
-        headYaw = Math.sin(g.phase * 0.5) * 0.2;
-      } else if (g.state === "CHATTING" || g.state === "TALKING_TO_PLAYER") {
-        bounceY = Math.abs(Math.sin(g.phase * 1.5)) * 0.07;
-        rightArmZ = -2.35 + Math.sin(g.phase * 3.4) * 0.35;
-        rightArmX = -0.45;
-        if (g.state === "TALKING_TO_PLAYER" && g.parts.cameraGroup.visible) {
+        this._playActorAnim(g, anim);
+        if (g.mixer) g.mixer.update(gDt);
+
+        if (g.state === "TAKING_PHOTO") {
           g.flashTimer -= stepDt;
-          p.flashSphere.visible = g.flashTimer > 0 && g.flashTimer < 0.2;
-          if (g.flashTimer < -1.0) g.parts.cameraGroup.visible = false;
+          if (g.flashTimer <= 0) g.flashTimer = 2.6;
+          if (p.flashSphere) p.flashSphere.visible = g.flashTimer > 2.42;
+        } else if (g.state === "TALKING_TO_PLAYER" && p.cameraGroup?.visible) {
+          g.flashTimer -= stepDt;
+          if (p.flashSphere) p.flashSphere.visible = g.flashTimer > 0 && g.flashTimer < 0.2;
+          if (g.flashTimer < -1.0) p.cameraGroup.visible = false;
         }
-      }
 
-      // Override right arm hold angle cleanly when carrying an open rain umbrella!
-      if (u > 0.25) {
-        rightArmX = -0.82;
-        rightArmZ = -0.14;
-        p.umbrellaGroup.rotation.x = 0.82; // Keeps umbrella shaft vertical!
+        if (p.emoteMesh) {
+          if (g.emoteTimer > 0) {
+            g.emoteTimer -= stepDt;
+            p.emoteMesh.visible = true;
+            p.emoteMesh.position.y = 2.08 + Math.sin(this._simTime * 7 + idx) * 0.10;
+            p.emoteMesh.rotation.y += stepDt * 3.2;
+          } else {
+            p.emoteMesh.visible = false;
+          }
+        }
+        if (g.hasBalloon && p.balloonGroup?.visible) {
+          p.balloonGroup.rotation.z = Math.sin(this._simTime * 2.2 + idx) * 0.08;
+        }
+
+        g.pos.y = gy + 0.08;
+        g.mesh.position.copy(g.pos);
+        g.mesh.rotation.y = g.facing;
       } else {
-        p.umbrellaGroup.rotation.x = 0;
-      }
+        g.phase += stepDt * (walking ? 9.2 : 3.8);
 
-      if (g.state !== "RESTING") {
-        p.leftLeg.rotation.x = legSwing;
-        p.rightLeg.rotation.x = -legSwing;
-      }
-      p.leftArm.rotation.set(leftArmX, 0, leftArmZ);
-      p.rightArm.rotation.set(rightArmX, 0, rightArmZ);
-      p.headGroup.rotation.set(headPitch, headYaw, 0);
-      p.torsoGroup.position.y = 0.56 + sitDrop;
+        let bounceY = 0;
+        let legSwing = 0;
+        let leftArmX = 0;
+        let leftArmZ = 0.12;
+        let rightArmX = 0;
+        let rightArmZ = -0.12;
+        let headPitch = 0;
+        let headYaw = 0;
+        let sitDrop = 0;
 
-      // Floating emote heart/sparkle animation
-      if (g.emoteTimer > 0) {
-        g.emoteTimer -= stepDt;
-        p.emoteMesh.visible = true;
-        p.emoteMesh.position.y = 2.08 + Math.sin(this._simTime * 7 + idx) * 0.12;
-        p.emoteMesh.rotation.y += stepDt * 3.2;
-      } else {
-        p.emoteMesh.visible = false;
-      }
+        if (walking) {
+          legSwing = Math.sin(g.phase) * 0.65;
+          bounceY = Math.abs(Math.sin(g.phase)) * 0.08;
+          leftArmX = -legSwing * 0.68;
+          rightArmX = legSwing * 0.68;
+          headYaw = Math.sin(g.phase * 0.35) * 0.14;
+        } else if (g.state === "WATCHING_RIDE") {
+          bounceY = Math.max(0, Math.sin(g.phase * 2.2)) * 0.24;
+          leftArmX = -2.4 + Math.sin(g.phase * 3) * 0.25;
+          rightArmX = -2.4 - Math.sin(g.phase * 3) * 0.25;
+          headPitch = -0.28;
+        } else if (g.state === "EATING_SNACK") {
+          bounceY = Math.abs(Math.sin(g.phase * 1.1)) * 0.05;
+          rightArmX = -1.25 + Math.sin(g.phase * 1.8) * 0.22;
+          headPitch = Math.sin(g.phase * 1.8) * 0.1;
+        } else if (g.state === "RESTING") {
+          sitDrop = -0.22;
+          p.leftLeg.rotation.x = -1.15;
+          p.rightLeg.rotation.x = -1.15;
+          headYaw = Math.sin(g.phase * 0.5) * 0.22;
+        } else if (g.state === "TAKING_PHOTO") {
+          rightArmX = -1.45;
+          leftArmX = -1.2;
+          g.flashTimer -= stepDt;
+          if (g.flashTimer <= 0) {
+            g.flashTimer = 2.6;
+          }
+          p.flashSphere.visible = g.flashTimer > 2.42;
+        } else if (g.state === "READING_AI") {
+          headPitch = -0.18 + Math.sin(g.phase * 0.9) * 0.1;
+          headYaw = Math.sin(g.phase * 0.5) * 0.2;
+        } else if (g.state === "CHATTING" || g.state === "TALKING_TO_PLAYER") {
+          bounceY = Math.abs(Math.sin(g.phase * 1.5)) * 0.07;
+          rightArmZ = -2.35 + Math.sin(g.phase * 3.4) * 0.35;
+          rightArmX = -0.45;
+          if (g.state === "TALKING_TO_PLAYER" && g.parts.cameraGroup.visible) {
+            g.flashTimer -= stepDt;
+            p.flashSphere.visible = g.flashTimer > 0 && g.flashTimer < 0.2;
+            if (g.flashTimer < -1.0) g.parts.cameraGroup.visible = false;
+          }
+        }
 
-      // Gentle balloon sway
-      if (g.hasBalloon && p.balloonGroup.visible) {
-        p.balloonGroup.rotation.z = Math.sin(this._simTime * 2.2 + idx) * 0.09;
-      }
+        // Override right arm hold angle cleanly when carrying an open rain umbrella!
+        if (u > 0.25) {
+          rightArmX = -0.82;
+          rightArmZ = -0.14;
+          p.umbrellaGroup.rotation.x = 0.82;
+        } else {
+          p.umbrellaGroup.rotation.x = 0;
+        }
 
-      g.pos.y = gy + 0.12 + bounceY;
-      g.mesh.position.copy(g.pos);
-      g.mesh.rotation.y = g.facing;
+        if (g.state !== "RESTING") {
+          p.leftLeg.rotation.x = legSwing;
+          p.rightLeg.rotation.x = -legSwing;
+        }
+        p.leftArm.rotation.set(leftArmX, 0, leftArmZ);
+        p.rightArm.rotation.set(rightArmX, 0, rightArmZ);
+        p.headGroup.rotation.set(headPitch, headYaw, 0);
+        p.torsoGroup.position.y = 0.56 + sitDrop;
+
+        if (g.emoteTimer > 0) {
+          g.emoteTimer -= stepDt;
+          p.emoteMesh.visible = true;
+          p.emoteMesh.position.y = 2.08 + Math.sin(this._simTime * 7 + idx) * 0.12;
+          p.emoteMesh.rotation.y += stepDt * 3.2;
+        } else {
+          p.emoteMesh.visible = false;
+        }
+
+        if (g.hasBalloon && p.balloonGroup.visible) {
+          p.balloonGroup.rotation.z = Math.sin(this._simTime * 2.2 + idx) * 0.09;
+        }
+
+        g.pos.y = gy + 0.12 + bounceY;
+        g.mesh.position.copy(g.pos);
+        g.mesh.rotation.y = g.facing;
+      }
 
       // Speech bubble projection
       if (g.bubbleEl) {
