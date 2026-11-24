@@ -4,47 +4,60 @@
     "name": "위클리랜드 · WeeklyLand",
     "updatedAt": "2026-11-24T00:00:00Z",
     "author": "ldk-hub",
-    "themePreset": "sunlit-brass",
-    "entrance": { "x": 0, "z": 54 }
+    "themePreset": "sunlit-cartoon",
+    "entrance": { "x": 0, "z": 66 }
   },
   "terrain": {
-    "size": 160,
-    "resolution": 48,
+    "size": 300,
+    "resolution": 72,
     "waterLevel": -0.6,
     "hills": [
-      { "x": -52, "z": -44, "radius": 24, "height": 6.5 },
-      { "x": 54, "z": -42, "radius": 26, "height": 7.2 },
-      { "x": -56, "z": 30, "radius": 20, "height": 4.5 },
-      { "x": 46, "z": 34, "radius": 18, "height": -2.4 }
+      { "x": -96, "z": -84, "radius": 38, "height": 9.5 },
+      { "x": 98, "z": -80, "radius": 42, "height": 11.0 },
+      { "x": -105, "z": 58, "radius": 32, "height": 7.2 },
+      { "x": 86, "z": 64, "radius": 30, "height": -2.8 },
+      { "x": -78, "z": 86, "radius": 24, "height": -2.4 }
     ]
   },
   "paths": [
     {
       "id": "path-grand-promenade",
-      "width": 4.4,
+      "width": 5.0,
       "style": "sandstone",
       "points": [
-        [0, 52],
-        [0, 32],
-        [0, 12],
-        [0, -12],
-        [0, -28]
+        [0, 68],
+        [0, 44],
+        [0, 22],
+        [0, 0],
+        [0, -28],
+        [0, -54]
       ]
     },
     {
       "id": "path-plaza-ring",
-      "width": 3.8,
+      "width": 4.2,
       "style": "sandstone",
       "closed": true,
       "points": [
-        [0, 26],
-        [-22, 20],
-        [-28, 0],
-        [-20, -22],
-        [0, -26],
-        [20, -22],
-        [28, 0],
-        [22, 20]
+        [0, 32],
+        [-28, 26],
+        [-36, 0],
+        [-28, -28],
+        [0, -34],
+        [28, -28],
+        [36, 0],
+        [28, 26]
+      ]
+    },
+    {
+      "id": "path-east-west-avenue",
+      "width": 3.8,
+      "style": "pastel_pink",
+      "points": [
+        [-74, 0],
+        [-36, 0],
+        [36, 0],
+        [74, 0]
       ]
     }
   ],
@@ -53,110 +66,72 @@
       "id": "coaster-starboard-hyper",
       "name": "스타보드 하이퍼 코스터",
       "dataBinding": "stars_top_gainer",
-      "trackColor": "#d97757",
-      "spineColor": "#f4ede0",
-      "supportColor": "#334155",
+      "trackColor": "#ff7657",
+      "spineColor": "#fff7eb",
+      "supportColor": "#475569",
       "trainCount": 2,
       "carsPerTrain": 4,
       "closed": true,
       "nodes": [
-        { "x": -34, "y": 2.4, "z": 24, "bankDeg": 0, "segment": "station" },
-        { "x": -38, "y": 2.8, "z": 4, "bankDeg": 0, "segment": "lift" },
-        { "x": -36, "y": 29.0, "z": -28, "bankDeg": 0, "segment": "normal" },
-        { "x": -10, "y": 4.4, "z": -44, "bankDeg": 46, "segment": "boost" },
-        { "x": 20, "y": 22.0, "z": -38, "bankDeg": -38, "segment": "normal" },
-        { "x": 42, "y": 5.8, "z": -12, "bankDeg": 52, "segment": "normal" },
-        { "x": 34, "y": 16.5, "z": 18, "bankDeg": -32, "segment": "normal" },
-        { "x": 8, "y": 5.2, "z": 36, "bankDeg": 28, "segment": "brake" },
-        { "x": -18, "y": 3.4, "z": 36, "bankDeg": 12, "segment": "brake" }
+        { "x": -40, "y": 2.4, "z": 28, "bankDeg": 0, "segment": "station" },
+        { "x": -46, "y": 2.8, "z": 6, "bankDeg": 0, "segment": "lift" },
+        { "x": -44, "y": 31.0, "z": -34, "bankDeg": 0, "segment": "normal" },
+        { "x": -14, "y": 4.4, "z": -54, "bankDeg": 46, "segment": "boost" },
+        { "x": 24, "y": 24.0, "z": -46, "bankDeg": -38, "segment": "normal" },
+        { "x": 50, "y": 6.0, "z": -16, "bankDeg": 52, "segment": "normal" },
+        { "x": 40, "y": 17.5, "z": 22, "bankDeg": -32, "segment": "normal" },
+        { "x": 10, "y": 5.4, "z": 42, "bankDeg": 28, "segment": "brake" },
+        { "x": -20, "y": 3.4, "z": 42, "bankDeg": 12, "segment": "brake" }
       ]
     }
   ],
   "rides": [
-    {
-      "id": "ride-ferris",
-      "type": "ferris_wheel",
-      "name": "위클리 대관람차",
-      "x": -40,
-      "z": -10,
-      "rotY": 0.45,
-      "scale": 1.0
-    },
-    {
-      "id": "ride-drop",
-      "type": "drop_tower",
-      "name": "프론티어 벤치마크 드롭",
-      "dataBinding": "benchmarks_top",
-      "x": 40,
-      "z": -14,
-      "rotY": -0.3,
-      "scale": 1.0
-    },
-    {
-      "id": "ride-carousel",
-      "type": "carousel",
-      "name": "클로드 그랜드 회전목마",
-      "x": 0,
-      "z": 0,
-      "rotY": 0,
-      "scale": 1.0
-    }
+    { "id": "ride-ferris", "type": "ferris_wheel", "name": "위클리 대관람차", "x": -54, "z": -12, "rotY": 0.45, "scale": 1.0 },
+    { "id": "ride-drop", "type": "drop_tower", "name": "프론티어 벤치마크 드롭", "x": 54, "z": -16, "rotY": -0.3, "scale": 1.0 },
+    { "id": "ride-carousel", "type": "carousel", "name": "클로드 그랜드 회전목마", "x": 0, "z": 0, "rotY": 0, "scale": 1.0 },
+    { "id": "ride-pirate", "type": "pirate_ship", "name": "바이킹 어드벤처", "x": -62, "z": 24, "rotY": 0.6, "scale": 1.0 },
+    { "id": "ride-teacups", "type": "teacups", "name": "파스텔 회전 티컵", "x": 56, "z": 22, "rotY": 0, "scale": 1.0 },
+    { "id": "ride-swing", "type": "swing_tower", "name": "하늘 회전 그네", "x": 0, "z": -66, "rotY": 0, "scale": 1.0 },
+    { "id": "ride-gyro", "type": "gyro_swing", "name": "자이로 스윙 360", "x": -78, "z": -52, "rotY": 0.4, "scale": 1.0 },
+    { "id": "ride-octopus", "type": "octopus_ride", "name": "카툰 문어 라이드", "x": -34, "z": -66, "rotY": 0, "scale": 1.0 },
+    { "id": "ride-bumper", "type": "bumper_cars", "name": "파스텔 범퍼카장", "x": 42, "z": 52, "rotY": -0.25, "scale": 1.0 },
+    { "id": "ride-rocket", "type": "rocket_spinner", "name": "우주 로켓 스피너", "x": 76, "z": -48, "rotY": 0, "scale": 1.0 },
+    { "id": "ride-enterprise", "type": "enterprise_wheel", "name": "엔터프라이즈 360", "x": -44, "z": 58, "rotY": 0.3, "scale": 1.0 },
+    { "id": "ride-skytower", "type": "sky_tower", "name": "하늘 전망대 타워", "x": 82, "z": 16, "rotY": 0, "scale": 1.0 }
   ],
   "pavilions": [
-    {
-      "id": "pav-plugins",
-      "archiveKey": "plugins",
-      "title": "인기 플러그인 공방",
-      "accent": "#e07a52",
-      "x": -22,
-      "z": 24,
-      "rotY": 0.42
-    },
-    {
-      "id": "pav-news",
-      "archiveKey": "news",
-      "title": "AI 뉴스 아이맥스 극장",
-      "accent": "#38bdf8",
-      "x": 22,
-      "z": 24,
-      "rotY": -0.42
-    },
-    {
-      "id": "pav-social",
-      "archiveKey": "social",
-      "title": "소셜 피드 가든 라운지",
-      "accent": "#f472b6",
-      "x": -26,
-      "z": -22,
-      "rotY": 2.4
-    },
-    {
-      "id": "pav-benchmarks",
-      "archiveKey": "benchmarks",
-      "title": "벤치마크 천문 관측소",
-      "accent": "#34d399",
-      "x": 26,
-      "z": -22,
-      "rotY": -2.4
-    }
+    { "id": "pav-plugins", "archiveKey": "plugins", "title": "인기 플러그인 공방", "accent": "#ff7657", "x": -24, "z": 26, "rotY": 0.42 },
+    { "id": "pav-news", "archiveKey": "news", "title": "AI 뉴스 아이맥스 극장", "accent": "#38bdf8", "x": 24, "z": 26, "rotY": -0.42 },
+    { "id": "pav-social", "archiveKey": "social", "title": "소셜 피드 가든 라운지", "accent": "#f472b6", "x": -28, "z": -26, "rotY": 2.4 },
+    { "id": "pav-benchmarks", "archiveKey": "benchmarks", "title": "벤치마크 천문 관측소", "accent": "#34d399", "x": 28, "z": -26, "rotY": -2.4 }
   ],
   "scenery": [
-    { "id": "scn-gate", "type": "grand_arch", "x": 0, "z": 50, "rotY": 0, "scale": 1.1 },
-    { "id": "scn-fountain-1", "type": "fountain", "x": 0, "z": 22, "rotY": 0, "scale": 1.0 },
-    { "id": "scn-billboard", "type": "ai_billboard", "x": 0, "z": -30, "rotY": 0, "scale": 1.0 },
-    { "id": "scn-tree-1", "type": "tree_oak", "x": -12, "z": 42, "rotY": 0.4, "scale": 1.15 },
-    { "id": "scn-tree-2", "type": "tree_oak", "x": 12, "z": 42, "rotY": 1.8, "scale": 1.05 },
-    { "id": "scn-tree-3", "type": "tree_sakura", "x": -14, "z": 12, "rotY": 0.9, "scale": 1.1 },
-    { "id": "scn-tree-4", "type": "tree_sakura", "x": 14, "z": 12, "rotY": 2.2, "scale": 1.1 },
-    { "id": "scn-tree-5", "type": "tree_pine", "x": -48, "z": -28, "rotY": 0.3, "scale": 1.3 },
-    { "id": "scn-tree-6", "type": "tree_pine", "x": 48, "z": -28, "rotY": 1.1, "scale": 1.3 },
-    { "id": "scn-tree-7", "type": "tree_sakura", "x": -14, "z": -16, "rotY": 0.5, "scale": 1.0 },
-    { "id": "scn-tree-8", "type": "tree_sakura", "x": 14, "z": -16, "rotY": 1.9, "scale": 1.0 },
-    { "id": "scn-lamp-1", "type": "lamp_post", "x": -5, "z": 40, "rotY": 0, "scale": 1.0 },
-    { "id": "scn-lamp-2", "type": "lamp_post", "x": 5, "z": 40, "rotY": 0, "scale": 1.0 },
-    { "id": "scn-lamp-3", "type": "lamp_post", "x": -16, "z": 0, "rotY": 0, "scale": 1.0 },
-    { "id": "scn-lamp-4", "type": "lamp_post", "x": 16, "z": 0, "rotY": 0, "scale": 1.0 },
-    { "id": "scn-kiosk-1", "type": "kiosk", "x": -11, "z": 30, "rotY": 0.5, "scale": 1.0 },
-    { "id": "scn-kiosk-2", "type": "kiosk", "x": 11, "z": 30, "rotY": -0.5, "scale": 1.0 }
+    { "id": "scn-gate", "type": "grand_arch", "x": 0, "z": 62, "rotY": 0, "scale": 1.15 },
+    { "id": "scn-garland-1", "type": "garland_arch", "x": 0, "z": 42, "rotY": 0, "scale": 1.0 },
+    { "id": "scn-castle", "type": "fairy_castle", "x": 0, "z": -92, "rotY": 0, "scale": 1.15 },
+    { "id": "scn-fountain-1", "type": "fountain", "x": 0, "z": 24, "rotY": 0, "scale": 1.0 },
+    { "id": "scn-billboard", "type": "ai_billboard", "x": 0, "z": -38, "rotY": 0, "scale": 1.0 },
+    { "id": "scn-cafe-1", "type": "cafe_icecream", "x": -12, "z": 36, "rotY": 0.4, "scale": 1.0 },
+    { "id": "scn-popcorn-1", "type": "popcorn_cart", "x": 11, "z": 36, "rotY": -0.4, "scale": 1.0 },
+    { "id": "scn-balloon-1", "type": "balloon_stall", "x": -14, "z": 16, "rotY": 0.6, "scale": 1.0 },
+    { "id": "scn-fw-1", "type": "firework_launcher", "x": 14, "z": 16, "rotY": 0, "scale": 1.0 },
+    { "id": "scn-photo-1", "type": "heart_photozone", "x": 16, "z": 48, "rotY": -0.35, "scale": 1.0 },
+    { "id": "scn-statue-1", "type": "mascot_statue", "x": -16, "z": 48, "rotY": 0.35, "scale": 1.0 },
+    { "id": "scn-flower-1", "type": "flower_bed", "x": -9, "z": 24, "rotY": 0, "scale": 1.0 },
+    { "id": "scn-flower-2", "type": "flower_bed", "x": 9, "z": 24, "rotY": 0, "scale": 1.0 },
+    { "id": "scn-bench-1", "type": "bench", "x": -6, "z": 18, "rotY": 0.7, "scale": 1.0 },
+    { "id": "scn-bench-2", "type": "bench", "x": 6, "z": 18, "rotY": -0.7, "scale": 1.0 },
+    { "id": "scn-tree-1", "type": "tree_sakura", "x": -16, "z": 54, "rotY": 0.4, "scale": 1.2 },
+    { "id": "scn-tree-2", "type": "tree_sakura", "x": 16, "z": 54, "rotY": 1.8, "scale": 1.15 },
+    { "id": "scn-tree-3", "type": "tree_sakura", "x": -16, "z": 10, "rotY": 0.9, "scale": 1.1 },
+    { "id": "scn-tree-4", "type": "tree_sakura", "x": 16, "z": 10, "rotY": 2.2, "scale": 1.1 },
+    { "id": "scn-tree-5", "type": "tree_pine", "x": -68, "z": -38, "rotY": 0.3, "scale": 1.4 },
+    { "id": "scn-tree-6", "type": "tree_pine", "x": 68, "z": -38, "rotY": 1.1, "scale": 1.4 },
+    { "id": "scn-tree-7", "type": "tree_oak", "x": -44, "z": 46, "rotY": 0.5, "scale": 1.25 },
+    { "id": "scn-tree-8", "type": "tree_palm", "x": 68, "z": 48, "rotY": 1.2, "scale": 1.2 },
+    { "id": "scn-lamp-1", "type": "lamp_post", "x": -5, "z": 48, "rotY": 0, "scale": 1.0 },
+    { "id": "scn-lamp-2", "type": "lamp_post", "x": 5, "z": 48, "rotY": 0, "scale": 1.0 },
+    { "id": "scn-lamp-3", "type": "lamp_post", "x": -18, "z": 0, "rotY": 0, "scale": 1.0 },
+    { "id": "scn-lamp-4", "type": "lamp_post", "x": 18, "z": 0, "rotY": 0, "scale": 1.0 }
   ]
 }

@@ -138,19 +138,20 @@
           </button>
         </nav>
 
-        <nav class="wl-hud-panel wl-topbar-group" aria-label="AI위클리 파빌리온 및 모드">
-          <button type="button" class="wl-hud-btn" data-wl-pavilion="plugins">플러그인 공방</button>
-          <button type="button" class="wl-hud-btn" data-wl-pavilion="news">AI 뉴스 극장</button>
-          <button type="button" class="wl-hud-btn" data-wl-pavilion="social">소셜 라운지</button>
-          <button type="button" class="wl-hud-btn" data-wl-pavilion="benchmarks">벤치마크 관측소</button>
-          <span class="wl-stat-mono" id="wl-park-stat">방문자 1 · AI 관람객 24</span>
+        <nav class="wl-hud-panel wl-topbar-group" aria-label="AI위클리 전광판 대시보드 및 모드">
+          <button type="button" class="wl-hud-btn" data-wl-pavilion="plugins">플러그인</button>
+          <button type="button" class="wl-hud-btn" data-wl-pavilion="news">AI 뉴스</button>
+          <button type="button" class="wl-hud-btn" data-wl-pavilion="social">소셜</button>
+          <button type="button" class="wl-hud-btn" data-wl-pavilion="starboard">스타보드</button>
+          <button type="button" class="wl-hud-btn" data-wl-pavilion="benchmarks">벤치마크</button>
+          <span class="wl-stat-mono" id="wl-park-stat">방문자 1 · AI 24</span>
           <button type="button" class="wl-hud-btn" id="btn-wl-drone" title="드론 조망 카메라 전환">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-            <span>드론 시점</span>
+            <span>드론</span>
           </button>
           <button type="button" class="wl-hud-btn is-architect" id="btn-wl-architect" title="관리자 월드 빌더 모드 전환">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76Z"/></svg>
-            <span>세계 건설 (관리자)</span>
+            <span>세계 건설</span>
           </button>
         </nav>
       </div>
@@ -196,12 +197,19 @@
         <div id="wl-inspector-body"></div>
       </aside>
 
+      <!-- Interactive Building / Ride / Billboard Proximity Prompt -->
+      <button type="button" class="wl-hud-panel wl-interact-prompt" id="wl-interact-prompt" hidden>
+        <kbd class="wl-kbd">E</kbd>
+        <span id="wl-interact-label">상호작용하기</span>
+      </button>
+
       <!-- Architect Mode Bottom Builder Dock -->
       <div class="wl-hud-panel wl-builder-dock" id="wl-builder-dock" role="toolbar" aria-label="관리자 건설 도구" hidden>
-        <button type="button" class="wl-hud-btn is-active" data-arch-tool="coaster">코스터 스플라인</button>
-        <button type="button" class="wl-hud-btn" data-arch-tool="place">어트랙션·조경</button>
-        <button type="button" class="wl-hud-btn" data-arch-tool="path">보행로 연결</button>
+        <button type="button" class="wl-hud-btn is-active" data-arch-tool="coaster">코스터</button>
+        <button type="button" class="wl-hud-btn" data-arch-tool="place">놀이기구·건물(32)</button>
+        <button type="button" class="wl-hud-btn" data-arch-tool="path">보행로 깔기</button>
         <button type="button" class="wl-hud-btn" data-arch-tool="terrain">지형 브러시</button>
+        <button type="button" class="wl-hud-btn is-danger" data-arch-tool="delete">철거</button>
         <button type="button" class="wl-hud-btn" id="btn-arch-undo" title="실행 취소 (Ctrl+Z)">되돌리기</button>
         <button type="button" class="wl-hud-btn" id="btn-arch-redo" title="다시 실행 (Ctrl+Shift+Z)">다시실행</button>
         <button type="button" class="wl-hud-btn is-architect" id="btn-arch-publish">저장·배포</button>
@@ -231,24 +239,63 @@
         </form>
       </section>
 
-      <!-- Bottom-Right Avatar, Time, Season & Audio Capsule -->
-      <div class="wl-hud-panel wl-atmo-capsule" role="group" aria-label="아바타·시간·계절·오디오 설정">
+      <!-- Bottom-Right Avatar, Time, Season, Fireworks, Audio & Performance Capsule -->
+      <div class="wl-hud-panel wl-atmo-capsule" role="group" aria-label="아바타·시간·계절·성능 설정">
         <button type="button" class="wl-hud-btn" id="btn-wl-avatar" title="3D 아바타 캐릭터 변경">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           <span id="wl-avatar-label">기사 나이트</span>
         </button>
         <button type="button" class="wl-hud-btn" id="btn-atmo-time" title="낮/노을/밤/자동 전환">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2"/></svg>
           <span id="atmo-time-text">낮</span>
         </button>
         <button type="button" class="wl-hud-btn" id="btn-atmo-season" title="봄/여름/가을/겨울/자동 전환">
           <span id="atmo-season-text">봄 · 벚꽃</span>
         </button>
-        <button type="button" class="wl-hud-btn" id="btn-wl-audio" title="롤러코스터 바람·레일 프로시저럴 오디오 켜기/끄기">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+        <button type="button" class="wl-hud-btn" id="btn-wl-firework" title="즉시 불꽃 폭죽 3발 발사">
+          <span>불꽃 발사</span>
+        </button>
+        <button type="button" class="wl-hud-btn" id="btn-wl-audio" title="사운드 켜기/끄기">
           <span id="wl-audio-label">사운드 꺼짐</span>
         </button>
+        <button type="button" class="wl-hud-btn" id="btn-wl-perf" title="그래픽·FPS 성능 최적화 설정 열기">
+          <span class="wl-stat-mono" id="wl-fps-badge">60 FPS</span>
+        </button>
       </div>
+
+      <!-- Real-Time Performance Optimizer Popover -->
+      <aside class="wl-hud-panel wl-perf-popover" id="wl-perf-panel" aria-label="실시간 그래픽 최적화" hidden>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <strong class="wl-section-heading" style="margin:0;">실시간 성능 최적화</strong>
+          <button type="button" class="wl-hud-btn" id="btn-perf-close">닫기</button>
+        </div>
+        <div class="wl-catalog-grid" style="margin-bottom:8px;">
+          <button type="button" class="wl-hud-btn is-active" data-perf-preset="high">높음 (풀 카툰)</button>
+          <button type="button" class="wl-hud-btn" data-perf-preset="balanced">보통 (균형)</button>
+          <button type="button" class="wl-hud-btn" data-perf-preset="low">저사양 60fps</button>
+          <button type="button" class="wl-hud-btn" id="btn-perf-auto">자동 가드: 켜짐</button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:12px;">
+          <label style="display:flex;justify-content:space-between;align-items:center;">
+            <span>Bloom 후처리 (야간 발광)</span>
+            <input type="checkbox" id="opt-perf-bloom" checked />
+          </label>
+          <label style="display:flex;justify-content:space-between;align-items:center;">
+            <span>실시간 그림자 (ShadowMap)</span>
+            <input type="checkbox" id="opt-perf-shadows" checked />
+          </label>
+          <label style="display:flex;justify-content:space-between;align-items:center;">
+            <span>카툰 잉크 외곽선</span>
+            <input type="checkbox" id="opt-perf-outlines" checked />
+          </label>
+          <label style="display:flex;justify-content:space-between;align-items:center;">
+            <span>계절 날씨 (눈·벚꽃)</span>
+            <input type="checkbox" id="opt-perf-weather" checked />
+          </label>
+          <label class="wl-field-row" style="margin:0;">
+            <div class="wl-field-label"><span>AI 관람객 수</span><span id="opt-perf-guests-lbl" class="wl-stat-mono">24명</span></div>
+            <input type="range" id="opt-perf-guests" class="wl-range" min="4" max="24" step="4" value="24" />
+          </label>
+        </div>
+      </aside>
 
       <!-- Architect Publish & Blueprint Modal -->
       <div class="wl-modal-backdrop" id="wl-publish-modal" role="dialog" aria-modal="true" aria-label="공원 저장 및 원클릭 배포" hidden>

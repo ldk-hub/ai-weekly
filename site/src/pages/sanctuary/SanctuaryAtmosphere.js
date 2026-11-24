@@ -79,25 +79,25 @@ const FIREWORK_PALETTES = [
 ];
 
 const SHOW_SCRIPT = [
-  { t: 0.0, pattern: "chrysanthemum", ox: -5.5, oz: -4.2, targetY: 4.3 },
-  { t: 0.55, pattern: "chrysanthemum", ox: 5.5, oz: -4.2, targetY: 4.6 },
-  { t: 1.2, pattern: "willow", ox: 0, oz: -5.5, targetY: 5.1 },
-  { t: 2.0, pattern: "ring", ox: -7.0, oz: -2.8, targetY: 4.1 },
-  { t: 2.6, pattern: "ring", ox: 7.0, oz: -2.8, targetY: 4.3 },
-  { t: 3.4, pattern: "chrysanthemum", ox: -3.5, oz: -5.2, targetY: 4.9 },
-  { t: 3.9, pattern: "willow", ox: 4.2, oz: -4.8, targetY: 4.8 },
-  { t: 4.8, pattern: "ring", ox: 0, oz: -3.8, targetY: 4.6 },
-  { t: 5.6, pattern: "chrysanthemum", ox: -7.5, oz: -4.0, targetY: 4.4 },
-  { t: 6.1, pattern: "chrysanthemum", ox: 7.5, oz: -4.0, targetY: 4.4 },
-  { t: 7.0, pattern: "willow", ox: -4.5, oz: -4.6, targetY: 5.2 },
-  { t: 7.4, pattern: "willow", ox: 4.5, oz: -4.6, targetY: 5.2 },
+  { t: 0.0, pattern: "chrysanthemum", ox: -22, oz: -18, targetY: 28 },
+  { t: 0.55, pattern: "chrysanthemum", ox: 22, oz: -18, targetY: 31 },
+  { t: 1.2, pattern: "willow", ox: 0, oz: -26, targetY: 36 },
+  { t: 2.0, pattern: "ring", ox: -30, oz: -10, targetY: 27 },
+  { t: 2.6, pattern: "ring", ox: 30, oz: -10, targetY: 29 },
+  { t: 3.4, pattern: "chrysanthemum", ox: -14, oz: -24, targetY: 34 },
+  { t: 3.9, pattern: "willow", ox: 16, oz: -22, targetY: 33 },
+  { t: 4.8, pattern: "ring", ox: 0, oz: -16, targetY: 31 },
+  { t: 5.6, pattern: "chrysanthemum", ox: -32, oz: -16, targetY: 30 },
+  { t: 6.1, pattern: "chrysanthemum", ox: 32, oz: -16, targetY: 30 },
+  { t: 7.0, pattern: "willow", ox: -18, oz: -20, targetY: 37 },
+  { t: 7.4, pattern: "willow", ox: 18, oz: -20, targetY: 37 },
   // Grand Finale Salvo!
-  { t: 8.2, pattern: "chrysanthemum", ox: -7.0, oz: -4.0, targetY: 4.4 },
-  { t: 8.45, pattern: "ring", ox: 0, oz: -5.2, targetY: 5.3 },
-  { t: 8.7, pattern: "chrysanthemum", ox: 7.0, oz: -4.0, targetY: 4.4 },
-  { t: 9.15, pattern: "willow", ox: -3.8, oz: -4.4, targetY: 5.0 },
-  { t: 9.4, pattern: "willow", ox: 3.8, oz: -4.4, targetY: 5.0 },
-  { t: 9.8, pattern: "chrysanthemum", ox: 0, oz: -3.5, targetY: 5.4 },
+  { t: 8.2, pattern: "chrysanthemum", ox: -28, oz: -16, targetY: 30 },
+  { t: 8.45, pattern: "ring", ox: 0, oz: -24, targetY: 40 },
+  { t: 8.7, pattern: "chrysanthemum", ox: 28, oz: -16, targetY: 30 },
+  { t: 9.15, pattern: "willow", ox: -15, oz: -18, targetY: 35 },
+  { t: 9.4, pattern: "willow", ox: 15, oz: -18, targetY: 35 },
+  { t: 9.8, pattern: "chrysanthemum", ox: 0, oz: -14, targetY: 42 },
 ];
 
 /**
@@ -250,20 +250,19 @@ export class SanctuaryAtmosphere {
   }
 
   _buildWeatherParticles() {
-    // 320 particles saves 55% CPU/GPU buffer work vs 720 while looking rich with 0.56 size
-    const count = 320;
+    const count = 420;
     const pos = new Float32Array(count * 3);
     const col = new Float32Array(count * 3);
     const vel = [];
 
     for (let i = 0; i < count; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 36;
-      pos[i * 3 + 1] = Math.random() * 12;
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 36;
+      pos[i * 3] = (Math.random() - 0.5) * 96;
+      pos[i * 3 + 1] = Math.random() * 26;
+      pos[i * 3 + 2] = (Math.random() - 0.5) * 96;
       vel.push({
-        vx: (Math.random() - 0.5) * 0.8,
-        vy: -(1.0 + Math.random() * 1.4),
-        vz: (Math.random() - 0.5) * 0.8,
+        vx: (Math.random() - 0.5) * 1.1,
+        vy: -(1.6 + Math.random() * 1.9),
+        vz: (Math.random() - 0.5) * 1.1,
         phase: Math.random() * Math.PI * 2,
       });
     }
@@ -275,15 +274,35 @@ export class SanctuaryAtmosphere {
 
     this.weatherMat = new THREE.PointsMaterial({
       map: getSoftParticleTexture("petal"),
-      size: 0.56,
+      size: 0.72,
       vertexColors: true,
       transparent: true,
       opacity: 0.96,
       depthWrite: false,
     });
     this.weatherPoints = new THREE.Points(this.weatherGeom, this.weatherMat);
+    this.weatherPoints.frustumCulled = false;
     this.scene.add(this.weatherPoints);
     this._reseedWeatherColors(this.getCurrentSeason());
+  }
+
+  setWeatherEnabled(enabled) {
+    if (this.weatherPoints) this.weatherPoints.visible = Boolean(enabled);
+  }
+
+  launchManualFirework(x, z, salvoCount = 3) {
+    const patterns = ["chrysanthemum", "ring", "willow"];
+    for (let i = 0; i < salvoCount; i++) {
+      setTimeout(() => {
+        this._festivalCenter.set(x, 0, z);
+        this._spawnFestivalRocket({
+          ox: (Math.random() - 0.5) * 14,
+          oz: (Math.random() - 0.5) * 14,
+          targetY: 26 + Math.random() * 14,
+          pattern: patterns[i % patterns.length],
+        });
+      }, i * 240);
+    }
   }
 
   _reseedWeatherColors(season) {
@@ -328,16 +347,16 @@ export class SanctuaryAtmosphere {
       rocketMesh,
       rocketMat,
       x,
-      y: 1.4,
+      y: 2.0,
       z,
-      vy: 10.5 + Math.random() * 2.5,
+      vy: 24.0 + Math.random() * 6.0,
       targetY,
       pal,
       burstPoints: null,
       burstMat: null,
       sparks: [],
       age: 0,
-      life: pattern === "willow" ? 2.55 : 2.05,
+      life: pattern === "willow" ? 2.8 : 2.3,
     });
   }
 
@@ -419,7 +438,7 @@ export class SanctuaryAtmosphere {
     geom.setAttribute("color", new THREE.BufferAttribute(col, 3));
     const mat = new THREE.PointsMaterial({
       map: getSoftParticleTexture(pattern === "willow" ? "circle" : "star"),
-      size: pattern === "willow" ? 1.25 : 1.55,
+      size: pattern === "willow" ? 2.4 : 2.9,
       vertexColors: true,
       transparent: true,
       opacity: 1,
@@ -427,6 +446,7 @@ export class SanctuaryAtmosphere {
       depthWrite: false,
     });
     const pts = new THREE.Points(geom, mat);
+    pts.frustumCulled = false;
     this.scene.add(pts);
 
     // Reuse single scene fireworkLight (zero shader recompilations!)
@@ -626,10 +646,14 @@ export class SanctuaryAtmosphere {
     const season = this.getCurrentSeason();
     this._applySeasonFoliage(season, Math.min(1, dt * 4.5));
 
-    // 3. Animate Seasonal Weather Particles
-    if (this.weatherGeom) {
+    // 3. Animate Seasonal Weather Particles (tracks camera/hero seamlessly over 96m volume)
+    if (this.weatherGeom && this.weatherPoints?.visible) {
       const posAttr = this.weatherGeom.attributes.position;
       const nowSec = performance.now() * 0.001;
+      const span = 96;
+      const halfSpan = span * 0.5;
+      const cx = this._heroPos.x;
+      const cz = this._heroPos.z;
       for (let i = 0; i < posAttr.count; i++) {
         const v = this.weatherVel[i];
         let x = posAttr.getX(i);
@@ -637,26 +661,33 @@ export class SanctuaryAtmosphere {
         let z = posAttr.getZ(i);
 
         if (season === "summer") {
-          x += Math.sin(nowSec * 1.4 + v.phase) * 0.8 * dt;
-          y += Math.abs(v.vy) * 0.35 * dt;
-          z += Math.cos(nowSec * 1.2 + v.phase) * 0.8 * dt;
-          if (y > 9) y = 0.4;
+          x += Math.sin(nowSec * 1.4 + v.phase) * 1.2 * dt;
+          y += Math.abs(v.vy) * 0.45 * dt;
+          z += Math.cos(nowSec * 1.2 + v.phase) * 1.2 * dt;
+          if (y > 22) y = 0.5;
         } else if (season === "spring") {
-          x += (0.85 + Math.sin(nowSec * 2.1 + v.phase) * 0.65) * dt;
-          y += v.vy * 0.85 * dt;
-          z += (0.45 + Math.cos(nowSec * 1.7 + v.phase) * 0.5) * dt;
-          if (y < 0.1) { y = 10 + Math.random() * 3; x = this._heroPos.x + (Math.random() - 0.5) * 36; z = this._heroPos.z + (Math.random() - 0.5) * 36; }
-        } else if (season === "autumn") {
-          x += (1.35 + Math.sin(nowSec * 2.6 + v.phase) * 1.1) * dt;
+          x += (1.2 + Math.sin(nowSec * 2.1 + v.phase) * 0.85) * dt;
           y += v.vy * 1.05 * dt;
-          z += Math.cos(nowSec * 2.2 + v.phase) * 0.9 * dt;
-          if (y < 0.1) { y = 10 + Math.random() * 3; x = this._heroPos.x + (Math.random() - 0.5) * 36; z = this._heroPos.z + (Math.random() - 0.5) * 36; }
-        } else {
-          x += Math.sin(nowSec * 1.2 + v.phase) * 0.45 * dt;
+          z += (0.6 + Math.cos(nowSec * 1.7 + v.phase) * 0.7) * dt;
+          if (y < 0.2) y = 24 + Math.random() * 4;
+        } else if (season === "autumn") {
+          x += (1.8 + Math.sin(nowSec * 2.6 + v.phase) * 1.3) * dt;
           y += v.vy * 1.25 * dt;
-          z += Math.cos(nowSec * 1.1 + v.phase) * 0.45 * dt;
-          if (y < 0.1) { y = 11 + Math.random() * 3; x = this._heroPos.x + (Math.random() - 0.5) * 36; z = this._heroPos.z + (Math.random() - 0.5) * 36; }
+          z += Math.cos(nowSec * 2.2 + v.phase) * 1.1 * dt;
+          if (y < 0.2) y = 24 + Math.random() * 4;
+        } else {
+          x += Math.sin(nowSec * 1.3 + v.phase) * 0.85 * dt;
+          y += v.vy * 1.55 * dt;
+          z += Math.cos(nowSec * 1.1 + v.phase) * 0.85 * dt;
+          if (y < 0.2) y = 25 + Math.random() * 4;
         }
+
+        // Wrap XZ around current focus so snow/petals never freeze or vanish when moving across 300m map
+        if (x < cx - halfSpan) x += span;
+        else if (x > cx + halfSpan) x -= span;
+        if (z < cz - halfSpan) z += span;
+        else if (z > cz + halfSpan) z -= span;
+
         posAttr.setXYZ(i, x, y, z);
       }
       posAttr.needsUpdate = true;

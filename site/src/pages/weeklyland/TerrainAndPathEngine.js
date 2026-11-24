@@ -1,17 +1,24 @@
 import * as THREE from "three";
 import { createToonMaterial, getCartoonGrassTexture } from "./ToonMaterials.js";
 
+const PATH_STYLES = {
+  sandstone: { main: 0xffe8c2, curb: 0xd9a76a },
+  wood: { main: 0xc98a55, curb: 0x7c4d2b },
+  pastel_pink: { main: 0xffd1e6, curb: 0xf472b6 },
+  brick: { main: 0xe89a78, curb: 0x9a4a32 },
+};
+
 /**
  * WeeklyLand 3D Terrain, Water & Park Path Engine
- * - 160m x 160m sculpted vertex-colored terrain with bilinear height sampling
+ * - 300m x 300m sculpted cartoon terrain with bilinear height sampling
  * - Interactive Architect brush (raise / lower / flatten / pond)
- * - Raised sandstone park walkways + curb trim + AI Crowd navigation graph
+ * - Multi-style cartoon park walkways (double-sided upward normals!) + live path drawing preview
  */
 export class TerrainAndPathEngine {
   constructor(scene, terrainConfig, pathsConfig = []) {
     this.scene = scene;
-    this.size = terrainConfig?.size || 160;
-    this.res = terrainConfig?.resolution || 48;
+    this.size = terrainConfig?.size || 300;
+    this.res = terrainConfig?.resolution || 72;
     this.waterLevel = terrainConfig?.waterLevel ?? -0.6;
     this.heights = new Float32Array((this.res + 1) * (this.res + 1));
 
@@ -22,6 +29,10 @@ export class TerrainAndPathEngine {
     this.pathGroup = new THREE.Group();
     this.pathGroup.name = "WeeklyLand_Paths";
     this.group.add(this.pathGroup);
+
+    this.previewGroup = new THREE.Group();
+    this.previewGroup.name = "WeeklyLand_PathPreview";
+    this.group.add(this.previewGroup);
 
     this.walkWaypoints = [];
     this.walkEdges = new Map();
@@ -226,52 +237,79 @@ export class TerrainAndPathEngine {
     this.walkWaypoints = [];
     this.walkEdges.clear();
 
-    const pathMat = new THREE.MeshStandardMaterial({
-      color: 0xe6d6bc,
-      roughness: 0.85,
-      metalness: 0.04,
-      polygonOffset: true,
-      polygonOffsetFactor: -1,
-    });
-    const curbMat = new THREE.MeshStandardMaterial({
-      color: 0xb99d77,
-      roughness: 0.9,
-      metalness: 0.05,
-    });
-
-    // Central grand plaza stone disc
-    const plazaGeo = new THREE.CylinderGeometry(11.5, 11.8, 0.14, 36);
-    const plazaMesh = new THREE.Mesh(plazaGeo, pathMat);
-    plazaMesh.position.set(0, Math.max(0.06, this.getHeightAt(0, 0) + 0.06), 0);
+    const plazaMat = createToonMaterial(PATH_STYLES.sandstone.main);
+    const plazaGeo = new THREE.CylinderGeometry(12.2, 12.6, 0.22, 36);
+    const plazaMesh = new THREE.Mesh(plazaGeo, plazaMat);
+    plazaMesh.position.set(0, Math.max(0.08, this.getHeightAt(0, 0) + 0.08), 0);
     plazaMesh.receiveShadow = true;
     this.pathGroup.add(plazaMesh);
 
     for (const pathDef of pathsConfig || []) {
-      const pts = (pathDef.points || []).map(([x, z]) => new THREE.Vector3(x, this.getHeightAt(x, z) + 0.08, z));
+      const pts = (pathDef.points || []).map(([x, z]) => new THREE.Vector3(x, this.getHeightAt(x, z) + 0.16, z));
       if (pts.length < 2) continue;
 
-      const curve = new THREE.CatmullRomCurve3(pts, Boolean(pathDef.closed), "centripetal", 0.4);
-      const samples = Math.max(24, pts.length * 10);
-      const halfW = (pathDef.width || 4.0) * 0.5;
-      const ribbonGeo = this._buildRibbonGeometry(curve, samples, halfW);
-      const mesh = new THREE.Mesh(ribbonGeo, pathMat.clone());
+      const palette = PATH_STYLES[pathDef.style] || PATH_STYLES.sandstone;
+      const pathMat = createToonMaterial(palette.main, {
+        side: THREE.DoubleSide,
+        polygonOffset: true,
+        polygonOffsetFactor: -2,
+      });
+      const curbMat = createToonMaterial(palette.curb, {
+        side: THREE.DoubleSide,
+        polygonOffset: true,
+        polygonOffsetFactor: -1,
+      });
+
+      const curve = new THREE.CatmullRomCurve3(pts, Boolean(pathDef.closed), "centripetal", 0.35);
+      const samples = Math.max(28, pts.length * 14);
+      const halfW = (pathDef.width || 4.2) * 0.5;
+      const ribbonGeo = this._buildRibbonGeometry(curve, samples, halfW, 0.04);
+      const mesh = new THREE.Mesh(ribbonGeo, pathMat);
       mesh.receiveShadow = true;
       this.pathGroup.add(mesh);
 
-      const borderGeo = this._buildRibbonGeometry(curve, samples, halfW + 0.28, -0.02);
-      const borderMesh = new THREE.Mesh(borderGeo, curbMat.clone());
+      const borderGeo = this._buildRibbonGeometry(curve, samples, halfW + 0.34, 0.0);
+      const borderMesh = new THREE.Mesh(borderGeo, curbMat);
       borderMesh.receiveShadow = true;
       this.pathGroup.add(borderMesh);
 
       this._extractWalkNodes(curve, Math.max(8, pts.length * 3), Boolean(pathDef.closed));
     }
 
-    // Fallback waypoints around plaza if no custom paths exist
     if (this.walkWaypoints.length < 4) {
       for (let i = 0; i < 8; i++) {
         const a = (i / 8) * Math.PI * 2;
-        this.walkWaypoints.push(new THREE.Vector3(Math.cos(a) * 14, this.getHeightAt(Math.cos(a) * 14, Math.sin(a) * 14), Math.sin(a) * 14));
+        this.walkWaypoints.push(
+          new THREE.Vector3(Math.cos(a) * 16, this.getHeightAt(Math.cos(a) * 16, Math.sin(a) * 16), Math.sin(a) * 16)
+        );
       }
+    }
+  }
+
+  setPathPreview(points = []) {
+    while (this.previewGroup.children.length > 0) {
+      const ch = this.previewGroup.children.pop();
+      ch.geometry?.dispose?.();
+      ch.material?.dispose?.();
+    }
+    if (!points.length) return;
+
+    const pinGeo = new THREE.SphereGeometry(0.45, 10, 10);
+    const pinMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
+    const linePts = [];
+
+    for (const [x, z] of points) {
+      const y = Math.max(this.waterLevel + 0.25, this.getHeightAt(x, z)) + 0.35;
+      const pin = new THREE.Mesh(pinGeo, pinMat);
+      pin.position.set(x, y, z);
+      this.previewGroup.add(pin);
+      linePts.push(new THREE.Vector3(x, y, z));
+    }
+
+    if (linePts.length >= 2) {
+      const lineGeo = new THREE.BufferGeometry().setFromPoints(linePts);
+      const lineMat = new THREE.LineBasicMaterial({ color: 0xfacc15 });
+      this.previewGroup.add(new THREE.Line(lineGeo, lineMat));
     }
   }
 
@@ -296,15 +334,16 @@ export class TerrainAndPathEngine {
       const lz = p.z - right.z * halfW;
       const rx = p.x + right.x * halfW;
       const rz = p.z + right.z * halfW;
-      const ly = Math.max(this.waterLevel + 0.25, this.getHeightAt(lx, lz)) + 0.09 + yOffset;
-      const ry = Math.max(this.waterLevel + 0.25, this.getHeightAt(rx, rz)) + 0.09 + yOffset;
+      const ly = Math.max(this.waterLevel + 0.28, this.getHeightAt(lx, lz)) + 0.16 + yOffset;
+      const ry = Math.max(this.waterLevel + 0.28, this.getHeightAt(rx, rz)) + 0.16 + yOffset;
 
       positions.push(lx, ly, lz, rx, ry, rz);
       normals.push(0, 1, 0, 0, 1, 0);
 
       if (i < samples) {
         const base = i * 2;
-        indices.push(base, base + 2, base + 1, base + 1, base + 2, base + 3);
+        // Counter-clockwise upward (+Y) facing triangles so paths are 100% visible from above!
+        indices.push(base, base + 1, base + 2, base + 1, base + 3, base + 2);
       }
     }
 

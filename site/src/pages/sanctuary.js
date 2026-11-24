@@ -48,7 +48,7 @@ class WeeklyLandApp {
 
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x9bdcff);
-    this.scene.fog = new THREE.FogExp2(0xc4ecff, 0.0036);
+    this.scene.fog = new THREE.FogExp2(0xc4ecff, 0.0022);
     this.skyDecor = new CartoonSkyDecor(this.scene);
 
     this.renderer = this._createRenderer(this.canvas);
@@ -67,6 +67,22 @@ class WeeklyLandApp {
     this._rafId = 0;
     this._presenceAccum = 0;
     this._broadcastPatchTimer = null;
+    this.nearbySpot = null;
+
+    // Real-time Performance Optimizer State
+    this.perf = {
+      preset: "high",
+      autoGuard: true,
+      bloom: true,
+      shadows: true,
+      outlines: true,
+      weather: true,
+      guests: 24,
+      fpsFrames: 0,
+      fpsAccum: 0,
+      currentFps: 60,
+      lowFpsStreak: 0,
+    };
 
     this.boot().catch((err) => console.error("[WeeklyLand] boot failed:", err));
   }
@@ -96,12 +112,12 @@ class WeeklyLandApp {
     const ambientLight = new THREE.AmbientLight(0xfff5e4, 0.58);
     const hemiLight = new THREE.HemisphereLight(0xcbe8ff, 0x6f8c67, 0.66);
     const dirLight = new THREE.DirectionalLight(0xfff2d6, 2.15);
-    dirLight.position.set(46, 68, 38);
+    dirLight.position.set(78, 108, 62);
     dirLight.castShadow = true;
     dirLight.shadow.mapSize.set(2048, 2048);
     dirLight.shadow.camera.near = 10;
-    dirLight.shadow.camera.far = 210;
-    const d = 82;
+    dirLight.shadow.camera.far = 360;
+    const d = 148;
     dirLight.shadow.camera.left = -d;
     dirLight.shadow.camera.right = d;
     dirLight.shadow.camera.top = d;
@@ -119,7 +135,6 @@ class WeeklyLandApp {
     this.worldState = new ParkWorldState(baseWorld);
     this.publisher = new ParkPublisher(this.worldState);
 
-    // Restore local unpublished Architect draft automatically on local dev
     if (this.publisher.isLocalDev()) {
       const draft = await this.worldState.loadDraft().catch(() => null);
       if (draft) {
@@ -184,13 +199,14 @@ class WeeklyLandApp {
 
     this._bindWorldEvents();
     this._bindAtmosphereButtons();
+    this._bindPerfOptimizer();
+    this._bindInteractPrompt();
     this._bindKeyboardAndPick();
     this._bindResize();
 
     this.hud.updateParkStat(1, this.crowd.getGuestCount());
-    this.hud.showToast("위클리랜드 3D에 오신 것을 환영합니다! 어트랙션을 클릭해 바로 탑승해 보세요.", 3800);
+    this.hud.showToast("위클리랜드 300m 대형 카툰 공원에 오신 것을 환영합니다! 건물·전광판·놀이기구를 클릭하거나 [E]로 상호작용하세요.", 4200);
 
-    // Non-blocking async enrichment: KayKit 3D GLBs, AI Weekly live feeds, Scrapling coaster presets
     this.crowd.preloadCharacterModels();
     this.architect.loadPresets();
     this.pavilion.loadArchiveData().then(() => {
@@ -199,7 +215,6 @@ class WeeklyLandApp {
       this.crowd.setGuestReactionLines(hl.guestLines);
     });
 
-    // Optional URL param ?architect=1 for instant builder entry
     if (new URLSearchParams(window.location.search).get("architect") === "1") {
       this.toggleArchitectMode(true);
     }
@@ -225,6 +240,7 @@ class WeeklyLandApp {
       if (scope === "all") {
         this.pavilion.syncAll(data.pavilions);
       }
+      if (!this.perf.outlines) this._applyOutlineVisibility(false);
       if (broadcast && this.worldState.mode === "architect") {
         this._scheduleLiveWorldBroadcast(data);
       }
@@ -235,11 +251,7 @@ class WeeklyLandApp {
     clearTimeout(this._broadcastPatchTimer);
     this._broadcastPatchTimer = setTimeout(() => {
       try {
-        // Keep Nostr relay packet light by omitting dense terrain height array in live previews
-        const lite = {
-          ...data,
-          terrain: { ...data.terrain, heights: undefined },
-        };
+        const lite = { ...data, terrain: { ...data.terrain, heights: undefined } };
         this.chat?.broadcastFx("world_patch", { world: lite });
       } catch {}
     }, 450);
@@ -256,13 +268,14 @@ class WeeklyLandApp {
     const banner = document.getElementById("sanctuary-festival-banner");
     const text = document.getElementById("festival-banner-text");
     if (!banner || !text) return;
-    if (ev.type === "countdown") {
+    const phase = ev.phase || ev.type;
+    if (phase === "announcing" || phase === "countdown") {
       banner.hidden = false;
       text.textContent = `잠시 후 위클리랜드 밤하늘에 불꽃축제가 시작됩니다! (${ev.countdown}초 전)`;
-    } else if (ev.type === "start") {
+    } else if (phase === "show" || phase === "start") {
       banner.hidden = false;
       text.textContent = "위클리랜드 야간 불꽃축제가 시작되었습니다!";
-    } else if (ev.type === "end") {
+    } else if (phase === "ended" || phase === "end") {
       banner.hidden = true;
     }
   }
@@ -275,9 +288,9 @@ class WeeklyLandApp {
       this.atmosphere.setSeasonMode(arg);
       this._syncAtmoLabels();
     } else if (cmd === "firework") {
-      this.atmosphere.setTimeMode("night");
-      this._syncAtmoLabels();
-      this.hud.showToast("밤하늘로 전환했습니다. 곧 야간 불꽃축제가 열립니다!");
+      const p = this.crowd.player.position;
+      this.atmosphere.launchManualFirework(p.x, p.z - 12, 4);
+      this.hud.showToast("하늘로 화려한 불꽃 폭죽 4발을 발사했습니다!");
     }
   }
 
@@ -290,6 +303,12 @@ class WeeklyLandApp {
       this.atmosphere.cycleSeasonMode();
       this._syncAtmoLabels();
     });
+    document.getElementById("btn-wl-firework")?.addEventListener("click", () => {
+      const f = this.cameraRig.focus;
+      this.atmosphere.launchManualFirework(f.x, f.z - 16, 4);
+      this.audio.playClick(760);
+      this.hud.showToast("축하 불꽃 폭죽을 하늘로 쏘아 올렸습니다!");
+    });
     this._syncAtmoLabels();
   }
 
@@ -301,10 +320,161 @@ class WeeklyLandApp {
     if (sEl) sEl.textContent = labels.seasonLabel;
   }
 
-  boardAttraction(kind, id) {
-    if (this.worldState.mode === "architect") {
-      this.toggleArchitectMode(false);
+  _bindPerfOptimizer() {
+    const panel = document.getElementById("wl-perf-panel");
+    document.getElementById("btn-wl-perf")?.addEventListener("click", () => {
+      if (panel) panel.hidden = !panel.hidden;
+    });
+    document.getElementById("btn-perf-close")?.addEventListener("click", () => {
+      if (panel) panel.hidden = true;
+    });
+
+    document.querySelectorAll("[data-perf-preset]").forEach((btn) => {
+      btn.addEventListener("click", () => this.applyPerfPreset(btn.dataset.perfPreset));
+    });
+
+    const autoBtn = document.getElementById("btn-perf-auto");
+    autoBtn?.addEventListener("click", () => {
+      this.perf.autoGuard = !this.perf.autoGuard;
+      autoBtn.textContent = `자동 가드: ${this.perf.autoGuard ? "켜짐" : "꺼짐"}`;
+    });
+
+    document.getElementById("opt-perf-bloom")?.addEventListener("change", (ev) => {
+      this.perf.bloom = Boolean(ev.target.checked);
+    });
+    document.getElementById("opt-perf-shadows")?.addEventListener("change", (ev) => {
+      this.perf.shadows = Boolean(ev.target.checked);
+      this.renderer.shadowMap.enabled = this.perf.shadows;
+      this.lights.dirLight.castShadow = this.perf.shadows;
+    });
+    document.getElementById("opt-perf-outlines")?.addEventListener("change", (ev) => {
+      this.perf.outlines = Boolean(ev.target.checked);
+      this._applyOutlineVisibility(this.perf.outlines);
+    });
+    document.getElementById("opt-perf-weather")?.addEventListener("change", (ev) => {
+      this.perf.weather = Boolean(ev.target.checked);
+      this.atmosphere.setWeatherEnabled(this.perf.weather);
+    });
+    document.getElementById("opt-perf-guests")?.addEventListener("input", (ev) => {
+      const n = Number(ev.target.value);
+      this.perf.guests = n;
+      const lbl = document.getElementById("opt-perf-guests-lbl");
+      if (lbl) lbl.textContent = `${n}명`;
+      this.crowd.setGuestLimit(n);
+      this.hud.updateParkStat(1 + (this.chat?.peers?.size || 0), this.crowd.getGuestCount());
+    });
+  }
+
+  _applyOutlineVisibility(visible) {
+    this.scene.traverse((obj) => {
+      if (obj.userData?.isToonOutline) obj.visible = visible;
+    });
+  }
+
+  applyPerfPreset(preset) {
+    this.perf.preset = preset;
+    if (preset === "high") {
+      this.perf.bloom = true;
+      this.perf.shadows = true;
+      this.perf.outlines = true;
+      this.perf.weather = true;
+      this.perf.guests = 24;
+      this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    } else if (preset === "balanced") {
+      this.perf.bloom = true;
+      this.perf.shadows = true;
+      this.perf.outlines = false;
+      this.perf.weather = true;
+      this.perf.guests = 16;
+      this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.35));
+    } else {
+      this.perf.bloom = false;
+      this.perf.shadows = false;
+      this.perf.outlines = false;
+      this.perf.weather = true;
+      this.perf.guests = 8;
+      this.renderer.setPixelRatio(1);
     }
+
+    this.renderer.shadowMap.enabled = this.perf.shadows;
+    this.lights.dirLight.castShadow = this.perf.shadows;
+    this._applyOutlineVisibility(this.perf.outlines);
+    this.atmosphere.setWeatherEnabled(this.perf.weather);
+    this.crowd.setGuestLimit(this.perf.guests);
+
+    // Sync checkboxes & buttons
+    const setChk = (id, v) => { const el = document.getElementById(id); if (el) el.checked = v; };
+    setChk("opt-perf-bloom", this.perf.bloom);
+    setChk("opt-perf-shadows", this.perf.shadows);
+    setChk("opt-perf-outlines", this.perf.outlines);
+    setChk("opt-perf-weather", this.perf.weather);
+    const gl = document.getElementById("opt-perf-guests");
+    if (gl) gl.value = String(this.perf.guests);
+    const gLbl = document.getElementById("opt-perf-guests-lbl");
+    if (gLbl) gLbl.textContent = `${this.perf.guests}명`;
+    document.querySelectorAll("[data-perf-preset]").forEach((b) => {
+      b.classList.toggle("is-active", b.dataset.perfPreset === preset);
+    });
+    this.hud.updateParkStat(1 + (this.chat?.peers?.size || 0), this.crowd.getGuestCount());
+    this.hud.showToast(`그래픽 품질을 '${preset === "high" ? "높음" : preset === "balanced" ? "보통" : "저사양 60fps"}'으로 최적화했습니다.`);
+  }
+
+  _bindInteractPrompt() {
+    document.getElementById("wl-interact-prompt")?.addEventListener("click", () => {
+      if (this.nearbySpot) this._triggerInteraction(this.nearbySpot);
+    });
+  }
+
+  _triggerInteraction(spot) {
+    if (!spot) return;
+    this.audio.playClick(680);
+
+    if (spot.kind === "pavilion" || spot.kind === "mega_billboard") {
+      this.openPavilion(spot.archiveKey);
+      return;
+    }
+    if (spot.kind === "ride") {
+      this.boardAttraction("ride", spot.id);
+      return;
+    }
+
+    const pos = spot.pos || this.crowd.player.position;
+    if (spot.action === "firework") {
+      this.atmosphere.launchManualFirework(pos.x, pos.z, 4);
+      this.crowd.celebratePlayer();
+      this.hud.showToast("불꽃 발사대에서 화려한 카툰 폭죽 4발이 터졌습니다!");
+    } else if (spot.action === "castle") {
+      this.atmosphere.launchManualFirework(pos.x, pos.z, 5);
+      this.crowd.celebratePlayer();
+      const snap = this.worldState.getSnapshot();
+      this.hud.showToast(`위클리 동화 성 도착! 현재 어트랙션 ${snap.rides.length}종 · 코스터 ${snap.coasters.length}기 운영 중!`);
+    } else if (spot.action === "balloon") {
+      const equipped = this.crowd.togglePlayerBalloon();
+      this.crowd.celebratePlayer();
+      this.hud.showToast(equipped ? "귀여운 파스텔 풍선을 손에 들었습니다!" : "파스텔 풍선을 내려놓았습니다.");
+    } else if (spot.action === "icecream") {
+      this.crowd.celebratePlayer();
+      this.hud.showToast("딸기·민트 더블 아이스크림을 맛있게 먹었습니다! 기분 +20");
+    } else if (spot.action === "popcorn") {
+      this.crowd.celebratePlayer();
+      this.hud.showToast("따끈한 카라멜 팝콘을 손에 들었습니다! 코스터 탈 준비 완료!");
+    } else if (spot.action === "fountain") {
+      this.crowd.celebratePlayer();
+      this.hud.showToast("소원 분수대에 동전을 던졌습니다! 오늘의 AI 프로젝트 대박 기원!");
+    } else if (spot.action === "photo") {
+      this.crowd.celebratePlayer();
+      this.hud.showToast("하트 포토존에서 기념사진을 찰칵 찍었습니다!");
+    } else if (spot.action === "statue") {
+      this.crowd.celebratePlayer();
+      this.hud.showToast("클로드 마스코트 동상: '북쪽 맵 끝 5대 메가 전광판을 눌러 실시간 대시보드를 확인해 보세요!'");
+    } else {
+      this.crowd.celebratePlayer();
+      this.hud.showToast(`${spot.label || "시설 이용"} 완료!`);
+    }
+  }
+
+  boardAttraction(kind, id) {
+    if (this.worldState.mode === "architect") this.toggleArchitectMode(false);
     const targetId = kind === "coaster" ? (this.coaster.instances.has(id) ? id : this.coaster.getPrimaryCoasterId()) : id;
     if (!targetId) return;
     this.crowd.boardRide(kind, targetId, 0);
@@ -332,7 +502,7 @@ class WeeklyLandApp {
     this.dashboard.open(archiveKey);
     const pos = this.pavilion.getPavilionPosition(archiveKey);
     if (!this.crowd.player.riding && this.worldState.mode === "guest") {
-      this.cameraRig.focusOn(pos, 26);
+      this.cameraRig.focusOn(pos, 38);
     }
   }
 
@@ -345,7 +515,7 @@ class WeeklyLandApp {
     if (this.crowd.player.riding) this.leaveAttraction();
     const next = this.cameraRig.mode === "drone" ? "guest_third" : "drone";
     this.cameraRig.setMode(next);
-    if (next === "drone") this.cameraRig.focusOn(new THREE.Vector3(0, 4, 0), 62);
+    if (next === "drone") this.cameraRig.focusOn(new THREE.Vector3(0, 6, -10), 92);
     this.hud.syncMode(this.worldState.mode, this.cameraRig.mode);
   }
 
@@ -355,11 +525,11 @@ class WeeklyLandApp {
     this.worldState.setMode(next ? "architect" : "guest");
     this.architect.setActive(next);
     this.cameraRig.setMode(next ? "architect" : "guest_third");
-    if (next) this.cameraRig.focusOn(new THREE.Vector3(0, 4, 0), 66);
+    if (next) this.cameraRig.focusOn(new THREE.Vector3(0, 6, 0), 86);
     this.hud.syncMode(this.worldState.mode, this.cameraRig.mode);
     this.hud.showToast(
       next
-        ? "관리자(Architect) 모드 활성화 — 코스터 노드를 드래그하거나 어트랙션을 자유롭게 배치하세요."
+        ? "관리자(Architect) 모드 — 코스터·27종 건물/기구·보행로·300m 지형·철거 도구를 자유롭게 사용하세요."
         : "방문객(Guest) 모드로 전환되었습니다."
     );
   }
@@ -373,7 +543,9 @@ class WeeklyLandApp {
       else if (code === "KeyD" || code === "ArrowRight") this.keys.right = down;
       else if (code === "ShiftLeft" || code === "ShiftRight") this.keys.sprint = down;
       else if (code === "Space") this.keys.jump = down;
-      else if (down && code === "Escape") {
+      else if (down && code === "KeyE" && this.worldState.mode === "guest" && this.nearbySpot) {
+        this._triggerInteraction(this.nearbySpot);
+      } else if (down && code === "Escape") {
         if (this.dashboard.isOpen()) this.dashboard.close();
         else if (this.crowd.player.riding) this.leaveAttraction();
       }
@@ -382,7 +554,6 @@ class WeeklyLandApp {
     window.addEventListener("keydown", (ev) => mapKey(ev.code, true));
     window.addEventListener("keyup", (ev) => mapKey(ev.code, false));
 
-    // Guest mode 3D picking: click rides to board, click pavilions to open AI Weekly dashboard
     this.canvas.addEventListener("click", (ev) => {
       if (this.worldState.mode === "architect" || ev.button !== 0) return;
       const rect = this.canvas.getBoundingClientRect();
@@ -394,10 +565,18 @@ class WeeklyLandApp {
       const hits = this.raycaster.intersectObjects(targets, false);
       if (!hits.length) return;
       const ud = hits[0].object.userData;
-      if (ud.pickKind === "pavilion") {
+      if (ud.pickKind === "pavilion" || ud.pickKind === "mega_billboard") {
         this.openPavilion(ud.archiveKey);
       } else if (ud.pickKind === "ride") {
         this.boardAttraction("ride", ud.id);
+      } else if (ud.pickKind === "scenery" && ud.interactiveAction) {
+        this._triggerInteraction({
+          kind: "scenery",
+          id: ud.id,
+          action: ud.interactiveAction,
+          label: ud.interactiveLabel,
+          pos: hits[0].point,
+        });
       }
     });
   }
@@ -406,7 +585,7 @@ class WeeklyLandApp {
     const onResize = () => {
       const parent = this.canvas.parentElement;
       const w = parent?.clientWidth || window.innerWidth;
-      const h = parent?.clientHeight || Math.max(560, window.innerHeight - 58);
+      const h = parent?.clientHeight || Math.max(560, window.innerHeight - 64);
       this.renderer.setSize(w, h, false);
       this.composer.setSize(w, h);
       this.cameraRig.setAspect(w, h);
@@ -418,11 +597,69 @@ class WeeklyLandApp {
     onResize();
   }
 
+  _updateFpsAndAutoGuard(rawDt) {
+    this.perf.fpsFrames++;
+    this.perf.fpsAccum += rawDt;
+    if (this.perf.fpsAccum < 0.75) return;
+
+    const fps = Math.round(this.perf.fpsFrames / Math.max(0.01, this.perf.fpsAccum));
+    this.perf.currentFps = fps;
+    this.perf.fpsFrames = 0;
+    this.perf.fpsAccum = 0;
+
+    const badge = document.getElementById("wl-fps-badge");
+    if (badge) badge.textContent = `${fps} FPS`;
+
+    if (this.perf.autoGuard && fps < 24) {
+      this.perf.lowFpsStreak++;
+      if (this.perf.lowFpsStreak >= 4) {
+        this.perf.lowFpsStreak = 0;
+        if (this.perf.preset === "high") this.applyPerfPreset("balanced");
+        else if (this.perf.preset === "balanced") this.applyPerfPreset("low");
+      }
+    } else {
+      this.perf.lowFpsStreak = 0;
+    }
+  }
+
+  _updateProximityPrompt() {
+    const promptBtn = document.getElementById("wl-interact-prompt");
+    const labelEl = document.getElementById("wl-interact-label");
+    if (!promptBtn || !labelEl) return;
+    if (this.worldState.mode !== "guest" || this.crowd.player.riding) {
+      this.nearbySpot = null;
+      promptBtn.hidden = true;
+      return;
+    }
+
+    const pos = this.crowd.player.position;
+    const spotA = this.pavilion.findNearestInteractable(pos);
+    const spotB = this.flatRide.findNearestInteractable(pos);
+    let chosen = spotA || spotB;
+    if (spotA && spotB) {
+      const da = pos.distanceTo(spotA.pos);
+      const db = pos.distanceTo(spotB.pos);
+      chosen = da <= db ? spotA : spotB;
+    }
+    this.nearbySpot = chosen;
+    if (chosen) {
+      labelEl.textContent = chosen.label;
+      promptBtn.hidden = false;
+    } else {
+      promptBtn.hidden = true;
+    }
+  }
+
   _loop() {
     this._rafId = requestAnimationFrame(() => this._loop());
-    const dt = Math.min(this.clock.getDelta(), 0.05);
+    const rawDt = this.clock.getDelta();
+    const dt = Math.min(rawDt, 0.05);
+    this._updateFpsAndAutoGuard(rawDt);
 
-    this.atmosphere.update(dt, this.crowd.player.position);
+    // Track weather & fireworks around active focus (works smoothly in Guest, Drone & Architect!)
+    const atmoCenter = this.cameraRig.mode === "guest_third" ? this.crowd.player.position : this.cameraRig.focus;
+    this.atmosphere.update(dt, atmoCenter);
+
     const isNight = this.atmosphere.getTimeKey() === "night";
     if (this.bloomPass) {
       const targetStrength = isNight ? 0.56 : 0.12;
@@ -458,8 +695,8 @@ class WeeklyLandApp {
 
     this.hud.updateRideTelemetry(rideSeat);
     this.audio.updateRideSound(dt, rideSeat);
+    this._updateProximityPrompt();
 
-    // Sync multiplayer avatar presence at ~6Hz
     this._presenceAccum += dt;
     if (this._presenceAccum >= 0.16 && this.chat) {
       this._presenceAccum = 0;
@@ -476,7 +713,11 @@ class WeeklyLandApp {
       });
     }
 
-    this.composer.render();
+    if (this.perf.bloom) {
+      this.composer.render();
+    } else {
+      this.renderer.render(this.scene, this.cameraRig.camera);
+    }
   }
 }
 

@@ -10,7 +10,7 @@ import * as THREE from "three";
 export class ParkCameraRig {
   constructor(domElement, aspect = 16 / 9) {
     this.domElement = domElement;
-    this.camera = new THREE.PerspectiveCamera(52, aspect, 0.15, 420);
+    this.camera = new THREE.PerspectiveCamera(52, aspect, 0.15, 680);
 
     this.mode = "guest_third"; // guest_third | drone | architect | ride_pov | ride_chase
     this.azimuth = 0.0;
@@ -108,11 +108,11 @@ export class ParkCameraRig {
       const moveZ = (panInput.forward ? 1 : 0) - (panInput.backward ? 1 : 0);
       if (moveX !== 0 || moveZ !== 0) {
         const { forward, right } = this.getGroundBasis();
-        const panSpeed = (panInput.sprint ? 48 : 26) * stepDt;
+        const panSpeed = (panInput.sprint ? 72 : 38) * stepDt;
         this.targetFocus.addScaledVector(forward, moveZ * panSpeed);
         this.targetFocus.addScaledVector(right, moveX * panSpeed);
-        this.targetFocus.x = THREE.MathUtils.clamp(this.targetFocus.x, -76, 76);
-        this.targetFocus.z = THREE.MathUtils.clamp(this.targetFocus.z, -76, 76);
+        this.targetFocus.x = THREE.MathUtils.clamp(this.targetFocus.x, -142, 142);
+        this.targetFocus.z = THREE.MathUtils.clamp(this.targetFocus.z, -142, 142);
       }
     }
 
@@ -170,7 +170,7 @@ export class ParkCameraRig {
       if (this.mode === "ride_pov") return;
       ev.preventDefault();
       const minD = this.mode === "guest_third" ? 6 : 12;
-      const maxD = this.mode === "guest_third" ? 42 : 125;
+      const maxD = this.mode === "guest_third" ? 56 : 195;
       this.targetDistance = THREE.MathUtils.clamp(this.targetDistance + ev.deltaY * 0.03, minD, maxD);
     };
 

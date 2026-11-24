@@ -367,6 +367,57 @@ body.wl-park-page #sanctuary-canvas {
   display: none;
 }
 
+.wl-interact-prompt {
+  position: absolute;
+  bottom: 72px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 27;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  pointer-events: auto;
+  border-color: var(--wl-sem-accent);
+}
+
+.wl-interact-prompt[hidden] {
+  display: none;
+}
+
+.wl-kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 8px;
+  border-radius: var(--wl-radius-sm);
+  background: var(--wl-sem-accent);
+  color: var(--wl-sem-accent-ink);
+  font-family: var(--wl-font-mono);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.wl-perf-popover {
+  position: absolute;
+  bottom: 68px;
+  right: 16px;
+  width: 272px;
+  padding: 16px;
+  z-index: 34;
+  background: var(--wl-inspector-bg);
+  pointer-events: auto;
+}
+
+.wl-perf-popover[hidden] {
+  display: none;
+}
+
 .wl-world-tag {
   position: absolute;
   left: 0;

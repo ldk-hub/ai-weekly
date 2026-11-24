@@ -1,27 +1,56 @@
 import * as THREE from "three";
 
 const PLACE_CATALOG = [
-  { kind: "ride", type: "ferris_wheel", name: "대관람차", meta: "12 곤돌라 POV" },
-  { kind: "ride", type: "drop_tower", name: "벤치마크 드롭타워", meta: "30m 자유낙하" },
-  { kind: "ride", type: "carousel", name: "그랜드 회전목마", meta: "클래식 브라스" },
-  { kind: "scenery", type: "grand_arch", name: "그랜드 입구 아치", meta: "야간 발광" },
-  { kind: "scenery", type: "fountain", name: "중앙 분수대", meta: "수경 조형물" },
-  { kind: "scenery", type: "ai_billboard", name: "AI 라이브 전광판", meta: "실시간 데이터" },
-  { kind: "scenery", type: "tree_sakura", name: "벚나무", meta: "조경 수목" },
-  { kind: "scenery", type: "tree_oak", name: "활엽수", meta: "조경 수목" },
-  { kind: "scenery", type: "tree_pine", name: "침엽수", meta: "조경 수목" },
-  { kind: "scenery", type: "lamp_post", name: "페어리 가로등", meta: "야간 조명" },
-  { kind: "scenery", type: "kiosk", name: "파크 키오스크", meta: "테마 상점" },
+  // 7 Animated POV Rides
+  { cat: "ride", kind: "ride", type: "ferris_wheel", name: "위클리 대관람차", meta: "12 캔디 곤돌라" },
+  { cat: "ride", kind: "ride", type: "drop_tower", name: "벤치마크 드롭타워", meta: "32m 자유낙하" },
+  { cat: "ride", kind: "ride", type: "carousel", name: "그랜드 회전목마", meta: "줄무늬 서커스" },
+  { cat: "ride", kind: "ride", type: "pirate_ship", name: "바이킹 어드벤처", meta: "65° 스윙 POV" },
+  { cat: "ride", kind: "ride", type: "teacups", name: "파스텔 회전 티컵", meta: "이중 회전 POV" },
+  { cat: "ride", kind: "ride", type: "swing_tower", name: "하늘 회전 그네", meta: "공중 회전 POV" },
+  { cat: "ride", kind: "ride", type: "sky_tower", name: "하늘 전망대 타워", meta: "38m 360° 전망" },
+  { cat: "ride", kind: "ride", type: "gyro_swing", name: "자이로 스윙 360", meta: "회전 진자 스릴" },
+  { cat: "ride", kind: "ride", type: "enterprise_wheel", name: "엔터프라이즈 360", meta: "85° 수직 루프" },
+  { cat: "ride", kind: "ride", type: "octopus_ride", name: "카툰 문어 라이드", meta: "6다리 웨이브 POV" },
+  { cat: "ride", kind: "ride", type: "bumper_cars", name: "파스텔 범퍼카장", meta: "6대 충돌 질주" },
+  { cat: "ride", kind: "ride", type: "rocket_spinner", name: "우주 로켓 스피너", meta: "행성 공전 POV" },
+  // 10 Interactive Buildings & Shops
+  { cat: "building", kind: "scenery", type: "fairy_castle", name: "위클리 동화 성", meta: "상호작용 랜드마크" },
+  { cat: "building", kind: "scenery", type: "cafe_icecream", name: "아이스크림 카페", meta: "클릭 간식 구매" },
+  { cat: "building", kind: "scenery", type: "popcorn_cart", name: "카라멜 팝콘 카트", meta: "클릭 팝콘 구매" },
+  { cat: "building", kind: "scenery", type: "balloon_stall", name: "파스텔 풍선 가판", meta: "클릭 풍선 장착" },
+  { cat: "building", kind: "scenery", type: "firework_launcher", name: "불꽃 폭죽 발사대", meta: "클릭 즉시 발사!" },
+  { cat: "building", kind: "scenery", type: "kiosk", name: "테마 스낵 키오스크", meta: "상호작용 상점" },
+  { cat: "building", kind: "scenery", type: "grand_arch", name: "그랜드 입구 아치", meta: "야간 발광 아치" },
+  { cat: "building", kind: "scenery", type: "garland_arch", name: "만국기 페넌트 아치", meta: "축제 깃발" },
+  { cat: "building", kind: "scenery", type: "heart_photozone", name: "하트 포토존", meta: "기념촬영 스팟" },
+  { cat: "building", kind: "scenery", type: "ai_billboard", name: "AI 라이브 전광판", meta: "실시간 데이터" },
+  // 7 Nature & Park Decor
+  { cat: "decor", kind: "scenery", type: "fountain", name: "소원 분수대", meta: "클릭 소원 빌기" },
+  { cat: "decor", kind: "scenery", type: "mascot_statue", name: "클로드 마스코트 동상", meta: "랜드마크 조형물" },
+  { cat: "decor", kind: "scenery", type: "flower_bed", name: "파스텔 튤립 화단", meta: "정원 조경" },
+  { cat: "decor", kind: "scenery", type: "bench", name: "공원 원목 벤치", meta: "휴식 공간" },
+  { cat: "decor", kind: "scenery", type: "wood_bridge", name: "연못 나무다리", meta: "호수 횡단" },
+  { cat: "decor", kind: "scenery", type: "tree_sakura", name: "솜사탕 벚나무", meta: "카툰 수목" },
+  { cat: "decor", kind: "scenery", type: "tree_oak", name: "민트 활엽수", meta: "카툰 수목" },
+  { cat: "decor", kind: "scenery", type: "tree_pine", name: "동화 침엽수", meta: "카툰 수목" },
+  { cat: "decor", kind: "scenery", type: "tree_palm", name: "리조트 야자수", meta: "열대 수목" },
+  { cat: "decor", kind: "scenery", type: "lamp_post", name: "페어리 가로등", meta: "야간 조명" },
+];
+
+const PATH_STYLE_OPTIONS = [
+  { id: "sandstone", label: "사암 돌길" },
+  { id: "wood", label: "우드 데크" },
+  { id: "pastel_pink", label: "핑크 로드" },
+  { id: "brick", label: "벽돌 산책로" },
 ];
 
 /**
  * WeeklyLand Architect Mode (God Mode) 3D Builder Controller
- * - Spline Coaster Editor: add/move/delete nodes, adjust Y height, bank angle, segment type,
- *   spawn real-world Scrapling coaster presets, live EFN ratings
- * - Place Catalog: place rides & scenery with live raycast ghost preview & R rotation
- * - Path Tool: click waypoints to extend sandstone walkways
- * - Terrain Sculpt Brush: raise / lower / flatten / pond
- * - Undo/Redo + Local Dev Save / GitHub PAT One-Click Publish / Blueprint JSON Export & Import
+ * - Multi-Coaster Spline Editor (+ Add New Coaster, color, height/bank/segment, Scrapling presets, EFN)
+ * - 27-item Categorized Place Catalog (Rides / Interactive Buildings / Decor) + Delete/Demolish Tool
+ * - Multi-Style Path Spline Builder with real-time pins & preview line
+ * - 300m Terrain Sculpt Brush (raise / lower / pond / flatten)
  */
 export class ArchitectBuilder {
   constructor({ scene, canvas, cameraRig, worldState, terrainEngine, coasterEngine, flatRideEngine, publisher, audio, onToast }) {
@@ -37,14 +66,19 @@ export class ArchitectBuilder {
     this.onToast = onToast;
 
     this.active = false;
-    this.activeTool = "coaster"; // coaster | place | path | terrain
+    this.activeTool = "coaster"; // coaster | place | path | terrain | delete
+    this.placeCategory = "all";
     this.selectedCoasterId = null;
     this.selectedNodeIndex = 0;
     this.selectedPlaceItem = PLACE_CATALOG[0];
     this.placeRotY = 0;
-    this.terrainBrushMode = "raise"; // raise | lower | flatten | pond
-    this.terrainBrushRadius = 10;
-    this.terrainBrushStrength = 0.55;
+    this.terrainBrushMode = "raise";
+    this.terrainBrushRadius = 12;
+    this.terrainBrushStrength = 0.65;
+    this.pathStyle = "sandstone";
+    this.pathWidth = 4.2;
+    this.activePathId = null;
+    this.activePathPoints = [];
     this.presets = [];
 
     this.raycaster = new THREE.Raycaster();
@@ -52,7 +86,6 @@ export class ArchitectBuilder {
     this.dragPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
     this.isDraggingNode = false;
     this.isSculpting = false;
-    this.activePathPoints = [];
 
     this.cursorRing = this._buildCursorRing();
     this.scene.add(this.cursorRing);
@@ -73,12 +106,12 @@ export class ArchitectBuilder {
   }
 
   _buildCursorRing() {
-    const geo = new THREE.RingGeometry(0.85, 1.0, 32);
+    const geo = new THREE.RingGeometry(0.84, 1.0, 32);
     geo.rotateX(-Math.PI / 2);
     const mat = new THREE.MeshBasicMaterial({
       color: 0x38bdf8,
       transparent: true,
-      opacity: 0.72,
+      opacity: 0.78,
       side: THREE.DoubleSide,
       depthTest: false,
     });
@@ -105,6 +138,7 @@ export class ArchitectBuilder {
     this.coaster.setArchitectMode(this.active);
     this.canvas.classList.toggle("is-building", this.active);
     this.cursorRing.visible = false;
+    if (!this.active) this.terrain.setPathPreview([]);
 
     if (this.els.dock) this.els.dock.hidden = !this.active;
     if (this.els.inspector) this.els.inspector.hidden = !this.active;
@@ -121,7 +155,12 @@ export class ArchitectBuilder {
 
   setTool(tool) {
     this.activeTool = tool;
-    this.activePathPoints = [];
+    if (tool !== "path") {
+      this.activePathPoints = [];
+      this.activePathId = null;
+      this.terrain.setPathPreview([]);
+    }
+    this.cursorRing.material.color.setHex(tool === "delete" ? 0xf87171 : 0x38bdf8);
     document.querySelectorAll("[data-arch-tool]").forEach((btn) => {
       btn.classList.toggle("is-active", btn.dataset.archTool === tool);
     });
@@ -164,10 +203,9 @@ export class ArchitectBuilder {
       const msg = this.els.commitInput?.value || "feat(sanctuary): update WeeklyLand 3D park world";
       this._setPublishStatus("GitHub Contents API 커밋 중…");
       try {
-        const res = await this.publisher.publishToGitHub(pat, msg);
-        this._setPublishStatus(`배포 커밋 완료! GitHub Actions에서 자동 반영됩니다.`);
+        await this.publisher.publishToGitHub(pat, msg);
+        this._setPublishStatus("배포 커밋 완료! GitHub Actions에서 자동 반영됩니다.");
         this.onToast?.("GitHub 원클릭 배포 커밋 완료!");
-        console.info("[WeeklyLand] Published commit:", res.commitUrl);
       } catch (err) {
         this._setPublishStatus(`GitHub 커밋 실패: ${err.message}`);
       }
@@ -178,16 +216,13 @@ export class ArchitectBuilder {
       this.onToast?.("Blueprint JSON 파일이 다운로드되었습니다.");
     });
 
-    document.getElementById("btn-blueprint-import")?.addEventListener("click", () => {
-      this.els.importFile?.click();
-    });
+    document.getElementById("btn-blueprint-import")?.addEventListener("click", () => this.els.importFile?.click());
 
     this.els.importFile?.addEventListener("change", async (ev) => {
       const file = ev.target.files?.[0];
       if (!file) return;
       try {
-        const text = await file.text();
-        this.worldState.importBlueprintString(text);
+        this.worldState.importBlueprintString(await file.text());
         this.renderInspector();
         this.onToast?.("Blueprint 월드를 성공적으로 불러왔습니다!");
       } catch (err) {
@@ -268,7 +303,6 @@ export class ArchitectBuilder {
           this.audio?.playClick(640);
           return;
         }
-        // Shift + Click on ground appends a new spline node to the selected coaster
         if (ev.shiftKey) {
           const pt = this._hitTerrain();
           if (pt) this._appendCoasterNode(pt.x, Math.max(4, pt.y + 8), pt.z);
@@ -285,6 +319,12 @@ export class ArchitectBuilder {
           this.isSculpting = true;
           this._applyTerrainStep(pt.x, pt.z);
         }
+      } else if (this.activeTool === "delete") {
+        const hits = this.raycaster.intersectObjects(this.flatRide.pickables, false);
+        if (hits.length) {
+          const ud = hits[0].object.userData;
+          if (ud?.id) this._deleteObject(ud.pickKind, ud.id);
+        }
       }
     });
 
@@ -295,8 +335,8 @@ export class ArchitectBuilder {
       if (this.isDraggingNode && this.selectedCoasterId != null) {
         const hitPt = new THREE.Vector3();
         if (this.raycaster.ray.intersectPlane(this.dragPlane, hitPt)) {
-          const cx = THREE.MathUtils.clamp(Number(hitPt.x.toFixed(1)), -70, 70);
-          const cz = THREE.MathUtils.clamp(Number(hitPt.z.toFixed(1)), -70, 70);
+          const cx = THREE.MathUtils.clamp(Number(hitPt.x.toFixed(1)), -140, 140);
+          const cz = THREE.MathUtils.clamp(Number(hitPt.z.toFixed(1)), -140, 140);
           this.worldState.mutate(
             "coasters",
             (d) => {
@@ -313,10 +353,10 @@ export class ArchitectBuilder {
       }
 
       const pt = this._hitTerrain();
-      if (pt && (this.activeTool === "terrain" || this.activeTool === "place" || this.activeTool === "path")) {
+      if (pt && ["terrain", "place", "path", "delete"].includes(this.activeTool)) {
         this.cursorRing.visible = true;
-        this.cursorRing.position.set(pt.x, pt.y + 0.18, pt.z);
-        const r = this.activeTool === "terrain" ? this.terrainBrushRadius : this.activeTool === "path" ? 2.1 : 3.2;
+        this.cursorRing.position.set(pt.x, pt.y + 0.22, pt.z);
+        const r = this.activeTool === "terrain" ? this.terrainBrushRadius : this.activeTool === "path" ? this.pathWidth * 0.55 : 3.4;
         this.cursorRing.scale.set(r, r, r);
         if (this.isSculpting && this.activeTool === "terrain") {
           this._applyTerrainStep(pt.x, pt.z);
@@ -342,6 +382,15 @@ export class ArchitectBuilder {
     });
   }
 
+  _deleteObject(pickKind, id) {
+    this.worldState.mutate("rides", (d) => {
+      if (pickKind === "ride") d.rides = (d.rides || []).filter((r) => r.id !== id);
+      else d.scenery = (d.scenery || []).filter((s) => s.id !== id);
+    });
+    this.audio?.playClick(320);
+    this.onToast?.("선택한 오브젝트를 철거했습니다. (Ctrl+Z 되돌리기 가능)");
+  }
+
   _applyTerrainStep(x, z) {
     this.terrain.applyBrush(x, z, this.terrainBrushRadius, this.terrainBrushStrength, this.terrainBrushMode);
   }
@@ -362,6 +411,41 @@ export class ArchitectBuilder {
     });
     this.coaster.setSelectedNode(this.selectedCoasterId, this.selectedNodeIndex);
     this.audio?.playClick(720);
+    this.renderInspector();
+  }
+
+  _addNewCoaster() {
+    const idx = (this.worldState.getSnapshot().coasters?.length || 0) + 1;
+    const offsetX = (idx % 2 === 0 ? 1 : -1) * 68;
+    const offsetZ = 48 + idx * 8;
+    const id = `coaster-custom-${Date.now().toString(36).slice(-4)}`;
+    const colors = ["#38bdf8", "#f472b6", "#34d399", "#fbbf24", "#a78bfa"];
+    this.worldState.mutate("coasters", (d) => {
+      d.coasters.push({
+        id,
+        name: `위클리 코스터 ${idx}호기`,
+        trackColor: colors[idx % colors.length],
+        spineColor: "#fff7eb",
+        supportColor: "#475569",
+        trainCount: 1,
+        carsPerTrain: 4,
+        closed: true,
+        nodes: [
+          { x: offsetX - 18, y: 2.4, z: offsetZ + 12, bankDeg: 0, segment: "station" },
+          { x: offsetX - 20, y: 2.8, z: offsetZ - 6, bankDeg: 0, segment: "lift" },
+          { x: offsetX - 14, y: 24.0, z: offsetZ - 26, bankDeg: 0, segment: "normal" },
+          { x: offsetX + 12, y: 4.5, z: offsetZ - 24, bankDeg: 42, segment: "boost" },
+          { x: offsetX + 20, y: 15.0, z: offsetZ + 4, bankDeg: -34, segment: "normal" },
+          { x: offsetX + 2, y: 4.5, z: offsetZ + 18, bankDeg: 24, segment: "brake" },
+        ],
+      });
+    });
+    this.selectedCoasterId = id;
+    this.selectedNodeIndex = 0;
+    this.coaster.setSelectedNode(id, 0);
+    this.cameraRig.focusOn(new THREE.Vector3(offsetX, 8, offsetZ), 68);
+    this.audio?.playClick(780);
+    this.onToast?.(`'위클리 코스터 ${idx}호기' 신설 완료!`);
     this.renderInspector();
   }
 
@@ -396,18 +480,35 @@ export class ArchitectBuilder {
   }
 
   _addPathPoint(x, z) {
-    this.activePathPoints.push([Number(x.toFixed(1)), Number(z.toFixed(1))]);
+    const pt = [Number(x.toFixed(1)), Number(z.toFixed(1))];
+    if (!this.activePathId) {
+      this.activePathId = `path-custom-${Date.now().toString(36).slice(-4)}`;
+      this.activePathPoints = [];
+    }
+    this.activePathPoints.push(pt);
+    this.terrain.setPathPreview(this.activePathPoints);
+
     if (this.activePathPoints.length >= 2) {
-      const pts = [...this.activePathPoints];
+      const pathId = this.activePathId;
+      const pts = this.activePathPoints.map((p) => [...p]);
+      const style = this.pathStyle;
+      const width = this.pathWidth;
       this.worldState.mutate("paths", (d) => {
         if (!Array.isArray(d.paths)) d.paths = [];
-        const existing = d.paths.find((p) => p.id === "path-architect-custom");
-        if (existing) existing.points = pts;
-        else d.paths.push({ id: "path-architect-custom", width: 3.8, style: "sandstone", closed: false, points: pts });
+        const existing = d.paths.find((p) => p.id === pathId);
+        if (existing) {
+          existing.points = pts;
+          existing.style = style;
+          existing.width = width;
+        } else {
+          d.paths.push({ id: pathId, width, style, closed: false, points: pts });
+        }
       });
-      this.audio?.playClick(500);
+      this.audio?.playClick(540);
+      this.onToast?.(`보행로 연결됨 (${pts.length}지점) — 계속 클릭해 연장하세요.`);
     } else {
-      this.onToast?.("보행로 시작점 지정됨 — 다음 지점을 클릭해 길을 연결하세요.");
+      this.audio?.playClick(460);
+      this.onToast?.("보행로 시작 핀 배치됨 — 다음 지점을 클릭하면 길이 깔립니다!");
     }
   }
 
@@ -434,23 +535,19 @@ export class ArchitectBuilder {
   renderInspector() {
     const body = this.els.inspectorBody;
     if (!body) return;
-
-    if (this.activeTool === "coaster") {
-      this._renderCoasterInspector(body);
-    } else if (this.activeTool === "place") {
-      this._renderPlaceInspector(body);
-    } else if (this.activeTool === "terrain") {
-      this._renderTerrainInspector(body);
-    } else {
-      this._renderPathInspector(body);
-    }
+    if (this.activeTool === "coaster") this._renderCoasterInspector(body);
+    else if (this.activeTool === "place") this._renderPlaceInspector(body);
+    else if (this.activeTool === "terrain") this._renderTerrainInspector(body);
+    else if (this.activeTool === "path") this._renderPathInspector(body);
+    else this._renderDeleteInspector(body);
   }
 
   _renderCoasterInspector(body) {
     const snap = this.worldState.getSnapshot();
     const coaster = snap.coasters.find((c) => c.id === this.selectedCoasterId) || snap.coasters[0];
     if (!coaster) {
-      body.innerHTML = `<p class="wl-stat-mono">코스터가 없습니다.</p>`;
+      body.innerHTML = `<button type="button" id="btn-coaster-new" class="wl-hud-btn is-active">+ 첫 코스터 건설</button>`;
+      body.querySelector("#btn-coaster-new")?.addEventListener("click", () => this._addNewCoaster());
       return;
     }
     this.selectedCoasterId = coaster.id;
@@ -459,20 +556,25 @@ export class ArchitectBuilder {
     const metrics = this.coaster.getMetrics(coaster.id);
 
     body.innerHTML = `
-      <div class="wl-section-heading">${coaster.name} · EFN 시뮬레이션</div>
+      <div style="display:flex;gap:4px;margin-bottom:8px;">
+        <select id="arch-coaster-select" class="wl-input" style="flex:1;">
+          ${snap.coasters.map((c) => `<option value="${c.id}" ${c.id === coaster.id ? "selected" : ""}>${c.name}</option>`).join("")}
+        </select>
+        <button type="button" id="btn-coaster-new" class="wl-hud-btn is-active">+ 신설</button>
+      </div>
       <div class="wl-efn-grid">
         <div class="wl-efn-cell"><div class="wl-pov-label">흥분도</div><div class="wl-efn-num is-excite">${metrics?.excitement ?? "—"}</div></div>
         <div class="wl-efn-cell"><div class="wl-pov-label">공포도</div><div class="wl-efn-num is-fear">${metrics?.fear ?? "—"}</div></div>
         <div class="wl-efn-cell"><div class="wl-pov-label">멀미도</div><div class="wl-efn-num is-nausea">${metrics?.nausea ?? "—"}</div></div>
       </div>
       <div class="wl-stat-mono" style="margin-bottom:12px;">
-        최고 ${metrics?.maxSpeedKmh ?? 0}km/h · 길이 ${metrics?.lengthM ?? 0}m · 등급 ${metrics?.grade ?? "—"}
+        최고 ${metrics?.maxSpeedKmh ?? 0}km/h · 길이 ${metrics?.lengthM ?? 0}m · ${metrics?.grade ?? "—"}
       </div>
 
-      <div class="wl-section-heading">노드 #${this.selectedNodeIndex + 1} / ${coaster.nodes.length} 편집 (Shift+클릭 추가 · 드래그 이동)</div>
+      <div class="wl-section-heading">노드 #${this.selectedNodeIndex + 1} / ${coaster.nodes.length} (Shift+클릭 추가 · 드래그)</div>
       <div class="wl-field-row">
         <div class="wl-field-label"><span>트랙 고도 (Y)</span><span id="arch-lbl-y" class="wl-stat-mono">${node.y}m</span></div>
-        <input id="arch-node-y" class="wl-range" type="range" min="2" max="46" step="0.5" value="${node.y}" />
+        <input id="arch-node-y" class="wl-range" type="range" min="2" max="48" step="0.5" value="${node.y}" />
       </div>
       <div class="wl-field-row">
         <div class="wl-field-label"><span>뱅킹 각도 (Roll)</span><span id="arch-lbl-bank" class="wl-stat-mono">${node.bankDeg || 0}°</span></div>
@@ -488,11 +590,11 @@ export class ArchitectBuilder {
           <option value="brake" ${node.segment === "brake" ? "selected" : ""}>자기 브레이크 (Brake)</option>
         </select>
       </div>
-      <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;">
-        <button type="button" id="btn-node-prev" class="wl-hud-btn">이전 노드</button>
-        <button type="button" id="btn-node-next" class="wl-hud-btn">다음 노드</button>
-        <button type="button" id="btn-node-add" class="wl-hud-btn is-active">+ 노드 삽입</button>
-        <button type="button" id="btn-node-del" class="wl-hud-btn is-danger">삭제</button>
+      <div style="display:flex;gap:4px;margin-bottom:12px;flex-wrap:wrap;">
+        <button type="button" id="btn-node-prev" class="wl-hud-btn">이전</button>
+        <button type="button" id="btn-node-next" class="wl-hud-btn">다음</button>
+        <button type="button" id="btn-node-add" class="wl-hud-btn is-active">+ 삽입</button>
+        <button type="button" id="btn-node-del" class="wl-hud-btn is-danger">노드삭제</button>
       </div>
 
       <div class="wl-section-heading">실존 유명 코스터 프리셋 (Scrapling)</div>
@@ -508,6 +610,14 @@ export class ArchitectBuilder {
           .join("")}
       </div>
     `;
+
+    body.querySelector("#arch-coaster-select")?.addEventListener("change", (ev) => {
+      this.selectedCoasterId = ev.target.value;
+      this.selectedNodeIndex = 0;
+      this.coaster.setSelectedNode(this.selectedCoasterId, 0);
+      this.renderInspector();
+    });
+    body.querySelector("#btn-coaster-new")?.addEventListener("click", () => this._addNewCoaster());
 
     body.querySelector("#arch-node-y")?.addEventListener("input", (ev) => {
       const val = Number(ev.target.value);
@@ -585,21 +695,40 @@ export class ArchitectBuilder {
   }
 
   _renderPlaceInspector(body) {
+    const cats = [
+      { id: "all", label: `전체(${PLACE_CATALOG.length})` },
+      { id: "ride", label: "놀이기구(12)" },
+      { id: "building", label: "건물·상점(10)" },
+      { id: "decor", label: "조경(10)" },
+    ];
+    const list = this.placeCategory === "all" ? PLACE_CATALOG : PLACE_CATALOG.filter((i) => i.cat === this.placeCategory);
+
     body.innerHTML = `
-      <div class="wl-section-heading">어트랙션 & 조경 카탈로그 (클릭 배치 · R 회전)</div>
+      <div class="wl-section-heading">건설 카탈로그 (클릭 배치 · R 회전)</div>
+      <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px;">
+        ${cats.map((c) => `<button type="button" class="wl-hud-btn ${this.placeCategory === c.id ? "is-active" : ""}" data-pcat="${c.id}">${c.label}</button>`).join("")}
+      </div>
       <div class="wl-catalog-grid">
-        ${PLACE_CATALOG.map(
-          (item, idx) => `
-          <button type="button" class="wl-catalog-item ${this.selectedPlaceItem === item ? "is-selected" : ""}" data-place-idx="${idx}">
+        ${list
+          .map(
+            (item) => `
+          <button type="button" class="wl-catalog-item ${this.selectedPlaceItem === item ? "is-selected" : ""}" data-place-type="${item.type}">
             <span class="wl-catalog-name">${item.name}</span>
             <span class="wl-catalog-meta">${item.meta}</span>
           </button>`
-        ).join("")}
+          )
+          .join("")}
       </div>
     `;
-    body.querySelectorAll("[data-place-idx]").forEach((btn) => {
+    body.querySelectorAll("[data-pcat]").forEach((btn) => {
       btn.addEventListener("click", () => {
-        this.selectedPlaceItem = PLACE_CATALOG[Number(btn.dataset.placeIdx)];
+        this.placeCategory = btn.dataset.pcat;
+        this.renderInspector();
+      });
+    });
+    body.querySelectorAll("[data-place-type]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        this.selectedPlaceItem = PLACE_CATALOG.find((i) => i.type === btn.dataset.placeType) || PLACE_CATALOG[0];
         this.renderInspector();
       });
     });
@@ -613,7 +742,7 @@ export class ArchitectBuilder {
       { id: "flatten", label: "평탄화" },
     ];
     body.innerHTML = `
-      <div class="wl-section-heading">지형 스컬프팅 브러시 (좌클릭 드래그)</div>
+      <div class="wl-section-heading">300m 지형 스컬프팅 (좌클릭 드래그)</div>
       <div class="wl-catalog-grid" style="margin-bottom:12px;">
         ${modes
           .map(
@@ -626,11 +755,11 @@ export class ArchitectBuilder {
       </div>
       <div class="wl-field-row">
         <div class="wl-field-label"><span>브러시 반경</span><span class="wl-stat-mono">${this.terrainBrushRadius}m</span></div>
-        <input id="arch-brush-r" class="wl-range" type="range" min="4" max="24" value="${this.terrainBrushRadius}" />
+        <input id="arch-brush-r" class="wl-range" type="range" min="4" max="32" value="${this.terrainBrushRadius}" />
       </div>
       <div class="wl-field-row">
         <div class="wl-field-label"><span>브러시 강도</span><span class="wl-stat-mono">${Math.round(this.terrainBrushStrength * 100)}%</span></div>
-        <input id="arch-brush-s" class="wl-range" type="range" min="0.15" max="1.2" step="0.05" value="${this.terrainBrushStrength}" />
+        <input id="arch-brush-s" class="wl-range" type="range" min="0.15" max="1.4" step="0.05" value="${this.terrainBrushStrength}" />
       </div>
     `;
     body.querySelectorAll("[data-brush]").forEach((btn) => {
@@ -651,26 +780,64 @@ export class ArchitectBuilder {
 
   _renderPathInspector(body) {
     body.innerHTML = `
-      <div class="wl-section-heading">보행로(Path) 스플라인 빌더</div>
+      <div class="wl-section-heading">보행로(Path) 빌더 — 지면을 연속 클릭!</div>
+      <div class="wl-catalog-grid" style="margin-bottom:12px;">
+        ${PATH_STYLE_OPTIONS.map(
+          (st) => `
+          <button type="button" class="wl-catalog-item ${this.pathStyle === st.id ? "is-selected" : ""}" data-pstyle="${st.id}">
+            <span class="wl-catalog-name">${st.label}</span>
+          </button>`
+        ).join("")}
+      </div>
+      <div class="wl-field-row">
+        <div class="wl-field-label"><span>도로 폭</span><span class="wl-stat-mono">${this.pathWidth}m</span></div>
+        <input id="arch-path-w" class="wl-range" type="range" min="2.4" max="7.2" step="0.4" value="${this.pathWidth}" />
+      </div>
       <p class="wl-stat-mono" style="margin-bottom:12px;line-height:1.5;">
-        지면 위를 순서대로 좌클릭하면 사암 산책로가 연결되고, AI 관람객들이 새 경로를 따라 자동으로 걸어다닙니다.
+        지면을 순서대로 좌클릭하면 하늘색 핀과 함께 길이 즉시 깔립니다. (현재 ${this.activePathPoints.length}지점)
       </p>
-      <div style="display:flex;gap:6px;">
-        <button type="button" id="btn-path-new" class="wl-hud-btn is-active">새 보행로 시작</button>
-        <button type="button" id="btn-path-clear" class="wl-hud-btn is-danger">커스텀 길 삭제</button>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button type="button" id="btn-path-new" class="wl-hud-btn is-active">현재 길 확정 · 새 길 시작</button>
+        <button type="button" id="btn-path-clear" class="wl-hud-btn is-danger">커스텀 길 전부 삭제</button>
       </div>
     `;
+    body.querySelectorAll("[data-pstyle]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        this.pathStyle = btn.dataset.pstyle;
+        this.renderInspector();
+      });
+    });
+    body.querySelector("#arch-path-w")?.addEventListener("input", (ev) => {
+      this.pathWidth = Number(ev.target.value);
+      this.renderInspector();
+    });
     body.querySelector("#btn-path-new")?.addEventListener("click", () => {
       this.activePathPoints = [];
-      this.onToast?.("새 보행로 시작 — 지면을 클릭해 연결하세요.");
+      this.activePathId = null;
+      this.terrain.setPathPreview([]);
+      this.renderInspector();
+      this.onToast?.("새 보행로를 시작할 지점을 클릭하세요.");
     });
     body.querySelector("#btn-path-clear")?.addEventListener("click", () => {
       this.activePathPoints = [];
+      this.activePathId = null;
+      this.terrain.setPathPreview([]);
       this.worldState.mutate("paths", (d) => {
-        d.paths = (d.paths || []).filter((p) => p.id !== "path-architect-custom");
+        d.paths = (d.paths || []).filter((p) => !String(p.id).startsWith("path-custom-"));
       });
-      this.onToast?.("커스텀 보행로를 삭제했습니다.");
+      this.renderInspector();
+      this.onToast?.("직접 깐 커스텀 보행로를 모두 정리했습니다.");
     });
+  }
+
+  _renderDeleteInspector(body) {
+    body.innerHTML = `
+      <div class="wl-section-heading">오브젝트 철거(지우개) 도구</div>
+      <p class="wl-stat-mono" style="line-height:1.6;">
+        공원 위에 배치된 어트랙션·건물·상점·나무·장식을 좌클릭하면 즉시 철거됩니다.<br/>
+        실수로 지웠다면 하단 [되돌리기] 또는 Ctrl+Z로 즉시 복구할 수 있습니다.
+      </p>
+    `;
   }
 
   dispose() {

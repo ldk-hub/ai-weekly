@@ -5,10 +5,11 @@
  */
 
 const ROOM_META = {
-  plugins: { badge: "PLUGIN FORGE", title: "인기 플러그인 공방", pageHref: "./", pageLabel: "인기 플러그인" },
-  news: { badge: "AI NEWS IMAX", title: "AI 뉴스 아이맥스 극장", pageHref: "news", pageLabel: "AI 뉴스" },
-  social: { badge: "SOCIAL GARDEN", title: "소셜 피드 가든 라운지", pageHref: "social", pageLabel: "소셜 피드" },
-  benchmarks: { badge: "OBSERVATORY", title: "벤치마크 천문 관측소", pageHref: "benchmarks", pageLabel: "점유율·성능" },
+  plugins: { badge: "인기 플러그인", title: "인기 플러그인 대시보드", pageHref: "./", pageLabel: "인기 플러그인" },
+  news: { badge: "AI 뉴스", title: "AI 뉴스 대시보드", pageHref: "news", pageLabel: "AI 뉴스" },
+  social: { badge: "소셜 피드", title: "소셜 피드 대시보드", pageHref: "social", pageLabel: "소셜 피드" },
+  starboard: { badge: "스타보드", title: "스타보드 오픈소스 대시보드", pageHref: "starboard", pageLabel: "스타보드" },
+  benchmarks: { badge: "점유율·성능", title: "점유율·벤치마크 대시보드", pageHref: "benchmarks", pageLabel: "점유율·성능" },
 };
 
 function esc(str) {
@@ -167,6 +168,36 @@ export class PavilionDashboard {
             haystack: `${s.author} ${s.platform} ${s.title_ko} ${s.summary_ko}`.toLowerCase(),
           };
         }),
+      };
+    }
+
+    if (key === "starboard") {
+      const { updated, items } = data.starboard || { updated: "최신", items: [] };
+      const cats = [...new Set(items.map((s) => s.category).filter(Boolean))];
+      const top = items[0];
+      return {
+        ...def,
+        sub: `data/stars_ledger.json · ${updated} · ${items.length}개 주요 오픈소스`,
+        kpis: [
+          { label: "WEEKLY #1", value: top?.name || "—", sub: top ? `+${top.delta.toLocaleString()}★ (7d)` : "" },
+          { label: "TRACKED OSS", value: `${items.length}개`, sub: `${cats.length}개 분야` },
+          { label: "UPDATED", value: updated, sub: "GitHub 스타 증감 원장" },
+        ],
+        filters: [
+          { id: "all", label: `전체 (${items.length})` },
+          ...cats.slice(0, 4).map((c) => ({ id: c, label: c })),
+        ],
+        cards: items.map((s) => ({
+          filterId: s.category || "all",
+          badge: `${s.category} · ★ ${s.stars.toLocaleString()}`,
+          metaRight: `+${s.delta.toLocaleString()}/7d`,
+          title: s.name,
+          summary: s.description || s.repo,
+          body: `${s.description || ""}\n\n저장소: ${s.repo}\n누적 스타: ★ ${s.stars.toLocaleString()}\n주간 급상승: +${s.delta.toLocaleString()}`,
+          linkUrl: safeHref(s.url),
+          linkLabel: "GitHub 저장소 열기",
+          haystack: `${s.name} ${s.repo} ${s.description} ${s.category}`.toLowerCase(),
+        })),
       };
     }
 

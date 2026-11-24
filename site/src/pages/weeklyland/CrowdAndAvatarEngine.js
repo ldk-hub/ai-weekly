@@ -409,8 +409,8 @@ export class CrowdAndAvatarEngine {
           .addScaledVector(cameraBasis.forward, moveZ)
           .addScaledVector(cameraBasis.right, moveX)
           .normalize();
-        this.player.position.x = THREE.MathUtils.clamp(this.player.position.x + dir.x * speed * stepDt, -74, 74);
-        this.player.position.z = THREE.MathUtils.clamp(this.player.position.z + dir.z * speed * stepDt, -74, 74);
+        this.player.position.x = THREE.MathUtils.clamp(this.player.position.x + dir.x * speed * stepDt, -142, 142);
+        this.player.position.z = THREE.MathUtils.clamp(this.player.position.z + dir.z * speed * stepDt, -142, 142);
         this.player.facing = Math.atan2(dir.x, dir.z);
         this._playPlayerAnim(input.sprint ? "run" : "walk");
       } else {
@@ -518,8 +518,50 @@ export class CrowdAndAvatarEngine {
     el.style.transform = `translate3d(${sx.toFixed(1)}px, ${sy.toFixed(1)}px, 0) translate(-50%, -100%)`;
   }
 
+  togglePlayerBalloon() {
+    if (this.player.balloonGroup) {
+      this.player.root.remove(this.player.balloonGroup);
+      this.player.balloonGroup = null;
+      return false;
+    }
+    const bg = new THREE.Group();
+    const string = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.015, 0.015, 1.55, 5),
+      new THREE.MeshBasicMaterial({ color: 0xffffff })
+    );
+    string.position.set(0.46, 1.65, 0.12);
+    bg.add(string);
+
+    const balloon = new THREE.Mesh(
+      new THREE.SphereGeometry(0.42, 12, 12),
+      createToonMaterial(0xf9a8d4, { emissive: 0x331122, emissiveIntensity: 0.12 })
+    );
+    balloon.scale.set(0.92, 1.14, 0.92);
+    balloon.position.set(0.46, 2.65, 0.12);
+    addToonOutline(balloon, 1.07);
+    bg.add(balloon);
+    this.player.root.add(bg);
+    this.player.balloonGroup = bg;
+    return true;
+  }
+
+  celebratePlayer() {
+    if (this.player.grounded && !this.player.riding) {
+      this.player.vy = 7.6;
+      this.player.grounded = false;
+    }
+  }
+
+  setGuestLimit(maxVisible) {
+    this.aiGuests.forEach((g, idx) => {
+      const show = idx < maxVisible;
+      g.mesh.visible = show;
+      if (!show && g.bubbleEl) g.bubbleEl.hidden = true;
+    });
+  }
+
   getGuestCount() {
-    return this.aiGuests.length;
+    return this.aiGuests.filter((g) => g.mesh.visible).length;
   }
 
   dispose() {
