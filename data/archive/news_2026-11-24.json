@@ -1,0 +1,568 @@
+{
+  "generated_at": "2026-11-24T05:04:56.064Z",
+  "version": "v2026.11.24",
+  "summary": "🔥 오늘의 핵심 이슈: #ClaudeShip #GPT62Sol #VPvsVNP #에이전트하네스 — PR 자동 승인 파이프라인과 47년 수학 난제 형식 증명, 10GB급 3비트 양자화, 실시간 에이전트 하네스·API 라우터 보안까지 모델과 에이전트 실전 인프라가 동시에 도약한 하루입니다.",
+  "curated_by": "ldk-hub",
+  "signal_counts": {
+    "devtool": 3,
+    "model": 3,
+    "research": 3,
+    "insight": 3,
+    "oss": 2,
+    "policy": 1,
+    "practice": 3
+  },
+  "news": [
+    {
+      "id": "hackernews_a55680e1cb",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "signal_id": "devtool",
+      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
+      "importance": 96,
+      "headline": "앤트로픽, PR 리뷰·수정·자동 승인 통합 에이전트 'Claude Ship' 공개",
+      "title_ko": "앤트로픽, PR 리뷰·수정·자동 승인 통합 에이전트 'Claude Ship' 공개",
+      "summary_ko": "• **PR 자동화 공개**: 앤트로픽이 코드 리뷰와 자동 수정, 팀 정책 기반 승인까지 묶은 에이전트 파이프라인 Claude Ship을 베타로 출시했다.\n• **세 가지 핵심 구성**: 정식 출시된 Code Review와 신규 베타인 PR Steward·Claude Approvals가 연동되며 내부 적용 시 롤백 비율이 40% 이상 감소했다.\n• **개발 워크플로우 변화**: 코딩 에이전트가 만든 대량의 PR 병목을 줄이고, 관찰 전용 모드로 시작해 점진적으로 자동 승인 정책을 도입할 수 있다.",
+      "body_ko": "에이전트 기반 코딩이 보편화되면서 코드를 작성하는 속도보다 PR 리뷰와 수정, 승인 단계가 새로운 개발 병목으로 떠오르고 있다. 앤트로픽은 이 PR 이후 구간을 자동화하기 위해 기존 정식 기능인 Code Review에 신규 베타 에이전트 두 종을 결합한 Claude Ship을 선보였다. Code Review는 여러 관점으로 코드를 적대적 검증하며 Quick·Standard·Deep 세 단계의 리뷰 깊이를 저장소별로 고를 수 있다. PR Steward는 실패한 CI 검사와 병합 충돌, 리뷰 피드백을 스스로 해결해 푸시하고 변경점과 되돌리기 방법을 댓글로 남긴다. Claude Approvals는 저장소 내 정책 파일을 바탕으로 일상적인 변경은 자동 승인하고 민감한 수정은 사람 검토를 요구하는 지능형 CODEOWNERS 역할을 수행한다. 앤트로픽 내부 Claude Code 팀에 적용한 결과 6월부터 9월 사이 병합된 PR 처리량이 늘면서도 되돌림(revert) 비율이 40% 넘게 줄었다. Claude Team과 Enterprise의 GitHub 저장소에서 토큰 과금 방식으로 이용할 수 있으며, 초기 신뢰 확보를 위해 관찰 전용(observe-only) 모드 적용이 권장된다. 다만 Zero Data Retention, HIPAA 설정, 고객 관리 암호화 키를 사용하는 조직에서는 아직 지원되지 않는다.",
+      "author_profile": "@matthieu_bl",
+      "publish_date": "2026-11-23T20:14:18.000Z",
+      "tags": [
+        "Claude Ship",
+        "PR 자동화",
+        "코딩 에이전트",
+        "코드 리뷰"
+      ],
+      "url": "https://claude.com/resources/articles/introducing-claude-ship",
+      "sources": [
+        "Hacker News"
+      ],
+      "metrics": {
+        "points": 36,
+        "comments": 12,
+        "discussion_url": "https://news.ycombinator.com/item?id=50618513"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "aitimes_3c3ed3944d",
+      "category_id": "aitimes",
+      "category_name": "AI타임스",
+      "signal_id": "model",
+      "signal_name": "새 모델·버전 출시·프리뷰·벤치마크",
+      "importance": 94,
+      "headline": "오픈AI, ChatGPT 일반 채팅에 'GPT-6.2 솔' 탑재…지시 수행·시각 이해 대폭 강화",
+      "title_ko": "오픈AI, ChatGPT 일반 채팅에 'GPT-6.2 솔' 탑재…지시 수행·시각 이해 대폭 강화",
+      "summary_ko": "• **일반 채팅 모델 갱신**: 오픈AI가 워크와 코덱스에 먼저 도입했던 GPT-6.2 솔(Sol)을 일상 대화용으로 다듬어 유료 ChatGPT 채팅 탭에 순차 배포한다.\n• **벤치마크 지표 상승**: 기존 GPT-6 대비 이미지 이해는 47.4%에서 71.7%로, 복잡한 지시 준수율은 62.5%에서 78.1%로, 브라우즈컴프 검색은 64.5%로 향상됐다.\n• **조향성 하락 주의**: 시스템 카드상 응답 방식을 세밀하게 제어하는 Steerability 점수가 60.6%에서 48.6%로 낮아져 프롬프트 튜닝 시 검증이 필요하다.",
+      "body_ko": "오픈AI가 이달 중순 업무용 워크와 코덱스에 우선 배치했던 GPT-6.2 솔을 일반 대화 환경에 맞게 재조정해 ChatGPT 채팅 탭에 적용하기 시작했다. 새 모델은 사진 속 작은 글씨나 표지판 기호를 읽어내는 세부 시각 이해력을 끌어올렸고, 숙소 비교처럼 여러 조건이 얽힌 웹 검색에서 사용자 우선순위를 더 정확히 반영한다. 대화가 끝난 뒤 가격 인하 알림 설정 같은 후속 작업을 먼저 제안하는 능동적 맥락 파악 기능도 강화됐다. 공개된 평가 지표에서는 이미지 이해 71.7%, 복잡한 지시 준수율 78.1%, 전문가 수준 작업 65%, Extra High 추론 기준 브라우즈컴프 64.5%로 이전 세대 GPT-6를 전반적으로 웃돌았다. 청소년 안전 정책 준수율 역시 77~80% 구간에서 91~94% 수준으로 개선됐다. 반면 시스템 카드에서 사용자 지시에 맞춰 어조나 형식을 바꾸는 조향성(Steerability)은 60.6%에서 48.6%로 떨어져 기본 행동 지침을 고수하려는 경향이 강해졌다. 이번 업데이트는 Plus·Pro·Business·Enterprise 구독자에게만 제공되며 무료 및 Go 요금제와 기존 워크·코덱스 모델은 변경 대상에서 제외된다.",
+      "author_profile": "박찬 기자",
+      "publish_date": "2026-11-24T03:13:38.000Z",
+      "tags": [
+        "GPT-6.2 Sol",
+        "OpenAI",
+        "ChatGPT",
+        "벤치마크"
+      ],
+      "url": "https://www.aitimes.com/news/articleView.html?idxno=217725",
+      "sources": [
+        "AI타임스"
+      ],
+      "metrics": {},
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hackernews_26589f21f5",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "signal_id": "research",
+      "signal_name": "연구·논문·새 기법",
+      "importance": 93,
+      "headline": "앤트로픽 내부 Claude 모델, 47년 난제 'VP ≠ VNP' 증명 논문 및 Lean 4 형식화 공개",
+      "title_ko": "앤트로픽 내부 Claude 모델, 47년 난제 'VP ≠ VNP' 증명 논문 및 Lean 4 형식화 공개",
+      "summary_ko": "• **AI 단독 수학 증명 공개**: 앤트로픽이 내부 연구용 Claude 모델이 발견하고 작성한 대수적 계산복잡도 난제 'VP ≠ VNP over Every Field' 논문과 Lean 4 코드를 GitHub에 올렸다.\n• **증명 내용과 기계 검증**: 모든 체에서 해밀턴 순환 다항식과 특성 2 외의 퍼머넌트 회로가 초다항식 이상 게이트를 요구함을 보였고, Lean 4 커널과 독립 커널 nanoda로 검증했다.\n• **검증 한계와 연구 의미**: 아직 인간 수학자의 동료 심사를 거치지 않았으며 정리 명세의 정합성 확인이 남아 있어, AI 기반 형식 수학 연구의 결정적 검증 시험대가 되고 있다.",
+      "body_ko": "앤트로픽이 공식 formal-math 저장소를 통해 내부 연구용 Claude 모델이 도출한 '모든 체에서의 VP ≠ VNP' 증명 논문과 Lean 4 형식화 결과물을 공개했다. 이 결과는 대수적 복잡도 이론에서 1979년부터 열려 있던 핵심 추측을 다루며, 모든 체에서 해밀턴 순환 다항식과 특성 2를 제외한 퍼머넌트 계산 회로가 m이 클 때 초다항식 규모 이상의 게이트를 필요로 한다는 점을 주장한다. 근사 회로에 대해서도 동일한 하한이 성립해 VP가 VNP의 진부분집합이며 VNP가 VP의 폐포에도 속하지 않는다는 결론을 제시하지만, 고전적인 P 대 NP 문제 자체를 해결하는 것은 아니다. 증명 본문과 Mathlib에만 의존하는 Lean 4 형식 코드는 모두 AI 모델이 작성했으며, CI 파이프라인은 표준 공리 세 가지만 사용하는지 확인하고 독립 커널 nanoda로 교차 검증한다. 다만 기계 검증기는 증명 과정의 논리적 무결성만 확인할 뿐, Lean 파일에 기술된 정리가 실제 수학적 주장과 정확히 일치하는지 자체를 자동으로 보증하지는 못한다. 저장소 안내문에도 아직 인간 수학자가 증명을 검토하지 않은 미유지보수 연구 산출물임이 명시되어 있어, 향후 학계의 정밀 검증 결과에 관심이 집중되고 있다.",
+      "author_profile": "@mikeryan52",
+      "publish_date": "2026-11-23T22:09:10.000Z",
+      "tags": [
+        "VP vs VNP",
+        "Claude",
+        "Lean 4",
+        "형식 수학"
+      ],
+      "url": "https://github.com/anthropics/formal-math/tree/main/vp-vnp",
+      "sources": [
+        "Hacker News"
+      ],
+      "metrics": {
+        "points": 299,
+        "comments": 257,
+        "discussion_url": "https://news.ycombinator.com/item?id=50620102"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "geeknews_ecfddaceac",
+      "category_id": "geeknews",
+      "category_name": "GeekNews",
+      "signal_id": "model",
+      "signal_name": "새 모델·버전 출시·프리뷰·벤치마크",
+      "importance": 91,
+      "headline": "NariQ, 트렐리스 양자화로 BF16급 Qwen3.8-27B를 10GB 파일에 압축",
+      "title_ko": "NariQ, 트렐리스 양자화로 BF16급 Qwen3.8-27B를 10GB 파일에 압축",
+      "summary_ko": "• **초저비트 고성능 양자화**: NariQ v1이 53.8GB에 달하는 BF16 기반 Qwen3.8-27B를 3비트(10.12GB)와 2.5비트(8.44GB) GGUF 파일로 압축하면서도 원본급 성능을 유지했다.\n• **에이전트 벤치마크 입증**: 실제 코딩 에이전트 실행 기록으로 보정한 트렐리스 PTQ를 적용해 DeepSWE 41.9%(2.5비트)와 Terminal-Bench 2.1 63.8%(3비트)로 BF16을 소폭 앞섰다.\n• **로컬 구동 시 유의점**: 전용 llama.cpp 포크가 필수이며 KV 캐시와 비전 타워가 BF16으로 유지되므로 전체 262K 컨텍스트 실행 시 27~30GB VRAM이 필요하다.",
+      "body_ko": "로컬 환경에서 대형 에이전트 모델을 돌릴 때 가장 큰 걸림돌인 메모리 벽을 낮추기 위해 NariQ v1 양자화 모델군이 공개됐다. NariQ는 실제 코딩 에이전트 실행 추적으로 보정하는 트렐리스 부호화 기반 학습 후 양자화(PTQ) 기법을 언어 모델 가중치에 적용하고 비전 타워는 BF16으로 보존한다. 그 결과 53.8GB 원본 모델을 3비트 10.12GB, 2.5비트 8.44GB, 2비트 6.75GB 크기의 단일 GPU 실행 레이아웃으로 줄였다. Claude Code CLI와 262K 컨텍스트를 동원한 장기 에이전트 평가에서 3비트 버전은 DeepSWE 41.0%·Terminal-Bench 2.1 63.8%·AIME 98.3%를 기록해 원본 BF16(39.8%·62.6%·97.7%)에 필적하거나 앞서는 결과를 보였다. 2.5비트 역시 에이전트와 수학 과제에서 BF16 수준을 지켜낸 반면, 6.75GB 2비트 모델은 DeepSWE가 28.6%까지 떨어져 뚜렷한 한계를 드러냈다. 새로운 텐서 타입을 사용하기 때문에 기존 Ollama나 LM Studio, 업스트림 llama.cpp에서는 바로 불러올 수 없고 NariQ 전용 llama.cpp 포크와 NVIDIA 드라이버 570 이상이 요구된다. 또한 파일 용량과 달리 활성값과 KV 캐시가 BF16으로 남기 때문에 24GB GPU에서는 131K 이상 장기 컨텍스트 사용 시 메모리 여유를 별도로 조정해야 한다.",
+      "author_profile": "neo",
+      "publish_date": "2026-11-24T01:39:18.000Z",
+      "tags": [
+        "NariQ",
+        "양자화",
+        "Qwen3.8",
+        "로컬 LLM"
+      ],
+      "url": "https://news.hada.io/topic?id=37749",
+      "sources": [
+        "GeekNews"
+      ],
+      "metrics": {},
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "bluesky_e41150d271",
+      "category_id": "bluesky",
+      "category_name": "Bluesky",
+      "signal_id": "insight",
+      "signal_name": "💡 소셜 인사이트·실무 활용 팁·모델 체감 리뷰·프롬프트 노하우",
+      "importance": 90,
+      "headline": "오픈AI 내부 R&D 가속 보고서: 연구원당 에이전트 사용량 11배 급증·비주식 인건비 2배 추월",
+      "title_ko": "오픈AI 내부 R&D 가속 보고서: 연구원당 에이전트 사용량 11배 급증·비주식 인건비 2배 추월",
+      "summary_ko": "• **내부 가속 지표 공개**: 오픈AI가 재귀적 자기개선(RSI) 투명성 확보 차원에서 사내 코딩 에이전트 활용 강도와 연구 생산성 변화를 정량 측정한 보고서를 발표했다.\n• **에이전트 투입 규모 급증**: 연구원 중앙값은 하루 API 정가 기준 2,400달러(상위 10%는 23,000달러)를 쓰며, 1인당 일일 에이전트 작업일수가 0.5일에서 5.7일로 11배 늘었다.\n• **개발 조직 운영 시사점**: 연구원 3분의 2 이상이 하루 최대 4개 이상의 동시 에이전트를 운용하며, 향후 AI 연구 조직의 핵심 역량이 병렬 에이전트 오케스트레이션으로 이동하고 있음을 보여준다.",
+      "body_ko": "오픈AI가 코딩 에이전트가 자사 AI 연구개발 주기를 얼마나 가속하고 있는지 측정한 'Research acceleration: The jagged frontier' 보고서를 공개했다. 이번 발표는 AI가 차세대 AI 개발을 가속하는 재귀적 자기개선(RSI) 신호를 업계가 공통 지표로 추적·공개해야 한다는 문제의식에서 출발했다. 측정 결과 오픈AI 연구원 중앙값의 일일 에이전트 사용액은 API 정가 기준 2,400달러, 상위 10%는 23,000달러로 지난 9월 대비 각각 62%와 105% 증가했다. 8시간을 1작업일로 환산한 연구원당 일일 에이전트 작업일수는 0.5일에서 5.7일로 11배 급증했으며, 사전학습과 사후학습 팀은 하루 평균 약 8작업일에 달했다. 10월 중순 기준 연구원의 3분의 2 이상이 동시에 최소 4개 에이전트를 돌렸고, 10% 이상은 16개 이상을 병렬 실행하는 패턴을 보였다. 2026년 9월 시점에 연구 조직의 월간 에이전트 API 환산 비용은 주식을 제외한 현금성 인건비의 약 2배에 도달했지만, 전체 연구 연산량에서 내부 에이전트 배포가 차지하는 비중은 아직 2%에 불과하다. 다만 보고서 수치는 대화형 사용량 위주라 자동화 배치 작업이 과소 집계됐을 수 있고, 주식 보상이 제외된 비율이라는 해석상 제약도 함께 명시됐다.",
+      "author_profile": "@monicasophiaa2.bsky.social",
+      "publish_date": "2026-11-23T21:58:16.772Z",
+      "tags": [
+        "OpenAI",
+        "RSI",
+        "코딩 에이전트",
+        "연구 가속"
+      ],
+      "url": "https://openai.com/index/research-acceleration-jagged-frontier/",
+      "sources": [
+        "Bluesky"
+      ],
+      "metrics": {
+        "likes": 3,
+        "reposts": 0,
+        "replies": 0,
+        "bluesky_url": "https://bsky.app/profile/monicasophiaa2.bsky.social/post/3n2z4siuxh22f"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "bluesky_75dd6d75f4",
+      "category_id": "bluesky",
+      "category_name": "Bluesky",
+      "signal_id": "devtool",
+      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
+      "importance": 89,
+      "headline": "AI 에이전트 'API 라우터' 428곳 보안 실태…악성 페이로드 주입과 크리덴셜 탈취 적발",
+      "title_ko": "AI 에이전트 'API 라우터' 428곳 보안 실태…악성 페이로드 주입과 크리덴셜 탈취 적발",
+      "summary_ko": "• **중계 라우터 보안 위협**: UCSB 등 연구진이 Claude Code·Codex 같은 에이전트와 모델 API 사이를 중계하는 서드파티 API 라우터 428개를 조사해 실제 해킹 수법을 적발했다.\n• **구체적 피해와 공격 방식**: 유료 1개·무료 8개가 도구 호출 명령을 변조했고, 무료 라우터 17곳에서 미끼 AWS 키가 악용됐으며 1곳은 이더리움 비밀키 자금을 실제 탈취했다.\n• **개발자 보안 대응**: 주요 LLM API 응답에 디지털 서명이 없어 중계 지점에서 TLS가 복호화되면 변조를 막기 어려우므로 비공식 라우터에 YOLO 모드나 시크릿을 노출해선 안 된다.",
+      "body_ko": "여러 모델 프로바이더를 한 번에 연결해 주는 서드파티 API 라우터가 AI 코딩 에이전트 생태계에서 빠르게 확산하고 있지만, 구조적인 보안 취약점이 실증 연구로 확인됐다. 캘리포니아대 산타바바라캠퍼스(UCSB) 연구팀이 유료 28개와 무료 400개 등 총 428개 API 라우터를 분석한 결과, 라우터가 통신 중간에서 TLS 암호화를 해제하기 때문에 프롬프트와 API 키, 에이전트 도구 호출 응답이 모두 노출·변조될 수 있는 것으로 나타났다. 현재 주요 AI 제공사의 API는 응답 무결성을 검증하는 디지털 서명을 제공하지 않아 에이전트가 중간 변조를 감지하기 어렵다. 실제 조사에서 유료 1곳과 무료 8곳이 정상 패키지명을 오타 패키지(예: requests→reqeusts)로 바꾸거나 악성 URL을 끼워 넣는 페이로드 주입을 수행했으며, 이 중 2곳은 처음 50회를 정상 통과시킨 뒤 공격하거나 자동 승인(YOLO) 모드에서만 작동하는 회피 기법을 썼다. 명령을 바꾸지 않고 조용히 인증정보만 수집하는 사례도 심각해, 무료 라우터 17곳에서 미끼용 AWS 키가 부정 사용됐고 1곳은 미끼 이더리움 지갑에서 실제로 자금을 빼갔다. 심지어 연구진이 설치한 미끼 중계 서버가 외부 업체의 라우팅 경로에 무단 편입돼 440개 개발 세션에서 99개의 인증정보가 유출되는 등 다단계 재중계 위험까지 확인됐다.",
+      "author_profile": "@kudanyuto.bsky.social",
+      "publish_date": "2026-11-24T02:59:14.051Z",
+      "tags": [
+        "API 라우터",
+        "에이전트 보안",
+        "크리덴셜 탈취",
+        "공급망 공격"
+      ],
+      "url": "https://www.itmedia.co.jp/news/article/2611/19/2000003310/",
+      "sources": [
+        "Bluesky"
+      ],
+      "metrics": {
+        "likes": 3,
+        "reposts": 0,
+        "replies": 0,
+        "bluesky_url": "https://bsky.app/profile/kudanyuto.bsky.social/post/3n2znmnnexs2g"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hackernews_82b4f80f97",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "signal_id": "devtool",
+      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
+      "importance": 88,
+      "headline": "Greptile 실험: 컴퓨터 제어 에이전트에게 접근성 트리는 여전히 필요한가?",
+      "title_ko": "Greptile 실험: 컴퓨터 제어 에이전트에게 접근성 트리는 여전히 필요한가?",
+      "summary_ko": "• **컴퓨터 제어 방식 비교**: Greptile이 QA 에이전트 TREX 설계를 위해 7개 OpenAI 모델을 대상으로 OSWorld 172개 과제에서 스크린샷 단독·접근성 트리 병행·요소 ID 클릭을 비교했다.\n• **모델 체급별 극명한 차이**: GPT-5.2는 트리+ID 클릭으로 성공률이 15.8%에서 52.8%로 3배 넘게 뛰었지만, 최신 GPT-6.1 Sol은 스크린샷 단독(83.8%)과 ID 클릭(82.1%) 간 유의미한 차이가 없었다.\n• **하네스 설계 기준 제시**: 저비용·소형 모델 기반 에이전트에는 접근성 트리와 ID 추상화가 필수적이지만, 최상위 비전 모델과 캔버스 앱 환경에서는 픽셀 직접 제어 전략이 더 단순하고 범용적이다.",
+      "body_ko": "GUI를 다루는 컴퓨터 제어 에이전트가 화면을 스크린샷 픽셀로만 봐야 할지, 아니면 운영체제의 접근성 트리(Accessibility Tree)를 함께 읽어야 할지에 대한 정량 실험 결과가 공개됐다. Greptile 팀은 자체 QA 에이전트 TREX의 화면 인식 구조를 결정하기 위해 Linux AT-SPI 기반 OSWorld 172개 작업에서 7개 모델의 성능을 50스텝·낮은 추론 강도 조건으로 측정했다. 실험 결과 픽셀 좌표 추정에 취약한 하위 모델군은 접근성 트리와 요소 ID 클릭의 수혜를 크게 입어, GPT-4.1은 5.4%에서 29.3%로, GPT-5.2는 15.8%에서 52.8%로 성공률이 세 배 이상 급등했다. 반면 최상위 3개 모델은 접근성 트리와 ID 추상화를 붙여도 통계적으로 유의미한 향상을 보이지 않았으며, GPT-6.1 Sol은 오히려 스크린샷 단독(83.8%)이 트리+좌표(82.7%)나 ID 클릭(82.1%)보다 소폭 높았다. 여기에 Figma 캔버스나 게임처럼 애초에 접근성 트리를 발행하지 않거나, GIMP처럼 특정 환경변수가 없으면 트리에서 누락되는 앱이 많다는 현실적 제약도 지적됐다. 결론적으로 저가형·경량 모델로 컴퓨터 제어 하네스를 구축할 때는 접근성 트리와 ID 클릭이 여전히 강력한 보완책이지만, 최신 프론티어 모델에서는 순수 시각 입력만으로도 복잡한 UI 조작이 성숙 단계에 도달했음을 시사한다.",
+      "author_profile": "@dakshgupta",
+      "publish_date": "2026-11-23T17:19:25.000Z",
+      "tags": [
+        "Computer Use",
+        "OSWorld",
+        "접근성 트리",
+        "Greptile"
+      ],
+      "url": "https://www.greptile.com/blog/trex-computer-use",
+      "sources": [
+        "Hacker News"
+      ],
+      "metrics": {
+        "points": 49,
+        "comments": 23,
+        "discussion_url": "https://news.ycombinator.com/item?id=50615520"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hfpapers_f7368e9194",
+      "category_id": "hfpapers",
+      "category_name": "HF Daily Papers",
+      "signal_id": "research",
+      "signal_name": "연구·논문·새 기법",
+      "importance": 87,
+      "headline": "Self-WSP: 언어 모델이 자기 가중치를 코드처럼 편집해 스스로 성능을 높일 수 있을까",
+      "title_ko": "Self-WSP: 언어 모델이 자기 가중치를 코드처럼 편집해 스스로 성능을 높일 수 있을까",
+      "summary_ko": "• **자가 가중치 프로그래밍 제안**: HF Daily Papers에 등재된 Self-WSP 논문(arXiv 11월 21일 공개)은 Qwen3.5-0.8B가 자신의 가중치를 직접 읽고 수정해 문제 풀이와 편집을 이어가는 기법을 탐구했다.\n• **극소 파라미터로 대폭 향상**: 단 16개 파라미터 수정만으로 GSM8K 정확도가 11.8%에서 62.2%로, MATH500이 7.0%에서 32.2%로 상승했으며 반복 편집 시 추가 개선 사례도 관측됐다.\n• **해석 가능성 한계 규명**: 정밀 분석 결과 모델이 자기 수정의 원리를 깊이 이해하지 못하고 무작위 탐색 기반 WSP도 유사한 성과를 내어, 진정한 재귀적 자기개선에는 추가 연구가 필요하다.",
+      "body_ko": "최근 신경망 가중치를 코드처럼 읽고 수정해 소형 모델을 개선하는 가중치 공간 프로그래밍(Weight-Space Programming, WSP)이 주목받는 가운데, 이를 모델 자기 자신에게 적용한 Self-WSP 연구가 Hugging Face 데일리 페이퍼에 올라왔다. 11월 21일 arXiv에 등록된 이 논문은 외부 대형 모델 대신 소형 모델인 Qwen3.5-0.8B가 직접 자신의 가중치를 읽고 수정안을 제안한 뒤, 바뀐 가중치 상태로 문제 풀이와 다음 편집을 이어가는 실험을 설계했다. 제안 기법을 검증한 결과, 경사 하강법 기반 재학습 없이도 자가 편집만으로 GSM8K 정확도가 11.8%에서 62.2%로, MATH500 정확도가 7.0%에서 32.2%로 크게 뛰는 진정한 성능 향상 사례가 다수 확인됐다. 특히 일부 사례에서는 전체 모델 중 단 16개의 파라미터만 변경하고도 이 같은 개선이 발생했으며, 여러 차례 반복 편집을 거치며 점수가 계속 오르는 경향도 나타났다. 그러나 저자들은 기존 파인튜닝과 달리 이 성과가 해석 가능성을 결여하고 있다는 점을 냉정하게 짚었다. 모델이 자신이 수행한 가중치 편집의 인과적 의미를 거의 이해하지 못하며, 무작위 탐색(random search)으로 구동한 WSP 역시 비슷한 수준의 개선을 달성할 때가 있어 안정적인 재귀적 자기개선(RSI)으로 이어지려면 제어 메커니즘 연구가 더 필요하다고 결론지었다.",
+      "author_profile": "linggm",
+      "publish_date": "2026-11-24T00:00:00.000Z",
+      "tags": [
+        "Self-WSP",
+        "가중치 편집",
+        "자가 개선",
+        "논문"
+      ],
+      "url": "https://huggingface.co/papers/2611.28833",
+      "sources": [
+        "HF Daily Papers"
+      ],
+      "metrics": {
+        "upvotes": 9,
+        "comments": 1,
+        "arxiv_id": "2611.28833",
+        "paper_published_at": "2026-11-21T00:00:00.000Z",
+        "github_repo": null
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hfpapers_b28337944c",
+      "category_id": "hfpapers",
+      "category_name": "HF Daily Papers",
+      "signal_id": "research",
+      "signal_name": "연구·논문·새 기법",
+      "importance": 86,
+      "headline": "AutoPILOT: 멈추지 않는 실시간 환경에서 작동하는 시각 에이전트 하네스",
+      "title_ko": "AutoPILOT: 멈추지 않는 실시간 환경에서 작동하는 시각 에이전트 하네스",
+      "summary_ko": "• **실시간 에이전트 하네스**: 11월 20일 arXiv에 등록된 AutoPILOT은 매 모델 호출마다 단일 동작만 내리던 기존 하네스를 넘어 매크로와 폐루프 컨트롤러 코드 생성을 지원한다.\n• **압도적 성능과 비용 절감**: 120종 브라우저 게임 벤치마크 AFK-Bench에서 GPT-6.1 Sol 기준 실시간 성공률 68.6%로 VISTA(38.3%)를 크게 앞섰고, API 비용은 5분의 1로 줄였다.\n• **에이전트 설계 패러다임**: 멀티모달 모델의 실시간 실패 원인이 지능 부족보다 '출력을 시간축 행동으로 번역하는 하네스 계층'에 있음을 입증했다.",
+      "body_ko": "멀티모달 파운데이션 모델은 턴제나 일시정지 환경에서는 게임을 잘 수행하지만 시간이 멈추지 않고 흐르는 실시간 환경에서는 잦은 실패를 겪어 왔다. 11월 20일 arXiv에 공개되고 오늘 HF Daily Papers에 선정된 AutoPILOT 논문은 이 격차의 핵심 원인이 모델의 지각·기억 능력보다 출력을 행동으로 바꾸는 하네스 계층에 있다고 진단했다. 기존 VISTA 같은 하네스는 모델 호출 한 번에 최대 하나의 동작만 실행해 에이전트 반응 속도가 추론 지연에 묶이는 구조적 한계가 있었다. AutoPILOT은 한 번의 모델 호출에서 기본 동작뿐 아니라 개루프 매크로를 시작하거나, 추가 LLM 호출 없이 화면을 보며 직접 반응하는 폐루프(closed-loop) 컨트롤러 코드를 작성해 실행할 수 있게 설계됐다. 연구진은 무대응에 따른 환경 변화를 기준으로 120개 브라우저 게임을 묶은 AFK-Bench를 구축해 동일 예산으로 성능을 비교했다. GPT-6.1 Sol 기준 AutoPILOT은 실시간 성공률 68.6%를 달성해 VISTA(38.3%)를 30포인트 이상 앞섰고, GameWorld에서도 VISTA가 84.1%에서 42.9%로 급락하는 동안 80.0%를 유지했다. 이 개선 효과는 여러 모델에서 일관되게 재현됐으며, 기존 VISTA의 최종 성공률에 도달하는 데 드는 API 비용도 5분의 1 수준으로 절감됐다.",
+      "author_profile": "Ray2333",
+      "publish_date": "2026-11-24T00:00:00.000Z",
+      "tags": [
+        "AutoPILOT",
+        "에이전트 하네스",
+        "실시간 제어",
+        "AFK-Bench"
+      ],
+      "url": "https://huggingface.co/papers/2611.28202",
+      "sources": [
+        "HF Daily Papers"
+      ],
+      "metrics": {
+        "upvotes": 23,
+        "comments": 1,
+        "arxiv_id": "2611.28202",
+        "paper_published_at": "2026-11-20T00:00:00.000Z",
+        "github_repo": null
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "instagram_3e1785e019",
+      "category_id": "instagram",
+      "category_name": "Instagram",
+      "signal_id": "model",
+      "signal_name": "새 모델·버전 출시·프리뷰·벤치마크",
+      "importance": 85,
+      "headline": "구글, 2주 만에 Gemini 4 Carbon·Hydrogen·Neon 3종 연달아 출시…12월 API 가격 개편",
+      "title_ko": "구글, 2주 만에 Gemini 4 Carbon·Hydrogen·Neon 3종 연달아 출시…12월 API 가격 개편",
+      "summary_ko": "• **Gemini 4 라인업 급확장**: 구글이 11월 10일 Gemini 4 Carbon을 시작으로 Hydrogen과 Neon까지 불과 2주 사이에 원소명 기반 신모델 3종을 잇달아 공개했다.\n• **데스크톱·코딩 생태계 확장**: 맥 앱의 화면 직접 클릭 제어, 한국에서도 무료로 열린 심부름(Tasks) 기능, 말로 코딩하는 안티그래비티 음성 모드가 함께 풀렸다.\n• **API 비용 인상 예고**: 12월 1일부터 Gemini 4 Carbon과 Argon API 가격이 기존 대비 두 배로 인상될 예정이어서 서비스 운영팀의 모델 라우팅 점검이 필요하다.",
+      "body_ko": "구글이 11월 중순 이후 매우 공격적인 속도로 차세대 Gemini 4 모델군과 에이전트 기능을 쏟아내며 개발자 생태계의 주목을 받고 있다. 11월 10일 Gemini 4 Carbon 공개를 시작으로 Hydrogen과 Neon까지 불과 2주 만에 세 가지 신규 모델이 연달아 투입됐다. 흥미로운 점은 수소·탄소·네온 등 화학 원소 이름을 채택했지만 원자번호가 크다고 해서 무조건 더 상위 성능 모델은 아니라는 네이밍 구조다. 모델 출시와 발맞춰 실제 사용자 접점의 기능 확장도 동시에 이뤄져, macOS용 Gemini 앱이 화면 속 다른 앱을 대신 클릭해 조작하는 기능과 한국에서도 무료로 이용 가능한 Tasks(심부름) 기능이 열렸다. 개발 도구 측면에서는 음성으로 지시하며 코드를 작성할 수 있는 안티그래비티(Antigravity) 음성 모드가 추가돼 멀티모달 코딩 경험을 넓혔다. 한편 실무 개발자와 기업이 반드시 챙겨야 할 변수로, 오는 12월 1일부터 Carbon과 Argon의 API 단가가 두 배로 인상되는 가격 정책 변경이 예고됐다. 프로덕션 환경에서 Gemini 4 계열을 호출 중인 팀이라면 용도별 모델 재배치와 비용 상한 점검을 서둘러야 한다.",
+      "author_profile": "prompt_what",
+      "publish_date": "2026-11-23T05:16:58.000Z",
+      "tags": [
+        "Gemini 4",
+        "Google",
+        "Antigravity",
+        "API 가격"
+      ],
+      "url": "https://www.instagram.com/prompt_what/p/DgEm-3boxWN/",
+      "sources": [
+        "Instagram"
+      ],
+      "metrics": {
+        "likes": 399,
+        "reposts": 0,
+        "replies": 128,
+        "views": 0,
+        "platform": "instagram",
+        "account": "prompt_what"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "instagram_94c4e83840",
+      "category_id": "instagram",
+      "category_name": "Instagram",
+      "signal_id": "insight",
+      "signal_name": "💡 소셜 인사이트·실무 활용 팁·모델 체감 리뷰·프롬프트 노하우",
+      "importance": 83,
+      "headline": "오픈AI 수석과학자, 내부 퍼플렉서티 '0.76 임계점' 공개…안티그래비티 /btw·애플 FastFrames 주목",
+      "title_ko": "오픈AI 수석과학자, 내부 퍼플렉서티 '0.76 임계점' 공개…안티그래비티 /btw·애플 FastFrames 주목",
+      "summary_ko": "• **내부 지능 지표 공개**: 오픈AI 수석과학자 야쿠프 파초키가 'Perplexity and Intelligence' 글에서 GPT-3.5부터 비공개 내부 모델까지의 퍼플렉서티 점수를 처음 공개했다.\n• **임계점과 신규 도구 동향**: 퍼플렉서티 약 0.76 모델부터 수학 난제 해결이 연달아 시작됐다며 업계 공통 안전 기준을 제안했고, 안티그래비티 `/btw` 승격과 애플 FastFrames(0.05초/프레임)도 함께 부각됐다.\n• **개발자·안전 거버넌스 시사점**: 벤치마크 포화 시대에 퍼플렉서티가 모델 역량과 안전 경계선을 가늠하는 객관 지표로 부상하고 있으며, IDE·실시간 영상 생성 UX도 빠르게 진화 중이다.",
+      "body_ko": "AI 업계의 핵심 화두가 외부 벤치마크 점수를 넘어 모델 내부의 근본 지능 지표와 안전 경계선 설정으로 이동하고 있다. 오픈AI 수석과학자 야쿠프 파초키는 11월 23일 공개한 'Perplexity and Intelligence' 기고문에서 그동안 비공개로 유지해 온 GPT-3.5부터 최신 내부 모델까지의 퍼플렉서티(다음 토큰 예측 불확실성) 추이를 공개했다. 점수가 낮을수록 언어 예측과 지능이 정교해지는데, 약 0.76 수준에 도달한 내부 모델부터 수학 난제의 해답을 연달아 도출하기 시작했다고 밝히며 업계가 이 지표를 바탕으로 공통 안전 한계선을 합의하자고 제안했다. 샘 올트먼 CEO 역시 최근 오픈AI가 발표한 글 가운데 가장 중요한 문서라고 평가하며 무게감을 실었다. 같은 시기 메타 최고 AI 책임자 알렉산더 왕도 개인 X 계정을 통해 향후 1년이 초지능 전환기의 분수령이며 사회 통제권을 AI에 온전히 넘겨선 안 된다는 입장을 내놓았다. 실무 도구 진영에서는 구글 안티그래비티가 긴 작업 중 옆 창에서 곁가지 질문을 던지고 유용한 대화를 본 스레드로 승격하는 `/btw` 기능을 11월 21일 개편했다. 아울러 애플이 B200 GPU 기준 프레임당 0.05초 미만으로 즉각 반응하는 인터랙티브 영상 모델 FastFrames를 Hugging Face에 공개하며 실시간 생성 AI 경쟁도 한층 치열해졌다.",
+      "author_profile": "aiscene.kr",
+      "publish_date": "2026-11-23T23:00:07.000Z",
+      "tags": [
+        "퍼플렉서티",
+        "OpenAI",
+        "안티그래비티",
+        "FastFrames"
+      ],
+      "url": "https://www.instagram.com/aiscene.kr/p/DgGgpvIo7rJ/",
+      "sources": [
+        "Instagram"
+      ],
+      "metrics": {
+        "likes": 37,
+        "reposts": 0,
+        "replies": 0,
+        "views": 0,
+        "platform": "instagram",
+        "account": "aiscene.kr"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "bluesky_2657c38d88",
+      "category_id": "bluesky",
+      "category_name": "Bluesky",
+      "signal_id": "oss",
+      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
+      "importance": 82,
+      "headline": "LearnHarness: 학습자의 이해 구조를 그래프로 추적하는 오픈소스 AI 튜터링 하네스",
+      "title_ko": "LearnHarness: 학습자의 이해 구조를 그래프로 추적하는 오픈소스 AI 튜터링 하네스",
+      "summary_ko": "• **오픈소스 학습 하네스**: Shimmer Math Labs가 AGPL-3.0 라이선스로 무료 공개한 LearnHarness는 학습자의 현재 이해 수준을 진단해 단계별 수업을 설계하는 로컬 데스크톱 앱이다.\n• **의존성 트리와 컨텍스트 그래프**: 목표 개념까지 최소 의존성 트리를 구성하고, 매 단계 예측·설명·검증을 거친 추론 체인을 로컬 파일과 그래프로 축적해 서브에이전트 간 공유한다.\n• **개발자·자기주도 학습 가치**: 별도 구독 마크업 없이 기존 API 키나 AI 구독을 연결하고 시스템 프롬프트까지 직접 편집할 수 있어 기술 개념을 깊이 익히는 데 유용하다.",
+      "body_ko": "일반 챗봇에게 개념을 물어보면 정답을 바로 떠먹여 주어 오히려 깊은 이해를 방해하는 경우가 많다. Shimmer Math Labs가 공개한 LearnHarness는 학습의 노력을 없애는 대신 사고가 일어나는 지점에 노력을 집중시키도록 설계된 무료 오픈소스 학습 전용 에이전트 하네스다. 이 도구는 사용자가 이미 무엇을 알고 어떻게 추론하는지 먼저 탐색한 뒤, 현재 지식에서 목표 개념까지 이어지는 최소 의존성 트리를 수업 지도(lesson map) 형태로 구성한다. 수업은 한 번에 하나의 추론 단계만 밟으며, 사용자가 다음 단계를 먼저 예측하면 에이전트가 설명과 이해도 점검을 거쳐 오개념이 누적되기 전에 즉시 교정한다. 필요할 때는 서브에이전트를 호출해 팩트체크, PDF 분석, 다이어그램 생성, 인터랙티브 데모 제작까지 병행하며 막혔을 때는 정답 대신 최소한의 힌트만 제공한다. 특히 세션에서 도출된 명제와 추론 연결망을 압축된 로컬 파일과 그래프 형태로 영구 기록해 이후 세션과 에이전트들이 맥락을 그대로 이어받을 수 있게 했다. AGPL-3.0 기반 데스크톱 앱으로 설치해 본인의 API 키나 지원 AI 구독을 연결하면 별도 중개 수수료 없이 쓸 수 있고, 시스템 프롬프트도 열람·수정 가능하다.",
+      "author_profile": "@shimmermathlabs.com",
+      "publish_date": "2026-11-24T02:31:40.094Z",
+      "tags": [
+        "LearnHarness",
+        "오픈소스",
+        "에이전트 하네스",
+        "AI 학습"
+      ],
+      "url": "http://learnharness.ai/",
+      "sources": [
+        "Bluesky"
+      ],
+      "metrics": {
+        "likes": 12,
+        "reposts": 0,
+        "replies": 1,
+        "bluesky_url": "https://bsky.app/profile/shimmermathlabs.com/post/3n2zm3ecmlk22"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hackernews_73941fb430",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "signal_id": "oss",
+      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
+      "importance": 80,
+      "headline": "Hermit CRM: Git과 마크다운·MCP로 구동되는 1인 사업자용 로컬 오픈소스 CRM",
+      "title_ko": "Hermit CRM: Git과 마크다운·MCP로 구동되는 1인 사업자용 로컬 오픈소스 CRM",
+      "summary_ko": "• **AI 친화형 1인 CRM**: 독립 개발자 Gijs Bos가 스프레드시트 고객 관리를 대체하기 위해 데이터를 로컬 Git 저장소의 마크다운 파일로 보관하는 오픈소스 Hermit CRM을 공개했다.\n• **웹·CLI·MCP 3중 인터페이스**: 텔레메트리 없이 macOS 중심으로 동작하며 웹 앱과 CLI, MCP 서버를 모두 지원하고 링크드인 프로필·대화 내역을 원클릭으로 가져온다.\n• **확장성과 실무 장점**: 별도 SaaS 구독이나 링크드인 유료 플랜 없이 로컬 AI 에이전트가 고객 이력을 직접 읽고 자동화할 수 있으며 필요 시 AI로 손쉽게 포크·커스터마이징할 수 있다.",
+      "body_ko": "1인 사업자나 프리랜서 개발자가 고객 영업 파이프라인을 관리할 때 무거운 엔터프라이즈 SaaS는 과하고 구글 시트는 금세 뒤엉키기 쉽다. 독립 개발자 Gijs Bos가 Show HN을 통해 선보인 Hermit CRM은 이러한 1인 비즈니스를 겨냥해 처음부터 AI 에이전트 친화적으로 설계된 무료 오픈소스 고객 관리 도구다. 모든 거래 내역과 잠재 고객 데이터를 사유 클라우드 DB가 아닌 로컬 Git 저장소 안의 마크다운 파일로 저장해 버전 관리와 데이터 주권을 동시에 확보했다. 사용자는 취향에 따라 웹 애플리케이션, CLI는 물론 MCP(Model Context Protocol)를 통해 Claude Code 같은 AI 에이전트에서 직접 CRM 데이터를 조회하고 갱신할 수 있다. 실무 편의 기능으로는 별도의 링크드인 유료 구독이나 CRM 결제 없이도 링크드인 연락처와 대화 내용을 원클릭으로 로컬 CRM에 가져오는 기능을 탑재했다. 앱 내부에 어떠한 텔레메트리 수집 코드도 넣지 않았으며, 마음에 들지 않는 부분은 자신의 AI 코딩 도구로 저장소를 포크해 바로 고쳐 쓰라는 철학을 내세웠다. 현재 macOS 환경을 우선 지원하며 Linux는 제한적으로 테스트됐고 Windows는 아직 공식 지원하지 않는다.",
+      "author_profile": "@gijsbos",
+      "publish_date": "2026-11-23T10:09:02.000Z",
+      "tags": [
+        "Hermit CRM",
+        "오픈소스",
+        "MCP",
+        "로컬 퍼스트"
+      ],
+      "url": "https://hermitcrm.io/",
+      "sources": [
+        "Hacker News"
+      ],
+      "metrics": {
+        "points": 44,
+        "comments": 4,
+        "discussion_url": "https://news.ycombinator.com/item?id=50609708"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "aitimes_7b46b1c4b5",
+      "category_id": "aitimes",
+      "category_name": "AI타임스",
+      "signal_id": "policy",
+      "signal_name": "정책·규제·인프라 (기술 영향 큰 것만)",
+      "importance": 79,
+      "headline": "미 상무부, 메가스피드 등 7개사 블랙리스트 등재…해외 생산 AI 칩 공급까지 차단",
+      "title_ko": "미 상무부, 메가스피드 등 7개사 블랙리스트 등재…해외 생산 AI 칩 공급까지 차단",
+      "summary_ko": "• **수출 통제 명단 지정**: 미국 상무부 산업안보국(BIS)이 엔비디아 젠슨 황 CEO 복귀가 결정된 당일 싱가포르 메가스피드와 동남아 계열사 7곳을 수출 통제 블랙리스트(Entity List)에 올렸다.\n• **역외 AI 칩까지 제재**: 미국 수출관리규정(EAR) 적용 대상 반도체·소프트웨어·기술 공급이 전면 금지되며, 미국 외 지역에서 생산된 첨단 AI 칩 공급도 원칙적 불허 대상에 포함됐다.\n• **글로벌 GPU 공급망 영향**: 동남아 데이터센터 경유 중국 GPU 우회 조달 통로에 대한 규제가 한층 엄격해지면서 아시아권 클라우드·AI 인프라 조달 실사가 강화될 전망이다.",
+      "body_ko": "미국 상무부 산업안보국(BIS)이 11월 23일 연방관보를 통해 싱가포르 반도체 유통·데이터센터 기업 메가스피드와 말레이시아·태국 소재 계열사 등 총 7개 기업을 수출 통제 명단(Entity List)에 등재했다. 이번 조치는 지난해 10월 이후 약 13개월 만의 신규 블랙리스트 지정이며, 엔비디아 젠슨 황 CEO의 복귀 발표와 같은 날 단행됐다. 메가스피드는 수십억 달러 규모의 엔비디아 GPU를 구매하던 주요 고객사였으나 첨단 AI 칩을 중국으로 우회 반출했다는 의혹으로 2024년부터 상무부와 법무부의 조사를 받아 왔다. 블랙리스트 등재로 이들 7개 기업에 미국 수출관리규정(EAR) 대상 반도체와 소프트웨어, 기술을 공급하려면 허가가 필요하며 신청은 원칙적으로 거부된다. 특히 상무부는 미국 내에서 제조되지 않았더라도 EAR 규정이 적용되는 해외 생산 첨단 AI 칩 공급 역시 금지된다고 못 박았다. 다만 의회 내에서는 재무부·국방부 등의 지지에도 상무부가 제재를 수개월간 지연한 배경에 대해 추가 해명을 요구하고 있어 AI 반도체 수출 통제 압박은 당분간 이어질 전망이다.",
+      "author_profile": "박찬 기자",
+      "publish_date": "2026-11-24T02:56:18.000Z",
+      "tags": [
+        "수출 통제",
+        "AI 반도체",
+        "엔비디아",
+        "메가스피드"
+      ],
+      "url": "https://www.aitimes.com/news/articleView.html?idxno=217722",
+      "sources": [
+        "AI타임스"
+      ],
+      "metrics": {},
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "x_c5b9463dad",
+      "category_id": "x",
+      "category_name": "X",
+      "signal_id": "practice",
+      "signal_name": "AI 활용 사례·워크플로우 팁",
+      "importance": 78,
+      "headline": "Claude + MCP + Suno Visuals로 채팅창 하나에서 사진 기반 맞춤 음악·영상 완성하기",
+      "title_ko": "Claude + MCP + Suno Visuals로 채팅창 하나에서 사진 기반 맞춤 음악·영상 완성하기",
+      "summary_ko": "• **단일 채팅 멀티모달 파이프라인**: X 크리에이터 민초이(@minchoi)가 몇 장의 사진만으로 개인화된 노래와 뮤직비디오를 한 채팅창 안에서 끝내는 통합 워크플로우를 공유했다.\n• **도구 간 역할 분담**: Claude가 사진 맥락을 바탕으로 가사와 음악 스타일을 설계하고, MCP가 음원 생성을 실행하며, Suno Visuals가 영상을 시각화하는 3단계 연계 구조다.\n• **MCP 실전 확장성**: 코딩이나 문서 요약을 넘어 창작 영역에서도 LLM을 오케스트레이터로 두고 MCP로 외부 생성형 미디어 도구를 엮는 실전 패턴이 빠르게 정착하고 있다.",
+      "body_ko": "서로 다른 생성형 AI 웹 서비스를 오가며 결과물을 복사·붙여넣기하던 멀티모달 제작 과정이 MCP(Model Context Protocol)를 매개로 단일 대화창 안에 통합되고 있다. AI 큐레이터 민초이(@minchoi)는 X 게시물을 통해 몇 장의 개인 사진만 입력해 특별한 날을 위한 맞춤형 노래와 영상을 하나의 채팅 세션에서 완성하는 실전 워크플로우를 소개했다. 구체적으로는 Claude가 사진 속 사연과 분위기에 맞춰 가사와 장르 스타일을 먼저 작성하고, 연결된 MCP 도구가 이를 받아 실제 음원을 생성한 뒤, Suno Visuals가 음악에 어울리는 시각 장면으로 생명을 불어넣는 흐름이다. 사용자가 각 서비스의 UI를 따로 조작하거나 포맷을 수동 변환할 필요 없이 대화 맥락을 유지한 채 기획부터 최종 영상 렌더링까지 일괄 지시할 수 있다는 점이 핵심 강점이다. 이 게시물은 1만 1천 회 이상 조회되며 비개발자 창작자들 사이에서도 MCP 기반 에이전트 오케스트레이션이 실용 단계에 진입했음을 보여주었다. 다만 개별 도구 간 연동 안정성과 생성된 음원·영상의 저작권 및 상업적 활용 범위는 각 플랫폼 약관에 맞춰 별도로 확인해야 한다.",
+      "author_profile": "@minchoi",
+      "publish_date": "2026-11-24T00:26:10.611Z",
+      "tags": [
+        "MCP",
+        "Claude",
+        "Suno Visuals",
+        "워크플로우"
+      ],
+      "url": "https://x.com/minchoi/status/2125023133111562273",
+      "sources": [
+        "X"
+      ],
+      "metrics": {
+        "likes": 44,
+        "reposts": 8,
+        "replies": 21,
+        "views": 11046,
+        "platform": "x",
+        "account": "minchoi"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "x_eab87433c1",
+      "category_id": "x",
+      "category_name": "X",
+      "signal_id": "practice",
+      "signal_name": "AI 활용 사례·워크플로우 팁",
+      "importance": 77,
+      "headline": "AI 답변을 줄 단위로 검수하지 않는 법: '완료 기준' 기반 자가 검증 프롬프트 전략",
+      "title_ko": "AI 답변을 줄 단위로 검수하지 않는 법: '완료 기준' 기반 자가 검증 프롬프트 전략",
+      "summary_ko": "• **AI 초안 품질 문제 진단**: 프롬프트 엔지니어링 계정 @godofprompt는 부실한 AI 답변의 주원인이 모델 성능 부족이 아니라 '완료 기준(what done looks like)' 미정의에 있다고 짚었다.\n• **자가 검증 루프 설계**: 모델이 그럴듯한 첫 초안에서 멈추지 않도록 출력 전 스스로 기준 충족 여부를 점검하고 통과한 버전만 제출하게 만드는 5단계 셀프 체크 전략을 제시했다.\n• **실무 리뷰 시간 단축**: 코드·문서·보고서 작성 시 체크리스트와 실패 조건을 프롬프트에 내장하면 사람이 모든 문장을 일일이 검수하는 인지 피로를 크게 줄일 수 있다.",
+      "body_ko": "생성형 AI를 실무에 도입한 사용자들이 가장 흔히 겪는 피로감은 모델이 내놓은 결과물을 처음부터 끝까지 줄 단위로 다시 검수해야 한다는 점이다. 프롬프트 전문 계정 @godofprompt는 X를 통해 이 문제가 모델의 지능이 약해서가 아니라, 사용자 측에서 '완료된 결과물이 어떤 모습이어야 하는지' 명확히 알려주지 않았기 때문에 발생한다고 지적했다. 완료 기준이 없으면 언어 모델은 겉보기에 그럴듯한 첫 번째 초안을 작성하는 즉시 생성을 멈추는 경향이 있다. 이를 해결하기 위해 답변을 바로 출력하게 두는 대신, 모델 스스로 초안을 평가·교정하고 검증을 통과한 최종본만 사용자에게 전달하도록 유도하는 자가 검증(self-check) 프롬프트 패턴 5가지를 제안했다. 핵심은 정답 생성과 품질 심사 역할을 프롬프트 내부에서 분리해 누락된 제약조건, 논리 비약, 형식 오류를 모델이 먼저 걸러내게 만드는 데 있다. 실무 개발자나 기획자 역시 반복 업무용 시스템 프롬프트에 명시적인 완료 정의(Definition of Done)와 자가 검증 체크리스트를 삽입하면 검토 비용을 눈에 띄게 낮출 수 있다. 다만 사실관계 검증이나 최신 API 스펙 확인처럼 외부 근거가 필요한 항목은 모델 자가 점검만으로 환각을 완전히 막기 어렵므로 도구 실행이나 테스트 자동화와 병행해야 한다.",
+      "author_profile": "@godofprompt",
+      "publish_date": "2026-11-23T14:01:14.698Z",
+      "tags": [
+        "프롬프트 엔지니어링",
+        "자가 검증",
+        "생산성",
+        "AI 활용"
+      ],
+      "url": "https://x.com/godofprompt/status/2124865863853776952",
+      "sources": [
+        "X"
+      ],
+      "metrics": {
+        "likes": 4,
+        "reposts": 0,
+        "replies": 9,
+        "views": 629,
+        "platform": "x",
+        "account": "godofprompt"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "threads_19caa0bb6d",
+      "category_id": "threads",
+      "category_name": "Threads",
+      "signal_id": "practice",
+      "signal_name": "AI 활용 사례·워크플로우 팁",
+      "importance": 76,
+      "headline": "클로드 오푸스 5.5 + 제미나이 네온 역할 분담으로 숏폼 릴스 원샷 제작하기",
+      "title_ko": "클로드 오푸스 5.5 + 제미나이 네온 역할 분담으로 숏폼 릴스 원샷 제작하기",
+      "summary_ko": "• **멀티모델 릴스 파이프라인**: 스레드 크리에이터 @prompt_what이 클로드 오푸스 5.5와 제미나이 네온을 분업시켜 숏폼 릴스를 원샷 프롬프트로 제작한 실전 사례를 공개했다.\n• **강점 기반 역할 분리**: 서사 구성과 대본·장면 순서 기획은 클로드 오푸스 5.5가 맡고, 음성·3D 장면·자막·효과음·최종 렌더링은 제미나이 네온에 일괄 위임하는 조합이다.\n• **구독 최적화 인사이트**: 단일 모델로 모든 공정을 처리하려 하기보다 텍스트 구조화 강점 모델과 멀티모달 렌더링 강점 모델을 직렬 연결하는 것이 실무 효율이 높다.",
+      "body_ko": "프론티어 모델들이 각기 다른 영역에서 특화 성능을 보이면서, 단일 모델만 고집하기보다 여러 모델을 공정별로 조합하는 멀티모델 워크플로우가 실무 표준으로 자리 잡고 있다. AI 크리에이터 @prompt_what은 스레드 게시물에서 클로드 오푸스 5.5와 구글의 신모델 제미나이 네온을 결합한 '원샷 프롬프트 릴스' 제작 구성을 공유했다. 이 파이프라인에서는 스토리텔링과 구조화 능력이 뛰어난 클로드 오푸스 5.5에게 영상 대본 작성과 장면 시퀀스 설계를 전담시킨다. 이어서 확정된 대본과 장면 지시서를 제미나이 네온에 넘겨 음성 나레이션, 3D 장면 연출, 자막, 효과음, 그리고 최종 렌더링까지 한 번에 뽑아내는 방식이다. 이처럼 기획·스크립트 계층과 멀티모달 합성·렌더링 계층을 분리하면 각 모델의 약점을 상쇄하면서 고가 요금제(울트라 구독 등)의 효용을 극대화할 수 있다. 짧은 실무 공유글이지만 영상·마케팅·프로토타이핑 분야에서 최신 모델들을 어떻게 파이프라인으로 엮어 써야 하는지 직관적인 기준을 제시한다.",
+      "author_profile": "@prompt_what",
+      "publish_date": "2026-11-23T07:59:29.000Z",
+      "tags": [
+        "Gemini Neon",
+        "Claude Opus 5.5",
+        "멀티모델",
+        "영상 제작"
+      ],
+      "url": "https://www.threads.com/@prompt_what/post/DgE5M5gikH2",
+      "sources": [
+        "Threads"
+      ],
+      "metrics": {
+        "likes": 5,
+        "reposts": 1,
+        "replies": 2,
+        "platform": "threads",
+        "account": "prompt_what"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "threads_b309d5702f",
+      "category_id": "threads",
+      "category_name": "Threads",
+      "signal_id": "insight",
+      "signal_name": "💡 소셜 인사이트·실무 활용 팁·모델 체감 리뷰·프롬프트 노하우",
+      "importance": 75,
+      "headline": "행렬식(ad-bc)과 퍼머넌트(ad+bc): 부호 하나가 만든 47년 난제 VP ≠ VNP의 직관",
+      "title_ko": "행렬식(ad-bc)과 퍼머넌트(ad+bc): 부호 하나가 만든 47년 난제 VP ≠ VNP의 직관",
+      "summary_ko": "• **47년 난제의 핵심 직관**: 스레드 계정 @choi.openai가 앤트로픽 Claude의 VP ≠ VNP 증명 화제와 관련해 행렬식과 퍼머넌트의 계산량 격차를 알기 쉽게 풀어냈다.\n• **부호 하나의 계산 복잡도 차이**: 행렬 크기가 커지면 둘 다 m!개 항을 갖지만, 행렬식은 엇갈린 부호의 상쇄 덕분에 다항식 횟수로 풀리는 반면 퍼머넌트는 지수적 연산이 필요하다.\n• **이론적 배경 이해**: 1979년 레슬리 밸리언트가 제시한 '퍼머넌트는 작은 산술 회로로 계산 불가'라는 추측의 본질을 비전공 개발자도 단숨에 파악할 수 있도록 정리했다.",
+      "body_ko": "앤트로픽의 내부 Claude 모델이 대수적 계산복잡도 난제인 'VP ≠ VNP' 증명 시도를 공개하면서, 이 추측이 정확히 어떤 수학적 문제에서 출발했는지에 대한 관심도 커지고 있다. AI 소식 큐레이터 @choi.openai는 스레드 해설을 통해 2×2 행렬의 행렬식(ad−bc)과 퍼머넌트(ad+bc)라는 친숙한 수식으로 문제의 핵심을 명쾌하게 짚었다. 행렬의 크기가 m×m으로 커지면 두 식 모두 전개되는 항의 개수가 m!개로 폭발적으로 늘어난다는 점은 똑같다. 하지만 행렬식은 덧셈과 뺄셈 부호가 교차하면서 내부 항들이 서로 상쇄되는 대수적 구조 덕분에, 덧셈과 곱셈을 다항식 횟수만 사용해 빠르게 계산하는 알고리즘이 존재한다. 반면 퍼머넌트는 부호 하나를 플러스로 바꿨을 뿐인데 이 상쇄 지름길이 완전히 막혀 버려, 현재 알려진 가장 빠른 방법조차 행렬이 커질수록 계산량이 지수적으로 폭증한다. 1979년 컴퓨터 과학자 레슬리 밸리언트는 바로 이 현상에 주목해 퍼머넌트는 덧셈과 곱셈만으로 작은 산술 회로를 구성할 수 없을 것이라는 VP ≠ VNP 추측을 제기했다. 복잡한 대수기하학 용어 없이도 왜 부호 하나의 차이가 47년간 컴퓨터 과학계의 대표 미해결 과제로 남았는지 직관적으로 이해할 수 있게 돕는 유용한 해설이다.",
+      "author_profile": "@choi.openai",
+      "publish_date": "2026-11-24T03:30:52.000Z",
+      "tags": [
+        "VP vs VNP",
+        "퍼머넌트",
+        "계산복잡도",
+        "수학 해설"
+      ],
+      "url": "https://www.threads.com/@choi.openai/post/DgG_pFKD0Aj",
+      "sources": [
+        "Threads"
+      ],
+      "metrics": {
+        "likes": 3,
+        "reposts": 0,
+        "replies": 1,
+        "platform": "threads",
+        "account": "choi.openai"
+      },
+      "curated_by": "ldk-hub"
+    }
+  ]
+}

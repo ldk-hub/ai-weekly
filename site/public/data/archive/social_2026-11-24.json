@@ -1,0 +1,487 @@
+{
+  "date": "2026-11-24",
+  "generatedAt": "2026-11-24T05:07:08.656Z",
+  "count": 20,
+  "items": [
+    {
+      "id": "x:2124980590717911527",
+      "platform": "x",
+      "author": "@openai",
+      "url": "https://x.com/openai/status/2124980590717911527",
+      "thumbnail": "https://pbs.twimg.com/media/HX1vOUNXwAESQQN?format=webp&name=large",
+      "publishedAt": "2026-11-23T21:37:07.714000+00:00",
+      "metrics": {
+        "likes": 12810,
+        "reposts": 2145,
+        "replies": 496,
+        "views": 1088149
+      },
+      "relevance": 95,
+      "title_ko": "오픈AI, 에이전트 무중단 보안 런타임 'Shirudo' 공개",
+      "summary_ko": "오픈AI가 AI 에이전트가 서비스 중단 없이 리눅스 시스템을 방어할 수 있는 오픈소스 런타임 Shirudo를 발표했습니다. 에이전트가 동적 eBPF 제어 규칙을 직접 작성해 취약점 악용을 즉시 차단하고, 보안 팀이 정식 패치를 검증·배포할 시간을 벌어주는 구조입니다.",
+      "tags": [
+        "Shirudo",
+        "eBPF",
+        "에이전트 보안",
+        "오픈소스"
+      ],
+      "score": 91
+    },
+    {
+      "id": "x:2124911073266413634",
+      "platform": "x",
+      "author": "@googledeepmind",
+      "url": "https://x.com/googledeepmind/status/2124911073266413634",
+      "thumbnail": "https://pbs.twimg.com/media/HX0zDLEXQAE654e?format=webp&name=large",
+      "publishedAt": "2026-11-23T17:00:53.462000+00:00",
+      "metrics": {
+        "likes": 3849,
+        "reposts": 614,
+        "replies": 233,
+        "views": 248586
+      },
+      "relevance": 92,
+      "title_ko": "구글 딥마인드, Gemini 4로 양자 회로 비용 10배 절감",
+      "summary_ko": "구글 딥마인드가 여러 Gemini 4 에이전트 팀을 협업시켜 차세대 양자 시뮬레이션 비용을 최대 10분의 1로 낮추는 새로운 양자 회로를 설계했습니다. 초기 양자 하드웨어에서도 핵융합 에너지, 화학, 신약 개발 알고리즘을 더 효율적으로 구동하기 위한 핵심 진전입니다.",
+      "tags": [
+        "Gemini 4",
+        "양자컴퓨팅",
+        "딥마인드",
+        "멀티에이전트"
+      ],
+      "score": 86
+    },
+    {
+      "id": "x:2125007927098699827",
+      "platform": "x",
+      "author": "@openai",
+      "url": "https://x.com/openai/status/2125007927098699827",
+      "thumbnail": "",
+      "publishedAt": "2026-11-23T23:25:45.215000+00:00",
+      "metrics": {
+        "likes": 1990,
+        "reposts": 221,
+        "replies": 233,
+        "views": 371564
+      },
+      "relevance": 93,
+      "title_ko": "GPT-6 Cyber, 리눅스 커널 취약점 948건 검증·패치",
+      "summary_ko": "오픈AI의 보안 특화 모델 GPT-6 Cyber가 단 한 번의 실행으로 로컬 루트 권한 탈취로 이어질 수 있는 리눅스 커널 버그 948건을 검증하고 검토용 패치를 생성했습니다. 연구진은 메인테이너들과 협업해 해당 수정 사항을 업스트림에 반영한 과정을 연구 리포트로 공유했습니다.",
+      "tags": [
+        "GPT-6 Cyber",
+        "리눅스 커널",
+        "보안 패치",
+        "OpenAI"
+      ],
+      "score": 84
+    },
+    {
+      "id": "x:2124959312606818597",
+      "platform": "x",
+      "author": "@googledeepmind",
+      "url": "https://x.com/googledeepmind/status/2124959312606818597",
+      "thumbnail": "",
+      "publishedAt": "2026-11-23T20:12:34.617000+00:00",
+      "metrics": {
+        "likes": 1422,
+        "reposts": 126,
+        "replies": 105,
+        "views": 68538
+      },
+      "relevance": 88,
+      "title_ko": "Gemini 4 Neon, 1936년 앨런 튜링 연구실 3D 재현",
+      "summary_ko": "구글 딥마인드가 Gemini 4 Neon으로 기록 사진을 분석해 1936년 킹스 칼리지 X.8호 앨런 튜링의 연구실을 인터랙티브 3D 공간으로 구현했습니다. 단순 공간 복원을 넘어 방 안에서 실제로 작동하는 만능 튜링 머신까지 함께 구현해 고난도 3D 코드 생성 능력을 입증했습니다.",
+      "tags": [
+        "Gemini 4 Neon",
+        "3D 생성",
+        "튜링 머신",
+        "딥마인드"
+      ],
+      "score": 79
+    },
+    {
+      "id": "instagram:DgEm-3boxWN",
+      "platform": "instagram",
+      "author": "@prompt_what",
+      "url": "https://www.instagram.com/prompt_what/p/DgEm-3boxWN/",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/928667933_18135869993483014_4780283010803541859_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=107&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=iBzJx3JHuZIQ7kNvwGUQFKF&_nc_oc=AdqV4kjgSHmOm9-nUHBb3kvGhaSzwmrlPWh3dCeYjv7LodWqu8dpAI0VHXbHyztGrPM&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=4tsNLYTZcYpdZnUQUrwBMQ&_nc_ss=7a789&_nc_ct=RQosPBUKFQ4AAAA&oh=00_AQRGGuseZBU65dyTv9scwRchdpmh7H_6DJj34EjmuwPI5A&oe=6B0AEC85",
+      "publishedAt": "2026-11-23T05:16:58.000Z",
+      "metrics": {
+        "likes": 399,
+        "reposts": 0,
+        "replies": 128,
+        "views": 0
+      },
+      "relevance": 91,
+      "title_ko": "구글 Gemini 4 3연속 출시 및 12월 API 단가 2배 인상",
+      "summary_ko": "구글이 11월 10일 Carbon 이후 Hydrogen·Neon까지 2주 만에 신모델 3종을 공개하며 맥 화면 클릭 제어, 한국 무료 Tasks, 안티그래비티 음성 모드를 열었습니다. 동시에 12월 1일부터 Carbon·Argon API 요금이 두 배로 오르는 만큼 모델 선택과 비용 점검이 필요합니다.",
+      "tags": [
+        "Gemini 4",
+        "안티그래비티",
+        "API 가격",
+        "구글"
+      ],
+      "score": 77
+    },
+    {
+      "id": "instagram:DgFOUJvgQbc",
+      "platform": "instagram",
+      "author": "@aiscene.kr",
+      "url": "https://www.instagram.com/aiscene.kr/reel/DgFOUJvgQbc/",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/919829391_18120125051056710_8619478585056233669_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=101&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=IocvEnq_GVEQ7kNvwF7ERbe&_nc_oc=AdrKMkTijNHdYogsHFqj-uFY-2bJfUprzJWZ2UaWa_P78ghzZMv9uBtNQjEgzSBJ7B4&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=we_Plqf3rKkAKl73hfT3tQ&_nc_ss=7a789&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQT3D4KmL0pDvx833QYySpED012o-hGEF8tEZSXMDaXsew&oe=6B0AE6D3",
+      "publishedAt": "2026-11-23T11:00:08.000Z",
+      "metrics": {
+        "likes": 574,
+        "reposts": 0,
+        "replies": 36,
+        "views": 0
+      },
+      "relevance": 89,
+      "title_ko": "주간 깃허브 급상승 TOP10: 유니버 1위·크롬 MCP 주목",
+      "summary_ko": "11월 22일 기준 일주일간 스타 급상승 오픈소스 순위에서 4년 된 문서·스프레드시트 엔진 유니버가 한 주 7,539별을 얻어 1위에 올랐습니다. 로컬 영상 편집용 FFmpeg 스킬(도구 42종)과 AI가 크롬을 직접 진단하는 Chrome DevTools MCP 등 실전 개발 도구가 대거 포진했습니다.",
+      "tags": [
+        "깃허브 트렌드",
+        "MCP",
+        "오픈소스",
+        "개발 도구"
+      ],
+      "score": 76
+    },
+    {
+      "id": "x:2124869837545701845",
+      "platform": "x",
+      "author": "@omarsar0",
+      "url": "https://x.com/omarsar0/status/2124869837545701845",
+      "thumbnail": "https://pbs.twimg.com/media/HX0N2yqacAA9VwZ?format=webp&name=large",
+      "publishedAt": "2026-11-23T14:17:02.100000+00:00",
+      "metrics": {
+        "likes": 140,
+        "reposts": 29,
+        "replies": 44,
+        "views": 9448
+      },
+      "relevance": 89,
+      "title_ko": "알리바바, 모델·하네스 공진화 RSI 에이전트 논문",
+      "summary_ko": "엘비스 사르비아(@omarsar0)가 에이전트의 재귀적 자기개선(RSI)을 다룬 알리바바의 최신 연구 논문을 추천했습니다. 모델 자체뿐 아니라 모델을 감싸는 하네스를 함께 진화시킬 때 에이전트 성능 격차가 크게 벌어진다는 실증 근거를 제시합니다.",
+      "tags": [
+        "RSI",
+        "에이전트 하네스",
+        "알리바바",
+        "AI 논문"
+      ],
+      "score": 73
+    },
+    {
+      "id": "threads:DgG_nt-jw7-",
+      "platform": "threads",
+      "author": "@choi.openai",
+      "url": "https://www.threads.com/@choi.openai/post/DgG_nt-jw7-",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/919913989_17998380273112832_5601058513316247807_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=109&_nc_map=urlgen_bucketless&ig_cache_key=NDAzNzE5MzkyMjM0MTk2NTU2Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNzY5LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=Wm6mLsD2CNEQ7kNvwE5mvVT&_nc_oc=AdqgKCQgnq-8CHn_L-yKexLtVfl_TjkLZf-rMaaF_N4KaY2yZ_FPV1Unr43c5xR9EUc&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=p7cwUjOZh4aG0_8liFQhFw&_nc_ss=7a389&_nc_ct=RQosPBUIFQIlBAAAAA&oh=00_AQQGNr5UH625V-VVFWHBxBqYj8Rss_DJ5Z7i-2SFwHY2qw&oe=6B0AE9EB",
+      "publishedAt": "2026-11-24T03:30:40.000Z",
+      "metrics": {
+        "likes": 62,
+        "reposts": 5,
+        "replies": 26,
+        "views": 0
+      },
+      "relevance": 91,
+      "title_ko": "앤트로픽 Claude, 47년 난제 VP ≠ VNP Lean 증명 공개",
+      "summary_ko": "앤트로픽이 리만 가설 이슈 사흘 만에 Claude 단독 저자 명의의 70쪽 논문과 7만 3,000줄 규모 Lean 형식 증명을 GitHub에 게시했습니다. 1979년 레슬리 밸리언트가 제시한 대수판 P vs NP 추측(VP ≠ VNP)을 모든 체에서 증명했다는 주장과 검증 현황을 요약합니다.",
+      "tags": [
+        "VP vs VNP",
+        "Claude",
+        "Lean 4",
+        "수학 증명"
+      ],
+      "score": 71
+    },
+    {
+      "id": "x:2124961081819086946",
+      "platform": "x",
+      "author": "@omarsar0",
+      "url": "https://x.com/omarsar0/status/2124961081819086946",
+      "thumbnail": "https://pbs.twimg.com/media/HX1fLk3XoAEMq0t?format=webp&name=medium",
+      "publishedAt": "2026-11-23T20:19:36.430000+00:00",
+      "metrics": {
+        "likes": 44,
+        "reposts": 3,
+        "replies": 19,
+        "views": 6979
+      },
+      "relevance": 90,
+      "title_ko": "에이전트 안정화: 추론 모델 대신 추출·결정 모델 분리",
+      "summary_ko": "모든 작업에 고비용 추론 LLM을 투입하면 비용이 치솟고 결과의 일관성도 떨어집니다. 에이전트 파이프라인의 결정론적 안정성과 검증 신뢰도를 높이려면 전용 추출(Extraction) 모델과 의사결정(Decision) 모델을 단계별로 분리 배치해야 한다는 실무 아키텍처 조언입니다.",
+      "tags": [
+        "에이전트 설계",
+        "신뢰성",
+        "비용 최적화",
+        "아키텍처"
+      ],
+      "score": 70
+    },
+    {
+      "id": "instagram:DgE9G8DSG2i",
+      "platform": "instagram",
+      "author": "@prompt_what",
+      "url": "https://www.instagram.com/prompt_what/reel/DgE9G8DSG2i/",
+      "thumbnail": "https://scontent-nrt1-1.cdninstagram.com/v/t51.82787-15/921183234_2674600532989476_3865858730253629835_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=103&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=XaziCCZcSNcQ7kNvwGc4Nj_&_nc_oc=Adq8SUEwm6b1YWVsDCyw3cpkZUZtGvOtIuE4o6AeWeX5Ud_T0EBHq2aB7fEaOUJtMxI&_nc_zt=23&_nc_ht=scontent-nrt1-1.cdninstagram.com&_nc_gid=gX15ZVDidWBP3DggUTaqzQ&_nc_ss=7a789&_nc_ct=RQosPBUKFQwAAAA&oh=00_AQRnflVaDxVCZvsQoQbLnAptyK6UbFOLvQFolPxodbfy8Q&oe=6B0ADEC9",
+      "publishedAt": "2026-11-23T08:30:21.000Z",
+      "metrics": {
+        "likes": 49,
+        "reposts": 0,
+        "replies": 83,
+        "views": 0
+      },
+      "relevance": 84,
+      "title_ko": "PDF 책 한 권을 슬래시 코드로 요약하는 ChatGPT 세팅",
+      "summary_ko": "ChatGPT 첫 메시지에 설정 프롬프트를 한 번 등록해 두고 PDF 업로드 후 슬래시 명령어만 바꾸는 책 요약 워크플로우입니다. 같은 원문을 마인드맵, 한 장 요약표, 인물 관계도, 확인 문제 등 원하는 시각 포맷으로 빠르게 전환해 학습 효율을 높일 수 있습니다.",
+      "tags": [
+        "ChatGPT",
+        "PDF 요약",
+        "슬래시 프롬프트",
+        "학습 팁"
+      ],
+      "score": 69
+    },
+    {
+      "id": "x:2125023133111562273",
+      "platform": "x",
+      "author": "@minchoi",
+      "url": "https://x.com/minchoi/status/2125023133111562273",
+      "thumbnail": "",
+      "publishedAt": "2026-11-24T00:26:10.611000+00:00",
+      "metrics": {
+        "likes": 44,
+        "reposts": 8,
+        "replies": 21,
+        "views": 11158
+      },
+      "relevance": 86,
+      "title_ko": "Claude·MCP·Suno로 한 채팅에서 사진→음악·영상 완성",
+      "summary_ko": "사진 몇 장만 입력해 특별한 날의 맞춤형 노래와 비주얼 영상을 채팅창 하나에서 끝내는 멀티모달 제작 흐름이 공유됐습니다. Claude가 가사와 곡 분위기를 기획하고 MCP가 음원을 생성하며 Suno Visuals가 영상으로 렌더링하는 3단계 연계 패턴입니다.",
+      "tags": [
+        "MCP",
+        "Claude",
+        "Suno Visuals",
+        "워크플로우"
+      ],
+      "score": 68
+    },
+    {
+      "id": "threads:DgHDD_Kkaso",
+      "platform": "threads",
+      "author": "@choi.openai",
+      "url": "https://www.threads.com/@choi.openai/post/DgHDD_Kkaso",
+      "thumbnail": "https://scontent-nrt1-2.cdninstagram.com/v/t51.71878-15/926736479_2242823013283777_8970229865802432835_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&_nc_map=urlgen_bucketless&ig_cache_key=NDAzNzIwOTA1OTA4MTk1NjEzNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19maXJzdF9mcmFtZV90aHVtYm5haWwuQzMifQ%3D%3D&_nc_ohc=2MJx2Vd_oJMQ7kNvwEK7Vlr&_nc_oc=Ado_T_f8kOF18iuV9AVf1xoLpL39v6NA3pT7fCMDAI88cEjV5eMvhUhODHQlOhM2a6M&_nc_zt=23&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_gid=p7cwUjOZh4aG0_8liFQhFw&_nc_ss=7a389&_nc_ct=RQosPBUIFQolBAAAAA&oh=00_AQRyLIn4HQcKHmJN2h8uYyvaI_hHLYSw__yHXTapYexGwg&oe=6B0AD0E8",
+      "publishedAt": "2026-11-24T04:00:45.000Z",
+      "metrics": {
+        "likes": 26,
+        "reposts": 3,
+        "replies": 4,
+        "views": 0
+      },
+      "relevance": 90,
+      "title_ko": "오픈AI, 일상 대화 특화 'GPT-6.2 Sol' 순차 배포",
+      "summary_ko": "오픈AI가 세부 지시 수행과 웹 정보 탐색에 강점을 둔 일상 대화용 GPT-6.2 Sol을 Plus·Pro·Business·Enterprise 구독자에게 순차 적용합니다. 사진 속 작은 글씨·표지판 인식과 가격·위치 조건별 상품 비교, 가격 인하 알림 같은 후속 제안 기능이 강화됐습니다.",
+      "tags": [
+        "GPT-6.2 Sol",
+        "OpenAI",
+        "ChatGPT",
+        "모델 출시"
+      ],
+      "score": 67
+    },
+    {
+      "id": "instagram:DgGgpvIo7rJ",
+      "platform": "instagram",
+      "author": "@aiscene.kr",
+      "url": "https://www.instagram.com/aiscene.kr/p/DgGgpvIo7rJ/",
+      "thumbnail": "https://scontent-nrt1-1.cdninstagram.com/v/t51.82787-15/928715636_18120404234056710_5923806830706637019_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=100&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=g-36dWFby-wQ7kNvwFh6-V8&_nc_oc=AdpjJptel62SNiksVuCHySa0UE-BScMDnU8WZtOFqTtdb6Mn2UbvwSvHagEt4SqP2oU&_nc_zt=23&_nc_ht=scontent-nrt1-1.cdninstagram.com&_nc_gid=TVUxMruox5qBZcFlb6lbdw&_nc_ss=7a789&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQRUr1JAYA0L3yKuq5WgNQbrZei8gfWT5HJZ4EtFdO3EBA&oe=6B0AE6E4",
+      "publishedAt": "2026-11-23T23:00:07.000Z",
+      "metrics": {
+        "likes": 37,
+        "reposts": 0,
+        "replies": 0,
+        "views": 0
+      },
+      "relevance": 88,
+      "title_ko": "오픈AI 퍼플렉서티 0.76 공개·안티그래비티 /btw 개편",
+      "summary_ko": "오픈AI 수석과학자 야쿠프 파초키가 내부 퍼플렉서티 0.76 모델부터 수학 난제를 연달아 풀었다며 업계 안전 기준 지표를 제안했습니다. 이와 함께 알렉산더 왕의 초지능 경고, 안티그래비티 `/btw` 곁가지 대화 승격 기능, 애플의 0.05초 실시간 영상 AI FastFrames 소식을 한눈에 정리했습니다.",
+      "tags": [
+        "퍼플렉서티",
+        "안티그래비티",
+        "FastFrames",
+        "AI 동향"
+      ],
+      "score": 66
+    },
+    {
+      "id": "x:2124865863853776952",
+      "platform": "x",
+      "author": "@godofprompt",
+      "url": "https://x.com/godofprompt/status/2124865863853776952",
+      "thumbnail": "https://pbs.twimg.com/media/HX0KPheaYAAHCPO?format=webp&name=large",
+      "publishedAt": "2026-11-23T14:01:14.698000+00:00",
+      "metrics": {
+        "likes": 4,
+        "reposts": 0,
+        "replies": 9,
+        "views": 630
+      },
+      "relevance": 88,
+      "title_ko": "AI가 스스로 검수하게 만드는 완료 기준 5가지 프롬프트",
+      "summary_ko": "AI 답변을 줄 단위로 다시 고쳐야 하는 이유는 모델 성능보다 완료 기준(Definition of Done)을 명시하지 않아 첫 초안에서 멈추기 때문입니다. 출력 전 모델 스스로 기준 충족 여부를 점검해 통과본만 제출하게 만드는 자가 검증 프롬프트 설계 핵심을 짚어줍니다.",
+      "tags": [
+        "프롬프트 팁",
+        "자가 검증",
+        "생산성",
+        "업무 자동화"
+      ],
+      "score": 64
+    },
+    {
+      "id": "x:2124933620783808682",
+      "platform": "x",
+      "author": "@omarsar0",
+      "url": "https://x.com/omarsar0/status/2124933620783808682",
+      "thumbnail": "",
+      "publishedAt": "2026-11-23T18:30:29.209000+00:00",
+      "metrics": {
+        "likes": 16,
+        "reposts": 0,
+        "replies": 6,
+        "views": 3846
+      },
+      "relevance": 85,
+      "title_ko": "시각·WebGL 지능 벤치마크 Copy Bench, GPT-6.2 선두",
+      "summary_ko": "물리 엔진, 3D, WebGL, 셰이더, 게임 구현 능력을 평가해 프론티어 모델의 시각 지능을 가늠하는 신규 벤치마크 Copy Bench가 주목받고 있습니다. 현재 전 항목에서 GPT-6.2 Astra가 두드러진 성적을 기록하고 있어 인터랙티브 그래픽 작업용 모델 선정 기준으로 참고할 만합니다.",
+      "tags": [
+        "Copy Bench",
+        "GPT-6.2 Astra",
+        "WebGL",
+        "벤치마크"
+      ],
+      "score": 63
+    },
+    {
+      "id": "instagram:DgFQfPOMGK1",
+      "platform": "instagram",
+      "author": "@joshproductletter",
+      "url": "https://www.instagram.com/joshproductletter/reel/DgFQfPOMGK1/",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/926458094_17992842474063763_1489751680246177224_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=104&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=zoAsm_IJ4aoQ7kNvwExiJSE&_nc_oc=Adqj2goYOxvnRbQT8lQ3grSj1k328FYigpr9KkhqOPn3WrM6zHVUwnJLtoFHOP-reW8&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=Lhg7qTRGMVw5u3OZgoBUEw&_nc_ss=7a789&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQTfexx4ND7ChXoB7D_EyQR2nYZRtY9k6F-Yt5U4z8tHrQ&oe=6B0B06F7",
+      "publishedAt": "2026-11-23T11:20:44.000Z",
+      "metrics": {
+        "likes": 8,
+        "reposts": 0,
+        "replies": 8,
+        "views": 0
+      },
+      "relevance": 83,
+      "title_ko": "클로드 코드에 '훨씬 재밌게' 한 줄로 게임 8기능 추가",
+      "summary_ko": "1분 반 만에 만든 단순 운석 피하기 게임에 세부 명세 없이 재미를 높여달라는 한 줄 프롬프트만 던져 4분 만에 대시·피버 모드·아이템 5종·가변 운석 장벽을 추가한 바이브 코딩 사례입니다. 개방형 개선 요청을 에이전트가 스스로 기획·구현하는 반복 개발 패턴을 보여줍니다.",
+      "tags": [
+        "바이브 코딩",
+        "클로드 코드",
+        "게임 제작",
+        "프롬프트"
+      ],
+      "score": 61
+    },
+    {
+      "id": "threads:DgE5M5gikH2",
+      "platform": "threads",
+      "author": "@prompt_what",
+      "url": "https://www.threads.com/@prompt_what/post/DgE5M5gikH2",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.71878-15/922777406_2253087245552896_8904726181639395366_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&_nc_map=urlgen_bucketless&ig_cache_key=NDAzNjYwMjc0MTA2NDg3NjUzNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19maXJzdF9mcmFtZV90aHVtYm5haWwuQzMifQ%3D%3D&_nc_ohc=M7A0RV2BxREQ7kNvwF4WWvq&_nc_oc=AdrZMzItBEXNA-RdHnCHn1POXKTClKpfgelbM_HyxtnIBNeuHUFFAGsgIBqL_X0PWKM&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=9urbhnRnT8Y6_2WAZGQwvg&_nc_ss=7a389&_nc_ct=RQosPBUIFQolBAAAAA&oh=00_AQSWVVW_hv-sK932r4cgHeu_tIK5YuLpFF2fPM-ZAhpOEg&oe=6B0AFF4E",
+      "publishedAt": "2026-11-23T07:59:29.000Z",
+      "metrics": {
+        "likes": 5,
+        "reposts": 1,
+        "replies": 2,
+        "views": 0
+      },
+      "relevance": 84,
+      "title_ko": "오푸스 5.5 + 제미나이 네온 원샷 릴스 제작 조합",
+      "summary_ko": "숏폼 릴스 제작 시 단일 모델에 의존하지 않고 강점별로 역할을 나눈 멀티모델 실전 조합이 공유됐습니다. 대본과 장면 순서는 클로드 오푸스 5.5가 맡고, 음성·3D 장면·자막·효과음·렌더링은 제미나이 네온에 일괄 위임하는 방식입니다.",
+      "tags": [
+        "제미나이 네온",
+        "오푸스 5.5",
+        "멀티모델",
+        "릴스 제작"
+      ],
+      "score": 59
+    },
+    {
+      "id": "instagram:DgG15uFD37S",
+      "platform": "instagram",
+      "author": "@joshproductletter",
+      "url": "https://www.instagram.com/joshproductletter/p/DgG15uFD37S/",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/921191549_17992915692063763_4749229634058027524_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=106&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=VZbN0sx-fs4Q7kNvwEmi2Ka&_nc_oc=AdrjGWDzHhGgkMQEC7jEis_jTZf8Wn_-L_SDOocxUn-K0xk0lLuZMEj-GBdQdoQ9x-A&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=Nh-7HRSX08Js6X_W-QGfZA&_nc_ss=7a789&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQQXWDATbENaaQq2wm8txJHM7USfT5pXKM5HdNu2ASEgqA&oe=6B0B08DB",
+      "publishedAt": "2026-11-24T02:05:47.000Z",
+      "metrics": {
+        "likes": 5,
+        "reposts": 0,
+        "replies": 1,
+        "views": 0
+      },
+      "relevance": 87,
+      "title_ko": "비개발자용 클로드 코드 퀵스타트 7단계 실측 가이드",
+      "summary_ko": "클로드 코드 2.1.331 공식 퀵스타트를 직접 따라 하며 설치부터 Shift+Tab 자동 승인, 자연어 페이지 제작, `/init` 설정까지 걸린 시간을 실측 정리했습니다. 팀 워크숍 안내용 HTML 264줄 생성에 1분 1초, 표·색상 수정 43초, `CLAUDE.md` 초기화에 19초가 소요된 구체적 입문 사례입니다.",
+      "tags": [
+        "클로드 코드",
+        "입문 가이드",
+        "CLAUDE.md",
+        "업무 자동화"
+      ],
+      "score": 59
+    },
+    {
+      "id": "threads:DgG_qI2D5wA",
+      "platform": "threads",
+      "author": "@choi.openai",
+      "url": "https://www.threads.com/@choi.openai/post/DgG_qI2D5wA",
+      "thumbnail": "https://scontent-nrt1-1.cdninstagram.com/v/t51.82787-15/924194315_17998379751112832_4505154237223299311_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=104&_nc_map=urlgen_bucketless&ig_cache_key=NDAzNzE5NDA4ODYyOTM3ODA0OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQyMS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=gK2cnf6XkQ0Q7kNvwFuaahF&_nc_oc=AdpOXnc9OkS_ivm2zEucBIfj7G6p-pvRFlDjYS9AWoE3ydMs9-FJ31ocNuVAjS4GQZk&_nc_zt=23&_nc_ht=scontent-nrt1-1.cdninstagram.com&_nc_gid=p7cwUjOZh4aG0_8liFQhFw&_nc_ss=7a389&_nc_ct=RQosPBUIFQIlBAAAAA&oh=00_AQQ2kGYGB4XnklrIeM1OthoxVaDvljx0OTCL0f4TpU_ySQ&oe=6B0AF929",
+      "publishedAt": "2026-11-24T03:31:00.000Z",
+      "metrics": {
+        "likes": 3,
+        "reposts": 0,
+        "replies": 1,
+        "views": 0
+      },
+      "relevance": 82,
+      "title_ko": "VP ≠ VNP가 '대수판 P vs NP'로 불리는 이유 핵심 정리",
+      "summary_ko": "덧셈과 곱셈만 쓰는 산술 회로에서 작은 회로로 계산 가능한 다항식 집합이 VP, 이를 모든 0·1 조합으로 합산한 집합이 VNP입니다. VNP 최난제인 퍼머넌트에 작은 회로가 없음을 보이면 곧바로 VP와 VNP의 분리가 증명되는 구조를 직관적으로 해설합니다.",
+      "tags": [
+        "계산복잡도",
+        "VP vs VNP",
+        "퍼머넌트",
+        "개념 해설"
+      ],
+      "score": 56
+    },
+    {
+      "id": "instagram:DgE71ztmNIK",
+      "platform": "instagram",
+      "author": "@vibe.trender",
+      "url": "https://www.instagram.com/vibe.trender/p/DgE71ztmNIK/",
+      "thumbnail": "https://scontent-nrt1-2.cdninstagram.com/v/t51.82787-15/902954808_18104419331414285_1256189921440183665_n.jpg?stp=c216.0.648.648a_dst-jpg_e35_s640x640_tt6&_nc_cat=102&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=ATAL3hxX5ZUQ7kNvwFYsO7G&_nc_oc=Adpr_3MhUh5NlcMQN2G1YlQxnG77VrL5jNO5Mb_K6LJSM2EnauLEWIP0Cfm_paMB8hg&_nc_zt=23&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_gid=l1YCeCJpHUVSPi-wKWZIYg&_nc_ss=7a789&_nc_ct=RQosPBUKFQIAAAA&oh=00_AQQSbnrfr--nhSOxQejvs67ap0mtd5F5HSapL4KwdscOzA&oe=6B0B02AF",
+      "publishedAt": "2026-11-23T08:19:46.000Z",
+      "metrics": {
+        "likes": 3,
+        "reposts": 0,
+        "replies": 0,
+        "views": 0
+      },
+      "relevance": 82,
+      "title_ko": "업리카(Uprica)를 클로드 코드 MCP에 연동하는 3단계",
+      "summary_ko": "SNS 운영 자동화 도구 업리카를 클로드 코드 MCP 플러그인에 연결해 조사·발행·캡션·댓글을 지시하는 3단계 설정법을 안내합니다. 인스타그램 릴스 음원·삭제 시 페이스북 경유 연동 필요 여부나 스레드 DM API 부재 등 채널별 실무 주의사항도 함께 짚어줍니다.",
+      "tags": [
+        "MCP 연동",
+        "클로드 코드",
+        "SNS 자동화",
+        "업리카"
+      ],
+      "score": 54
+    }
+  ]
+}

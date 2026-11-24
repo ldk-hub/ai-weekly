@@ -10,7 +10,7 @@
   <g transform="translate(910, 58)">
     <rect x="0" y="0" width="230" height="36" rx="18" fill="#162032" stroke="#243044" stroke-width="1"/>
     <circle cx="20" cy="18" r="4.5" fill="#3dd6b5"/>
-    <text x="124" y="23" font-size="13" font-weight="600" fill="#f8fafc" text-anchor="middle">2026-11-23 · 선별 20건</text>
+    <text x="124" y="23" font-size="13" font-weight="600" fill="#f8fafc" text-anchor="middle">2026-11-24 · 선별 20건</text>
   </g>
   <text x="60" y="186" font-size="44" font-weight="700" fill="#f8fafc" letter-spacing="-1.2">AI <tspan fill="#3dd6b5">인플루언서</tspan>의 오늘 <tspan fill="#f8e473">한 수</tspan></text>
   <text x="60" y="230" font-size="17" font-weight="500" fill="#94a3b8">매일 골라 정리하는 실전 프롬프트 · 워크플로우 · AI 활용 팁</text>
@@ -20,47 +20,47 @@
       <g clip-path="url(#socCardClip0)">
         <rect x="22" y="22" width="46" height="24" rx="6" fill="#0284c7"/>
         <text x="45" y="38" font-size="11.5" font-weight="700" fill="#ffffff" text-anchor="middle">X</text>
-        <text x="78" y="38" font-size="13" font-weight="600" fill="#94a3b8">@thesupermannx</text>
-        <text x="22" y="82" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">AI 의존이 부르는 인지적</text>
-      <text x="22" y="109" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">항복(Cognitiv…</text>
-        <text x="22" y="148" font-size="13" font-weight="500" fill="#cbd5e1">1,372명과 9,593회의 추론 실험을 통해</text>
-      <text x="22" y="169" font-size="13" font-weight="500" fill="#cbd5e1">참가자들이 챗GPT의 의도된 오답에도</text>
-      <text x="22" y="190" font-size="13" font-weight="500" fill="#cbd5e1">스스로의 비판적 사고를 멈추…</text>
+        <text x="78" y="38" font-size="13" font-weight="600" fill="#94a3b8">@openai</text>
+        <text x="22" y="82" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">오픈AI, 에이전트 무중단</text>
+      <text x="22" y="109" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">보안 런타임 &apos;Shirudo…</text>
+        <text x="22" y="148" font-size="13" font-weight="500" fill="#cbd5e1">오픈AI가 AI 에이전트가 서비스 중단</text>
+      <text x="22" y="169" font-size="13" font-weight="500" fill="#cbd5e1">없이 리눅스 시스템을 방어할 수 있는</text>
+      <text x="22" y="190" font-size="13" font-weight="500" fill="#cbd5e1">오픈소스 런타임 Shirudo…</text>
         <line x1="22" y1="244" x2="325" y2="244" stroke="#243044" stroke-width="1"/>
-        <text x="22" y="270" font-size="12.5" font-weight="700" fill="#3dd6b5">점수 84</text>
-        <text x="325" y="270" font-size="12.5" font-weight="600" fill="#f8e473" text-anchor="end">♥ 1,646</text>
+        <text x="22" y="270" font-size="12.5" font-weight="700" fill="#3dd6b5">점수 91</text>
+        <text x="325" y="270" font-size="12.5" font-weight="600" fill="#f8e473" text-anchor="end">♥ 12,810</text>
       </g>
     </g>
     <g transform="translate(427, 276)">
       <rect x="0" y="0" width="347" height="292" rx="18" fill="#111827" stroke="#243044" stroke-width="1.5"/>
       <g clip-path="url(#socCardClip1)">
-        <rect x="22" y="22" width="85" height="24" rx="6" fill="#6d28d9"/>
-        <text x="64.5" y="38" font-size="11.5" font-weight="700" fill="#ffffff" text-anchor="middle">Threads</text>
-        <text x="117" y="38" font-size="13" font-weight="600" fill="#94a3b8">@choi.openai</text>
-        <text x="22" y="82" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">오픈AI가 공개한 로그</text>
-      <text x="22" y="109" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">퍼플렉시티와 기반 모…</text>
-        <text x="22" y="148" font-size="13" font-weight="500" fill="#cbd5e1">학습에 쓰지 않은 사내 코드 데이터로</text>
-      <text x="22" y="169" font-size="13" font-weight="500" fill="#cbd5e1">다음 토큰 예측력을 측정한 로그</text>
-      <text x="22" y="190" font-size="13" font-weight="500" fill="#cbd5e1">퍼플렉시티는 미세조정이나 추…</text>
+        <rect x="22" y="22" width="46" height="24" rx="6" fill="#0284c7"/>
+        <text x="45" y="38" font-size="11.5" font-weight="700" fill="#ffffff" text-anchor="middle">X</text>
+        <text x="78" y="38" font-size="13" font-weight="600" fill="#94a3b8">@googledeepmind</text>
+        <text x="22" y="82" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">구글 딥마인드, Gemini 4로</text>
+      <text x="22" y="109" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">양자 회로 비용 10배 절감</text>
+        <text x="22" y="148" font-size="13" font-weight="500" fill="#cbd5e1">구글 딥마인드가 여러 Gemini 4</text>
+      <text x="22" y="169" font-size="13" font-weight="500" fill="#cbd5e1">에이전트 팀을 협업시켜 차세대 양자</text>
+      <text x="22" y="190" font-size="13" font-weight="500" fill="#cbd5e1">시뮬레이션 비용을 최대 10분의 1…</text>
         <line x1="22" y1="244" x2="325" y2="244" stroke="#243044" stroke-width="1"/>
-        <text x="22" y="270" font-size="12.5" font-weight="700" fill="#3dd6b5">점수 78</text>
-        <text x="325" y="270" font-size="12.5" font-weight="600" fill="#f8e473" text-anchor="end">♥ 261</text>
+        <text x="22" y="270" font-size="12.5" font-weight="700" fill="#3dd6b5">점수 86</text>
+        <text x="325" y="270" font-size="12.5" font-weight="600" fill="#f8e473" text-anchor="end">♥ 3,849</text>
       </g>
     </g>
     <g transform="translate(794, 276)">
       <rect x="0" y="0" width="347" height="292" rx="18" fill="#111827" stroke="#243044" stroke-width="1.5"/>
       <g clip-path="url(#socCardClip2)">
-        <rect x="22" y="22" width="103" height="24" rx="6" fill="#db2777"/>
-        <text x="73.5" y="38" font-size="11.5" font-weight="700" fill="#ffffff" text-anchor="middle">Instagram</text>
-        <text x="135" y="38" font-size="13" font-weight="600" fill="#94a3b8">@prompt_what</text>
-        <text x="22" y="82" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">클로드 기반 리만 가설</text>
-      <text x="22" y="109" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">17만 개 Lean 파일 검증…</text>
-        <text x="22" y="148" font-size="13" font-weight="500" fill="#cbd5e1">앤트로픽 수학자가 클로드와 41일간</text>
-      <text x="22" y="169" font-size="13" font-weight="500" fill="#cbd5e1">작성한 리만 가설 증명 파일</text>
-      <text x="22" y="190" font-size="13" font-weight="500" fill="#cbd5e1">175,187개가 MIT Lean 검증을 통과…</text>
+        <rect x="22" y="22" width="46" height="24" rx="6" fill="#0284c7"/>
+        <text x="45" y="38" font-size="11.5" font-weight="700" fill="#ffffff" text-anchor="middle">X</text>
+        <text x="78" y="38" font-size="13" font-weight="600" fill="#94a3b8">@openai</text>
+        <text x="22" y="82" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">GPT-6 Cyber, 리눅스 커널</text>
+      <text x="22" y="109" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">취약점 948건 검증·패치</text>
+        <text x="22" y="148" font-size="13" font-weight="500" fill="#cbd5e1">오픈AI의 보안 특화 모델 GPT-6</text>
+      <text x="22" y="169" font-size="13" font-weight="500" fill="#cbd5e1">Cyber가 단 한 번의 실행으로 로컬</text>
+      <text x="22" y="190" font-size="13" font-weight="500" fill="#cbd5e1">루트 권한 탈취로 이어질 수 있…</text>
         <line x1="22" y1="244" x2="325" y2="244" stroke="#243044" stroke-width="1"/>
-        <text x="22" y="270" font-size="12.5" font-weight="700" fill="#3dd6b5">점수 77</text>
-        <text x="325" y="270" font-size="12.5" font-weight="600" fill="#f8e473" text-anchor="end">♥ 287</text>
+        <text x="22" y="270" font-size="12.5" font-weight="700" fill="#3dd6b5">점수 84</text>
+        <text x="325" y="270" font-size="12.5" font-weight="600" fill="#f8e473" text-anchor="end">♥ 1,990</text>
       </g>
     </g>
   <text x="60" y="602" font-size="12" font-weight="600" fill="#94a3b8">매일 자동 수집 · 한국어 요약 · AI Weekly Social Feed</text>
