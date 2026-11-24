@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { createToonMaterial, getCartoonGrassTexture } from "./ToonMaterials.js";
+import { createToonMaterial, getCartoonGrassTexture, safeDisposeObjectTree } from "./ToonMaterials.js";
 
 const PATH_STYLES = {
   sandstone: { main: 0xffe8c2, curb: 0xd9a76a },
@@ -231,10 +231,10 @@ export class TerrainAndPathEngine {
   rebuildPaths(pathsConfig) {
     while (this.pathGroup.children.length > 0) {
       const ch = this.pathGroup.children.pop();
-      ch.geometry?.dispose?.();
-      ch.material?.dispose?.();
+      safeDisposeObjectTree(ch);
     }
     this.walkWaypoints = [];
+    this.walkNodePathId = [];
     this.walkEdges.clear();
 
     const plazaMat = createToonMaterial(PATH_STYLES.sandstone.main);
@@ -273,7 +273,7 @@ export class TerrainAndPathEngine {
       borderMesh.receiveShadow = true;
       this.pathGroup.add(borderMesh);
 
-      this._extractWalkNodes(curve, Math.max(8, pts.length * 3), Boolean(pathDef.closed));
+      this._extractWalkNodes(curve, Math.max(12, Math.round(curve.getLength() / 4.2)), Boolean(pathDef.closed), pathDef.id || `p-${this.walkWaypoints.length}`);
     }
 
     if (this.walkWaypoints.length < 4) {
@@ -282,8 +282,13 @@ export class TerrainAndPathEngine {
         this.walkWaypoints.push(
           new THREE.Vector3(Math.cos(a) * 16, this.getHeightAt(Math.cos(a) * 16, Math.sin(a) * 16), Math.sin(a) * 16)
         );
+        this.walkNodePathId.push("fallback");
       }
+      for (let i = 0; i < 8; i++) this._linkNodes(i, (i + 1) % 8);
     }
+
+    // Stitch intersections & adjacent junctions between different paths into 1 connected walk graph!
+    this._stitchIntersections(6.8);
   }
 
   setPathPreview(points = []) {
@@ -354,13 +359,14 @@ export class TerrainAndPathEngine {
     return geo;
   }
 
-  _extractWalkNodes(curve, count, closed) {
+  _extractWalkNodes(curve, count, closed, pathId = "path") {
     const startIdx = this.walkWaypoints.length;
     for (let i = 0; i < count; i++) {
       const u = closed ? i / count : i / Math.max(1, count - 1);
       const p = curve.getPointAt(u);
       p.y = Math.max(this.waterLevel + 0.25, this.getHeightAt(p.x, p.z));
       this.walkWaypoints.push(p);
+      this.walkNodePathId.push(pathId);
     }
     for (let i = 0; i < count; i++) {
       const cur = startIdx + i;
@@ -371,15 +377,93 @@ export class TerrainAndPathEngine {
     }
   }
 
+  _stitchIntersections(maxDist = 6.8) {
+    const n = this.walkWaypoints.length;
+    const maxSq = maxDist * maxDist;
+    for (let i = 0; i < n; i++) {
+      const pi = this.walkWaypoints[i];
+      const pidI = this.walkNodePathId[i];
+      for (let j = i + 1; j < n; j++) {
+        if (this.walkNodePathId[j] === pidI) continue;
+        const pj = this.walkWaypoints[j];
+        const dx = pi.x - pj.x;
+        const dz = pi.z - pj.z;
+        if (dx * dx + dz * dz <= maxSq) {
+          this._linkNodes(i, j);
+        }
+      }
+    }
+  }
+
   _linkNodes(a, b) {
     if (!this.walkEdges.has(a)) this.walkEdges.set(a, []);
     if (!this.walkEdges.has(b)) this.walkEdges.set(b, []);
-    this.walkEdges.get(a).push(b);
-    this.walkEdges.get(b).push(a);
+    const listA = this.walkEdges.get(a);
+    const listB = this.walkEdges.get(b);
+    if (!listA.includes(b)) listA.push(b);
+    if (!listB.includes(a)) listB.push(a);
+  }
+
+  findNearestWaypointIndex(x, z) {
+    let bestIdx = 0;
+    let bestSq = Infinity;
+    for (let i = 0; i < this.walkWaypoints.length; i++) {
+      const p = this.walkWaypoints[i];
+      const dSq = (p.x - x) * (p.x - x) + (p.z - z) * (p.z - z);
+      if (dSq < bestSq) {
+        bestSq = dSq;
+        bestIdx = i;
+      }
+    }
+    return { index: bestIdx, dist: Math.sqrt(bestSq), position: this.walkWaypoints[bestIdx] };
+  }
+
+  /**
+   * Shortest-path BFS along laid park walkways so NPCs NEVER cut across grass fields.
+   */
+  findPathRoute(startIdx, goalIdx) {
+    const n = this.walkWaypoints.length;
+    if (startIdx < 0 || goalIdx < 0 || startIdx >= n || goalIdx >= n) return [];
+    if (startIdx === goalIdx) return [goalIdx];
+
+    const visited = new Uint8Array(n);
+    const parent = new Int32Array(n).fill(-1);
+    const queue = [startIdx];
+    visited[startIdx] = 1;
+    let head = 0;
+
+    while (head < queue.length) {
+      const cur = queue[head++];
+      if (cur === goalIdx) break;
+      const neighbors = this.walkEdges.get(cur);
+      if (!neighbors) continue;
+      for (let k = 0; k < neighbors.length; k++) {
+        const nxt = neighbors[k];
+        if (!visited[nxt]) {
+          visited[nxt] = 1;
+          parent[nxt] = cur;
+          queue.push(nxt);
+        }
+      }
+    }
+
+    if (!visited[goalIdx]) return [];
+    const route = [];
+    let cur = goalIdx;
+    while (cur !== -1 && cur !== startIdx) {
+      route.push(cur);
+      cur = parent[cur];
+    }
+    route.reverse();
+    return route;
+  }
+
+  getWaypointPosition(index) {
+    return this.walkWaypoints[index] || this.walkWaypoints[0] || new THREE.Vector3(0, 0, 20);
   }
 
   getRandomWaypoint() {
-    if (!this.walkWaypoints.length) return new THREE.Vector3(0, 0, 14);
+    if (!this.walkWaypoints.length) return { index: 0, position: new THREE.Vector3(0, 0, 14) };
     const idx = Math.floor(Math.random() * this.walkWaypoints.length);
     return { index: idx, position: this.walkWaypoints[idx] };
   }

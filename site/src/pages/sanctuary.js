@@ -410,8 +410,10 @@ class WeeklyLandApp {
     this.worldState.on("world:changed", ({ scope, data, broadcast }) => {
       if (scope === "all" || scope === "terrain") {
         this.terrain.syncFromConfig(data.terrain, data.paths);
+        this.crowd.onPathsChanged();
       } else if (scope === "paths") {
         this.terrain.rebuildPaths(data.paths);
+        this.crowd.onPathsChanged();
       }
       if (scope === "all" || scope === "coasters" || scope === "terrain") {
         this.coaster.syncAll(data.coasters);

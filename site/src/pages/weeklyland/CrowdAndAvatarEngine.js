@@ -757,15 +757,17 @@ export class CrowdAndAvatarEngine {
         }
       });
 
-      // Spawn first 5 guests around the new South Entrance Promenade so entrance feels lively right away!
+      // Spawn strictly ON laid park walkways (first 5 near South Entrance Promenade!)
+      let startWpIdx = 0;
       let startPos;
       if (i < 5) {
-        const sx = (i - 2) * 3.8 + (Math.random() - 0.5) * 1.6;
-        const sz = 98 + (i % 3) * 7.5;
-        const sy = this.terrain ? Math.max(this.terrain.waterLevel + 0.15, this.terrain.getHeightAt(sx, sz)) : 0;
-        startPos = new THREE.Vector3(sx, sy, sz);
+        const near = this.terrain.findNearestWaypointIndex(0, 96 + (i % 4) * 6.5);
+        startWpIdx = near.index;
+        startPos = near.position.clone();
+        startPos.x += ((i % 3) - 1) * 0.9;
       } else {
         const wp = this.terrain.getRandomWaypoint();
+        startWpIdx = wp.index;
         startPos = wp.position.clone();
       }
       mesh.position.copy(startPos);
@@ -782,6 +784,9 @@ export class CrowdAndAvatarEngine {
         parts: built.parts,
         pos: startPos.clone(),
         facing: Math.PI,
+        currentWpIdx: startWpIdx,
+        routeQueue: [],
+        laneOffset: ((i % 5) - 2) * 0.36,
         targetPos: startPos.clone(),
         lookPos: new THREE.Vector3(0, 0, 0),
         targetPoi: null,
@@ -802,9 +807,34 @@ export class CrowdAndAvatarEngine {
         bubbleEl,
         bubbleRemaining: 0,
       };
-      const nxt = this.terrain.getRandomWaypoint();
-      g.targetPos.copy(nxt.position);
       this.aiGuests.push(g);
+    }
+  }
+
+  onPathsChanged() {
+    for (const g of this.aiGuests) {
+      const near = this.terrain.findNearestWaypointIndex(g.pos.x, g.pos.z);
+      g.currentWpIdx = near.index;
+      g.routeQueue = [];
+      if (g.state === "WALKING_TO_POI") {
+        this._pickNextGoal(g, g.umbrellaOpen > 0.5);
+      }
+    }
+  }
+
+  _setPathStepTarget(g, wpIdx) {
+    const wp = this.terrain.getWaypointPosition(wpIdx);
+    // Keep sidewalk lane offset tiny (±0.72m) so guests stay strictly on the laid 4~5.4m walkway!
+    const nextWp = g.routeQueue.length > 0 ? this.terrain.getWaypointPosition(g.routeQueue[0]) : wp;
+    let dx = nextWp.x - wp.x;
+    let dz = nextWp.z - wp.z;
+    const len = Math.hypot(dx, dz);
+    if (len > 0.05) {
+      dx /= len;
+      dz /= len;
+      g.targetPos.set(wp.x - dz * g.laneOffset, wp.y, wp.z + dx * g.laneOffset);
+    } else {
+      g.targetPos.set(wp.x + g.laneOffset * 0.5, wp.y, wp.z);
     }
   }
 
@@ -814,17 +844,10 @@ export class CrowdAndAvatarEngine {
     g.parts.cameraGroup.visible = false;
     g.parts.flashSphere.visible = false;
 
-    if (!this.poiList.length) {
-      const wp = this.terrain.getRandomWaypoint();
-      g.targetPos.copy(wp.position);
-      g.lookPos.copy(wp.position);
-      g.targetPoi = null;
-      g.state = "WALKING_TO_POI";
-      g.stateTimer = 8;
-      return;
-    }
+    const nearCur = this.terrain.findNearestWaypointIndex(g.pos.x, g.pos.z);
+    g.currentWpIdx = nearCur.index;
 
-    // Need-driven & personality-weighted POI selection
+    // Need-driven & personality-weighted POI selection snapped to laid walkways!
     let desiredCats = [...g.persona.pref];
     if (isRaining && Math.random() < 0.55) {
       desiredCats = ["pavilion", "food"];
@@ -836,19 +859,45 @@ export class CrowdAndAvatarEngine {
 
     const candidates = this.poiList.filter((p) => desiredCats.includes(p.category) && p.id !== g.targetPoi?.id);
     const pool = candidates.length ? candidates : this.poiList;
-    const picked = pool[Math.floor(Math.random() * pool.length)];
 
-    const jitterAng = Math.random() * Math.PI * 2;
-    const jitterR = 1.2 + Math.random() * Math.min(3.2, picked.radius * 0.55);
-    g.targetPoi = picked;
-    g.targetPos.set(
-      THREE.MathUtils.clamp(picked.x + Math.cos(jitterAng) * jitterR, -135, 135),
-      0,
-      THREE.MathUtils.clamp(picked.z + Math.sin(jitterAng) * jitterR, -135, 135)
-    );
-    g.lookPos.set(picked.lookX ?? picked.x, 0, picked.lookZ ?? picked.z);
+    // Try up to 4 POIs to find a connected path-only route along laid walkways
+    let chosenPoi = null;
+    let route = [];
+    for (let attempt = 0; attempt < 4 && pool.length > 0; attempt++) {
+      const picked = pool[Math.floor(Math.random() * pool.length)];
+      const goalNear = this.terrain.findNearestWaypointIndex(picked.x, picked.z);
+      const r = this.terrain.findPathRoute(g.currentWpIdx, goalNear.index);
+      if (r.length > 0) {
+        chosenPoi = picked;
+        route = r;
+        break;
+      }
+    }
+
+    // Fallback: pick another reachable random waypoint on the connected path graph
+    if (!route.length) {
+      const rnd = this.terrain.getRandomWaypoint();
+      route = this.terrain.findPathRoute(g.currentWpIdx, rnd.index);
+      if (!route.length) {
+        const nxt = this.terrain.getNextWaypoint(g.currentWpIdx);
+        route = [nxt.index];
+      }
+      chosenPoi = null;
+    }
+
+    g.targetPoi = chosenPoi;
+    g.routeQueue = route;
+    const firstWp = g.routeQueue.shift();
+    if (firstWp !== undefined) {
+      this._setPathStepTarget(g, firstWp);
+      g.nextWpIdx = firstWp;
+    } else {
+      g.targetPos.copy(nearCur.position);
+      g.nextWpIdx = g.currentWpIdx;
+    }
+    g.lookPos.set(chosenPoi?.lookX ?? g.targetPos.x, 0, chosenPoi?.lookZ ?? g.targetPos.z);
     g.state = "WALKING_TO_POI";
-    g.stateTimer = 20;
+    g.stateTimer = 45;
   }
 
   _enterPoiActivity(g, isRaining) {
@@ -991,10 +1040,19 @@ export class CrowdAndAvatarEngine {
       this.activeTalkingGuestId = null;
       if (coasterPoi) {
         g.targetPoi = coasterPoi;
-        g.targetPos.set(coasterPoi.x + (Math.random() - 0.5) * 4, 0, coasterPoi.z + (Math.random() - 0.5) * 4);
+        const nearCur = this.terrain.findNearestWaypointIndex(g.pos.x, g.pos.z);
+        const goalNear = this.terrain.findNearestWaypointIndex(coasterPoi.x, coasterPoi.z);
+        const route = this.terrain.findPathRoute(nearCur.index, goalNear.index);
+        g.currentWpIdx = nearCur.index;
+        g.routeQueue = route;
+        const firstWp = g.routeQueue.shift();
+        if (firstWp !== undefined) {
+          g.nextWpIdx = firstWp;
+          this._setPathStepTarget(g, firstWp);
+        }
         g.lookPos.set(coasterPoi.lookX, 0, coasterPoi.lookZ);
         g.state = "WALKING_TO_POI";
-        g.stateTimer = 25;
+        g.stateTimer = 45;
       }
       this._showGuestBubble(g, "스타보드 하이퍼 코스터요?! 지금 바로 달려가 볼게요!", 5.2);
     }
@@ -1307,8 +1365,17 @@ export class CrowdAndAvatarEngine {
         const dx = g.targetPos.x - g.pos.x;
         const dz = g.targetPos.z - g.pos.z;
         const dist = Math.hypot(dx, dz);
-        if (dist < 1.2 || g.stateTimer <= 0) {
-          this._enterPoiActivity(g, isRaining);
+        if (dist < 0.95) {
+          if (g.nextWpIdx !== undefined) g.currentWpIdx = g.nextWpIdx;
+          if (g.routeQueue && g.routeQueue.length > 0) {
+            const nxtIdx = g.routeQueue.shift();
+            g.nextWpIdx = nxtIdx;
+            this._setPathStepTarget(g, nxtIdx);
+          } else {
+            this._enterPoiActivity(g, isRaining);
+          }
+        } else if (g.stateTimer <= 0) {
+          this._pickNextGoal(g, isRaining);
         } else {
           walking = true;
           const spd = g.speed * (isRaining ? 1.18 : 1.0);
