@@ -1,0 +1,162 @@
+{
+  "schemaVersion": 2,
+  "parkMeta": {
+    "name": "위클리랜드 · WeeklyLand",
+    "updatedAt": "2026-11-24T00:00:00Z",
+    "author": "ldk-hub",
+    "themePreset": "sunlit-brass",
+    "entrance": { "x": 0, "z": 54 }
+  },
+  "terrain": {
+    "size": 160,
+    "resolution": 48,
+    "waterLevel": -0.6,
+    "hills": [
+      { "x": -52, "z": -44, "radius": 24, "height": 6.5 },
+      { "x": 54, "z": -42, "radius": 26, "height": 7.2 },
+      { "x": -56, "z": 30, "radius": 20, "height": 4.5 },
+      { "x": 46, "z": 34, "radius": 18, "height": -2.4 }
+    ]
+  },
+  "paths": [
+    {
+      "id": "path-grand-promenade",
+      "width": 4.4,
+      "style": "sandstone",
+      "points": [
+        [0, 52],
+        [0, 32],
+        [0, 12],
+        [0, -12],
+        [0, -28]
+      ]
+    },
+    {
+      "id": "path-plaza-ring",
+      "width": 3.8,
+      "style": "sandstone",
+      "closed": true,
+      "points": [
+        [0, 26],
+        [-22, 20],
+        [-28, 0],
+        [-20, -22],
+        [0, -26],
+        [20, -22],
+        [28, 0],
+        [22, 20]
+      ]
+    }
+  ],
+  "coasters": [
+    {
+      "id": "coaster-starboard-hyper",
+      "name": "스타보드 하이퍼 코스터",
+      "dataBinding": "stars_top_gainer",
+      "trackColor": "#d97757",
+      "spineColor": "#f4ede0",
+      "supportColor": "#334155",
+      "trainCount": 2,
+      "carsPerTrain": 4,
+      "closed": true,
+      "nodes": [
+        { "x": -34, "y": 2.4, "z": 24, "bankDeg": 0, "segment": "station" },
+        { "x": -38, "y": 2.8, "z": 4, "bankDeg": 0, "segment": "lift" },
+        { "x": -36, "y": 29.0, "z": -28, "bankDeg": 0, "segment": "normal" },
+        { "x": -10, "y": 4.4, "z": -44, "bankDeg": 46, "segment": "boost" },
+        { "x": 20, "y": 22.0, "z": -38, "bankDeg": -38, "segment": "normal" },
+        { "x": 42, "y": 5.8, "z": -12, "bankDeg": 52, "segment": "normal" },
+        { "x": 34, "y": 16.5, "z": 18, "bankDeg": -32, "segment": "normal" },
+        { "x": 8, "y": 5.2, "z": 36, "bankDeg": 28, "segment": "brake" },
+        { "x": -18, "y": 3.4, "z": 36, "bankDeg": 12, "segment": "brake" }
+      ]
+    }
+  ],
+  "rides": [
+    {
+      "id": "ride-ferris",
+      "type": "ferris_wheel",
+      "name": "위클리 대관람차",
+      "x": -40,
+      "z": -10,
+      "rotY": 0.45,
+      "scale": 1.0
+    },
+    {
+      "id": "ride-drop",
+      "type": "drop_tower",
+      "name": "프론티어 벤치마크 드롭",
+      "dataBinding": "benchmarks_top",
+      "x": 40,
+      "z": -14,
+      "rotY": -0.3,
+      "scale": 1.0
+    },
+    {
+      "id": "ride-carousel",
+      "type": "carousel",
+      "name": "클로드 그랜드 회전목마",
+      "x": 0,
+      "z": 0,
+      "rotY": 0,
+      "scale": 1.0
+    }
+  ],
+  "pavilions": [
+    {
+      "id": "pav-plugins",
+      "archiveKey": "plugins",
+      "title": "인기 플러그인 공방",
+      "accent": "#e07a52",
+      "x": -22,
+      "z": 24,
+      "rotY": 0.42
+    },
+    {
+      "id": "pav-news",
+      "archiveKey": "news",
+      "title": "AI 뉴스 아이맥스 극장",
+      "accent": "#38bdf8",
+      "x": 22,
+      "z": 24,
+      "rotY": -0.42
+    },
+    {
+      "id": "pav-social",
+      "archiveKey": "social",
+      "title": "소셜 피드 가든 라운지",
+      "accent": "#f472b6",
+      "x": -26,
+      "z": -22,
+      "rotY": 2.4
+    },
+    {
+      "id": "pav-benchmarks",
+      "archiveKey": "benchmarks",
+      "title": "벤치마크 천문 관측소",
+      "accent": "#34d399",
+      "x": 26,
+      "z": -22,
+      "rotY": -2.4
+    }
+  ],
+  "scenery": [
+    { "id": "scn-gate", "type": "grand_arch", "x": 0, "z": 50, "rotY": 0, "scale": 1.1 },
+    { "id": "scn-fountain-1", "type": "fountain", "x": 0, "z": 22, "rotY": 0, "scale": 1.0 },
+    { "id": "scn-billboard", "type": "ai_billboard", "x": 0, "z": -30, "rotY": 0, "scale": 1.0 },
+    { "id": "scn-tree-1", "type": "tree_oak", "x": -12, "z": 42, "rotY": 0.4, "scale": 1.15 },
+    { "id": "scn-tree-2", "type": "tree_oak", "x": 12, "z": 42, "rotY": 1.8, "scale": 1.05 },
+    { "id": "scn-tree-3", "type": "tree_sakura", "x": -14, "z": 12, "rotY": 0.9, "scale": 1.1 },
+    { "id": "scn-tree-4", "type": "tree_sakura", "x": 14, "z": 12, "rotY": 2.2, "scale": 1.1 },
+    { "id": "scn-tree-5", "type": "tree_pine", "x": -48, "z": -28, "rotY": 0.3, "scale": 1.3 },
+    { "id": "scn-tree-6", "type": "tree_pine", "x": 48, "z": -28, "rotY": 1.1, "scale": 1.3 },
+    { "id": "scn-tree-7", "type": "tree_sakura", "x": -14, "z": -16, "rotY": 0.5, "scale": 1.0 },
+    { "id": "scn-tree-8", "type": "tree_sakura", "x": 14, "z": -16, "rotY": 1.9, "scale": 1.0 },
+    { "id": "scn-lamp-1", "type": "lamp_post", "x": -5, "z": 40, "rotY": 0, "scale": 1.0 },
+    { "id": "scn-lamp-2", "type": "lamp_post", "x": 5, "z": 40, "rotY": 0, "scale": 1.0 },
+    { "id": "scn-lamp-3", "type": "lamp_post", "x": -16, "z": 0, "rotY": 0, "scale": 1.0 },
+    { "id": "scn-lamp-4", "type": "lamp_post", "x": 16, "z": 0, "rotY": 0, "scale": 1.0 },
+    { "id": "scn-kiosk-1", "type": "kiosk", "x": -11, "z": 30, "rotY": 0.5, "scale": 1.0 },
+    { "id": "scn-kiosk-2", "type": "kiosk", "x": 11, "z": 30, "rotY": -0.5, "scale": 1.0 }
+  ]
+}

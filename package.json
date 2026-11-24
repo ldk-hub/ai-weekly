@@ -5,6 +5,8 @@
     "dev": "vite",
     "build": "vite build",
     "test:rct": "node --test scripts/test_rct_engine.mjs",
+    "test:weeklyland": "node scripts/sanctuary/test_coaster_physics.mjs",
+    "data:coasters": "python3 scripts/sanctuary/collect_coaster_presets.py",
     "preview": "vite preview",
     "data:news": "node scripts/news/collect_news.js && node scripts/news/curate_news.js",
     "data:stars": "node scripts/stars/collect-stars.js",
@@ -19,7 +21,9 @@
     "data:scan": "node scripts/plugins/scan-install-entry.js"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "^4.2.2",
     "sharp": "^0.35.1",
+    "tailwindcss": "^4.2.2",
     "vite": "^8.1.5"
   },
   "dependencies": {

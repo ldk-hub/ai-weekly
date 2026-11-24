@@ -509,6 +509,7 @@ export class SanctuaryChat {
       facing: Number(heroState.facing.toFixed(2)),
       action: heroState.action || "Idle",
       zone: heroState.zone || "중앙 광장",
+      riding: heroState.riding || null,
     };
 
     // BroadcastChannel: smooth 60ms updates for same-browser tabs
@@ -737,6 +738,7 @@ export class SanctuaryChat {
       facing: Number(data.facing) || 0,
       action: data.action || "Idle",
       zone: data.zone || "중앙 광장",
+      riding: data.riding || null,
       lastSeen: Date.now(),
     };
     this.peers.set(data.clientId, peer);

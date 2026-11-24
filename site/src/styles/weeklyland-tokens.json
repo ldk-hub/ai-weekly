@@ -1,0 +1,85 @@
+{
+  "$schema": "https://design-tokens.org/schema/three-layer-v1",
+  "meta": {
+    "name": "WeeklyLand 3D Theme Park Design System",
+    "version": "1.0.0",
+    "sourceOfTruth": "docs/weeklyland-brand-guidelines.md"
+  },
+  "primitive": {
+    "color": {
+      "sand-50": "#fcf9f3",
+      "sand-100": "#f4ede0",
+      "sand-200": "#e5dac5",
+      "ink-950": "#1a1714",
+      "ink-700": "#4d463e",
+      "night-950": "#080d18",
+      "night-900": "#0f172a",
+      "night-800": "#1a253c",
+      "slate-100": "#f3f6fb",
+      "slate-300": "#b8c4d9",
+      "terracotta-600": "#c85a32",
+      "terracotta-500": "#e07a52",
+      "brass-600": "#a67c2e",
+      "brass-400": "#eab308",
+      "emerald-700": "#1f6e4a",
+      "emerald-400": "#34d399",
+      "cyan-700": "#0e7490",
+      "cyan-400": "#38bdf8",
+      "crimson-600": "#c8323c",
+      "crimson-400": "#f87171"
+    },
+    "font": {
+      "display": "'Newsreader', Georgia, serif",
+      "sans": "'Pretendard', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+      "mono": "'JetBrains Mono', ui-monospace, SFMono-Regular, monospace"
+    },
+    "radius": {
+      "sm": "6px",
+      "md": "12px",
+      "lg": "16px",
+      "pill": "9999px"
+    },
+    "space": {
+      "1": "4px",
+      "2": "8px",
+      "3": "12px",
+      "4": "16px",
+      "5": "20px",
+      "6": "24px"
+    }
+  },
+  "semantic": {
+    "dark": {
+      "bg": "var(--wl-prim-night-950)",
+      "surface": "rgba(11, 17, 30, 0.84)",
+      "surface-strong": "rgba(15, 23, 42, 0.94)",
+      "surface-hover": "rgba(30, 44, 72, 0.92)",
+      "border": "rgba(184, 196, 217, 0.16)",
+      "border-strong": "rgba(224, 122, 82, 0.45)",
+      "ink": "var(--wl-prim-slate-100)",
+      "ink-muted": "var(--wl-prim-slate-300)",
+      "accent": "var(--wl-prim-terracotta-500)",
+      "accent-ink": "#0c0f16",
+      "gold": "var(--wl-prim-brass-400)",
+      "emerald": "var(--wl-prim-emerald-400)",
+      "cyan": "var(--wl-prim-cyan-400)",
+      "danger": "var(--wl-prim-crimson-400)"
+    },
+    "light": {
+      "bg": "var(--wl-prim-sand-50)",
+      "surface": "rgba(252, 249, 243, 0.90)",
+      "surface-strong": "rgba(252, 249, 243, 0.97)",
+      "surface-hover": "rgba(244, 237, 224, 0.96)",
+      "border": "rgba(26, 23, 20, 0.14)",
+      "border-strong": "rgba(200, 90, 50, 0.44)",
+      "ink": "var(--wl-prim-ink-950)",
+      "ink-muted": "var(--wl-prim-ink-700)",
+      "accent": "var(--wl-prim-terracotta-600)",
+      "accent-ink": "#fcf9f3",
+      "gold": "var(--wl-prim-brass-600)",
+      "emerald": "var(--wl-prim-emerald-700)",
+      "cyan": "var(--wl-prim-cyan-700)",
+      "danger": "var(--wl-prim-crimson-600)"
+    }
+  }
+}

@@ -1,927 +1,484 @@
-/**
- * AI위클리 — 위클리 타이쿤 · 1999 오리지널 테마파크 시뮬레이터 (Sanctuary Entry)
- */
+import * as THREE from "three";
+import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
+import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
+import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
+import "../styles/weeklyland.css";
 
-import { RctParkSimulation } from "./rct/RctParkSimulation.js";
-import { RctIsoRenderer } from "./rct/RctIsoRenderer.js";
-import { RctAudio } from "./rct/RctAudio.js";
-import { RctWindowsUI } from "./rct/RctWindowsUI.js";
+import { SanctuaryAtmosphere } from "./sanctuary/SanctuaryAtmosphere.js";
 import { SanctuaryChat } from "./sanctuary/SanctuaryChat.js";
-import { RIDE_CATALOG, COASTER_BLUEPRINTS } from "./rct/RctConstants.js";
-import { worldToIso } from "./rct/RctCoasterEngine.js";
+import { ParkWorldState } from "./weeklyland/ParkWorldState.js";
+import { TerrainAndPathEngine } from "./weeklyland/TerrainAndPathEngine.js";
+import { CoasterEngine } from "./weeklyland/CoasterEngine.js";
+import { FlatRideEngine } from "./weeklyland/FlatRideEngine.js";
+import { AIPavilionEngine } from "./weeklyland/AIPavilionEngine.js";
+import { CrowdAndAvatarEngine } from "./weeklyland/CrowdAndAvatarEngine.js";
+import { ParkCameraRig } from "./weeklyland/ParkCameraRig.js";
+import { ParkAudioEngine } from "./weeklyland/ParkAudioEngine.js";
+import { ParkPublisher } from "./weeklyland/ParkPublisher.js";
+import { ArchitectBuilder } from "./weeklyland/ArchitectBuilder.js";
+import { GuestHudController } from "./weeklyland/GuestHudController.js";
+import { PavilionDashboard } from "./weeklyland/PavilionDashboard.js";
+import { CartoonSkyDecor } from "./weeklyland/ToonMaterials.js";
 
 const THEME_KEY = "aiw-theme";
-const SAVE_KEY = "aiw-rct1-save-v1";
 
-class RctSanctuaryApp {
+function initThemeToggle() {
+  const btn = document.getElementById("theme-toggle");
+  const sync = () => {
+    const isDark = document.documentElement.dataset.theme !== "light";
+    if (btn) btn.textContent = isDark ? "라이트" : "다크";
+    document.querySelectorAll('meta[name="theme-color"]').forEach((m) => {
+      m.content = isDark ? "#080d18" : "#fcfaf6";
+    });
+  };
+  btn?.addEventListener("click", () => {
+    const next = document.documentElement.dataset.theme === "light" ? "dark" : "light";
+    document.documentElement.dataset.theme = next;
+    try { localStorage.setItem(THEME_KEY, next); } catch {}
+    sync();
+  });
+  sync();
+}
+
+class WeeklyLandApp {
   constructor() {
-    this.canvas = document.getElementById("rct-canvas");
-    this.sim = new RctParkSimulation();
-    this.audio = new RctAudio();
-    this.renderer = null;
-    this.windows = null;
-    this.chat = null;
+    this.canvas = document.getElementById("sanctuary-canvas");
+    this.overlayLayer = document.getElementById("overlay-layer");
+    if (!this.canvas) return;
 
-    this.keys = new Set();
-    this._panning = false;
-    this._panStart = { x: 0, y: 0, camX: 0, camY: 0 };
-    this._pointerDown = null;
-    this._painting = false;
-    this._lastPaintKey = null;
-    this._lastMinimapDraw = 0;
-    this._povStepCooldown = 0;
-    this._lastTime = performance.now();
-    this._lastAutosave = performance.now();
+    this.scene = new THREE.Scene();
+    this.scene.background = new THREE.Color(0x9bdcff);
+    this.scene.fog = new THREE.FogExp2(0xc4ecff, 0.0036);
+    this.skyDecor = new CartoonSkyDecor(this.scene);
+
+    this.renderer = this._createRenderer(this.canvas);
+    this.cameraRig = new ParkCameraRig(
+      this.canvas,
+      this.canvas.clientWidth / Math.max(1, this.canvas.clientHeight)
+    );
+    this.composer = this._createPostFX();
+    this.lights = this._createLights();
+    this.audio = new ParkAudioEngine();
+
+    this.keys = { forward: false, backward: false, left: false, right: false, sprint: false, jump: false };
+    this.raycaster = new THREE.Raycaster();
+    this.pointer = new THREE.Vector2();
+    this.clock = new THREE.Clock();
+    this._rafId = 0;
+    this._presenceAccum = 0;
+    this._broadcastPatchTimer = null;
+
+    this.boot().catch((err) => console.error("[WeeklyLand] boot failed:", err));
   }
 
-  async start() {
-    this._initThemeToggle();
+  _createRenderer(canvas) {
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: "high-performance" });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setSize(canvas.clientWidth || window.innerWidth, canvas.clientHeight || 640, false);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.08;
+    return renderer;
+  }
 
-    // Wire audio SFX hook
-    this.sim.onSfx = (evt) => {
-      if (evt === "place") this.audio.playPlace();
-      else if (evt === "bulldoze") this.audio.playBulldoze();
-      else if (evt === "cash") this.audio.playCash();
-      else if (evt === "pop") {
-        if ((this.sim.fireworks || []).length > 0) this.audio.playFireworkBurst();
-        else this.audio.playPop();
+  _createPostFX() {
+    const w = this.canvas.clientWidth || window.innerWidth;
+    const h = this.canvas.clientHeight || 640;
+    const composer = new EffectComposer(this.renderer);
+    composer.addPass(new RenderPass(this.scene, this.cameraRig.camera));
+    this.bloomPass = new UnrealBloomPass(new THREE.Vector2(w, h), 0.14, 0.5, 0.82);
+    composer.addPass(this.bloomPass);
+    return composer;
+  }
+
+  _createLights() {
+    const ambientLight = new THREE.AmbientLight(0xfff5e4, 0.58);
+    const hemiLight = new THREE.HemisphereLight(0xcbe8ff, 0x6f8c67, 0.66);
+    const dirLight = new THREE.DirectionalLight(0xfff2d6, 2.15);
+    dirLight.position.set(46, 68, 38);
+    dirLight.castShadow = true;
+    dirLight.shadow.mapSize.set(2048, 2048);
+    dirLight.shadow.camera.near = 10;
+    dirLight.shadow.camera.far = 210;
+    const d = 82;
+    dirLight.shadow.camera.left = -d;
+    dirLight.shadow.camera.right = d;
+    dirLight.shadow.camera.top = d;
+    dirLight.shadow.camera.bottom = -d;
+    dirLight.shadow.bias = -0.0004;
+
+    this.scene.add(ambientLight, hemiLight, dirLight);
+    return { ambientLight, hemiLight, dirLight };
+  }
+
+  async boot() {
+    const worldRes = await fetch("data/park_world.json", { cache: "no-cache" });
+    const baseWorld = await worldRes.json();
+
+    this.worldState = new ParkWorldState(baseWorld);
+    this.publisher = new ParkPublisher(this.worldState);
+
+    // Restore local unpublished Architect draft automatically on local dev
+    if (this.publisher.isLocalDev()) {
+      const draft = await this.worldState.loadDraft().catch(() => null);
+      if (draft) {
+        this.worldState.data = draft;
+        this.worldState.dirty = true;
       }
-      else if (evt === "scream") this.audio.playScream();
-      else if (evt === "breakdown") this.audio.playBreakdown();
-      else if (evt === "repair") this.audio.playRepair();
-      else if (evt === "sweep") this.audio.playSweep();
-      else if (evt === "award") this.audio.playAward();
-      else this.audio.playClick();
-    };
-
-    // Restore saved park if present, else boot default scenario
-    let restored = false;
-    try {
-      const saved = localStorage.getItem(SAVE_KEY);
-      if (saved) restored = this.sim.deserialize(saved);
-    } catch {}
-    if (!restored) {
-      this.sim.loadScenario("ai_weekly_park");
     }
 
-    this.renderer = new RctIsoRenderer(this.canvas, this.sim);
-    this.windows = new RctWindowsUI({
-      sim: this.sim,
-      renderer: this.renderer,
+    const snap = this.worldState.getSnapshot();
+    this.terrain = new TerrainAndPathEngine(this.scene, snap.terrain, snap.paths);
+    this.coaster = new CoasterEngine(this.scene, this.terrain);
+    this.flatRide = new FlatRideEngine(this.scene, this.terrain);
+    this.pavilion = new AIPavilionEngine(this.scene, this.terrain);
+    this.crowd = new CrowdAndAvatarEngine(this.scene, this.terrain, this.overlayLayer);
+    this.dashboard = new PavilionDashboard(this.pavilion);
+
+    this.coaster.syncAll(snap.coasters);
+    this.flatRide.syncAll(snap.rides, snap.scenery);
+    this.pavilion.syncAll(snap.pavilions);
+
+    this.atmosphere = new SanctuaryAtmosphere(this.scene, this.lights, {}, {
+      onFestivalEvent: (ev) => this._handleFestivalEvent(ev),
+    });
+    this.atmosphere.setTimeMode("day");
+
+    this.hud = new GuestHudController({
+      onBoardRide: (kind, id) => this.boardAttraction(kind, id),
+      onOpenPavilion: (key) => this.openPavilion(key),
+      onSetCameraMode: (mode) => this.setCameraMode(mode),
+      onLeaveRide: () => this.leaveAttraction(),
+      onToggleDrone: () => this.toggleDroneCamera(),
+      onToggleArchitect: () => this.toggleArchitectMode(),
+      onChangeAvatar: (key) => this.crowd.setPlayerClass(key),
+      onToggleAudio: () => this.audio.toggle(),
+    });
+
+    this.architect = new ArchitectBuilder({
+      scene: this.scene,
+      canvas: this.canvas,
+      cameraRig: this.cameraRig,
+      worldState: this.worldState,
+      terrainEngine: this.terrain,
+      coasterEngine: this.coaster,
+      flatRideEngine: this.flatRide,
+      publisher: this.publisher,
       audio: this.audio,
-      onToolChange: (tool) => this.setActiveTool(tool),
-      onSaveLocal: () => this.saveToLocal(true),
-      onLoadLocal: () => this.loadFromLocal(),
-      onSwitchScenario: (id) => {
-        this.sim.loadScenario(id);
-        this.renderer.centerOnTile(22, 24);
-        this.windows.closeUnpinned();
-        this._syncModeButtons?.();
-        this.audio.playClick();
-      },
-      onControlPeep: (peepId) => this._setControlledPeep(peepId),
+      onToast: (msg) => this.hud.showToast(msg),
     });
 
-    this.audio.startAmbientOnFirstGesture();
-    this.audio.loadManifest();
-    this._spawnReferrerGuest();
-    this._initChat();
-    this._bindEvents();
-    this._loadLiveAiData();
-
-    this._loop(performance.now());
-  }
-
-  _spawnReferrerGuest() {
-    try {
-      const params = new URLSearchParams(window.location.search);
-      const explicit = params.get("from") || params.get("route");
-      const ref = (document.referrer || "").toLowerCase();
-      let routeId = null;
-      if (explicit && ["plugins", "news", "social", "starboard", "benchmarks", "github", "search", "radio"].includes(explicit)) {
-        routeId = explicit;
-      } else if (ref.includes("news")) routeId = "news";
-      else if (ref.includes("social")) routeId = "social";
-      else if (ref.includes("starboard")) routeId = "starboard";
-      else if (ref.includes("benchmark")) routeId = "benchmarks";
-      else if (ref.includes("github.com")) routeId = "github";
-      else if (ref && !ref.includes("sanctuary")) routeId = ref.includes("ai-weekly") || ref.includes("localhost") ? "plugins" : "search";
-      if (routeId) {
-        this.sim.spawnExternalRouteGuest(routeId, "내 아바타", false);
-      }
-    } catch {}
-  }
-
-  _setControlledPeep(peepId) {
-    const p = this.sim.setControlledPeep(peepId);
-    this._syncModeButtons?.();
-    this._syncGuestPovHud?.();
-    if (p) {
-      this.renderer.centerOnTile(Math.round(p.x), Math.round(p.y));
-    }
-    if (this.windows?.windows?.has("guests-list")) this.windows._renderWindowContent("guests-list");
-    if (this.windows?.windows?.has("peep-detail")) this.windows._renderWindowContent("peep-detail");
-    this.audio.playClick();
-    return p;
-  }
-
-  _movePovScreenDirection(dirName) {
-    const baseDir = { right: 0, down: 1, left: 2, up: 3 }[dirName];
-    if (baseDir === undefined) return;
-    const worldDir = (baseDir - this.renderer.rotation + 4) % 4;
-    const res = this.sim.moveControlledPeepByDir(worldDir);
-    if (res?.ok) {
-      this.audio.playFootstep();
-      if (res.kind === "billboard" && res.billboard) {
-        this.windows.openWindow("billboard-post", { billboardId: res.billboard.id });
-      }
-    } else if (res?.reason && res.kind !== "ride") {
-      this.sim.pushNews(res.reason, "warn");
-    }
-    this._syncGuestPovHud?.();
-  }
-
-  _syncGuestPovHud() {
-    const hud = document.getElementById("rct-guest-pov-hud");
-    if (!hud) return;
-    const p = this.sim.getControlledPeep();
-    hud.hidden = !p;
-    const badgeEl = document.getElementById("rct-pov-badge");
-    const nameEl = document.getElementById("rct-pov-name");
-    const thoughtEl = document.getElementById("rct-pov-thought");
-    if (badgeEl) badgeEl.textContent = p ? `🕹️ 손님체험 · ${p.name}` : "🕹️ 손님체험";
-    if (!p) return;
-    const stateTxt = p.state === "riding" ? "🎢 탑승 중" : "🚶 걷는 중";
-    if (nameEl) {
-      nameEl.textContent = "";
-      const routeSpan = document.createElement("span");
-      routeSpan.className = "rct-route-badge";
-      routeSpan.style.color = p.originColor || "#94a3b8";
-      routeSpan.textContent = p.originBadge || "🎟 정문";
-      const metaSpan = document.createElement("span");
-      metaSpan.textContent = ` ${stateTxt} · $${Math.round(p.cash)}`;
-      nameEl.append(routeSpan, metaSpan);
-    }
-    if (thoughtEl) thoughtEl.textContent = p.thoughts[0] || "WASD · 방향키 · 바닥 클릭으로 공원을 자유롭게 걸어보세요!";
-  }
-
-  _syncThemeTogglePlaceholder() {}
-
-  _initThemeToggle() {
-    const btn = document.getElementById("theme-toggle");
-    const syncLabel = () => {
-      const cur = document.documentElement.dataset.theme || "dark";
-      if (btn) btn.textContent = cur === "dark" ? "라이트" : "다크";
-    };
-    syncLabel();
-    btn?.addEventListener("click", () => {
-      const cur = document.documentElement.dataset.theme || "dark";
-      const next = cur === "dark" ? "light" : "dark";
-      document.documentElement.dataset.theme = next;
-      try {
-        localStorage.setItem(THEME_KEY, next);
-      } catch {}
-      syncLabel();
-    });
-  }
-
-  _initChat() {
     this.chat = new SanctuaryChat({
-      onPeerUpdate: (peer, isNew) => {
-        this.sim.syncPeerAvatar(peer, isNew);
+      onPeerUpdate: (peer) => {
+        this.crowd.upsertRemotePeer(peer);
+        this.hud.updateParkStat(1 + this.chat.peers.size, this.crowd.getGuestCount());
       },
       onPeerLeave: (clientId) => {
-        this.sim.removePeerAvatar(clientId);
+        this.crowd.removeRemotePeer(clientId);
+        this.hud.updateParkStat(1 + this.chat.peers.size, this.crowd.getGuestCount());
       },
-      onSelfPublicChat: (text) => {
-        this.sim.triggerPeerChatBubble(null, text, this.chat?.nickname);
-      },
-      onPeerPublicChat: (clientId, text) => {
-        this.sim.triggerPeerChatBubble(clientId, text);
-      },
-      onRemoteFx: (data) => {
-        if (data?.kind === "emote") {
-          this.sim.triggerPeerEmote(data.clientId, data.emoji || "🎉");
-        } else if (data?.kind === "finale_fireworks") {
-          this.sim.spawnMultiplayerFinaleFireworks();
-        }
-      },
+      onCommand: (cmd, arg) => this._handleChatCommand(cmd, arg),
+      onRemoteFx: (fx) => this._handleRemoteFx(fx),
     });
-    this.chat.start();
-    this.chat.setCollapsed(true);
 
-    document.getElementById("rct-btn-radio")?.addEventListener("click", () => {
-      this.chat.setCollapsed(!this.chat.collapsed);
-      this.audio.playClick();
+    this._bindWorldEvents();
+    this._bindAtmosphereButtons();
+    this._bindKeyboardAndPick();
+    this._bindResize();
+
+    this.hud.updateParkStat(1, this.crowd.getGuestCount());
+    this.hud.showToast("위클리랜드 3D에 오신 것을 환영합니다! 어트랙션을 클릭해 바로 탑승해 보세요.", 3800);
+
+    // Non-blocking async enrichment: KayKit 3D GLBs, AI Weekly live feeds, Scrapling coaster presets
+    this.crowd.preloadCharacterModels();
+    this.architect.loadPresets();
+    this.pavilion.loadArchiveData().then(() => {
+      const hl = this.pavilion.getLiveParkHighlights();
+      this.flatRide.updateBillboardData(hl);
+      this.crowd.setGuestReactionLines(hl.guestLines);
     });
-    document.querySelectorAll("[data-chat-emote]").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const emoji = btn.dataset.chatEmote || "🎉";
-        this.sim.triggerPeerEmote(null, emoji);
-        this.chat?.broadcastFx("emote", { emoji });
-        this.audio.playPop();
-      });
-    });
-    document.getElementById("chat-user-tabs")?.addEventListener("click", (ev) => {
-      const tab = ev.target.closest("[data-thread-id]");
-      const tid = tab?.dataset?.threadId;
-      if (tid && tid !== "global") {
-        const vip = this.sim.peeps.find((p) => p.peerClientId === tid);
-        if (vip) this.renderer.centerOnTile(Math.round(vip.x), Math.round(vip.y));
-      }
-    });
-  }
 
-  async _loadLiveAiData() {
-    try {
-      const [pluginsRes, newsRes, socialRes, benchRes, ledgerRes] = await Promise.allSettled([
-        fetch("data/latest.json").then((r) => (r.ok ? r.json() : null)),
-        fetch("data/news_latest.json").then((r) => (r.ok ? r.json() : null)),
-        fetch("data/social_latest.json").then((r) => (r.ok ? r.json() : null)),
-        fetch("data/benchmarks_latest.json").then((r) => (r.ok ? r.json() : null)),
-        fetch("data/stars_ledger.json").then((r) => (r.ok ? r.json() : null)),
-      ]);
-      const pVal = pluginsRes.status === "fulfilled" ? pluginsRes.value : null;
-      const nVal = newsRes.status === "fulfilled" ? newsRes.value : null;
-      const sVal = socialRes.status === "fulfilled" ? socialRes.value : null;
-      const bVal = benchRes.status === "fulfilled" ? benchRes.value : null;
-      const lVal = ledgerRes.status === "fulfilled" ? ledgerRes.value : null;
-      const pluginsList = pVal
-        ? [...(pVal.rising || []), ...(pVal.classic || []), ...(pVal.plugins || pVal.items || [])]
-        : [];
-      if (lVal && typeof lVal === "object") {
-        for (const it of pluginsList) {
-          const hist = lVal[it.repo];
-          if (Array.isArray(hist) && hist.length >= 2 && !it.velocity_7d) {
-            it.velocity_7d = Math.max(0, Number(hist[hist.length - 1]?.stars || 0) - Number(hist[hist.length - 2]?.stars || 0));
-          }
-        }
-      }
-      this.sim.syncAiWeeklyData({
-        plugins: pluginsList,
-        news: nVal ? nVal.news || nVal.items || [] : [],
-        social: sVal ? sVal.items || sVal.posts || [] : [],
-        benchmarks: bVal ? bVal.model_benchmarks || bVal.leaderboard || bVal.models || [] : [],
-      });
-    } catch {}
-  }
-
-  saveToLocal(announce = false) {
-    try {
-      localStorage.setItem(SAVE_KEY, this.sim.serialize());
-      if (announce) {
-        this.sim.pushNews("💾 공원 상태를 브라우저에 안전하게 저장했습니다.", "good");
-        this.audio.playCash();
-      }
-    } catch {}
-  }
-
-  loadFromLocal() {
-    try {
-      const raw = localStorage.getItem(SAVE_KEY);
-      if (!raw) {
-        this.sim.pushNews("저장된 공원 파일이 없습니다.", "warn");
-        return;
-      }
-      this.sim.deserialize(raw);
-      this.renderer.centerOnTile(22, 24);
-      this._syncModeButtons?.();
-      this.audio.playCash();
-    } catch {}
-  }
-
-  setActiveTool(tool, silent = false) {
-    this.renderer.activeTool = { facing: 0, ...tool };
-    if (tool.type !== "pincer") this.renderer.pincerCarry = null;
-
-    if (this.canvas) {
-      let cursorKind = "inspect";
-      if (tool.type === "bulldoze") cursorKind = "bulldoze";
-      else if (["land_up", "land_down", "water_up", "water_down", "surface"].includes(tool.type)) cursorKind = "terrain";
-      else if (["path", "path_add", "scenery", "place_ride", "blueprint", "custom_coaster"].includes(tool.type)) cursorKind = "build";
-      else if (tool.type === "pincer") cursorKind = "pincer";
-      this.canvas.dataset.toolCursor = cursorKind;
+    // Optional URL param ?architect=1 for instant builder entry
+    if (new URLSearchParams(window.location.search).get("architect") === "1") {
+      this.toggleArchitectMode(true);
     }
 
-    const indText = document.getElementById("rct-tool-text");
-    const cancelBtn = document.getElementById("rct-btn-cancel-tool");
-    document.getElementById("rct-btn-bulldoze")?.classList.toggle("is-active", tool.type === "bulldoze");
-    document.querySelector('[data-win="terraform"]')?.classList.toggle(
-      "is-active",
-      ["land_up", "land_down", "water_up", "water_down", "surface"].includes(tool.type)
-    );
-    document.querySelector('[data-win="footpath"]')?.classList.toggle(
-      "is-active",
-      tool.type === "path" || tool.type === "path_add"
-    );
-    document.querySelector('[data-win="scenery"]')?.classList.toggle("is-active", tool.type === "scenery");
-    document.querySelector('[data-win="build"]')?.classList.toggle(
-      "is-active",
-      ["place_ride", "blueprint", "custom_coaster"].includes(tool.type)
-    );
-
-    const labelMap = {
-      inspect: "👆 클릭: 기구·손님·직원·외곽 광고판 확인 | 우클릭 드래그: 이동 | 휠: 줌",
-      bulldoze: "💣 철거 모드: 클릭 또는 드래그해 보도·나무·기구를 철거하세요",
-      land_up: `⛰ 지형 올리기 (${tool.brushSize || 1}×${tool.brushSize || 1}): 클릭/드래그하세요 (+3m · $20)`,
-      land_down: `🕳 지형 내리기 (${tool.brushSize || 1}×${tool.brushSize || 1}): 클릭/드래그하세요 (-3m · $20)`,
-      water_up: `💧 물 채우기 (${tool.brushSize || 1}×${tool.brushSize || 1}): 클릭/드래그하세요 ($25)`,
-      water_down: `🏜 물 배수 (${tool.brushSize || 1}×${tool.brushSize || 1}): 클릭/드래그하세요 ($25)`,
-      surface: `🎨 지면 칠하기 (${tool.subId} · ${tool.brushSize || 1}×${tool.brushSize || 1}): 마우스 드래그로 칠하세요`,
-      path: `🛤 보도 설치 (${tool.subId}): 클릭·드래그로 보도를 이어 그리세요`,
-      path_add: `🪑 보도 소품 (${tool.subId}): 보도 위를 클릭하세요`,
-      scenery: `🌲 풍경 배치 (${tool.subId}): 클릭·드래그로 빈 땅에 배치하세요`,
-      place_ride: `🎡 시설 배치 (${RIDE_CATALOG[tool.subId]?.name || tool.subId}): 부지를 클릭하세요`,
-      blueprint: `📐 설계도 배치 (${COASTER_BLUEPRINTS[tool.subId]?.name || tool.subId}): 시작 타일을 클릭하세요`,
-      custom_coaster: `🎢 커스텀 코스터 시작: 승강장을 놓을 빈 타일을 클릭하세요`,
-      pincer: `🦀 집게 이동 중 (${this.renderer.pincerCarry?.label || ""}): 내려놓을 보도 타일을 클릭하세요`,
-    };
-    if (indText) indText.textContent = labelMap[tool.type] || labelMap.inspect;
-    if (cancelBtn) cancelBtn.hidden = tool.type === "inspect";
-    if (!silent) this.audio.playClick();
+    this._loop();
   }
 
-  _bindEvents() {
-    // Top Toolbar Actions
-    const pauseBtn = document.getElementById("rct-btn-pause");
-    const speedBtn = document.getElementById("rct-btn-speed");
-    const speedLbl = document.getElementById("rct-speed-label");
-
-    const syncSpeedBtns = () => {
-      pauseBtn?.classList.toggle("is-active", this.sim.speedMultiplier === 0);
-      speedBtn?.classList.toggle("is-active", this.sim.speedMultiplier > 0);
-      if (speedLbl) speedLbl.textContent = this.sim.speedMultiplier === 0 ? "0x" : `${this.sim.speedMultiplier}x`;
-    };
-
-    pauseBtn?.addEventListener("click", () => {
-      this.sim.speedMultiplier = this.sim.speedMultiplier === 0 ? 1 : 0;
-      syncSpeedBtns();
-      this.audio.playClick();
-    });
-
-    speedBtn?.addEventListener("click", () => {
-      const order = [1, 2, 4];
-      const next = order[(order.indexOf(this.sim.speedMultiplier) + 1) % order.length];
-      this.sim.speedMultiplier = next;
-      syncSpeedBtns();
-      this.audio.playClick();
-    });
-
-    const sfxBtn = document.getElementById("rct-btn-sfx");
-    sfxBtn?.addEventListener("click", () => {
-      const on = this.audio.toggleSfx();
-      sfxBtn.classList.toggle("is-active", on);
-    });
-
-    const bgmBtn = document.getElementById("rct-btn-bgm");
-    bgmBtn?.addEventListener("click", () => {
-      const on = this.audio.toggleOrganBgm();
-      bgmBtn.classList.toggle("is-active", on);
-    });
-
-    document.getElementById("rct-btn-zoom-in")?.addEventListener("click", () => {
-      this.renderer.zoomBy(1.2);
-      this.audio.playClick();
-    });
-    document.getElementById("rct-btn-zoom-out")?.addEventListener("click", () => {
-      this.renderer.zoomBy(0.83);
-      this.audio.playClick();
-    });
-    document.getElementById("rct-btn-rotate")?.addEventListener("click", () => {
-      this.renderer.rotateCamera(1);
-      this.audio.playClick();
-    });
-    document.getElementById("rct-btn-view-opts")?.addEventListener("click", () => {
-      this.windows.openWindow("view-opts");
-    });
-    document.getElementById("rct-btn-bulldoze")?.addEventListener("click", () => {
-      this.setActiveTool(
-        this.renderer.activeTool.type === "bulldoze" ? { type: "inspect" } : { type: "bulldoze" }
-      );
-    });
-    document.getElementById("rct-btn-cancel-tool")?.addEventListener("click", () => {
-      this.setActiveTool({ type: "inspect" });
-    });
-
-    const freeBtn = document.getElementById("rct-btn-freebuild");
-    const nightBtn = document.getElementById("rct-btn-night");
-    const minimapBtn = document.getElementById("rct-btn-minimap");
-    const minimapPod = document.getElementById("rct-minimap-pod");
-    const minimapCanvas = document.getElementById("rct-minimap-canvas");
-    const povBtn = document.getElementById("rct-btn-guest-pov");
-    const nightLabel = document.getElementById("rct-night-label");
-
-    this._syncModeButtons = () => {
-      const lm = this.sim.lightingMode || (this.sim.nightMode ? "night" : "day");
-      const lmNames = { day: "야간·폭죽", golden: "골든아워", night: "야간쇼", cycle: "자동주야간" };
-      freeBtn?.classList.toggle("is-active", Boolean(this.sim.freeBuildMode));
-      nightBtn?.classList.toggle("is-active", lm !== "day" || Boolean(this.sim.nightMode));
-      if (nightLabel) nightLabel.textContent = lmNames[lm] || "야간·폭죽";
-      bgmBtn?.classList.toggle("is-active", Boolean(this.audio.bgmEnabled));
-      povBtn?.classList.toggle("is-active", Boolean(this.sim.controlledPeepId));
-      if (minimapPod) {
-        minimapBtn?.classList.toggle("is-active", !minimapPod.classList.contains("is-hidden"));
+  _bindWorldEvents() {
+    this.worldState.on("world:changed", ({ scope, data, broadcast }) => {
+      if (scope === "all" || scope === "terrain") {
+        this.terrain.syncFromConfig(data.terrain, data.paths);
+      } else if (scope === "paths") {
+        this.terrain.rebuildPaths(data.paths);
       }
-      this._syncGuestPovHud?.();
-    };
-    this._syncModeButtons();
-    this.setActiveTool({ type: "inspect" }, true);
-    document.addEventListener("rct-sync-hud", () => this._syncModeButtons?.());
+      if (scope === "all" || scope === "coasters" || scope === "terrain") {
+        this.coaster.syncAll(data.coasters);
+      }
+      if (scope === "all" || scope === "rides" || scope === "terrain") {
+        this.flatRide.syncAll(data.rides, data.scenery);
+        const hl = this.pavilion.getLiveParkHighlights();
+        this.flatRide.updateBillboardData(hl);
+      }
+      if (scope === "all") {
+        this.pavilion.syncAll(data.pavilions);
+      }
+      if (broadcast && this.worldState.mode === "architect") {
+        this._scheduleLiveWorldBroadcast(data);
+      }
+    });
+  }
 
-    // Right-click SFX or BGM button opens 4-channel Spatial Audio Mixer
-    for (const ab of [sfxBtn, bgmBtn]) {
-      ab?.addEventListener("contextmenu", (ev) => {
-        ev.preventDefault();
-        this.windows.openWindow("audio-mixer");
-      });
-    }
-
-    document.getElementById("rct-btn-photo")?.addEventListener("click", () => {
-      const dataUrl = this.renderer.renderPhotoSnapshot();
-      this.windows.openWindow("photo-preview", { dataUrl });
+  _scheduleLiveWorldBroadcast(data) {
+    clearTimeout(this._broadcastPatchTimer);
+    this._broadcastPatchTimer = setTimeout(() => {
       try {
-        const a = document.createElement("a");
-        a.href = dataUrl;
-        a.download = "ai-weekly-sanctuary-photo.png";
-        a.click();
-      } catch {}
-      this.audio.playAward();
-      this.sim.pushNews("📸 위클리월드 폴라로이드 기념 사진이 촬영되었습니다!", "good");
-    });
-
-    povBtn?.addEventListener("click", () => {
-      if (this.sim.controlledPeepId) {
-        this._setControlledPeep(null);
-      } else {
-        const ext = this.sim.peeps.find((p) => p.isExternalRoute) || this.sim.peeps[0] || this.sim.spawnExternalRouteGuest("news");
-        if (ext) {
-          this.setActiveTool({ type: "inspect" });
-          this._setControlledPeep(ext.id);
-        }
-      }
-    });
-
-    document.getElementById("rct-pov-exit")?.addEventListener("click", () => {
-      this._setControlledPeep(null);
-    });
-    document.querySelectorAll("[data-pov-move]").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        this._movePovScreenDirection(btn.dataset.povMove);
-      });
-    });
-    document.getElementById("rct-pov-interact")?.addEventListener("click", () => {
-      const res = this.sim.interactControlledPeepWithAdjacent();
-      if (!res.ok && res.reason) this.sim.pushNews(res.reason, "warn");
-      if (res.kind === "billboard" && res.billboard) {
-        this.windows.openWindow("billboard-post", { billboardId: res.billboard.id });
-      }
-      this._syncGuestPovHud?.();
-    });
-    document.getElementById("rct-pov-next-guest")?.addEventListener("click", () => {
-      const p = this.sim.cycleControlledExternalPeep();
-      this._syncModeButtons?.();
-      if (p) this.renderer.centerOnTile(Math.round(p.x), Math.round(p.y));
-      this.audio.playClick();
-    });
-    document.getElementById("rct-pov-spawn-route")?.addEventListener("click", () => {
-      this.windows._guestTab = "external";
-      this.windows.openWindow("guests-list");
-    });
-
-    freeBtn?.addEventListener("click", () => {
-      const on = this.sim.toggleFreeBuildMode();
-      this._syncModeButtons();
-      this.audio.playCash();
-      if (this.windows.windows.has("build")) this.windows._renderWindowContent("build");
-      if (this.windows.windows.has("scenery")) this.windows._renderWindowContent("scenery");
-      if (on && this.sim.rides.length === 0) this.renderer.centerOnTile(22, 24);
-    });
-
-    nightBtn?.addEventListener("click", () => {
-      const nextMode = this.sim.cycleLightingMode();
-      if (nextMode === "night") {
-        this.sim.spawnMultiplayerFinaleFireworks();
-        this.audio.playFireworkBurst();
-        this.chat?.broadcastFx("finale_fireworks");
-      } else if (nextMode === "golden") {
-        this.sim.pushNews("🌇 황금빛 골든아워 조명으로 전환했습니다!", "info");
-      } else if (nextMode === "cycle") {
-        this.sim.pushNews("🌅 자동 주야간 순환 사이클이 시작되었습니다!", "info");
-      } else {
-        this.sim.pushNews("☀️ 맑은 낮 조명으로 복귀했습니다.", "info");
-      }
-      this._syncModeButtons();
-      this.audio.playClick();
-    });
-
-    const toggleMinimap = () => {
-      minimapPod?.classList.toggle("is-hidden");
-      this._syncModeButtons();
-      this.audio.playClick();
-    };
-    minimapBtn?.addEventListener("click", toggleMinimap);
-    document.getElementById("rct-minimap-close")?.addEventListener("click", toggleMinimap);
-
-    if (minimapCanvas) {
-      let miniDragging = false;
-      const jumpFromMini = (ev) => {
-        const rect = minimapCanvas.getBoundingClientRect();
-        const pos = this.renderer.minimapPointToTile(minimapCanvas, ev.clientX - rect.left, ev.clientY - rect.top);
-        this.renderer.centerOnTile(pos.tileX, pos.tileY);
-      };
-      minimapCanvas.addEventListener("pointerdown", (ev) => {
-        if (ev.button !== 0) return;
-        miniDragging = true;
-        jumpFromMini(ev);
-        this.audio.playClick();
-      });
-      window.addEventListener("pointermove", (ev) => {
-        if (miniDragging) jumpFromMini(ev);
-      });
-      window.addEventListener("pointerup", () => {
-        miniDragging = false;
-      });
-    }
-
-    document.getElementById("rct-jump-billboards")?.addEventListener("click", () => {
-      const firstBb = this.sim.perimeterBillboards?.[0];
-      if (firstBb) {
-        this.renderer.centerOnTile(firstBb.tileX, firstBb.tileY);
-        this.windows.openWindow("billboard-post", { billboardId: firstBb.id });
-      }
-    });
-    document.getElementById("rct-jump-plaza")?.addEventListener("click", () => {
-      this.renderer.centerOnTile(22, 24);
-      this.audio.playClick();
-    });
-
-    document.querySelectorAll("#rct-top-toolbar [data-win]").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        this.windows.openWindow(btn.dataset.win);
-      });
-    });
-
-    document.getElementById("rct-ticker-pod")?.addEventListener("click", () => {
-      this.windows.openWindow("park");
-    });
-
-    // Canvas Mouse & Wheel Interactions
-    this.canvas.addEventListener("contextmenu", (ev) => ev.preventDefault());
-
-    this.canvas.addEventListener("pointerdown", (ev) => {
-      const rect = this.canvas.getBoundingClientRect();
-      const cssX = ev.clientX - rect.left;
-      const cssY = ev.clientY - rect.top;
-
-      if (ev.button === 2 || ev.button === 1) {
-        this._panning = true;
-        this._panStart = { x: ev.clientX, y: ev.clientY, camX: this.renderer.camX, camY: this.renderer.camY };
-        this._panPrev = { x: ev.clientX, y: ev.clientY, t: performance.now() };
-        this.renderer.panVelX = 0;
-        this.renderer.panVelY = 0;
-        this.canvas.setPointerCapture?.(ev.pointerId);
-        return;
-      }
-      if (ev.button === 0) {
-        const dragTools = new Set(["bulldoze", "path", "surface", "scenery", "land_up", "land_down", "water_up", "water_down"]);
-        const toolType = this.renderer.activeTool.type;
-        if (dragTools.has(toolType)) {
-          this._painting = true;
-          this._lastPaintKey = null;
-          const { tileX, tileY } = this.renderer.pickTileAtScreen(cssX, cssY);
-          this._lastPaintKey = `${tileX},${tileY}`;
-          this._applyActiveToolAtTile(tileX, tileY);
-        } else {
-          this._pointerDown = { x: cssX, y: cssY, rawX: ev.clientX, rawY: ev.clientY };
-        }
-      }
-    });
-
-    window.addEventListener("pointermove", (ev) => {
-      const rect = this.canvas.getBoundingClientRect();
-      const cssX = ev.clientX - rect.left;
-      const cssY = ev.clientY - rect.top;
-
-      if (this._panning) {
-        const nowT = performance.now();
-        const dx = ev.clientX - this._panStart.x;
-        const dy = ev.clientY - this._panStart.y;
-        this.renderer.camX = this._panStart.camX - dx / this.renderer.zoom;
-        this.renderer.camY = this._panStart.camY - dy / this.renderer.zoom;
-        if (this._panPrev && nowT > this._panPrev.t) {
-          const dtMove = Math.max(0.008, (nowT - this._panPrev.t) / 1000);
-          this.renderer.panVelX = (-(ev.clientX - this._panPrev.x) / this.renderer.zoom) / dtMove;
-          this.renderer.panVelY = (-(ev.clientY - this._panPrev.y) / this.renderer.zoom) / dtMove;
-        }
-        this._panPrev = { x: ev.clientX, y: ev.clientY, t: nowT };
-        return;
-      }
-
-      if (cssX >= 0 && cssY >= 0 && cssX <= rect.width && cssY <= rect.height) {
-        const picked = this.renderer.pickTileAtScreen(cssX, cssY);
-        this.renderer.hoverTile = picked;
-        if (this._painting) {
-          const pKey = `${picked.tileX},${picked.tileY}`;
-          if (pKey !== this._lastPaintKey) {
-            this._lastPaintKey = pKey;
-            this._applyActiveToolAtTile(picked.tileX, picked.tileY);
-          }
-        }
-      }
-    });
-
-    window.addEventListener("pointerup", (ev) => {
-      if (this._panning && (ev.button === 2 || ev.button === 1)) {
-        this._panning = false;
-        if (!this._panPrev || (performance.now() - this._panPrev.t) > 90) {
-          this.renderer.panVelX = 0;
-          this.renderer.panVelY = 0;
-        }
-        this._panPrev = null;
-        return;
-      }
-      if (ev.button === 0 && this._painting) {
-        this._painting = false;
-        this._lastPaintKey = null;
-        return;
-      }
-      if (ev.button === 0 && this._pointerDown) {
-        const dist = Math.hypot(ev.clientX - this._pointerDown.rawX, ev.clientY - this._pointerDown.rawY);
-        const { x, y } = this._pointerDown;
-        this._pointerDown = null;
-        if (dist < 7) this._handleCanvasClick(x, y);
-      }
-    });
-
-    this.canvas.addEventListener("wheel", (ev) => {
-      ev.preventDefault();
-      const rect = this.canvas.getBoundingClientRect();
-      this.renderer.zoomBy(ev.deltaY < 0 ? 1.12 : 0.89, ev.clientX - rect.left, ev.clientY - rect.top);
-    }, { passive: false });
-
-    // Keyboard shortcuts
-    window.addEventListener("keydown", (ev) => {
-      const tag = document.activeElement?.tagName;
-      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") {
-        if (ev.key === "Escape") document.activeElement.blur();
-        return;
-      }
-      this.keys.add(ev.code);
-      if (this.sim.controlledPeepId && !ev.repeat) {
-        if (ev.code === "KeyW" || ev.code === "ArrowUp") { ev.preventDefault(); this._movePovScreenDirection("up"); this._povStepCooldown = 0.22; return; }
-        if (ev.code === "KeyS" || ev.code === "ArrowDown") { ev.preventDefault(); this._movePovScreenDirection("down"); this._povStepCooldown = 0.22; return; }
-        if (ev.code === "KeyA" || ev.code === "ArrowLeft") { ev.preventDefault(); this._movePovScreenDirection("left"); this._povStepCooldown = 0.22; return; }
-        if (ev.code === "KeyD" || ev.code === "ArrowRight") { ev.preventDefault(); this._movePovScreenDirection("right"); this._povStepCooldown = 0.22; return; }
-        if (ev.code === "KeyE") {
-          const res = this.sim.interactControlledPeepWithAdjacent();
-          if (res.kind === "billboard" && res.billboard) this.windows.openWindow("billboard-post", { billboardId: res.billboard.id });
-          this._syncGuestPovHud?.();
-          return;
-        }
-      }
-      if (ev.code === "KeyR") {
-        this.renderer.rotateCamera(1);
-        this.audio.playClick();
-      } else if (ev.code === "Space") {
-        ev.preventDefault();
-        pauseBtn?.click();
-      } else if (ev.code === "Escape") {
-        if (this.sim.controlledPeepId) {
-          this._setControlledPeep(null);
-        } else if (this.renderer.activeTool.type !== "inspect") {
-          this.setActiveTool({ type: "inspect" });
-        } else {
-          this.windows.closeTopUnpinned();
-        }
-      } else {
-        const hotkeyMap = {
-          Digit1: "terraform",
-          Digit2: "footpath",
-          Digit3: "scenery",
-          Digit4: "build",
-          Digit5: "rides-list",
-          Digit6: "park",
-          Digit7: "staff",
-          Digit8: "guests-list",
-          Digit9: "finances",
+        // Keep Nostr relay packet light by omitting dense terrain height array in live previews
+        const lite = {
+          ...data,
+          terrain: { ...data.terrain, heights: undefined },
         };
-        const targetWin = hotkeyMap[ev.code];
-        if (targetWin) {
-          if (this.windows.windows.has(targetWin)) this.windows.closeWindow(targetWin);
-          else this.windows.openWindow(targetWin);
-        }
-      }
-    });
-    window.addEventListener("keyup", (ev) => this.keys.delete(ev.code));
-    window.addEventListener("blur", () => this.keys.clear());
+        this.chat?.broadcastFx("world_patch", { world: lite });
+      } catch {}
+    }, 450);
   }
 
-  _applyActiveToolAtTile(tileX, tileY) {
-    const tool = this.renderer.activeTool;
-    const brush = tool.brushSize === 3 ? [-1, 0, 1] : [0];
-    let lastRes = null;
+  _handleRemoteFx(fx) {
+    if (fx?.kind === "world_patch" && fx.world && this.worldState.mode !== "architect") {
+      this.worldState.applyRemotePatch(fx.world);
+      this.hud.showToast("관리자가 공원을 실시간으로 업데이트했습니다!");
+    }
+  }
 
-    if (tool.type === "surface") {
-      for (const dy of brush) {
-        for (const dx of brush) {
-          lastRes = this.sim.paintSurface(tileX + dx, tileY + dy, tool.subId || "grass");
-        }
+  _handleFestivalEvent(ev) {
+    const banner = document.getElementById("sanctuary-festival-banner");
+    const text = document.getElementById("festival-banner-text");
+    if (!banner || !text) return;
+    if (ev.type === "countdown") {
+      banner.hidden = false;
+      text.textContent = `잠시 후 위클리랜드 밤하늘에 불꽃축제가 시작됩니다! (${ev.countdown}초 전)`;
+    } else if (ev.type === "start") {
+      banner.hidden = false;
+      text.textContent = "위클리랜드 야간 불꽃축제가 시작되었습니다!";
+    } else if (ev.type === "end") {
+      banner.hidden = true;
+    }
+  }
+
+  _handleChatCommand(cmd, arg) {
+    if (cmd === "time" && arg) {
+      this.atmosphere.setTimeMode(arg);
+      this._syncAtmoLabels();
+    } else if (cmd === "season" && arg) {
+      this.atmosphere.setSeasonMode(arg);
+      this._syncAtmoLabels();
+    } else if (cmd === "firework") {
+      this.atmosphere.setTimeMode("night");
+      this._syncAtmoLabels();
+      this.hud.showToast("밤하늘로 전환했습니다. 곧 야간 불꽃축제가 열립니다!");
+    }
+  }
+
+  _bindAtmosphereButtons() {
+    document.getElementById("btn-atmo-time")?.addEventListener("click", () => {
+      this.atmosphere.cycleTimeMode();
+      this._syncAtmoLabels();
+    });
+    document.getElementById("btn-atmo-season")?.addEventListener("click", () => {
+      this.atmosphere.cycleSeasonMode();
+      this._syncAtmoLabels();
+    });
+    this._syncAtmoLabels();
+  }
+
+  _syncAtmoLabels() {
+    const labels = this.atmosphere.getStatusLabels();
+    const tEl = document.getElementById("atmo-time-text");
+    const sEl = document.getElementById("atmo-season-text");
+    if (tEl) tEl.textContent = labels.timeLabel;
+    if (sEl) sEl.textContent = labels.seasonLabel;
+  }
+
+  boardAttraction(kind, id) {
+    if (this.worldState.mode === "architect") {
+      this.toggleArchitectMode(false);
+    }
+    const targetId = kind === "coaster" ? (this.coaster.instances.has(id) ? id : this.coaster.getPrimaryCoasterId()) : id;
+    if (!targetId) return;
+    this.crowd.boardRide(kind, targetId, 0);
+    this.cameraRig.setMode("ride_pov");
+    this.hud.syncMode(this.worldState.mode, this.cameraRig.mode);
+    this.audio.playClick(740);
+    this.chat?.updateZoneLabel(kind === "coaster" ? "하이퍼 코스터 탑승 중" : "어트랙션 탑승 중");
+  }
+
+  leaveAttraction() {
+    const prev = this.crowd.player.riding;
+    if (!prev) return;
+    const dropPos =
+      prev.kind === "coaster"
+        ? this.coaster.getStationPosition(prev.id)
+        : this.flatRide.getRidePosition(prev.id).add(new THREE.Vector3(0, 0, 10));
+    this.crowd.leaveRide(dropPos);
+    this.cameraRig.setMode("guest_third");
+    this.hud.updateRideTelemetry(null);
+    this.hud.syncMode(this.worldState.mode, this.cameraRig.mode);
+    this.chat?.updateZoneLabel("위클리랜드 중앙 광장");
+  }
+
+  openPavilion(archiveKey) {
+    this.dashboard.open(archiveKey);
+    const pos = this.pavilion.getPavilionPosition(archiveKey);
+    if (!this.crowd.player.riding && this.worldState.mode === "guest") {
+      this.cameraRig.focusOn(pos, 26);
+    }
+  }
+
+  setCameraMode(mode) {
+    this.cameraRig.setMode(mode);
+    this.hud.syncMode(this.worldState.mode, this.cameraRig.mode);
+  }
+
+  toggleDroneCamera() {
+    if (this.crowd.player.riding) this.leaveAttraction();
+    const next = this.cameraRig.mode === "drone" ? "guest_third" : "drone";
+    this.cameraRig.setMode(next);
+    if (next === "drone") this.cameraRig.focusOn(new THREE.Vector3(0, 4, 0), 62);
+    this.hud.syncMode(this.worldState.mode, this.cameraRig.mode);
+  }
+
+  toggleArchitectMode(forceState) {
+    const next = typeof forceState === "boolean" ? forceState : this.worldState.mode !== "architect";
+    if (next && this.crowd.player.riding) this.leaveAttraction();
+    this.worldState.setMode(next ? "architect" : "guest");
+    this.architect.setActive(next);
+    this.cameraRig.setMode(next ? "architect" : "guest_third");
+    if (next) this.cameraRig.focusOn(new THREE.Vector3(0, 4, 0), 66);
+    this.hud.syncMode(this.worldState.mode, this.cameraRig.mode);
+    this.hud.showToast(
+      next
+        ? "관리자(Architect) 모드 활성화 — 코스터 노드를 드래그하거나 어트랙션을 자유롭게 배치하세요."
+        : "방문객(Guest) 모드로 전환되었습니다."
+    );
+  }
+
+  _bindKeyboardAndPick() {
+    const mapKey = (code, down) => {
+      if (["INPUT", "TEXTAREA", "SELECT"].includes(document.activeElement?.tagName)) return;
+      if (code === "KeyW" || code === "ArrowUp") this.keys.forward = down;
+      else if (code === "KeyS" || code === "ArrowDown") this.keys.backward = down;
+      else if (code === "KeyA" || code === "ArrowLeft") this.keys.left = down;
+      else if (code === "KeyD" || code === "ArrowRight") this.keys.right = down;
+      else if (code === "ShiftLeft" || code === "ShiftRight") this.keys.sprint = down;
+      else if (code === "Space") this.keys.jump = down;
+      else if (down && code === "Escape") {
+        if (this.dashboard.isOpen()) this.dashboard.close();
+        else if (this.crowd.player.riding) this.leaveAttraction();
       }
-      if (lastRes?.ok) this.audio.playClick();
-    } else if (["land_up", "land_down", "water_up", "water_down"].includes(tool.type)) {
-      for (const dy of brush) {
-        for (const dx of brush) {
-          const tx = tileX + dx;
-          const ty = tileY + dy;
-          if (tool.type === "land_up") lastRes = this.sim.raiseLowerLand(tx, ty, 1);
-          else if (tool.type === "land_down") lastRes = this.sim.raiseLowerLand(tx, ty, -1);
-          else if (tool.type === "water_up") {
-            const cur = this.sim.getTile(tx, ty);
-            lastRes = this.sim.setWaterLevel(tx, ty, Math.max((cur?.height || 2) + 1, cur?.waterHeight || 2));
-          } else {
-            lastRes = this.sim.setWaterLevel(tx, ty, 0);
-          }
-        }
+    };
+
+    window.addEventListener("keydown", (ev) => mapKey(ev.code, true));
+    window.addEventListener("keyup", (ev) => mapKey(ev.code, false));
+
+    // Guest mode 3D picking: click rides to board, click pavilions to open AI Weekly dashboard
+    this.canvas.addEventListener("click", (ev) => {
+      if (this.worldState.mode === "architect" || ev.button !== 0) return;
+      const rect = this.canvas.getBoundingClientRect();
+      this.pointer.x = ((ev.clientX - rect.left) / Math.max(1, rect.width)) * 2 - 1;
+      this.pointer.y = -((ev.clientY - rect.top) / Math.max(1, rect.height)) * 2 + 1;
+      this.raycaster.setFromCamera(this.pointer, this.cameraRig.camera);
+
+      const targets = [...this.pavilion.pickables, ...this.flatRide.pickables];
+      const hits = this.raycaster.intersectObjects(targets, false);
+      if (!hits.length) return;
+      const ud = hits[0].object.userData;
+      if (ud.pickKind === "pavilion") {
+        this.openPavilion(ud.archiveKey);
+      } else if (ud.pickKind === "ride") {
+        this.boardAttraction("ride", ud.id);
       }
-    } else if (tool.type === "bulldoze") {
-      lastRes = this.sim.bulldozeTile(tileX, tileY);
-    } else if (tool.type === "path") {
-      lastRes = this.sim.placeFootpath(tileX, tileY, tool.subId, tool.subId === "queue");
-    } else if (tool.type === "path_add") {
-      lastRes = this.sim.placePathAddition(tileX, tileY, tool.subId);
-    } else if (tool.type === "scenery") {
-      lastRes = this.sim.placeScenery(tileX, tileY, tool.subId);
-    } else if (tool.type === "place_ride") {
-      lastRes = this.sim.placeRideOrShop(tileX, tileY, tool.subId);
-      if (lastRes?.ok) {
-        this.setActiveTool({ type: "inspect" });
-        this.windows.openWindow("ride-detail", { rideId: lastRes.ride.id });
-      }
-    } else if (tool.type === "blueprint") {
-      const bp = COASTER_BLUEPRINTS[tool.subId];
-      lastRes = this.sim.placeRideOrShop(tileX, tileY, bp?.rideCatalogId || "wooden_coaster", {
-        blueprintId: tool.subId,
+    });
+  }
+
+  _bindResize() {
+    const onResize = () => {
+      const parent = this.canvas.parentElement;
+      const w = parent?.clientWidth || window.innerWidth;
+      const h = parent?.clientHeight || Math.max(560, window.innerHeight - 58);
+      this.renderer.setSize(w, h, false);
+      this.composer.setSize(w, h);
+      this.cameraRig.setAspect(w, h);
+    };
+    window.addEventListener("resize", onResize);
+    if (typeof ResizeObserver !== "undefined" && this.canvas.parentElement) {
+      new ResizeObserver(onResize).observe(this.canvas.parentElement);
+    }
+    onResize();
+  }
+
+  _loop() {
+    this._rafId = requestAnimationFrame(() => this._loop());
+    const dt = Math.min(this.clock.getDelta(), 0.05);
+
+    this.atmosphere.update(dt, this.crowd.player.position);
+    const isNight = this.atmosphere.getTimeKey() === "night";
+    if (this.bloomPass) {
+      const targetStrength = isNight ? 0.56 : 0.12;
+      this.bloomPass.strength += (targetStrength - this.bloomPass.strength) * Math.min(1, dt * 4);
+    }
+
+    this.terrain.update(dt, isNight);
+    this.skyDecor.update(dt, isNight);
+    this.coaster.update(dt, isNight);
+    this.flatRide.update(dt, isNight);
+    this.pavilion.update(isNight);
+
+    const basis = this.cameraRig.getGroundBasis();
+    const walkInput = this.cameraRig.mode === "guest_third" ? this.keys : null;
+    const w = this.canvas.clientWidth || window.innerWidth;
+    const h = this.canvas.clientHeight || 640;
+
+    this.crowd.player.root.visible = this.cameraRig.mode !== "ride_pov";
+    this.crowd.update(dt, walkInput, basis, this.coaster, this.flatRide, this.cameraRig.camera, w, h);
+
+    const riding = this.crowd.player.riding;
+    const rideSeat = riding
+      ? riding.kind === "coaster"
+        ? this.coaster.getSeatState(riding.id, 0, riding.carIndex || 0)
+        : this.flatRide.getRideSeatState(riding.id)
+      : null;
+
+    this.cameraRig.update(dt, {
+      playerPos: this.crowd.player.position,
+      rideSeat,
+      panInput: this.cameraRig.mode === "drone" || this.cameraRig.mode === "architect" ? this.keys : null,
+    });
+
+    this.hud.updateRideTelemetry(rideSeat);
+    this.audio.updateRideSound(dt, rideSeat);
+
+    // Sync multiplayer avatar presence at ~6Hz
+    this._presenceAccum += dt;
+    if (this._presenceAccum >= 0.16 && this.chat) {
+      this._presenceAccum = 0;
+      const p = this.crowd.player;
+      this.chat.broadcastState({
+        classKey: p.classKey,
+        x: p.position.x,
+        y: p.position.y,
+        z: p.position.z,
+        facing: p.facing,
+        action: p.riding ? "Sit" : this.keys.forward || this.keys.backward || this.keys.left || this.keys.right ? "Walk" : "Idle",
+        zone: p.riding ? "어트랙션 탑승" : "위클리랜드 광장",
+        riding: p.riding,
       });
-      if (lastRes?.ok) {
-        this.setActiveTool({ type: "inspect" });
-        this.windows.openWindow("ride-detail", { rideId: lastRes.ride.id });
-      }
-    } else if (tool.type === "custom_coaster") {
-      lastRes = this.sim.startCustomCoaster(tileX, tileY, tool.subId, tool.facing || 0);
-      if (lastRes?.ok) {
-        this.setActiveTool({ type: "inspect" });
-        this.windows.openWindow("coaster-builder", { rideId: lastRes.ride.id });
-      }
     }
 
-    if (lastRes && !lastRes.ok && lastRes.reason && !this._painting) {
-      this.sim.pushNews(lastRes.reason, "warn");
-    }
-  }
-
-  _handleCanvasClick(cssX, cssY) {
-    const tool = this.renderer.activeTool;
-
-    if (tool.type === "pincer" && this.renderer.pincerCarry) {
-      const tile = this.renderer.pickTileAtScreen(cssX, cssY);
-      const carry = this.renderer.pincerCarry;
-      if (carry.kind === "peep") {
-        this.sim.dropPeepWithPincer(carry.id, tile.tileX, tile.tileY);
-      } else if (carry.kind === "staff") {
-        this.sim.dropStaffWithPincer(carry.id, tile.tileX, tile.tileY);
-      }
-      this.setActiveTool({ type: "inspect" });
-      return;
-    }
-
-    if (tool.type !== "inspect") {
-      const { tileX, tileY } = this.renderer.pickTileAtScreen(cssX, cssY);
-      this._applyActiveToolAtTile(tileX, tileY);
-      return;
-    }
-
-    // Inspect mode: pop balloon, read billboard, fire mortar, inspect guest/staff/ride
-    const hit = this.renderer.pickEntityAtScreen(cssX, cssY);
-    if (!hit) return;
-    if (hit.kind === "balloon") {
-      this.sim.popBalloonAt(hit.id);
-      return;
-    }
-    if (hit.kind === "billboard") {
-      this.windows.openWindow("billboard-post", { billboardId: hit.id });
-      return;
-    }
-    if (hit.kind === "supernova") {
-      this.windows.openWindow("supernova");
-      return;
-    }
-    if (hit.kind === "peep") {
-      this.windows.openWindow("peep-detail", { peepId: hit.id });
-      return;
-    }
-    if (hit.kind === "staff") {
-      this.windows.openWindow("staff");
-      return;
-    }
-    if (hit.kind === "ride") {
-      this.windows.openWindow("ride-detail", { rideId: hit.id });
-      return;
-    }
-    if (hit.kind === "tile") {
-      const t = this.sim.getTile(hit.tileX, hit.tileY);
-      if (t?.scenery?.id === "firework_launcher") {
-        this.sim.launchFireworksAt(hit.tileX, hit.tileY);
-        return;
-      }
-      if (this.sim.controlledPeepId) {
-        const res = this.sim.walkControlledPeepToTile(hit.tileX, hit.tileY);
-        if (res?.ok) this.audio.playFootstep();
-        this._syncGuestPovHud?.();
-      }
-    }
-  }
-
-  _loop(nowMs) {
-    const dt = Math.min(0.05, Math.max(0.001, (nowMs - this._lastTime) / 1000));
-    this._lastTime = nowMs;
-
-    const ctrlPeep = this.sim.getControlledPeep();
-    if (ctrlPeep) {
-      if (this._povStepCooldown > 0) this._povStepCooldown -= dt;
-      if (this._povStepCooldown <= 0) {
-        if (this.keys.has("KeyW") || this.keys.has("ArrowUp")) { this._movePovScreenDirection("up"); this._povStepCooldown = 0.22; }
-        else if (this.keys.has("KeyS") || this.keys.has("ArrowDown")) { this._movePovScreenDirection("down"); this._povStepCooldown = 0.22; }
-        else if (this.keys.has("KeyA") || this.keys.has("ArrowLeft")) { this._movePovScreenDirection("left"); this._povStepCooldown = 0.22; }
-        else if (this.keys.has("KeyD") || this.keys.has("ArrowRight")) { this._movePovScreenDirection("right"); this._povStepCooldown = 0.22; }
-      }
-    } else {
-      // Keyboard WASD / Arrow smooth camera pan
-      const panSpeed = 420 / this.renderer.zoom;
-      if (this.keys.has("KeyW") || this.keys.has("ArrowUp")) this.renderer.camY -= panSpeed * dt;
-      if (this.keys.has("KeyS") || this.keys.has("ArrowDown")) this.renderer.camY += panSpeed * dt;
-      if (this.keys.has("KeyA") || this.keys.has("ArrowLeft")) this.renderer.camX -= panSpeed * dt;
-      if (this.keys.has("KeyD") || this.keys.has("ArrowRight")) this.renderer.camX += panSpeed * dt;
-    }
-
-    this.renderer.stepCamera(dt);
-    this.sim.step(dt);
-    this.audio.updateSpatialField({
-      camX: this.renderer.camX,
-      camY: this.renderer.camY,
-      zoom: this.renderer.zoom,
-      rides: this.sim.rides,
-      rotation: this.renderer.rotation,
-      mapSize: this.sim.mapSize,
-      weather: this.sim.weather,
-      nowMs,
-    });
-
-    // Smooth camera follow when Guest POV Manual Mode is active
-    const followPeep = this.sim.getControlledPeep();
-    if (followPeep) {
-      let fx = followPeep.x;
-      let fy = followPeep.y;
-      let fz = this.sim.getTile(Math.round(fx), Math.round(fy))?.height || 2;
-      if (followPeep.state === "riding" && followPeep.ridingRideId) {
-        const ride = this.sim.rides.find((r) => r.id === followPeep.ridingRideId);
-        if (ride?.track?.trains?.[0]) {
-          const pose = ride.track.samplePoseAtDistance(ride.track.trains[0].distance);
-          fx = pose.x;
-          fy = pose.y;
-          fz = pose.z;
-        } else if (ride) {
-          fx = ride.x;
-          fy = ride.y;
-          fz = ride.z;
-        }
-      }
-      const isoTarget = worldToIso(fx, fy, fz, this.renderer.rotation, this.sim.mapSize);
-      const lerpFactor = Math.min(1, dt * 6);
-      this.renderer.camX += (isoTarget.screenX - this.renderer.camX) * lerpFactor;
-      this.renderer.camY += (isoTarget.screenY - this.renderer.camY) * lerpFactor;
-    }
-
-    const nowSec = nowMs / 1000;
-    this.renderer.render(nowSec);
-    this.windows.refreshLiveState(nowSec);
-
-    if (nowMs - this._lastMinimapDraw > 120) {
-      this._lastMinimapDraw = nowMs;
-      if (followPeep) this._syncGuestPovHud?.();
-      const mmCanvas = document.getElementById("rct-minimap-canvas");
-      if (mmCanvas && !mmCanvas.closest(".rct-minimap-pod")?.classList.contains("is-hidden")) {
-        this.renderer.renderMinimap(mmCanvas);
-      }
-    }
-
-    if (nowMs - this._lastAutosave > 25000) {
-      this._lastAutosave = nowMs;
-      this.saveToLocal(false);
-    }
-
-    requestAnimationFrame((t) => this._loop(t));
+    this.composer.render();
   }
 }
 
-const app = new RctSanctuaryApp();
-app.start().catch((err) => console.error("[RCT1Sanctuary] Boot error:", err));
+initThemeToggle();
+window.__weeklyland = new WeeklyLandApp();

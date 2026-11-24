@@ -1,0 +1,89 @@
+/* WeeklyLand 3-Layer Design Tokens (Primitive -> Semantic -> Component) */
+/* Source of Truth: docs/weeklyland-brand-guidelines.md & site/src/styles/weeklyland-tokens.json */
+
+:root {
+  /* Layer 1: Primitive Tokens */
+  --wl-prim-sand-50: #fcf9f3;
+  --wl-prim-sand-100: #f4ede0;
+  --wl-prim-sand-200: #e5dac5;
+  --wl-prim-ink-950: #1a1714;
+  --wl-prim-ink-700: #4d463e;
+  --wl-prim-night-950: #080d18;
+  --wl-prim-night-900: #0e1424;
+  --wl-prim-night-800: #1a253c;
+  --wl-prim-slate-100: #f3f6fb;
+  --wl-prim-slate-300: #b8c4d9;
+  --wl-prim-terracotta-600: #b84b24;
+  --wl-prim-terracotta-500: #ea8e66;
+  --wl-prim-brass-600: #a67c2e;
+  --wl-prim-brass-400: #eab308;
+  --wl-prim-emerald-700: #1f6e4a;
+  --wl-prim-emerald-400: #34d399;
+  --wl-prim-cyan-700: #0e7490;
+  --wl-prim-cyan-400: #38bdf8;
+  --wl-prim-crimson-600: #c8323c;
+  --wl-prim-crimson-400: #f87171;
+  --wl-prim-white: #ffffff;
+
+  --wl-font-display: 'Newsreader', Georgia, serif;
+  --wl-font-sans: 'Pretendard', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --wl-font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+
+  --wl-radius-sm: 6px;
+  --wl-radius-md: 12px;
+  --wl-radius-lg: 16px;
+  --wl-radius-pill: 9999px;
+
+  --wl-shadow-hud: 0 12px 32px rgba(5, 10, 22, 0.34);
+  --wl-shadow-card: 0 6px 20px rgba(5, 10, 22, 0.22);
+
+  /* Layer 2: Semantic Tokens (Default Dark) */
+  --wl-sem-bg: var(--wl-prim-night-950);
+  --wl-sem-surface: rgba(11, 17, 30, 0.84);
+  --wl-sem-surface-strong: rgba(15, 23, 42, 0.94);
+  --wl-sem-surface-hover: rgba(30, 44, 72, 0.92);
+  --wl-sem-border: rgba(184, 196, 217, 0.18);
+  --wl-sem-border-strong: rgba(224, 122, 82, 0.48);
+  --wl-sem-ink: var(--wl-prim-slate-100);
+  --wl-sem-ink-muted: var(--wl-prim-slate-300);
+  --wl-sem-accent: var(--wl-prim-terracotta-500);
+  --wl-sem-accent-ink: var(--wl-prim-night-950);
+  --wl-sem-gold: var(--wl-prim-brass-400);
+  --wl-sem-emerald: var(--wl-prim-emerald-400);
+  --wl-sem-cyan: var(--wl-prim-cyan-400);
+  --wl-sem-danger: var(--wl-prim-crimson-400);
+  --wl-sem-focus: var(--wl-prim-cyan-400);
+  --wl-sem-track-bg: rgba(184, 196, 217, 0.14);
+  --wl-sem-backdrop: rgba(8, 13, 24, 0.62);
+
+  /* Layer 3: Component Tokens */
+  --wl-hud-bg: var(--wl-sem-surface);
+  --wl-hud-border: var(--wl-sem-border);
+  --wl-btn-bg: rgba(255, 255, 255, 0.05);
+  --wl-btn-hover: var(--wl-sem-surface-hover);
+  --wl-btn-active-bg: var(--wl-sem-accent);
+  --wl-btn-active-ink: var(--wl-sem-accent-ink);
+  --wl-inspector-bg: var(--wl-sem-surface-strong);
+}
+
+:root[data-theme="light"] {
+  --wl-sem-bg: var(--wl-prim-sand-50);
+  --wl-sem-surface: rgba(252, 249, 243, 0.90);
+  --wl-sem-surface-strong: rgba(252, 249, 243, 0.97);
+  --wl-sem-surface-hover: rgba(244, 237, 224, 0.96);
+  --wl-sem-border: rgba(26, 23, 20, 0.14);
+  --wl-sem-border-strong: rgba(200, 90, 50, 0.44);
+  --wl-sem-ink: var(--wl-prim-ink-950);
+  --wl-sem-ink-muted: var(--wl-prim-ink-700);
+  --wl-sem-accent: var(--wl-prim-terracotta-600);
+  --wl-sem-accent-ink: var(--wl-prim-sand-50);
+  --wl-sem-gold: var(--wl-prim-brass-600);
+  --wl-sem-emerald: var(--wl-prim-emerald-700);
+  --wl-sem-cyan: var(--wl-prim-cyan-700);
+  --wl-sem-danger: var(--wl-prim-crimson-600);
+  --wl-sem-focus: var(--wl-prim-terracotta-600);
+  --wl-sem-track-bg: rgba(26, 23, 20, 0.10);
+  --wl-shadow-hud: 0 12px 32px rgba(26, 23, 20, 0.14);
+  --wl-shadow-card: 0 6px 18px rgba(26, 23, 20, 0.08);
+  --wl-btn-bg: rgba(26, 23, 20, 0.04);
+}
