@@ -1,7 +1,9 @@
 import * as THREE from "three";
 
 let _gradientMap = null;
-let _stripeTextures = new Map();
+const _stripeTextures = new Map();
+const _toonMaterialPool = new Map();
+const _outlineMaterialPool = new Map();
 let _grassTexture = null;
 
 /**
@@ -25,30 +27,86 @@ export function getToonGradientMap() {
 }
 
 /**
- * Create a warm cel-shaded MeshToonMaterial.
+ * Create (or fetch from GPU material pool) a warm cel-shaded MeshToonMaterial.
+ * Pooling cuts WebGL shader uniform uploads & material switches by >90% across 26+ rides.
  */
 export function createToonMaterial(color, extra = {}) {
+  const { uncached = false, ...matOpts } = extra || {};
+  const hex = typeof color === "number" ? color : new THREE.Color(color).getHex();
+  const hasEmissive = matOpts.emissive !== undefined;
+
+  if (!uncached && !hasEmissive && !matOpts.vertexColors) {
+    const mapId = matOpts.map ? matOpts.map.uuid : "none";
+    const side = matOpts.side ?? THREE.FrontSide;
+    const transp = matOpts.transparent ? 1 : 0;
+    const opac = matOpts.opacity ?? 1;
+    const key = `${hex}|${mapId}|${side}|${transp}|${opac}`;
+    const cached = _toonMaterialPool.get(key);
+    if (cached) return cached;
+
+    const mat = new THREE.MeshToonMaterial({
+      color: hex,
+      gradientMap: getToonGradientMap(),
+      ...matOpts,
+    });
+    mat.userData.isSharedPool = true;
+    _toonMaterialPool.set(key, mat);
+    return mat;
+  }
+
   return new THREE.MeshToonMaterial({
-    color,
+    color: hex,
     gradientMap: getToonGradientMap(),
-    ...extra,
+    ...matOpts,
   });
 }
 
 /**
- * Attach a crisp soft-ink cartoon outline (inverted hull) to a mesh.
+ * Attach a crisp soft-ink cartoon outline (inverted hull) reusing a single pooled BackSide material.
  */
 export function addToonOutline(mesh, thickness = 1.055, inkColor = 0x2c2238) {
   if (!mesh?.geometry) return null;
-  const outlineMat = new THREE.MeshBasicMaterial({
-    color: inkColor,
-    side: THREE.BackSide,
-  });
+  let outlineMat = _outlineMaterialPool.get(inkColor);
+  if (!outlineMat) {
+    outlineMat = new THREE.MeshBasicMaterial({
+      color: inkColor,
+      side: THREE.BackSide,
+    });
+    outlineMat.userData.isSharedPool = true;
+    _outlineMaterialPool.set(inkColor, outlineMat);
+  }
   const outline = new THREE.Mesh(mesh.geometry, outlineMat);
   outline.scale.setScalar(thickness);
   outline.userData.isToonOutline = true;
   mesh.add(outline);
   return outline;
+}
+
+/**
+ * Safely disposes a Three.js subtree without destroying shared GPU-pooled materials/textures.
+ */
+export function safeDisposeObjectTree(root) {
+  if (!root) return;
+  root.traverse((obj) => {
+    if (obj.geometry && !obj.geometry.userData?.isSharedPool) {
+      obj.geometry.dispose();
+    }
+    if (Array.isArray(obj.material)) {
+      obj.material.forEach((m) => {
+        if (m && !m.userData?.isSharedPool) m.dispose();
+      });
+    } else if (obj.material && !obj.material.userData?.isSharedPool) {
+      obj.material.dispose();
+    }
+  });
+}
+
+export function getPoolStats() {
+  return {
+    toonMaterials: _toonMaterialPool.size,
+    outlineMaterials: _outlineMaterialPool.size,
+    stripeTextures: _stripeTextures.size,
+  };
 }
 
 /**

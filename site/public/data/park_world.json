@@ -100,7 +100,11 @@
     { "id": "ride-bumper", "type": "bumper_cars", "name": "파스텔 범퍼카장", "x": 42, "z": 52, "rotY": -0.25, "scale": 1.0 },
     { "id": "ride-rocket", "type": "rocket_spinner", "name": "우주 로켓 스피너", "x": 76, "z": -48, "rotY": 0, "scale": 1.0 },
     { "id": "ride-enterprise", "type": "enterprise_wheel", "name": "엔터프라이즈 360", "x": -44, "z": 58, "rotY": 0.3, "scale": 1.0 },
-    { "id": "ride-skytower", "type": "sky_tower", "name": "하늘 전망대 타워", "x": 82, "z": 16, "rotY": 0, "scale": 1.0 }
+    { "id": "ride-skytower", "type": "sky_tower", "name": "하늘 전망대 타워", "x": 82, "z": 16, "rotY": 0, "scale": 1.0 },
+    { "id": "ride-topspin", "type": "top_spin", "name": "탑 스핀 360", "x": -78, "z": 46, "rotY": 0.35, "scale": 1.0 },
+    { "id": "ride-tagada", "type": "tagada_disco", "name": "디스코 팡팡 타가다", "x": 66, "z": 66, "rotY": -0.3, "scale": 1.0 },
+    { "id": "ride-logflume", "type": "log_flume_splash", "name": "후룸라이드 스플래시", "x": -74, "z": 86, "rotY": 0, "scale": 1.0 },
+    { "id": "ride-gokart", "type": "go_kart_track", "name": "고카트 레이싱 서킷", "x": 74, "z": 92, "rotY": -0.2, "scale": 1.0 }
   ],
   "pavilions": [
     { "id": "pav-plugins", "archiveKey": "plugins", "title": "인기 플러그인 공방", "accent": "#ff7657", "x": -24, "z": 26, "rotY": 0.42 },
@@ -117,6 +121,8 @@
     { "id": "scn-billboard", "type": "ai_billboard", "x": 0, "z": -38, "rotY": 0, "scale": 1.0 },
     { "id": "scn-cafe-1", "type": "cafe_icecream", "x": -12, "z": 36, "rotY": 0.4, "scale": 1.0 },
     { "id": "scn-popcorn-1", "type": "popcorn_cart", "x": 11, "z": 36, "rotY": -0.4, "scale": 1.0 },
+    { "id": "scn-burger-1", "type": "burger_shop", "x": -22, "z": 74, "rotY": 0.5, "scale": 1.0 },
+    { "id": "scn-clock-1", "type": "clock_tower", "x": 22, "z": 74, "rotY": -0.5, "scale": 1.0 },
     { "id": "scn-balloon-1", "type": "balloon_stall", "x": -14, "z": 16, "rotY": 0.6, "scale": 1.0 },
     { "id": "scn-fw-1", "type": "firework_launcher", "x": 14, "z": 16, "rotY": 0, "scale": 1.0 },
     { "id": "scn-photo-1", "type": "heart_photozone", "x": 14, "z": 92, "rotY": -0.35, "scale": 1.0 },

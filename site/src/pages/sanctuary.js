@@ -18,7 +18,7 @@ import { ParkPublisher } from "./weeklyland/ParkPublisher.js";
 import { ArchitectBuilder } from "./weeklyland/ArchitectBuilder.js";
 import { GuestHudController } from "./weeklyland/GuestHudController.js";
 import { PavilionDashboard } from "./weeklyland/PavilionDashboard.js";
-import { CartoonSkyDecor } from "./weeklyland/ToonMaterials.js";
+import { CartoonSkyDecor, getPoolStats } from "./weeklyland/ToonMaterials.js";
 
 const THEME_KEY = "aiw-theme";
 
@@ -97,6 +97,7 @@ class WeeklyLandApp {
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.08;
+    renderer.info.autoReset = false;
     return renderer;
   }
 
@@ -495,6 +496,14 @@ class WeeklyLandApp {
 
     this.renderer.shadowMap.enabled = this.perf.shadows;
     this.lights.dirLight.castShadow = this.perf.shadows;
+    if (this.perf.shadows && this.lights.dirLight.shadow) {
+      const targetSize = preset === "high" ? 2048 : 1024;
+      if (this.lights.dirLight.shadow.mapSize.x !== targetSize) {
+        this.lights.dirLight.shadow.mapSize.set(targetSize, targetSize);
+        this.lights.dirLight.shadow.map?.dispose();
+        this.lights.dirLight.shadow.map = null;
+      }
+    }
     this._applyOutlineVisibility(this.perf.outlines);
     this.atmosphere.setWeatherEnabled(this.perf.weather);
     this.crowd.setGuestLimit(this.perf.guests);
@@ -568,6 +577,26 @@ class WeeklyLandApp {
     } else if (spot.action === "statue") {
       this.crowd.celebratePlayer();
       this.hud.showToast("클로드 마스코트 동상: '북쪽 맵 끝 5대 메가 전광판을 눌러 실시간 대시보드를 확인해 보세요!'");
+    } else if (spot.action === "burger") {
+      this.crowd.celebratePlayer();
+      this.hud.showToast("갓 구운 수제 치즈버거 세트를 맛있게 먹었습니다! 에너지 +25");
+    } else if (spot.action === "cotton_candy") {
+      this.crowd.celebratePlayer();
+      this.hud.showToast("폭신폭신 무지개 솜사탕을 손에 들었습니다!");
+    } else if (spot.action === "souvenir") {
+      this.crowd.celebratePlayer();
+      this.hud.showToast("위클리랜드 한정판 코스터 뱃지 & 마스코트 키링을 획득했습니다!");
+    } else if (spot.action === "restroom") {
+      this.hud.showToast("깔끔한 공원 편의시설 이용 완료! 컨디션이 상쾌해졌습니다.");
+    } else if (spot.action === "clock") {
+      this.audio.playClick(880);
+      this.hud.showToast("댕~ 댕~ 위클리 대시계탑의 정각 종소리가 공원 전체에 울려 퍼집니다!");
+    } else if (spot.action === "maze") {
+      this.crowd.celebratePlayer();
+      this.hud.showToast("동화 미로 정원 한가운데 황금 트로피를 발견했습니다!");
+    } else if (spot.action === "hot_air") {
+      this.atmosphere.launchManualFirework(pos.x, pos.z, 2);
+      this.hud.showToast("열기구 버너 점화! 따뜻한 불꽃과 함께 하늘로 떠 오를 준비 완료!");
     } else {
       this.crowd.celebratePlayer();
       this.hud.showToast(`${spot.label || "시설 이용"} 완료!`);
@@ -719,6 +748,13 @@ class WeeklyLandApp {
     const badge = document.getElementById("wl-fps-badge");
     if (badge) badge.textContent = `${fps} FPS`;
 
+    const tele = document.getElementById("wl-perf-telemetry");
+    if (tele) {
+      const info = this.renderer.info.render;
+      const pool = getPoolStats();
+      tele.textContent = `Draw ${info.calls} · Tri ${Math.round(info.triangles / 1000)}k · Pool ${pool.toonMaterials}mat`;
+    }
+
     if (this.perf.autoGuard && fps < 24) {
       this.perf.lowFpsStreak++;
       if (this.perf.lowFpsStreak >= 4) {
@@ -785,7 +821,7 @@ class WeeklyLandApp {
     this.terrain.update(dt, isNight);
     this.skyDecor.update(dt, isNight);
     this.coaster.update(dt, isNight);
-    this.flatRide.update(dt, isNight);
+    this.flatRide.update(dt, isNight, this.cameraRig.camera.position);
     this.pavilion.update(isNight);
 
     const basis = this.cameraRig.getGroundBasis();
@@ -842,6 +878,7 @@ class WeeklyLandApp {
       });
     }
 
+    this.renderer.info.reset();
     if (this.perf.bloom) {
       this.composer.render();
     } else {

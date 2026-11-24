@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { createToonMaterial, addToonOutline, getCarnivalStripeTexture } from "./ToonMaterials.js";
+import { createToonMaterial, addToonOutline, getCarnivalStripeTexture, safeDisposeObjectTree } from "./ToonMaterials.js";
 
 const MEGA_BILLBOARD_SPECS = [
   { key: "plugins", title: "인기 플러그인", kicker: "PLUGINS TAB", accent: "#ff7657", x: -84, z: -124, rotY: 0.36 },
@@ -171,11 +171,7 @@ export class AIPavilionEngine {
   _clear() {
     while (this.group.children.length > 0) {
       const ch = this.group.children.pop();
-      ch.traverse((obj) => {
-        if (obj.geometry) obj.geometry.dispose();
-        if (Array.isArray(obj.material)) obj.material.forEach((m) => m.dispose());
-        else if (obj.material) obj.material.dispose();
-      });
+      safeDisposeObjectTree(ch);
     }
     this.pavilions.clear();
     this.billboards.clear();

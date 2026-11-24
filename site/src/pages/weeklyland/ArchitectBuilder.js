@@ -1,35 +1,58 @@
 import * as THREE from "three";
 
 const PLACE_CATALOG = [
-  // 7 Animated POV Rides
-  { cat: "ride", kind: "ride", type: "ferris_wheel", name: "위클리 대관람차", meta: "12 캔디 곤돌라" },
-  { cat: "ride", kind: "ride", type: "drop_tower", name: "벤치마크 드롭타워", meta: "32m 자유낙하" },
-  { cat: "ride", kind: "ride", type: "carousel", name: "그랜드 회전목마", meta: "줄무늬 서커스" },
-  { cat: "ride", kind: "ride", type: "pirate_ship", name: "바이킹 어드벤처", meta: "65° 스윙 POV" },
-  { cat: "ride", kind: "ride", type: "teacups", name: "파스텔 회전 티컵", meta: "이중 회전 POV" },
-  { cat: "ride", kind: "ride", type: "swing_tower", name: "하늘 회전 그네", meta: "공중 회전 POV" },
-  { cat: "ride", kind: "ride", type: "sky_tower", name: "하늘 전망대 타워", meta: "38m 360° 전망" },
-  { cat: "ride", kind: "ride", type: "gyro_swing", name: "자이로 스윙 360", meta: "회전 진자 스릴" },
-  { cat: "ride", kind: "ride", type: "enterprise_wheel", name: "엔터프라이즈 360", meta: "85° 수직 루프" },
-  { cat: "ride", kind: "ride", type: "octopus_ride", name: "카툰 문어 라이드", meta: "6다리 웨이브 POV" },
-  { cat: "ride", kind: "ride", type: "bumper_cars", name: "파스텔 범퍼카장", meta: "6대 충돌 질주" },
-  { cat: "ride", kind: "ride", type: "rocket_spinner", name: "우주 로켓 스피너", meta: "행성 공전 POV" },
-  // 10 Interactive Buildings & Shops
-  { cat: "building", kind: "scenery", type: "fairy_castle", name: "위클리 동화 성", meta: "상호작용 랜드마크" },
-  { cat: "building", kind: "scenery", type: "cafe_icecream", name: "아이스크림 카페", meta: "클릭 간식 구매" },
-  { cat: "building", kind: "scenery", type: "popcorn_cart", name: "카라멜 팝콘 카트", meta: "클릭 팝콘 구매" },
-  { cat: "building", kind: "scenery", type: "balloon_stall", name: "파스텔 풍선 가판", meta: "클릭 풍선 장착" },
-  { cat: "building", kind: "scenery", type: "firework_launcher", name: "불꽃 폭죽 발사대", meta: "클릭 즉시 발사!" },
-  { cat: "building", kind: "scenery", type: "kiosk", name: "테마 스낵 키오스크", meta: "상호작용 상점" },
-  { cat: "building", kind: "scenery", type: "grand_arch", name: "그랜드 입구 아치", meta: "야간 발광 아치" },
-  { cat: "building", kind: "scenery", type: "garland_arch", name: "만국기 페넌트 아치", meta: "축제 깃발" },
-  { cat: "building", kind: "scenery", type: "heart_photozone", name: "하트 포토존", meta: "기념촬영 스팟" },
-  { cat: "building", kind: "scenery", type: "ai_billboard", name: "AI 라이브 전광판", meta: "실시간 데이터" },
-  // 7 Nature & Park Decor
+  // 12 Thrill Rides (RCT · Planet Coaster · Real-World)
+  { cat: "thrill", kind: "ride", type: "drop_tower", name: "벤치마크 드롭타워", meta: "33m 자유낙하 · Intamin" },
+  { cat: "thrill", kind: "ride", type: "top_spin", name: "탑 스핀 360", meta: "Huss Top Spin · 공중 회전" },
+  { cat: "thrill", kind: "ride", type: "power_surge", name: "파워 서지", meta: "Zamperla · 6축 다중 회전" },
+  { cat: "thrill", kind: "ride", type: "frisbee_pendulum", name: "자이언트 프리즈비", meta: "Huss Frisbee · 초대형 진자" },
+  { cat: "thrill", kind: "ride", type: "gyro_swing", name: "자이로 스윙 360", meta: "4각 진자 회전 스릴" },
+  { cat: "thrill", kind: "ride", type: "enterprise_wheel", name: "엔터프라이즈 360", meta: "Huss · 85° 유압 수직루프" },
+  { cat: "thrill", kind: "ride", type: "pirate_ship", name: "바이킹 어드벤처", meta: "RCT Pirate Ship · 65° 스윙" },
+  { cat: "thrill", kind: "ride", type: "magic_carpet", name: "알라딘 매직카펫", meta: "RCT Magic Carpet · 수직 회전" },
+  { cat: "thrill", kind: "ride", type: "gravitron_ufo", name: "그래비톤 UFO", meta: "RCT Rotor · 원심력 원반" },
+  { cat: "thrill", kind: "ride", type: "tagada_disco", name: "디스코 팡팡 타가다", meta: "Zamperla Disk'O · 바운스 회전" },
+  { cat: "thrill", kind: "ride", type: "bungee_trampoline", name: "리버스 번지 슬링샷", meta: "22m 수직 탄성 사출" },
+  { cat: "thrill", kind: "ride", type: "swing_tower", name: "하늘 회전 그네", meta: "StarFlyer · 공중 회전 그네" },
+  // 14 Family, Water, Track & Dark Rides
+  { cat: "family", kind: "ride", type: "ferris_wheel", name: "위클리 대관람차", meta: "12 캔디 곤돌라 · 전망" },
+  { cat: "family", kind: "ride", type: "carousel", name: "그랜드 회전목마", meta: "RCT Merry-Go-Round · 목마" },
+  { cat: "family", kind: "ride", type: "teacups", name: "파스텔 회전 티컵", meta: "이중 회전 찻잔" },
+  { cat: "family", kind: "ride", type: "sky_tower", name: "하늘 전망대 타워", meta: "38m 360° 파노라마" },
+  { cat: "family", kind: "ride", type: "condor_tower", name: "콘도르 스카이타워", meta: "Huss Condor · 26m 상승 회전" },
+  { cat: "family", kind: "ride", type: "scrambler_twist", name: "스크램블러 트위스트", meta: "RCT Twist · 3축 교차 회전" },
+  { cat: "family", kind: "ride", type: "octopus_ride", name: "카툰 문어 라이드", meta: "6다리 유압 웨이브" },
+  { cat: "family", kind: "ride", type: "rocket_spinner", name: "우주 로켓 스피너", meta: "토성 궤도 비행" },
+  { cat: "family", kind: "ride", type: "bumper_cars", name: "파스텔 범퍼카장", meta: "RCT Dodgems · 6대 충돌" },
+  { cat: "family", kind: "ride", type: "log_flume_splash", name: "후룸라이드 스플래시", meta: "RCT Log Flume · 수상 통나무" },
+  { cat: "family", kind: "ride", type: "haunted_house", name: "유령의 집 스푸키 매너", meta: "RCT Haunted House · 다크라이드" },
+  { cat: "family", kind: "ride", type: "mini_train_station", name: "증기기관차 미니열차", meta: "RCT Miniature Railway · 순환" },
+  { cat: "family", kind: "ride", type: "go_kart_track", name: "고카트 레이싱 서킷", meta: "RCT Go Karts · 4대 레이스" },
+  { cat: "family", kind: "ride", type: "swan_boats_pond", name: "백조 보트 호수", meta: "RCT Boat Hire · 수상 패들" },
+  // 16 Interactive Shops, Facilities & Iconic Buildings
+  { cat: "shop", kind: "scenery", type: "fairy_castle", name: "위클리 동화 성", meta: "상호작용 메인 랜드마크" },
+  { cat: "shop", kind: "scenery", type: "burger_shop", name: "수제 버거 하우스", meta: "RCT Burger Bar · 간식 상점" },
+  { cat: "shop", kind: "scenery", type: "cafe_icecream", name: "아이스크림 카페", meta: "클릭 간식 구매" },
+  { cat: "shop", kind: "scenery", type: "popcorn_cart", name: "카라멜 팝콘 카트", meta: "클릭 팝콘 구매" },
+  { cat: "shop", kind: "scenery", type: "cotton_candy_stall", name: "무지개 솜사탕 마차", meta: "RCT Cotton Candy · 간식" },
+  { cat: "shop", kind: "scenery", type: "balloon_stall", name: "파스텔 풍선 가판", meta: "클릭 풍선 장착" },
+  { cat: "shop", kind: "scenery", type: "souvenir_shop", name: "기념품 기프트샵", meta: "RCT Souvenir Stall · 굿즈" },
+  { cat: "shop", kind: "scenery", type: "restroom_plaza", name: "공원 편의 화장실", meta: "RCT Restroom · 컨디션 회복" },
+  { cat: "shop", kind: "scenery", type: "firework_launcher", name: "불꽃 폭죽 발사대", meta: "클릭 즉시 불꽃 발사" },
+  { cat: "shop", kind: "scenery", type: "kiosk", name: "테마 스낵 키오스크", meta: "상호작용 매점" },
+  { cat: "shop", kind: "scenery", type: "grand_arch", name: "그랜드 정문·매표소", meta: "테마파크 입구 아치" },
+  { cat: "shop", kind: "scenery", type: "garland_arch", name: "만국기 페넌트 아치", meta: "축제 깃발 아치" },
+  { cat: "shop", kind: "scenery", type: "neon_arch", name: "레인보우 네온 아치", meta: "야간 무지개 발광" },
+  { cat: "shop", kind: "scenery", type: "clock_tower", name: "위클리 대시계탑", meta: "정각 종 울리기 랜드마크" },
+  { cat: "shop", kind: "scenery", type: "heart_photozone", name: "하트 포토존", meta: "기념촬영 스팟" },
+  { cat: "shop", kind: "scenery", type: "ai_billboard", name: "AI 라이브 전광판", meta: "실시간 데이터 연동" },
+  // 12 Nature, Gardens & Park Decor
   { cat: "decor", kind: "scenery", type: "fountain", name: "소원 분수대", meta: "클릭 소원 빌기" },
+  { cat: "decor", kind: "scenery", type: "hedge_maze", name: "동화 미로 정원", meta: "RCT Hedge Maze · 보물찾기" },
+  { cat: "decor", kind: "scenery", type: "hot_air_pad", name: "열기구 계류장", meta: "클릭 버너 점화" },
   { cat: "decor", kind: "scenery", type: "mascot_statue", name: "클로드 마스코트 동상", meta: "랜드마크 조형물" },
   { cat: "decor", kind: "scenery", type: "flower_bed", name: "파스텔 튤립 화단", meta: "정원 조경" },
-  { cat: "decor", kind: "scenery", type: "bench", name: "공원 원목 벤치", meta: "휴식 공간" },
+  { cat: "decor", kind: "scenery", type: "bench", name: "공원 원목 벤치", meta: "AI 손님 휴식" },
   { cat: "decor", kind: "scenery", type: "wood_bridge", name: "연못 나무다리", meta: "호수 횡단" },
   { cat: "decor", kind: "scenery", type: "tree_sakura", name: "솜사탕 벚나무", meta: "카툰 수목" },
   { cat: "decor", kind: "scenery", type: "tree_oak", name: "민트 활엽수", meta: "카툰 수목" },
@@ -697,14 +720,21 @@ export class ArchitectBuilder {
   _renderPlaceInspector(body) {
     const cats = [
       { id: "all", label: `전체(${PLACE_CATALOG.length})` },
-      { id: "ride", label: "놀이기구(12)" },
-      { id: "building", label: "건물·상점(10)" },
-      { id: "decor", label: "조경(10)" },
+      { id: "thrill", label: `스릴(${PLACE_CATALOG.filter((i) => i.cat === "thrill").length})` },
+      { id: "family", label: `패밀리·수상(${PLACE_CATALOG.filter((i) => i.cat === "family").length})` },
+      { id: "shop", label: `상점·건물(${PLACE_CATALOG.filter((i) => i.cat === "shop").length})` },
+      { id: "decor", label: `조경(${PLACE_CATALOG.filter((i) => i.cat === "decor").length})` },
     ];
-    const list = this.placeCategory === "all" ? PLACE_CATALOG : PLACE_CATALOG.filter((i) => i.cat === this.placeCategory);
+    const q = (this.placeSearch || "").trim().toLowerCase();
+    const list = PLACE_CATALOG.filter((i) => {
+      const catOk = this.placeCategory === "all" || i.cat === this.placeCategory;
+      const qOk = !q || i.name.toLowerCase().includes(q) || i.meta.toLowerCase().includes(q) || i.type.includes(q);
+      return catOk && qOk;
+    });
 
     body.innerHTML = `
-      <div class="wl-section-heading">건설 카탈로그 (클릭 배치 · R 회전)</div>
+      <div class="wl-section-heading">건설 카탈로그 ${PLACE_CATALOG.length}종 (클릭 배치 · R 회전)</div>
+      <input id="arch-place-search" type="search" class="wl-input" style="margin-bottom:8px;" placeholder="놀이기구·상점 검색 (예: 탑스핀, 후룸, 버거)…" value="${this.placeSearch || ""}" />
       <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px;">
         ${cats.map((c) => `<button type="button" class="wl-hud-btn ${this.placeCategory === c.id ? "is-active" : ""}" data-pcat="${c.id}">${c.label}</button>`).join("")}
       </div>
@@ -720,6 +750,16 @@ export class ArchitectBuilder {
           .join("")}
       </div>
     `;
+    const searchEl = body.querySelector("#arch-place-search");
+    searchEl?.addEventListener("input", (ev) => {
+      this.placeSearch = ev.target.value;
+      this.renderInspector();
+      const ref = body.querySelector("#arch-place-search");
+      if (ref) {
+        ref.focus();
+        ref.setSelectionRange(ref.value.length, ref.value.length);
+      }
+    });
     body.querySelectorAll("[data-pcat]").forEach((btn) => {
       btn.addEventListener("click", () => {
         this.placeCategory = btn.dataset.pcat;

@@ -535,8 +535,10 @@ export class CrowdAndAvatarEngine {
       "AI위클리 파빌리온에서 오늘의 뉴스도 보고 가야지!",
     ];
     this._projVec = new THREE.Vector3();
+    this._moveDir = new THREE.Vector3();
     this._bubbleTimer = 0;
     this._simTime = 0;
+    this._frameTick = 0;
 
     this._mountFallbackToPlayer();
     this._spawnAIGuests(24);
@@ -1086,7 +1088,8 @@ export class CrowdAndAvatarEngine {
 
       if (isMoving) {
         const speed = input.sprint ? 11.2 : 6.4;
-        const dir = new THREE.Vector3()
+        const dir = this._moveDir
+          .set(0, 0, 0)
           .addScaledVector(cameraBasis.forward, moveZ)
           .addScaledVector(cameraBasis.right, moveX)
           .normalize();
@@ -1149,11 +1152,24 @@ export class CrowdAndAvatarEngine {
       this._projectOverlayEl(rec.tagEl, rec.root.position, 2.2, camera, viewportW, viewportH);
     }
 
-    // 3. Autonomous AI Park Guests (State Machine + Needs + Rain Umbrellas + Expressive Animation)
+    // 3. Autonomous AI Park Guests (State Machine + Needs + Rain Umbrellas + Distance LOD)
     this._bubbleTimer += stepDt;
+    this._frameTick++;
+    const camPos = camera?.position;
     for (let idx = 0; idx < this.aiGuests.length; idx++) {
       const g = this.aiGuests[idx];
       if (!g.mesh.visible) continue;
+
+      // Distance LOD: guests >95m from camera throttle skeletal update to every 2nd frame
+      let gDt = stepDt;
+      if (camPos && g.state !== "TALKING_TO_PLAYER") {
+        const cdx = g.pos.x - camPos.x;
+        const cdz = g.pos.z - camPos.z;
+        if (cdx * cdx + cdz * cdz > 9025) {
+          if (((this._frameTick + idx) & 1) === 1) continue;
+          gDt = stepDt * 2;
+        }
+      }
 
       // Smoothly open/close umbrella when raining!
       const targetUmbrella = isRaining ? 1 : 0;

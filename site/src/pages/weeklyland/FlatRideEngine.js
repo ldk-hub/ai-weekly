@@ -1,5 +1,12 @@
 import * as THREE from "three";
-import { createToonMaterial, addToonOutline, getCarnivalStripeTexture } from "./ToonMaterials.js";
+import { createToonMaterial, addToonOutline, getCarnivalStripeTexture, safeDisposeObjectTree } from "./ToonMaterials.js";
+import {
+  EXTENDED_INTERACTIVE_SCENERY,
+  buildExtendedRide,
+  updateExtendedRide,
+  getExtendedRideSeatState,
+  buildExtendedScenery,
+} from "./ExtendedRidesPack.js";
 
 export const INTERACTIVE_SCENERY = {
   fairy_castle: { label: "위클리 동화 성 구경하기", action: "castle" },
@@ -11,6 +18,7 @@ export const INTERACTIVE_SCENERY = {
   heart_photozone: { label: "하트 포토존 기념촬영", action: "photo" },
   mascot_statue: { label: "클로드 동상 인사하기", action: "statue" },
   kiosk: { label: "파크 스낵 구매하기", action: "snack" },
+  ...EXTENDED_INTERACTIVE_SCENERY,
 };
 
 /**
@@ -32,22 +40,21 @@ export class FlatRideEngine {
     this.billboardCanvases = [];
     this.dropTowerGaugeMat = null;
     this._time = 0;
+    this._frameTick = 0;
+    this._lastIsNight = null;
   }
 
   syncAll(ridesList, sceneryList) {
     this._clear();
     for (const r of ridesList || []) this._buildRide(r);
     for (const s of sceneryList || []) this._buildScenery(s);
+    this._lastIsNight = null;
   }
 
   _clear() {
     while (this.group.children.length > 0) {
       const ch = this.group.children.pop();
-      ch.traverse((obj) => {
-        if (obj.geometry) obj.geometry.dispose();
-        if (Array.isArray(obj.material)) obj.material.forEach((m) => m.dispose());
-        else if (obj.material) obj.material.dispose();
-      });
+      safeDisposeObjectTree(ch);
     }
     this.rides.clear();
     this.sceneryObjects.clear();
@@ -83,6 +90,10 @@ export class FlatRideEngine {
     else if (def.type === "octopus_ride") runtime = { ...runtime, ...this._createOctopusRide(root) };
     else if (def.type === "bumper_cars") runtime = { ...runtime, ...this._createBumperCars(root) };
     else if (def.type === "rocket_spinner") runtime = { ...runtime, ...this._createRocketSpinner(root) };
+    else {
+      const ext = buildExtendedRide(this, def.type, root);
+      if (ext) runtime = { ...runtime, ...ext, isExtended: true };
+    }
 
     root.traverse((obj) => {
       if (obj.isMesh && !obj.userData.isToonOutline) {
@@ -1143,7 +1154,11 @@ export class FlatRideEngine {
       lamp_post: () => this._buildLampPost(root),
       kiosk: () => this._buildKiosk(root),
     };
-    (builders[def.type] || builders.kiosk)();
+    if (builders[def.type]) {
+      builders[def.type]();
+    } else if (!buildExtendedScenery(this, def.type, root)) {
+      builders.kiosk();
+    }
 
     const interact = INTERACTIVE_SCENERY[def.type] || null;
     root.traverse((obj) => {
@@ -1809,18 +1824,43 @@ export class FlatRideEngine {
       forward.set(Math.cos(a), 0.1, -Math.sin(a)).normalize();
       return { position: pos, tangent: forward, up, speedKmh: 44, altitudeM: Number(pos.y.toFixed(1)), vertG: 1.6, latG: 0.7, segment: "ORBIT", coasterName: r.def.name };
     }
+    if (r.isExtended) {
+      return getExtendedRideSeatState(r, pos, forward, up);
+    }
     return null;
   }
 
-  update(dt, isNight) {
-    const stepDt = Math.min(dt, 0.05);
-    this._time += stepDt;
+  update(dt, isNight, cameraPos = null) {
+    const rawStep = Math.min(dt, 0.05);
+    this._time += rawStep;
+    this._frameTick++;
 
-    for (const mat of this.nightLights) {
-      mat.emissiveIntensity = isNight ? 1.65 : 0.3;
+    if (this._lastIsNight !== isNight) {
+      this._lastIsNight = isNight;
+      const intensity = isNight ? 1.65 : 0.3;
+      for (const mat of this.nightLights) {
+        mat.emissiveIntensity = intensity;
+      }
     }
 
+    let rideIdx = 0;
     for (const r of this.rides.values()) {
+      rideIdx++;
+      // Distance-based LOD animation throttling: rides >125m away update smoothly every 2nd frame
+      let stepDt = rawStep;
+      if (cameraPos) {
+        const dx = r.root.position.x - cameraPos.x;
+        const dz = r.root.position.z - cameraPos.z;
+        if (dx * dx + dz * dz > 15625) {
+          if (((this._frameTick + rideIdx) & 1) === 1) continue;
+          stepDt = rawStep * 2;
+        }
+      }
+
+      if (r.isExtended) {
+        updateExtendedRide(r, stepDt, this._time);
+        continue;
+      }
       if (r.kind === "ferris_wheel" && r.wheel) {
         r.angle += stepDt * 0.24;
         r.wheel.rotation.z = r.angle;

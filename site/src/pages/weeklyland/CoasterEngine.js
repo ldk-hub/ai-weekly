@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { createToonMaterial, addToonOutline, getCarnivalStripeTexture } from "./ToonMaterials.js";
+import { createToonMaterial, addToonOutline, getCarnivalStripeTexture, safeDisposeObjectTree } from "./ToonMaterials.js";
 
 const GRAVITY = 9.81;
 const MIN_SPEED = 4.6;
@@ -250,11 +250,7 @@ export class CoasterEngine {
   }
 
   _disposeObjectTree(root) {
-    root.traverse((obj) => {
-      if (obj.geometry) obj.geometry.dispose();
-      if (Array.isArray(obj.material)) obj.material.forEach((m) => m.dispose());
-      else if (obj.material) obj.material.dispose();
-    });
+    safeDisposeObjectTree(root);
   }
 
   _buildCoasterInstance(def) {

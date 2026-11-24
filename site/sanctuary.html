@@ -228,7 +228,7 @@
             </div>
             <div class="wl-welcome-item">
               <strong>관리자 세계 건설 (Architect)</strong>
-              <span>상단 <strong>세계 건설</strong> 버튼으로 코스터·32종 건물·보행로·지형을 자유롭게 꾸밀 수 있습니다</span>
+              <span>상단 <strong>세계 건설</strong> 버튼으로 <strong>14종 코스터·26종 놀이기구·54종 카탈로그</strong>와 지형을 자유롭게 배치합니다</span>
             </div>
           </div>
 
@@ -284,8 +284,8 @@
 
       <!-- Architect Mode Bottom Builder Dock -->
       <div class="wl-hud-panel wl-builder-dock" id="wl-builder-dock" role="toolbar" aria-label="관리자 건설 도구" hidden>
-        <button type="button" class="wl-hud-btn is-active" data-arch-tool="coaster">코스터</button>
-        <button type="button" class="wl-hud-btn" data-arch-tool="place">놀이기구·건물(32)</button>
+        <button type="button" class="wl-hud-btn is-active" data-arch-tool="coaster">코스터(14)</button>
+        <button type="button" class="wl-hud-btn" data-arch-tool="place">놀이기구·건물(54)</button>
         <button type="button" class="wl-hud-btn" data-arch-tool="path">보행로 깔기</button>
         <button type="button" class="wl-hud-btn" data-arch-tool="terrain">지형 브러시</button>
         <button type="button" class="wl-hud-btn is-danger" data-arch-tool="delete">철거</button>
@@ -345,6 +345,9 @@
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
           <strong class="wl-section-heading" style="margin:0;">실시간 성능 최적화</strong>
           <button type="button" class="wl-hud-btn" id="btn-perf-close">닫기</button>
+        </div>
+        <div class="wl-stat-mono" id="wl-perf-telemetry" style="margin-bottom:8px;padding:6px 8px;border-radius:6px;background:var(--wl-btn-bg);">
+          Draw — · Tri — · MatPool —
         </div>
         <div class="wl-catalog-grid" style="margin-bottom:8px;">
           <button type="button" class="wl-hud-btn is-active" data-perf-preset="high">높음 (풀 카툰)</button>
