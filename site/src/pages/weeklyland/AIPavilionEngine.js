@@ -206,6 +206,12 @@ export class AIPavilionEngine {
     });
     this.nightLights.push(glassMat);
 
+    // Deep underground plinth skirt so pavilion sits flush even on gentle hills
+    const skirt = new THREE.Mesh(new THREE.BoxGeometry(9.8, 2.8, 8.2), createToonMaterial(0xcbd5e1));
+    skirt.position.y = -1.35;
+    skirt.receiveShadow = true;
+    root.add(skirt);
+
     const plinth = new THREE.Mesh(new THREE.BoxGeometry(9.4, 0.55, 7.8), createToonMaterial(0xffe8c2));
     plinth.position.y = 0.275;
     plinth.receiveShadow = true;
@@ -301,13 +307,17 @@ export class AIPavilionEngine {
       });
       this.nightLights.push(neonMat);
 
-      // Twin tall cartoon towers supporting the giant screen
+      // Twin tall cartoon towers anchored deep (-3.8m) underground + concrete footings
       for (const px of [-9.5, 9.5]) {
-        const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.65, 0.85, 16, 10), frameMat);
-        leg.position.set(px, 8, 0);
+        const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.65, 0.9, 19.8, 10), frameMat);
+        leg.position.set(px, 6.1, 0);
         leg.castShadow = true;
         addToonOutline(leg, 1.04);
         root.add(leg);
+
+        const pad = new THREE.Mesh(new THREE.CylinderGeometry(1.4, 1.75, 2.8, 10), createToonMaterial(0xcbd5e1));
+        pad.position.set(px, -0.6, 0);
+        root.add(pad);
       }
 
       // Giant screen casing (24m x 12m)
@@ -325,7 +335,11 @@ export class AIPavilionEngine {
       barBot.position.set(0, 12.0, 0);
       root.add(barBot);
 
-      // Front interactive kiosk console button at ground level
+      // Front interactive kiosk console button at ground level with underground plinth
+      const consoleSkirt = new THREE.Mesh(new THREE.BoxGeometry(5.2, 2.6, 2.2), createToonMaterial(0xcbd5e1));
+      consoleSkirt.position.set(0, -1.2, 2.2);
+      root.add(consoleSkirt);
+
       const consoleBox = new THREE.Mesh(new THREE.BoxGeometry(4.6, 2.2, 1.6), createToonMaterial(0xfff7eb));
       consoleBox.position.set(0, 1.1, 2.2);
       addToonOutline(consoleBox, 1.05);

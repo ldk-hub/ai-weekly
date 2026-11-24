@@ -306,11 +306,13 @@ export class CoasterEngine {
 
     const dummy = new THREE.Object3D();
     const basisMat = new THREE.Matrix4();
+    const xAxis = new THREE.Vector3();
     const tieColor = new THREE.Color();
     for (let t = 0; t < tieCount; t++) {
       const f = frames[t * tieStep];
       dummy.position.copy(f.pos).addScaledVector(f.up, -0.14);
-      basisMat.makeBasis(f.right, f.up, f.tangent);
+      xAxis.crossVectors(f.up, f.tangent).normalize();
+      basisMat.makeBasis(xAxis, f.up, f.tangent);
       dummy.quaternion.setFromRotationMatrix(basisMat);
       dummy.scale.set(1, 1, 1);
       dummy.updateMatrix();
@@ -324,44 +326,99 @@ export class CoasterEngine {
     if (tieInst.instanceColor) tieInst.instanceColor.needsUpdate = true;
     root.add(tieInst);
 
-    // 3. Instanced ground-locked steel support columns & concrete footings
-    const supportStep = 10;
+    // 3. Ground-anchored steel support columns (single & A-frame V-truss for tall tracks)
+    const supportStep = 6;
     const supportIndices = [];
     for (let i = 0; i < frames.length; i += supportStep) {
       const f = frames[i];
       const groundY = this.terrain ? this.terrain.getHeightAt(f.pos.x, f.pos.z) : 0;
-      if (f.pos.y - groundY > 1.3) supportIndices.push({ f, groundY });
+      if (f.pos.y - groundY > 1.0) supportIndices.push({ f, groundY });
     }
 
     if (supportIndices.length > 0) {
-      const colGeo = new THREE.CylinderGeometry(0.18, 0.24, 1, 8);
-      const colMat = new THREE.MeshStandardMaterial({ color: supportColor, metalness: 0.5, roughness: 0.48 });
-      const colInst = new THREE.InstancedMesh(colGeo, colMat, supportIndices.length);
+      const colGeo = new THREE.CylinderGeometry(0.18, 0.25, 1, 8);
+      const colMat = createToonMaterial(supportColor);
+      const footGeo = new THREE.CylinderGeometry(0.55, 0.72, 1.4, 8);
+      const footMat = createToonMaterial(0xcbd5e1);
+      const bracketGeo = new THREE.BoxGeometry(0.95, 0.24, 0.42);
+      const bracketMat = createToonMaterial(railColor);
+
+      const tallCount = supportIndices.filter(({ f, groundY }) => f.pos.y - groundY > 9.5).length;
+      const totalCols = supportIndices.length + tallCount;
+      const colInst = new THREE.InstancedMesh(colGeo, colMat, totalCols);
       colInst.castShadow = true;
       colInst.receiveShadow = true;
 
-      const footGeo = new THREE.CylinderGeometry(0.45, 0.55, 0.45, 8);
-      const footMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, roughness: 0.9 });
-      const footInst = new THREE.InstancedMesh(footGeo, footMat, supportIndices.length);
+      const footInst = new THREE.InstancedMesh(footGeo, footMat, totalCols);
       footInst.receiveShadow = true;
 
-      supportIndices.forEach(({ f, groundY }, idx) => {
-        const topY = f.pos.y - 0.36;
-        const h = Math.max(0.5, topY - groundY);
-        dummy.position.set(f.pos.x, groundY + h * 0.5, f.pos.z);
-        dummy.rotation.set(0, 0, 0);
-        dummy.scale.set(1, h, 1);
-        dummy.updateMatrix();
-        colInst.setMatrixAt(idx, dummy.matrix);
+      const bracketInst = new THREE.InstancedMesh(bracketGeo, bracketMat, supportIndices.length);
 
-        dummy.position.set(f.pos.x, groundY + 0.18, f.pos.z);
+      let colIdx = 0;
+      const upVec = new THREE.Vector3(0, 1, 0);
+      const dirVec = new THREE.Vector3();
+      const quat = new THREE.Quaternion();
+
+      supportIndices.forEach(({ f, groundY }, idx) => {
+        const topPos = new THREE.Vector3(f.pos.x, f.pos.y - 0.34, f.pos.z);
+        const hSpan = topPos.y - groundY;
+
+        // Track underside mounting collar bracket
+        dummy.position.copy(topPos);
+        xAxis.crossVectors(f.up, f.tangent).normalize();
+        basisMat.makeBasis(xAxis, f.up, f.tangent);
+        dummy.quaternion.setFromRotationMatrix(basisMat);
         dummy.scale.set(1, 1, 1);
         dummy.updateMatrix();
-        footInst.setMatrixAt(idx, dummy.matrix);
+        bracketInst.setMatrixAt(idx, dummy.matrix);
+
+        if (hSpan > 9.5) {
+          // Tall A-Frame V-leg steel support anchored deep (-2.2m) into ground
+          const spread = Math.min(3.4, hSpan * 0.14);
+          for (const side of [-1, 1]) {
+            const bx = topPos.x + f.right.x * spread * side;
+            const bz = topPos.z + f.right.z * spread * side;
+            const bgY = (this.terrain ? this.terrain.getHeightAt(bx, bz) : groundY) - 2.2;
+            const botPos = new THREE.Vector3(bx, bgY, bz);
+            dirVec.subVectors(topPos, botPos);
+            const len = dirVec.length();
+            quat.setFromUnitVectors(upVec, dirVec.clone().normalize());
+
+            dummy.position.addVectors(topPos, botPos).multiplyScalar(0.5);
+            dummy.quaternion.copy(quat);
+            dummy.scale.set(1, len, 1);
+            dummy.updateMatrix();
+            colInst.setMatrixAt(colIdx, dummy.matrix);
+
+            dummy.position.set(bx, bgY + 2.2, bz);
+            dummy.quaternion.identity();
+            dummy.scale.set(1, 1, 1);
+            dummy.updateMatrix();
+            footInst.setMatrixAt(colIdx, dummy.matrix);
+            colIdx++;
+          }
+        } else {
+          // Vertical column anchored -2.2m underground so slope never floats
+          const anchorY = groundY - 2.2;
+          const h = Math.max(0.8, topPos.y - anchorY);
+          dummy.position.set(topPos.x, anchorY + h * 0.5, topPos.z);
+          dummy.quaternion.identity();
+          dummy.scale.set(1, h, 1);
+          dummy.updateMatrix();
+          colInst.setMatrixAt(colIdx, dummy.matrix);
+
+          dummy.position.set(topPos.x, groundY, topPos.z);
+          dummy.scale.set(1, 1, 1);
+          dummy.updateMatrix();
+          footInst.setMatrixAt(colIdx, dummy.matrix);
+          colIdx++;
+        }
       });
+
       colInst.instanceMatrix.needsUpdate = true;
       footInst.instanceMatrix.needsUpdate = true;
-      root.add(colInst, footInst);
+      bracketInst.instanceMatrix.needsUpdate = true;
+      root.add(colInst, footInst, bracketInst);
     }
 
     // 4. Boarding Station Platform at Node 0
@@ -437,10 +494,12 @@ export class CoasterEngine {
     g.rotation.y = yaw;
 
     const deck = new THREE.Mesh(
-      new THREE.BoxGeometry(5.2, 0.4, 9.5),
-      new THREE.MeshStandardMaterial({ color: 0xd6c7b2, roughness: 0.85 })
+      new THREE.BoxGeometry(5.6, 3.2, 10.2),
+      createToonMaterial(0xe6d6bc)
     );
+    deck.position.y = -1.4;
     deck.receiveShadow = true;
+    addToonOutline(deck, 1.02);
     g.add(deck);
 
     // Canopy roof & pillars
@@ -479,67 +538,136 @@ export class CoasterEngine {
 
   _buildCarMesh(isLead, primaryColor, trimColor) {
     const car = new THREE.Group();
+    const bodyMat = createToonMaterial(primaryColor);
+    const trimMat = createToonMaterial(trimColor);
+    const darkMat = createToonMaterial(0x283142);
+    const goldMat = createToonMaterial(0xffd166);
 
-    const body = new THREE.Mesh(
-      new THREE.BoxGeometry(1.24, 0.62, 1.76),
-      createToonMaterial(primaryColor)
-    );
-    body.position.y = 0.44;
-    body.castShadow = true;
-    addToonOutline(body, 1.05);
-    car.add(body);
+    // Steel chassis undercarriage + 4 rail-gripping bogie wheels aligned to TRACK_GAUGE
+    const chassis = new THREE.Mesh(new THREE.BoxGeometry(0.96, 0.18, 1.82), darkMat);
+    chassis.position.y = 0.14;
+    car.add(chassis);
 
-    const trim = new THREE.Mesh(
-      new THREE.BoxGeometry(1.30, 0.16, 1.80),
-      createToonMaterial(trimColor)
-    );
-    trim.position.y = 0.58;
-    car.add(trim);
+    const wheelGeo = new THREE.CylinderGeometry(0.14, 0.14, 0.12, 10);
+    wheelGeo.rotateZ(Math.PI * 0.5);
+    for (const wx of [-TRACK_GAUGE * 0.5, TRACK_GAUGE * 0.5]) {
+      for (const wz of [-0.58, 0.58]) {
+        const wheel = new THREE.Mesh(wheelGeo, darkMat);
+        wheel.position.set(wx, 0.08, wz);
+        car.add(wheel);
+      }
+    }
 
-    // Cute rounded cartoon seats
-    const seat = new THREE.Mesh(
-      new THREE.BoxGeometry(0.96, 0.44, 0.48),
-      createToonMaterial(0x3f334d)
-    );
-    seat.position.set(0, 0.64, -0.32);
-    car.add(seat);
+    // Rear steel coupler bar linking train cars
+    const coupler = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.52, 6), darkMat);
+    coupler.rotation.x = Math.PI * 0.5;
+    coupler.position.set(0, 0.18, -1.02);
+    car.add(coupler);
+
+    // Sculpted side-skirted open-top coaster tub (floor + left/right walls + rear bulkhead)
+    const tubFloor = new THREE.Mesh(new THREE.BoxGeometry(1.24, 0.22, 1.72), bodyMat);
+    tubFloor.position.y = 0.30;
+    tubFloor.castShadow = true;
+    addToonOutline(tubFloor, 1.045);
+    car.add(tubFloor);
+
+    for (const sx of [-0.56, 0.56]) {
+      const sideWall = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.44, 1.66), bodyMat);
+      sideWall.position.set(sx, 0.54, -0.02);
+      sideWall.castShadow = true;
+      addToonOutline(sideWall, 1.06);
+      car.add(sideWall);
+
+      // Gold racing stripe along car flank
+      const stripe = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.10, 1.56), goldMat);
+      stripe.position.set(sx * 1.02, 0.52, -0.02);
+      car.add(stripe);
+    }
+
+    // Two sculpted bucket seats with headrests + overhead U-shaped lap restraint bar
+    for (const sx of [-0.26, 0.26]) {
+      const backrest = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.58, 0.14), darkMat);
+      backrest.position.set(sx, 0.68, -0.48);
+      backrest.rotation.x = -0.14;
+      car.add(backrest);
+
+      const headrest = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.22, 0.16), trimMat);
+      headrest.position.set(sx, 1.02, -0.54);
+      addToonOutline(headrest, 1.07);
+      car.add(headrest);
+    }
+
+    const lapBar = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, 0.96, 8), goldMat);
+    lapBar.rotation.z = Math.PI * 0.5;
+    lapBar.position.set(0, 0.68, 0.16);
+    car.add(lapBar);
 
     if (isLead) {
-      // Cute mascot snout + sparkling eyes + rosy cheeks on front car!
-      const nose = new THREE.Mesh(
-        new THREE.SphereGeometry(0.56, 14, 12),
-        createToonMaterial(0xffd166)
+      // Sleek aerodynamic Planet-Coaster style streamlined nose fairing + racing spoiler + headlights
+      const hood = new THREE.Mesh(new THREE.BoxGeometry(1.16, 0.42, 0.95), bodyMat);
+      hood.position.set(0, 0.46, 1.08);
+      hood.rotation.x = 0.22;
+      hood.castShadow = true;
+      addToonOutline(hood, 1.045);
+      car.add(hood);
+
+      // Sculpted rounded aerodynamic bullet nose cone (smooth horizontal hemisphere fairing)
+      const noseCone = new THREE.Mesh(
+        new THREE.SphereGeometry(0.58, 14, 10, 0, Math.PI * 2, 0, Math.PI * 0.55),
+        bodyMat
       );
-      nose.scale.set(1.08, 0.72, 1.25);
-      nose.position.set(0, 0.46, 1.05);
-      addToonOutline(nose, 1.06);
-      car.add(nose);
+      noseCone.rotation.x = Math.PI * 0.5;
+      noseCone.scale.set(1.02, 1.15, 0.62);
+      noseCone.position.set(0, 0.36, 1.46);
+      noseCone.castShadow = true;
+      addToonOutline(noseCone, 1.045);
+      car.add(noseCone);
 
-      const eyeMat = new THREE.MeshBasicMaterial({ color: 0x241a2e });
-      const blushMat = new THREE.MeshBasicMaterial({ color: 0xff8fa3 });
-      for (const sx of [-0.26, 0.26]) {
-        const eye = new THREE.Mesh(new THREE.SphereGeometry(0.09, 8, 8), eyeMat);
-        eye.position.set(sx, 0.64, 1.48);
-        car.add(eye);
+      // Racing center hood stripe + dark air intake grille
+      const centerStripe = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.08, 0.96), goldMat);
+      centerStripe.position.set(0, 0.65, 1.12);
+      centerStripe.rotation.x = 0.24;
+      car.add(centerStripe);
 
-        const cheek = new THREE.Mesh(new THREE.SphereGeometry(0.08, 8, 8), blushMat);
-        cheek.position.set(sx * 1.45, 0.50, 1.42);
-        car.add(cheek);
+      const grille = new THREE.Mesh(new THREE.BoxGeometry(0.66, 0.14, 0.14), darkMat);
+      grille.position.set(0, 0.28, 1.80);
+      car.add(grille);
 
-        // Cute mascot ears
-        const ear = new THREE.Mesh(new THREE.ConeGeometry(0.14, 0.34, 8), createToonMaterial(0xff7657));
-        ear.position.set(sx * 1.35, 0.92, 0.85);
-        ear.rotation.z = sx > 0 ? -0.3 : 0.3;
-        addToonOutline(ear, 1.1);
-        car.add(ear);
+      // Tucked aerodynamic front chin spoiler / bumper (flush under rounded nose)
+      const bumper = new THREE.Mesh(new THREE.BoxGeometry(1.12, 0.10, 0.24), darkMat);
+      bumper.position.set(0, 0.18, 1.62);
+      car.add(bumper);
+
+      // Raked panoramic acrylic windshield + dark frame
+      const shieldFrame = new THREE.Mesh(new THREE.BoxGeometry(1.14, 0.40, 0.07), darkMat);
+      shieldFrame.position.set(0, 0.77, 0.74);
+      shieldFrame.rotation.x = -0.58;
+      car.add(shieldFrame);
+
+      const shield = new THREE.Mesh(
+        new THREE.BoxGeometry(1.04, 0.32, 0.09),
+        new THREE.MeshBasicMaterial({ color: 0xbae6fd, transparent: true, opacity: 0.85 })
+      );
+      shield.position.set(0, 0.77, 0.75);
+      shield.rotation.x = -0.58;
+      car.add(shield);
+
+      // Twin recessed glowing headlights
+      const lampMat = new THREE.MeshBasicMaterial({ color: 0xfef08a });
+      for (const sx of [-0.36, 0.36]) {
+        const housing = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.11, 0.12, 10), darkMat);
+        housing.rotation.x = Math.PI * 0.5;
+        housing.position.set(sx, 0.42, 1.72);
+        car.add(housing);
+        const lamp = new THREE.Mesh(new THREE.SphereGeometry(0.09, 8, 8), lampMat);
+        lamp.position.set(sx, 0.42, 1.78);
+        car.add(lamp);
       }
-
-      const headLamp = new THREE.Mesh(
-        new THREE.SphereGeometry(0.14, 8, 8),
-        new THREE.MeshBasicMaterial({ color: 0xfef08a })
-      );
-      headLamp.position.set(0, 0.48, 1.72);
-      car.add(headLamp);
+    } else {
+      const frontLip = new THREE.Mesh(new THREE.BoxGeometry(1.20, 0.36, 0.20), trimMat);
+      frontLip.position.set(0, 0.50, 0.76);
+      addToonOutline(frontLip, 1.05);
+      car.add(frontLip);
     }
 
     return car;
@@ -610,7 +738,7 @@ export class CoasterEngine {
     const rec = this.instances.get(coasterId);
     if (!rec || !rec.trains.length) return null;
     const train = rec.trains[trainIndex % rec.trains.length];
-    const carS = train.s - carIndex * 2.05;
+    const carS = train.s - carIndex * 2.25;
     const sample = this._sampleAtArc(rec, carS);
     const seatPos = sample.pos.clone().addScaledVector(sample.up, 1.05);
     return {
@@ -644,11 +772,13 @@ export class CoasterEngine {
         train.s = (train.s + head.speed * stepDt) % rec.totalLength;
 
         for (let c = 0; c < train.cars.length; c++) {
-          const cs = train.s - c * 2.05;
+          const cs = train.s - c * 2.25;
           const samp = this._sampleAtArc(rec, cs);
           const car = train.cars[c];
           car.position.copy(samp.pos);
-          this._scratchMat.makeBasis(samp.right, samp.up, samp.tangent);
+          // Right-handed SO(3) basis: X = up × tangent, Y = up, Z = +tangent (forward)
+          this._scratchPos.crossVectors(samp.up, samp.tangent).normalize();
+          this._scratchMat.makeBasis(this._scratchPos, samp.up, samp.tangent);
           car.quaternion.setFromRotationMatrix(this._scratchMat);
         }
       }

@@ -101,184 +101,373 @@ export class FlatRideEngine {
     this.rides.set(def.id, runtime);
   }
 
+  /**
+   * Deep-anchored (-3.8m) foundation plinth + top deck + safety perimeter fence & entry gate.
+   * Guarantees zero floating even on steep terrain hills.
+   */
+  _addGroundedFoundation(root, radius, deckColor = 0xffe8c2, { rect = null, fence = true } = {}) {
+    const concreteMat = createToonMaterial(0xd5cbb8);
+    const deckMat = createToonMaterial(deckColor);
+    const postMat = createToonMaterial(0xfff7eb);
+    const railMat = createToonMaterial(0xff7657);
+
+    if (rect) {
+      const [w, d] = rect;
+      const skirt = new THREE.Mesh(new THREE.BoxGeometry(w + 0.6, 4.0, d + 0.6), concreteMat);
+      skirt.position.y = -1.65;
+      skirt.receiveShadow = true;
+      root.add(skirt);
+
+      const deck = new THREE.Mesh(new THREE.BoxGeometry(w, 0.45, d), deckMat);
+      deck.position.y = 0.55;
+      deck.receiveShadow = true;
+      addToonOutline(deck, 1.015);
+      root.add(deck);
+
+      if (fence) {
+        const halfW = w * 0.48;
+        const halfD = d * 0.48;
+        for (const sx of [-halfW, halfW]) {
+          const bar = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.12, d * 0.94), railMat);
+          bar.position.set(sx, 1.45, 0);
+          root.add(bar);
+          for (let iz = -2; iz <= 2; iz++) {
+            const p = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 0.95, 6), postMat);
+            p.position.set(sx, 1.15, (iz / 2) * halfD * 0.92);
+            root.add(p);
+          }
+        }
+        const backBar = new THREE.Mesh(new THREE.BoxGeometry(w * 0.96, 0.12, 0.12), railMat);
+        backBar.position.set(0, 1.45, -halfD);
+        root.add(backBar);
+      }
+      return;
+    }
+
+    // Circular underground anchor foundation + raised deck
+    const skirt = new THREE.Mesh(new THREE.CylinderGeometry(radius + 0.2, radius + 0.65, 4.0, 22), concreteMat);
+    skirt.position.y = -1.65;
+    skirt.receiveShadow = true;
+    root.add(skirt);
+
+    const deck = new THREE.Mesh(new THREE.CylinderGeometry(radius, radius + 0.2, 0.55, 24), deckMat);
+    deck.position.y = 0.52;
+    deck.receiveShadow = true;
+    addToonOutline(deck, 1.018);
+    root.add(deck);
+
+    // Entry steps on +Z side
+    const step = new THREE.Mesh(new THREE.BoxGeometry(3.2, 0.35, 1.4), concreteMat);
+    step.position.set(0, 0.25, radius + 0.45);
+    root.add(step);
+
+    if (fence) {
+      const fRadius = radius - 0.25;
+      const postCount = 16;
+      const postGeo = new THREE.CylinderGeometry(0.075, 0.075, 0.95, 6);
+      for (let i = 0; i < postCount; i++) {
+        const a = (i / postCount) * Math.PI * 2;
+        // Leave front entry gap around +Z (a ~ PI/2)
+        if (Math.abs(a - Math.PI * 0.5) < 0.28) continue;
+        const p = new THREE.Mesh(postGeo, postMat);
+        p.position.set(Math.cos(a) * fRadius, 1.2, Math.sin(a) * fRadius);
+        root.add(p);
+      }
+      const railRing = new THREE.Mesh(new THREE.TorusGeometry(fRadius, 0.075, 6, 32, Math.PI * 1.78), railMat);
+      railRing.rotation.x = Math.PI * 0.5;
+      railRing.rotation.z = Math.PI * 0.61;
+      railRing.position.y = 1.52;
+      root.add(railRing);
+    }
+  }
+
+  /** Helper: build a rigid cylinder strut connecting exact 3D points A and B. */
+  _addStrut(parent, pA, pB, rTop, rBot, mat) {
+    const dir = new THREE.Vector3().subVectors(pB, pA);
+    const len = dir.length();
+    if (len < 0.01) return null;
+    const mesh = new THREE.Mesh(new THREE.CylinderGeometry(rTop, rBot, len, 8), mat);
+    mesh.position.addVectors(pA, pB).multiplyScalar(0.5);
+    mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.normalize());
+    mesh.castShadow = true;
+    parent.add(mesh);
+    return mesh;
+  }
+
   _createFerrisWheel(root) {
-    const radius = 10.5;
-    const hubY = 12.6;
+    const radius = 10.6;
+    const hubY = 13.0;
     const legMat = createToonMaterial(0xfff7eb);
     const rimMat = createToonMaterial(0xff7657);
+    const darkMat = createToonMaterial(0x334155);
     const glowMat = new THREE.MeshStandardMaterial({ color: 0x67e8f9, emissive: 0x38bdf8, emissiveIntensity: 0.45 });
     this.nightLights.push(glowMat);
 
-    const base = new THREE.Mesh(new THREE.CylinderGeometry(7.2, 7.8, 0.7, 18), createToonMaterial(0xffe8c2));
-    base.position.y = 0.35;
-    base.receiveShadow = true;
-    addToonOutline(base, 1.025);
-    root.add(base);
+    this._addGroundedFoundation(root, 8.6, 0xffe8c2, { fence: true });
 
-    const legGeo = new THREE.CylinderGeometry(0.28, 0.36, 14.2, 8);
-    for (const side of [-2.4, 2.4]) {
-      for (const tilt of [-0.3, 0.3]) {
-        const leg = new THREE.Mesh(legGeo, legMat);
-        leg.position.set(tilt * 12, hubY * 0.5 + 0.3, side);
-        leg.rotation.z = tilt;
-        leg.castShadow = true;
-        root.add(leg);
-      }
+    // Precision A-frame legs connecting deck footings directly to main steel axle hubs!
+    for (const sideZ of [-2.4, 2.4]) {
+      const topHub = new THREE.Vector3(0, hubY, sideZ);
+      this._addStrut(root, new THREE.Vector3(-4.6, 0.7, sideZ), topHub, 0.30, 0.42, legMat);
+      this._addStrut(root, new THREE.Vector3(4.6, 0.7, sideZ), topHub, 0.30, 0.42, legMat);
+      // Horizontal mid-crossbar bracing the A-frame
+      this._addStrut(root, new THREE.Vector3(-2.7, 5.8, sideZ), new THREE.Vector3(2.7, 5.8, sideZ), 0.16, 0.16, rimMat);
+      // Bearing pillow block at hub
+      const bearing = new THREE.Mesh(new THREE.CylinderGeometry(0.85, 0.85, 0.7, 12), darkMat);
+      bearing.rotation.x = Math.PI * 0.5;
+      bearing.position.copy(topHub);
+      root.add(bearing);
     }
+
+    // Solid steel central axle shaft bridging front and rear A-frames
+    const axle = new THREE.Mesh(new THREE.CylinderGeometry(0.45, 0.45, 5.4, 12), darkMat);
+    axle.rotation.x = Math.PI * 0.5;
+    axle.position.set(0, hubY, 0);
+    root.add(axle);
+
+    // Boarding platform deck under lowest gondola
+    const platform = new THREE.Mesh(new THREE.BoxGeometry(5.6, 0.65, 3.6), createToonMaterial(0xd99b66));
+    platform.position.set(0, 1.05, 0);
+    root.add(platform);
 
     const wheel = new THREE.Group();
     wheel.position.set(0, hubY, 0);
     root.add(wheel);
 
     for (const zOff of [-1.25, 1.25]) {
-      const rim = new THREE.Mesh(new THREE.TorusGeometry(radius, 0.22, 10, 32), rimMat);
+      const rim = new THREE.Mesh(new THREE.TorusGeometry(radius, 0.24, 10, 36), rimMat);
       rim.position.z = zOff;
       rim.castShadow = true;
       wheel.add(rim);
 
-      const ledRing = new THREE.Mesh(new THREE.TorusGeometry(radius - 0.45, 0.08, 8, 32), glowMat);
+      const innerRim = new THREE.Mesh(new THREE.TorusGeometry(radius * 0.62, 0.12, 8, 28), legMat);
+      innerRim.position.z = zOff;
+      wheel.add(innerRim);
+
+      const ledRing = new THREE.Mesh(new THREE.TorusGeometry(radius - 0.42, 0.08, 8, 36), glowMat);
       ledRing.position.z = zOff * 1.05;
       wheel.add(ledRing);
     }
 
-    const spokeGeo = new THREE.CylinderGeometry(0.08, 0.08, radius * 2, 6);
-    for (let i = 0; i < 6; i++) {
-      const spoke = new THREE.Mesh(spokeGeo, legMat);
-      spoke.rotation.z = (i / 6) * Math.PI;
-      wheel.add(spoke);
-    }
-
-    const hubDisc = new THREE.Mesh(new THREE.CylinderGeometry(2.0, 2.0, 2.9, 16), createToonMaterial(0xffd166));
-    hubDisc.rotation.x = Math.PI * 0.5;
-    addToonOutline(hubDisc, 1.05);
-    wheel.add(hubDisc);
-
-    const gondolas = [];
+    // 12 radial spokes + crossbars holding each gondola
     const colors = [0xff8274, 0x60c5f1, 0xffd166, 0x6ee7b7, 0xf9a8d4, 0xc4b5fd];
+    const gondolas = [];
     for (let i = 0; i < 12; i++) {
       const ang = (i / 12) * Math.PI * 2;
+      const gx = Math.cos(ang) * radius;
+      const gy = Math.sin(ang) * radius;
+      for (const zOff of [-1.25, 1.25]) {
+        this._addStrut(wheel, new THREE.Vector3(0, 0, zOff), new THREE.Vector3(gx, gy, zOff), 0.08, 0.08, legMat);
+      }
+      // Gondola horizontal pivot bar between rims
+      this._addStrut(wheel, new THREE.Vector3(gx, gy, -1.25), new THREE.Vector3(gx, gy, 1.25), 0.09, 0.09, darkMat);
+
       const gPivot = new THREE.Group();
-      gPivot.position.set(Math.cos(ang) * radius, Math.sin(ang) * radius, 0);
+      gPivot.position.set(gx, gy, 0);
 
-      const cabin = new THREE.Mesh(new THREE.SphereGeometry(1.08, 12, 10), createToonMaterial(colors[i % colors.length]));
-      cabin.scale.set(0.95, 1.05, 1.15);
-      cabin.position.y = -1.05;
-      cabin.castShadow = true;
-      addToonOutline(cabin, 1.06);
-      gPivot.add(cabin);
+      // Hanger rod + roof + panoramic glass cabin + colored tub
+      const hanger = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.7, 6), darkMat);
+      hanger.position.y = -0.35;
+      gPivot.add(hanger);
 
-      const band = new THREE.Mesh(
-        new THREE.CylinderGeometry(1.08, 1.08, 0.48, 12),
-        new THREE.MeshBasicMaterial({ color: 0xe0f7ff, transparent: true, opacity: 0.78 })
+      const roof = new THREE.Mesh(new THREE.ConeGeometry(1.18, 0.48, 8), createToonMaterial(colors[i % colors.length]));
+      roof.position.y = -0.68;
+      gPivot.add(roof);
+
+      const glass = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.96, 0.96, 0.72, 10),
+        new THREE.MeshBasicMaterial({ color: 0xe0f7ff, transparent: true, opacity: 0.75 })
       );
-      band.position.y = -0.92;
-      gPivot.add(band);
+      glass.position.y = -1.2;
+      gPivot.add(glass);
+
+      const tub = new THREE.Mesh(new THREE.CylinderGeometry(1.04, 0.88, 0.75, 10), createToonMaterial(colors[i % colors.length]));
+      tub.position.y = -1.82;
+      tub.castShadow = true;
+      addToonOutline(tub, 1.055);
+      gPivot.add(tub);
 
       wheel.add(gPivot);
       gondolas.push(gPivot);
     }
+
+    const hubDisc = new THREE.Mesh(new THREE.CylinderGeometry(2.1, 2.1, 3.0, 16), createToonMaterial(0xffd166));
+    hubDisc.rotation.x = Math.PI * 0.5;
+    addToonOutline(hubDisc, 1.045);
+    wheel.add(hubDisc);
+
     return { wheel, gondolas, angle: 0 };
   }
 
   _createDropTower(root) {
-    const towerH = 32;
-    const base = new THREE.Mesh(new THREE.CylinderGeometry(4.8, 5.4, 0.8, 14), createToonMaterial(0x475569));
-    base.position.y = 0.4;
-    base.receiveShadow = true;
-    root.add(base);
+    const towerH = 33;
+    const steelMat = createToonMaterial(0x334155);
+    const accentMat = createToonMaterial(0x60c5f1);
+    const darkMat = createToonMaterial(0x1e293b);
 
-    const spire = new THREE.Mesh(
-      new THREE.CylinderGeometry(1.2, 1.5, towerH, 12),
+    this._addGroundedFoundation(root, 6.2, 0xdbeafe, { fence: true });
+
+    // Central core + 4 outer truss corner columns + diagonal lattice rings
+    const core = new THREE.Mesh(
+      new THREE.CylinderGeometry(1.15, 1.4, towerH, 12),
       createToonMaterial(0xffffff, { map: getCarnivalStripeTexture("#334155", "#60c5f1", 12) })
     );
-    spire.position.y = towerH * 0.5 + 0.5;
-    spire.castShadow = true;
-    root.add(spire);
+    core.position.y = towerH * 0.5 + 0.7;
+    core.castShadow = true;
+    root.add(core);
 
     const gaugeMat = new THREE.MeshStandardMaterial({ color: 0x34d399, emissive: 0x34d399, emissiveIntensity: 0.75 });
     this.nightLights.push(gaugeMat);
     this.dropTowerGaugeMat = gaugeMat;
+
     for (let i = 0; i < 4; i++) {
-      const a = (i / 4) * Math.PI * 2;
-      const strip = new THREE.Mesh(new THREE.BoxGeometry(0.18, towerH - 2, 0.18), gaugeMat);
-      strip.position.set(Math.cos(a) * 1.45, towerH * 0.5 + 0.5, Math.sin(a) * 1.45);
+      const a = (i / 4) * Math.PI * 2 + Math.PI * 0.25;
+      const cx = Math.cos(a) * 1.65;
+      const cz = Math.sin(a) * 1.65;
+      const rail = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.16, towerH, 6), steelMat);
+      rail.position.set(cx, towerH * 0.5 + 0.7, cz);
+      root.add(rail);
+
+      const strip = new THREE.Mesh(new THREE.BoxGeometry(0.16, towerH - 2, 0.16), gaugeMat);
+      strip.position.set(Math.cos(a - Math.PI * 0.25) * 1.45, towerH * 0.5 + 0.7, Math.sin(a - Math.PI * 0.25) * 1.45);
       root.add(strip);
     }
 
-    const crown = new THREE.Mesh(new THREE.OctahedronGeometry(2.1, 0), createToonMaterial(0xffd166));
-    crown.position.y = towerH + 2.2;
+    // Horizontal truss collars every 6m
+    for (let y = 4; y < towerH; y += 6) {
+      const collar = new THREE.Mesh(new THREE.TorusGeometry(1.65, 0.12, 6, 16), accentMat);
+      collar.rotation.x = Math.PI * 0.5;
+      collar.position.y = y;
+      root.add(collar);
+    }
+
+    // Top cable hoist winch house + golden beacon crown
+    const winchHouse = new THREE.Mesh(new THREE.CylinderGeometry(2.5, 2.1, 2.2, 12), darkMat);
+    winchHouse.position.y = towerH + 1.4;
+    addToonOutline(winchHouse, 1.03);
+    root.add(winchHouse);
+
+    const crown = new THREE.Mesh(new THREE.OctahedronGeometry(1.8, 0), createToonMaterial(0xffd166));
+    crown.position.y = towerH + 4.0;
     addToonOutline(crown, 1.06);
     root.add(crown);
 
+    // 12-seat ring gondola with seats & shoulder restraints
     const carriage = new THREE.Group();
-    carriage.position.y = 2.4;
-    const ring = new THREE.Mesh(new THREE.TorusGeometry(2.35, 0.48, 10, 20), createToonMaterial(0xff7657));
-    ring.rotation.x = Math.PI * 0.5;
-    ring.castShadow = true;
-    addToonOutline(ring, 1.06);
-    carriage.add(ring);
+    carriage.position.y = 2.6;
+    const chassis = new THREE.Mesh(new THREE.TorusGeometry(2.6, 0.42, 10, 24), createToonMaterial(0xff7657));
+    chassis.rotation.x = Math.PI * 0.5;
+    addToonOutline(chassis, 1.04);
+    carriage.add(chassis);
+
+    const seatMat = createToonMaterial(0x1e293b);
+    const barMat = createToonMaterial(0xffd166);
+    for (let i = 0; i < 10; i++) {
+      const a = (i / 10) * Math.PI * 2;
+      const sx = Math.cos(a) * 3.05;
+      const sz = Math.sin(a) * 3.05;
+      const seat = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.9, 0.45), seatMat);
+      seat.position.set(sx, 0.35, sz);
+      seat.rotation.y = -a + Math.PI * 0.5;
+      carriage.add(seat);
+
+      const bar = new THREE.Mesh(new THREE.BoxGeometry(0.46, 0.14, 0.52), barMat);
+      bar.position.set(Math.cos(a) * 3.25, 0.55, Math.sin(a) * 3.25);
+      bar.rotation.y = -a + Math.PI * 0.5;
+      carriage.add(bar);
+    }
     root.add(carriage);
 
-    return { carriage, towerH, phaseTime: 0, currentY: 2.4, velY: 0 };
+    return { carriage, towerH, phaseTime: 0, currentY: 2.6, velY: 0 };
   }
 
   _createCarousel(root) {
-    const deck = new THREE.Mesh(new THREE.CylinderGeometry(6.8, 7.2, 0.7, 24), createToonMaterial(0xfff7eb));
-    deck.position.y = 0.35;
-    deck.receiveShadow = true;
-    root.add(deck);
+    this._addGroundedFoundation(root, 7.6, 0xfff7eb, { fence: true });
 
     const rotor = new THREE.Group();
-    rotor.position.y = 0.7;
+    rotor.position.y = 0.8;
     root.add(rotor);
 
-    const column = new THREE.Mesh(new THREE.CylinderGeometry(1.1, 1.3, 5.4, 16), createToonMaterial(0xffd166));
+    const floor = new THREE.Mesh(new THREE.CylinderGeometry(6.6, 6.7, 0.25, 24), createToonMaterial(0xffe8c2));
+    floor.position.y = 0.12;
+    rotor.add(floor);
+
+    const column = new THREE.Mesh(new THREE.CylinderGeometry(1.25, 1.45, 5.2, 16), createToonMaterial(0xffd166));
     column.position.y = 2.7;
     column.castShadow = true;
+    addToonOutline(column, 1.03);
     rotor.add(column);
 
+    // Scalloped decorative cornice drum + striped carnival cone roof
+    const frieze = new THREE.Mesh(new THREE.CylinderGeometry(7.05, 7.05, 0.72, 24), createToonMaterial(0xffd166));
+    frieze.position.y = 5.1;
+    addToonOutline(frieze, 1.02);
+    rotor.add(frieze);
+
     const canopy = new THREE.Mesh(
-      new THREE.ConeGeometry(7.4, 3.0, 20),
-      createToonMaterial(0xffffff, { map: getCarnivalStripeTexture("#ff7657", "#fff7eb", 14) })
+      new THREE.ConeGeometry(7.4, 3.1, 24),
+      createToonMaterial(0xffffff, { map: getCarnivalStripeTexture("#ff7657", "#fff7eb", 16) })
     );
-    canopy.position.y = 6.2;
+    canopy.position.y = 6.95;
     canopy.castShadow = true;
-    addToonOutline(canopy, 1.03);
+    addToonOutline(canopy, 1.025);
     rotor.add(canopy);
 
     const starTop = new THREE.Mesh(
-      new THREE.OctahedronGeometry(0.85, 0),
+      new THREE.OctahedronGeometry(0.88, 0),
       createToonMaterial(0xffd166, { emissive: 0xf59e0b, emissiveIntensity: 0.35 })
     );
-    starTop.position.y = 8.1;
+    starTop.position.y = 8.95;
     addToonOutline(starTop, 1.08);
     rotor.add(starTop);
 
     const bulbMat = new THREE.MeshStandardMaterial({ color: 0xfef08a, emissive: 0xfbbf24, emissiveIntensity: 0.55 });
     this.nightLights.push(bulbMat);
-    const bulbRing = new THREE.Mesh(new THREE.TorusGeometry(7.05, 0.14, 8, 28), bulbMat);
+    const bulbRing = new THREE.Mesh(new THREE.TorusGeometry(7.15, 0.14, 8, 28), bulbMat);
     bulbRing.rotation.x = Math.PI * 0.5;
-    bulbRing.position.y = 4.9;
+    bulbRing.position.y = 4.78;
     rotor.add(bulbRing);
 
     const mounts = [];
-    const poleGeo = new THREE.CylinderGeometry(0.06, 0.06, 4.8, 6);
+    const poleGeo = new THREE.CylinderGeometry(0.065, 0.065, 4.9, 6);
     const poleMat = createToonMaterial(0xffd166);
-    const mountColors = [0xfff7eb, 0xff8274, 0x60c5f1, 0x6ee7b7];
+    const mountColors = [0xfff7eb, 0xff8274, 0x60c5f1, 0xf9a8d4];
+    const saddleMat = createToonMaterial(0xc85a32);
 
     for (let i = 0; i < 8; i++) {
       const a = (i / 8) * Math.PI * 2;
       const mx = Math.cos(a) * 4.9;
       const mz = Math.sin(a) * 4.9;
       const pole = new THREE.Mesh(poleGeo, poleMat);
-      pole.position.set(mx, 2.5, mz);
+      pole.position.set(mx, 2.55, mz);
       rotor.add(pole);
 
-      const horse = new THREE.Mesh(new THREE.BoxGeometry(0.75, 0.85, 1.45), createToonMaterial(mountColors[i % mountColors.length]));
+      // Sculpted cute cartoon carousel horse (body + neck + head + ears + saddle + legs)
+      const horse = new THREE.Group();
       horse.position.set(mx, 1.55, mz);
       horse.rotation.y = -a;
-      horse.castShadow = true;
-      addToonOutline(horse, 1.06);
+      const hMat = createToonMaterial(mountColors[i % mountColors.length]);
+
+      const torso = new THREE.Mesh(new THREE.CapsuleGeometry(0.32, 0.85, 6, 8), hMat);
+      torso.rotation.x = Math.PI * 0.5;
+      addToonOutline(torso, 1.07);
+      horse.add(torso);
+
+      const saddle = new THREE.Mesh(new THREE.BoxGeometry(0.68, 0.24, 0.45), saddleMat);
+      saddle.position.y = 0.28;
+      horse.add(saddle);
+
+      const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.22, 0.65, 8), hMat);
+      neck.position.set(0, 0.46, 0.52);
+      neck.rotation.x = 0.35;
+      horse.add(neck);
+
+      const head = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.30, 0.52), hMat);
+      head.position.set(0, 0.72, 0.74);
+      head.rotation.x = 0.22;
+      addToonOutline(head, 1.08);
+      horse.add(head);
+
       rotor.add(horse);
       mounts.push({ mesh: horse, phase: i * 0.8 });
     }
@@ -287,90 +476,155 @@ export class FlatRideEngine {
 
   _createPirateShip(root) {
     const legMat = createToonMaterial(0xfff7eb);
-    const base = new THREE.Mesh(new THREE.BoxGeometry(10.5, 0.6, 7.2), createToonMaterial(0xffe8c2));
-    base.position.y = 0.3;
-    base.receiveShadow = true;
-    root.add(base);
+    const darkMat = createToonMaterial(0x334155);
+    const woodMat = createToonMaterial(0xc86d42);
+    const trimMat = createToonMaterial(0xffd166);
 
-    const legGeo = new THREE.CylinderGeometry(0.28, 0.36, 12.2, 8);
-    for (const sz of [-2.4, 2.4]) {
-      for (const tilt of [-0.28, 0.28]) {
-        const leg = new THREE.Mesh(legGeo, legMat);
-        leg.position.set(tilt * 10, 6.2, sz);
-        leg.rotation.z = tilt;
-        leg.castShadow = true;
-        root.add(leg);
-      }
+    this._addGroundedFoundation(root, 0, 0xffe8c2, { rect: [13.2, 8.2], fence: true });
+
+    // Tire drive motor box directly under ship keel
+    const driveBox = new THREE.Mesh(new THREE.BoxGeometry(3.2, 1.2, 2.2), darkMat);
+    driveBox.position.set(0, 1.35, 0);
+    root.add(driveBox);
+
+    // Front & rear A-frame steel towers meeting accurately at top pivot crossbeam
+    const pivotY = 12.2;
+    for (const sz of [-2.8, 2.8]) {
+      const apex = new THREE.Vector3(0, pivotY, sz);
+      this._addStrut(root, new THREE.Vector3(-4.6, 0.75, sz), apex, 0.30, 0.42, legMat);
+      this._addStrut(root, new THREE.Vector3(4.6, 0.75, sz), apex, 0.30, 0.42, legMat);
+      this._addStrut(root, new THREE.Vector3(-2.8, 5.4, sz), new THREE.Vector3(2.8, 5.4, sz), 0.16, 0.16, trimMat);
     }
+
+    // Main horizontal swing shaft joining the two A-frames
+    const crossBeam = new THREE.Mesh(new THREE.CylinderGeometry(0.44, 0.44, 6.4, 12), darkMat);
+    crossBeam.rotation.x = Math.PI * 0.5;
+    crossBeam.position.set(0, pivotY, 0);
+    root.add(crossBeam);
 
     const pivot = new THREE.Group();
-    pivot.position.set(0, 11.4, 0);
+    pivot.position.set(0, pivotY, 0);
     root.add(pivot);
 
-    for (const sz of [-1.4, 1.4]) {
-      const arm = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.14, 8.6, 8), createToonMaterial(0xffd166));
-      arm.position.set(0, -4.3, sz);
-      pivot.add(arm);
+    // Heavy steel swing arms down to boat deck
+    for (const sz of [-1.45, 1.45]) {
+      this._addStrut(pivot, new THREE.Vector3(0, 0, sz), new THREE.Vector3(-1.4, -8.5, sz), 0.16, 0.18, trimMat);
+      this._addStrut(pivot, new THREE.Vector3(0, 0, sz), new THREE.Vector3(1.4, -8.5, sz), 0.16, 0.18, trimMat);
     }
 
-    const hull = new THREE.Mesh(new THREE.BoxGeometry(8.8, 1.9, 3.0), createToonMaterial(0xd97757));
-    hull.position.y = -8.6;
-    hull.castShadow = true;
-    addToonOutline(hull, 1.045);
-    pivot.add(hull);
+    // Layered Viking/Pirate boat hull + raised stern/prow decks + 5 seating rows + figureheads
+    const keel = new THREE.Mesh(new THREE.BoxGeometry(7.8, 1.35, 2.8), woodMat);
+    keel.position.y = -9.15;
+    keel.castShadow = true;
+    addToonOutline(keel, 1.035);
+    pivot.add(keel);
 
-    // Prow & stern curved figureheads
-    for (const sx of [-4.6, 4.6]) {
-      const tip = new THREE.Mesh(new THREE.ConeGeometry(1.4, 2.6, 6), createToonMaterial(0xffd166));
-      tip.position.set(sx, -7.8, 0);
-      tip.rotation.z = sx > 0 ? -0.55 : 0.55;
-      addToonOutline(tip, 1.06);
-      pivot.add(tip);
+    const upperDeck = new THREE.Mesh(new THREE.BoxGeometry(9.6, 0.95, 3.1), createToonMaterial(0xe07a52));
+    upperDeck.position.y = -8.35;
+    addToonOutline(upperDeck, 1.035);
+    pivot.add(upperDeck);
+
+    // 5 Passenger bench rows inside boat
+    for (let r = -2; r <= 2; r++) {
+      const bench = new THREE.Mesh(new THREE.BoxGeometry(0.75, 0.55, 2.4), darkMat);
+      bench.position.set(r * 1.55, -7.7, 0);
+      pivot.add(bench);
     }
+
+    for (const sx of [-5.2, 5.2]) {
+      const deckRise = new THREE.Mesh(new THREE.BoxGeometry(1.8, 1.45, 2.9), woodMat);
+      deckRise.position.set(sx, -7.8, 0);
+      deckRise.rotation.z = sx > 0 ? 0.25 : -0.25;
+      addToonOutline(deckRise, 1.05);
+      pivot.add(deckRise);
+
+      const dragonTip = new THREE.Mesh(new THREE.ConeGeometry(0.85, 2.2, 6), trimMat);
+      dragonTip.position.set(sx * 1.18, -6.7, 0);
+      dragonTip.rotation.z = sx > 0 ? -0.45 : 0.45;
+      addToonOutline(dragonTip, 1.06);
+      pivot.add(dragonTip);
+    }
+
+    const mast = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.15, 6.2, 8), woodMat);
+    mast.position.set(0, -5.8, 0);
+    pivot.add(mast);
 
     const sail = new THREE.Mesh(
-      new THREE.PlaneGeometry(2.6, 3.4),
+      new THREE.PlaneGeometry(3.2, 3.4),
       createToonMaterial(0xffffff, { map: getCarnivalStripeTexture("#ff7657", "#fff7eb", 6), side: THREE.DoubleSide })
     );
-    sail.position.set(0, -5.6, 0);
+    sail.position.set(0, -5.2, 0.16);
     pivot.add(sail);
 
     return { pivot, swingPhase: 0 };
   }
 
   _createTeacups(root) {
-    const base = new THREE.Mesh(new THREE.CylinderGeometry(6.8, 7.2, 0.65, 24), createToonMaterial(0xffe8c2));
-    base.position.y = 0.325;
-    base.receiveShadow = true;
-    addToonOutline(base, 1.025);
-    root.add(base);
+    this._addGroundedFoundation(root, 7.6, 0xffe8c2, { fence: true });
 
     const platter = new THREE.Group();
-    platter.position.y = 0.7;
+    platter.position.y = 0.85;
     root.add(platter);
 
-    // Giant center teapot!
-    const pot = new THREE.Mesh(new THREE.SphereGeometry(1.6, 14, 12), createToonMaterial(0xffd166));
-    pot.position.y = 1.6;
+    const floor = new THREE.Mesh(new THREE.CylinderGeometry(6.8, 6.9, 0.24, 24), createToonMaterial(0xfef3c7));
+    floor.position.y = 0.12;
+    platter.add(floor);
+
+    // Center ornate teapot (body + lid + knob + spout + handle)
+    const potMat = createToonMaterial(0xffd166);
+    const pot = new THREE.Mesh(new THREE.SphereGeometry(1.65, 16, 14), potMat);
+    pot.position.y = 1.7;
     pot.castShadow = true;
-    addToonOutline(pot, 1.05);
+    addToonOutline(pot, 1.045);
     platter.add(pot);
+
+    const lid = new THREE.Mesh(new THREE.ConeGeometry(1.1, 0.7, 12), createToonMaterial(0xff7657));
+    lid.position.y = 3.35;
+    platter.add(lid);
+
+    const spout = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.38, 1.6, 8), potMat);
+    spout.position.set(1.55, 2.05, 0);
+    spout.rotation.z = -0.65;
+    platter.add(spout);
+
+    const potHandle = new THREE.Mesh(new THREE.TorusGeometry(0.85, 0.2, 8, 14), potMat);
+    potHandle.position.set(-1.55, 1.85, 0);
+    platter.add(potHandle);
 
     const cups = [];
     const cupColors = [0xff8274, 0x60c5f1, 0xf9a8d4, 0x6ee7b7];
     for (let i = 0; i < 4; i++) {
       const a = (i / 4) * Math.PI * 2;
       const cupGroup = new THREE.Group();
-      cupGroup.position.set(Math.cos(a) * 4.2, 0, Math.sin(a) * 4.2);
+      cupGroup.position.set(Math.cos(a) * 4.3, 0.24, Math.sin(a) * 4.3);
 
-      const bowl = new THREE.Mesh(new THREE.CylinderGeometry(1.55, 1.05, 1.25, 14), createToonMaterial(cupColors[i]));
-      bowl.position.y = 0.65;
+      // Porcelain saucer under each teacup
+      const saucer = new THREE.Mesh(new THREE.CylinderGeometry(1.95, 1.65, 0.18, 16), createToonMaterial(0xfff7eb));
+      saucer.position.y = 0.1;
+      cupGroup.add(saucer);
+
+      const bowl = new THREE.Mesh(new THREE.CylinderGeometry(1.55, 1.05, 1.25, 16), createToonMaterial(cupColors[i]));
+      bowl.position.y = 0.78;
       bowl.castShadow = true;
-      addToonOutline(bowl, 1.055);
+      addToonOutline(bowl, 1.05);
       cupGroup.add(bowl);
 
-      const handle = new THREE.Mesh(new THREE.TorusGeometry(0.45, 0.14, 6, 12), createToonMaterial(0xfff7eb));
-      handle.position.set(1.45, 0.75, 0);
+      // Inner dark seat cushion + central spin steering wheel
+      const innerSeat = new THREE.Mesh(new THREE.CylinderGeometry(1.28, 1.28, 0.16, 14), createToonMaterial(0x3f334d));
+      innerSeat.position.y = 1.35;
+      cupGroup.add(innerSeat);
+
+      const wheelPost = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.14, 0.65, 8), createToonMaterial(0xffd166));
+      wheelPost.position.y = 1.6;
+      cupGroup.add(wheelPost);
+
+      const wheel = new THREE.Mesh(new THREE.TorusGeometry(0.42, 0.08, 6, 14), createToonMaterial(0xffd166));
+      wheel.rotation.x = Math.PI * 0.5;
+      wheel.position.y = 1.92;
+      cupGroup.add(wheel);
+
+      const handle = new THREE.Mesh(new THREE.TorusGeometry(0.45, 0.15, 6, 12), createToonMaterial(0xfff7eb));
+      handle.position.set(1.48, 0.86, 0);
       cupGroup.add(handle);
 
       platter.add(cupGroup);
@@ -380,75 +634,115 @@ export class FlatRideEngine {
   }
 
   _createSwingTower(root) {
-    const base = new THREE.Mesh(new THREE.CylinderGeometry(5.6, 6.0, 0.7, 16), createToonMaterial(0xffe8c2));
-    base.position.y = 0.35;
-    base.receiveShadow = true;
-    root.add(base);
+    this._addGroundedFoundation(root, 6.8, 0xffe8c2, { fence: true });
+
+    const pedestal = new THREE.Mesh(new THREE.CylinderGeometry(2.2, 2.7, 2.2, 16), createToonMaterial(0xff7657));
+    pedestal.position.y = 1.8;
+    addToonOutline(pedestal, 1.03);
+    root.add(pedestal);
 
     const mast = new THREE.Mesh(
-      new THREE.CylinderGeometry(1.0, 1.35, 17, 12),
+      new THREE.CylinderGeometry(1.15, 1.45, 17.5, 14),
       createToonMaterial(0xffffff, { map: getCarnivalStripeTexture("#60c5f1", "#fff7eb", 10) })
     );
-    mast.position.y = 8.9;
+    mast.position.y = 9.5;
     mast.castShadow = true;
+    addToonOutline(mast, 1.025);
     root.add(mast);
 
     const crown = new THREE.Group();
     crown.position.y = 16.5;
     root.add(crown);
 
+    // Sliding hydraulic sleeve collar gripping the mast
+    const sleeve = new THREE.Mesh(new THREE.CylinderGeometry(1.75, 1.75, 2.2, 16), createToonMaterial(0xffd166));
+    sleeve.position.y = -0.6;
+    addToonOutline(sleeve, 1.04);
+    crown.add(sleeve);
+
     const umbrella = new THREE.Mesh(
-      new THREE.ConeGeometry(5.6, 2.2, 16),
-      createToonMaterial(0xffffff, { map: getCarnivalStripeTexture("#ff7657", "#ffd166", 12) })
+      new THREE.ConeGeometry(5.8, 2.4, 18),
+      createToonMaterial(0xffffff, { map: getCarnivalStripeTexture("#ff7657", "#ffd166", 14) })
     );
-    umbrella.position.y = 1.1;
-    addToonOutline(umbrella, 1.04);
+    umbrella.position.y = 1.25;
+    addToonOutline(umbrella, 1.035);
     crown.add(umbrella);
 
     const chairs = [];
     const colors = [0xff8274, 0x60c5f1, 0xffd166, 0x6ee7b7];
+    const chainMat = createToonMaterial(0xfff7eb);
     for (let i = 0; i < 8; i++) {
       const a = (i / 8) * Math.PI * 2;
       const armPivot = new THREE.Group();
-      armPivot.position.set(Math.cos(a) * 4.6, 0, Math.sin(a) * 4.6);
+      armPivot.position.set(Math.cos(a) * 4.8, 0.1, Math.sin(a) * 4.8);
       armPivot.rotation.y = -a;
 
-      const chain = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 5.4, 5), createToonMaterial(0xfff7eb));
-      chain.position.y = -2.7;
-      armPivot.add(chain);
+      // Twin suspension chains
+      for (const cz of [-0.36, 0.36]) {
+        const chain = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 5.4, 5), chainMat);
+        chain.position.set(0, -2.7, cz);
+        armPivot.add(chain);
+      }
 
-      const seat = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.7, 0.9), createToonMaterial(colors[i % colors.length]));
+      // Chair seat + backrest
+      const seat = new THREE.Mesh(new THREE.BoxGeometry(0.92, 0.22, 0.92), createToonMaterial(colors[i % colors.length]));
       seat.position.y = -5.5;
-      addToonOutline(seat, 1.08);
+      addToonOutline(seat, 1.07);
       armPivot.add(seat);
 
+      const back = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.85, 0.88), createToonMaterial(colors[i % colors.length]));
+      back.position.set(-0.38, -5.05, 0);
+      armPivot.add(back);
+
       crown.add(armPivot);
-      chairs.push(armPivot);
+      chairs.push({ pivot: armPivot, seat });
     }
     return { crown, chairs, angle: 0 };
   }
 
   _createSkyTower(root) {
     const towerH = 38;
-    const base = new THREE.Mesh(new THREE.CylinderGeometry(5.2, 5.8, 0.8, 16), createToonMaterial(0xffe8c2));
-    base.position.y = 0.4;
-    root.add(base);
+    this._addGroundedFoundation(root, 6.2, 0xe0f2fe, { fence: true });
 
-    const shaft = new THREE.Mesh(new THREE.CylinderGeometry(1.1, 1.35, towerH, 14), createToonMaterial(0xfff7eb));
-    shaft.position.y = towerH * 0.5 + 0.5;
+    const collarBase = new THREE.Mesh(new THREE.CylinderGeometry(2.4, 3.0, 2.4, 16), createToonMaterial(0x60c5f1));
+    collarBase.position.y = 1.8;
+    addToonOutline(collarBase, 1.03);
+    root.add(collarBase);
+
+    const shaft = new THREE.Mesh(new THREE.CylinderGeometry(1.15, 1.4, towerH, 14), createToonMaterial(0xfff7eb));
+    shaft.position.y = towerH * 0.5 + 0.8;
     shaft.castShadow = true;
-    addToonOutline(shaft, 1.04);
+    addToonOutline(shaft, 1.03);
     root.add(shaft);
 
+    // 3 vertical elevator guide rails
+    const railMat = createToonMaterial(0x334155);
+    for (let i = 0; i < 3; i++) {
+      const a = (i / 3) * Math.PI * 2;
+      const rail = new THREE.Mesh(new THREE.BoxGeometry(0.18, towerH, 0.18), railMat);
+      rail.position.set(Math.cos(a) * 1.42, towerH * 0.5 + 0.8, Math.sin(a) * 1.42);
+      root.add(rail);
+    }
+
+    // Top spire dome & antenna
+    const topCap = new THREE.Mesh(new THREE.SphereGeometry(2.1, 14, 10), createToonMaterial(0xffd166));
+    topCap.position.y = towerH + 1.4;
+    addToonOutline(topCap, 1.04);
+    root.add(topCap);
+
+    const antenna = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.22, 6.5, 8), railMat);
+    antenna.position.y = towerH + 5.5;
+    root.add(antenna);
+
     const cabin = new THREE.Group();
-    cabin.position.y = 4;
-    const pod = new THREE.Mesh(new THREE.CylinderGeometry(3.6, 3.3, 2.2, 18), createToonMaterial(0x60c5f1));
+    cabin.position.y = 4.5;
+    const pod = new THREE.Mesh(new THREE.CylinderGeometry(3.8, 3.4, 2.3, 18), createToonMaterial(0x60c5f1));
     pod.castShadow = true;
-    addToonOutline(pod, 1.04);
+    addToonOutline(pod, 1.035);
     cabin.add(pod);
 
     const glass = new THREE.Mesh(
-      new THREE.CylinderGeometry(3.68, 3.68, 0.95, 18),
+      new THREE.CylinderGeometry(3.88, 3.88, 1.05, 18),
       new THREE.MeshBasicMaterial({ color: 0xe0f7ff, transparent: true, opacity: 0.78 })
     );
     cabin.add(glass);
@@ -459,99 +753,174 @@ export class FlatRideEngine {
 
   _createGyroSwing(root) {
     const legMat = createToonMaterial(0xfff7eb);
-    const base = new THREE.Mesh(new THREE.CylinderGeometry(8.2, 8.8, 0.7, 18), createToonMaterial(0xffe8c2));
-    base.position.y = 0.35;
-    root.add(base);
+    const darkMat = createToonMaterial(0x334155);
+    const accentMat = createToonMaterial(0xff7657);
 
-    const legGeo = new THREE.CylinderGeometry(0.38, 0.48, 17.5, 8);
-    for (const [sx, sz, rz, rx] of [
-      [-4.2, -3.2, -0.22, 0.18], [4.2, -3.2, 0.22, 0.18],
-      [-4.2, 3.2, -0.22, -0.18], [4.2, 3.2, 0.22, -0.18],
-    ]) {
-      const leg = new THREE.Mesh(legGeo, legMat);
-      leg.position.set(sx, 8.6, sz);
-      leg.rotation.set(rx, 0, rz);
-      leg.castShadow = true;
-      root.add(leg);
+    this._addGroundedFoundation(root, 9.2, 0xffe8c2, { fence: true });
+
+    // 4 heavy steel A-frame legs meeting cleanly at top central motor gearbox!
+    const apexY = 17.0;
+    const apex = new THREE.Vector3(0, apexY, 0);
+    const footCoords = [[-5.8, -4.6], [5.8, -4.6], [-5.8, 4.6], [5.8, 4.6]];
+    for (const [fx, fz] of footCoords) {
+      this._addStrut(root, new THREE.Vector3(fx, 0.75, fz), apex, 0.36, 0.52, legMat);
+      const footPad = new THREE.Mesh(new THREE.CylinderGeometry(0.85, 1.0, 0.65, 10), darkMat);
+      footPad.position.set(fx, 0.95, fz);
+      root.add(footPad);
     }
+    // Cross-bracing rings between legs
+    this._addStrut(root, new THREE.Vector3(-3.4, 7.2, -2.7), new THREE.Vector3(3.4, 7.2, -2.7), 0.18, 0.18, accentMat);
+    this._addStrut(root, new THREE.Vector3(-3.4, 7.2, 2.7), new THREE.Vector3(3.4, 7.2, 2.7), 0.18, 0.18, accentMat);
+
+    // Top motor gearbox housing
+    const motorBox = new THREE.Mesh(new THREE.CylinderGeometry(1.8, 1.8, 2.6, 14), darkMat);
+    motorBox.rotation.x = Math.PI * 0.5;
+    motorBox.position.copy(apex);
+    addToonOutline(motorBox, 1.04);
+    root.add(motorBox);
 
     const pivot = new THREE.Group();
-    pivot.position.set(0, 16.5, 0);
+    pivot.position.copy(apex);
     root.add(pivot);
 
-    const arm = new THREE.Mesh(new THREE.CylinderGeometry(0.45, 0.38, 13.0, 10), createToonMaterial(0xff7657));
-    arm.position.y = -6.5;
-    addToonOutline(arm, 1.05);
+    // Counterweight cap on top of pendulum
+    const counter = new THREE.Mesh(new THREE.SphereGeometry(1.35, 12, 10), createToonMaterial(0xffd166));
+    counter.position.y = 2.4;
+    addToonOutline(counter, 1.05);
+    pivot.add(counter);
+
+    const arm = new THREE.Mesh(new THREE.CylinderGeometry(0.48, 0.40, 15.6, 10), accentMat);
+    arm.position.y = -5.4;
+    addToonOutline(arm, 1.045);
     pivot.add(arm);
 
     const disc = new THREE.Group();
-    disc.position.y = -13.0;
-    const ring = new THREE.Mesh(new THREE.TorusGeometry(3.8, 0.65, 10, 22), createToonMaterial(0x60c5f1));
+    disc.position.y = -13.2;
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(4.0, 0.62, 10, 24), createToonMaterial(0x60c5f1));
     ring.rotation.x = Math.PI * 0.5;
-    addToonOutline(ring, 1.045);
+    addToonOutline(ring, 1.04);
     disc.add(ring);
-    const hub = new THREE.Mesh(new THREE.CylinderGeometry(2.6, 2.2, 0.8, 16), createToonMaterial(0xffd166));
+
+    const hub = new THREE.Mesh(new THREE.CylinderGeometry(2.4, 2.0, 1.1, 16), createToonMaterial(0xffd166));
     disc.add(hub);
+
+    // 12 outward-facing thrill seats with yellow shoulder restraints
+    for (let i = 0; i < 12; i++) {
+      const a = (i / 12) * Math.PI * 2;
+      const seat = new THREE.Mesh(new THREE.BoxGeometry(0.62, 0.95, 0.52), darkMat);
+      seat.position.set(Math.cos(a) * 4.45, 0.25, Math.sin(a) * 4.45);
+      seat.rotation.y = -a + Math.PI * 0.5;
+      disc.add(seat);
+    }
     pivot.add(disc);
 
     return { pivot, disc, swingPhase: 0, spin: 0 };
   }
 
   _createEnterprise(root) {
-    const base = new THREE.Mesh(new THREE.CylinderGeometry(7.8, 8.2, 0.7, 20), createToonMaterial(0xffe8c2));
-    base.position.y = 0.35;
-    root.add(base);
+    const darkMat = createToonMaterial(0x334155);
+    const steelMat = createToonMaterial(0xfff7eb);
+    const accentMat = createToonMaterial(0xf472b6);
 
-    const tiltPivot = new THREE.Group();
-    tiltPivot.position.set(0, 6.2, 0);
-    root.add(tiltPivot);
+    this._addGroundedFoundation(root, 8.6, 0xffe8c2, { fence: true });
+
+    // Heavy stationary hydraulic machinery pedestal on ground (Zero Floating!)
+    const machineHouse = new THREE.Mesh(new THREE.BoxGeometry(2.9, 2.5, 3.6), darkMat);
+    machineHouse.position.set(-2.8, 1.95, 0);
+    addToonOutline(machineHouse, 1.03);
+    root.add(machineHouse);
+
+    // Ground hydraulic ram anchor base directly under the lifting boom
+    const ramAnchor = new THREE.Mesh(new THREE.BoxGeometry(1.4, 1.0, 1.6), darkMat);
+    ramAnchor.position.set(1.4, 1.2, 0);
+    root.add(ramAnchor);
+
+    // Tilting hydraulic lift boom anchored directly to machineHouse hinge!
+    const liftArmPivot = new THREE.Group();
+    liftArmPivot.position.set(-2.8, 3.25, 0);
+    root.add(liftArmPivot);
+
+    // Heavy steel lift boom arm connecting hinge -> wheel center hub
+    const boomLen = 6.8;
+    const boom = new THREE.Mesh(new THREE.BoxGeometry(boomLen, 0.85, 1.15), steelMat);
+    boom.position.set(boomLen * 0.5, 0.35, 0);
+    addToonOutline(boom, 1.04);
+    liftArmPivot.add(boom);
+
+    // Articulated hydraulic ram (outer cylinder + shiny piston rod) connecting ground anchor -> boom underside
+    const pistonOuter = new THREE.Mesh(new THREE.CylinderGeometry(0.30, 0.34, 1.0, 10), createToonMaterial(0xffd166));
+    root.add(pistonOuter);
+    const pistonRod = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, 1.0, 10), createToonMaterial(0xe2e8f0));
+    root.add(pistonRod);
+
+    // Wheel assembly mounted firmly on the end of the lift boom!
+    const wheelMount = new THREE.Group();
+    wheelMount.position.set(boomLen, 0.95, 0);
+    liftArmPivot.add(wheelMount);
+
+    const hub = new THREE.Mesh(new THREE.CylinderGeometry(1.4, 1.6, 1.1, 16), createToonMaterial(0xffd166));
+    addToonOutline(hub, 1.045);
+    wheelMount.add(hub);
 
     const wheel = new THREE.Group();
-    tiltPivot.add(wheel);
+    wheelMount.add(wheel);
 
-    const rim = new THREE.Mesh(new THREE.TorusGeometry(7.2, 0.28, 10, 28), createToonMaterial(0xf472b6));
+    const rim = new THREE.Mesh(new THREE.TorusGeometry(6.8, 0.28, 10, 32), accentMat);
     rim.rotation.x = Math.PI * 0.5;
-    addToonOutline(rim, 1.04);
+    addToonOutline(rim, 1.035);
     wheel.add(rim);
 
     const gondolas = [];
     const cols = [0xff8274, 0x60c5f1, 0xffd166, 0x6ee7b7, 0xc4b5fd];
     for (let i = 0; i < 10; i++) {
       const a = (i / 10) * Math.PI * 2;
-      const pod = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.9, 1.7), createToonMaterial(cols[i % cols.length]));
-      pod.position.set(Math.cos(a) * 7.2, 0, Math.sin(a) * 7.2);
+      const gx = Math.cos(a) * 6.8;
+      const gz = Math.sin(a) * 6.8;
+      this._addStrut(wheel, new THREE.Vector3(0, 0, 0), new THREE.Vector3(gx, 0, gz), 0.11, 0.11, steelMat);
+
+      const pod = new THREE.Mesh(new THREE.BoxGeometry(1.15, 0.95, 1.75), createToonMaterial(cols[i % cols.length]));
+      pod.position.set(gx, 0.1, gz);
       pod.rotation.y = -a;
-      addToonOutline(pod, 1.06);
+      addToonOutline(pod, 1.055);
       wheel.add(pod);
       gondolas.push(pod);
     }
-    return { tiltPivot, wheel, gondolas, phase: 0 };
+    return { liftArmPivot, pistonOuter, pistonRod, wheel, gondolas, phase: 0 };
   }
 
   _createOctopusRide(root) {
-    const base = new THREE.Mesh(new THREE.CylinderGeometry(7.6, 8.0, 0.7, 20), createToonMaterial(0xbae6fd));
-    base.position.y = 0.35;
-    root.add(base);
+    this._addGroundedFoundation(root, 8.2, 0xbae6fd, { fence: true });
+
+    // Solid central turntable housing
+    const housing = new THREE.Mesh(new THREE.CylinderGeometry(2.1, 2.6, 1.6, 16), createToonMaterial(0x7e22ce));
+    housing.position.y = 1.5;
+    addToonOutline(housing, 1.03);
+    root.add(housing);
 
     const rotor = new THREE.Group();
-    rotor.position.y = 1.0;
+    rotor.position.y = 2.2;
     root.add(rotor);
 
-    // Cute Cartoon Octopus Center Head with Eyes!
+    // Cute Cartoon Octopus Center Head with Eyes & Crown!
     const head = new THREE.Mesh(new THREE.SphereGeometry(2.3, 16, 14), createToonMaterial(0xa855f7));
-    head.position.y = 2.6;
+    head.position.y = 2.1;
     head.scale.set(1.05, 0.95, 1.05);
-    addToonOutline(head, 1.05);
+    addToonOutline(head, 1.045);
     rotor.add(head);
+
+    const crown = new THREE.Mesh(new THREE.ConeGeometry(0.95, 1.1, 6), createToonMaterial(0xffd166));
+    crown.position.y = 4.4;
+    addToonOutline(crown, 1.07);
+    rotor.add(crown);
 
     const eyeMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
     const pupilMat = new THREE.MeshBasicMaterial({ color: 0x1e1b4b });
     for (const sx of [-0.75, 0.75]) {
       const eye = new THREE.Mesh(new THREE.SphereGeometry(0.42, 10, 10), eyeMat);
-      eye.position.set(sx, 2.8, 2.05);
+      eye.position.set(sx, 2.3, 2.05);
       rotor.add(eye);
       const pup = new THREE.Mesh(new THREE.SphereGeometry(0.2, 8, 8), pupilMat);
-      pup.position.set(sx, 2.8, 2.38);
+      pup.position.set(sx, 2.3, 2.38);
       rotor.add(pup);
     }
 
@@ -560,21 +929,29 @@ export class FlatRideEngine {
     for (let i = 0; i < 6; i++) {
       const a = (i / 6) * Math.PI * 2;
       const armPivot = new THREE.Group();
-      armPivot.position.set(Math.cos(a) * 1.4, 1.8, Math.sin(a) * 1.4);
+      armPivot.position.set(Math.cos(a) * 1.4, 1.1, Math.sin(a) * 1.4);
       armPivot.rotation.y = -a;
 
-      const tentacle = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.32, 5.2, 8), createToonMaterial(0xc084fc));
+      const tentacle = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.36, 5.4, 8), createToonMaterial(0xc084fc));
       tentacle.rotation.z = -Math.PI * 0.5;
-      tentacle.position.x = 2.6;
-      addToonOutline(tentacle, 1.06);
+      tentacle.position.x = 2.7;
+      addToonOutline(tentacle, 1.055);
       armPivot.add(tentacle);
 
-      const car = new THREE.Mesh(new THREE.SphereGeometry(1.1, 12, 10), createToonMaterial(carCols[i]));
-      car.scale.set(1.0, 0.65, 1.0);
-      car.position.set(5.4, 0.1, 0);
-      addToonOutline(car, 1.06);
-      armPivot.add(car);
+      // Hydraulic lift cylinder strut connecting central hub to underside of tentacle arm
+      this._addStrut(armPivot, new THREE.Vector3(0.25, -1.35, 0), new THREE.Vector3(2.4, -0.05, 0), 0.12, 0.16, createToonMaterial(0xffd166));
 
+      const car = new THREE.Group();
+      car.position.set(5.5, 0.15, 0);
+      const shell = new THREE.Mesh(new THREE.SphereGeometry(1.15, 12, 10), createToonMaterial(carCols[i]));
+      shell.scale.set(1.0, 0.65, 1.0);
+      addToonOutline(shell, 1.055);
+      car.add(shell);
+      const seat = new THREE.Mesh(new THREE.CylinderGeometry(0.82, 0.82, 0.25, 10), createToonMaterial(0x334155));
+      seat.position.y = 0.55;
+      car.add(seat);
+
+      armPivot.add(car);
       rotor.add(armPivot);
       arms.push({ pivot: armPivot, car, phase: i * 1.05 });
     }
@@ -582,40 +959,59 @@ export class FlatRideEngine {
   }
 
   _createBumperCars(root) {
-    const floor = new THREE.Mesh(new THREE.BoxGeometry(14.5, 0.55, 10.5), createToonMaterial(0x334155));
-    floor.position.y = 0.275;
-    floor.receiveShadow = true;
-    root.add(floor);
+    this._addGroundedFoundation(root, 0, 0x334155, { rect: [15.4, 11.4], fence: true });
 
-    const roofMat = createToonMaterial(0xffffff, { map: getCarnivalStripeTexture("#60c5f1", "#fff7eb", 12) });
-    const roof = new THREE.Mesh(new THREE.BoxGeometry(15.2, 0.7, 11.2), roofMat);
-    roof.position.y = 5.2;
-    addToonOutline(roof, 1.025);
+    const roofMat = createToonMaterial(0xffffff, { map: getCarnivalStripeTexture("#60c5f1", "#fff7eb", 14) });
+    const roof = new THREE.Mesh(new THREE.BoxGeometry(16.0, 0.8, 12.0), roofMat);
+    roof.position.y = 5.6;
+    addToonOutline(roof, 1.02);
     root.add(roof);
 
-    for (const [px, pz] of [[-6.8, -4.8], [6.8, -4.8], [-6.8, 4.8], [6.8, 4.8]]) {
-      const col = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.28, 5.0, 8), createToonMaterial(0xffd166));
-      col.position.set(px, 2.6, pz);
-      root.add(col);
+    // 8 Perimeter steel columns connecting floor to roof solidly
+    const colMat = createToonMaterial(0xffd166);
+    for (const px of [-7.2, 0, 7.2]) {
+      for (const pz of [-5.2, 5.2]) {
+        if (px === 0 && pz > 0) continue; // Keep front entrance open
+        const col = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.28, 5.2, 8), colMat);
+        col.position.set(px, 3.0, pz);
+        addToonOutline(col, 1.06);
+        root.add(col);
+      }
     }
+
+    // Marquee sign above entrance
+    const signTex = this._makeTextCanvas("BUMPER CARS · 범퍼카", "DODGEM ARENA", "#1e293b", "#fff7eb", "#60c5f1");
+    const sign = new THREE.Mesh(new THREE.PlaneGeometry(6.8, 1.15), new THREE.MeshBasicMaterial({ map: signTex }));
+    sign.position.set(0, 5.55, 6.08);
+    root.add(sign);
 
     const cars = [];
     const cols = [0xff7657, 0x38bdf8, 0xffd166, 0x34d399, 0xf472b6, 0xa78bfa];
+    const poleMat = createToonMaterial(0xe2e8f0);
     for (let i = 0; i < 6; i++) {
       const cGroup = new THREE.Group();
-      const bumper = new THREE.Mesh(new THREE.TorusGeometry(0.85, 0.24, 8, 16), createToonMaterial(0x1e293b));
+      const bumper = new THREE.Mesh(new THREE.TorusGeometry(0.9, 0.26, 8, 16), createToonMaterial(0x1e293b));
       bumper.rotation.x = Math.PI * 0.5;
       bumper.position.y = 0.35;
       cGroup.add(bumper);
 
-      const shell = new THREE.Mesh(new THREE.BoxGeometry(1.15, 0.65, 1.55), createToonMaterial(cols[i]));
-      shell.position.y = 0.62;
-      addToonOutline(shell, 1.06);
+      const shell = new THREE.Mesh(new THREE.BoxGeometry(1.18, 0.65, 1.62), createToonMaterial(cols[i]));
+      shell.position.y = 0.65;
+      addToonOutline(shell, 1.055);
       cGroup.add(shell);
+
+      // Steering wheel + tall electric trolley pole reaching ceiling power grid!
+      const trolleyPole = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.045, 4.35, 5), poleMat);
+      trolleyPole.position.set(0, 2.75, -0.68);
+      cGroup.add(trolleyPole);
+
+      const lamp = new THREE.Mesh(new THREE.SphereGeometry(0.12, 6, 6), new THREE.MeshBasicMaterial({ color: 0xfef08a }));
+      lamp.position.set(0, 0.72, 0.85);
+      cGroup.add(lamp);
 
       const x = -4.2 + (i % 3) * 4.2;
       const z = i < 3 ? -2.2 : 2.2;
-      cGroup.position.set(x, 0.55, z);
+      cGroup.position.set(x, 0.78, z);
       root.add(cGroup);
       cars.push({
         mesh: cGroup,
@@ -629,24 +1025,40 @@ export class FlatRideEngine {
   }
 
   _createRocketSpinner(root) {
-    const base = new THREE.Mesh(new THREE.CylinderGeometry(7.2, 7.8, 0.7, 20), createToonMaterial(0x1e293b));
-    base.position.y = 0.35;
-    root.add(base);
+    this._addGroundedFoundation(root, 8.2, 0x1e293b, { fence: true });
+
+    // Solid central launch tower pillar anchored to floor supporting planet & rotor! (Zero Floating!)
+    const towerBase = new THREE.Mesh(new THREE.CylinderGeometry(1.8, 2.3, 1.8, 16), createToonMaterial(0x475569));
+    towerBase.position.y = 1.6;
+    addToonOutline(towerBase, 1.03);
+    root.add(towerBase);
+
+    const centralPillar = new THREE.Mesh(new THREE.CylinderGeometry(0.95, 1.15, 7.6, 14), createToonMaterial(0xfff7eb));
+    centralPillar.position.y = 5.4;
+    centralPillar.castShadow = true;
+    addToonOutline(centralPillar, 1.035);
+    root.add(centralPillar);
 
     const center = new THREE.Group();
     center.position.y = 1.0;
     root.add(center);
 
-    // Glowing ringed planet center!
-    const planet = new THREE.Mesh(new THREE.SphereGeometry(2.1, 16, 14), createToonMaterial(0x38bdf8));
-    planet.position.y = 5.4;
-    addToonOutline(planet, 1.045);
+    // Ringed planet firmly mounted atop the central pillar!
+    const planet = new THREE.Mesh(new THREE.SphereGeometry(2.15, 16, 14), createToonMaterial(0x38bdf8));
+    planet.position.y = 8.4;
+    addToonOutline(planet, 1.04);
     center.add(planet);
 
-    const saturnRing = new THREE.Mesh(new THREE.TorusGeometry(3.2, 0.28, 8, 28), createToonMaterial(0xffd166));
+    const saturnRing = new THREE.Mesh(new THREE.TorusGeometry(3.3, 0.28, 8, 28), createToonMaterial(0xffd166));
     saturnRing.rotation.set(Math.PI * 0.42, 0.2, 0.2);
-    saturnRing.position.y = 5.4;
+    saturnRing.position.y = 8.4;
     center.add(saturnRing);
+
+    // Mechanical hub collar where all 6 rocket arms hinge
+    const collar = new THREE.Mesh(new THREE.CylinderGeometry(1.45, 1.45, 1.2, 14), createToonMaterial(0xff7657));
+    collar.position.y = 4.6;
+    addToonOutline(collar, 1.04);
+    center.add(collar);
 
     const rockets = [];
     const cols = [0xff7657, 0xffd166, 0x6ee7b7, 0xf472b6, 0x60c5f1, 0xc4b5fd];
@@ -656,19 +1068,45 @@ export class FlatRideEngine {
       rPivot.position.y = 4.6;
       rPivot.rotation.y = a;
 
-      const arm = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.14, 6.2, 6), createToonMaterial(0xfff7eb));
+      const arm = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.16, 6.2, 8), createToonMaterial(0xfff7eb));
       arm.rotation.z = Math.PI * 0.5;
       arm.position.x = 3.1;
       rPivot.add(arm);
 
+      // Precision diagonal hydraulic strut connecting central launch pillar to rocket arm
+      this._addStrut(rPivot, new THREE.Vector3(0.95, -2.05, 0), new THREE.Vector3(3.15, -0.04, 0), 0.10, 0.12, createToonMaterial(0xffd166));
+
+      // Detailed Retro Cartoon Rocket (fuselage + nose cone + cockpit glass + wings + thruster!)
       const rocket = new THREE.Group();
       rocket.position.set(6.2, 0, 0);
+
       const hull = new THREE.Mesh(new THREE.CapsuleGeometry(0.55, 1.35, 6, 10), createToonMaterial(cols[i]));
       hull.rotation.x = Math.PI * 0.5;
-      addToonOutline(hull, 1.06);
+      addToonOutline(hull, 1.055);
       rocket.add(hull);
-      rPivot.add(rocket);
 
+      const nose = new THREE.Mesh(new THREE.ConeGeometry(0.55, 0.85, 10), createToonMaterial(0xfff7eb));
+      nose.rotation.x = Math.PI * 0.5;
+      nose.position.z = 1.25;
+      rocket.add(nose);
+
+      const cockpit = new THREE.Mesh(
+        new THREE.SphereGeometry(0.36, 10, 8),
+        new THREE.MeshBasicMaterial({ color: 0xe0f7ff })
+      );
+      cockpit.position.set(0, 0.36, 0.25);
+      rocket.add(cockpit);
+
+      const wings = new THREE.Mesh(new THREE.BoxGeometry(1.75, 0.10, 0.72), createToonMaterial(0xffd166));
+      wings.position.set(0, -0.05, -0.45);
+      rocket.add(wings);
+
+      const nozzle = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.42, 0.38, 8), createToonMaterial(0x334155));
+      nozzle.rotation.x = Math.PI * 0.5;
+      nozzle.position.z = -1.15;
+      rocket.add(nozzle);
+
+      rPivot.add(rocket);
       center.add(rPivot);
       rockets.push({ pivot: rPivot, rocket, phase: i * 1.04 });
     }
@@ -739,6 +1177,12 @@ export class FlatRideEngine {
     const roof = createToonMaterial(0x60a5fa);
     const pinkRoof = createToonMaterial(0xf472b6);
     const gold = createToonMaterial(0xffd166);
+
+    // Underground stone terrace plinth so castle never floats on hills
+    const skirt = new THREE.Mesh(new THREE.BoxGeometry(15.2, 3.6, 12.2), createToonMaterial(0xd6d3d1));
+    skirt.position.y = -1.6;
+    skirt.receiveShadow = true;
+    root.add(skirt);
 
     const keep = new THREE.Mesh(new THREE.BoxGeometry(12, 8, 9), wall);
     keep.position.y = 4;
@@ -1268,7 +1712,7 @@ export class FlatRideEngine {
     }
     if (r.kind === "pirate_ship" && r.pivot) {
       const swing = Math.sin(r.swingPhase) * 1.05;
-      pos.set(Math.sin(swing) * 8.4, 11.4 - Math.cos(swing) * 8.4 + 0.9, 0);
+      pos.set(Math.sin(swing) * 8.2, 12.2 - Math.cos(swing) * 8.2 + 0.85, 0);
       r.root.localToWorld(pos);
       forward.set(Math.cos(swing), Math.sin(swing) * 0.6, 0).normalize();
       const spd = Math.round(Math.abs(Math.cos(r.swingPhase)) * 58);
@@ -1282,7 +1726,7 @@ export class FlatRideEngine {
       return { position: pos, tangent: forward, up, speedKmh: 24, altitudeM: Number(pos.y.toFixed(1)), vertG: 1.0, latG: 1.4, segment: "SPIN", coasterName: r.def.name };
     }
     if (r.kind === "swing_tower" && r.chairs?.[0]) {
-      r.chairs[0].children[1].getWorldPosition(pos);
+      (r.chairs[0].seat || r.chairs[0]).getWorldPosition(pos);
       pos.y += 0.6;
       const a = r.angle + Math.PI * 0.5;
       forward.set(Math.cos(a), -0.15, -Math.sin(a)).normalize();
@@ -1376,7 +1820,7 @@ export class FlatRideEngine {
         const lift = 11.5 + Math.sin(this._time * 0.45) * 4.5;
         r.crown.position.y = lift;
         const flare = 0.25 + ((lift - 7) / 9) * 0.42;
-        for (const ch of r.chairs) ch.rotation.z = flare;
+        for (const ch of r.chairs) (ch.pivot || ch).rotation.z = flare;
       } else if (r.kind === "sky_tower" && r.cabin) {
         r.phase += stepDt * 0.35;
         r.cabin.position.y = 4 + (Math.sin(r.phase - Math.PI * 0.5) * 0.5 + 0.5) * (r.towerH - 7);
@@ -1389,7 +1833,31 @@ export class FlatRideEngine {
       } else if (r.kind === "enterprise_wheel" && r.wheel) {
         r.phase += stepDt;
         r.wheel.rotation.y += stepDt * 2.4;
-        r.tiltPivot.rotation.z = (Math.sin(r.phase * 0.35) * 0.5 + 0.5) * 1.32;
+        if (r.liftArmPivot) {
+          const tilt = 0.08 + (Math.sin(r.phase * 0.35) * 0.5 + 0.5) * 1.24;
+          r.liftArmPivot.rotation.z = tilt;
+          // Articulated hydraulic ram connecting ground anchor (1.4, 1.4) -> boom pin
+          if (r.pistonOuter && r.pistonRod) {
+            const p0x = 1.4;
+            const p0y = 1.4;
+            const pinDist = 4.4;
+            const p1x = -2.8 + Math.cos(tilt) * pinDist;
+            const p1y = 3.25 + Math.sin(tilt) * pinDist;
+            const dx = p1x - p0x;
+            const dy = p1y - p0y;
+            const len = Math.max(0.5, Math.hypot(dx, dy));
+            const ang = Math.atan2(dy, dx) - Math.PI * 0.5;
+            const outerLen = Math.min(len * 0.65, 3.0);
+            const ux = dx / len;
+            const uy = dy / len;
+            r.pistonOuter.position.set(p0x + ux * outerLen * 0.5, p0y + uy * outerLen * 0.5, 0);
+            r.pistonOuter.rotation.z = ang;
+            r.pistonOuter.scale.set(1, outerLen, 1);
+            r.pistonRod.position.set(p0x + ux * len * 0.5, p0y + uy * len * 0.5, 0);
+            r.pistonRod.rotation.z = ang;
+            r.pistonRod.scale.set(1, len, 1);
+          }
+        }
       } else if (r.kind === "octopus_ride" && r.rotor) {
         r.angle += stepDt * 0.95;
         r.rotor.rotation.y = r.angle;
@@ -1403,7 +1871,7 @@ export class FlatRideEngine {
           c.z += c.vz * stepDt;
           if (c.x > 5.8 || c.x < -5.8) { c.vx *= -1; c.x = THREE.MathUtils.clamp(c.x, -5.8, 5.8); }
           if (c.z > 3.8 || c.z < -3.8) { c.vz *= -1; c.z = THREE.MathUtils.clamp(c.z, -3.8, 3.8); }
-          c.mesh.position.set(c.x, 0.55, c.z);
+          c.mesh.position.set(c.x, 0.78, c.z);
           c.mesh.rotation.y = Math.atan2(c.vx, c.vz);
         }
       } else if (r.kind === "rocket_spinner" && r.center) {
