@@ -952,10 +952,12 @@ def bake_animations(arm_obj):
         strip.name = action_name
         arm_obj.animation_data.action = None
 
+    # Note on Hips local axes: Hips bone points +Z (world up), so bone-local +Y is world UP!
+    # Therefore vertical bob/drop MUST be applied on local Y: set_loc("Hips", 0.0, delta_up, 0.0)
     def anim_idle(ph, _t):
         s = math.sin(ph)
         c = math.cos(ph)
-        set_loc("Hips", 0.0, 0.0, s * 0.008)
+        set_loc("Hips", 0.0, s * 0.008, 0.0)
         set_rot("Spine", s * 1.5, c * 1.2, 0)
         set_rot("Chest", s * 2.0, 0, c * 1.2)
         set_rot("Head", -s * 1.8, math.sin(ph * 0.5) * 4.5, 0)
@@ -967,7 +969,7 @@ def bake_animations(arm_obj):
     def anim_walk(ph, _t):
         s = math.sin(ph)
         c = math.cos(ph)
-        set_loc("Hips", 0.0, 0.0, abs(s) * 0.030 - 0.014)
+        set_loc("Hips", 0.0, abs(s) * 0.030 - 0.014, 0.0)
         set_rot("Hips", 2.0, s * 4.0, c * 2.5)
         set_rot("Spine", 3.0, -s * 4.5, 0)
         set_rot("Chest", 2.0, -s * 5.5, 0)
@@ -990,7 +992,7 @@ def bake_animations(arm_obj):
     def anim_run(ph, _t):
         s = math.sin(ph)
         c = math.cos(ph)
-        set_loc("Hips", 0.0, 0.0, abs(s) * 0.052 - 0.022)
+        set_loc("Hips", 0.0, abs(s) * 0.052 - 0.022, 0.0)
         set_rot("Hips", 7.5, s * 5.5, c * 3.5)
         set_rot("Spine", 7.5, -s * 7.5, 0)
         set_rot("Chest", 5.5, -s * 7.5, 0)
@@ -1006,35 +1008,78 @@ def bake_animations(arm_obj):
         set_rot("LowerArm.L", -50.0, 0, 0)
         set_rot("LowerArm.R", -50.0, 0, 0)
 
-    def anim_sit(ph, _t):
+    # 4A. Sit_Thrill: Seated 90-deg knees, leaning back, arms raised WIDE & HIGH cheering!
+    def anim_sit_thrill(ph, _t):
         s = math.sin(ph)
-        set_loc("Hips", 0.0, 0.0, -0.34)
-        set_rot("Spine", -5.0 + s * 2.5, 0, s * 2.5)
-        set_rot("Chest", -3.0, 0, s * 3.5)
-        set_rot("Head", -7.0 + s * 3.5, s * 5.5, 0)
-        set_rot("UpperLeg.L", -86.0, 0, -5.0)
-        set_rot("UpperLeg.R", -86.0, 0, 5.0)
+        c = math.cos(ph)
+        set_loc("Hips", 0.0, -0.44, 0.0)
+        set_rot("Spine", -9.0 + s * 3.5, 0, c * 3.5)
+        set_rot("Chest", -6.0 + s * 2.5, 0, c * 4.5)
+        set_rot("Head", -12.0 + s * 5.0, c * 7.5, 0)
+        # Clean 90-degree seated legs pointing forward (-Y in Blender)
+        set_rot("UpperLeg.L", -88.0, 0, 5.0)
+        set_rot("UpperLeg.R", -88.0, 0, -5.0)
+        set_rot("LowerLeg.L", 86.0 + s * 4.0, 0, 0)
+        set_rot("LowerLeg.R", 86.0 - s * 4.0, 0, 0)
+        set_rot("Foot.L", 12.0, 0, 0)
+        set_rot("Foot.R", 12.0, 0, 0)
+        # Arms raised HIGH and OUTWARD in a wide joyous V-shape (never crossing face!)
+        set_rot("UpperArm.L", -152.0 + s * 14.0, 0, 26.0 + c * 6.0)
+        set_rot("UpperArm.R", -152.0 - s * 14.0, 0, -26.0 - c * 6.0)
+        set_rot("LowerArm.L", -14.0 + s * 8.0, 0, 8.0)
+        set_rot("LowerArm.R", -14.0 - s * 8.0, 0, -8.0)
+
+    # 4B. Sit_Grip: Seated gripping front safety lap-bar / steering wheel (lift climb, go-kart, bumper, teacups)
+    def anim_sit_grip(ph, _t):
+        s = math.sin(ph)
+        set_loc("Hips", 0.0, -0.44, 0.0)
+        set_rot("Spine", 7.0 + s * 1.8, 0, s * 2.0)
+        set_rot("Chest", 5.0, 0, s * 2.5)
+        set_rot("Head", -6.0 + s * 3.0, math.sin(ph * 0.5) * 10.0, 0)
+        set_rot("UpperLeg.L", -86.0, 0, 4.0)
+        set_rot("UpperLeg.R", -86.0, 0, -4.0)
+        set_rot("LowerLeg.L", 88.0, 0, 0)
+        set_rot("LowerLeg.R", 88.0, 0, 0)
+        # Forward reach down onto safety lap bar right in front of waist
+        set_rot("UpperArm.L", -52.0 + s * 3.0, 0, -14.0)
+        set_rot("UpperArm.R", -52.0 - s * 3.0, 0, 14.0)
+        set_rot("LowerArm.L", -32.0, 0, -18.0)
+        set_rot("LowerArm.R", -32.0, 0, 18.0)
+
+    # 4C. Sit_Chill: Relaxed scenic seating (Ferris wheel, carousel, swan boats, train, bench)
+    def anim_sit_chill(ph, _t):
+        s = math.sin(ph)
+        c = math.cos(ph)
+        set_loc("Hips", 0.0, -0.44, 0.0)
+        set_rot("Spine", -4.0 + s * 1.5, c * 3.0, 0)
+        set_rot("Chest", -2.0, c * 4.5, 0)
+        set_rot("Head", -3.0 + s * 3.0, math.sin(ph) * 18.0, c * 3.0)
+        set_rot("UpperLeg.L", -84.0, 0, 3.0)
+        set_rot("UpperLeg.R", -84.0, 0, -3.0)
         set_rot("LowerLeg.L", 82.0, 0, 0)
         set_rot("LowerLeg.R", 82.0, 0, 0)
-        set_rot("UpperArm.L", -142.0 + s * 14.0, 0, -16.0)
-        set_rot("UpperArm.R", -142.0 - s * 14.0, 0, 16.0)
-        set_rot("LowerArm.L", -15.0, 0, 0)
-        set_rot("LowerArm.R", -15.0, 0, 0)
+        # Left hand resting calmly on lap, right hand gently waving/pointing at the view
+        set_rot("UpperArm.L", -34.0, 0, -10.0)
+        set_rot("LowerArm.L", -36.0, 0, -12.0)
+        set_rot("UpperArm.R", -62.0 + s * 10.0, 0, -16.0)
+        set_rot("LowerArm.R", -28.0 + c * 8.0, 0, 0)
 
     def anim_wave(ph, _t):
         s = math.sin(ph * 2.0)
-        set_loc("Hips", 0.0, 0.0, math.sin(ph) * 0.010)
+        set_loc("Hips", 0.0, math.sin(ph) * 0.010, 0.0)
         set_rot("Spine", 0, 0, -3.5)
         set_rot("Head", -3.5, 5.5, -4.5)
-        set_rot("UpperArm.R", -136.0, 0, 24.0 + s * 16.0)
-        set_rot("LowerArm.R", -22.0, 0, s * 20.0)
-        set_rot("UpperArm.L", 5.0, 0, -6.0)
+        set_rot("UpperArm.R", -142.0, 0, -24.0 - s * 14.0)
+        set_rot("LowerArm.R", -18.0, 0, -s * 16.0)
+        set_rot("UpperArm.L", 5.0, 0, 6.0)
         set_rot("LowerArm.L", -12.0, 0, 0)
 
     record_action("Idle", 49, anim_idle)
     record_action("Walk", 25, anim_walk)
     record_action("Run", 19, anim_run)
-    record_action("Sit", 31, anim_sit)
+    record_action("Sit_Thrill", 31, anim_sit_thrill)
+    record_action("Sit_Grip", 33, anim_sit_grip)
+    record_action("Sit_Chill", 49, anim_sit_chill)
     record_action("Wave", 33, anim_wave)
 
     bpy.ops.object.mode_set(mode="OBJECT")

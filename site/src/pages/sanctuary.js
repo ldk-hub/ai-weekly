@@ -874,9 +874,22 @@ class WeeklyLandApp {
     const targetId = kind === "coaster" ? (this.coaster.instances.has(id) ? id : this.coaster.getPrimaryCoasterId()) : id;
     if (!targetId) return;
     this.crowd.boardRide(kind, targetId, 0);
-    this.cameraRig.setMode("ride_pov");
+    // Start in 3/4 Chase Action Cam so player immediately sees their seated posture, facial expressions & ride reactions!
+    this.cameraRig.setMode("ride_chase");
+    this.cameraRig.azimuth = 0.0;
+    this.cameraRig.targetAzimuth = 0.0;
+    this.cameraRig.pitch = 0.16;
+    this.cameraRig.targetPitch = 0.16;
+    this.cameraRig.distance = 4.8;
+    this.cameraRig.targetDistance = 4.8;
     this.hud.syncMode(this.worldState.mode, this.cameraRig.mode);
     this.audio.playClick(740);
+    this.hud.showToast(
+      kind === "coaster"
+        ? "코스터 좌석에 착석했습니다! 드래그로 360° 회전하거나 하단 [1인칭 POV]로 전환해 보세요."
+        : "놀이기구에 착석했습니다! 하단에서 [1인칭 POV]·[체이스 캠]을 자유롭게 전환할 수 있습니다.",
+      3800
+    );
     this.chat?.updateZoneLabel(kind === "coaster" ? "하이퍼 코스터 탑승 중" : "어트랙션 탑승 중");
   }
 

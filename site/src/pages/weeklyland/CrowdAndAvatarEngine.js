@@ -22,6 +22,133 @@ export const AVATAR_LABELS = {
   Minjae_Resort: "민재 · 리조트",
 };
 
+const THRILL_RIDE_KINDS = new Set([
+  "drop_tower",
+  "pirate_ship",
+  "gyro_swing",
+  "frisbee_pendulum",
+  "top_spin",
+  "enterprise_wheel",
+  "bungee_trampoline",
+  "power_surge",
+  "magic_carpet",
+  "tagada_disco",
+  "log_flume_splash",
+]);
+
+const GRIP_RIDE_KINDS = new Set([
+  "bumper_cars",
+  "go_kart_track",
+  "teacups",
+  "scrambler_twist",
+  "octopus_ride",
+  "rocket_spinner",
+  "gravitron_ufo",
+]);
+
+const RIDE_REACTION_LINES = {
+  thrill: [
+    "으아아아악!! 완전 짜릿해!!",
+    "손 번쩍!! 무중력 최고다!!",
+    "와아아!! 심장 떨어지는 줄 알았어!!",
+    "이야호!! 속도가 미쳤다!!",
+  ],
+  nervous: [
+    "오... 엄청 높이 올라간다...!",
+    "안전바 꽉 잡아야지... 두근두근!",
+    "어어... 곧 떨어질 것 같아!!",
+  ],
+  spooky: [
+    "으악 깜짝이야!! 유령 나왔어!!",
+    "히익... 뒤에서 누가 쳐다보는 것 같아!",
+  ],
+  grip: [
+    "핸들 꽉 잡고 전속력 드리프트!!",
+    "빙글빙글 어지러운데 너무 재밌다!!",
+    "비켜 비켜~ 내가 1등이다!!",
+  ],
+  chill: [
+    "위클리랜드 전경이 한눈에 보여요~",
+    "바람도 선선하고 완전 힐링된다♪",
+    "여기서 사진 찍으면 인생샷 각인데!",
+  ],
+};
+
+const WORLD_UP = new THREE.Vector3(0, 1, 0);
+
+/**
+ * Attaches a dynamic 3D facial expression & comic reaction rig directly to the
+ * Blender character's Head bone so expressions track every head turn/tilt accurately.
+ */
+function attachFaceExpressionRig(clonedScene) {
+  const headBone = clonedScene.getObjectByName("Head");
+  if (!headBone) return null;
+
+  const rig = new THREE.Group();
+  rig.name = "FaceExpressionRig";
+  headBone.add(rig);
+
+  // 1. Thrill / Scream wide open 'D' mouth + pink tongue + raised excited brows + golden star spark
+  const thrillGroup = new THREE.Group();
+  const mouthDarkMat = new THREE.MeshBasicMaterial({ color: 0x3b1224 });
+  const tongueMat = new THREE.MeshBasicMaterial({ color: 0xfb7185 });
+  const browMat = new THREE.MeshBasicMaterial({ color: 0x1e1629 });
+  const openMouth = new THREE.Mesh(new THREE.SphereGeometry(0.026, 10, 8), mouthDarkMat);
+  openMouth.position.set(0, -0.002, 0.095);
+  openMouth.scale.set(1.12, 1.32, 0.45);
+  const tongue = new THREE.Mesh(new THREE.SphereGeometry(0.017, 8, 6), tongueMat);
+  tongue.position.set(0, -0.012, 0.102);
+  tongue.scale.set(0.95, 0.65, 0.35);
+  thrillGroup.add(openMouth, tongue);
+
+  // Overhead comic excitement sparks
+  const sparkMat = new THREE.MeshBasicMaterial({ color: 0xfde047 });
+  for (let i = 0; i < 3; i++) {
+    const a = (i - 1) * 0.55;
+    const sp = new THREE.Mesh(new THREE.ConeGeometry(0.022, 0.095, 5), sparkMat);
+    sp.position.set(Math.sin(a) * 0.16, 0.27 + Math.cos(a) * 0.06, 0.01);
+    sp.rotation.z = -a;
+    thrillGroup.add(sp);
+  }
+  thrillGroup.visible = false;
+  rig.add(thrillGroup);
+
+  // 2. Nervous / Suspense 'o' mouth + blue comic sweatdrop on temple!
+  const nervousGroup = new THREE.Group();
+  const oMouth = new THREE.Mesh(new THREE.SphereGeometry(0.017, 10, 8), mouthDarkMat);
+  oMouth.position.set(0, -0.002, 0.096);
+  oMouth.scale.set(0.88, 1.08, 0.42);
+  const sweatMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
+  const sweatDrop = new THREE.Mesh(new THREE.ConeGeometry(0.020, 0.068, 8), sweatMat);
+  sweatDrop.position.set(0.125, 0.096, 0.042);
+  const sweatBall = new THREE.Mesh(new THREE.SphereGeometry(0.020, 8, 6), sweatMat);
+  sweatBall.position.set(0.125, 0.065, 0.042);
+  nervousGroup.add(oMouth, sweatDrop, sweatBall);
+  nervousGroup.visible = false;
+  rig.add(nervousGroup);
+
+  // 3. Happy / Relaxed '^ ^' smiling eye arcs + cheerful smile + floating pink heart!
+  const happyGroup = new THREE.Group();
+  for (const sx of [-1, 1]) {
+    const arc = new THREE.Mesh(new THREE.TorusGeometry(0.021, 0.0052, 6, 12, Math.PI), browMat);
+    arc.position.set(sx * 0.041, 0.058, 0.107);
+    arc.rotation.y = sx * 0.22;
+    happyGroup.add(arc);
+  }
+  const smileWide = new THREE.Mesh(new THREE.SphereGeometry(0.020, 10, 8), tongueMat);
+  smileWide.position.set(0, -0.002, 0.096);
+  smileWide.scale.set(1.28, 0.72, 0.36);
+  const heartMat = new THREE.MeshBasicMaterial({ color: 0xf472b6 });
+  const heart = new THREE.Mesh(new THREE.OctahedronGeometry(0.044, 0), heartMat);
+  heart.position.set(0.11, 0.28, 0.02);
+  heart.scale.set(1.15, 1.2, 0.7);
+  happyGroup.add(smileWide, heart);
+  happyGroup.visible = false;
+  rig.add(happyGroup);
+
+  return { rig, thrillGroup, nervousGroup, happyGroup, current: "normal" };
+}
+
 const GUEST_OUTFIT_TINTS = [
   { top: 0xffe8d6, bottom: 0x3b5998, accent: 0xf97316 },
   { top: 0xdbeafe, bottom: 0x334155, accent: 0x38bdf8 },
@@ -579,6 +706,11 @@ export class CrowdAndAvatarEngine {
     ];
     this._projVec = new THREE.Vector3();
     this._moveDir = new THREE.Vector3();
+    this._seatX = new THREE.Vector3();
+    this._seatY = new THREE.Vector3();
+    this._seatZ = new THREE.Vector3();
+    this._seatMat = new THREE.Matrix4();
+    this._playerRideReactionTimer = 0;
     this._bubbleTimer = 0;
     this._simTime = 0;
     this._frameTick = 0;
@@ -719,7 +851,10 @@ export class CrowdAndAvatarEngine {
       idle: findClip(["idle", "standing"]),
       walk: findClip(["walk", "jog"]),
       run: findClip(["run", "sprint"]),
-      sit: findClip(["sit", "cheer"]),
+      sit_thrill: findClip(["sit_thrill", "sit", "cheer"]),
+      sit_grip: findClip(["sit_grip", "sit", "idle"]),
+      sit_chill: findClip(["sit_chill", "sit", "idle"]),
+      sit: findClip(["sit_thrill", "sit", "cheer"]),
       wave: findClip(["wave", "cheer", "idle"]),
     };
     const actions = {};
@@ -727,6 +862,59 @@ export class CrowdAndAvatarEngine {
       if (clip) actions[name] = mixer.clipAction(clip);
     }
     return { mixer, actions };
+  }
+
+  _setActorExpression(actor, expr = "normal") {
+    const f = actor?.faceRig;
+    if (!f || f.current === expr) return;
+    f.current = expr;
+    f.thrillGroup.visible = expr === "thrill";
+    f.nervousGroup.visible = expr === "nervous";
+    f.happyGroup.visible = expr === "happy";
+  }
+
+  _selectRideReaction(kind, rideId, seat, flatRideEngine) {
+    if (kind === "coaster") {
+      const seg = String(seat?.segment || "").toLowerCase();
+      const spd = Number(seat?.speedKmh || 0);
+      const vg = Number(seat?.vertG ?? 1.0);
+      if (seg === "lift" || spd < 22) {
+        return { anim: "sit_grip", expr: "nervous", lineGroup: "nervous" };
+      }
+      if (spd >= 48 || seg === "boost" || vg < 0.45 || vg > 2.2) {
+        return { anim: "sit_thrill", expr: "thrill", lineGroup: "thrill" };
+      }
+      return { anim: "sit_grip", expr: "happy", lineGroup: "thrill" };
+    }
+    const rideRec = flatRideEngine?.rides?.get(rideId);
+    const rKind = rideRec?.kind || "";
+    const seg = String(seat?.segment || "").toLowerCase();
+    if (rKind === "haunted_house") {
+      return { anim: "sit_grip", expr: "nervous", lineGroup: "spooky" };
+    }
+    if (rKind === "drop_tower" && seg !== "freefall" && (seat?.speedKmh || 0) < 25) {
+      return { anim: "sit_grip", expr: "nervous", lineGroup: "nervous" };
+    }
+    if (THRILL_RIDE_KINDS.has(rKind)) {
+      return { anim: "sit_thrill", expr: "thrill", lineGroup: "thrill" };
+    }
+    if (GRIP_RIDE_KINDS.has(rKind)) {
+      return { anim: "sit_grip", expr: "happy", lineGroup: "grip" };
+    }
+    return { anim: "sit_chill", expr: "happy", lineGroup: "chill" };
+  }
+
+  _alignActorToSeat(root, seat, seatDrop = 0.50) {
+    if (!root || !seat?.position) return;
+    const fwd = this._seatZ.copy(seat.tangent || new THREE.Vector3(0, 0, 1)).normalize();
+    const rawUp = seat.up || WORLD_UP;
+    this._seatX.crossVectors(rawUp, fwd);
+    if (this._seatX.lengthSq() < 1e-5) this._seatX.set(1, 0, 0);
+    else this._seatX.normalize();
+    this._seatY.crossVectors(fwd, this._seatX).normalize();
+    this._seatMat.makeBasis(this._seatX, this._seatY, fwd);
+    root.quaternion.setFromRotationMatrix(this._seatMat);
+    root.position.copy(seat.position).addScaledVector(this._seatY, -seatDrop);
   }
 
   _playActorAnim(actor, name) {
@@ -846,6 +1034,7 @@ export class CrowdAndAvatarEngine {
       const { mixer, actions } = this._buildMixerActions(cloned, cached.animations);
       g.mesh = root;
       g.glbModel = cloned;
+      g.faceRig = attachFaceExpressionRig(cloned);
       g.modelKey = key;
       g.isBlenderModel = true;
       g.mixer = mixer;
@@ -893,6 +1082,7 @@ export class CrowdAndAvatarEngine {
 
     const { mixer, actions } = this._buildMixerActions(cloned, cached.animations);
     rec.glbModel = cloned;
+    rec.faceRig = attachFaceExpressionRig(cloned);
     rec.modelKey = key;
     rec.isBlenderModel = true;
     rec.mixer = mixer;
@@ -932,6 +1122,7 @@ export class CrowdAndAvatarEngine {
     });
     this.player.root.add(cloned);
     this.player.model = cloned;
+    this.player.faceRig = attachFaceExpressionRig(cloned);
 
     const { mixer, actions } = this._buildMixerActions(cloned, cached.animations);
     this.player.mixer = mixer;
@@ -1345,6 +1536,9 @@ export class CrowdAndAvatarEngine {
     const wpPos = this.terrain.getWaypointPosition(attr?.exitWpIdx ?? g.currentWpIdx);
     g.pos.copy(wpPos);
     g.mesh.position.copy(wpPos);
+    g.mesh.quaternion.identity();
+    g.mesh.rotation.y = g.facing;
+    this._setActorExpression(g, "normal");
     g.happiness = Math.min(100, g.happiness + 18);
     g.energy = Math.max(15, g.energy - 12);
     g.emoteTimer = 2.5;
@@ -1597,15 +1791,22 @@ export class CrowdAndAvatarEngine {
 
   boardRide(kind, id, carIndex = 0) {
     this.player.riding = { kind, id, carIndex };
-    this._playPlayerAnim("sit");
+    this._playerRideReactionTimer = 0.6;
+    if (this.player.model) this.player.model.position.y = 0;
+    this._playPlayerAnim("sit_grip");
   }
 
   leaveRide(dropPosition) {
     this.player.riding = null;
+    this.player.root.quaternion.identity();
+    if (this.player.model) this.player.model.position.y = 0.08;
+    this._setActorExpression(this.player, "normal");
     if (dropPosition) {
       this.player.position.copy(dropPosition);
       this.player.position.y = this.terrain.getHeightAt(dropPosition.x, dropPosition.z);
+      this.player.root.position.copy(this.player.position);
     }
+    this.player.root.rotation.y = this.player.facing;
     this._playPlayerAnim("idle");
   }
 
@@ -1613,7 +1814,7 @@ export class CrowdAndAvatarEngine {
     const stepDt = Math.min(dt, 0.05);
     this._simTime += stepDt;
 
-    // 1. Update local player (walking vs riding) + auto rain umbrella
+    // 1. Update local player (walking vs riding) + auto rain umbrella + live ride reactions!
     if (this.player.riding) {
       const seat =
         this.player.riding.kind === "coaster"
@@ -1621,12 +1822,24 @@ export class CrowdAndAvatarEngine {
           : flatRideEngine.getRideSeatState(this.player.riding.id);
       if (seat) {
         this.player.position.copy(seat.position);
-        this.player.root.position.copy(seat.position);
-        this.player.root.position.y -= 0.42;
+        const rKind = this.player.riding.kind === "ride" ? flatRideEngine?.rides?.get(this.player.riding.id)?.kind : "";
+        const drop = this.player.riding.kind === "coaster" ? 0.92 : rKind === "ferris_wheel" ? 1.28 : 0.76;
+        this._alignActorToSeat(this.player.root, seat, drop);
         this.player.facing = Math.atan2(seat.tangent.x, seat.tangent.z);
-        this.player.root.rotation.y = this.player.facing;
+
+        const react = this._selectRideReaction(this.player.riding.kind, this.player.riding.id, seat, flatRideEngine);
+        this._playPlayerAnim(react.anim);
+        this._setActorExpression(this.player, react.expr);
+
+        this._playerRideReactionTimer -= stepDt;
+        if (this._playerRideReactionTimer <= 0) {
+          this._playerRideReactionTimer = 4.2 + Math.random() * 2.5;
+          const lines = RIDE_REACTION_LINES[react.lineGroup] || RIDE_REACTION_LINES.thrill;
+          this.showPlayerChatBubble(lines[Math.floor(Math.random() * lines.length)], 3.4);
+        }
       }
     } else if (input) {
+      this._setActorExpression(this.player, "normal");
       const moveX = (input.right ? 1 : 0) - (input.left ? 1 : 0) + (input.analogX || 0);
       const moveZ = (input.forward ? 1 : 0) - (input.backward ? 1 : 0) + (input.analogY || 0);
       const isManualMove = Math.abs(moveX) > 0.08 || Math.abs(moveZ) > 0.08;
@@ -1781,21 +1994,30 @@ export class CrowdAndAvatarEngine {
 
       // Handle live 3D NPC riding inside moving coaster trains / flat rides!
       if (g.state === "RIDING_RIDE" && g.ridingAttr) {
-        const seat =
-          g.ridingAttr.kind === "coaster"
-            ? coasterEngine.getSeatState(g.ridingAttr.id, g.ridingAttr.seatSlot % 2, g.ridingAttr.seatSlot % 4)
-            : flatRideEngine.getRideSeatState(g.ridingAttr.id, g.ridingAttr.seatSlot);
+        let seat = null;
+        if (g.ridingAttr.kind === "coaster") {
+          // Keep train 0 car 0 reserved for the player; seat AI guests in cars 1..3 of train 0 and 0..3 of train 1!
+          const slot7 = (g.ridingAttr.seatSlot % 7) + 1;
+          seat = coasterEngine.getSeatState(g.ridingAttr.id, slot7 >= 4 ? 1 : 0, slot7 % 4);
+        } else {
+          seat = flatRideEngine.getRideSeatState(g.ridingAttr.id, (g.ridingAttr.seatSlot % 7) + 1);
+        }
         if (!seat || g.stateTimer <= 0) {
           this._disembarkGuest(g, isRaining);
         } else {
           g.pos.copy(seat.position);
-          g.mesh.position.set(seat.position.x, seat.position.y - 0.52, seat.position.z);
-          g.mesh.rotation.y = Math.atan2(seat.tangent.x, seat.tangent.z);
           if (g.parts?.umbrellaGroup) g.parts.umbrellaGroup.visible = false;
           if (g.isBlenderModel) {
-            this._playActorAnim(g, "sit");
+            const rKind = g.ridingAttr.kind === "ride" ? flatRideEngine?.rides?.get(g.ridingAttr.id)?.kind : "";
+            const drop = g.ridingAttr.kind === "coaster" ? 0.90 : rKind === "ferris_wheel" ? 1.25 : 0.74;
+            this._alignActorToSeat(g.mesh, seat, drop);
+            const react = this._selectRideReaction(g.ridingAttr.kind, g.ridingAttr.id, seat, flatRideEngine);
+            this._playActorAnim(g, react.anim);
+            this._setActorExpression(g, react.expr);
             if (g.mixer) g.mixer.update(gDt);
           } else {
+            g.mesh.position.set(seat.position.x, seat.position.y - 0.52, seat.position.z);
+            g.mesh.rotation.y = Math.atan2(seat.tangent.x, seat.tangent.z);
             g.parts.leftLeg.rotation.x = -1.2;
             g.parts.rightLeg.rotation.x = -1.2;
             g.phase += stepDt * 8.5;
@@ -1915,11 +2137,18 @@ export class CrowdAndAvatarEngine {
 
       if (g.isBlenderModel) {
         let anim = "idle";
+        let expr = "normal";
         if (walking) anim = g.speed > 3.15 ? "run" : "walk";
-        else if (g.state === "WATCHING_RIDE" || g.state === "CHATTING" || g.state === "TALKING_TO_PLAYER") anim = "wave";
-        else if (g.state === "RESTING") anim = "sit";
+        else if (g.state === "WATCHING_RIDE" || g.state === "CHATTING" || g.state === "TALKING_TO_PLAYER") {
+          anim = "wave";
+          expr = "happy";
+        } else if (g.state === "RESTING") {
+          anim = "sit_chill";
+          expr = "happy";
+        }
 
         this._playActorAnim(g, anim);
+        this._setActorExpression(g, expr);
         if (g.mixer) g.mixer.update(gDt);
 
         if (g.state === "TAKING_PHOTO") {

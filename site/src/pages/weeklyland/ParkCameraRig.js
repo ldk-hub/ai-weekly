@@ -98,13 +98,32 @@ export class ParkCameraRig {
     }
 
     if (this.mode === "ride_chase" && rideSeat) {
+      // Dynamic orbitable 3/4 action cam showing the seated rider's face, pose, and ride motion!
+      this.azimuth += (this.targetAzimuth - this.azimuth) * damp;
+      this.pitch += (this.targetPitch - this.pitch) * damp;
+      const chaseDist = THREE.MathUtils.clamp(this.distance, 3.8, 12.0);
+      this.distance += (THREE.MathUtils.clamp(this.targetDistance, 3.8, 12.0) - this.distance) * damp;
+
+      // Default offset is side-front 3/4 view (55 deg) so player clearly sees bent seated knees, lapbar, arms & face!
+      const fwd = rideSeat.tangent;
+      const up = rideSeat.up || new THREE.Vector3(0, 1, 0);
+      const side = new THREE.Vector3().crossVectors(up, fwd).normalize();
+      const yawOff = this.azimuth;
+      const cY = Math.cos(yawOff);
+      const sY = Math.sin(yawOff);
+      const camDir = new THREE.Vector3()
+        .addScaledVector(fwd, cY * 0.55 - sY * 0.83)
+        .addScaledVector(side, sY * 0.55 + cY * 0.83)
+        .normalize();
+
       const desiredPos = rideSeat.position
         .clone()
-        .addScaledVector(rideSeat.tangent, -9.2)
-        .addScaledVector(rideSeat.up, 3.8);
-      this.camera.position.lerp(desiredPos, 1 - Math.exp(-9 * stepDt));
+        .addScaledVector(camDir, chaseDist)
+        .addScaledVector(new THREE.Vector3(0, 1, 0), 1.15 + Math.sin(this.pitch) * 1.1);
+
+      this.camera.position.lerp(desiredPos, 1 - Math.exp(-11 * stepDt));
       this.camera.up.set(0, 1, 0);
-      this._lookTarget.copy(rideSeat.position).addScaledVector(rideSeat.tangent, 5.5);
+      this._lookTarget.copy(rideSeat.position).addScaledVector(up, 0.08);
       this.camera.lookAt(this._lookTarget);
       return;
     }
@@ -191,8 +210,8 @@ export class ParkCameraRig {
           const nextDist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
           if (this._pinchDist > 0) {
             const delta = this._pinchDist - nextDist;
-            const minD = this.mode === "guest_third" ? 6 : 12;
-            const maxD = this.mode === "guest_third" ? 56 : 195;
+            const minD = this.mode === "ride_chase" ? 3.8 : this.mode === "guest_third" ? 6 : 12;
+            const maxD = this.mode === "ride_chase" ? 12 : this.mode === "guest_third" ? 56 : 195;
             this.targetDistance = THREE.MathUtils.clamp(this.targetDistance + delta * 0.08, minD, maxD);
           }
           this._pinchDist = nextDist;
@@ -228,8 +247,8 @@ export class ParkCameraRig {
     this._onWheel = (ev) => {
       if (this.mode === "ride_pov") return;
       ev.preventDefault();
-      const minD = this.mode === "guest_third" ? 6 : 12;
-      const maxD = this.mode === "guest_third" ? 56 : 195;
+      const minD = this.mode === "ride_chase" ? 3.8 : this.mode === "guest_third" ? 6 : 12;
+      const maxD = this.mode === "ride_chase" ? 12 : this.mode === "guest_third" ? 56 : 195;
       this.targetDistance = THREE.MathUtils.clamp(this.targetDistance + ev.deltaY * 0.03, minD, maxD);
     };
 
