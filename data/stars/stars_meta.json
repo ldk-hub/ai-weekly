@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-24T04:49:08.479Z",
+  "generated_at": "2026-11-24T06:32:34.817Z",
   "repos": {
     "santifer/career-ops": {
       "pushed_at": "2026-08-31T21:40:42Z",
@@ -12,7 +12,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/256850418?v=4"
     },
     "garrytan/gstack": {
-      "pushed_at": "2026-11-24T04:39:20Z",
+      "pushed_at": "2026-11-24T06:29:53Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -233,7 +233,7 @@
       ]
     },
     "openclaw/openclaw": {
-      "pushed_at": "2026-11-24T04:48:48Z",
+      "pushed_at": "2026-11-24T06:32:18Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -253,7 +253,7 @@
       ]
     },
     "modelcontextprotocol/servers": {
-      "pushed_at": "2026-11-19T16:41:29Z",
+      "pushed_at": "2026-11-24T06:14:45Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -318,7 +318,7 @@
       "topics": []
     },
     "hesreallyhim/awesome-claude-code": {
-      "pushed_at": "2026-11-24T03:07:49Z",
+      "pushed_at": "2026-11-24T06:11:36Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -461,7 +461,7 @@
       ]
     },
     "thedotmack/claude-mem": {
-      "pushed_at": "2026-11-24T04:27:22Z",
+      "pushed_at": "2026-11-24T05:39:02Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -666,7 +666,7 @@
       "aliases": [
         "qwibitai/nanoclaw"
       ],
-      "pushed_at": "2026-11-24T00:38:11Z",
+      "pushed_at": "2026-11-24T06:31:50Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -887,7 +887,7 @@
       "topics": []
     },
     "mvanhorn/last30days-skill": {
-      "pushed_at": "2026-11-24T04:32:50Z",
+      "pushed_at": "2026-11-24T06:22:10Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -920,7 +920,7 @@
       ]
     },
     "farion1231/cc-switch": {
-      "pushed_at": "2026-11-24T03:12:30Z",
+      "pushed_at": "2026-11-24T05:55:38Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -952,7 +952,7 @@
       ]
     },
     "shanraisshan/claude-code-best-practice": {
-      "pushed_at": "2026-11-24T04:41:29Z",
+      "pushed_at": "2026-11-24T06:12:19Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -1010,7 +1010,7 @@
       ]
     },
     "HKUDS/nanobot": {
-      "pushed_at": "2026-11-24T03:52:10Z",
+      "pushed_at": "2026-11-24T06:27:34Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -1055,7 +1055,7 @@
       "topics": []
     },
     "NousResearch/hermes-agent": {
-      "pushed_at": "2026-11-24T04:48:49Z",
+      "pushed_at": "2026-11-24T06:28:51Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -1154,7 +1154,7 @@
       ]
     },
     "different-ai/openwork": {
-      "pushed_at": "2026-11-24T04:15:45Z",
+      "pushed_at": "2026-11-24T05:22:27Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -1166,7 +1166,7 @@
       "topics": []
     },
     "anomalyco/opencode": {
-      "pushed_at": "2026-11-24T04:47:02Z",
+      "pushed_at": "2026-11-24T06:30:37Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -1178,7 +1178,7 @@
       "topics": []
     },
     "ChromeDevTools/chrome-devtools-mcp": {
-      "pushed_at": "2026-11-23T20:41:31Z",
+      "pushed_at": "2026-11-24T06:21:35Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -1281,7 +1281,7 @@
       ]
     },
     "code-yeongyu/oh-my-openagent": {
-      "pushed_at": "2026-11-24T04:46:01Z",
+      "pushed_at": "2026-11-24T06:15:09Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -1408,7 +1408,7 @@
     "anthropics/skills": {
       "pushed_at": "2026-11-16T14:22:50Z",
       "archived": false,
-      "checked_at": "2026-11-23",
+      "checked_at": "2026-11-24",
       "gone": false,
       "suspect": null,
       "dormant": false,
@@ -1596,7 +1596,7 @@
       "topics": []
     },
     "ruvnet/ruflo": {
-      "pushed_at": "2026-11-24T03:28:40Z",
+      "pushed_at": "2026-11-24T06:19:59Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -1773,7 +1773,7 @@
       ]
     },
     "can1357/oh-my-pi": {
-      "pushed_at": "2026-11-24T03:01:07Z",
+      "pushed_at": "2026-11-24T06:18:35Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -1843,7 +1843,7 @@
       "topics": []
     },
     "Leonxlnx/taste-skill": {
-      "pushed_at": "2026-11-22T20:10:07Z",
+      "pushed_at": "2026-11-24T06:29:53Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -1867,7 +1867,7 @@
       ]
     },
     "multica-ai/multica": {
-      "pushed_at": "2026-11-24T04:48:35Z",
+      "pushed_at": "2026-11-24T06:29:18Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -1989,7 +1989,7 @@
       ]
     },
     "headroomlabs-ai/headroom": {
-      "pushed_at": "2026-11-24T04:46:44Z",
+      "pushed_at": "2026-11-24T05:05:10Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -2169,7 +2169,7 @@
       ]
     },
     "PDFMathTranslate/PDFMathTranslate": {
-      "pushed_at": "2026-11-24T02:06:06Z",
+      "pushed_at": "2026-11-24T05:58:45Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -2235,7 +2235,7 @@
       ]
     },
     "Yeachan-Heo/oh-my-claudecode": {
-      "pushed_at": "2026-11-24T03:10:07Z",
+      "pushed_at": "2026-11-24T06:16:12Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -2648,7 +2648,7 @@
       ]
     },
     "Nanako0129/pilotfish": {
-      "pushed_at": "2026-11-23T19:01:46Z",
+      "pushed_at": "2026-11-24T06:17:55Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -2940,7 +2940,7 @@
       "topics": []
     },
     "makecindy/cindy": {
-      "pushed_at": "2026-11-24T04:49:05Z",
+      "pushed_at": "2026-11-24T06:30:19Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -3163,7 +3163,7 @@
       ]
     },
     "vshulcz/deja-vu": {
-      "pushed_at": "2026-11-24T04:46:21Z",
+      "pushed_at": "2026-11-24T06:23:22Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -3206,7 +3206,7 @@
       "topics": []
     },
     "n8n-io/n8n": {
-      "pushed_at": "2026-11-24T02:47:09Z",
+      "pushed_at": "2026-11-24T06:19:58Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -3291,7 +3291,7 @@
       ]
     },
     "omnigent-ai/omnigent": {
-      "pushed_at": "2026-11-24T04:49:20Z",
+      "pushed_at": "2026-11-24T06:27:10Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -3383,7 +3383,7 @@
       ]
     },
     "koala73/worldmonitor": {
-      "pushed_at": "2026-11-24T04:47:04Z",
+      "pushed_at": "2026-11-24T06:26:51Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -3562,7 +3562,7 @@
       ]
     },
     "ccch1mneyyy/dsh-TUI": {
-      "pushed_at": "2026-11-24T04:33:06Z",
+      "pushed_at": "2026-11-24T06:18:42Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -3899,7 +3899,7 @@
       "topics": []
     },
     "reyamira/models": {
-      "pushed_at": "2026-11-24T04:49:09Z",
+      "pushed_at": "2026-11-24T06:18:33Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -4057,7 +4057,7 @@
       ]
     },
     "bennyjo/phil": {
-      "pushed_at": "2026-11-24T04:22:37Z",
+      "pushed_at": "2026-11-24T06:21:16Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -4321,7 +4321,7 @@
       ]
     },
     "Kevin-Liu-01/Claude-of-Tanks": {
-      "pushed_at": "2026-11-23T22:54:37Z",
+      "pushed_at": "2026-11-24T05:46:51Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -5448,7 +5448,7 @@
       ]
     },
     "amirfish1/claude-command-center": {
-      "pushed_at": "2026-11-24T04:35:51Z",
+      "pushed_at": "2026-11-24T06:26:26Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -5622,7 +5622,7 @@
       "topics": []
     },
     "hashgraph-online/awesome-ai-plugins": {
-      "pushed_at": "2026-11-23T22:57:09Z",
+      "pushed_at": "2026-11-24T06:31:50Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -6119,7 +6119,7 @@
     "Frank-ay/mimo-mcp": {
       "pushed_at": "2026-06-28T12:10:18Z",
       "archived": false,
-      "checked_at": "2026-11-23",
+      "checked_at": "2026-11-24",
       "gone": false,
       "dormant": true,
       "description": "把小米 MiMo 全模态能力(对话/图像/视频/TTS/声音克隆)封装成 stdio MCP Server,Claude Code 与 Codex 可直接调用",
@@ -6174,7 +6174,7 @@
     "fadelabs/phantom": {
       "pushed_at": "2026-11-04T11:41:09Z",
       "archived": false,
-      "checked_at": "2026-11-23",
+      "checked_at": "2026-11-24",
       "gone": false,
       "dormant": false,
       "description": "AI audio engineering system: MCP server + Claude Code skills for professional automated mixing and mastering",
@@ -6196,7 +6196,7 @@
     "Servosity/msp-skills": {
       "pushed_at": "2026-11-18T22:03:00Z",
       "archived": false,
-      "checked_at": "2026-11-23",
+      "checked_at": "2026-11-24",
       "gone": false,
       "dormant": false,
       "description": "Free MCP servers + Claude Code Skills for MSP tools - PSA, RMM, backup, M365. Local-first: your data never leaves your network.",
@@ -6267,7 +6267,7 @@
     "1596941391qq/anything-to-md": {
       "pushed_at": "2026-05-09T23:06:10Z",
       "archived": false,
-      "checked_at": "2026-11-23",
+      "checked_at": "2026-11-24",
       "gone": false,
       "dormant": true,
       "description": "Convert any file to LLM-ready Markdown - MCP Server + Claude Code Skill",
@@ -6323,7 +6323,7 @@
     "mimfort/rag_for_git": {
       "pushed_at": "2026-11-22T01:03:53Z",
       "archived": false,
-      "checked_at": "2026-11-23",
+      "checked_at": "2026-11-24",
       "gone": false,
       "dormant": true,
       "description": "AI pull-request reviewer: hybrid RAG + a code graph + Claude Code/Codex. Whole-repo context, inline GitHub comments grounded on exact code. MCP server + Claude Code/Codex plugin.",
@@ -6348,7 +6348,7 @@
     "aiconnai/agentshield": {
       "pushed_at": "2026-11-13T23:30:02Z",
       "archived": false,
-      "checked_at": "2026-11-23",
+      "checked_at": "2026-11-24",
       "gone": false,
       "dormant": false,
       "description": "🛡️ Offline Rust security scanner for AI agent tools & MCP servers — MCP, Hermes Agent, CrewAI, LangChain/LangGraph, GPT Actions, Cursor Rules. Catches command injection, credential exfiltration, SSRF & unsafe file access; a typical MCP server scans in <50 ms. CLI, GitHub Action, VS Code, SARIF.",
@@ -6378,9 +6378,9 @@
       ]
     },
     "causa-prima-ai/scribo": {
-      "pushed_at": "2026-06-03T11:13:32Z",
+      "pushed_at": "2026-11-23T18:05:29Z",
       "archived": false,
-      "checked_at": "2026-11-23",
+      "checked_at": "2026-11-24",
       "gone": false,
       "dormant": false,
       "description": "Scribo — free, AI-native EN 16931-compliant e-invoicing. ZUGFeRD/XRechnung (Germany) and US plain PDF live; Factur-X, Facturae, Peppol BIS UBL coming soon. Available as MCP server, Claude/Codex skill, CLI, HTTP API, and web app.",
@@ -7090,7 +7090,7 @@
       "topics": []
     },
     "memorax-ai/memorax-code": {
-      "pushed_at": "2026-11-24T04:49:27Z",
+      "pushed_at": "2026-11-24T05:01:13Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -7109,7 +7109,7 @@
       ]
     },
     "HarnessRouter/harnessrouter": {
-      "pushed_at": "2026-11-23T22:13:51Z",
+      "pushed_at": "2026-11-24T06:07:22Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -7889,7 +7889,7 @@
       ]
     },
     "kunickiaj/codemem": {
-      "pushed_at": "2026-11-24T04:47:32Z",
+      "pushed_at": "2026-11-24T04:52:49Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -7912,7 +7912,7 @@
       ]
     },
     "avksp/agent-lifecycle-kit": {
-      "pushed_at": "2026-11-20T20:05:26Z",
+      "pushed_at": "2026-11-24T05:51:30Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -8012,7 +8012,7 @@
       ]
     },
     "stablyai/orca": {
-      "pushed_at": "2026-11-24T04:49:56Z",
+      "pushed_at": "2026-11-24T06:32:21Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -8112,7 +8112,7 @@
       ]
     },
     "jabrena/plinth": {
-      "pushed_at": "2026-11-23T05:10:38Z",
+      "pushed_at": "2026-11-24T05:09:24Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -8469,7 +8469,7 @@
       ]
     },
     "mittalananya2006/Obsidian-Workflow-Atelier": {
-      "pushed_at": "2026-11-23T21:06:30Z",
+      "pushed_at": "2026-11-24T05:50:34Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -8656,7 +8656,7 @@
       "topics": []
     },
     "ulises-jeremias/agent-toolkit": {
-      "pushed_at": "2026-11-24T03:54:25Z",
+      "pushed_at": "2026-11-24T05:43:47Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -8769,7 +8769,7 @@
       ]
     },
     "chengyu2/agentaus_connector_for_claude_code": {
-      "pushed_at": "2026-11-24T04:44:18Z",
+      "pushed_at": "2026-11-24T05:56:01Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -8797,7 +8797,7 @@
       ]
     },
     "KCNyu/clawock": {
-      "pushed_at": "2026-11-24T04:40:18Z",
+      "pushed_at": "2026-11-24T06:20:20Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -8838,7 +8838,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/66041952?v=4"
     },
     "chnlich/charlie-bot": {
-      "pushed_at": "2026-11-24T04:31:35Z",
+      "pushed_at": "2026-11-24T06:25:48Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -9009,7 +9009,7 @@
       "topics": []
     },
     "BarganConstantin/ccdeck": {
-      "pushed_at": "2026-11-23T22:45:03Z",
+      "pushed_at": "2026-11-24T06:18:39Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -9383,7 +9383,7 @@
       ]
     },
     "randyfajar/inbox-watcher-cli": {
-      "pushed_at": "2026-11-23T21:07:36Z",
+      "pushed_at": "2026-11-24T05:51:08Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -9465,7 +9465,7 @@
       ]
     },
     "manaflow-ai/cmux": {
-      "pushed_at": "2026-11-24T04:49:35Z",
+      "pushed_at": "2026-11-24T06:32:51Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -9495,7 +9495,7 @@
       ]
     },
     "rome-os/rome": {
-      "pushed_at": "2026-11-24T04:48:16Z",
+      "pushed_at": "2026-11-24T06:31:39Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -9708,7 +9708,7 @@
       ]
     },
     "the911fund/skill-of-skills": {
-      "pushed_at": "2026-11-24T03:25:04Z",
+      "pushed_at": "2026-11-24T06:25:04Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -9862,7 +9862,7 @@
       ]
     },
     "777genius/agent-teams-ai": {
-      "pushed_at": "2026-11-24T04:28:32Z",
+      "pushed_at": "2026-11-24T05:38:08Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -9953,7 +9953,7 @@
       "topics": []
     },
     "K9i-0/ccpocket": {
-      "pushed_at": "2026-11-24T02:52:43Z",
+      "pushed_at": "2026-11-24T06:23:35Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -10110,7 +10110,7 @@
       "topics": []
     },
     "sleep2agi/agent-network": {
-      "pushed_at": "2026-11-24T04:45:19Z",
+      "pushed_at": "2026-11-24T06:00:38Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -11098,7 +11098,7 @@
       ]
     },
     "aiskillstore/marketplace": {
-      "pushed_at": "2026-11-24T04:13:38Z",
+      "pushed_at": "2026-11-24T06:28:33Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -11331,7 +11331,7 @@
       "aliases": [
         "santifer/career-ops"
       ],
-      "pushed_at": "2026-11-23T22:31:24Z",
+      "pushed_at": "2026-11-24T05:56:09Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -11575,7 +11575,7 @@
       ]
     },
     "zeronsh/zeron": {
-      "pushed_at": "2026-11-24T04:36:03Z",
+      "pushed_at": "2026-11-24T05:53:05Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -11652,7 +11652,7 @@
       "aliases": [
         "vm0-ai/okou"
       ],
-      "pushed_at": "2026-11-24T04:48:18Z",
+      "pushed_at": "2026-11-24T06:32:25Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -11681,7 +11681,7 @@
       "topics": []
     },
     "yetone/magpie": {
-      "pushed_at": "2026-11-24T03:40:26Z",
+      "pushed_at": "2026-11-24T06:27:46Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -11753,7 +11753,7 @@
       "topics": []
     },
     "rehan-remade/universal-modder": {
-      "pushed_at": "2026-11-24T00:36:19Z",
+      "pushed_at": "2026-11-24T06:29:03Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -12055,7 +12055,7 @@
       ]
     },
     "morluto/rea": {
-      "pushed_at": "2026-11-24T04:49:11Z",
+      "pushed_at": "2026-11-24T05:51:55Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -12235,7 +12235,7 @@
       "aliases": [
         "autonomous-ai/Physical-AI-Operating-System"
       ],
-      "pushed_at": "2026-11-24T04:48:05Z",
+      "pushed_at": "2026-11-24T06:30:49Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -12403,7 +12403,7 @@
       "aliases": [
         "Aquaticat/Monochromatic"
       ],
-      "pushed_at": "2026-11-24T04:44:56Z",
+      "pushed_at": "2026-11-24T06:31:31Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -12428,7 +12428,7 @@
       "aliases": [
         "diegosouzapw/OmniRoute"
       ],
-      "pushed_at": "2026-11-24T04:46:38Z",
+      "pushed_at": "2026-11-24T05:56:03Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -12463,7 +12463,7 @@
       "aliases": [
         "devswha/herdr-web-ui"
       ],
-      "pushed_at": "2026-11-24T04:47:41Z",
+      "pushed_at": "2026-11-24T06:28:27Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -12558,7 +12558,7 @@
       ]
     },
     "oil-oil/oil-ui": {
-      "pushed_at": "2026-11-23T04:26:56Z",
+      "pushed_at": "2026-11-24T05:40:52Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -12911,7 +12911,7 @@
       "aliases": [
         "gakonst/nanocode"
       ],
-      "pushed_at": "2026-11-24T04:33:24Z",
+      "pushed_at": "2026-11-24T06:23:08Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -12976,7 +12976,7 @@
       ]
     },
     "JuneYaooo/rea-video": {
-      "pushed_at": "2026-11-24T02:53:34Z",
+      "pushed_at": "2026-11-24T05:38:23Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -13040,7 +13040,7 @@
       "topics": []
     },
     "ruvnet/RuView": {
-      "pushed_at": "2026-11-24T00:23:51Z",
+      "pushed_at": "2026-11-24T06:16:52Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -13123,7 +13123,7 @@
       ]
     },
     "DIYgod/pinky": {
-      "pushed_at": "2026-11-24T04:08:22Z",
+      "pushed_at": "2026-11-24T06:25:55Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -13172,7 +13172,7 @@
       ]
     },
     "mdiri-ai/SoduWork": {
-      "pushed_at": "2026-11-24T04:48:28Z",
+      "pushed_at": "2026-11-24T06:09:47Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -13233,7 +13233,7 @@
       ]
     },
     "JosssphZhou/poki": {
-      "pushed_at": "2026-11-24T04:32:27Z",
+      "pushed_at": "2026-11-24T06:14:25Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -13328,7 +13328,7 @@
       ]
     },
     "erkamyaman/rust-anything": {
-      "pushed_at": "2026-11-24T04:49:34Z",
+      "pushed_at": "2026-11-24T05:52:08Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -13477,7 +13477,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/284200730?v=4"
     },
     "caru-ini/stack-diagram": {
-      "pushed_at": "2026-11-20T16:28:58Z",
+      "pushed_at": "2026-11-24T05:26:39Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -13497,7 +13497,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/166897461?v=4"
     },
     "agentes-chat/agentes-chat": {
-      "pushed_at": "2026-11-24T04:49:31Z",
+      "pushed_at": "2026-11-24T06:18:02Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -13548,7 +13548,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/258454528?v=4"
     },
     "Seagey/couch-tv": {
-      "pushed_at": "2026-11-24T04:33:04Z",
+      "pushed_at": "2026-11-24T06:03:29Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
@@ -13669,7 +13669,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/285448159?v=4"
     },
     "paperclipai/paperclip": {
-      "pushed_at": "2026-11-24T04:49:20Z",
+      "pushed_at": "2026-11-24T06:32:16Z",
       "archived": false,
       "checked_at": "2026-11-24",
       "gone": false,
