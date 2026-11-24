@@ -58,7 +58,9 @@ const CHAT_PAIRS = [
 ];
 
 const STATE_LABELS = {
-  WALKING_TO_POI: "공원 이동 중",
+  WALKING_TO_POI: "보행로 따라 이동 중",
+  QUEUING_RIDE: "티켓 구매 · 대기열 줄 서는 중",
+  RIDING_RIDE: "놀이기구 탑승 중!",
   WATCHING_RIDE: "놀이기구 구경 · 환호 중",
   EATING_SNACK: "달콤한 간식 먹는 중",
   RESTING: "벤치·광장에서 휴식 중",
@@ -542,6 +544,22 @@ export class CrowdAndAvatarEngine {
     this.guestPickables = [];
     this.poiList = [];
     this.activeTalkingGuestId = null;
+
+    // Real Money-Based Theme Park Economy (RCT / Planet Coaster Finance Loop)
+    this.economy = {
+      balance: 250000,
+      totalRevenue: 0,
+      ticketsSold: 0,
+      snacksSold: 0,
+      entranceFee: 5000,
+      coasterPrice: 5500,
+      ridePrice: 4000,
+      snackPrice: 3500,
+      rideEarnings: new Map(), // name -> { revenue, riders }
+    };
+    this.onPayment = null;
+    this.coinPopups = []; // { el, pos, age }
+    this._seatCounters = new Map(); // rideId -> next seat slot index
     this.guestLines = [
       "스타보드 코스터 뱅크턴 진짜 부드럽다!",
       "밤에 대관람차에서 보는 불꽃놀이 기대돼요!",
@@ -799,6 +817,9 @@ export class CrowdAndAvatarEngine {
         happiness: 72 + (i * 7) % 24,
         energy: 65 + (i * 11) % 30,
         fullness: 58 + (i * 13) % 34,
+        wallet: 34000 + (i % 7) * 6500,
+        ridesRidden: 0,
+        ridingAttr: null,
         umbrellaOpen: 0,
         emoteTimer: 0,
         flashTimer: 0,
@@ -813,6 +834,7 @@ export class CrowdAndAvatarEngine {
 
   onPathsChanged() {
     for (const g of this.aiGuests) {
+      if (g.state === "RIDING_RIDE") continue;
       const near = this.terrain.findNearestWaypointIndex(g.pos.x, g.pos.z);
       g.currentWpIdx = near.index;
       g.routeQueue = [];
@@ -820,6 +842,146 @@ export class CrowdAndAvatarEngine {
         this._pickNextGoal(g, g.umbrellaOpen > 0.5);
       }
     }
+  }
+
+  resetGuestsToCurrentPaths() {
+    for (let i = 0; i < this.aiGuests.length; i++) {
+      const g = this.aiGuests[i];
+      g.ridingAttr = null;
+      g.routeQueue = [];
+      let wp;
+      if (i < 5) {
+        wp = this.terrain.findNearestWaypointIndex(0, 96 + (i % 4) * 6.5);
+      } else {
+        wp = this.terrain.getRandomWaypoint();
+      }
+      g.currentWpIdx = wp.index;
+      g.pos.copy(wp.position);
+      g.mesh.position.copy(g.pos);
+      this._pickNextGoal(g, false);
+    }
+    this.seedInitialParkActivity();
+  }
+
+  /**
+   * Immediately populates rides & ride queues on park entry / stage switch
+   * so coasters & flat rides have cheering NPC riders and live ticket sales right away!
+   */
+  seedInitialParkActivity() {
+    const ridePois = this.poiList.filter((p) => (p.category === "coaster" || p.category === "ride") && p.id);
+    if (!ridePois.length || this.aiGuests.length < 14) return;
+
+    // 1. Place 4 guests right at ride entrances in QUEUING_RIDE (pay & board within 0.8~2.2s)
+    for (let k = 0; k < 4; k++) {
+      const g = this.aiGuests[5 + k];
+      const poi = ridePois[k % ridePois.length];
+      const wp = this.terrain.findNearestWaypointIndex(poi.x, poi.z);
+      g.currentWpIdx = wp.index;
+      g.routeQueue = [];
+      g.pos.copy(wp.position);
+      g.mesh.position.copy(g.pos);
+      g.targetPoi = poi;
+      g.lookPos.set(poi.lookX, 0, poi.lookZ);
+      g.facing = Math.atan2(poi.lookX - g.pos.x, poi.lookZ - g.pos.z);
+      g.state = "QUEUING_RIDE";
+      g.stateTimer = 0.65 + k * 0.45;
+      g.quote = `${poi.name} 탑승 대기 중!`;
+    }
+
+    // 2. Place 5 guests ALREADY seated & riding on the coaster and top flat rides!
+    for (let k = 0; k < 5; k++) {
+      const g = this.aiGuests[9 + k];
+      const poi = ridePois[k % ridePois.length];
+      const wp = this.terrain.findNearestWaypointIndex(poi.x, poi.z);
+      g.currentWpIdx = wp.index;
+      g.routeQueue = [];
+      g.pos.copy(wp.position);
+      g.targetPoi = poi;
+      const isCoaster = poi.category === "coaster";
+      const prevSlot = this._seatCounters.get(poi.id) || 0;
+      this._seatCounters.set(poi.id, (prevSlot + 1) % 8);
+      g.ridingAttr = {
+        kind: isCoaster ? "coaster" : "ride",
+        id: poi.id,
+        name: poi.name,
+        seatSlot: prevSlot,
+        exitWpIdx: wp.index,
+      };
+      g.ridesRidden = Math.max(1, g.ridesRidden);
+      g.state = "RIDING_RIDE";
+      g.stateTimer = 8.5 + k * 1.4;
+      g.emoteTimer = 3.0;
+      g.parts.umbrellaGroup.visible = false;
+      g.parts.snackGroup.visible = false;
+      g.parts.cameraGroup.visible = false;
+    }
+  }
+
+  setEconomyPrices({ entranceFee, coasterPrice, ridePrice, snackPrice } = {}) {
+    if (Number.isFinite(entranceFee)) this.economy.entranceFee = Math.max(0, Math.min(20000, entranceFee));
+    if (Number.isFinite(coasterPrice)) this.economy.coasterPrice = Math.max(0, Math.min(15000, coasterPrice));
+    if (Number.isFinite(ridePrice)) this.economy.ridePrice = Math.max(0, Math.min(12000, ridePrice));
+    if (Number.isFinite(snackPrice)) this.economy.snackPrice = Math.max(0, Math.min(10000, snackPrice));
+  }
+
+  getEconomySnapshot() {
+    const topRides = [...this.economy.rideEarnings.entries()]
+      .map(([name, stat]) => ({ name, revenue: stat.revenue, riders: stat.riders }))
+      .sort((a, b) => b.revenue - a.revenue)
+      .slice(0, 5);
+    const ridingNow = this.aiGuests.filter((g) => g.state === "RIDING_RIDE").length;
+    const queuingNow = this.aiGuests.filter((g) => g.state === "QUEUING_RIDE").length;
+    return {
+      balance: this.economy.balance,
+      totalRevenue: this.economy.totalRevenue,
+      ticketsSold: this.economy.ticketsSold,
+      snacksSold: this.economy.snacksSold,
+      entranceFee: this.economy.entranceFee,
+      coasterPrice: this.economy.coasterPrice,
+      ridePrice: this.economy.ridePrice,
+      snackPrice: this.economy.snackPrice,
+      ridingNow,
+      queuingNow,
+      topRides,
+    };
+  }
+
+  _recordPayment(g, amount, poiName, worldPos, isSnack = false) {
+    if (amount <= 0) return;
+    g.wallet = Math.max(0, g.wallet - amount);
+    this.economy.balance += amount;
+    this.economy.totalRevenue += amount;
+    if (isSnack) this.economy.snacksSold++;
+    else this.economy.ticketsSold++;
+
+    const prev = this.economy.rideEarnings.get(poiName) || { revenue: 0, riders: 0 };
+    prev.revenue += amount;
+    prev.riders += 1;
+    this.economy.rideEarnings.set(poiName, prev);
+
+    this._spawnCoinPopup(worldPos, `+₩${amount.toLocaleString()}`);
+    this.onPayment?.({ amount, poiName, balance: this.economy.balance, isSnack });
+
+    // Refill guest wallet at ATM/gate loop so park economy stays lively indefinitely
+    if (g.wallet < 4000) {
+      g.wallet += 35000;
+      this.economy.balance += this.economy.entranceFee;
+      this.economy.totalRevenue += this.economy.entranceFee;
+    }
+  }
+
+  _spawnCoinPopup(worldPos, text) {
+    if (!this.overlayLayer || this.coinPopups.length >= 12) return;
+    const el = document.createElement("div");
+    el.className = "wl-coin-popup";
+    el.textContent = text;
+    this.overlayLayer.appendChild(el);
+    this.coinPopups.push({
+      el,
+      pos: new THREE.Vector3(worldPos.x, (worldPos.y || 0) + 2.2, worldPos.z),
+      age: 0,
+      life: 1.55,
+    });
   }
 
   _setPathStepTarget(g, wpIdx) {
@@ -905,36 +1067,102 @@ export class CrowdAndAvatarEngine {
     const poiName = g.targetPoi?.name || "위클리랜드";
 
     if (cat === "food") {
-      g.state = "EATING_SNACK";
-      g.stateTimer = 6.5 + Math.random() * 4;
-      g.parts.snackGroup.visible = true;
-      g.quote = `${poiName} 간식 진짜 달콤해요!`;
-      this._showGuestBubble(g, g.quote, 4.5);
+      const price = this.economy.snackPrice;
+      if (g.wallet >= price && price <= 7500) {
+        this._recordPayment(g, price, poiName, g.pos, true);
+        g.state = "EATING_SNACK";
+        g.stateTimer = 5.5 + Math.random() * 3.5;
+        g.parts.snackGroup.visible = true;
+        g.quote = `${poiName} (₩${price.toLocaleString()}) 꿀맛이에요!`;
+        this._showGuestBubble(g, g.quote, 4.5);
+      } else {
+        g.quote = `${poiName} 가격이 조금 비싸네요…`;
+        this._showGuestBubble(g, g.quote, 3.5);
+        this._pickNextGoal(g, isRaining);
+      }
     } else if (cat === "bench") {
       g.state = "RESTING";
-      g.stateTimer = 7.0 + Math.random() * 4;
+      g.stateTimer = 6.5 + Math.random() * 3.5;
       g.quote = isRaining ? "우산 쓰고 잠깐 쉬었다 가야지~" : "바람도 시원하고 잠깐 쉬니까 좋네요!";
       this._showGuestBubble(g, g.quote, 4.2);
     } else if (cat === "photo") {
       g.state = "TAKING_PHOTO";
-      g.stateTimer = 5.5 + Math.random() * 3.5;
+      g.stateTimer = 5.0 + Math.random() * 3.0;
       g.parts.cameraGroup.visible = true;
       g.flashTimer = 0.8;
       g.quote = `${poiName} 배경으로 인생샷 찰칵!`;
       this._showGuestBubble(g, g.quote, 4.5);
     } else if (cat === "pavilion" || cat === "billboard") {
       g.state = "READING_AI";
-      g.stateTimer = 6.5 + Math.random() * 4;
+      g.stateTimer = 6.0 + Math.random() * 3.5;
       const line = this.guestLines[Math.floor(Math.random() * this.guestLines.length)];
       g.quote = isRaining ? `${poiName}에서 비도 피하고 AI 뉴스도 보고!` : line;
       this._showGuestBubble(g, g.quote, 4.8);
+    } else if ((cat === "ride" || cat === "coaster") && g.targetPoi?.id) {
+      const price = cat === "coaster" ? this.economy.coasterPrice : this.economy.ridePrice;
+      const maxWilling = (cat === "coaster" ? 9500 : 7500) + g.happiness * 25;
+      if (g.wallet >= price && price <= maxWilling) {
+        g.state = "QUEUING_RIDE";
+        g.stateTimer = 2.2 + Math.random() * 2.4;
+        g.quote = `${poiName} 대기열 줄 서는 중! (₩${price.toLocaleString()})`;
+        this._showGuestBubble(g, g.quote, 3.6);
+      } else {
+        g.state = "WATCHING_RIDE";
+        g.stateTimer = 4.0;
+        g.quote = `${poiName} 티켓이 조금 비싸네요… 구경만 할래요!`;
+        this._showGuestBubble(g, g.quote, 4.0);
+      }
     } else {
       g.state = "WATCHING_RIDE";
-      g.stateTimer = 6.0 + Math.random() * 4;
-      g.emoteTimer = 3.0;
-      g.quote = `${poiName} 엄청 신나 보인다! 나도 탈래!`;
-      this._showGuestBubble(g, g.quote, 4.5);
+      g.stateTimer = 5.0 + Math.random() * 3.5;
+      g.emoteTimer = 2.5;
+      g.quote = `${poiName} 엄청 신나 보인다!`;
+      this._showGuestBubble(g, g.quote, 4.2);
     }
+  }
+
+  _boardGuestOntoPoiRide(g) {
+    const poi = g.targetPoi;
+    if (!poi?.id) {
+      this._pickNextGoal(g, false);
+      return;
+    }
+    const isCoaster = poi.category === "coaster";
+    const price = isCoaster ? this.economy.coasterPrice : this.economy.ridePrice;
+    this._recordPayment(g, price, poi.name, g.pos, false);
+
+    const prevSlot = this._seatCounters.get(poi.id) || 0;
+    this._seatCounters.set(poi.id, (prevSlot + 1) % 8);
+    g.ridingAttr = {
+      kind: isCoaster ? "coaster" : "ride",
+      id: poi.id,
+      name: poi.name,
+      seatSlot: prevSlot,
+      exitWpIdx: g.currentWpIdx,
+    };
+    g.ridesRidden++;
+    g.state = "RIDING_RIDE";
+    g.stateTimer = 9.5 + Math.random() * 4.5;
+    g.emoteTimer = 3.5;
+    g.parts.umbrellaGroup.visible = false;
+    g.parts.snackGroup.visible = false;
+    g.parts.cameraGroup.visible = false;
+    this._showGuestBubble(g, `와아! ${poi.name} 탑승 출발!!`, 3.5);
+  }
+
+  _disembarkGuest(g, isRaining) {
+    const attr = g.ridingAttr;
+    g.ridingAttr = null;
+    const wpPos = this.terrain.getWaypointPosition(attr?.exitWpIdx ?? g.currentWpIdx);
+    g.pos.copy(wpPos);
+    g.mesh.position.copy(wpPos);
+    g.happiness = Math.min(100, g.happiness + 18);
+    g.energy = Math.max(15, g.energy - 12);
+    g.emoteTimer = 2.5;
+    if (attr?.name) {
+      this._showGuestBubble(g, `${attr.name} 진짜 재밌었다! 또 타고 싶어!`, 4.2);
+    }
+    this._pickNextGoal(g, isRaining);
   }
 
   _showGuestBubble(g, text, duration = 4.5) {
@@ -981,6 +1209,8 @@ export class CrowdAndAvatarEngine {
       happiness: Math.round(g.happiness),
       energy: Math.round(g.energy),
       fullness: Math.round(g.fullness),
+      wallet: g.wallet,
+      ridesRidden: g.ridesRidden,
       hasBalloon: g.hasBalloon,
     };
   }
@@ -1340,6 +1570,34 @@ export class CrowdAndAvatarEngine {
         }
       }
 
+      // Handle live 3D NPC riding inside moving coaster trains / flat rides!
+      if (g.state === "RIDING_RIDE" && g.ridingAttr) {
+        const seat =
+          g.ridingAttr.kind === "coaster"
+            ? coasterEngine.getSeatState(g.ridingAttr.id, g.ridingAttr.seatSlot % 2, g.ridingAttr.seatSlot % 4)
+            : flatRideEngine.getRideSeatState(g.ridingAttr.id, g.ridingAttr.seatSlot);
+        if (!seat || g.stateTimer <= 0) {
+          this._disembarkGuest(g, isRaining);
+        } else {
+          g.pos.copy(seat.position);
+          g.mesh.position.set(seat.position.x, seat.position.y - 0.55, seat.position.z);
+          g.mesh.rotation.y = Math.atan2(seat.tangent.x, seat.tangent.z);
+          g.parts.umbrellaGroup.visible = false;
+          g.parts.leftLeg.rotation.x = -1.2;
+          g.parts.rightLeg.rotation.x = -1.2;
+          g.phase += stepDt * 8.5;
+          g.parts.leftArm.rotation.set(-2.55 + Math.sin(g.phase) * 0.25, 0, 0.22);
+          g.parts.rightArm.rotation.set(-2.55 - Math.sin(g.phase) * 0.25, 0, -0.22);
+          g.parts.torsoGroup.position.y = 0.42;
+          if (g.bubbleEl && g.bubbleRemaining > 0) {
+            g.bubbleRemaining -= stepDt;
+            if (g.bubbleRemaining <= 0) g.bubbleEl.hidden = true;
+            else this._projectOverlayEl(g.bubbleEl, g.pos, 1.85, camera, viewportW, viewportH);
+          }
+        }
+        continue;
+      }
+
       // Smoothly open/close umbrella when raining!
       const targetUmbrella = isRaining ? 1 : 0;
       g.umbrellaOpen += (targetUmbrella - g.umbrellaOpen) * Math.min(1, stepDt * 6.5);
@@ -1407,6 +1665,16 @@ export class CrowdAndAvatarEngine {
               }
             }
           }
+        }
+      } else if (g.state === "QUEUING_RIDE") {
+        const dx = g.lookPos.x - g.pos.x;
+        const dz = g.lookPos.z - g.pos.z;
+        if (Math.hypot(dx, dz) > 0.2) {
+          g.facing = this._lerpAngle(g.facing, Math.atan2(dx, dz), Math.min(1, stepDt * 6));
+        }
+        if (g.stateTimer <= 0) {
+          this._boardGuestOntoPoiRide(g);
+          continue;
         }
       } else if (g.state === "TALKING_TO_PLAYER") {
         const dx = this.player.position.x - g.pos.x;
@@ -1536,6 +1804,20 @@ export class CrowdAndAvatarEngine {
         }
       }
     }
+    // 4. Animate rising +₩ gold coin payment popups in screen space
+    for (let i = this.coinPopups.length - 1; i >= 0; i--) {
+      const cp = this.coinPopups[i];
+      cp.age += stepDt;
+      if (cp.age >= cp.life) {
+        cp.el.remove();
+        this.coinPopups.splice(i, 1);
+        continue;
+      }
+      cp.pos.y += stepDt * 1.45;
+      const alpha = Math.max(0, 1 - Math.pow(cp.age / cp.life, 1.8));
+      cp.el.style.opacity = alpha.toFixed(2);
+      this._projectOverlayEl(cp.el, cp.pos, 0, camera, viewportW, viewportH);
+    }
   }
 
   _lerpAngle(a, b, t) {
@@ -1596,6 +1878,8 @@ export class CrowdAndAvatarEngine {
   dispose() {
     for (const rec of this.remotePeers.values()) rec.tagEl?.remove();
     for (const g of this.aiGuests) g.bubbleEl?.remove();
+    for (const cp of this.coinPopups) cp.el?.remove();
+    this.coinPopups = [];
     this.remotePeers.clear();
     this.aiGuests = [];
     this.guestPickables = [];

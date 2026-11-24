@@ -19,6 +19,7 @@ import { ArchitectBuilder } from "./weeklyland/ArchitectBuilder.js";
 import { GuestHudController } from "./weeklyland/GuestHudController.js";
 import { PavilionDashboard } from "./weeklyland/PavilionDashboard.js";
 import { CartoonSkyDecor, getPoolStats } from "./weeklyland/ToonMaterials.js";
+import { STAGE_LIST, STAGE_PALETTES, buildThemeStageWorld } from "./weeklyland/ParkThemeStages.js";
 
 const THEME_KEY = "aiw-theme";
 
@@ -70,6 +71,9 @@ class WeeklyLandApp {
     this.nearbySpot = null;
     this.hasEntered = false;
     this.activeGuestId = null;
+    this.activeStageId = "sunlit-meadow";
+    this.baseMeadowWorld = null;
+    this._financeUiAccum = 0;
 
     // Real-time Performance Optimizer State
     this.perf = {
@@ -134,6 +138,8 @@ class WeeklyLandApp {
   async boot() {
     const worldRes = await fetch("data/park_world.json", { cache: "no-cache" });
     const baseWorld = await worldRes.json();
+    this.baseMeadowWorld = baseWorld;
+    this.activeStageId = baseWorld?.parkMeta?.themePreset || "sunlit-meadow";
 
     this.worldState = new ParkWorldState(baseWorld);
     this.publisher = new ParkPublisher(this.worldState);
@@ -161,6 +167,11 @@ class WeeklyLandApp {
     const entrance = snap.parkMeta?.entrance || { x: 0, z: 124 };
     this.crowd.setSpawnPosition(entrance.x, entrance.z);
     this.crowd.setParkWorldContext(snap);
+    this.crowd.seedInitialParkActivity();
+    this.crowd.onPayment = () => {
+      this.audio.playCoinChime();
+      this._updateFinanceUi();
+    };
     this.cameraRig.focus.set(entrance.x, 3.0, entrance.z - 6);
     this.cameraRig.targetFocus.set(entrance.x, 3.0, entrance.z - 6);
     this.cameraRig.distance = 22;
@@ -232,12 +243,15 @@ class WeeklyLandApp {
     this._bindAtmosphereButtons();
     this._bindPerfOptimizer();
     this._bindInteractPrompt();
+    this._bindStageSelector();
+    this._bindFinancePanel();
     this._bindWelcomeGate();
     this._bindGuestCard();
     this._bindMobileControls();
     this._bindKeyboardAndPick();
     this._bindResize();
 
+    this._updateFinanceUi();
     this.hud.updateParkStat(1, this.crowd.getGuestCount());
 
     this.crowd.preloadCharacterModels();
@@ -254,6 +268,153 @@ class WeeklyLandApp {
     }
 
     this._loop();
+  }
+
+  _bindStageSelector() {
+    this._renderStageCards("wl-welcome-stage-grid", false);
+    this._renderStageCards("wl-stage-modal-grid", true);
+
+    const modal = document.getElementById("wl-stage-modal");
+    document.getElementById("btn-wl-stage")?.addEventListener("click", () => {
+      const fin = document.getElementById("wl-finance-popover");
+      if (fin) fin.hidden = true;
+      if (modal) modal.hidden = !modal.hidden;
+    });
+    document.getElementById("btn-stage-close")?.addEventListener("click", () => {
+      if (modal) modal.hidden = true;
+    });
+    modal?.addEventListener("click", (ev) => {
+      if (ev.target === modal) modal.hidden = true;
+    });
+  }
+
+  _renderStageCards(containerId, closeOnSelect) {
+    const grid = document.getElementById(containerId);
+    if (!grid) return;
+    const swatchColors = {
+      "sunlit-meadow": "#65d472",
+      "tropical-lagoon": "#06b6d4",
+      "spooky-halloween": "#9333ea",
+      "alpine-winter": "#bae6fd",
+    };
+    grid.innerHTML = STAGE_LIST.map(
+      (st) => `
+      <button type="button" class="wl-stage-card ${st.id === this.activeStageId ? "is-active" : ""}" data-stage-id="${st.id}">
+        <div class="wl-stage-card-head">
+          <span class="wl-stage-card-title">
+            <span class="wl-stage-swatch" style="background:${swatchColors[st.id] || "#fb923c"}"></span>
+            <span>${st.name}</span>
+          </span>
+          <span class="wl-stage-badge">${st.badge}</span>
+        </div>
+        <span class="wl-stage-desc">${st.subtitle}</span>
+      </button>`
+    ).join("");
+
+    grid.querySelectorAll("[data-stage-id]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const sid = btn.dataset.stageId;
+        this.switchThemeStage(sid);
+        if (closeOnSelect) {
+          const modal = document.getElementById("wl-stage-modal");
+          if (modal) modal.hidden = true;
+        }
+      });
+    });
+  }
+
+  switchThemeStage(stageId) {
+    const pal = STAGE_PALETTES[stageId];
+    if (!pal || !this.baseMeadowWorld) return;
+    if (this.crowd.player.riding) this.leaveAttraction();
+    if (this.activeGuestId) this._closeGuestCard();
+
+    this.activeStageId = stageId;
+    const nextWorld = buildThemeStageWorld(stageId, this.baseMeadowWorld);
+    this.terrain.setThemePalette(stageId);
+    this.worldState.applyRemotePatch(nextWorld);
+
+    this.atmosphere.setTimeMode(pal.defaultTime || "day");
+    this.atmosphere.setSeasonMode(pal.defaultSeason || "spring");
+    this._syncAtmoLabels();
+
+    const entrance = nextWorld.parkMeta?.entrance || { x: 0, z: 124 };
+    this.crowd.setSpawnPosition(entrance.x, entrance.z);
+    this.crowd.setParkWorldContext(nextWorld);
+    this.crowd.resetGuestsToCurrentPaths();
+
+    if (this.cameraRig.mode === "guest_third") {
+      this.cameraRig.focus.set(entrance.x, 3.0, entrance.z - 6);
+      this.cameraRig.targetFocus.set(entrance.x, 3.0, entrance.z - 6);
+    }
+
+    document.querySelectorAll("[data-stage-id]").forEach((el) => {
+      el.classList.toggle("is-active", el.dataset.stageId === stageId);
+    });
+    const finStage = document.getElementById("wl-fin-stage-name");
+    if (finStage) finStage.textContent = pal.name;
+    this.chat?.updateZoneLabel(`${pal.name} 정문 광장`);
+    this.audio.playClick(760);
+    this.hud.showToast(`'${pal.name}' 테마 스테이지로 전환했습니다!`, 3800);
+  }
+
+  _bindFinancePanel() {
+    const pop = document.getElementById("wl-finance-popover");
+    document.getElementById("btn-wl-finance")?.addEventListener("click", () => {
+      if (!pop) return;
+      pop.hidden = !pop.hidden;
+      if (!pop.hidden) this._updateFinanceUi();
+    });
+    document.getElementById("btn-fin-close")?.addEventListener("click", () => {
+      if (pop) pop.hidden = true;
+    });
+
+    const bindPrice = (inputId, labelId, key) => {
+      const el = document.getElementById(inputId);
+      const lbl = document.getElementById(labelId);
+      el?.addEventListener("input", () => {
+        const v = Number(el.value);
+        if (lbl) lbl.textContent = `₩${v.toLocaleString()}`;
+        this.crowd.setEconomyPrices({ [key]: v });
+      });
+    };
+    bindPrice("wl-price-coaster", "wl-price-coaster-lbl", "coasterPrice");
+    bindPrice("wl-price-ride", "wl-price-ride-lbl", "ridePrice");
+    bindPrice("wl-price-snack", "wl-price-snack-lbl", "snackPrice");
+  }
+
+  _updateFinanceUi() {
+    if (!this.crowd) return;
+    const eco = this.crowd.getEconomySnapshot();
+    const topBal = document.getElementById("wl-finance-balance");
+    if (topBal) topBal.textContent = `₩${eco.balance.toLocaleString()}`;
+
+    const pop = document.getElementById("wl-finance-popover");
+    if (!pop || pop.hidden) return;
+
+    const setT = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    setT("wl-fin-stage-name", STAGE_PALETTES[this.activeStageId]?.name || "위클리 썬릿 초원");
+    setT("wl-fin-balance", `₩${eco.balance.toLocaleString()}`);
+    setT("wl-fin-revenue", `₩${eco.totalRevenue.toLocaleString()}`);
+    setT("wl-fin-sales", `${eco.ticketsSold}매 · ${eco.snacksSold}건`);
+    setT("wl-fin-riders", `${eco.ridingNow}명 · ${eco.queuingNow}명`);
+
+    const listEl = document.getElementById("wl-fin-top-rides");
+    if (listEl) {
+      if (!eco.topRides.length) {
+        listEl.innerHTML = `<span class="wl-fin-empty">AI 손님들이 곧 첫 티켓을 구매하고 탑승합니다…</span>`;
+      } else {
+        listEl.innerHTML = eco.topRides
+          .map(
+            (r, i) => `
+          <div class="wl-fin-top-row">
+            <span>${i + 1}. ${r.name} (${r.riders}명)</span>
+            <strong>₩${r.revenue.toLocaleString()}</strong>
+          </div>`
+          )
+          .join("");
+      }
+    }
   }
 
   _bindWelcomeGate() {
@@ -391,6 +552,7 @@ class WeeklyLandApp {
     setText("wl-gc-name", snap.name);
     setText("wl-gc-persona", snap.persona);
     setText("wl-gc-state", snap.stateLabel);
+    setText("wl-gc-wallet", `소지금 ₩${(snap.wallet || 0).toLocaleString()} · 탑승 ${snap.ridesRidden || 0}회`);
     setText("wl-gc-quote", `"${snap.quote}"`);
     setW("wl-gc-happy", snap.happiness);
     setW("wl-gc-energy", snap.energy);
@@ -464,6 +626,9 @@ class WeeklyLandApp {
     } else if (phase === "show" || phase === "start") {
       banner.hidden = false;
       text.textContent = "위클리랜드 야간 불꽃축제가 시작되었습니다!";
+      this.audio.playFireworkBoom();
+    } else if (phase === "burst") {
+      this.audio.playFireworkBoom();
     } else if (phase === "ended" || phase === "end") {
       banner.hidden = true;
     }
@@ -771,7 +936,11 @@ class WeeklyLandApp {
       else if (down && code === "KeyE" && this.worldState.mode === "guest" && this.nearbySpot) {
         this._triggerInteraction(this.nearbySpot);
       } else if (down && code === "Escape") {
-        if (this.activeGuestId) this._closeGuestCard();
+        const stageModal = document.getElementById("wl-stage-modal");
+        const finPop = document.getElementById("wl-finance-popover");
+        if (stageModal && !stageModal.hidden) stageModal.hidden = true;
+        else if (finPop && !finPop.hidden) finPop.hidden = true;
+        else if (this.activeGuestId) this._closeGuestCard();
         else if (this.dashboard.isOpen()) this.dashboard.close();
         else if (this.crowd.player.riding) this.leaveAttraction();
       }
@@ -967,8 +1136,18 @@ class WeeklyLandApp {
     });
 
     this.hud.updateRideTelemetry(rideSeat);
-    this.audio.updateRideSound(dt, rideSeat);
+    this.audio.updateRideSound(dt, rideSeat, {
+      listenerPos: this.cameraRig.camera.position,
+      flatRideEngine: this.flatRide,
+      isRaining: this.atmosphere.isRaining(),
+    });
     this._updateProximityPrompt();
+
+    this._financeUiAccum += dt;
+    if (this._financeUiAccum >= 0.85) {
+      this._financeUiAccum = 0;
+      this._updateFinanceUi();
+    }
 
     this._presenceAccum += dt;
     if (this._presenceAccum >= 0.16 && this.chat) {

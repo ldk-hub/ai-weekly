@@ -10,7 +10,6 @@ const BC_NAME = "ai-weekly-sanctuary-chat-v1";
 const VERIFIED_RELAYS = [
   "wss://relay.primal.net",
   "wss://offchain.pub",
-  "wss://nos.lol",
   "wss://nostr.mom",
 ];
 const DIRECT_TOPIC = "ai-weekly-sanctuary-25d-v1:plaza-direct-v2";

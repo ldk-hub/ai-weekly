@@ -1731,101 +1731,112 @@ export class FlatRideEngine {
     return this.rides.get(rideId)?.root?.position?.clone() || new THREE.Vector3(0, 0, 0);
   }
 
-  getRideSeatState(rideId) {
+  getRideSeatState(rideId, seatSlot = 0) {
     const r = this.rides.get(rideId);
     if (!r) return null;
     const pos = new THREE.Vector3();
     const forward = new THREE.Vector3(0, 0, 1);
     const up = new THREE.Vector3(0, 1, 0);
+    const slot = Math.max(0, Math.floor(seatSlot));
 
-    if (r.kind === "ferris_wheel" && r.gondolas?.[0]) {
-      r.gondolas[0].getWorldPosition(pos);
-      pos.y -= 0.7;
+    if (r.kind === "ferris_wheel" && r.gondolas?.length) {
+      r.gondolas[slot % r.gondolas.length].getWorldPosition(pos);
+      pos.y -= 1.45;
       forward.set(-pos.x, -4, -pos.z).normalize();
       return { position: pos, tangent: forward, up, speedKmh: 9, altitudeM: Number(pos.y.toFixed(1)), vertG: 1.0, latG: 0, segment: "PANORAMA", coasterName: r.def.name };
     }
     if (r.kind === "drop_tower" && r.carriage) {
       r.carriage.getWorldPosition(pos);
-      pos.z += 2.35;
+      const ang = (slot % 10) * ((Math.PI * 2) / 10);
+      pos.x += Math.sin(ang) * 2.95;
+      pos.z += Math.cos(ang) * 2.95;
       pos.y += 0.45;
-      forward.set(-pos.x, -6, -pos.z).normalize();
+      forward.set(Math.sin(ang), -0.35, Math.cos(ang)).normalize();
       const speedKmh = Math.round(Math.abs(r.velY || 0) * 3.6);
       return { position: pos, tangent: forward, up, speedKmh, altitudeM: Number(pos.y.toFixed(1)), vertG: r.velY < -3 ? 0.1 : 1.1, latG: 0, segment: r.velY < -3 ? "FREEFALL" : "TOWER", coasterName: r.def.name };
     }
-    if (r.kind === "carousel" && r.mounts?.[0]) {
-      r.mounts[0].mesh.getWorldPosition(pos);
-      pos.y += 0.85;
+    if (r.kind === "carousel" && r.mounts?.length) {
+      r.mounts[slot % r.mounts.length].mesh.getWorldPosition(pos);
+      pos.y += 0.65;
       const a = r.angle + Math.PI * 0.5;
       forward.set(Math.cos(a), 0, -Math.sin(a)).normalize();
       return { position: pos, tangent: forward, up, speedKmh: 16, altitudeM: Number(pos.y.toFixed(1)), vertG: 1.1, latG: 0.3, segment: "CAROUSEL", coasterName: r.def.name };
     }
     if (r.kind === "pirate_ship" && r.pivot) {
       const swing = Math.sin(r.swingPhase) * 1.05;
-      pos.set(Math.sin(swing) * 8.2, 12.2 - Math.cos(swing) * 8.2 + 0.85, 0);
+      const benchOff = ((slot % 5) - 2) * 1.35;
+      const armR = 8.2;
+      pos.set(Math.sin(swing) * armR + Math.cos(swing) * benchOff, 12.2 - Math.cos(swing) * armR + Math.sin(swing) * benchOff + 0.65, 0);
       r.root.localToWorld(pos);
       forward.set(Math.cos(swing), Math.sin(swing) * 0.6, 0).normalize();
       const spd = Math.round(Math.abs(Math.cos(r.swingPhase)) * 58);
       return { position: pos, tangent: forward, up, speedKmh: spd, altitudeM: Number(pos.y.toFixed(1)), vertG: Number((1 + Math.abs(Math.cos(r.swingPhase)) * 1.6).toFixed(1)), latG: 0.2, segment: "SWING", coasterName: r.def.name };
     }
-    if (r.kind === "teacups" && r.cups?.[0]) {
-      r.cups[0].getWorldPosition(pos);
+    if (r.kind === "teacups" && r.cups?.length) {
+      r.cups[slot % r.cups.length].getWorldPosition(pos);
       pos.y += 1.25;
       const a = r.angle * 3.2;
       forward.set(Math.cos(a), 0, Math.sin(a)).normalize();
       return { position: pos, tangent: forward, up, speedKmh: 24, altitudeM: Number(pos.y.toFixed(1)), vertG: 1.0, latG: 1.4, segment: "SPIN", coasterName: r.def.name };
     }
-    if (r.kind === "swing_tower" && r.chairs?.[0]) {
-      (r.chairs[0].seat || r.chairs[0]).getWorldPosition(pos);
-      pos.y += 0.6;
+    if (r.kind === "swing_tower" && r.chairs?.length) {
+      const ch = r.chairs[slot % r.chairs.length];
+      (ch.seat || ch).getWorldPosition(pos);
+      pos.y += 0.45;
       const a = r.angle + Math.PI * 0.5;
       forward.set(Math.cos(a), -0.15, -Math.sin(a)).normalize();
       return { position: pos, tangent: forward, up, speedKmh: 38, altitudeM: Number(pos.y.toFixed(1)), vertG: 1.3, latG: 0.9, segment: "FLYING", coasterName: r.def.name };
     }
     if (r.kind === "sky_tower" && r.cabin) {
       r.cabin.getWorldPosition(pos);
-      pos.z += 3.1;
-      const a = r.phase * 0.5;
+      const ang = (slot % 8) * ((Math.PI * 2) / 8);
+      pos.x += Math.sin(ang) * 3.1;
+      pos.z += Math.cos(ang) * 3.1;
+      const a = r.phase * 0.5 + ang;
       forward.set(Math.cos(a), -0.25, Math.sin(a)).normalize();
       return { position: pos, tangent: forward, up, speedKmh: 8, altitudeM: Number(pos.y.toFixed(1)), vertG: 1.0, latG: 0, segment: "SKY VIEW", coasterName: r.def.name };
     }
     if (r.kind === "gyro_swing" && r.disc) {
       r.disc.getWorldPosition(pos);
-      pos.y += 1.0;
+      const ang = r.spin + (slot % 12) * ((Math.PI * 2) / 12);
+      pos.x += Math.cos(ang) * 4.2;
+      pos.z += Math.sin(ang) * 4.2;
+      pos.y += 0.55;
       const swing = Math.sin(r.swingPhase) * 1.15;
-      forward.set(Math.cos(r.spin), Math.sin(swing) * 0.4, Math.sin(r.spin)).normalize();
+      forward.set(Math.cos(ang), Math.sin(swing) * 0.4, Math.sin(ang)).normalize();
       const spd = Math.round(Math.abs(Math.cos(r.swingPhase)) * 78);
       return { position: pos, tangent: forward, up, speedKmh: spd, altitudeM: Number(pos.y.toFixed(1)), vertG: Number((1 + Math.abs(Math.cos(r.swingPhase)) * 2.1).toFixed(1)), latG: 0.6, segment: "GYRO SWING", coasterName: r.def.name };
     }
-    if (r.kind === "enterprise_wheel" && r.gondolas?.[0]) {
-      r.gondolas[0].getWorldPosition(pos);
-      pos.y += 0.6;
+    if (r.kind === "enterprise_wheel" && r.gondolas?.length) {
+      r.gondolas[slot % r.gondolas.length].getWorldPosition(pos);
+      pos.y += 0.4;
       const a = r.phase * 2.2;
       forward.set(-Math.sin(a), 0.25, Math.cos(a)).normalize();
       return { position: pos, tangent: forward, up, speedKmh: 52, altitudeM: Number(pos.y.toFixed(1)), vertG: 2.3, latG: 0.4, segment: "360 LOOP", coasterName: r.def.name };
     }
-    if (r.kind === "octopus_ride" && r.arms?.[0]) {
-      r.arms[0].car.getWorldPosition(pos);
-      pos.y += 0.9;
+    if (r.kind === "octopus_ride" && r.arms?.length) {
+      r.arms[slot % r.arms.length].car.getWorldPosition(pos);
+      pos.y += 0.75;
       const a = r.angle + Math.PI * 0.5;
       forward.set(Math.cos(a), 0, -Math.sin(a)).normalize();
       return { position: pos, tangent: forward, up, speedKmh: 34, altitudeM: Number(pos.y.toFixed(1)), vertG: 1.4, latG: 0.8, segment: "OCTOPUS", coasterName: r.def.name };
     }
-    if (r.kind === "bumper_cars" && r.cars?.[0]) {
-      r.cars[0].mesh.getWorldPosition(pos);
-      pos.y += 1.05;
-      const c = r.cars[0];
+    if (r.kind === "bumper_cars" && r.cars?.length) {
+      const c = r.cars[slot % r.cars.length];
+      c.mesh.getWorldPosition(pos);
+      pos.y += 0.85;
       forward.set(c.vx, 0, c.vz).normalize();
       return { position: pos, tangent: forward, up, speedKmh: 22, altitudeM: Number(pos.y.toFixed(1)), vertG: 1.0, latG: 0.9, segment: "BUMPER", coasterName: r.def.name };
     }
-    if (r.kind === "rocket_spinner" && r.rockets?.[0]) {
-      r.rockets[0].rocket.getWorldPosition(pos);
-      pos.y += 0.85;
+    if (r.kind === "rocket_spinner" && r.rockets?.length) {
+      r.rockets[slot % r.rockets.length].rocket.getWorldPosition(pos);
+      pos.y += 0.7;
       const a = r.angle + Math.PI * 0.5;
       forward.set(Math.cos(a), 0.1, -Math.sin(a)).normalize();
       return { position: pos, tangent: forward, up, speedKmh: 44, altitudeM: Number(pos.y.toFixed(1)), vertG: 1.6, latG: 0.7, segment: "ORBIT", coasterName: r.def.name };
     }
     if (r.isExtended) {
-      return getExtendedRideSeatState(r, pos, forward, up);
+      return getExtendedRideSeatState(r, pos, forward, up, slot);
     }
     return null;
   }

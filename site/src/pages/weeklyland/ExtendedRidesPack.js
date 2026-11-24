@@ -744,58 +744,66 @@ export function updateExtendedRide(r, stepDt, simTime) {
 /**
  * Returns 1st-person seat telemetry for any of the 14 extended rides.
  */
-export function getExtendedRideSeatState(r, pos, forward, up) {
+export function getExtendedRideSeatState(r, pos, forward, up, slot = 0) {
   if (r.kind === "top_spin" && r.gondolaPivot) {
     r.gondolaPivot.getWorldPosition(pos);
-    pos.y += 0.9;
+    pos.x += ((slot % 5) - 2) * 0.95;
+    pos.y += 0.75;
     forward.set(0, Math.sin(r.phase), Math.cos(r.phase)).normalize();
     return { position: pos, tangent: forward, up, speedKmh: 46, altitudeM: Number(pos.y.toFixed(1)), vertG: 2.4, latG: 0.3, segment: "TOP SPIN", coasterName: r.def.name };
   }
-  if (r.kind === "power_surge" && r.arms?.[0]) {
-    r.arms[0].getWorldPosition(pos);
-    pos.y += 0.7;
+  if (r.kind === "power_surge" && r.arms?.length) {
+    r.arms[slot % r.arms.length].getWorldPosition(pos);
+    pos.y += 0.6;
     forward.set(Math.cos(r.phase * 2), 0.2, Math.sin(r.phase * 2)).normalize();
     return { position: pos, tangent: forward, up, speedKmh: 54, altitudeM: Number(pos.y.toFixed(1)), vertG: 2.6, latG: 1.1, segment: "SURGE", coasterName: r.def.name };
   }
   if (r.kind === "frisbee_pendulum" && r.disc) {
     r.disc.getWorldPosition(pos);
-    pos.y += 1.0;
-    forward.set(Math.cos(r.spin), 0.15, Math.sin(r.spin)).normalize();
+    const ang = r.spin + (slot % 8) * ((Math.PI * 2) / 8);
+    pos.x += Math.cos(ang) * 3.8;
+    pos.z += Math.sin(ang) * 3.8;
+    pos.y += 0.65;
+    forward.set(Math.cos(ang), 0.15, Math.sin(ang)).normalize();
     return { position: pos, tangent: forward, up, speedKmh: 76, altitudeM: Number(pos.y.toFixed(1)), vertG: 2.8, latG: 0.7, segment: "FRISBEE", coasterName: r.def.name };
   }
   if (r.kind === "gravitron_ufo" && r.saucer) {
     r.saucer.getWorldPosition(pos);
-    pos.y += 1.2;
+    pos.y += 1.0;
     forward.set(Math.cos(r.phase * 3), 0.05, Math.sin(r.phase * 3)).normalize();
     return { position: pos, tangent: forward, up, speedKmh: 62, altitudeM: Number(pos.y.toFixed(1)), vertG: 3.0, latG: 0.4, segment: "CENTRIFUGE", coasterName: r.def.name };
   }
-  if (r.kind === "scrambler_twist" && r.clusters?.[0]) {
-    r.clusters[0].getWorldPosition(pos);
-    pos.y -= 2.2;
+  if (r.kind === "scrambler_twist" && r.clusters?.length) {
+    r.clusters[slot % r.clusters.length].getWorldPosition(pos);
+    pos.y -= 2.4;
     forward.set(Math.cos(r.mainRotor.rotation.y), 0, Math.sin(r.mainRotor.rotation.y)).normalize();
     return { position: pos, tangent: forward, up, speedKmh: 36, altitudeM: Number(pos.y.toFixed(1)), vertG: 1.2, latG: 1.8, segment: "SCRAMBLER", coasterName: r.def.name };
   }
   if (r.kind === "magic_carpet" && r.carpet) {
     r.carpet.getWorldPosition(pos);
-    pos.y += 1.1;
+    pos.x += ((slot % 5) - 2) * 1.1;
+    pos.y += 0.9;
     forward.set(0, 0.1, 1);
     return { position: pos, tangent: forward, up, speedKmh: 48, altitudeM: Number(pos.y.toFixed(1)), vertG: 2.1, latG: 0.2, segment: "CARPET", coasterName: r.def.name };
   }
-  if (r.kind === "condor_tower" && r.pods?.[0]) {
-    r.pods[0].getWorldPosition(pos);
-    pos.y += 0.6;
+  if (r.kind === "condor_tower" && r.pods?.length) {
+    r.pods[slot % r.pods.length].getWorldPosition(pos);
+    pos.y += 0.45;
     forward.set(Math.cos(r.sleeve.rotation.y), -0.15, Math.sin(r.sleeve.rotation.y)).normalize();
     return { position: pos, tangent: forward, up, speedKmh: 34, altitudeM: Number(pos.y.toFixed(1)), vertG: 1.3, latG: 0.9, segment: "CONDOR", coasterName: r.def.name };
   }
   if (r.kind === "tagada_disco" && r.bowlPivot) {
     r.bowlPivot.getWorldPosition(pos);
-    pos.y += 1.2;
-    forward.set(Math.cos(r.bowlPivot.rotation.y), 0.1, Math.sin(r.bowlPivot.rotation.y)).normalize();
+    const ang = r.bowlPivot.rotation.y + (slot % 8) * ((Math.PI * 2) / 8);
+    pos.x += Math.cos(ang) * 3.6;
+    pos.z += Math.sin(ang) * 3.6;
+    pos.y += 0.95;
+    forward.set(-Math.cos(ang), 0.1, -Math.sin(ang)).normalize();
     return { position: pos, tangent: forward, up, speedKmh: 40, altitudeM: Number(pos.y.toFixed(1)), vertG: 2.2, latG: 1.2, segment: "DISCO", coasterName: r.def.name };
   }
-  if (r.kind === "log_flume_splash" && r.boats?.[0]) {
-    r.boats[0].mesh.getWorldPosition(pos);
-    pos.y += 1.1;
+  if (r.kind === "log_flume_splash" && r.boats?.length) {
+    r.boats[slot % r.boats.length].mesh.getWorldPosition(pos);
+    pos.y += 0.85;
     forward.set(-Math.sin(r.phase), 0, Math.cos(r.phase)).normalize();
     return { position: pos, tangent: forward, up, speedKmh: 28, altitudeM: Number(pos.y.toFixed(1)), vertG: 1.1, latG: 0.4, segment: "SPLASH", coasterName: r.def.name };
   }
@@ -806,28 +814,29 @@ export function getExtendedRideSeatState(r, pos, forward, up) {
     forward.set(0, 0.1, -1);
     return { position: pos, tangent: forward, up, speedKmh: 12, altitudeM: Number(pos.y.toFixed(1)), vertG: 1.0, latG: 0, segment: "SPOOKY", coasterName: r.def.name };
   }
-  if (r.kind === "mini_train_station" && r.cars?.[0]) {
-    r.cars[0].mesh.getWorldPosition(pos);
-    pos.y += 1.6;
+  if (r.kind === "mini_train_station" && r.cars?.length) {
+    r.cars[slot % r.cars.length].mesh.getWorldPosition(pos);
+    pos.y += 1.45;
     forward.set(-Math.sin(r.phase), 0, Math.cos(r.phase)).normalize();
     return { position: pos, tangent: forward, up, speedKmh: 24, altitudeM: Number(pos.y.toFixed(1)), vertG: 1.0, latG: 0.3, segment: "RAILWAY", coasterName: r.def.name };
   }
-  if (r.kind === "go_kart_track" && r.karts?.[0]) {
-    r.karts[0].mesh.getWorldPosition(pos);
-    pos.y += 0.95;
-    const a = r.phase * r.karts[0].speed;
+  if (r.kind === "go_kart_track" && r.karts?.length) {
+    const k = r.karts[slot % r.karts.length];
+    k.mesh.getWorldPosition(pos);
+    pos.y += 0.78;
+    const a = r.phase * k.speed + k.offset;
     forward.set(-Math.sin(a), 0, Math.cos(a)).normalize();
     return { position: pos, tangent: forward, up, speedKmh: 58, altitudeM: Number(pos.y.toFixed(1)), vertG: 1.1, latG: 1.6, segment: "RACE", coasterName: r.def.name };
   }
   if (r.kind === "bungee_trampoline" && r.capsule) {
     r.capsule.getWorldPosition(pos);
-    pos.y += 0.5;
+    pos.y += 0.35;
     forward.set(0, 0.35, 1).normalize();
     return { position: pos, tangent: forward, up, speedKmh: 92, altitudeM: Number(pos.y.toFixed(1)), vertG: 3.4, latG: 0, segment: "SLINGSHOT", coasterName: r.def.name };
   }
-  if (r.kind === "swan_boats_pond" && r.swans?.[0]) {
-    r.swans[0].mesh.getWorldPosition(pos);
-    pos.y += 1.25;
+  if (r.kind === "swan_boats_pond" && r.swans?.length) {
+    r.swans[slot % r.swans.length].mesh.getWorldPosition(pos);
+    pos.y += 0.95;
     forward.set(-Math.sin(r.phase), 0, Math.cos(r.phase)).normalize();
     return { position: pos, tangent: forward, up, speedKmh: 9, altitudeM: Number(pos.y.toFixed(1)), vertG: 1.0, latG: 0.1, segment: "SWAN BOAT", coasterName: r.def.name };
   }

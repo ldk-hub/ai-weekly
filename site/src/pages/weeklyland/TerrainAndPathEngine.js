@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { createToonMaterial, getCartoonGrassTexture, safeDisposeObjectTree } from "./ToonMaterials.js";
+import { STAGE_PALETTES } from "./ParkThemeStages.js";
 
 const PATH_STYLES = {
   sandstone: { main: 0xffe8c2, curb: 0xd9a76a },
@@ -37,11 +38,17 @@ export class TerrainAndPathEngine {
     this.walkWaypoints = [];
     this.walkEdges = new Map();
     this._waterTime = 0;
+    this.themePalette = STAGE_PALETTES["sunlit-meadow"];
 
     this._initHeights(terrainConfig);
     this._buildTerrainMesh();
     this._buildWaterMesh();
     this.rebuildPaths(pathsConfig);
+  }
+
+  setThemePalette(stageId) {
+    this.themePalette = STAGE_PALETTES[stageId] || STAGE_PALETTES["sunlit-meadow"];
+    this._syncGeometryFromHeights();
   }
 
   _initHeights(cfg) {
@@ -121,11 +128,12 @@ export class TerrainAndPathEngine {
   _syncGeometryFromHeights() {
     const pos = this.terrainGeo.attributes.position;
     const col = this.colorAttr;
+    const tc = this.themePalette?.terrainColors;
     const cSand = new THREE.Color(0xfff0cf);
-    const cGrass = new THREE.Color(0x7ad67e);
-    const cLush = new THREE.Color(0x55be6e);
-    const cRock = new THREE.Color(0xb4a7c7);
-    const cPond = new THREE.Color(0x6ad4e6);
+    const cGrass = tc ? new THREE.Color(tc.lowGrass[0], tc.lowGrass[1], tc.lowGrass[2]) : new THREE.Color(0x7ad67e);
+    const cLush = tc ? new THREE.Color(tc.midGrass[0], tc.midGrass[1], tc.midGrass[2]) : new THREE.Color(0x55be6e);
+    const cRock = tc ? new THREE.Color(tc.highPeak[0], tc.highPeak[1], tc.highPeak[2]) : new THREE.Color(0xb4a7c7);
+    const cPond = tc ? new THREE.Color(tc.waterBed[0], tc.waterBed[1], tc.waterBed[2]) : new THREE.Color(0x6ad4e6);
     const tmp = new THREE.Color();
 
     for (let i = 0; i < pos.count; i++) {
@@ -479,7 +487,9 @@ export class TerrainAndPathEngine {
     this._waterTime += dt;
     if (this.waterMesh) {
       this.waterMesh.position.y = this.waterLevel + Math.sin(this._waterTime * 1.4) * 0.03;
-      this.waterMat.color.setHex(isNight ? 0x163e5c : 0x2a86a8);
+      const dayCol = this.themePalette?.waterColorDay ?? 0x2a86a8;
+      const nightCol = this.themePalette?.waterColorNight ?? 0x163e5c;
+      this.waterMat.color.setHex(isNight ? nightCol : dayCol);
     }
   }
 

@@ -1110,6 +1110,250 @@ body.wl-park-page #sanctuary-canvas {
   color: var(--wl-sem-cyan);
 }
 
+.wl-guest-wallet {
+  margin-top: 2px;
+  font-family: var(--wl-font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: #fbbf24;
+}
+
+/* Rising +₩ Coin Payment Popup in 3D Screen Space */
+.wl-coin-popup {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.72);
+  border: 1px solid rgba(251, 191, 36, 0.65);
+  color: #fde047;
+  font-family: var(--wl-font-mono);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.75);
+  pointer-events: none;
+  will-change: transform, opacity;
+  z-index: 16;
+}
+
+/* Park Treasury Topbar Button & Finance Popover */
+.wl-finance-btn {
+  font-family: var(--wl-font-mono);
+  font-weight: 700;
+  color: #fde047;
+  border-color: rgba(251, 191, 36, 0.42);
+  background: rgba(251, 191, 36, 0.14);
+}
+
+:root[data-theme="light"] .wl-finance-btn {
+  color: #b45309;
+  border-color: rgba(180, 83, 9, 0.35);
+  background: rgba(251, 191, 36, 0.2);
+}
+
+.wl-finance-popover {
+  position: absolute;
+  top: 64px;
+  right: 16px;
+  width: 312px;
+  padding: 14px 16px;
+  z-index: 34;
+  background: var(--wl-inspector-bg);
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.wl-finance-popover[hidden] {
+  display: none;
+}
+
+.wl-fin-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.wl-fin-stage-sub {
+  font-size: 11.5px;
+  color: var(--wl-sem-cyan);
+  margin-top: 2px;
+}
+
+.wl-fin-kpis {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.wl-fin-kpi {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 10px;
+  border-radius: var(--wl-radius-sm);
+  background: var(--wl-btn-bg);
+  border: 1px solid var(--wl-hud-border);
+}
+
+.wl-fin-kpi span {
+  font-size: 10.5px;
+  color: var(--wl-sem-ink-muted);
+}
+
+.wl-fin-kpi strong {
+  font-family: var(--wl-font-mono);
+  font-size: 13px;
+  color: var(--wl-sem-ink);
+}
+
+.wl-fin-sliders {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wl-fin-top {
+  border-top: 1px solid var(--wl-hud-border);
+  padding-top: 10px;
+}
+
+.wl-fin-top-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--wl-sem-ink-muted);
+  margin-bottom: 6px;
+}
+
+.wl-fin-top-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.wl-fin-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-size: 11.5px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: var(--wl-btn-bg);
+}
+
+.wl-fin-top-row strong {
+  font-family: var(--wl-font-mono);
+  color: #fbbf24;
+  white-space: nowrap;
+}
+
+:root[data-theme="light"] .wl-fin-top-row strong {
+  color: #b45309;
+}
+
+.wl-fin-empty {
+  font-size: 11.5px;
+  color: var(--wl-sem-ink-muted);
+}
+
+/* Theme Park Stage Selector Grid & Modal */
+.wl-welcome-stage-wrap {
+  margin-bottom: 14px;
+}
+
+.wl-welcome-stage-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--wl-sem-ink);
+  margin-bottom: 8px;
+}
+
+.wl-stage-modal-card {
+  width: 100%;
+  max-width: 600px;
+  padding: 22px 24px;
+  background: var(--wl-inspector-bg);
+  border: 1px solid var(--wl-sem-border-strong);
+}
+
+.wl-stage-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.wl-stage-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 10px 12px;
+  border-radius: var(--wl-radius-sm);
+  border: 1.5px solid var(--wl-hud-border);
+  background: var(--wl-btn-bg);
+  color: var(--wl-sem-ink);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 140ms ease, background 140ms ease, transform 140ms ease;
+}
+
+.wl-stage-card:hover {
+  border-color: var(--wl-sem-accent);
+  transform: translateY(-1px);
+}
+
+.wl-stage-card.is-active {
+  border-color: var(--wl-sem-accent);
+  background: rgba(249, 115, 22, 0.16);
+  box-shadow: 0 0 0 1px var(--wl-sem-accent);
+}
+
+.wl-stage-card-head {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+}
+
+.wl-stage-card-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+.wl-stage-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+}
+
+.wl-stage-badge {
+  font-family: var(--wl-font-mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: var(--wl-sem-surface-strong);
+  color: var(--wl-sem-accent);
+}
+
+.wl-stage-desc {
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--wl-sem-ink-muted);
+}
+
 .wl-guest-quote {
   margin: 0 0 12px;
   padding: 8px 10px;
@@ -1334,11 +1578,24 @@ body.wl-park-page #sanctuary-canvas {
     gap: 8px;
   }
 
-  .wl-guest-card {
+  .wl-guest-card,
+  .wl-finance-popover {
     top: 56px;
     left: 10px;
     right: 10px;
     width: auto;
+    max-height: 76dvh;
+    overflow-y: auto;
+  }
+
+  .wl-stage-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .wl-stage-modal-card {
+    max-height: 86dvh;
+    overflow-y: auto;
+    padding: 18px 16px;
   }
 
   .wl-welcome-card {

@@ -129,6 +129,13 @@
 
         <nav class="wl-hud-panel wl-topbar-group" aria-label="시점 및 세계 건설 모드">
           <span class="wl-stat-mono" id="wl-park-stat">방문자 1 · AI 24</span>
+          <button type="button" class="wl-hud-btn wl-finance-btn" id="btn-wl-finance" title="공원 수익·요금·탑승 현황 보기">
+            <span id="wl-finance-balance">₩250,000</span>
+          </button>
+          <button type="button" class="wl-hud-btn" id="btn-wl-stage" title="테마별 스테이지 맵 선택 (4종)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+            <span id="wl-stage-btn-label">맵 선택</span>
+          </button>
           <button type="button" class="wl-hud-btn" id="btn-wl-drone" title="드론 조망 카메라 전환">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
             <span>드론</span>
@@ -138,6 +145,75 @@
             <span>세계 건설</span>
           </button>
         </nav>
+      </div>
+
+      <!-- Park Finance & Economy Popover -->
+      <aside class="wl-hud-panel wl-finance-popover" id="wl-finance-popover" aria-label="위클리랜드 공원 재무 및 요금 관리" hidden>
+        <div class="wl-fin-head">
+          <div>
+            <strong class="wl-section-heading" style="margin:0;">공원 재무 · 티켓 경제</strong>
+            <div class="wl-fin-stage-sub" id="wl-fin-stage-name">위클리 썬릿 초원</div>
+          </div>
+          <button type="button" class="wl-hud-btn" id="btn-fin-close">닫기</button>
+        </div>
+
+        <div class="wl-fin-kpis">
+          <div class="wl-fin-kpi">
+            <span>보유 자금</span>
+            <strong id="wl-fin-balance">₩250,000</strong>
+          </div>
+          <div class="wl-fin-kpi">
+            <span>누적 매출</span>
+            <strong id="wl-fin-revenue">₩0</strong>
+          </div>
+          <div class="wl-fin-kpi">
+            <span>티켓 · 간식</span>
+            <strong id="wl-fin-sales">0매 · 0건</strong>
+          </div>
+          <div class="wl-fin-kpi">
+            <span>실탑승 · 대기</span>
+            <strong id="wl-fin-riders">0명 · 0명</strong>
+          </div>
+        </div>
+
+        <div class="wl-fin-sliders">
+          <label class="wl-field-row" style="margin:0;">
+            <div class="wl-field-label"><span>코스터 탑승 요금</span><span class="wl-stat-mono" id="wl-price-coaster-lbl">₩5,500</span></div>
+            <input type="range" id="wl-price-coaster" class="wl-range" min="1000" max="12000" step="500" value="5500" />
+          </label>
+          <label class="wl-field-row" style="margin:0;">
+            <div class="wl-field-label"><span>어트랙션 탑승 요금</span><span class="wl-stat-mono" id="wl-price-ride-lbl">₩4,000</span></div>
+            <input type="range" id="wl-price-ride" class="wl-range" min="500" max="9000" step="500" value="4000" />
+          </label>
+          <label class="wl-field-row" style="margin:0;">
+            <div class="wl-field-label"><span>간식·상점 가격</span><span class="wl-stat-mono" id="wl-price-snack-lbl">₩3,500</span></div>
+            <input type="range" id="wl-price-snack" class="wl-range" min="1000" max="7000" step="500" value="3500" />
+          </label>
+        </div>
+
+        <div class="wl-fin-top">
+          <div class="wl-fin-top-title">인기 수익 어트랙션 TOP 5</div>
+          <div id="wl-fin-top-rides" class="wl-fin-top-list">
+            <span class="wl-fin-empty">AI 손님들이 곧 첫 티켓을 구매하고 탑승합니다…</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Theme Park Stage Selector Modal (Planet Coaster / RCT Style) -->
+      <div class="wl-modal-backdrop" id="wl-stage-modal" role="dialog" aria-modal="true" aria-label="테마별 스테이지 맵 선택" hidden>
+        <div class="wl-hud-panel wl-stage-modal-card">
+          <div class="wl-fin-head" style="margin-bottom:12px;">
+            <div>
+              <div class="wl-welcome-eyebrow" style="margin-bottom:4px;">THEME PARK STAGES</div>
+              <h2 class="wl-section-heading" style="margin:0;font-size:18px;">테마별 스테이지 맵 선택</h2>
+            </div>
+            <button type="button" class="wl-hud-btn" id="btn-stage-close">닫기</button>
+          </div>
+          <p class="wl-welcome-lead" style="margin-bottom:14px;font-size:12.5px;">
+            롤러코스터 타이쿤·플래닛 코스터처럼 서로 다른 지형, 날씨 분위기, 시그니처 코스터와 어트랙션으로 구성된 4개 테마 월드를 즉시 전환할 수 있습니다.
+          </p>
+          <div class="wl-stage-grid" id="wl-stage-modal-grid"></div>
+        </div>
       </div>
 
       <!-- Ride POV Telemetry Bar -->
@@ -193,9 +269,14 @@
           <div class="wl-welcome-eyebrow">AI WEEKLY · 3D CARTOON THEME PARK</div>
           <h2 class="wl-welcome-title" id="wl-welcome-title">위클리랜드 정문에 오신 것을 환영합니다</h2>
           <p class="wl-welcome-lead">
-            실시간 AI위클리 데이터와 12종 놀이기구·하이퍼 코스터, 자율 행동 AI 관람객이 어우러진 300m 대형 3D 테마파크입니다.
-            지금 정문 매표소를 지나 공원 안으로 입장해 보세요.
+            실시간 AI위클리 데이터, 돈 기반 공원 경제·AI 손님 실탑승, 4종 테마 스테이지가 어우러진 300m 3D 테마파크입니다.
+            원하는 테마 맵을 고른 뒤 정문 매표소를 지나 입장해 보세요.
           </p>
+
+          <div class="wl-welcome-stage-wrap">
+            <div class="wl-welcome-stage-label">테마 스테이지 선택</div>
+            <div class="wl-stage-grid" id="wl-welcome-stage-grid"></div>
+          </div>
 
           <div class="wl-welcome-grid">
             <div class="wl-welcome-item">
@@ -237,6 +318,7 @@
               <span class="wl-guest-badge" id="wl-gc-persona">스릴 매니아</span>
             </div>
             <div class="wl-guest-state" id="wl-gc-state">코스터 구경 중</div>
+            <div class="wl-guest-wallet" id="wl-gc-wallet">소지금 ₩40,000 · 탑승 0회</div>
           </div>
           <button type="button" class="wl-hud-btn" id="btn-wl-gc-close">닫기</button>
         </div>
