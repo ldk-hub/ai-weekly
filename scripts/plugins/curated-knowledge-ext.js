@@ -1340,6 +1340,19 @@ module.exports = {
     ],
     use_case: "AI로 작성한 초안에서 기계적인 느낌을 지우고 자연스러운 사람의 글솜씨로 다듬고 싶을 때",
     tags: ["ai-humanizer", "writing-tools", "prompt-engineering", "claude-skills", "copywriting"]
+  },
+  "XinaTian/MROffice": {
+    category: "mcp",
+    title_ko: "MROffice — 실제 Word·Excel·PPT·PDF 파일을 AI와 함께 편집하는 오픈소스 오피스 스위트 및 MCP 서버",
+    catchphrase: "브라우저 기반 5종 오피스 에디터와 MCP 서버로 에이전트가 실제 .docx·.xlsx·.pptx 문서를 직접 생성·편집",
+    summary_ko: "Microsoft Office에 가장 가까운 브라우저 기반 오픈소스(AGPL-3.0) AI 오피스 스위트 에디터 5종(문서·스프레드시트·프레젠테이션·PDF·코드)과 전용 MCP 서버를 제공하는 프로젝트입니다. 에디터 내장 Copilot으로 실제 Word(.docx)·Excel(.xlsx)·PowerPoint(.pptx)·PDF 파일을 공동 편집할 수 있으며, 원격/로컬 MCP 서버(`mroffice-mcp`)를 통해 Claude·Cursor·Codex·ChatGPT 등 AI 에이전트가 문서를 열고 수식·서식·슬라이드를 직접 편집·내보내기 할 수 있습니다. 또한 `mroffice-embed` SDK나 React 패키지로 자체 웹 앱에 한 줄로 오피스 에디터를 임베드할 수 있습니다.",
+    key_features: [
+      "문서·스프레드시트·프레젠테이션·PDF·코드 5종 브라우저 에디터 및 실제 .docx/.xlsx/.pptx 호환",
+      "MCP 서버(`mcp.mroffice.ai` / `npx mroffice-mcp`)로 AI 에이전트의 문서 조회·편집·내보내기 자동화",
+      "한 줄 임베드 SDK(`mroffice-embed`) 및 React 컴포넌트 패키지로 웹 서비스 통합 지원"
+    ],
+    use_case: "AI 에이전트에게 실제 Word 보고서, Excel 수식 시트, PowerPoint 발표 자료 생성·편집을 맡기거나 웹 앱에 AI 오피스 에디터를 임베드할 때",
+    tags: ["mcp-server", "office-suite", "docx", "xlsx", "pptx"]
   }
 };
 

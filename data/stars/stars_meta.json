@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-25T02:28:35.636Z",
+  "generated_at": "2026-11-25T07:12:45.511Z",
   "repos": {
     "santifer/career-ops": {
       "pushed_at": "2026-08-31T21:40:42Z",
@@ -13744,6 +13744,203 @@
         "multiplayer"
       ],
       "owner_avatar": "https://avatars.githubusercontent.com/u/355274722?v=4"
+    },
+    "XinaTian/MROffice": {
+      "pushed_at": "2026-11-24T15:50:44Z",
+      "archived": false,
+      "checked_at": "2026-11-25",
+      "gone": false,
+      "dormant": null,
+      "description": "MR Office — the open-source editors of the AI office suite closest to Microsoft Office: documents, spreadsheets, presentations, PDF and code in the browser. Copilot in every editor edits real Word, Excel and PowerPoint files with you; an MCP server lets Claude, ChatGPT, Cursor and Codex create and edit them; embed it in your app with one line.",
+      "language": "TypeScript",
+      "topics": [
+        "ai",
+        "ai-agent",
+        "claude-code",
+        "codex",
+        "copilot",
+        "cursor",
+        "document-editor",
+        "docx",
+        "embed",
+        "excel",
+        "mcp",
+        "mcp-server",
+        "microsoft-office-alternative",
+        "office-suite",
+        "pdf-editor",
+        "powerpoint",
+        "pptx",
+        "spreadsheet",
+        "word",
+        "xlsx"
+      ],
+      "owner_avatar": "https://avatars.githubusercontent.com/u/225383926?v=4"
+    },
+    "danielwh2/sprite-stacking": {
+      "pushed_at": "2026-11-24T13:12:08Z",
+      "archived": false,
+      "checked_at": "2026-11-25",
+      "gone": false,
+      "dormant": null,
+      "description": "Agent skill: turn four pixel art views into fake-3D sprites you can spin. Works with Claude Code, Codex, Cursor, OpenCode, Gemini CLI, Pi.",
+      "language": "HTML",
+      "topics": [
+        "agent-skills",
+        "claude-code",
+        "codex",
+        "cursor",
+        "fake-3d",
+        "gamedev",
+        "pixel-art",
+        "sprite-stacking",
+        "voxel"
+      ],
+      "owner_avatar": "https://avatars.githubusercontent.com/u/51721416?v=4"
+    },
+    "pierridotite/mobile-agent-testers": {
+      "pushed_at": "2026-11-24T12:57:05Z",
+      "archived": false,
+      "checked_at": "2026-11-25",
+      "gone": false,
+      "dormant": null,
+      "description": "20 AI testers on 20 different phones, in parallel, on GitHub's free runners: Claude Code agents on iOS Simulators and Android emulators that find broken flows, translation, layout and accessibility bugs",
+      "language": "Python",
+      "topics": [
+        "accessibility-testing",
+        "ai-agents",
+        "ai-testing",
+        "android",
+        "android-emulator",
+        "claude",
+        "claude-code",
+        "e2e-testing",
+        "exploratory-testing",
+        "expo",
+        "flutter",
+        "github-actions",
+        "ios",
+        "ios-simulator",
+        "llm",
+        "mobile-testing",
+        "qa",
+        "react-native",
+        "test-automation",
+        "ui-testing"
+      ],
+      "owner_avatar": "https://avatars.githubusercontent.com/u/132000863?v=4"
+    },
+    "boringmarketer/boring-marketing-skills": {
+      "pushed_at": "2026-11-17T22:53:58Z",
+      "archived": false,
+      "checked_at": "2026-11-25",
+      "gone": false,
+      "dormant": null,
+      "description": "32 free marketing skills for your AI agent: research, positioning, copy, pages, SEO, AI search, ads, email and content, plus a deep local-business pack. MIT.",
+      "language": "Python",
+      "topics": [
+        "agent-skills",
+        "ai-agents",
+        "claude-code",
+        "codex",
+        "copywriting",
+        "local-seo",
+        "marketing",
+        "seo"
+      ],
+      "owner_avatar": "https://avatars.githubusercontent.com/u/212546731?v=4"
+    },
+    "Moh4696/cinematic-skill": {
+      "pushed_at": "2026-11-09T15:35:12Z",
+      "archived": false,
+      "checked_at": "2026-11-25",
+      "gone": false,
+      "dormant": null,
+      "description": "Agent skill for narrated cinematic films built entirely from code.",
+      "language": "Python",
+      "topics": [
+        "agent-skills",
+        "claude-code",
+        "codex",
+        "documentary",
+        "explainer-video",
+        "motion-graphics",
+        "skia",
+        "video"
+      ],
+      "owner_avatar": "https://avatars.githubusercontent.com/u/110087282?v=4"
+    },
+    "mankidev/antialgorithm": {
+      "pushed_at": "2026-11-20T17:08:35Z",
+      "archived": false,
+      "checked_at": "2026-11-25",
+      "gone": false,
+      "dormant": null,
+      "description": "Agent skill that steers the model away from its first, most average pick in creative work: names, ideas, logo, posters, UI.",
+      "language": "Python",
+      "topics": [
+        "agent-skills",
+        "claude-code",
+        "claude-code-plugin",
+        "claude-skills",
+        "codex",
+        "creative-writing",
+        "creativity",
+        "design",
+        "llm",
+        "naming",
+        "svg",
+        "ui-design"
+      ],
+      "owner_avatar": "https://avatars.githubusercontent.com/u/220589404?v=4"
+    },
+    "felipebasurto/unslop-ui": {
+      "pushed_at": "2026-11-22T13:26:20Z",
+      "archived": false,
+      "checked_at": "2026-11-25",
+      "gone": false,
+      "dormant": null,
+      "description": "Agent skill that cuts AI tells from UI copy, charts and dashboards: eyebrows, numbering, botsplaining, decorative icons, badges and status dots. Opt-in surface rules.",
+      "language": "TypeScript",
+      "topics": [
+        "agent-skills",
+        "ai-slop",
+        "claude-code",
+        "claude-skills",
+        "codex",
+        "cursor",
+        "ui",
+        "ux-writing"
+      ],
+      "owner_avatar": "https://avatars.githubusercontent.com/u/62935664?v=4"
+    },
+    "zhanghao123vip/ai-manju-skills": {
+      "pushed_at": "2026-11-01T02:53:40Z",
+      "archived": false,
+      "checked_at": "2026-11-25",
+      "gone": false,
+      "dormant": null,
+      "description": "21 个题材的 AI 漫剧全流程 Skill：一句点子生成企划案、资产图提示词、分集剧本、分镜与视频提示词。可用于 Claude Code、WorkBuddy、DeepSeek",
+      "language": "",
+      "topics": [
+        "ai-skills",
+        "ai-video",
+        "chinese",
+        "claude-code",
+        "prompt-engineering"
+      ],
+      "owner_avatar": "https://avatars.githubusercontent.com/u/293264695?v=4"
+    },
+    "sybil-solutions/skill-distill": {
+      "pushed_at": "2026-11-21T03:48:01Z",
+      "archived": false,
+      "checked_at": "2026-11-25",
+      "gone": false,
+      "dormant": null,
+      "description": "Distill a good Claude Code / Codex session into a skill an open-weight model can follow to reproduce the task",
+      "language": "Python",
+      "topics": [],
+      "owner_avatar": "https://avatars.githubusercontent.com/u/284200730?v=4"
     }
   },
   "updated_date": "2026-11-25",

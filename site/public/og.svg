@@ -9,7 +9,7 @@
   <g transform="translate(930, 64)">
     <rect x="0" y="0" width="210" height="36" rx="18" fill="#f2efe5"/>
     <circle cx="22" cy="18" r="4" fill="#d97757"/>
-    <text x="112" y="23" font-size="13" font-weight="600" fill="#0e0e0e" text-anchor="middle">2026.11.23 · v2026.11.23</text>
+    <text x="112" y="23" font-size="13" font-weight="600" fill="#0e0e0e" text-anchor="middle">2026.11.25 · v2026.11.25</text>
   </g>
   <text x="60" y="200" font-size="48" font-weight="700" fill="#0e0e0e" letter-spacing="-1.5">이번 주 뜨는 도구 TOP 3</text>
   <text x="60" y="245" font-size="18" font-weight="500" fill="#6b6860">매주 월요일 자동 갱신 · ldk-hub.github.io/ai-weekly</text>
@@ -17,37 +17,7 @@
     <g transform="translate(60, 290)">
       <rect x="0" y="0" width="347" height="280" rx="20" fill="#ffeca0" stroke="#0e0e0e" stroke-width="1.5"/>
       <g clip-path="url(#mainCardClip0)">
-        <text x="24" y="38" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="1.6">#01 · AGENT</text>
-        <text x="24" y="78" font-size="22" font-weight="700" fill="#0e0e0e" letter-spacing="-0.4">rea — 앱 동작</text>
-      <text x="24" y="108" font-size="22" font-weight="700" fill="#0e0e0e" letter-spacing="-0.4">분석부터 네이티…</text>
-        <text x="24" y="144" font-size="13.5" font-weight="500" fill="#0e0e0e" opacity="0.85">애플리케이션의 런타임 행동과</text>
-      <text x="24" y="165" font-size="13.5" font-weight="500" fill="#0e0e0e" opacity="0.85">바이너리 구조를 에이전트가 깊이</text>
-      <text x="24" y="186" font-size="13.5" font-weight="500" fill="#0e0e0e" opacity="0.85">파고들어 분석</text>
-        <g transform="translate(24, 228)">
-          <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">morluto/rea</text>
-          <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 474k</text>
-        </g>
-      </g>
-    </g>
-    <g transform="translate(427, 290)">
-      <rect x="0" y="0" width="347" height="280" rx="20" fill="#d8edd0" stroke="#0e0e0e" stroke-width="1.5"/>
-      <g clip-path="url(#mainCardClip1)">
-        <text x="24" y="38" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="1.6">#02 · MCP</text>
-        <text x="24" y="78" font-size="22" font-weight="700" fill="#0e0e0e" letter-spacing="-0.4">phonebox — 구형</text>
-      <text x="24" y="108" font-size="22" font-weight="700" fill="#0e0e0e" letter-spacing="-0.4">Android 폰을 A…</text>
-        <text x="24" y="144" font-size="13.5" font-weight="500" fill="#0e0e0e" opacity="0.85">클라우드 없이 USB·Wi-Fi로 연결해</text>
-      <text x="24" y="165" font-size="13.5" font-weight="500" fill="#0e0e0e" opacity="0.85">115개 위젯으로 시스템 상태와 AI</text>
-      <text x="24" y="186" font-size="13.5" font-weight="500" fill="#0e0e0e" opacity="0.85">코딩을 터치 제어</text>
-        <g transform="translate(24, 228)">
-          <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">ersinkoc/phonebox</text>
-          <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 5.0k</text>
-        </g>
-      </g>
-    </g>
-    <g transform="translate(794, 290)">
-      <rect x="0" y="0" width="347" height="280" rx="20" fill="#ffd8bd" stroke="#0e0e0e" stroke-width="1.5"/>
-      <g clip-path="url(#mainCardClip2)">
-        <text x="24" y="38" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="1.6">#03 · SKILL</text>
+        <text x="24" y="38" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="1.6">#01 · SKILL</text>
         <text x="24" y="78" font-size="22" font-weight="700" fill="#0e0e0e" letter-spacing="-0.4">skills — 단 한 줄의</text>
       <text x="24" y="108" font-size="22" font-weight="700" fill="#0e0e0e" letter-spacing="-0.4">지시로 Awwwards…</text>
         <text x="24" y="144" font-size="13.5" font-weight="500" fill="#0e0e0e" opacity="0.85">Astro, Next.js, WebGL, GSAP 모션을</text>
@@ -56,6 +26,36 @@
         <g transform="translate(24, 228)">
           <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">juliobsz/skills</text>
           <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 1.4k</text>
+        </g>
+      </g>
+    </g>
+    <g transform="translate(427, 290)">
+      <rect x="0" y="0" width="347" height="280" rx="20" fill="#d8edd0" stroke="#0e0e0e" stroke-width="1.5"/>
+      <g clip-path="url(#mainCardClip1)">
+        <text x="24" y="38" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="1.6">#02 · HARNESS</text>
+        <text x="24" y="78" font-size="22" font-weight="700" fill="#0e0e0e" letter-spacing="-0.4">SoduWork — 팀과 다중</text>
+      <text x="24" y="108" font-size="22" font-weight="700" fill="#0e0e0e" letter-spacing="-0.4">하네스 에이전트…</text>
+        <text x="24" y="144" font-size="13.5" font-weight="500" fill="#0e0e0e" opacity="0.85">Claude Code·Codex·OpenCode·DeepS</text>
+      <text x="24" y="165" font-size="13.5" font-weight="500" fill="#0e0e0e" opacity="0.85">eek·Qwen 하네스를 하나로 묶어</text>
+      <text x="24" y="186" font-size="13.5" font-weight="500" fill="#0e0e0e" opacity="0.85">요청자 승인까지 완결</text>
+        <g transform="translate(24, 228)">
+          <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">mdiri-ai/SoduWork</text>
+          <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 7.8k</text>
+        </g>
+      </g>
+    </g>
+    <g transform="translate(794, 290)">
+      <rect x="0" y="0" width="347" height="280" rx="20" fill="#ffd8bd" stroke="#0e0e0e" stroke-width="1.5"/>
+      <g clip-path="url(#mainCardClip2)">
+        <text x="24" y="38" font-size="11" font-weight="700" fill="#0e0e0e" letter-spacing="1.6">#03 · SKILL</text>
+        <text x="24" y="78" font-size="22" font-weight="700" fill="#0e0e0e" letter-spacing="-0.4">fast-anything — 전체</text>
+      <text x="24" y="108" font-size="22" font-weight="700" fill="#0e0e0e" letter-spacing="-0.4">재작성 대신 가장 느…</text>
+        <text x="24" y="144" font-size="13.5" font-weight="500" fill="#0e0e0e" opacity="0.85">Python·Node·Ruby 앱을</text>
+      <text x="24" y="165" font-size="13.5" font-weight="500" fill="#0e0e0e" opacity="0.85">프로파일링해 병목 함수만</text>
+      <text x="24" y="186" font-size="13.5" font-weight="500" fill="#0e0e0e" opacity="0.85">FFI/PyO3/NAPI-RS로 이식하…</text>
+        <g transform="translate(24, 228)">
+          <text x="0" y="0" font-size="12" font-weight="600" fill="#0e0e0e" opacity="0.7">EL4CTEO/fast-anything</text>
+          <text x="0" y="22" font-size="14" font-weight="700" fill="#0e0e0e">★ 3.7k</text>
         </g>
       </g>
     </g>
