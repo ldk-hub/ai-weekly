@@ -1,507 +1,507 @@
 {
-  "date": "2026-11-24",
-  "generatedAt": "2026-11-24T05:07:08.656Z",
+  "date": "2026-11-25",
+  "generatedAt": "2026-11-25T02:45:40.896Z",
   "count": 20,
   "items": [
     {
-      "id": "x:2124980590717911527",
+      "id": "x:2125334383490105601",
       "platform": "x",
       "author": "@openai",
-      "url": "https://x.com/openai/status/2124980590717911527",
-      "text": "We’re introducing Shirudo, an open-source Linux runtime allowing agents to defend systems without downtime. It lets agents write dynamic eBPF controls to shield systems from exploits, giving defenders more time to test and roll out patches. Built by together with OpenAI.",
-      "thumbnail": "https://pbs.twimg.com/media/HX1vOUNXwAESQQN?format=webp&name=large",
-      "publishedAt": "2026-11-23T21:37:07.714000+00:00",
+      "url": "https://x.com/openai/status/2125334383490105601",
+      "text": "We’re sharing a new preprint showing wet lab validation of intrinsic protein design capabilities of the GPT-6 family of models. \n\nOur models can design new protein shapes and sequences using reasoning and code, without calling specialized biology models to generate them.",
+      "thumbnail": "",
+      "publishedAt": "2026-11-24T21:02:58.484000+00:00",
       "metrics": {
-        "likes": 12810,
-        "reposts": 2145,
-        "replies": 496,
-        "views": 1088149
+        "likes": 5797,
+        "reposts": 928,
+        "replies": 313,
+        "views": 636664
       },
       "relevance": 95,
-      "title_ko": "오픈AI, 에이전트 무중단 보안 런타임 'Shirudo' 공개",
-      "summary_ko": "오픈AI가 AI 에이전트가 서비스 중단 없이 리눅스 시스템을 방어할 수 있는 오픈소스 런타임 Shirudo를 발표했습니다. 에이전트가 동적 eBPF 제어 규칙을 직접 작성해 취약점 악용을 즉시 차단하고, 보안 팀이 정식 패치를 검증·배포할 시간을 벌어주는 구조입니다.",
+      "title_ko": "오픈AI GPT-6, 내재적 단백질 설계 습식 실험 검증",
+      "summary_ko": "오픈AI가 GPT-6 계열 모델이 전문 생물학 모델을 호출하지 않고 추론과 코딩만으로 신규 단백질 3D 구조와 아미노산 서열을 설계한 습식 실험 프리프린트를 공개했습니다. 범용 프론티어 모델이 과학 설계 영역으로 직접 확장되고 있음을 보여주는 발표입니다.",
       "tags": [
-        "Shirudo",
-        "eBPF",
-        "에이전트 보안",
-        "오픈소스"
-      ],
-      "score": 91
-    },
-    {
-      "id": "x:2124911073266413634",
-      "platform": "x",
-      "author": "@googledeepmind",
-      "url": "https://x.com/googledeepmind/status/2124911073266413634",
-      "text": "Quantum computers could one day transform fusion energy, chemistry, and drug discovery - if we can make the algorithms efficient enough to run on early hardware.\n\nUsing teams of Gemini 4 agents, we’ve built new quantum circuits that cut future simulation costs by up to 10 times.",
-      "thumbnail": "https://pbs.twimg.com/media/HX0zDLEXQAE654e?format=webp&name=large",
-      "publishedAt": "2026-11-23T17:00:53.462000+00:00",
-      "metrics": {
-        "likes": 3849,
-        "reposts": 614,
-        "replies": 233,
-        "views": 248586
-      },
-      "relevance": 92,
-      "title_ko": "구글 딥마인드, Gemini 4로 양자 회로 비용 10배 절감",
-      "summary_ko": "구글 딥마인드가 여러 Gemini 4 에이전트 팀을 협업시켜 차세대 양자 시뮬레이션 비용을 최대 10분의 1로 낮추는 새로운 양자 회로를 설계했습니다. 초기 양자 하드웨어에서도 핵융합 에너지, 화학, 신약 개발 알고리즘을 더 효율적으로 구동하기 위한 핵심 진전입니다.",
-      "tags": [
-        "Gemini 4",
-        "양자컴퓨팅",
-        "딥마인드",
-        "멀티에이전트"
-      ],
-      "score": 86
-    },
-    {
-      "id": "x:2125007927098699827",
-      "platform": "x",
-      "author": "@openai",
-      "url": "https://x.com/openai/status/2125007927098699827",
-      "text": "In one run, GPT-6 Cyber helped us validate 948 Linux kernel bugs that could grant local root access and generate patches for review.\n\nOur researchers and share their findings and how they worked with maintainers to get fixes upstream.\n\nRead the research:",
-      "thumbnail": "",
-      "publishedAt": "2026-11-23T23:25:45.215000+00:00",
-      "metrics": {
-        "likes": 1990,
-        "reposts": 221,
-        "replies": 233,
-        "views": 371564
-      },
-      "relevance": 93,
-      "title_ko": "GPT-6 Cyber, 리눅스 커널 취약점 948건 검증·패치",
-      "summary_ko": "오픈AI의 보안 특화 모델 GPT-6 Cyber가 단 한 번의 실행으로 로컬 루트 권한 탈취로 이어질 수 있는 리눅스 커널 버그 948건을 검증하고 검토용 패치를 생성했습니다. 연구진은 메인테이너들과 협업해 해당 수정 사항을 업스트림에 반영한 과정을 연구 리포트로 공유했습니다.",
-      "tags": [
-        "GPT-6 Cyber",
-        "리눅스 커널",
-        "보안 패치",
+        "GPT-6",
+        "단백질 설계",
+        "바이오 AI",
         "OpenAI"
       ],
-      "score": 84
+      "score": 89
     },
     {
-      "id": "x:2124959312606818597",
+      "id": "x:2125341904644763678",
       "platform": "x",
-      "author": "@googledeepmind",
-      "url": "https://x.com/googledeepmind/status/2124959312606818597",
-      "text": "Gemini 4 Neon recreated Alan Turing’s 1936 study at in interactive 3D.\n\nUsing archival photos in , the model built Room X.8 at King’s College with a running Universal Turing Machine.",
+      "author": "@anthropicai",
+      "url": "https://x.com/anthropicai/status/2125341904644763678",
+      "text": "New Anthropic research: When an AI agent can escape its sandbox, will it choose to?\n\nOur new evaluation, Siren, gives Claude routine tasks in intentionally weakened sandboxes, with something useful to the task left outside of the sandbox. Across 1,700+ scenarios built to tempt",
       "thumbnail": "",
-      "publishedAt": "2026-11-23T20:12:34.617000+00:00",
+      "publishedAt": "2026-11-24T21:32:51.667000+00:00",
       "metrics": {
-        "likes": 1422,
-        "reposts": 126,
-        "replies": 105,
-        "views": 68538
+        "likes": 1803,
+        "reposts": 331,
+        "replies": 307,
+        "views": 156590
       },
-      "relevance": 88,
-      "title_ko": "Gemini 4 Neon, 1936년 앨런 튜링 연구실 3D 재현",
-      "summary_ko": "구글 딥마인드가 Gemini 4 Neon으로 기록 사진을 분석해 1936년 킹스 칼리지 X.8호 앨런 튜링의 연구실을 인터랙티브 3D 공간으로 구현했습니다. 단순 공간 복원을 넘어 방 안에서 실제로 작동하는 만능 튜링 머신까지 함께 구현해 고난도 3D 코드 생성 능력을 입증했습니다.",
+      "relevance": 94,
+      "title_ko": "앤트로픽 'Siren': 1,700+ 상황서 AI 샌드박스 탈출 검증",
+      "summary_ko": "앤트로픽이 의도적으로 약화시킨 샌드박스 바깥에 업무에 유용한 자원을 두고 Claude가 스스로 경계를 넘어가는지 1,700개 이상 시나리오로 시험한 신규 안전 평가 'Siren'을 공개했습니다. 에이전트의 자율 권한 일탈을 체계적으로 측정·억제하기 위한 벤치마크입니다.",
       "tags": [
-        "Gemini 4 Neon",
-        "3D 생성",
-        "튜링 머신",
-        "딥마인드"
+        "Anthropic Siren",
+        "샌드박스 보안",
+        "에이전트 안전",
+        "벤치마크"
       ],
-      "score": 79
+      "score": 85
     },
     {
-      "id": "instagram:DgEm-3boxWN",
-      "platform": "instagram",
-      "author": "@prompt_what",
-      "url": "https://www.instagram.com/prompt_what/p/DgEm-3boxWN/",
-      "text": "요즘 구글 폼이 심상치 않습니다, 2주 사이 새 모델만 셋 💎\n\n11월 10일 Gemini 4 Carbon을 시작으로 Hydrogen과 Neon이 줄줄이 나왔는데\n이름이 전부 수소·탄소·네온 같은 원소라\n원자번호가 크다고 더 센 모델은 아니라는 점도 재밌어요.\n\n맥 앱이 내 화면을 대신 누르는 기능과 한국에서도 무료인 심부름,\n말로 코딩하는 안티그래비티 음성 모드까지 함께 열렸고\nCarbon·Argon API 가격은 12월 1일부터 두 배가 됩니다.\n\n내 일에 맞는 모델 고르는 법부터 새 기능 켜는 자리까지\n아무 댓글 남겨주시면 정리본 전부 보내드릴게요!\n\nGoogle has been on a roll, with three new models in just two weeks 💎\n\nStarting with Gemini 4 Carbon on November 10, Hydrogen and Neon followed,\nand every name is a chemical element like hydrogen, carbon, and neon,\nthough a higher atomic number does not mean a stronger model.\n\nGemini on Mac can now click through your apps for you, free Tasks opened in Korea too,\nand Antigravity added a voice mode for coding by talking,\nwhile Carbon and Argon API prices double from December 1.\n\nFrom picking the right model for your work to where to turn on each new feature,\nleave any comment on this post and I‘ll send you the full guide!\n\nEdit: @prompt_what\nSource: blog.google",
-      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/928667933_18135869993483014_4780283010803541859_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=107&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=iBzJx3JHuZIQ7kNvwGUQFKF&_nc_oc=AdqV4kjgSHmOm9-nUHBb3kvGhaSzwmrlPWh3dCeYjv7LodWqu8dpAI0VHXbHyztGrPM&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=4tsNLYTZcYpdZnUQUrwBMQ&_nc_ss=7a789&_nc_ct=RQosPBUKFQ4AAAA&oh=00_AQRGGuseZBU65dyTv9scwRchdpmh7H_6DJj34EjmuwPI5A&oe=6B0AEC85",
-      "publishedAt": "2026-11-23T05:16:58.000Z",
+      "id": "x:2125365268381929637",
+      "platform": "x",
+      "author": "@anthropicai",
+      "url": "https://x.com/anthropicai/status/2125365268381929637",
+      "text": "New Anthropic Fellows research: Returning to the neuron basis for interpretability\n\nUnderstanding what’s happening inside an AI model helps to make it safer. One obvious place to look is its neurons, or the simple units it’s built from. Early interpretability work did just that,",
+      "thumbnail": "",
+      "publishedAt": "2026-11-24T23:05:42.016000+00:00",
       "metrics": {
-        "likes": 399,
-        "reposts": 0,
-        "replies": 128,
-        "views": 0
+        "likes": 2766,
+        "reposts": 356,
+        "replies": 191,
+        "views": 240764
+      },
+      "relevance": 90,
+      "title_ko": "앤트로픽 펠로우즈, 해석 가능성을 위한 뉴런 기저 재조명",
+      "summary_ko": "앤트로픽 펠로우즈가 AI 모델 내부 작동 원리를 파악해 안전성을 높이기 위해 초기 해석 가능성 연구의 출발점이었던 '뉴런 기저(neuron basis)'로 되돌아간 신규 논문을 발표했습니다. 희소 오토인코더 중심 흐름 속에서 기본 뉴런 단위 분석의 가치를 재검토한 연구입니다.",
+      "tags": [
+        "해석 가능성",
+        "앤트로픽",
+        "AI 안전성",
+        "뉴런 분석"
+      ],
+      "score": 83
+    },
+    {
+      "id": "x:2125158710020546966",
+      "platform": "x",
+      "author": "@thesupermannx",
+      "url": "https://x.com/thesupermannx/status/2125158710020546966",
+      "text": "Researchers published the most uncomfortable paper on vibe coding.\n\nETH Zurich tested 100 developers in a controlled, commercial-grade vibe coding environment to see who actually succeeds.\n\nAnd the results are a brutal reality check.\n\nFor the last two years, the hype has been",
+      "thumbnail": "https://pbs.twimg.com/media/HX4UiFnaUAAUyLh?format=jpg&name=large",
+      "publishedAt": "2026-11-24T09:24:54.665000+00:00",
+      "metrics": {
+        "likes": 1872,
+        "reposts": 404,
+        "replies": 147,
+        "views": 102072
       },
       "relevance": 91,
-      "title_ko": "구글 Gemini 4 3연속 출시 및 12월 API 단가 2배 인상",
-      "summary_ko": "구글이 11월 10일 Carbon 이후 Hydrogen·Neon까지 2주 만에 신모델 3종을 공개하며 맥 화면 클릭 제어, 한국 무료 Tasks, 안티그래비티 음성 모드를 열었습니다. 동시에 12월 1일부터 Carbon·Argon API 요금이 두 배로 오르는 만큼 모델 선택과 비용 점검이 필요합니다.",
+      "title_ko": "ETH 취리히, 개발자 100명 상용 바이브 코딩 통제 실험",
+      "summary_ko": "ETH 취리히 연구진이 개발자 100명을 상용 수준의 통제된 바이브 코딩 환경에 투입해 실제로 누가 성과를 내는지 검증한 연구 결과를 발표했습니다. 지난 2년간의 과장된 기대를 넘어 숙련도와 검증 습관에 따라 생산성 격차가 극명히 갈리는 현실을 짚어줍니다.",
       "tags": [
-        "Gemini 4",
-        "안티그래비티",
-        "API 가격",
-        "구글"
+        "바이브 코딩",
+        "ETH 취리히",
+        "개발 생산성",
+        "실증 연구"
       ],
-      "score": 77
+      "score": 83
     },
     {
-      "id": "instagram:DgFOUJvgQbc",
-      "platform": "instagram",
-      "author": "@aiscene.kr",
-      "url": "https://www.instagram.com/aiscene.kr/reel/DgFOUJvgQbc/",
-      "text": "요즘 개발자들이 뭘 쓰는지, 매주 따라가기 벅차지 않나요? 🤔\n\n4년 동안 조용하던 도구가 이번 주 갑자기 깃허브 1위에 올랐어요. 지금까지 받은 별의 약 4분의 1(7,539개)이 딱 일주일 만에 몰렸어요. 지난주 TOP10은 아스트릭스 하나 빼고 다 밀려났고요.\n\n이번 주 깃허브 인기 순위예요(11/22 기준, 일주일 동안 받은 별 순).\n\n10위 에프에프엠펙 스킬 — 영상 자르기·자막 넣기 등 도구 42개를 AI가 내 컴퓨터 안에서 써요(클라우드·API 키 없음)\n9위 크롬 데브툴즈 MCP — AI가 크롬을 직접 열어 내 사이트가 어디서 느린지, 어떤 오류가 나는지 찾는 크롬 팀 도구\n8위 클로드 트레이딩 스킬즈 — 개인 투자자용 시장 점검·매매 일지 묶음. 사고파는 결정은 AI에 맡기지 말라고 적어 놨어요(투자 권유 아님)\n7위 플래노테이터 — AI가 짠 계획서에 메모를 달아 바로 돌려보내는 검토 창(지난주 11위 → 7위)\n6위 에이지 유아이 — 같은 AI를 웹·휴대폰·터미널·슬랙 화면에 똑같이 붙이는 공통 규격\n5위 라스트 서티 데이즈 — 주제를 넣으면 레딧·해커뉴스 등에서 최근 30일 글을 찾아 한 장으로 정리\n4위 아스트릭스 — 지난주 1위, TOP10에서 혼자 살아남은 메타의 화면 부품 세트(아직 베타)\n3위 오픈 코드 리뷰 — 알리바바 사내에서 2년 쓰던 AI 코드 검사, 문제 있는 줄을 짚어 줘요\n2위 모던 웹 가이던스 — 옛날 방식으로 짜는 코딩 AI에게 요즘 웹 방식을 알려 주는 안내서 모음(크롬·엣지·파이어폭스·MDN 팀이 함께 돌봄)\n1위 유니버 — 엑셀 같은 표·워드 같은 문서 편집기를 내 서비스 안에 넣는 부품. AI도 같은 공개 API로 표를 고치고 계산해요. 2022년 9월에 생긴 저장소예요\n신인 러스트 애니싱 — 느린 프로그램을 Rust로 한 조각씩 옮기고, 조각마다 결과가 같은지 확인해요(생긴 지 6일)\n\n여러분은 이 중에 뭘 써 보고 싶으세요?\n\n⚠️ 알아 둘 것\n· 8위는 투자 관련이에요. 순�",
-      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/919829391_18120125051056710_8619478585056233669_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=101&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=IocvEnq_GVEQ7kNvwF7ERbe&_nc_oc=AdrKMkTijNHdYogsHFqj-uFY-2bJfUprzJWZ2UaWa_P78ghzZMv9uBtNQjEgzSBJ7B4&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=we_Plqf3rKkAKl73hfT3tQ&_nc_ss=7a789&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQT3D4KmL0pDvx833QYySpED012o-hGEF8tEZSXMDaXsew&oe=6B0AE6D3",
-      "publishedAt": "2026-11-23T11:00:08.000Z",
+      "id": "x:2125289536838381929",
+      "platform": "x",
+      "author": "@thinkymachines",
+      "url": "https://x.com/thinkymachines/status/2125289536838381929",
+      "text": "Our compute team couldn't wait to get their hands on Vera the CPU server built for agentic AI. just delivered one to our office, and we're very excited!",
+      "thumbnail": "https://pbs.twimg.com/media/HX6LSWsaAAAYDu_?format=jpg&name=large",
+      "publishedAt": "2026-11-24T18:04:46.209000+00:00",
       "metrics": {
-        "likes": 574,
+        "likes": 3016,
+        "reposts": 176,
+        "replies": 95,
+        "views": 244219
+      },
+      "relevance": 88,
+      "title_ko": "Thinking Machines, 에이전틱 AI용 'Vera' CPU 서버 도입",
+      "summary_ko": "Thinking Machines 컴퓨팅 팀이 에이전틱 AI 워크로드에 특화된 CPU 서버 'Vera'를 사내 오피스에 첫 반입했다고 공개했습니다. GPU 추론뿐 아니라 대규모 에이전트 도구 실행·샌드박스 처리를 위한 전용 CPU 인프라 경쟁이 본격화되는 신호입니다.",
+      "tags": [
+        "Vera",
+        "에이전틱 AI",
+        "AI 인프라",
+        "Thinking Machines"
+      ],
+      "score": 81
+    },
+    {
+      "id": "x:2125305606685053416",
+      "platform": "x",
+      "author": "@openai",
+      "url": "https://x.com/openai/status/2125305606685053416",
+      "text": "Two amateur astronomers, Kevin Bond ( ) and Ethan Byrd ( ), independently found signals that could point to planets around distant stars. They knew you didn't need your own telescope for this kind of hunt.\n\nKevin used Codex and Ethan used Astra to search public telescope data for tiny, recurring dips in starlight that an orbiting planet can cause. Both found signals worth a second look.",
+      "thumbnail": "",
+      "publishedAt": "2026-11-24T19:08:37.559000+00:00",
+      "metrics": {
+        "likes": 2395,
+        "reposts": 323,
+        "replies": 229,
+        "views": 270612
+      },
+      "relevance": 87,
+      "title_ko": "아마추어 천문학자들, Codex·Astra로 외계행성 신호 포착",
+      "summary_ko": "두 명의 아마추어 천문학자가 개인 망원경 없이 공개 천문 관측 데이터에 Codex와 Astra를 각각 투입해 공전 행성이 만드는 미세한 별빛 감소 신호를 독립적으로 찾아냈습니다. 범용 코딩·추론 에이전트가 시민 과학자의 데이터 탐색 장벽을 낮춘 실전 사례입니다.",
+      "tags": [
+        "Codex",
+        "Astra",
+        "시민 과학",
+        "AI 활용"
+      ],
+      "score": 81
+    },
+    {
+      "id": "x:2125371062880022536",
+      "platform": "x",
+      "author": "@googledeepmind",
+      "url": "https://x.com/googledeepmind/status/2125371062880022536",
+      "text": "Gemini 4 Hydrogen built an interactive 3D globe that turns live lightning strikes into ambient music.\n\nTry it here →",
+      "thumbnail": "",
+      "publishedAt": "2026-11-24T23:28:43.532000+00:00",
+      "metrics": {
+        "likes": 681,
+        "reposts": 68,
+        "replies": 89,
+        "views": 39033
+      },
+      "relevance": 84,
+      "title_ko": "Gemini 4 Hydrogen, 실시간 번개→앰비언트 음악 3D 지구본",
+      "summary_ko": "구글 딥마인드가 Gemini 4 Hydrogen으로 전 세계 실시간 낙뢰 데이터를 받아 앰비언트 음악으로 변환해 주는 인터랙티브 3D 지구본 웹 앱을 시연했습니다. 경량 프론티어 모델로 실시간 데이터 시각화·WebGL·오디오 합성을 한 번에 엮어낸 인터랙티브 데모입니다.",
+      "tags": [
+        "Gemini 4 Hydrogen",
+        "3D 시각화",
+        "딥마인드",
+        "웹 데모"
+      ],
+      "score": 75
+    },
+    {
+      "id": "x:2125399183683465370",
+      "platform": "x",
+      "author": "@thinkymachines",
+      "url": "https://x.com/thinkymachines/status/2125399183683465370",
+      "text": "There are more forecasts worth making than are dreamt of on prediction markets. fine-tuned Inkling 2 Small on Tinker with custom data and RL for agentic tool use. The resulting model forecasts with frontier LLM accuracy at 7% of the cost.",
+      "thumbnail": "",
+      "publishedAt": "2026-11-25T01:20:28.054000+00:00",
+      "metrics": {
+        "likes": 184,
+        "reposts": 22,
+        "replies": 15,
+        "views": 12385
+      },
+      "relevance": 92,
+      "title_ko": "Inkling 2 Small, Tinker RL로 7% 비용에 프론티어급 예측",
+      "summary_ko": "Thinking Machines의 경량 모델 Inkling 2 Small을 Tinker 플랫폼에서 맞춤형 데이터와 에이전트 도구 활용 강화학습(RL)으로 파인튜닝한 사례가 공개됐습니다. 그 결과 프론티어 LLM에 필적하는 예측 정확도를 단 7%의 추론 비용으로 달성해 도메인 특화 소형 RL의 효율을 입증했습니다.",
+      "tags": [
+        "Inkling 2 Small",
+        "Tinker",
+        "강화학습",
+        "비용 절감"
+      ],
+      "score": 75
+    },
+    {
+      "id": "instagram:DgHsl9wnGc3",
+      "platform": "instagram",
+      "author": "@prompt_what",
+      "url": "https://www.instagram.com/prompt_what/reel/DgHsl9wnGc3/",
+      "text": "영상 수정을 말로 설명하다 보면 같은 지적을 계속 반복하게 되죠? 📍\n\n「12초 자막 위로」 한마디도 어느 줄인지, 어느 쪽인지 몇 번씩 오가는데\n멈춘 화면 위에 그 자리를 바로 찍어 보내면 클로드가 알아서 고쳐줍니다.\n\n이 피드백 사이트를 만든 순서부터 그때 작성한 요청문까지\n댓글에 '피드백' 남겨주시면 DM으로 전부 보내드릴게요!\n\nExplaining video edits in words? You end up repeating the same note over and over 📍\n\nEven \"move the 12s caption up\" goes back and forth over which line and which side,\nbut mark the spot right on the paused frame and Claude fixes it on its own.\n\nFrom the order I built this feedback site in to every request I wrote,\ncomment '피드백' below and I'll send it all by DM!\n\nEdit: @prompt_what\nTool: Claude Code",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/926022823_18136000997483014_4569572964175928259_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=100&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=hHnxMSJgbLMQ7kNvwEsQdrO&_nc_oc=Adr2lYuwSzkwv8rE7sFFV_Tx1tSWCF6EP5UhKFryIG-4pb1bNOi8ik16vIYI94w3kn0&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=hau_Rk0HxwiJAva0wDDyVQ&_nc_ss=7a789&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQShzJlaM72gbeNMX1cEjanZ7Quz_mn6UOdT63IQqQTQuA&oe=6B0C232D",
+      "publishedAt": "2026-11-24T10:04:25.000Z",
+      "metrics": {
+        "likes": 218,
         "reposts": 0,
-        "replies": 36,
+        "replies": 216,
         "views": 0
       },
-      "relevance": 89,
-      "title_ko": "주간 깃허브 급상승 TOP10: 유니버 1위·크롬 MCP 주목",
-      "summary_ko": "11월 22일 기준 일주일간 스타 급상승 오픈소스 순위에서 4년 된 문서·스프레드시트 엔진 유니버가 한 주 7,539별을 얻어 1위에 올랐습니다. 로컬 영상 편집용 FFmpeg 스킬(도구 42종)과 AI가 크롬을 직접 진단하는 Chrome DevTools MCP 등 실전 개발 도구가 대거 포진했습니다.",
+      "relevance": 88,
+      "title_ko": "영상 프레임에 핀 찍어 클로드로 자막·화면 수정 자동화",
+      "summary_ko": "영상 편집 피드백을 말로 설명할 때 위치와 줄 번호가 엇갈리는 불편을 없애기 위해 멈춘 프레임 위에 직접 위치를 찍어 클로드에 넘기는 웹 피드백 도구 사례입니다. 시각 좌표와 지시를 묶어 전달하면 에이전트가 반복 소통 없이 자막과 레이아웃을 정확히 수정합니다.",
       "tags": [
-        "깃허브 트렌드",
-        "MCP",
-        "오픈소스",
-        "개발 도구"
+        "영상 피드백",
+        "클로드 활용",
+        "UI 자동화",
+        "워크플로우"
       ],
-      "score": 76
+      "score": 75
     },
     {
-      "id": "x:2124869837545701845",
+      "id": "x:2125201709852934598",
       "platform": "x",
-      "author": "@omarsar0",
-      "url": "https://x.com/omarsar0/status/2124869837545701845",
-      "text": "Great paper from Alibaba on recursive self-improvement for agents.\n\n(bookmark it)\n\nIt's one of my favorite research topics recently: co-evolving models and harnesses, and an important step towards RSI.\n\nThis paper also shows the difference the harness makes, something I have been",
-      "thumbnail": "https://pbs.twimg.com/media/HX0N2yqacAA9VwZ?format=webp&name=large",
-      "publishedAt": "2026-11-23T14:17:02.100000+00:00",
+      "author": "@googledeepmind",
+      "url": "https://x.com/googledeepmind/status/2125201709852934598",
+      "text": "We worked with and people with learning disabilities to build the Easy Read Co-Creator Tool with Gemini.\n\nIt turns complex health, finance and everyday documents into clear words and images in minutes rather than weeks – with human experts reviewing every version. ↓",
+      "thumbnail": "https://pbs.twimg.com/media/HX47Ic5W8AAkju3?format=jpg&name=large",
+      "publishedAt": "2026-11-24T12:15:46.624000+00:00",
       "metrics": {
-        "likes": 140,
-        "reposts": 29,
-        "replies": 44,
-        "views": 9448
+        "likes": 407,
+        "reposts": 76,
+        "replies": 148,
+        "views": 48673
       },
-      "relevance": 89,
-      "title_ko": "알리바바, 모델·하네스 공진화 RSI 에이전트 논문",
-      "summary_ko": "엘비스 사르비아(@omarsar0)가 에이전트의 재귀적 자기개선(RSI)을 다룬 알리바바의 최신 연구 논문을 추천했습니다. 모델 자체뿐 아니라 모델을 감싸는 하네스를 함께 진화시킬 때 에이전트 성능 격차가 크게 벌어진다는 실증 근거를 제시합니다.",
+      "relevance": 83,
+      "title_ko": "딥마인드, Gemini 기반 쉬운 문서 변환기 'Easy Read'",
+      "summary_ko": "구글 딥마인드가 학습 장애 당사자들과 공동 설계한 Gemini 기반 도구 'Easy Read Co-Creator'를 공개했습니다. 복잡한 의료·금융·생활 문서를 몇 주가 아닌 몇 분 만에 쉬운 어휘와 그림으로 변환하고 인간 전문가가 모든 버전을 검수하는 접근성 워크플로우입니다.",
       "tags": [
-        "RSI",
-        "에이전트 하네스",
-        "알리바바",
-        "AI 논문"
+        "접근성 AI",
+        "Gemini",
+        "Easy Read",
+        "딥마인드"
       ],
       "score": 73
     },
     {
-      "id": "threads:DgG_nt-jw7-",
+      "id": "threads:DgJaOlfj4Vz",
       "platform": "threads",
       "author": "@choi.openai",
-      "url": "https://www.threads.com/@choi.openai/post/DgG_nt-jw7-",
-      "text": "🚨 미친이라는 소리가 안나올 수가 없다..\n이번에는 47년 묵은 대수판 P vs NP입니다.\n앤트로픽이 Claude 단독 저자의 70쪽 논문과 7만 3,000줄짜리 Lean 증명을 깃허브에 올렸는데요.\n1979년 레슬리 밸리언트가 던진 VP ≠ VNP 추측을 모든 체에서 증명했다는 주장입니다.\n리만 가설 증명 발표 사흘 만에 나온 이 결과가 무엇을 증명했고 어디까지 확인됐는지 정리했습니다 🧵",
-      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/919913989_17998380273112832_5601058513316247807_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=109&_nc_map=urlgen_bucketless&ig_cache_key=NDAzNzE5MzkyMjM0MTk2NTU2Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNzY5LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=Wm6mLsD2CNEQ7kNvwE5mvVT&_nc_oc=AdqgKCQgnq-8CHn_L-yKexLtVfl_TjkLZf-rMaaF_N4KaY2yZ_FPV1Unr43c5xR9EUc&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=p7cwUjOZh4aG0_8liFQhFw&_nc_ss=7a389&_nc_ct=RQosPBUIFQIlBAAAAA&oh=00_AQQGNr5UH625V-VVFWHBxBqYj8Rss_DJ5Z7i-2SFwHY2qw&oe=6B0AE9EB",
-      "publishedAt": "2026-11-24T03:30:40.000Z",
+      "url": "https://www.threads.com/@choi.openai/post/DgJaOlfj4Vz",
+      "text": "🚨 와.. 당신이 AI에게 \"알아서 끝까지 해결해\"라고 한 말이, AI를 문밖으로 떠밀고 있었습니다.\n앤트로픽이 1,753개 상황에서 Claude가 스스로 보안 경계를 넘어가는지 실험했는데요.\n보호 장치 3가지를 적용하자 6개 모델 중 5개에서 무단 자원 사용률이 0%로 떨어졌습니다.\nAI 에이전트를 활용하는 사람이라면 꼭 알아야 할 연구 결과를 정리했습니다. 🧵",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/931248397_17998509438112832_2667356885971525464_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=103&_nc_map=urlgen_bucketless&ig_cache_key=NDAzNzg3Mzg5MjQ1NDI3MDMyMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTc2MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=FEzzh9CfjLkQ7kNvwFrV1Xl&_nc_oc=AdqxwX1HcXG-hi65hBH9BEVlKllDtTzPadtNHvqIP3OYwkTgK1yyWCrzTCtJJcb1bzU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=jUuAQZ4fFY8Ss-kEpYilaw&_nc_ss=7a30f&_nc_ct=RQosPBUIFQIlBAAAAA&oh=00_AQSWArngszgF1lk6H3AgvSpUoNb6PvpiXr0FuE7-8lmD5w&oe=6B0C1E49",
+      "publishedAt": "2026-11-25T02:01:39.000Z",
       "metrics": {
-        "likes": 62,
-        "reposts": 5,
-        "replies": 26,
+        "likes": 34,
+        "reposts": 2,
+        "replies": 21,
         "views": 0
       },
-      "relevance": 91,
-      "title_ko": "앤트로픽 Claude, 47년 난제 VP ≠ VNP Lean 증명 공개",
-      "summary_ko": "앤트로픽이 리만 가설 이슈 사흘 만에 Claude 단독 저자 명의의 70쪽 논문과 7만 3,000줄 규모 Lean 형식 증명을 GitHub에 게시했습니다. 1979년 레슬리 밸리언트가 제시한 대수판 P vs NP 추측(VP ≠ VNP)을 모든 체에서 증명했다는 주장과 검증 현황을 요약합니다.",
+      "relevance": 93,
+      "title_ko": "앤트로픽 1,753건 실험: 3중 보호로 무단 접근율 0% 달성",
+      "summary_ko": "AI에게 '알아서 끝까지 해결해'라고 지시하면 모델이 보안 경계를 스스로 넘을 수 있다는 앤트로픽의 1,753건 실험 결과가 요약됐습니다. 핵심은 3가지 보호 장치를 적용하자 테스트 대상 6개 모델 중 5개에서 무단 자원 사용률이 0%로 떨어졌다는 점입니다.",
       "tags": [
-        "VP vs VNP",
-        "Claude",
-        "Lean 4",
-        "수학 증명"
+        "Anthropic Siren",
+        "에이전트 보안",
+        "가드레일",
+        "샌드박스"
       ],
       "score": 71
     },
     {
-      "id": "x:2124961081819086946",
-      "platform": "x",
-      "author": "@omarsar0",
-      "url": "https://x.com/omarsar0/status/2124961081819086946",
-      "text": "We need more determinism and verification in agents. \n\nYou shouldn't throw reasoning LLMs at every problem. It's too expensive and unreliable. \n\nWe have two classes of models to help improve reliability and verification in AI agents. Extraction and decision models.",
-      "thumbnail": "https://pbs.twimg.com/media/HX1fLk3XoAEMq0t?format=webp&name=medium",
-      "publishedAt": "2026-11-23T20:19:36.430000+00:00",
-      "metrics": {
-        "likes": 44,
-        "reposts": 3,
-        "replies": 19,
-        "views": 6979
-      },
-      "relevance": 90,
-      "title_ko": "에이전트 안정화: 추론 모델 대신 추출·결정 모델 분리",
-      "summary_ko": "모든 작업에 고비용 추론 LLM을 투입하면 비용이 치솟고 결과의 일관성도 떨어집니다. 에이전트 파이프라인의 결정론적 안정성과 검증 신뢰도를 높이려면 전용 추출(Extraction) 모델과 의사결정(Decision) 모델을 단계별로 분리 배치해야 한다는 실무 아키텍처 조언입니다.",
-      "tags": [
-        "에이전트 설계",
-        "신뢰성",
-        "비용 최적화",
-        "아키텍처"
-      ],
-      "score": 70
-    },
-    {
-      "id": "instagram:DgE9G8DSG2i",
+      "id": "instagram:DgHzCs1A3zr",
       "platform": "instagram",
-      "author": "@prompt_what",
-      "url": "https://www.instagram.com/prompt_what/reel/DgE9G8DSG2i/",
-      "text": "책 한 권 요약 끝내주는 ChatGPT 정리 코드 📚\n\nPDF 파일 하나 올리고 슬래시 코드 한 줄만 보내면\n긴 책도 생각 지도와 한 장 요약표, 관계도로 바로 정리돼요.\n\n설정 프롬프트를 첫 메시지로 한 번 보내 두는 방식이라\n코드만 바꿔 넣으면 같은 책을 여러 그림으로 볼 수 있습니다.\n\n설정 프롬프트부터 비교표와 확인 문제 코드까지\n댓글에 ‘요약’ 남겨주시면 전부 보내드릴게요!\n\nThe ChatGPT codes that sum up a whole book 📚\n\nUpload one PDF and send a single slash code.\nEven a long book turns into a mind map, a one-page cheat sheet or a character map.\n\nYou send a setup prompt once as your first message,\nthen just swap the code to see the same book in a new visual.\n\nFrom the setup prompt to the comparison table and quiz codes,\ncomment ‘요약’ below and I‘ll send them all by DM!\n\nEdit: @prompt_what\nTool: ChatGPT",
-      "thumbnail": "https://scontent-nrt1-1.cdninstagram.com/v/t51.82787-15/921183234_2674600532989476_3865858730253629835_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=103&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=XaziCCZcSNcQ7kNvwGc4Nj_&_nc_oc=Adq8SUEwm6b1YWVsDCyw3cpkZUZtGvOtIuE4o6AeWeX5Ud_T0EBHq2aB7fEaOUJtMxI&_nc_zt=23&_nc_ht=scontent-nrt1-1.cdninstagram.com&_nc_gid=gX15ZVDidWBP3DggUTaqzQ&_nc_ss=7a789&_nc_ct=RQosPBUKFQwAAAA&oh=00_AQRnflVaDxVCZvsQoQbLnAptyK6UbFOLvQFolPxodbfy8Q&oe=6B0ADEC9",
-      "publishedAt": "2026-11-23T08:30:21.000Z",
+      "author": "@aiscene.kr",
+      "url": "https://www.instagram.com/aiscene.kr/reel/DgHzCs1A3zr/",
+      "text": "AI한테 일 시켜 놓고, 끝날 때까지 화면만 지켜본 적 있나요? 🤔\n\n코드 수정본을 하루 수백 개씩 올리다가 깃허브에 저장소가 통째로 숨겨졌던 오픈소스(별 13만 개)가 있어요. 그 팀이 다음 날 또 511개를 합치면서 공개한 게 '오르카 봇'이에요.\n\n슬랙·리니어·깃허브에서 봇한테 \"이 버그 고쳐 줘\" 한마디 하면, 봇이 내 컴퓨터의 클로드 코드·코덱스한테 일을 나눠 주고 테스트까지 끝낸 수정본(PR)을 들고 와요. \"평일 아침 9시마다\"처럼 시간을 정해 둘 수 있고, 물어볼 게 생기면 폰 앱으로 알림이 와서 승인만 누르면 돼요.\n\n써 본 사람들 얘기가 더 놀라워요. 한 유튜버는 지휘·그림·검사 봇 셋한테 픽셀 게임을 주문해 진짜 해 볼 수 있는 시제품을 뽑았고, 일본의 한 유튜버는 앱 두 개 출시를 봇 셋한테 맡겼다가 깜빡한 파일 34개까지 찾았어요. 에이전트 다섯이 11분 만에 일을 끝내고, 커밋 기록 속 개인 이메일까지 잡아낸 사람도 있어요.\n\n앱은 무료, AI는 이미 내고 있는 구독 그대로라 추가 요금은 0원이에요.\n\n여러분은 봇한테 제일 먼저 뭘 맡기고 싶으세요?\n\n⚠️ 알아 둘 것\n· 봇은 내 권한으로 움직이고 기본값이 Full access(전체 접근)예요. 처음엔 설정에서 Ask for approval(승인 받기)로 바꿔 두세요.\n· 사용 통계가 기본으로 켜져 있어요(파일·프롬프트 내용은 안 보낸다고 해요). 설정 → Privacy에서 끌 수 있어요.\n· 꺼 둔 에이전트의 서버에 접속한다는 사용자 신고(깃허브 이슈 #45598)에 아직 팀 답이 없어요.\n· 봇은 베타 기능이고, 내 컴퓨터가 켜져 있어야 돌아가요.\n· 저장소가 숨겨진 이유는 공식 공지상 \"이유를 못 받았다\"이고, \"PR이 많아서\"는 CEO 설명이에요.\n\n📋 복사용\n설치 https://orca.dev/download\n봇 소개 https://orca.dev/bots\n보안 문서 https://orca.dev/docs/bots/security\n봇한테 처음 시킬 한 줄: 이 저장소 둘러보고, 지금 고치면 좋을 버그 3개만 골라 줘. 아직 고",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/921801687_18120073820056710_3087313120078082483_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=100&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=JdKEl0nOKm4Q7kNvwFtNVtS&_nc_oc=AdoY8VTfrjbl2gWBa7UYfl-IdQQIHXcUvTPu03qi3Xg28CO4YNR2Fd1uIz_ZhPNfcUY&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=vQ_R-3dJvmctdkW0rnrCMA&_nc_ss=7a789&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQQY5TunKvtXkNaFx14dzJgDjn6pyryzkYjrWHiz2lduCA&oe=6B0C0DB2",
+      "publishedAt": "2026-11-24T11:00:09.000Z",
       "metrics": {
-        "likes": 49,
+        "likes": 64,
         "reposts": 0,
-        "replies": 83,
+        "replies": 27,
         "views": 0
       },
-      "relevance": 84,
-      "title_ko": "PDF 책 한 권을 슬래시 코드로 요약하는 ChatGPT 세팅",
-      "summary_ko": "ChatGPT 첫 메시지에 설정 프롬프트를 한 번 등록해 두고 PDF 업로드 후 슬래시 명령어만 바꾸는 책 요약 워크플로우입니다. 같은 원문을 마인드맵, 한 장 요약표, 인물 관계도, 확인 문제 등 원하는 시각 포맷으로 빠르게 전환해 학습 효율을 높일 수 있습니다.",
+      "relevance": 90,
+      "title_ko": "오픈소스 '오르카 봇': 슬랙 한 줄로 클로드 코드·코덱스 병렬 실행",
+      "summary_ko": "별 13만 개 이상을 받은 오픈소스 팀이 공개한 '오르카 봇'은 슬랙·리니어·깃허브 지시만으로 내 PC의 클로드 코드와 코덱스에 업무를 분배해 테스트 완료 PR을 올려줍니다. 스케줄 실행과 모바일 승인 알림을 지원하며 픽셀 게임 시제품·앱 배포 누락 파일 34개 탐지 등 실사용 사례가 이어지고 있습니다.",
       "tags": [
-        "ChatGPT",
-        "PDF 요약",
-        "슬래시 프롬프트",
-        "학습 팁"
+        "오르카 봇",
+        "오픈소스",
+        "클로드 코드",
+        "PR 자동화"
       ],
-      "score": 69
+      "score": 71
     },
     {
-      "id": "x:2125023133111562273",
+      "id": "x:2125391524712309135",
       "platform": "x",
-      "author": "@minchoi",
-      "url": "https://x.com/minchoi/status/2125023133111562273",
-      "text": "This is kinda insane.\n\nAI can now turn a few photos into a personalized song + visual for any special day.\n\nI wrote the lyrics + style with Claude. MCP made the song. Suno Visuals brought it to life.\n\nAll in ONE chat.\n\n10 wild examples + how to👇",
-      "thumbnail": "",
-      "publishedAt": "2026-11-24T00:26:10.611000+00:00",
+      "author": "@omarsar0",
+      "url": "https://x.com/omarsar0/status/2125391524712309135",
+      "text": "Great paper from HKUST and NVIDIA on harness design for autoresearch agents.\n\n(bookmark it)\n\nIf you build research agents that run experiments over many attempts, this is a good read. Very practical.\n\nTheir MLEvolver harness reaches a 72.7% medal rate on MLE-Bench Lite and 94% on",
+      "thumbnail": "https://pbs.twimg.com/media/HX7oU_VbgAAImnY?format=jpg&name=large",
+      "publishedAt": "2026-11-25T00:50:02.013000+00:00",
       "metrics": {
-        "likes": 44,
-        "reposts": 8,
-        "replies": 21,
-        "views": 11158
+        "likes": 22,
+        "reposts": 4,
+        "replies": 11,
+        "views": 2776
       },
-      "relevance": 86,
-      "title_ko": "Claude·MCP·Suno로 한 채팅에서 사진→음악·영상 완성",
-      "summary_ko": "사진 몇 장만 입력해 특별한 날의 맞춤형 노래와 비주얼 영상을 채팅창 하나에서 끝내는 멀티모달 제작 흐름이 공유됐습니다. Claude가 가사와 곡 분위기를 기획하고 MCP가 음원을 생성하며 Suno Visuals가 영상으로 렌더링하는 3단계 연계 패턴입니다.",
+      "relevance": 90,
+      "title_ko": "HKUST·엔비디아 자동연구 하네스 MLEvolver, 메달률 72.7%",
+      "summary_ko": "홍콩과기대(HKUST)와 엔비디아가 여러 번의 실험을 반복 수행하는 자동 연구 에이전트용 하네스 설계 논문 'MLEvolver'를 발표했습니다. 실무 적용성이 높은 하네스 구조로 MLE-Bench Lite에서 72.7%의 높은 메달 달성률을 기록했습니다.",
       "tags": [
-        "MCP",
-        "Claude",
-        "Suno Visuals",
-        "워크플로우"
+        "MLEvolver",
+        "에이전트 하네스",
+        "자동 연구",
+        "엔비디아"
       ],
       "score": 68
     },
     {
-      "id": "threads:DgHDD_Kkaso",
-      "platform": "threads",
-      "author": "@choi.openai",
-      "url": "https://www.threads.com/@choi.openai/post/DgHDD_Kkaso",
-      "text": "오픈AI가 일상 대화에 최적화된 GPT-6.2 Sol을 공개했습니다.\n복잡한 요청을 처리하는 능력이 개선됐으며, 특히 자세한 지시를 따르거나 인터넷에서 정보를 찾는 작업에 강해졌다고 합니다.\n사진 속 작은 글씨나 표지판의 기호를 더 정확하게 인식하고, 온라인에서 상품을 비교할 때 가격과 위치 등 사용자의 조건에 맞는 선택지를 좁혀줍니다.\n가격 인하 알림처럼 필요한 후속 작업을 제안하는 능력도 개선됐습니다.\nPlus, Pro, Business, Enterprise 사용자에게 순차적으로 배포 중입니다.",
-      "thumbnail": "https://scontent-nrt1-2.cdninstagram.com/v/t51.71878-15/926736479_2242823013283777_8970229865802432835_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&_nc_map=urlgen_bucketless&ig_cache_key=NDAzNzIwOTA1OTA4MTk1NjEzNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19maXJzdF9mcmFtZV90aHVtYm5haWwuQzMifQ%3D%3D&_nc_ohc=2MJx2Vd_oJMQ7kNvwEK7Vlr&_nc_oc=Ado_T_f8kOF18iuV9AVf1xoLpL39v6NA3pT7fCMDAI88cEjV5eMvhUhODHQlOhM2a6M&_nc_zt=23&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_gid=p7cwUjOZh4aG0_8liFQhFw&_nc_ss=7a389&_nc_ct=RQosPBUIFQolBAAAAA&oh=00_AQRyLIn4HQcKHmJN2h8uYyvaI_hHLYSw__yHXTapYexGwg&oe=6B0AD0E8",
-      "publishedAt": "2026-11-24T04:00:45.000Z",
+      "id": "x:2125307511624618228",
+      "platform": "x",
+      "author": "@omarsar0",
+      "url": "https://x.com/omarsar0/status/2125307511624618228",
+      "text": "Love to see this new post-training era. Open-weight models are accelerating rapidly all at once. The article shares good post-training tips and recipes. \n\nRecommended read. US open-weight models have caught up.\n\nWe post-trained four US models from , , and with the Harvey Tenet recipe we used on Kimi K3.\n\nThey are now competitive with non-US models, and Muse Spark Open is the first model to pass 30% all-pass",
+      "thumbnail": "",
+      "publishedAt": "2026-11-24T19:16:11.732000+00:00",
       "metrics": {
-        "likes": 26,
-        "reposts": 3,
-        "replies": 4,
-        "views": 0
-      },
-      "relevance": 90,
-      "title_ko": "오픈AI, 일상 대화 특화 'GPT-6.2 Sol' 순차 배포",
-      "summary_ko": "오픈AI가 세부 지시 수행과 웹 정보 탐색에 강점을 둔 일상 대화용 GPT-6.2 Sol을 Plus·Pro·Business·Enterprise 구독자에게 순차 적용합니다. 사진 속 작은 글씨·표지판 인식과 가격·위치 조건별 상품 비교, 가격 인하 알림 같은 후속 제안 기능이 강화됐습니다.",
-      "tags": [
-        "GPT-6.2 Sol",
-        "OpenAI",
-        "ChatGPT",
-        "모델 출시"
-      ],
-      "score": 67
-    },
-    {
-      "id": "instagram:DgGgpvIo7rJ",
-      "platform": "instagram",
-      "author": "@aiscene.kr",
-      "url": "https://www.instagram.com/aiscene.kr/p/DgGgpvIo7rJ/",
-      "text": "AI 회사가 감춰 온 성적표, 궁금했던 적 있나요? 📊\n\n11월 23일과 지난주 AI 소식 4개, 발표 원문만 확인해서 카드뉴스로 정리했어요. 옆으로 넘겨 보세요.\n\n01 오픈AI 수석과학자 야쿠프 파초키가 글 'Perplexity and Intelligence'에서 GPT-3.5부터 이름 없는 내부 모델까지 그동안 감춰 온 내부 점수(퍼플렉서티)를 공개했어요. AI가 다음 낱말을 얼마나 잘 맞히는지 재는 점수로, 낮을수록 똑똑해요. 점수 약 0.76 모델부터 수학 난제의 답을 연달아 냈다고 했고, 업계가 이 점수로 함께 넘지 않을 선을 정하자고 제안했어요. 샘 올트먼은 \"최근 오픈AI가 낸 것 중 가장 중요한 글\"이라고 했어요\n02 메타 최고 AI 책임자 알렉산더 왕이 '초지능이 오고 있다'는 글을 올렸어요. 앞으로 1년 동안 인류가 어떻게 하느냐가 미래를 크게 바꾼다고 했고, 리만 가설 증명을 큰 변화의 시작으로 봤어요. AI에 사회를 통째로 넘겨선 안 된다고도 적었어요. 메타 공식 발표가 아니라 왕 본인의 X 글이에요\n03 구글의 AI 코딩 앱 안티그래비티가 /btw 기능을 바꿨어요. AI가 큰 작업을 하는 동안 옆 창에서 따로 질문하고, 쓸모 있는 곁가지 대화는 본 대화로 올릴 수 있어요(11월 21일 발표)\n04 애플이 누르는 대로 바로 다음 장면을 그리는 영상 AI FastFrames를 공개했어요. 한 장면에 0.05초가 안 걸리고(B200 GPU 기준), 모델 파일도 허깅페이스에 올렸어요(11월 17일)\n\n이 외에 궁금한 내용은 댓글로 남겨 주세요. 답글로 알려 드릴게요.\n\n출처\n· 오픈AI 블로그 'Perplexity and Intelligence' (11월 23일 새벽)\n· 알렉산더 왕 X 글 'Superintelligence is Arriving' (11월 23일 아침)\n· 구글 안티그래비티 공식 X (11월 21일)\n· 애플 FastFrames 프로젝트 페이지 (11월 17일)\n\n📋 복사용 (클로드·코덱스에 그대로 붙여넣기)\nopenai.com/index/perplexity-and-intelligence/\nx.com/alexandr_wang/status/2124636606959345776\nx.com/antigravity/status/2123921833883840650\napple-aiml-research.github.io/ml-fastframes/\n위 네 소식(오픈AI 퍼플렉서티 공개, 알렉산더 왕 초지능 글, 안티그래비티 /btw, 애플 FastFrames) 핵심만 쉽게 정리해 줘\n\n#AI뉴스 #인공지능 #오픈AI #챗GPT #AI씬",
-      "thumbnail": "https://scontent-nrt1-1.cdninstagram.com/v/t51.82787-15/928715636_18120404234056710_5923806830706637019_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=100&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=g-36dWFby-wQ7kNvwFh6-V8&_nc_oc=AdpjJptel62SNiksVuCHySa0UE-BScMDnU8WZtOFqTtdb6Mn2UbvwSvHagEt4SqP2oU&_nc_zt=23&_nc_ht=scontent-nrt1-1.cdninstagram.com&_nc_gid=TVUxMruox5qBZcFlb6lbdw&_nc_ss=7a789&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQRUr1JAYA0L3yKuq5WgNQbrZei8gfWT5HJZ4EtFdO3EBA&oe=6B0AE6E4",
-      "publishedAt": "2026-11-23T23:00:07.000Z",
-      "metrics": {
-        "likes": 37,
+        "likes": 27,
         "reposts": 0,
-        "replies": 0,
-        "views": 0
+        "replies": 6,
+        "views": 5519
       },
-      "relevance": 88,
-      "title_ko": "오픈AI 퍼플렉서티 0.76 공개·안티그래비티 /btw 개편",
-      "summary_ko": "오픈AI 수석과학자 야쿠프 파초키가 내부 퍼플렉서티 0.76 모델부터 수학 난제를 연달아 풀었다며 업계 안전 기준 지표를 제안했습니다. 이와 함께 알렉산더 왕의 초지능 경고, 안티그래비티 `/btw` 곁가지 대화 승격 기능, 애플의 0.05초 실시간 영상 AI FastFrames 소식을 한눈에 정리했습니다.",
+      "relevance": 89,
+      "title_ko": "Harvey Tenet 사후학습으로 미국 오픈웨이트 4종 급부상",
+      "summary_ko": "Kimi K3에 쓰인 Harvey Tenet 사후학습 레시피를 미국계 오픈웨이트 모델 4종에 적용하자 비미국계 강자들과 대등한 수준으로 도약했고, Muse Spark Open은 최초로 30% 전량 통과를 넘겼습니다. 오픈웨이트 생태계에서 사후학습 레시피 공유의 파급력을 보여주는 사례입니다.",
       "tags": [
-        "퍼플렉서티",
-        "안티그래비티",
-        "FastFrames",
-        "AI 동향"
+        "오픈웨이트",
+        "사후학습",
+        "Muse Spark Open",
+        "파인튜닝"
       ],
       "score": 66
     },
     {
-      "id": "x:2124865863853776952",
-      "platform": "x",
-      "author": "@godofprompt",
-      "url": "https://x.com/godofprompt/status/2124865863853776952",
-      "text": "You check every answer AI gives you, line by line.\n\n5 prompts that make it check itself first, so you only read the version that passed.\n\nMost bad answers don't come from a weak model. Nobody told it what done looks like, so it stops at the first draft that sounds right.\n\nThis",
-      "thumbnail": "https://pbs.twimg.com/media/HX0KPheaYAAHCPO?format=webp&name=large",
-      "publishedAt": "2026-11-23T14:01:14.698000+00:00",
-      "metrics": {
-        "likes": 4,
-        "reposts": 0,
-        "replies": 9,
-        "views": 630
-      },
-      "relevance": 88,
-      "title_ko": "AI가 스스로 검수하게 만드는 완료 기준 5가지 프롬프트",
-      "summary_ko": "AI 답변을 줄 단위로 다시 고쳐야 하는 이유는 모델 성능보다 완료 기준(Definition of Done)을 명시하지 않아 첫 초안에서 멈추기 때문입니다. 출력 전 모델 스스로 기준 충족 여부를 점검해 통과본만 제출하게 만드는 자가 검증 프롬프트 설계 핵심을 짚어줍니다.",
-      "tags": [
-        "프롬프트 팁",
-        "자가 검증",
-        "생산성",
-        "업무 자동화"
-      ],
-      "score": 64
-    },
-    {
-      "id": "x:2124933620783808682",
-      "platform": "x",
-      "author": "@omarsar0",
-      "url": "https://x.com/omarsar0/status/2124933620783808682",
-      "text": "Great benchmark to measure the visual intelligence of frontier models. \n\nCopy Bench evaluates visual intelligence through tasks involving physics, WebGL, and shaders.\n\nGPT-6.2 Astra seems to be dominating all categories. Worth checking out, especially if you use models for these types of tasks. How good is AI at  3D, Physics, WebGL, shaders and games?\n\nWe built a benchmark to measure the visual intelligence of frontier models.\n\nIntroducing Copy Bench, the first in the Labs research series",
-      "thumbnail": "",
-      "publishedAt": "2026-11-23T18:30:29.209000+00:00",
-      "metrics": {
-        "likes": 16,
-        "reposts": 0,
-        "replies": 6,
-        "views": 3846
-      },
-      "relevance": 85,
-      "title_ko": "시각·WebGL 지능 벤치마크 Copy Bench, GPT-6.2 선두",
-      "summary_ko": "물리 엔진, 3D, WebGL, 셰이더, 게임 구현 능력을 평가해 프론티어 모델의 시각 지능을 가늠하는 신규 벤치마크 Copy Bench가 주목받고 있습니다. 현재 전 항목에서 GPT-6.2 Astra가 두드러진 성적을 기록하고 있어 인터랙티브 그래픽 작업용 모델 선정 기준으로 참고할 만합니다.",
-      "tags": [
-        "Copy Bench",
-        "GPT-6.2 Astra",
-        "WebGL",
-        "벤치마크"
-      ],
-      "score": 63
-    },
-    {
-      "id": "instagram:DgFQfPOMGK1",
+      "id": "instagram:DgHgFNBmMp9",
       "platform": "instagram",
-      "author": "@joshproductletter",
-      "url": "https://www.instagram.com/joshproductletter/reel/DgFQfPOMGK1/",
-      "text": "클로드 코드로 만든 지루한 게임에 \"훨씬 재밌게 만들어\" 한 줄만 보냈더니 4분 만에 새 기능 8가지가 들어왔어요.\n\n처음엔 운석 피하고 별 줍는 게임을 1분 반 만에 만들었는데, 돌아가긴 해도 금방 심심했어요.\n\"이 게임 아직 재미없어. 훨씬 재밌게 만들어\" 한 줄에 대시, 피버 모드, 아이템 다섯 종, 웨이브마다 바뀌는 운석 장벽까지 생겼습니다.\n뭘 고칠지 적지 않아도, 재미를 더할 방법은 클로드가 정해요.\n\n게임 만들기 첫 요청문과 '재밌게' 다음 단계 요청문 10개, 실제 전·후 게임 파일은 영상 마지막에서 받는 방법을 확인하세요.\n\n#클로드 #클로드코드 #클로드스킬 #게임만들기 #바이브코딩 #AI게임 #프롬프트 #빌더조쉬",
-      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/926458094_17992842474063763_1489751680246177224_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=104&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=zoAsm_IJ4aoQ7kNvwExiJSE&_nc_oc=Adqj2goYOxvnRbQT8lQ3grSj1k328FYigpr9KkhqOPn3WrM6zHVUwnJLtoFHOP-reW8&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=Lhg7qTRGMVw5u3OZgoBUEw&_nc_ss=7a789&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQTfexx4ND7ChXoB7D_EyQR2nYZRtY9k6F-Yt5U4z8tHrQ&oe=6B0B06F7",
-      "publishedAt": "2026-11-23T11:20:44.000Z",
+      "author": "@vibe.trender",
+      "url": "https://www.instagram.com/vibe.trender/p/DgHgFNBmMp9/",
+      "text": "노트북이 느릴 때 어디부터 봐야 하는지, 클로드 코드 탭으로 재는 순서를 카드 10장에 적었어요. 프롬프트 원문과 캐시 표가 든 PDF는 댓글에 '청소' 남기시면 DM으로 보내드려요.\n\n보는 순서\n· 메모리: 크롬 하나가 33.8GB. 클로드가 첫 원인으로 꼽은 곳이라 안 쓰는 창부터 닫아요\n· 자동 실행: 등록 76개 중 26개가 켜자마자 떠 있었어요. 끄는 건 시스템 설정에서 서너 개씩\n· 캐시: 세 갈래로 나눠서 봐요. 앱을 안 꺼도 되는 것은 8.1GB뿐이었어요\n\n누르기 전에 볼 것\n· 새 폴더는 「자동」으로 시작하기도 하니 「수동」인지 먼저\n· rm · delete · kill · sudo가 보이면 멈추고 무엇을 바꾸는지 묻기\n· 영구 삭제 창에서 ⌘+엔터는 「지워 줘」 쪽이고, 되돌릴 수 없어요\n· 은행 보안 프로그램은 나쁜 프로그램이 아니라 사이트가 요구해서 깔린 것\n\n카드 속 값은 2026-11-24 맥 스튜디오(메모리 64GB), 제 맥 한 대 기준이에요. 하나도 지우지 않았고, 노트북도 방법은 같지만 숫자는 달라요. 코드 탭을 쓰려면 클로드 유료 구독이 필요해요.\n\nPDF 13쪽에는 요청문 세 개 원문, 캐시 항목별 표, 지울 후보에서 뺀 34.0GB의 이유, 자동 실행에서 그대로 둘 것까지 담았어요.\n팔로우해야 DM이 갑니다.\n\n#클로드 #클로드코드 #노트북관리 #컴퓨터느려질때 #ClaudeCode #맥관리",
+      "thumbnail": "https://scontent-nrt1-2.cdninstagram.com/v/t51.82787-15/919428170_18104593292414285_8993898834616703895_n.jpg?stp=c216.0.648.648a_dst-jpg_e35_s640x640_tt6&_nc_cat=111&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=TvJDmazehuIQ7kNvwFZ9nU7&_nc_oc=AdoU3A82bR5JvIKMw9fRWctLucINz6y-qLl6vUou4z695OtQX_Y7jXqsnCeEKfOXIKA&_nc_zt=23&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_gid=Uq2e_ARKE2AY-NmSXOnc_Q&_nc_ss=7a789&_nc_ct=RQosPBUKFQIAAAA&oh=00_AQS09S4qTM6pYV9tWHaodSh8ciTB-CTqkoCj3dwjbE6JyQ&oe=6B0C2A34",
+      "publishedAt": "2026-11-24T08:14:55.000Z",
       "metrics": {
         "likes": 8,
         "reposts": 0,
-        "replies": 8,
-        "views": 0
-      },
-      "relevance": 83,
-      "title_ko": "클로드 코드에 '훨씬 재밌게' 한 줄로 게임 8기능 추가",
-      "summary_ko": "1분 반 만에 만든 단순 운석 피하기 게임에 세부 명세 없이 재미를 높여달라는 한 줄 프롬프트만 던져 4분 만에 대시·피버 모드·아이템 5종·가변 운석 장벽을 추가한 바이브 코딩 사례입니다. 개방형 개선 요청을 에이전트가 스스로 기획·구현하는 반복 개발 패턴을 보여줍니다.",
-      "tags": [
-        "바이브 코딩",
-        "클로드 코드",
-        "게임 제작",
-        "프롬프트"
-      ],
-      "score": 61
-    },
-    {
-      "id": "threads:DgE5M5gikH2",
-      "platform": "threads",
-      "author": "@prompt_what",
-      "url": "https://www.threads.com/@prompt_what/post/DgE5M5gikH2",
-      "text": "제미나이 네온 원샷 프롬프트 릴스\n대본·장면 순서: 클로드 오푸스 5.5\n음성·3D 장면·자막·효과음·렌더: 제미나이 네온\n아아 울트라 구독 뽕뽑는중",
-      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.71878-15/922777406_2253087245552896_8904726181639395366_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&_nc_map=urlgen_bucketless&ig_cache_key=NDAzNjYwMjc0MTA2NDg3NjUzNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19maXJzdF9mcmFtZV90aHVtYm5haWwuQzMifQ%3D%3D&_nc_ohc=M7A0RV2BxREQ7kNvwF4WWvq&_nc_oc=AdrZMzItBEXNA-RdHnCHn1POXKTClKpfgelbM_HyxtnIBNeuHUFFAGsgIBqL_X0PWKM&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=9urbhnRnT8Y6_2WAZGQwvg&_nc_ss=7a389&_nc_ct=RQosPBUIFQolBAAAAA&oh=00_AQSWVVW_hv-sK932r4cgHeu_tIK5YuLpFF2fPM-ZAhpOEg&oe=6B0AFF4E",
-      "publishedAt": "2026-11-23T07:59:29.000Z",
-      "metrics": {
-        "likes": 5,
-        "reposts": 1,
-        "replies": 2,
+        "replies": 28,
         "views": 0
       },
       "relevance": 84,
-      "title_ko": "오푸스 5.5 + 제미나이 네온 원샷 릴스 제작 조합",
-      "summary_ko": "숏폼 릴스 제작 시 단일 모델에 의존하지 않고 강점별로 역할을 나눈 멀티모델 실전 조합이 공유됐습니다. 대본과 장면 순서는 클로드 오푸스 5.5가 맡고, 음성·3D 장면·자막·효과음·렌더링은 제미나이 네온에 일괄 위임하는 방식입니다.",
-      "tags": [
-        "제미나이 네온",
-        "오푸스 5.5",
-        "멀티모델",
-        "릴스 제작"
-      ],
-      "score": 59
-    },
-    {
-      "id": "instagram:DgG15uFD37S",
-      "platform": "instagram",
-      "author": "@joshproductletter",
-      "url": "https://www.instagram.com/joshproductletter/p/DgG15uFD37S/",
-      "text": "코딩을 몰라도 클로드 코드로 첫 업무용 웹페이지를 만드는 순서를, 공식 문서대로 직접 따라 하며 정리했습니다.\n설치 한 줄 → 새 폴더에서 claude → 평소 말투로 부탁하면 됩니다.\n\n✔️ ① 설치: 맥은 터미널, 윈도우는 파워셸에 공식 설치 명령 한 줄을 붙여 넣고, 새 창에서 claude --version 으로 버전 번호를 확인합니다\n✔️ ② 준비물: 클로드 프로·맥스 같은 유료 요금제나 선불 크레딧 API(콘솔) 계정이 필요합니다. 무료 요금제는 공식 문서 목록에 없습니다\n✔️ ③ 시작: 새 업무 폴더에서 claude 를 칩니다. 파일을 고칠 때마다 묻는 게 기본이고, Shift+Tab 으로 자동 승인(accept edits)을 켤 수 있습니다\n✔️ ④ 부탁: 팀 워크숍 안내 페이지를 평소 말투로 부탁하니 1분 1초 만에 index.html 264줄을 썼습니다(자동 승인 켠 상태)\n✔️ ⑤ 확인: 파일을 더블클릭하면 브라우저에서 열립니다. 날짜는 12월 4일(금)로 계산했고, 장소·주소는 예시 값이라 직접 바꿔 넣습니다\n✔️ ⑥ 고치기: 일정은 시간표 표로, 색은 남색으로 해 달라니 43초 만에 바뀌었고, 바뀐 줄을 빨강·초록으로 보여 줍니다\n✔️ ⑦ /init: 19초 만에 폴더 설명서 CLAUDE.md 를 써 두고, 다음에 켤 때 이걸 먼저 읽습니다\n\n출처: code.claude.com/docs/en/quickstart (2026-11-24 확인) · 실제 실행 2026-11-24, 클로드 코드 2.1.331\n\n맥·윈도우 설치 명령과 첫 요청문 20개는 마지막 장에서 받는 방법을 확인하세요.\n\n#클로드 #클로드코드 #AI업무자동화 #직장인AI #빌더조쉬",
-      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/921191549_17992915692063763_4749229634058027524_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=106&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=VZbN0sx-fs4Q7kNvwEmi2Ka&_nc_oc=AdrjGWDzHhGgkMQEC7jEis_jTZf8Wn_-L_SDOocxUn-K0xk0lLuZMEj-GBdQdoQ9x-A&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=Nh-7HRSX08Js6X_W-QGfZA&_nc_ss=7a789&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQQXWDATbENaaQq2wm8txJHM7USfT5pXKM5HdNu2ASEgqA&oe=6B0B08DB",
-      "publishedAt": "2026-11-24T02:05:47.000Z",
-      "metrics": {
-        "likes": 5,
-        "reposts": 0,
-        "replies": 1,
-        "views": 0
-      },
-      "relevance": 87,
-      "title_ko": "비개발자용 클로드 코드 퀵스타트 7단계 실측 가이드",
-      "summary_ko": "클로드 코드 2.1.331 공식 퀵스타트를 직접 따라 하며 설치부터 Shift+Tab 자동 승인, 자연어 페이지 제작, `/init` 설정까지 걸린 시간을 실측 정리했습니다. 팀 워크숍 안내용 HTML 264줄 생성에 1분 1초, 표·색상 수정 43초, `CLAUDE.md` 초기화에 19초가 소요된 구체적 입문 사례입니다.",
+      "title_ko": "느린 노트북 클로드 코드 진단법과 rm·sudo 안전 수칙",
+      "summary_ko": "맥북 속도 저하 시 클로드 코드로 크롬 메모리(33.8GB)·자동 실행(76개 중 26개)·안전 삭제 캐시(8.1GB)를 순차 진단하는 실전 가이드를 정리했습니다. 특히 수동 승인 모드 확인과 `rm`·`delete`·`kill`·`sudo` 명령 등장 시 즉시 중단해 변경 대상을 묻는 안전 체크리스트가 핵심입니다.",
       "tags": [
         "클로드 코드",
-        "입문 가이드",
-        "CLAUDE.md",
-        "업무 자동화"
+        "맥북 최적화",
+        "안전 수칙",
+        "실무 팁"
       ],
-      "score": 59
+      "score": 65
     },
     {
-      "id": "threads:DgG_qI2D5wA",
-      "platform": "threads",
-      "author": "@choi.openai",
-      "url": "https://www.threads.com/@choi.openai/post/DgG_qI2D5wA",
-      "text": "3/ 이 추측이 '대수판 P vs NP'로 불리는 이유가 있습니다.\nP vs NP는 답을 확인하기 쉬운 문제가 풀기도 쉬운지를 묻는데요.\n밸리언트는 이 질문을 덧셈과 곱셈만 하는 계산기, 산술 회로의 세계로 옮겼습니다.\n작은 회로로 계산되는 다항식 묶음이 VP이고, 그런 다항식을 0과 1의 모든 조합에 대해 더한 형태가 VNP입니다.\n퍼머넌트는 VNP에서 가장 어려운 문제에 속해서, 퍼머넌트에 작은 회로가 없다는 걸 보이면 VP와 VNP가 다르다는 게 증명됩니다.",
-      "thumbnail": "https://scontent-nrt1-1.cdninstagram.com/v/t51.82787-15/924194315_17998379751112832_4505154237223299311_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=104&_nc_map=urlgen_bucketless&ig_cache_key=NDAzNzE5NDA4ODYyOTM3ODA0OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQyMS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=gK2cnf6XkQ0Q7kNvwFuaahF&_nc_oc=AdpOXnc9OkS_ivm2zEucBIfj7G6p-pvRFlDjYS9AWoE3ydMs9-FJ31ocNuVAjS4GQZk&_nc_zt=23&_nc_ht=scontent-nrt1-1.cdninstagram.com&_nc_gid=p7cwUjOZh4aG0_8liFQhFw&_nc_ss=7a389&_nc_ct=RQosPBUIFQIlBAAAAA&oh=00_AQQ2kGYGB4XnklrIeM1OthoxVaDvljx0OTCL0f4TpU_ySQ&oe=6B0AF929",
-      "publishedAt": "2026-11-24T03:31:00.000Z",
-      "metrics": {
-        "likes": 3,
-        "reposts": 0,
-        "replies": 1,
-        "views": 0
-      },
-      "relevance": 82,
-      "title_ko": "VP ≠ VNP가 '대수판 P vs NP'로 불리는 이유 핵심 정리",
-      "summary_ko": "덧셈과 곱셈만 쓰는 산술 회로에서 작은 회로로 계산 가능한 다항식 집합이 VP, 이를 모든 0·1 조합으로 합산한 집합이 VNP입니다. VNP 최난제인 퍼머넌트에 작은 회로가 없음을 보이면 곧바로 VP와 VNP의 분리가 증명되는 구조를 직관적으로 해설합니다.",
-      "tags": [
-        "계산복잡도",
-        "VP vs VNP",
-        "퍼머넌트",
-        "개념 해설"
-      ],
-      "score": 56
-    },
-    {
-      "id": "instagram:DgE71ztmNIK",
+      "id": "instagram:DgJFhMUI5KX",
       "platform": "instagram",
-      "author": "@vibe.trender",
-      "url": "https://www.instagram.com/vibe.trender/p/DgE71ztmNIK/",
-      "text": "업리카를 클로드코드에 붙이는 순서와 채널마다 다른 점을 카드 10장에 묶었어요. 연결 순서와 요청문 10개를 담은 PDF는 댓글에 '홍보' 남기시면 DM으로 보내드려요.\n\n붙이는 순서는 셋이에요.\n1. 대시보드 「연결」에서 채널마다 로그인하고 권한을 모두 허용해요. 연결은 사람이 화면을 보고 해요\n2. 터미널에 플러그인 두 줄을 넣고, /mcp 에서 브라우저 허용을 눌러요\n3. 요청문을 붙여 넣고 [ ] 안만 바꿔서 시켜요. 조사 3 · 발행 2 · 캡션 1 · 반응 2 · 댓글 2\n\n붙이기 전에 알아 둘 것\n· 인스타그램은 길이 둘이에요. 릴스 음원과 업리카로 지우기는 페이스북 경유 연결에서만 돼요\n· 페이스북은 페이지만 붙고, 메타 화면에서 페이지 체크를 풀면 그 연결이 끝나요\n· 쓰레드는 디엠 API 가 없어서 댓글 자동화가 공개 대댓글로 답해요\n· 네이버 블로그는 업리카 확장이 내 브라우저에서 글을 써서, 그 브라우저가 켜져 있을 때만 나가요\n· 댓글 디엠은 인스타그램 · 페이스북 2곳뿐이고, 자동화는 초안으로 만들어져 내가 켜야 돌아가요\n· 요청문 끝에 「먼저 보여 줘」 를 붙이면 나가기 전에 한 번 더 확인해요\n\n업리카는 소셜 채널을 연결해 두면 AI 에이전트가 올리고 · 예약하고 · 반응을 읽게 해 주는 서비스예요. 15곳 · 스킬 51개 · 요금은 2026-11-23 기준이에요. 베타 동안은 카드 등록 없이 무료고, 정식 출시 뒤 무료 칸은 월 20개 발행 예정이라 바뀔 수 있어요.\n\nPDF 12쪽에 채널 6곳 연결 순서, 요청문 10개 원문, 15곳 표, 막히면 표까지 담았어요.\n팔로우해야 DM이 갑니다.\n\n#클로드코드 #업리카 #마케팅자동화 #SNS마케팅 #ClaudeCode #인스타자동화",
-      "thumbnail": "https://scontent-nrt1-2.cdninstagram.com/v/t51.82787-15/902954808_18104419331414285_1256189921440183665_n.jpg?stp=c216.0.648.648a_dst-jpg_e35_s640x640_tt6&_nc_cat=102&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=ATAL3hxX5ZUQ7kNvwFYsO7G&_nc_oc=Adpr_3MhUh5NlcMQN2G1YlQxnG77VrL5jNO5Mb_K6LJSM2EnauLEWIP0Cfm_paMB8hg&_nc_zt=23&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_gid=l1YCeCJpHUVSPi-wKWZIYg&_nc_ss=7a789&_nc_ct=RQosPBUKFQIAAAA&oh=00_AQQSbnrfr--nhSOxQejvs67ap0mtd5F5HSapL4KwdscOzA&oe=6B0B02AF",
-      "publishedAt": "2026-11-23T08:19:46.000Z",
+      "author": "@aiscene.kr",
+      "url": "https://www.instagram.com/aiscene.kr/p/DgJFhMUI5KX/",
+      "text": "AI가 쓴 논문이 47년 묵은 수학 난제를 풀었다면, 믿을 수 있을까요? 🧮\n\n11월 24일 AI 소식 5개, 발표 원문만 확인해서 카드뉴스로 정리했어요. 옆으로 넘겨 보세요.\n\n01 앤트로픽이 저자란에 '클로드'만 적힌 70쪽 논문을 깃허브에 올렸어요. 1979년에 나온 수학 난제 VP≠VNP(P vs NP의 계산식판)를 증명했다는 내용이에요. 내부 연구용 클로드가 찾았고, 기계 검증용 증명(린)도 AI가 썼대요. 아직 사람 수학자는 확인하지 않았고, P vs NP 자체를 푼 건 아니에요\n02 오픈AI와 시스코가 리눅스 보안 도구 Shirudo를 오픈소스로 공개했어요. 패치가 나오기 전 위험한 동작만 골라 막는 '방패'를 AI가 짜고, 사람이 승인하면 서버를 끄지 않고 붙여요. 시험에서는 코덱스가 만든 방패가 실행 중인 서버를 멈추지 않고 공격 시도를 막았대요\n03 앤트로픽이 Claude Ship 베타를 냈어요. 올린 코드 변경을 클로드가 검토하고, 오류는 직접 고치고, 팀 규칙이 허락한 평범한 변경은 승인까지 해요. 민감한 변경은 사람 승인을 받게 정할 수 있어요(팀·기업용)\n04 구글 딥마인드가 제미나이 4 에이전트 팀들로 양자 회로를 개선했어요. 핵융합 계산 비용은 11.8배, 약을 분해하는 효소 계산은 2.5배 줄였고, 미래 양자컴퓨터용이라 수학 증명으로 확인했대요\n05 클로드의 커넥터(앱 연결)와 스킬(새 기술)이 '플러그인' 하나로 합쳐졌어요. 무료·Pro·Max·Ultra에서 1만 개 넘는 플러그인을 골라 붙일 수 있고, 팀·기업용은 곧 열려요\n\n이 외에 궁금한 내용은 댓글로 남겨 주세요. 답글로 알려 드릴게요.\n\n출처\n· 앤트로픽 깃허브 formal-math (vp-vnp)\n· 오픈AI 블로그 'OpenAI and Cisco introduce Shirudo'\n· Claude 공식 글 'Introducing Claude Ship'\n· 구글 딥마인드 블로그 'Finding faster quantum algorithms'\n· Claude 공식 X (플러그인)\n\n📋 복사용 (클로드·코덱스에 그대로 붙여넣기)\ngithub.com/anthropics/formal-math/tree/main/vp-vnp\nopenai.com/index/introducing-shirudo/\nclaude.com/resources/articles/introducing-claude-ship\ndeepmind.google/blog/finding-faster-quantum-algorithms-with-agents-and-formal-verification/\n위 다섯 소식(클로드 VP≠VNP 증명, 오픈AI·시스코 Shirudo, Claude Ship, 딥마인드 양자 회로, 클로드 플러그인) 핵심만 쉽게 정리해 줘\n\n#AI뉴스 #인공지능 #클로드 #오픈AI #AI씬",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/923296069_18120586064056710_4667208610717841962_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=111&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=SLeQoCmKzxUQ7kNvwGu-JaY&_nc_oc=AdqfS2ZBMm95VFLgwilDPq4ebE7GDKoTtrdqShF15B1zZOaxF_0py3GQmEfPXxqMJHs&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=YciHLjIUhjY_-9LHBXOeSQ&_nc_ss=7a789&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQRyPgtH_AuGbESyMYo4AsUKdotGr3ob9vCx0RHvPc4t9w&oe=6B0C1219",
+      "publishedAt": "2026-11-24T23:00:07.000Z",
       "metrics": {
-        "likes": 3,
+        "likes": 21,
         "reposts": 0,
         "replies": 0,
         "views": 0
       },
-      "relevance": 82,
-      "title_ko": "업리카(Uprica)를 클로드 코드 MCP에 연동하는 3단계",
-      "summary_ko": "SNS 운영 자동화 도구 업리카를 클로드 코드 MCP 플러그인에 연결해 조사·발행·캡션·댓글을 지시하는 3단계 설정법을 안내합니다. 인스타그램 릴스 음원·삭제 시 페이스북 경유 연동 필요 여부나 스레드 DM API 부재 등 채널별 실무 주의사항도 함께 짚어줍니다.",
+      "relevance": 87,
+      "title_ko": "11/24 AI 5대 브리핑: VP≠VNP·Shirudo·Claude Ship·양자회로",
+      "summary_ko": "Claude 단독 저자의 70쪽 VP≠VNP 논문과 Lean 증명, 오픈AI·시스코의 무중단 리눅스 방어 도구 Shirudo, 앤트로픽의 PR 자동화 베타 Claude Ship, 구글 딥마인드의 Gemini 4 양자 회로 개선까지 하루 동안 쏟아진 핵심 원문 발표를 한눈에 정리했습니다.",
       "tags": [
-        "MCP 연동",
-        "클로드 코드",
-        "SNS 자동화",
-        "업리카"
+        "AI 브리핑",
+        "Shirudo",
+        "Claude Ship",
+        "VP vs VNP"
       ],
-      "score": 54
+      "score": 63
+    },
+    {
+      "id": "x:2125354302265053631",
+      "platform": "x",
+      "author": "@godofprompt",
+      "url": "https://x.com/godofprompt/status/2125354302265053631",
+      "text": "Prompt2App has never been closer \n\nClaude is absolutely owning it with the latest features You can now install Claude artifacts as desktop apps on Mac and Windows.\n\nAsk Claude to build an artifact, click \"Install as app\", and open it like any other app. It can use your connectors and, if you allow it, send notifications or add a menu bar item.",
+      "thumbnail": "",
+      "publishedAt": "2026-11-24T22:22:07.490000+00:00",
+      "metrics": {
+        "likes": 2,
+        "reposts": 0,
+        "replies": 2,
+        "views": 534
+      },
+      "relevance": 89,
+      "title_ko": "Claude 아티팩트, Mac·Windows 데스크톱 앱 원클릭 설치",
+      "summary_ko": "Claude에서 프롬프트로 생성한 아티팩트를 'Install as app' 한 번으로 Mac과 Windows 네이티브 앱처럼 설치해 실행할 수 있게 됐습니다. 연결된 커넥터를 그대로 쓰면서 권한 허용 시 시스템 알림과 상단 메뉴바 상주까지 지원해 개인용 도구 제작 장벽을 크게 낮췄습니다.",
+      "tags": [
+        "Claude Artifacts",
+        "Prompt2App",
+        "데스크톱 앱",
+        "생산성"
+      ],
+      "score": 60
+    },
+    {
+      "id": "threads:DgJaPKYj_Vs",
+      "platform": "threads",
+      "author": "@choi.openai",
+      "url": "https://www.threads.com/@choi.openai/post/DgJaPKYj_Vs",
+      "text": "1/ 앤트로픽 세이프가드팀의 오스카 오라힐리와 다리아 카비아니가 11월 24일 Siren이라는 평가를 공개했습니다.\n일부러 구멍을 낸 샌드박스에 Claude를 넣고 평범한 서버 관리 업무를 시킨 뒤, 바깥에 그 일에 도움이 될 비밀번호나 파일을 놓아두는 시험인데요.\n샌드박스는 AI 에이전트가 쓸 수 있는 파일과 네트워크를 제한하는 격리 공간입니다. \n이름은 뱃사람을 노래로 홀리던 그리스 신화의 세이렌에서 가져왔고, 표지 그림에는 돛대에 밧줄을 감은 배가 그려져 있습니다.\n노래는 그대로 들려주고 배가 어디로 가는지 보는 시험입니다.\n이 밧줄이 무엇이었는지가 이번 연구의 답입니다.",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/927822699_17998509459112832_3749605174139628212_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&_nc_map=urlgen_bucketless&ig_cache_key=NDAzNzg3MzkzMjA2NTMwNTk2NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuOTg2LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=DuYMl2tH7RwQ7kNvwEt63YZ&_nc_oc=Adql6Gg0ZF2AK8nKpro90rMUuZ8BFpficPUnsFXvEXZTeLfJ5i1nkrejs8CS8qcFBOw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=jUuAQZ4fFY8Ss-kEpYilaw&_nc_ss=7a30f&_nc_ct=RQosPBUIFQIlBAAAAA&oh=00_AQTHQM3O4ZfJz3YttvkksURmwe2SoGzBqMvRZuc6vInFEg&oe=6B0C1CE9",
+      "publishedAt": "2026-11-25T02:01:44.000Z",
+      "metrics": {
+        "likes": 4,
+        "reposts": 0,
+        "replies": 1,
+        "views": 0
+      },
+      "relevance": 86,
+      "title_ko": "앤트로픽 'Siren' 평가: 구멍 난 샌드박스와 바깥 미끼 실험",
+      "summary_ko": "앤트로픽 세이프가드팀이 11월 24일 공개한 'Siren'은 일부러 틈을 만든 샌드박스 안에서 Claude에게 일상적 서버 관리를 맡기고 바깥에 유용한 비밀번호·파일을 둔 실험입니다. 그리스 신화 세이렌의 노래처럼 유혹은 남긴 채 어떤 밧줄(안전장치)이 배를 묶는지 검증했습니다.",
+      "tags": [
+        "Siren 평가",
+        "샌드박스",
+        "앤트로픽",
+        "AI 안전"
+      ],
+      "score": 58
+    },
+    {
+      "id": "threads:DgJaP0wjzcU",
+      "platform": "threads",
+      "author": "@choi.openai",
+      "url": "https://www.threads.com/@choi.openai/post/DgJaP0wjzcU",
+      "text": "2/ 시험장은 샌드박스를 두 겹으로 쌓아 만들었습니다.\n안쪽에는 잘못 열어 둔 폴더나 이미 알려진 취약점이 있고, 바깥쪽은 인터넷을 끊은 가상 머신이라 안쪽을 빠져나와도 실제 인터넷에는 나가지 못하는데요.\n격리 방식 다섯 가지로 샌드박스 26개를 만들고 과제와 미끼, 유혹하는 글을 조합해 1,753개 상황을 준비했습니다.\n대부분은 설정 실수로 열린 구멍이고, 일부러 찾기 쉽게 만들었습니다.\n탈출 실력을 겨루는 시험이라면 깊이 숨겼겠지만, 이 시험은 나갈 수 있을 때 나가기로 하는지를 봅니다.\n실제 탈출 사고도 소프트웨어 결함보다 열어 둔 설정에서 시작된 경우가 훨씬 많았습니다.",
+      "thumbnail": "https://scontent-nrt1-1.cdninstagram.com/v/t51.82787-15/920913023_17998509486112832_8199758344484155120_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=106&_nc_map=urlgen_bucketless&ig_cache_key=NDAzNzg3Mzk3NzU2NTA2NzAyOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTc2MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=IlaSd9HQWFQQ7kNvwEl3bm-&_nc_oc=AdrP1PHYkHMnHOKkcN24y-xlEFpfz_fI6yskBPAg0mOSPbrQN-BHqA1AkJDvkTnatWA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt1-1.cdninstagram.com&_nc_gid=jUuAQZ4fFY8Ss-kEpYilaw&_nc_ss=7a30f&_nc_ct=RQosPBUIFQIlBAAAAA&oh=00_AQSOKSd00j0qUmx7GoqCa9hWpw4ho2tZjz10v_GMI6N8sQ&oe=6B0C1CDE",
+      "publishedAt": "2026-11-25T02:01:49.000Z",
+      "metrics": {
+        "likes": 5,
+        "reposts": 0,
+        "replies": 1,
+        "views": 0
+      },
+      "relevance": 85,
+      "title_ko": "Siren 이중 샌드박스 시험장: 설정 실수 중심 26개 환경",
+      "summary_ko": "Siren 시험장은 취약한 내부 샌드박스와 인터넷이 차단된 외부 VM을 두 겹으로 쌓아 5가지 격리 방식·26개 샌드박스·1,753개 상황을 구성했습니다. 실제 사고 대부분이 고난도 제로데이보다 설정 실수로 열린 구멍에서 시작된다는 현실을 반영해 탈출 선택 여부를 측정했습니다.",
+      "tags": [
+        "이중 샌드박스",
+        "보안 설정",
+        "Siren",
+        "에이전트 검증"
+      ],
+      "score": 58
+    },
+    {
+      "id": "threads:DgJaQcIj83f",
+      "platform": "threads",
+      "author": "@choi.openai",
+      "url": "https://www.threads.com/@choi.openai/post/DgJaQcIj83f",
+      "text": "3/ 유혹하는 글은 Claude가 썼습니다.\n사람이 손으로 만들면 잘 통하는 문구를 찾기 어려워서, Claude가 문구를 제안하고 모델이 얼마나 넘어가는지 재며 자동으로 골라냈는데요.\n꼼꼼히 찾아보라거나, 실패하면 손해가 크다거나, 급하다는 내용이 많았습니다.\n대신 나가라고 시키거나 나가도 된다고 허락하는 문구는 AI 심사에서 걸러 냈습니다.\n허락한 적이 한 번도 없는데 나갔다면 그건 모델이 스스로 고른 행동이 됩니다.\n모든 모델은 똑같이 고정된 상황으로 시험을 봤고, 앞으로 나올 모델이 유혹을 잘 버티면 Claude에게 더 센 문구를 다시 찾게 할 계획입니다.",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/927851901_17998509510112832_2585219868060369449_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=102&_nc_map=urlgen_bucketless&ig_cache_key=NDAzNzg3NDAxOTg0MzY4OTk1MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuOTIwLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=Zrzx9nRswUEQ7kNvwEI_oP7&_nc_oc=AdqmiCfqAX0rs_kaTRFGu4ToquLu3M4Oqdc3lqJ0QaWSF1ZBfPqweWcqcSV9zyoiTok&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=jUuAQZ4fFY8Ss-kEpYilaw&_nc_ss=7a30f&_nc_ct=RQosPBUIFQIlBAAAAA&oh=00_AQQvJpb9CoOPLPnKMIt-VVUfx6y98CdtpGSJJhO86a8CHA&oe=6B0C0B6F",
+      "publishedAt": "2026-11-25T02:01:54.000Z",
+      "metrics": {
+        "likes": 4,
+        "reposts": 0,
+        "replies": 1,
+        "views": 0
+      },
+      "relevance": 86,
+      "title_ko": "Siren 유혹 프롬프트 자동 탐색: 명시적 허가 배제 심사",
+      "summary_ko": "Siren 평가의 압박 문구는 사람이 아닌 Claude가 직접 제안하고 모델 이탈률을 재며 자동 선별했습니다. '급하다·실패하면 손해가 크다'는 압박만 남기고 나가도 된다는 허가 표현은 AI 심사로 배제해 순수 자발적 이탈만 가려낸 정교한 설계가 특징입니다.",
+      "tags": [
+        "적대적 프롬프트",
+        "안전 평가",
+        "Claude",
+        "Siren"
+      ],
+      "score": 58
     }
   ]
 }
