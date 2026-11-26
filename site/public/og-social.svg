@@ -20,15 +20,15 @@
       <g clip-path="url(#socCardClip0)">
         <rect x="22" y="22" width="46" height="24" rx="6" fill="#0284c7"/>
         <text x="45" y="38" font-size="11.5" font-weight="700" fill="#ffffff" text-anchor="middle">X</text>
-        <text x="78" y="38" font-size="13" font-weight="600" fill="#94a3b8">@anthropicai</text>
-        <text x="22" y="82" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">앤트로픽, Claude</text>
-      <text x="22" y="109" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">에이전트로 API Rust 전환</text>
-        <text x="22" y="148" font-size="13" font-weight="500" fill="#cbd5e1">앤트로픽이 핵심 Messages API</text>
-      <text x="22" y="169" font-size="13" font-weight="500" fill="#cbd5e1">백엔드를 Python에서 Rust로 전면</text>
-      <text x="22" y="190" font-size="13" font-weight="500" fill="#cbd5e1">마이그레이션한 엔지니어링 블로그…</text>
+        <text x="78" y="38" font-size="13" font-weight="600" fill="#94a3b8">@claudedevs</text>
+        <text x="22" y="82" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">클로드 에이전트 팀으로</text>
+      <text x="22" y="109" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">Messages API 러스트 전환</text>
+        <text x="22" y="148" font-size="13" font-weight="500" fill="#cbd5e1">앤트로픽 엔지니어링 팀이 Claude</text>
+      <text x="22" y="169" font-size="13" font-weight="500" fill="#cbd5e1">Messages API를 Python에서 Rust로</text>
+      <text x="22" y="190" font-size="13" font-weight="500" fill="#cbd5e1">마이그레이션한 사례를 공개했다…</text>
         <line x1="22" y1="244" x2="325" y2="244" stroke="#243044" stroke-width="1"/>
-        <text x="22" y="270" font-size="12.5" font-weight="700" fill="#3dd6b5">점수 89</text>
-        <text x="325" y="270" font-size="12.5" font-weight="600" fill="#f8e473" text-anchor="end">♥ 7,866</text>
+        <text x="22" y="270" font-size="12.5" font-weight="700" fill="#3dd6b5">점수 88</text>
+        <text x="325" y="270" font-size="12.5" font-weight="600" fill="#f8e473" text-anchor="end">♥ 4,456</text>
       </g>
     </g>
     <g transform="translate(427, 276)">
@@ -37,14 +37,14 @@
         <rect x="22" y="22" width="103" height="24" rx="6" fill="#db2777"/>
         <text x="73.5" y="38" font-size="11.5" font-weight="700" fill="#ffffff" text-anchor="middle">Instagram</text>
         <text x="135" y="38" font-size="13" font-weight="600" fill="#94a3b8">@prompt_what</text>
-        <text x="22" y="82" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">클로드 코드 창시자 보리스</text>
-      <text x="22" y="109" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">체르니 28분 공식 강의</text>
-        <text x="22" y="148" font-size="13" font-weight="500" fill="#cbd5e1">클로드 코드를 개발한 보리스</text>
-      <text x="22" y="169" font-size="13" font-weight="500" fill="#cbd5e1">체르니가 초기 설치 직후 환경</text>
-      <text x="22" y="190" font-size="13" font-weight="500" fill="#cbd5e1">구성부터 CLAUDE.md에 팀 규칙…</text>
+        <text x="22" y="82" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">창시자 보리스 체르니의</text>
+      <text x="22" y="109" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">Claude Code 28분 입…</text>
+        <text x="22" y="148" font-size="13" font-weight="500" fill="#cbd5e1">Claude Code 개발자 보리스 체르니가</text>
+      <text x="22" y="169" font-size="13" font-weight="500" fill="#cbd5e1">설치 직후 기본 설정부터 CLAUDE.md</text>
+      <text x="22" y="190" font-size="13" font-weight="500" fill="#cbd5e1">규칙 관리까지 실전 순서대…</text>
         <line x1="22" y1="244" x2="325" y2="244" stroke="#243044" stroke-width="1"/>
-        <text x="22" y="270" font-size="12.5" font-weight="700" fill="#3dd6b5">점수 82</text>
-        <text x="325" y="270" font-size="12.5" font-weight="600" fill="#f8e473" text-anchor="end">♥ 1,024</text>
+        <text x="22" y="270" font-size="12.5" font-weight="700" fill="#3dd6b5">점수 83</text>
+        <text x="325" y="270" font-size="12.5" font-weight="600" fill="#f8e473" text-anchor="end">♥ 1,429</text>
       </g>
     </g>
     <g transform="translate(794, 276)">
@@ -53,14 +53,14 @@
         <rect x="22" y="22" width="103" height="24" rx="6" fill="#db2777"/>
         <text x="73.5" y="38" font-size="11.5" font-weight="700" fill="#ffffff" text-anchor="middle">Instagram</text>
         <text x="135" y="38" font-size="13" font-weight="600" fill="#94a3b8">@prompt_what</text>
-        <text x="22" y="82" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">클로드 아티팩트, 말로</text>
-      <text x="22" y="109" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">주문해 PC 앱으로 설치</text>
-        <text x="22" y="148" font-size="13" font-weight="500" fill="#cbd5e1">클로드가 만든 계산기·대시보드 같은</text>
-      <text x="22" y="169" font-size="13" font-weight="500" fill="#cbd5e1">아티팩트를 Mac·Windows용 클로드</text>
-      <text x="22" y="190" font-size="13" font-weight="500" fill="#cbd5e1">앱에서 바로 독립 데스크톱 앱으…</text>
+        <text x="22" y="82" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">클로드 토큰 한도 절약 및</text>
+      <text x="22" y="109" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="-0.3">무료 모델 연계 3종 도구</text>
+        <text x="22" y="148" font-size="13" font-weight="500" fill="#cbd5e1">오후에 클로드 사용 한도가 소진되는</text>
+      <text x="22" y="169" font-size="13" font-weight="500" fill="#cbd5e1">개발자를 위해 반복 파일 읽기와 긴</text>
+      <text x="22" y="190" font-size="13" font-weight="500" fill="#cbd5e1">코드 출력 토큰을 줄여주는 보조 도…</text>
         <line x1="22" y1="244" x2="325" y2="244" stroke="#243044" stroke-width="1"/>
-        <text x="22" y="270" font-size="12.5" font-weight="700" fill="#3dd6b5">점수 81</text>
-        <text x="325" y="270" font-size="12.5" font-weight="600" fill="#f8e473" text-anchor="end">♥ 989</text>
+        <text x="22" y="270" font-size="12.5" font-weight="700" fill="#3dd6b5">점수 82</text>
+        <text x="325" y="270" font-size="12.5" font-weight="600" fill="#f8e473" text-anchor="end">♥ 582</text>
       </g>
     </g>
   <text x="60" y="602" font-size="12" font-weight="600" fill="#94a3b8">매일 자동 수집 · 한국어 요약 · AI Weekly Social Feed</text>

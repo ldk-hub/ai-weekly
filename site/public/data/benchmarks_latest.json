@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-25T02:29:26.562Z",
+  "updated_at": "2026-11-26T02:41:27.334Z",
   "policy": {
     "filter_rule": "multi_source_ensemble_average",
     "staleness_gate": {
@@ -33,8 +33,8 @@
       "kind": "page",
       "aggregate": true,
       "header": true,
-      "as_of": "2026-11-25",
-      "retrieved_at": "2026-11-25T02:29:21.058Z",
+      "as_of": "2026-11-26",
+      "retrieved_at": "2026-11-26T02:41:21.900Z",
       "evidence": "evidence/trakkr-ai-index-2026-11.json"
     },
     {
@@ -46,8 +46,8 @@
       "kind": "api",
       "aggregate": true,
       "header": true,
-      "as_of": "2026-11-25",
-      "retrieved_at": "2026-11-25T02:29:21.058Z"
+      "as_of": "2026-11-26",
+      "retrieved_at": "2026-11-26T02:41:21.900Z"
     },
     {
       "id": "arena",
@@ -58,8 +58,8 @@
       "kind": "browser",
       "aggregate": true,
       "header": true,
-      "as_of": "2026-11-25",
-      "retrieved_at": "2026-11-25T02:29:21.058Z"
+      "as_of": "2026-11-26",
+      "retrieved_at": "2026-11-26T02:41:21.900Z"
     },
     {
       "id": "artificial_analysis",
@@ -70,8 +70,8 @@
       "kind": "page",
       "aggregate": true,
       "header": true,
-      "as_of": "2026-11-25",
-      "retrieved_at": "2026-11-25T02:29:21.058Z"
+      "as_of": "2026-11-26",
+      "retrieved_at": "2026-11-26T02:41:21.900Z"
     },
     {
       "id": "livebench",
@@ -94,8 +94,8 @@
       "kind": "api",
       "aggregate": true,
       "header": false,
-      "as_of": "2026-11-25",
-      "retrieved_at": "2026-11-25T02:29:21.058Z"
+      "as_of": "2026-11-26",
+      "retrieved_at": "2026-11-26T02:41:21.900Z"
     }
   ],
   "market_shares": [

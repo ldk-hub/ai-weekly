@@ -1353,6 +1353,19 @@ module.exports = {
     ],
     use_case: "AI 에이전트에게 실제 Word 보고서, Excel 수식 시트, PowerPoint 발표 자료 생성·편집을 맡기거나 웹 앱에 AI 오피스 에디터를 임베드할 때",
     tags: ["mcp-server", "office-suite", "docx", "xlsx", "pptx"]
+  },
+  "qianyiai/kurocat": {
+    category: "mcp",
+    title_ko: "kurocat — 내장 MCP 서버로 AI가 맞춤 고양이 캐릭터를 생성하는 데스크톱 타이핑 펫 앱",
+    catchphrase: "Tauri v2·Rust 기반 경량 데스크톱 타이핑 고양이 동반자이자 로컬 Stdio/HTTP 내장 MCP 서버",
+    summary_ko: "Windows·macOS·Linux·Android를 지원하는 Tauri v2 + Rust + HTML5 Canvas 2D 기반의 오픈소스 데스크톱 타이핑 고양이 동반자(Bongo Cat 대안)입니다. 6종의 손그림 고양이 스킨과 고래소녀 캐릭터, 65%/108키 기계식 키보드·마우스 실시간 반응, OBS 투명 브라우저 소스, 비밀번호 입력 자동 감지 눈 가리기 프라이버시 모드를 제공합니다. 특히 Node.js나 Python 없이 단파일에 내장된 Stdio·Streamable HTTP 이중 모드 MCP 서버를 통해 Claude Desktop·Cursor·Antigravity 등에서 자연어나 사진으로 나만의 고양이 펫을 생성하고 0.4초 만에 실시간 핫 리로드할 수 있습니다.",
+    key_features: [
+      "별도 런타임 없는 Stdio·Streamable HTTP 내장 MCP 서버로 AI 기반 맞춤 캐릭터 실시간 생성 및 0.4초 핫 리로드",
+      "Windows UI Automation 및 macOS SecureEventInput 연동 비밀번호 입력 자동 감지·눈 가리기 프라이버시 보호",
+      "65%/108키 기계식 키보드·마우스 좌우클릭 독립 반응과 OBS 투명 브라우저 소스 기본 내장"
+    ],
+    use_case: "코딩·방송 화면에 가벼운 데스크톱 타이핑 고양이 동반자를 띄우고 MCP로 AI에게 나만의 반려묘 캐릭터를 직접 커스터마이징시킬 때",
+    tags: ["mcp-server", "desktop-pet", "tauri", "rust", "coding-companion"]
   }
 };
 

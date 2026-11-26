@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "updatedAt": "2026-11-22T23:55:51.878Z",
-  "lastDiscoveryAt": "2026-11-22T23:55:51.878Z",
+  "updatedAt": "2026-11-26T02:58:16.329Z",
+  "lastDiscoveryAt": "2026-11-26T02:58:16.329Z",
   "core": {
     "x": [
       "rowancheung",
@@ -36,6 +36,22 @@
   "discovered": {
     "x": [
       {
+        "handle": "claudedevs",
+        "verifiedAt": "2026-11-26T02:58:16.329Z",
+        "discoveredFrom": "x_graph:@minchoi",
+        "verifyScore": 89,
+        "aiRatio": 1,
+        "sampleCount": 4
+      },
+      {
+        "handle": "therundownai",
+        "verifiedAt": "2026-11-26T02:58:16.329Z",
+        "discoveredFrom": "corpus:2026-11-17.json, corpus:2026-11-18.json, corpus:2026-11-19.json",
+        "verifyScore": 84,
+        "aiRatio": 1,
+        "sampleCount": 4
+      },
+      {
         "handle": "openai",
         "verifiedAt": "2026-11-16T00:40:13.706Z",
         "discoveredFrom": "corpus:news_latest.json, corpus:news_2026-11-10.json, corpus:news_2026-11-11.json",
@@ -57,22 +73,6 @@
         "discoveredFrom": "x_graph:@minchoi",
         "verifyScore": 80,
         "aiRatio": 1,
-        "sampleCount": 4
-      },
-      {
-        "handle": "thesupermannx",
-        "verifiedAt": "2026-11-22T23:55:51.878Z",
-        "discoveredFrom": "x_graph:@godofprompt",
-        "verifyScore": 70,
-        "aiRatio": 0.75,
-        "sampleCount": 4
-      },
-      {
-        "handle": "anthropicai",
-        "verifiedAt": "2026-11-17T00:16:31.644Z",
-        "discoveredFrom": "corpus:news_2026-11-10.json, corpus:news_2026-11-16.json",
-        "verifyScore": 66,
-        "aiRatio": 0.75,
         "sampleCount": 4
       }
     ],
@@ -122,11 +122,11 @@
     "godofprompt",
     "heybarsee",
     "omarsar0",
+    "claudedevs",
+    "therundownai",
     "openai",
     "googledeepmind",
-    "thinkymachines",
-    "thesupermannx",
-    "anthropicai"
+    "thinkymachines"
   ],
   "threads": [
     "prompt_what",

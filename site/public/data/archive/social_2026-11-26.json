@@ -1,52 +1,74 @@
 {
   "date": "2026-11-26",
-  "generatedAt": "2026-11-25T23:58:43.164Z",
+  "generatedAt": "2026-11-26T03:12:34.081Z",
   "count": 20,
   "items": [
     {
-      "id": "x:2125627317263466739",
+      "id": "x:2125628717263372512",
       "platform": "x",
-      "author": "@anthropicai",
-      "url": "https://x.com/anthropicai/status/2125627317263466739",
+      "author": "@claudedevs",
+      "url": "https://x.com/claudedevs/status/2125628717263372512",
       "thumbnail": "",
-      "publishedAt": "2026-11-25T16:26:59.338000+00:00",
+      "publishedAt": "2026-11-25T16:32:33.124000+00:00",
       "metrics": {
-        "likes": 7866,
-        "reposts": 983,
-        "replies": 436,
-        "views": 1772902
+        "likes": 4456,
+        "reposts": 229,
+        "replies": 130,
+        "views": 305936
       },
-      "relevance": 95,
-      "title_ko": "앤트로픽, Claude 에이전트로 API Rust 전환",
-      "summary_ko": "앤트로픽이 핵심 Messages API 백엔드를 Python에서 Rust로 전면 마이그레이션한 엔지니어링 블로그를 공개했습니다. 기존 라이브 서비스를 검증 기준으로 삼아 여러 Claude 에이전트 팀이 두 버전 간 차이를 자동 추적하고 수정했습니다.",
+      "relevance": 96,
+      "title_ko": "클로드 에이전트 팀으로 Messages API 러스트 전환",
+      "summary_ko": "앤트로픽 엔지니어링 팀이 Claude Messages API를 Python에서 Rust로 마이그레이션한 사례를 공개했다. 기존 Python 서비스와 신규 Rust 버전을 대조하며 여러 Claude 에이전트 팀이 차이점을 추적·수정해 검증을 마쳤다.",
       "tags": [
-        "Anthropic",
-        "Rust 전환",
-        "코딩 에이전트",
-        "백엔드"
+        "Claude API",
+        "Rust 마이그레이션",
+        "에이전트 검증"
       ],
-      "score": 89
+      "score": 88
     },
     {
       "id": "instagram:DgKAypkEXjv",
       "platform": "instagram",
       "author": "@prompt_what",
       "url": "https://www.instagram.com/p/DgKAypkEXjv/",
-      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/927040559_18136113407483014_6223602756224736917_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=108&_nc_map=urlgen_bucketless&ig_cache_key=NDAzODA0MzI2MTUwNzE2MDUyNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=KBLQUwQYItAQ7kNvwHted-7&_nc_oc=AdqfUAMY2rER9nVpMKnWeRicz5qb4dMGYaYG4c-HyQdbK8y5mmk0ge7CltT_3bz6PIw&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=-yInVk0-1jraQ7DHspuuig&_nc_ss=7a7a8&_nc_ct=RQosPBUIFQIlBAAAAA&oh=00_AQTVsHR-RfNZEN0ZxB_pra7nWYP0Ll98dVATeqCbmDeYkQ&oe=6B0D367A",
+      "thumbnail": "https://scontent-nrt1-1.cdninstagram.com/v/t51.82787-15/927040559_18136113407483014_6223602756224736917_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=1&ig_cache_key=NDAzODA0MzI2MTUwNzE2MDUyNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=KBLQUwQYItAQ7kNvwHted-7&_nc_oc=AdqfUAMY2rER9nVpMKnWeRicz5qb4dMGYaYG4c-HyQdbK8y5mmk0ge7CltT_3bz6PIw&_nc_zt=23&_nc_ht=scontent-nrt1-1.cdninstagram.com&_nc_gid=sSifcS-quY9tujmJlzvGNg&_nc_ss=7a7a8&_nc_ct=RQosPBUIFQIlBAAAAA&oh=00_AQQpIoHJ3MUqzgTH4TD_81sNS_YL7equYvT90Fnu_eDwHg&oe=6B0D6EBA",
       "publishedAt": "2026-11-25T07:38:40.000Z",
       "metrics": {
-        "likes": 1024,
+        "likes": 1429,
         "reposts": 0,
-        "replies": 982,
+        "replies": 1386,
         "views": 0
       },
       "relevance": 90,
-      "title_ko": "클로드 코드 창시자 보리스 체르니 28분 공식 강의",
-      "summary_ko": "클로드 코드를 개발한 보리스 체르니가 초기 설치 직후 환경 구성부터 CLAUDE.md에 팀 규칙을 주입하는 실전 흐름을 28분 만에 시연한 강의를 소개합니다. 누적 조회수 180만 회를 넘긴 스테디셀러로 일부 단축키만 확인하면 지금도 입문 가이드로 유용합니다.",
+      "title_ko": "창시자 보리스 체르니의 Claude Code 28분 입문 강의",
+      "summary_ko": "Claude Code 개발자 보리스 체르니가 설치 직후 기본 설정부터 CLAUDE.md 규칙 관리까지 실전 순서대로 시연하는 28분 강의를 추천했다. 조회수 180만 회를 넘긴 핵심 가이드로 일부 바뀐 단축키만 확인하면 지금도 그대로 활용 가능하다.",
       "tags": [
-        "클로드 코드",
+        "Claude Code",
         "CLAUDE.md",
-        "입문 강의"
+        "입문 가이드"
+      ],
+      "score": 83
+    },
+    {
+      "id": "instagram:DgKRXcLBIa3",
+      "platform": "instagram",
+      "author": "@prompt_what",
+      "url": "https://www.instagram.com/reel/DgKRXcLBIa3/",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/931247423_18136148135483014_8757546355106088505_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&_nc_map=urlgen_bucketless&ig_cache_key=NDAzODExNjM5MzQ3OTM0MTc1MTE4MTM2MTQ4MTI5NDgzMDE0.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjEwODAuc2RyLnZpZGVvX3VzZXJfdXBsb2FkZWRfdGh1bWJuYWlsLkMzIn0%3D&_nc_ohc=lXKjTCOLFtwQ7kNvwFC6QrQ&_nc_oc=Adpi0xCYBjaJHO-M8YtIOkiY3Zf2S_mIUg3z_XAg4IEZsP0LmBQ5MFve9tudv5U_Q6Q&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=sSifcS-quY9tujmJlzvGNg&_nc_ss=7a7a8&_nc_ct=RQosPBUIFQwlBAAAAA&oh=00_AQQwUyWR2oW5NO-GOAA-uiAnfuQznl1KomhFzEJvJyynMQ&oe=6B0D7301",
+      "publishedAt": "2026-11-25T12:00:00.000Z",
+      "metrics": {
+        "likes": 582,
+        "reposts": 0,
+        "replies": 835,
+        "views": 0
+      },
+      "relevance": 92,
+      "title_ko": "클로드 토큰 한도 절약 및 무료 모델 연계 3종 도구",
+      "summary_ko": "오후에 클로드 사용 한도가 소진되는 개발자를 위해 반복 파일 읽기와 긴 코드 출력 토큰을 줄여주는 보조 도구 3종 구성을 소개했다. 한도 도달 시 무료 모델로 자연스럽게 작업을 이어갈 수 있도록 Claude Code에 연동하는 워크플로우를 다룬다.",
+      "tags": [
+        "토큰 절약",
+        "Claude Code",
+        "무료 모델 폴백"
       ],
       "score": 82
     },
@@ -55,46 +77,23 @@
       "platform": "instagram",
       "author": "@prompt_what",
       "url": "https://www.instagram.com/p/DgJ67EtoxW5/",
-      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/929688640_18136108499483014_4236894689645546495_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&_nc_map=urlgen_bucketless&ig_cache_key=NDAzODAxNzI3Njc4MzUxMTY1OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuNzIwLnNkci52aWRlb191c2VyX3NlbGVjdGVkX3RodW1ibmFpbC5DMyJ9&_nc_ohc=1xy5knWcwc4Q7kNvwG04w22&_nc_oc=AdohbfIxE6CleyCaawnipArTBRWL6BBllayHCrcHbNCCp0bP8NccYiNIcsU-XOMRG5c&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=-yInVk0-1jraQ7DHspuuig&_nc_ss=7a3a8&_nc_ct=RQosPBUIFQ4lBAAAAA&oh=00_AQTiLEWhrsRCzICBCwJxLD3lgh6HJaIq-iqrSkCKMt8Arg&oe=6B0D4A66",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/929688640_18136108499483014_4236894689645546495_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&_nc_map=urlgen_bucketless&ig_cache_key=NDAzODAxNzI3Njc4MzUxMTY1OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuNzIwLnNkci52aWRlb191c2VyX3NlbGVjdGVkX3RodW1ibmFpbC5DMyJ9&_nc_ohc=1xy5knWcwc4Q7kNvwG04w22&_nc_oc=AdohbfIxE6CleyCaawnipArTBRWL6BBllayHCrcHbNCCp0bP8NccYiNIcsU-XOMRG5c&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=sSifcS-quY9tujmJlzvGNg&_nc_ss=7a7a8&_nc_ct=RQosPBUIFQ4lBAAAAA&oh=00_AQRhIKK0fSduAAKf3swNpJV2xGxU_mE3VA-qQMxpCwn5MA&oe=6B0D82A6",
       "publishedAt": "2026-11-25T06:47:25.000Z",
       "metrics": {
-        "likes": 989,
+        "likes": 1118,
         "reposts": 0,
-        "replies": 306,
+        "replies": 333,
         "views": 0
       },
-      "relevance": 92,
-      "title_ko": "클로드 아티팩트, 말로 주문해 PC 앱으로 설치",
-      "summary_ko": "클로드가 만든 계산기·대시보드 같은 아티팩트를 Mac·Windows용 클로드 앱에서 바로 독립 데스크톱 앱으로 설치해 본 실사용 후기입니다. API 키 없이 확인 한 번으로 Dock 아이콘이 생성되며 무료 포함 전 요금제에서 베타로 쓸 수 있습니다.",
+      "relevance": 91,
+      "title_ko": "클로드 아티팩트 앱 설치 실전 체험 및 과금 주의점",
+      "summary_ko": "무료 플랜을 포함한 모든 요금제 베타로 풀린 클로드 아티팩트 앱 설치 기능으로 실수령액 계산기를 직접 Mac Dock에 고정한 후기를 공유했다. API 키 없이 원클릭으로 설치되지만 앱 내 클로드 호출은 본인 요금제 사용량에 합산된다.",
       "tags": [
-        "클로드 아티팩트",
-        "데스크톱 앱",
-        "실사용 후기"
+        "클로드 앱",
+        "아티팩트",
+        "업무 자동화"
       ],
       "score": 81
-    },
-    {
-      "id": "instagram:DgKRXcLBIa3",
-      "platform": "instagram",
-      "author": "@prompt_what",
-      "url": "https://www.instagram.com/reel/DgKRXcLBIa3/",
-      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/931247423_18136148135483014_8757546355106088505_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&_nc_map=urlgen_bucketless&ig_cache_key=NDAzODExNjM5MzQ3OTM0MTc1MTE4MTM2MTQ4MTI5NDgzMDE0.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjEwODAuc2RyLnZpZGVvX3VzZXJfdXBsb2FkZWRfdGh1bWJuYWlsLkMzIn0%3D&_nc_ohc=lXKjTCOLFtwQ7kNvwFC6QrQ&_nc_oc=Adpi0xCYBjaJHO-M8YtIOkiY3Zf2S_mIUg3z_XAg4IEZsP0LmBQ5MFve9tudv5U_Q6Q&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=-yInVk0-1jraQ7DHspuuig&_nc_ss=7a7a8&_nc_ct=RQosPBUIFQwlBAAAAA&oh=00_AQSQr46gSQrvvJC9xE8CYmDm5svUJPErGc9qUwRHPeQ9uA&oe=6B0D3AC1",
-      "publishedAt": "2026-11-25T12:00:00.000Z",
-      "metrics": {
-        "likes": 451,
-        "reposts": 0,
-        "replies": 627,
-        "views": 0
-      },
-      "relevance": 88,
-      "title_ko": "클로드 코드 한도 소진 막는 보조 도구 3종 팁",
-      "summary_ko": "오후에 클로드 코드 사용량 한도가 바닥나는 문제를 줄이기 위해 반복 파일 읽기·장문 코드 생성 토큰을 절약하는 보조 도구 3가지 구성을 소개합니다. 기본 클로드 환경은 유지하면서 한도 도달 시 무료 모델로 작업을 이어가는 실무 팁을 다룹니다.",
-      "tags": [
-        "클로드 코드",
-        "토큰 절약",
-        "워크플로우"
-      ],
-      "score": 79
     },
     {
       "id": "x:2125691643370336497",
@@ -104,43 +103,20 @@
       "thumbnail": "",
       "publishedAt": "2026-11-25T20:42:35.877000+00:00",
       "metrics": {
-        "likes": 845,
-        "reposts": 39,
-        "replies": 57,
-        "views": 27463
+        "likes": 1146,
+        "reposts": 66,
+        "replies": 64,
+        "views": 41124
       },
       "relevance": 90,
-      "title_ko": "Inkling 2 Mini, Mac·llama.cpp 로컬 추론 호평",
-      "summary_ko": "Thinking Machines가 자사 경량 모델 Inkling 2 Mini를 Mac, DGX Spark 및 llama.cpp 지원 환경 전반에서 손쉽게 로컬 구동할 수 있도록 출시 전부터 생태계 파트너들과 최적화한 성과를 공유했습니다. 온디바이스·로컬 실행 접근성을 높인 사례로 주목받고 있습니다.",
+      "title_ko": "Inkling 2 Mini 로컬 추론 생태계 확대",
+      "summary_ko": "Thinking Machines가 Mac, DGX Spark 및 llama.cpp 지원 환경에서 Inkling 2 Mini를 로컬 구동하는 생태계 파트너 협력을 공유했다. 출시 전부터 로컬 추론 최적화 협업을 진행해 온디바이스 실행 편의성을 높였다.",
       "tags": [
         "Inkling 2 Mini",
         "로컬 LLM",
         "llama.cpp"
       ],
-      "score": 78
-    },
-    {
-      "id": "x:2125572461706235935",
-      "platform": "x",
-      "author": "@thesupermannx",
-      "url": "https://x.com/thesupermannx/status/2125572461706235935",
-      "thumbnail": "https://pbs.twimg.com/media/HX-MzOLbsAAshZi?format=png&name=large",
-      "publishedAt": "2026-11-25T12:49:00.754000+00:00",
-      "metrics": {
-        "likes": 1387,
-        "reposts": 240,
-        "replies": 72,
-        "views": 54059
-      },
-      "relevance": 84,
-      "title_ko": "생물학적 뇌 모방 초저전력 AI 'SpikingBrain'",
-      "summary_ko": "모든 토큰마다 전체 신경망을 연산하는 대신 생물학적 뇌의 희소 활성화 방식을 본뜬 중국 연구진의 'SpikingBrain' 모델이 화제입니다. 선형 어텐션 결합을 통해 기존 LLM 대비 연산 속도를 높이고 에너지 소비를 대폭 줄이는 방향성을 제시했습니다.",
-      "tags": [
-        "SpikingBrain",
-        "저전력 AI",
-        "선형 어텐션"
-      ],
-      "score": 77
+      "score": 79
     },
     {
       "id": "x:2125694207197110560",
@@ -150,20 +126,20 @@
       "thumbnail": "",
       "publishedAt": "2026-11-25T20:52:47.141000+00:00",
       "metrics": {
-        "likes": 533,
-        "reposts": 53,
-        "replies": 75,
-        "views": 35438
+        "likes": 714,
+        "reposts": 67,
+        "replies": 108,
+        "views": 47943
       },
-      "relevance": 86,
-      "title_ko": "Gemini 4 Neon, 물리 기반 80년대 아케이드 코딩",
-      "summary_ko": "구글 딥마인드가 Gemini 4 Neon으로 물리 시뮬레이션과 Lyria 3.5 신스 사운드트랙을 결합한 1980년대 아케이드 스타일 루브 골드버그 머신을 직접 코딩해 시연했습니다. 복합 시각·물리·오디오 인터랙션을 코드로 구현하는 모델 역량을 보여줍니다.",
+      "relevance": 88,
+      "title_ko": "Gemini 4 Neon·Lyria 3.5 물리 시뮬레이션 코딩",
+      "summary_ko": "구글 딥마인드가 Gemini 4 Neon으로 1980년대 아케이드 배경의 루브 골드버그 장치를 코딩한 데모를 공개했다. 물리 엔진 시뮬레이션과 Lyria 3.5 신스 트랙을 결합해 핀볼 범퍼와 유리관 점등 연출을 구현했다.",
       "tags": [
         "Gemini 4 Neon",
         "Lyria 3.5",
-        "시뮬레이션 코딩"
+        "코드 시뮬레이션"
       ],
-      "score": 75
+      "score": 77
     },
     {
       "id": "x:2125614837078384749",
@@ -173,41 +149,18 @@
       "thumbnail": "",
       "publishedAt": "2026-11-25T15:37:23.830000+00:00",
       "metrics": {
-        "likes": 81,
+        "likes": 87,
         "reposts": 8,
-        "replies": 43,
-        "views": 11120
+        "replies": 45,
+        "views": 12114
       },
       "relevance": 92,
-      "title_ko": "클로드 '1인 앱 스튜디오'화: OS 네이티브 설치",
-      "summary_ko": "클로드 아티팩트에 'Install as app' 기능이 추가되면서 패키징·코드 서명·API 키 없이도 Mac·Windows 전용 창과 메뉴 막대, 알림 기능을 갖춘 앱을 즉시 배포할 수 있게 됐습니다. 기존 커넥터 연동까지 지원해 개인 맞춤형 유틸리티 제작 진입 장벽이 크게 낮아졌습니다.",
+      "title_ko": "클로드 아티팩트, 맥·윈도우 데스크톱 앱 원클릭 설치",
+      "summary_ko": "클로드가 만든 도구를 Install as app 한 번으로 Mac과 Windows 독립 앱으로 설치할 수 있게 됐다. 패키징이나 코드 서명, API 키 없이 전용 아이콘·알림·메뉴바와 기존 커넥터를 바로 연동할 수 있다.",
       "tags": [
-        "Claude",
-        "앱 제작",
-        "바이브 코딩"
-      ],
-      "score": 74
-    },
-    {
-      "id": "x:2125397230563762230",
-      "platform": "x",
-      "author": "@thesupermannx",
-      "url": "https://x.com/thesupermannx/status/2125397230563762230",
-      "thumbnail": "https://pbs.twimg.com/media/HX7tfNaa4AEx2qf?format=jpg&name=large",
-      "publishedAt": "2026-11-25T01:12:42.394000+00:00",
-      "metrics": {
-        "likes": 203,
-        "reposts": 52,
-        "replies": 14,
-        "views": 10565
-      },
-      "relevance": 88,
-      "title_ko": "LLM 4단계 파이프라인으로 익명 계정 1분 내 식별",
-      "summary_ko": "ETH 취리히와 앤트로픽 연구진이 추출·검색 기반 4단계 LLM 파이프라인을 활용해 저비용으로 온라인 익명 계정의 신원을 단시간 내 특정할 수 있음을 입증한 연구를 조명했습니다. 기존 온라인 익명성 가정이 LLM 시대에 크게 흔들리고 있음을 경고합니다.",
-      "tags": [
-        "AI 프라이버시",
-        "익명성",
-        "Anthropic"
+        "클로드 아티팩트",
+        "데스크톱 앱",
+        "1인 앱 개발"
       ],
       "score": 74
     },
@@ -216,46 +169,69 @@
       "platform": "instagram",
       "author": "@sebia.ai",
       "url": "https://www.instagram.com/p/DgJjYi3Hz7e/",
-      "thumbnail": "https://scontent-nrt1-1.cdninstagram.com/v/t51.82787-15/921770784_17895758178620457_8252241476306542528_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&_nc_map=urlgen_bucketless&ig_cache_key=NDAzNzkxMzAxNTEzNDMwMDAzMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuNzIwLnNkci52aWRlb19maXJzdF9mcmFtZV90aHVtYm5haWwuQzMifQ%3D%3D&_nc_ohc=-9x1oPMdnlAQ7kNvwEhE7jq&_nc_oc=AdoQeQdKa1gBPPYGkNuEpiGuqy-sLVT-6sXgFZlh3CkMlRdbDXGill8KSiNDhRkdFS0&_nc_zt=23&_nc_ht=scontent-nrt1-1.cdninstagram.com&_nc_gid=kXvApf1mL27n1k7yWTrugQ&_nc_ss=7a3a8&_nc_ct=RQosPBUIFQolBAAAAA&oh=00_AQSIug9_ZT00NLiRsRZS5lcrxg9zBbYC1TC5AoFKngNcbQ&oe=6B0D4E12",
+      "thumbnail": "https://scontent-nrt1-1.cdninstagram.com/v/t51.82787-15/921770784_17895758178620457_8252241476306542528_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&_nc_map=urlgen_bucketless&ig_cache_key=NDAzNzkxMzAxNTEzNDMwMDAzMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuNzIwLnNkci52aWRlb19maXJzdF9mcmFtZV90aHVtYm5haWwuQzMifQ%3D%3D&_nc_ohc=-9x1oPMdnlAQ7kNvwEhE7jq&_nc_oc=AdoQeQdKa1gBPPYGkNuEpiGuqy-sLVT-6sXgFZlh3CkMlRdbDXGill8KSiNDhRkdFS0&_nc_zt=23&_nc_ht=scontent-nrt1-1.cdninstagram.com&_nc_gid=pjR1iYXRsRFcqfnmwlkywg&_nc_ss=7a7a8&_nc_ct=RQosPBUIFQolBAAAAA&oh=00_AQTKDbc-BbZAWxGtlZbjDkDV8TlkS83tCp8-kIzCZzQsIg&oe=6B0D8652",
       "publishedAt": "2026-11-25T03:21:42.000Z",
       "metrics": {
-        "likes": 53,
+        "likes": 55,
         "reposts": 0,
-        "replies": 222,
+        "replies": 230,
         "views": 0
       },
-      "relevance": 86,
-      "title_ko": "클로드 Cowork로 바탕화면 180개 파일 자동 정리",
-      "summary_ko": "클로드 아카데미에 올라온 데스크톱 앱 Cowork 활용 사례로, 흩어진 180여 개 파일을 스크린샷·사진·영상·문서·프로젝트 5개 폴더로 분류하고 이동 요약까지 생성하는 워크플로우를 소개합니다. Gmail 답장 초안·영수증 정리와 드라이브 미리보기 자동화 팁도 함께 다룹니다.",
+      "relevance": 88,
+      "title_ko": "클로드 Cowork로 바탕화면·지메일·드라이브 자동 정리",
+      "summary_ko": "클로드 아카데미 공식 예시를 토대로 데스크톱 앱 Cowork에 폴더를 열어 180여 개 파일을 5개 카테고리로 분류하고 이동 요약을 받는 법을 소개했다. 지메일 답장 초안·영수증 표 정리와 구글 드라이브 이동 미리보기까지 확장하는 실무 팁을 담았다.",
       "tags": [
         "클로드 Cowork",
         "파일 정리",
         "업무 자동화"
       ],
+      "score": 74
+    },
+    {
+      "id": "threads:DgL3-PbAZb9",
+      "platform": "threads",
+      "author": "@choi.openai",
+      "url": "https://www.threads.com/@choi.openai/post/DgL3-PbAZb9",
+      "thumbnail": "https://scontent-nrt1-1.cdninstagram.com/v/t51.82787-15/924261391_17998655955112832_2412249797070484840_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=103&_nc_map=urlgen_bucketless&ig_cache_key=NDAzODU2NzY2MDU5MjY2NjM2NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNDAwLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=UtU7jA6GGY0Q7kNvwHVcf1l&_nc_oc=AdqJEycvWsbopqqCp3li7SEe_9bAVmLvguBPnxeoWjBxIA0iEXTLB8lX5-6iK-u-ri4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt1-1.cdninstagram.com&_nc_gid=X0Vk5D7UCnTzOgEBON_9eQ&_nc_ss=7a30f&_nc_ct=RQosPBUIFQIlBAAAAA&oh=00_AQSM25Ni4awakfBsqL7qyYx36C462fYTN7XDiy6Jo9BwPA&oe=6B0D8812",
+      "publishedAt": "2026-11-26T01:00:03.000Z",
+      "metrics": {
+        "likes": 88,
+        "reposts": 5,
+        "replies": 9,
+        "views": 0
+      },
+      "relevance": 93,
+      "title_ko": "Claude Code 핵심 개발자 Thariq 오픈AI 합류",
+      "summary_ko": "앤트로픽에서 Claude Code 개발에 참여했던 Thariq가 전 제품 책임자 Cat Wu에 이어 오픈AI 합류를 공식 발표했다. 오픈AI 측이 이제 Codex를 다시 만들 차례라고 밝히며 차세대 코딩 에이전트 개편 경쟁을 예고했다.",
+      "tags": [
+        "Claude Code",
+        "Codex",
+        "오픈AI"
+      ],
       "score": 73
     },
     {
-      "id": "x:2125646032729935976",
-      "platform": "x",
-      "author": "@omarsar0",
-      "url": "https://x.com/omarsar0/status/2125646032729935976",
-      "thumbnail": "https://pbs.twimg.com/media/HX_PjdmWAAAsEXY?format=jpg&name=large",
-      "publishedAt": "2026-11-25T17:41:21.453000+00:00",
+      "id": "threads:DgL-252D6_a",
+      "platform": "threads",
+      "author": "@choi.openai",
+      "url": "https://www.threads.com/@choi.openai/post/DgL-252D6_a",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/903005716_17998655412112832_4925457587286543746_n.jpg?stp=cp6_dst-jpg_e35_tt6&_nc_cat=109&_nc_map=urlgen_bucketless&ig_cache_key=NDAzODU5Nzk0MjcxMzQ5NTUxNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTc1OC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=6UAR6WKmksMQ7kNvwHuf-y4&_nc_oc=AdrR4TT6rvQP3vvm6SDO8Ntcu1wxW57WpErWZWnMHlkvq3sBYHmm0h7AfVfucY2PzlY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=X0Vk5D7UCnTzOgEBON_9eQ&_nc_ss=7a30f&_nc_ct=RQosPBUIFQIlBAAAAA&oh=00_AQSLvDUt3RFKmnLmAbmVol9Y_vlpJ_9oKD7H9Vl5KI6a_Q&oe=6B0D6A87",
+      "publishedAt": "2026-11-26T02:00:13.000Z",
       "metrics": {
-        "likes": 27,
+        "likes": 60,
         "reposts": 2,
-        "replies": 15,
-        "views": 4323
+        "replies": 6,
+        "views": 0
       },
-      "relevance": 92,
-      "title_ko": "전이중 옴니모달 'Telos-Live-1', 도구 실행 중 대화",
-      "summary_ko": "보고 듣고 말하면서 동시에 검색·도구 호출·컴퓨터 조작까지 병행하는 전이중(full-duplex) 옴니모달 연구 프리뷰 'Telos-Live-1'의 아키텍처를 분석합니다. AI가 작업을 처리하는 도중에도 사용자가 실시간으로 개입·수정할 수 있어 음성 에이전트 실용성을 크게 높입니다.",
+      "relevance": 94,
+      "title_ko": "Claude로 리만 가설 Lean 4 증명 229배 압축",
+      "summary_ko": "앤트로픽 연구진이 Claude를 활용해 Levent Alpöge의 리만 가설 관련 Lean 4 증명 코드를 1,740만 줄에서 7만 6천 줄로 99.56% 압축했다. 일반화된 리만 가설까지 다루며 축약된 코드 역시 기계 검증을 온전히 통과했다.",
       "tags": [
-        "Telos-Live-1",
-        "옴니모달",
-        "음성 에이전트"
+        "Lean 4",
+        "리만 가설",
+        "형식 검증"
       ],
-      "score": 70
+      "score": 72
     },
     {
       "id": "x:2125665584000241915",
@@ -265,20 +241,113 @@
       "thumbnail": "",
       "publishedAt": "2026-11-25T18:59:02.839000+00:00",
       "metrics": {
-        "likes": 57,
+        "likes": 74,
         "reposts": 0,
-        "replies": 24,
-        "views": 6286
+        "replies": 28,
+        "views": 8414
       },
-      "relevance": 88,
-      "title_ko": "Gemini Neon, 외부 에이전트 하네스(Pi) 호환 호평",
-      "summary_ko": "DAIR.AI 창립자 오마르 사르가 Gemini Neon을 별도 하네스 Pi에 연동해 써본 결과 도구 호출과 작업 안정성이 매우 뛰어났다고 평가했습니다. 향후 구글 구독 계정을 다양한 서드파티 에이전트 하네스에서 자유롭게 연결할 수 있기를 기대한다고 덧붙였습니다.",
+      "relevance": 89,
+      "title_ko": "에이전트 하네스 실전 사용기: Gemini Neon 호환성",
+      "summary_ko": "실무자가 Pi 같은 서드파티 에이전트 하네스에서 Gemini Neon을 직접 써본 결과 도구 호출과 연동 안정성이 가장 뛰어났다고 평가했다. 향후 구글 구독 플랜을 다양한 외부 하네스에서 활용할 수 있는 개방성을 기대했다.",
       "tags": [
         "Gemini Neon",
         "에이전트 하네스",
         "실사용 리뷰"
       ],
+      "score": 70
+    },
+    {
+      "id": "x:2125646032729935976",
+      "platform": "x",
+      "author": "@omarsar0",
+      "url": "https://x.com/omarsar0/status/2125646032729935976",
+      "thumbnail": "https://pbs.twimg.com/media/HX_PjdmWAAAsEXY?format=jpg&name=large",
+      "publishedAt": "2026-11-25T17:41:21.453000+00:00",
+      "metrics": {
+        "likes": 31,
+        "reposts": 3,
+        "replies": 16,
+        "views": 5181
+      },
+      "relevance": 90,
+      "title_ko": "말하며 도구 쓰는 전이중 옴니모달 Telos-Live-1",
+      "summary_ko": "검색·도구 실행·컴퓨터 조작 중에도 대화를 멈추지 않고 실시간 청취와 발화를 이어가는 전이중 옴니모달 프리뷰 Telos-Live-1을 조명했다. AI가 작업하는 도중 사용자가 즉시 지시를 교정할 수 있어 음성 인터페이스 실용성이 크게 높아진다.",
+      "tags": [
+        "Telos-Live-1",
+        "옴니모달",
+        "음성 에이전트"
+      ],
       "score": 69
+    },
+    {
+      "id": "x:2125702626222424467",
+      "platform": "x",
+      "author": "@omarsar0",
+      "url": "https://x.com/omarsar0/status/2125702626222424467",
+      "thumbnail": "",
+      "publishedAt": "2026-11-25T21:26:14.393000+00:00",
+      "metrics": {
+        "likes": 42,
+        "reposts": 0,
+        "replies": 8,
+        "views": 4501
+      },
+      "relevance": 88,
+      "title_ko": "Gemini Neon으로 본 재귀적 자기개선(RSI) 가속",
+      "summary_ko": "Gemini 3.8 Flash 출시 두 달여 만에 Gemini Neon이 등장하며 경량·고속 모델의 성능과 효율 개선 주기가 더욱 짧아졌다고 짚었다. 견고한 기반 모델과 평가 체계가 재귀적 자기개선(RSI) 플라이휠을 가속하는 핵심 요인임을 강조했다.",
+      "tags": [
+        "RSI",
+        "Gemini Neon",
+        "모델 진화"
+      ],
+      "score": 67
+    },
+    {
+      "id": "instagram:DgKX-Qdo5m6",
+      "platform": "instagram",
+      "author": "@aiscene.kr",
+      "url": "https://www.instagram.com/p/DgKX-Qdo5m6/",
+      "thumbnail": "https://scontent-nrt1-2.cdninstagram.com/v/t51.82787-15/925486585_18120551867056710_4863664566859815242_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&_nc_map=urlgen_bucketless&ig_cache_key=NDAzNzQ1Mjc5OTU1OTMzNDA1NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=WYqpoHX4qSoQ7kNvwEhbhlP&_nc_oc=AdrKwZCJV64kNf5icw6jxVoYgWRROYl4PV7TJKdILsDmGKmcCKLWw1_Y9jy-fuWlacM&_nc_zt=23&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_gid=JT51_9OQloFrxM8SFiGqfQ&_nc_ss=7a7a8&_nc_ct=RQosPBUIFQIlBAAAAA&oh=00_AQQ3ll0AsD8cg7aNoa6UxVFcqcD1MsdTx2pfo5dtvpr1og&oe=6B0D88F1",
+      "publishedAt": "2026-11-25T11:01:04.000Z",
+      "metrics": {
+        "likes": 18,
+        "reposts": 0,
+        "replies": 2,
+        "views": 0
+      },
+      "relevance": 93,
+      "title_ko": "MCP for Blender 3D 제작과 보안 설정 체크리스트",
+      "summary_ko": "오픈소스 MCP for Blender와 Poly Haven·Blender Agent Skills를 연동해 자연어로 3D 장면을 제작하는 공정별 무료 도구 조합을 정리했다. 파이썬 실행 특성상 작업 파일 백업, SAFE_MODE 활성화, localhost 전용 연결 등 4대 보안 수칙을 함께 짚었다.",
+      "tags": [
+        "Blender MCP",
+        "3D 자동화",
+        "보안 수칙"
+      ],
+      "score": 67
+    },
+    {
+      "id": "instagram:DgLqVUiEhKt",
+      "platform": "instagram",
+      "author": "@aiscene.kr",
+      "url": "https://www.instagram.com/p/DgLqVUiEhKt/",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/928303730_18120771350056710_8806094749068281265_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&_nc_map=urlgen_bucketless&ig_cache_key=NDAzODI5NzcxMjcwNTI4NDYwMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=UP7QmGYMfOUQ7kNvwG4tUyn&_nc_oc=Adp4b18qy2ru0ml8vVAkucE82FbTc9h4j0T8Zj4XNynHsWYVGR0XLPeAJmBXYAxeUHQ&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=JT51_9OQloFrxM8SFiGqfQ&_nc_ss=7a7a8&_nc_ct=RQosPBUIFQIlBAAAAA&oh=00_AQQ5w6YvGRMnzbgABp9ytEb4TWSvG7tm9yNwwIfEMxVweA&oe=6B0D8CF4",
+      "publishedAt": "2026-11-25T23:00:05.000Z",
+      "metrics": {
+        "likes": 28,
+        "reposts": 0,
+        "replies": 0,
+        "views": 0
+      },
+      "relevance": 91,
+      "title_ko": "11월 25일 5대 AI 발표 브리핑: GPT-6·Niji 8·Siren",
+      "summary_ko": "클로드 아티팩트 앱 설치, 오픈AI 내부 모델 수학 원고 9편과 GPT-6 단백질 설계 논문, 미드저니 Niji 8, 앤트로픽 Siren 샌드박스 탈출 평가를 한눈에 정리했다. 각 발표의 핵심 실측 수치와 공식 원문 링크를 함께 제공해 빠른 기술 파악을 돕는다.",
+      "tags": [
+        "AI 브리핑",
+        "GPT-6",
+        "Niji 8",
+        "Siren"
+      ],
+      "score": 66
     },
     {
       "id": "x:2125659550728716644",
@@ -288,183 +357,112 @@
       "thumbnail": "",
       "publishedAt": "2026-11-25T18:35:04.395000+00:00",
       "metrics": {
-        "likes": 19,
+        "likes": 20,
         "reposts": 0,
-        "replies": 6,
-        "views": 3352
-      },
-      "relevance": 90,
-      "title_ko": "Abstract, GPU 없는 로봇용 30ms 클라우드 추론 API",
-      "summary_ko": "로봇 본체에 고가 GPU를 탑재하지 않고 30ms 왕복 지연으로 클라우드에서 로보틱스 AI를 실행하는 Abstract API 출시 소식입니다. 단일 API 키로 π0.5와 MolmoAct2를 포함한 8개 로봇 제어 모델에 접근할 수 있어 하드웨어 제작 비용을 낮춥니다.",
-      "tags": [
-        "로보틱스 API",
-        "피지컬 AI",
-        "클라우드 추론"
-      ],
-      "score": 66
-    },
-    {
-      "id": "instagram:DgKX-Qdo5m6",
-      "platform": "instagram",
-      "author": "@aiscene.kr",
-      "url": "https://www.instagram.com/p/DgKX-Qdo5m6/",
-      "thumbnail": "https://scontent-nrt1-2.cdninstagram.com/v/t51.82787-15/925486585_18120551867056710_4863664566859815242_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&_nc_map=urlgen_bucketless&ig_cache_key=NDAzNzQ1Mjc5OTU1OTMzNDA1NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=WYqpoHX4qSoQ7kNvwEhbhlP&_nc_oc=AdrKwZCJV64kNf5icw6jxVoYgWRROYl4PV7TJKdILsDmGKmcCKLWw1_Y9jy-fuWlacM&_nc_zt=23&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_gid=gsV2HyrYeprQe59016D9Qg&_nc_ss=7a7a8&_nc_ct=RQosPBUIFQIlBAAAAA&oh=00_AQSH38SQQGJPjytQJjP9Tnbhk6u0N5g-Ez8mU4DumdmMlQ&oe=6B0D50B1",
-      "publishedAt": "2026-11-25T11:01:04.000Z",
-      "metrics": {
-        "likes": 12,
-        "reposts": 0,
-        "replies": 2,
-        "views": 0
-      },
-      "relevance": 93,
-      "title_ko": "MCP for Blender(별 3.5만) 3D 자동화·보안 수칙",
-      "summary_ko": "클로드 대화만으로 무료 3D 툴 블렌더를 제어하는 오픈소스 'MCP for Blender'와 Blender Agent Skills, 공정별 무료 도구 조합을 10장 카드로 정리했습니다. 파이썬 코드 직접 실행 위험을 막기 위한 안전 모드(BLENDER_MCP_SAFE_MODE=1)와 localhost 전용 실행 등 필수 보안 수칙을 짚어줍니다.",
-      "tags": [
-        "MCP for Blender",
-        "3D 자동화",
-        "보안 수칙"
-      ],
-      "score": 66
-    },
-    {
-      "id": "threads:DgLcg0MABQw",
-      "platform": "threads",
-      "author": "@choi.openai",
-      "url": "https://www.threads.com/@choi.openai/post/DgLcg0MABQw",
-      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.71878-15/925374692_2331167677662349_6828576212848351124_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&_nc_map=urlgen_bucketless&ig_cache_key=NDAzODQ0Njg5MTIyOTI1NDcwNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19maXJzdF9mcmFtZV90aHVtYm5haWwuQzMifQ%3D%3D&_nc_ohc=0P2Oh706cvUQ7kNvwFtf-1y&_nc_oc=Adq3yjXv6NxXp4hh64PE8VcjHnCg-eDaF4Y8H8L1mNW8fW0kyyi42OGTlsZc71tZ4sQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=AG_tt1b_jgS7ClUKNSfoGw&_nc_ss=7a30f&_nc_ct=RQosPBUIFQolBAAAAA&oh=00_AQSSnV5H7kQefOJuwXPORBKneD4wIUESKBXHQxSDr0KPpA&oe=6B0D523C",
-      "publishedAt": "2026-11-25T21:00:06.000Z",
-      "metrics": {
-        "likes": 18,
-        "reposts": 0,
-        "replies": 1,
-        "views": 0
-      },
-      "relevance": 92,
-      "title_ko": "노암 브라운: RSI는 인류 도구 발전의 초고속 확장판",
-      "summary_ko": "오픈AI 연구원 노암 브라운은 AI가 차세대 모델을 개선하는 재귀적 자기개선(RSI)이 망원경·컴파일러로 이어진 인류 도구 가속의 연장선이라고 설명했습니다. 다만 과거와 달리 범용성과 압도적 변화 속도가 결정적 차이이며, 인간 역할은 모델이 서툰 경계 영역으로 이동한다고 짚었습니다.",
-      "tags": [
-        "노암 브라운",
-        "RSI",
-        "OpenAI"
-      ],
-      "score": 66
-    },
-    {
-      "id": "threads:DgLjejPj0CG",
-      "platform": "threads",
-      "author": "@choi.openai",
-      "url": "https://www.threads.com/@choi.openai/post/DgLjejPj0CG",
-      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.71878-15/904394867_1780677200057129_2292743026641834457_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&_nc_map=urlgen_bucketless&ig_cache_key=NDAzODQ3NzUyMTkyMTk4MjU5OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19maXJzdF9mcmFtZV90aHVtYm5haWwuQzMifQ%3D%3D&_nc_ohc=8GnyhPAUoxgQ7kNvwHZt6_C&_nc_oc=AdpOoaz-ZaFunlGN08l1mOB5jTgTQiu3hjliQtvBrdUbLGDPHHRl6ah0aqMMrZk6j18&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=AG_tt1b_jgS7ClUKNSfoGw&_nc_ss=7a30f&_nc_ct=RQosPBUIFQolBAAAAA&oh=00_AQRGBICwnOklkS4nAsOXBFzk1T3MrCIKsp4-xFabB6_vlg&oe=6B0D4E5F",
-      "publishedAt": "2026-11-25T22:00:57.000Z",
-      "metrics": {
-        "likes": 13,
-        "reposts": 1,
-        "replies": 2,
-        "views": 0
-      },
-      "relevance": 88,
-      "title_ko": "제프리 힌튼, 젠슨 황 낙관론 반박·단기 AI 위협 경고",
-      "summary_ko": "제프리 힌튼이 장기 지배 위험뿐 아니라 사이버 공격·생물학 무기·선거 개입·실업 등 단기 AI 리스크가 눈앞에 닥쳤다고 경고했습니다. 2030년 위험 0%를 주장한 젠슨 황을 비판하며, 과거 엔비디아 GPU 수요를 3년 앞서 예견했던 일화를 들어 경고의 신뢰성을 강조했습니다.",
-      "tags": [
-        "제프리 힌튼",
-        "AI 안전",
-        "젠슨 황"
-      ],
-      "score": 63
-    },
-    {
-      "id": "instagram:DgLqVUiEhKt",
-      "platform": "instagram",
-      "author": "@aiscene.kr",
-      "url": "https://www.instagram.com/p/DgLqVUiEhKt/",
-      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/928303730_18120771350056710_8806094749068281265_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&_nc_map=urlgen_bucketless&ig_cache_key=NDAzODI5NzcxMjcwNTI4NDYwMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=UP7QmGYMfOUQ7kNvwG4tUyn&_nc_oc=Adp4b18qy2ru0ml8vVAkucE82FbTc9h4j0T8Zj4XNynHsWYVGR0XLPeAJmBXYAxeUHQ&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=gsV2HyrYeprQe59016D9Qg&_nc_ss=7a7a8&_nc_ct=RQosPBUIFQIlBAAAAA&oh=00_AQR2Yq1v4hwigmy7uEBoLvxuBHNGmvvfg2CkK9_8jKAwSg&oe=6B0D54B4",
-      "publishedAt": "2026-11-25T23:00:05.000Z",
-      "metrics": {
-        "likes": 15,
-        "reposts": 0,
-        "replies": 0,
-        "views": 0
-      },
-      "relevance": 88,
-      "title_ko": "11월 25일 5대 AI 발표 원문 브리핑 요약",
-      "summary_ko": "클로드 아티팩트 데스크톱 앱 설치, 오픈AI 내부 모델 수학 논문 9편 공개, 미드저니 니지 8 출시, GPT-6 단백질 설계, 앤트로픽 Siren 샌드박스 평가까지 핵심 5건을 원문 출처 중심으로 정리했습니다. 코딩 에이전트에 바로 붙여넣어 재요약할 수 있는 공식 링크 목록도 함께 제공합니다.",
-      "tags": [
-        "AI 브리핑",
-        "니지 8",
-        "클로드",
-        "오픈AI"
-      ],
-      "score": 62
-    },
-    {
-      "id": "instagram:DgJ15-9j_7W",
-      "platform": "instagram",
-      "author": "@joshproductletter",
-      "url": "https://www.instagram.com/p/DgJ15-9j_7W/",
-      "thumbnail": "https://scontent-nrt1-1.cdninstagram.com/v/t51.82787-15/930342924_17993054724063763_5317470551729095329_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&_nc_map=urlgen_bucketless&ig_cache_key=NDAzNzk5NTUxOTg5NjQ4NzY0Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIudmlkZW9fZGVmYXVsdF9jb3Zlcl9mcmFtZS5DMyJ9&_nc_ohc=m7Gr8QItneQQ7kNvwGk87_f&_nc_oc=AdotD-_I3NFPbbtQj4q9bw8sQ0viQRF0Tvmb04OTv3SQC3KzwRFu2Ad8xiRvZU6Ce3A&_nc_zt=23&_nc_ht=scontent-nrt1-1.cdninstagram.com&_nc_gid=HVudJCnGnWwIWS-G-oBw-A&_nc_ss=7a7a8&_nc_ct=RQosPBUIFQQlBAAAAA&oh=00_AQQvJL22fyZyrfq8QzbHcJ-6ghN06KeG-WToGXLnZApllQ&oe=6B0D5D32",
-      "publishedAt": "2026-11-25T06:03:33.000Z",
-      "metrics": {
-        "likes": 5,
-        "reposts": 0,
-        "replies": 1,
-        "views": 0
-      },
-      "relevance": 91,
-      "title_ko": "M4 맥북 Ollama+Qwen3.5 오프라인·클로드 코드 연동",
-      "summary_ko": "M4 16GB 맥에 Ollama와 4GB 크기 Qwen3.5 4B 모델을 설치해 네트워크 차단 상태에서 대외비 회의록을 15초 만에 요약한 실측기를 공유합니다. `ollama launch claude`로 클로드 코드 CLI에 로컬 모델을 붙여 마크다운 할 일 파일을 생성하는 방법과 소형 모델의 속도·정확도 한계도 짚었습니다.",
-      "tags": [
-        "Ollama",
-        "로컬 AI",
-        "클로드 코드",
-        "Qwen3.5"
-      ],
-      "score": 62
-    },
-    {
-      "id": "threads:DgLqSNRCTJt",
-      "platform": "threads",
-      "author": "@choi.openai",
-      "url": "https://www.threads.com/@choi.openai/post/DgLqSNRCTJt",
-      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.71878-15/930662613_1630608851336303_884582622341002156_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&_nc_map=urlgen_bucketless&ig_cache_key=NDAzODUwNzQ2MDAxNjI4ODM2NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19maXJzdF9mcmFtZV90aHVtYm5haWwuQzMifQ%3D%3D&_nc_ohc=EnrodQYyR5gQ7kNvwGcyHQi&_nc_oc=AdrFSBV6o90WmBVQQNa3Gi_EFBVdNK1x8MR2bzKT8kbx5ea0fjZ4tDWxeSE7xmK_RrQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=AG_tt1b_jgS7ClUKNSfoGw&_nc_ss=7a30f&_nc_ct=RQosPBUIFQolBAAAAA&oh=00_AQQuOVa_8yCVeuDCk92jV-h9flA4loXBjLVip8TH-fkYgA&oe=6B0D3A4F",
-      "publishedAt": "2026-11-25T23:00:26.000Z",
-      "metrics": {
-        "likes": 10,
-        "reposts": 0,
-        "replies": 2,
-        "views": 0
+        "replies": 7,
+        "views": 3911
       },
       "relevance": 86,
-      "title_ko": "Cognition CEO 스콧 우: AI 과도기 보안 위협 경고",
-      "summary_ko": "Cognition CEO 스콧 우는 정답이 명확한 고난도 과제에서는 AI가 인간을 능가하겠지만 인간의 열정과 관계적 가치는 남을 것이라고 전망했습니다. 다만 이상적 AI 사회로 넘어가기 전 겪게 될 혼란스러운 과도기 동안 해킹·데이터 유출·오남용 등 보안 과제가 집중될 것이라고 우려했습니다.",
+      "title_ko": "로봇 GPU 없이 30ms 제어하는 Abstract 클라우드 API",
+      "summary_ko": "로봇 본체에 고가 GPU를 탑재하지 않고 클라우드에서 30ms 왕복 지연으로 추론을 수행하는 Abstract 로보틱스 API 출시를 소개했다. 단일 API 키로 π0.5와 MolmoAct2를 포함한 8종의 로보틱스 모델을 호출할 수 있다.",
       "tags": [
-        "Cognition",
-        "스콧 우",
-        "사이버 보안"
+        "로보틱스 API",
+        "Abstract",
+        "클라우드 추론"
       ],
-      "score": 61
+      "score": 64
     },
     {
-      "id": "instagram:DgKZQXIMTb8",
+      "id": "instagram:DgL_QvVjyIz",
       "platform": "instagram",
       "author": "@joshproductletter",
-      "url": "https://www.instagram.com/reel/DgKZQXIMTb8/",
-      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/927821540_17993080350063763_1893147013006866560_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&_nc_map=urlgen_bucketless&ig_cache_key=NDAzODE1MTA5MTM5ODk4MTM3MjE3OTkzMDgwMzQ3MDYzNzYz.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjEwODAuc2RyLnZpZGVvX2RlZmF1bHRfY292ZXJfZnJhbWUuQzMifQ%3D%3D&_nc_ohc=LEL7nGb7J-4Q7kNvwHObY-d&_nc_oc=AdpBBdWhxQ7BIozPIf5y3-9Jsb4ESi89X1y-dp-stgqLfCKNgU-wodxeTu_6ebloZMQ&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=HVudJCnGnWwIWS-G-oBw-A&_nc_ss=7a7a8&_nc_ct=RQosPBUIFQQlBAAAAA&oh=00_AQRC30LPIvS3HlIoq8aiB00jM66gbpUpL7oJgCNVaue-iQ&oe=6B0D4C6B",
-      "publishedAt": "2026-11-25T12:00:00.000Z",
+      "url": "https://www.instagram.com/p/DgL_QvVjyIz/",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/928839585_17993160003063763_7352213949442453201_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&_nc_map=urlgen_bucketless&ig_cache_key=NDAzODU5OTYwNjQwMDc2ODYyMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIudmlkZW9fZGVmYXVsdF9jb3Zlcl9mcmFtZS5DMyJ9&_nc_ohc=FFWt3iXtISAQ7kNvwErsjnn&_nc_oc=AdrSR0ukM4TvC787O0yInd72nzNHj1x6CtdVxMmpK7FMPg5B1wtPYcembEVGhZOldX4&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=zqwrejVJ51X9sRhpM2SYMQ&_nc_ss=7a3a8&_nc_ct=RQosPBUIFQQlBAAAAA&oh=00_AQRI0GONwLxqMN1B9qa4G5CjCW8WzjjI6riStnGISEw5IQ&oe=6B0D60F0",
+      "publishedAt": "2026-11-26T02:03:47.000Z",
       "metrics": {
         "likes": 6,
         "reposts": 0,
         "replies": 2,
         "views": 0
       },
-      "relevance": 86,
-      "title_ko": "클로드 코드로 14분 만에 진화형 게임 AI 단일 파일 구현",
-      "summary_ko": "클로드 코드에 지시해 빗방울 피하기 게임과 세대 진화형 학습 AI를 14분 만에 단일 파일로 완성한 실험을 소개합니다. 반딧불 150마리 중 오래 생존한 개체만 다음 세대로 물려주자 50세대 안에 60초 생존을 달성했으며, 실시간 학습 그래프와 인간 대 AI 대결까지 구현했습니다.",
+      "relevance": 92,
+      "title_ko": "클로드 아티팩트 앱 설치 4단계와 3단계 권한 가이드",
+      "summary_ko": "앤트로픽 공식 문서를 기반으로 클로드 데스크톱 6.28899.0 이상에서 아티팩트를 앱으로 설치하는 4단계 절차와 저장 경로를 정리했다. 브라우저 기본 권한부터 알림·전체 파일 접근까지 3단계 권한 모델과 미지원 플랫폼 제약을 명확히 안내한다.",
       "tags": [
-        "클로드 코드",
-        "게임 AI",
-        "유전 알고리즘"
+        "클로드 데스크톱",
+        "권한 관리",
+        "앱 설치"
       ],
-      "score": 60
+      "score": 64
+    },
+    {
+      "id": "threads:DgLxHxMjXmE",
+      "platform": "threads",
+      "author": "@choi.openai",
+      "url": "https://www.threads.com/@choi.openai/post/DgLxHxMjXmE",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.71878-15/926414683_1438455321764313_4932492559128178301_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&_nc_map=urlgen_bucketless&ig_cache_key=NDAzODUzNzUyOTAwNzExMDUzMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19maXJzdF9mcmFtZV90aHVtYm5haWwuQzMifQ%3D%3D&_nc_ohc=-RMZjceTtUAQ7kNvwFWIqvd&_nc_oc=Adrjby3T-1TL_tE8a5VxQ22siTLU9nZ3tcWD_uHSrZ0u-T84MJSkPTZM1AGLuBJAGIk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=X0Vk5D7UCnTzOgEBON_9eQ&_nc_ss=7a30f&_nc_ct=RQosPBUIFQolBAAAAA&oh=00_AQT99QIQ12kVdyV-qefqlkNX1ImEL58e7mQCHlsoq4_vEg&oe=6B0D82C5",
+      "publishedAt": "2026-11-26T00:00:11.000Z",
+      "metrics": {
+        "likes": 17,
+        "reposts": 1,
+        "replies": 2,
+        "views": 0
+      },
+      "relevance": 87,
+      "title_ko": "오픈AI 노암 브라운의 AI R&D 가속 전망",
+      "summary_ko": "노암 브라운은 AI 역량이 분야별로 불균일하더라도 R&D 투입이 집중되면서 향후 1~2년간 기술 진전 곡선이 매우 가팔라질 것으로 내다봤다. 컴퓨팅과 롱테일 병목에도 변화 속도가 빨라 유망 인재는 현장에 즉시 뛰어드는 편이 유리하다고 강조했다.",
+      "tags": [
+        "노암 브라운",
+        "AI R&D",
+        "연구 전망"
+      ],
+      "score": 63
+    },
+    {
+      "id": "instagram:DgKRYj2j5Ck",
+      "platform": "instagram",
+      "author": "@joshproductletter",
+      "url": "https://www.instagram.com/p/DgKRYj2j5Ck/",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/928715632_17993074095063763_836975750023012736_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&_nc_map=urlgen_bucketless&ig_cache_key=NDAzODExNjM1NzE5MDcxNjM2MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIudmlkZW9fZGVmYXVsdF9jb3Zlcl9mcmFtZS5DMyJ9&_nc_ohc=O-TC7atCFP4Q7kNvwHbE9iH&_nc_oc=AdpheQ_izxo-vRzomPXrpUoygWKEzQpaHV2BF-ZB9o1kwNDx7NUWmP0fbMC7OSfc0FQ&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=zqwrejVJ51X9sRhpM2SYMQ&_nc_ss=7a7a8&_nc_ct=RQosPBUIFQQlBAAAAA&oh=00_AQQdMkaW1An8648bZ3DGav3aNPLM_66Fh_LuM1GiTvFJQQ&oe=6B0D6DDB",
+      "publishedAt": "2026-11-25T10:03:39.000Z",
+      "metrics": {
+        "likes": 2,
+        "reposts": 0,
+        "replies": 0,
+        "views": 0
+      },
+      "relevance": 90,
+      "title_ko": "클로드 5단계 코칭 프롬프트로 90일 분기 계획 설계",
+      "summary_ko": "현재 신호등 점검부터 핵심 목표, 첫 도미노, 주간 시간 블록, 비효율 제거까지 AI가 한 질문씩 묻도록 설계한 5단계 코칭 프롬프트 실험을 공유했다. 약 6분 반 대화로 1분기 계획 마크다운 문서를 완성했으며 날짜·요일 환각 검수의 필요성도 짚었다.",
+      "tags": [
+        "프롬프트 설계",
+        "목표 관리",
+        "클로드 활용"
+      ],
+      "score": 58
+    },
+    {
+      "id": "instagram:DgLpUrYj6zs",
+      "platform": "instagram",
+      "author": "@ai_insight.kr",
+      "url": "https://www.instagram.com/p/DgLpUrYj6zs/",
+      "thumbnail": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/928788080_18120285563143378_6670570410514029677_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=101&_nc_map=urlgen_bucketless&ig_cache_key=NDAzODUwMjY1Mjc0MDUzNjMyMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=veWmLxVknBwQ7kNvwEK50rC&_nc_oc=AdoC0X-tW9N_q-vrp7Q4JGvc2UxRG2sZzE7VeGZxus6A-htSXSALHFalF5yZY5XXY0A&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=RXUgkznFiFYHAvtqZ5HFsA&_nc_ss=7a7a8&_nc_ct=RQosPBUIFQIlBAAAAA&oh=00_AQRdqiE6vhc3jdafRFcAkgchXtdhEVxRJVR2eigno__YKQ&oe=6B0D73FB",
+      "publishedAt": "2026-11-25T22:52:15.000Z",
+      "metrics": {
+        "likes": 0,
+        "reposts": 0,
+        "replies": 0,
+        "views": 0
+      },
+      "relevance": 89,
+      "title_ko": "Google AI Edge Gallery 오프라인 여행 AI 활용법",
+      "summary_ko": "출국 전 와이파이로 모델을 받아두면 로밍 없이도 동작하는 Google AI Edge Gallery의 3대 오프라인 기능(메뉴판 번역·음성 대화·녹음 전사)을 정리했다. 안드로이드 12·iOS 17 이상에서 무료로 구동되며 오프라인 구글 번역과 병행하는 준비법을 제시한다.",
+      "tags": [
+        "온디바이스 AI",
+        "Google AI Edge",
+        "오프라인 번역"
+      ],
+      "score": 53
     }
   ]
 }
