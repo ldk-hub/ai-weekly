@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-26T02:43:18.410Z",
+  "generated_at": "2026-11-26T04:32:52.895Z",
   "repos": {
     "santifer/career-ops": {
       "pushed_at": "2026-08-31T21:40:42Z",
@@ -29,7 +29,7 @@
       ]
     },
     "JuliusBrussee/caveman": {
-      "pushed_at": "2026-11-24T21:36:13Z",
+      "pushed_at": "2026-11-26T04:29:19Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -233,7 +233,7 @@
       ]
     },
     "openclaw/openclaw": {
-      "pushed_at": "2026-11-26T02:40:39Z",
+      "pushed_at": "2026-11-26T04:30:55Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -265,7 +265,7 @@
       "topics": []
     },
     "anthropics/claude-code": {
-      "pushed_at": "2026-11-26T02:04:28Z",
+      "pushed_at": "2026-11-26T03:54:41Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -318,7 +318,7 @@
       "topics": []
     },
     "hesreallyhim/awesome-claude-code": {
-      "pushed_at": "2026-11-26T00:16:34Z",
+      "pushed_at": "2026-11-26T03:07:31Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -461,7 +461,7 @@
       ]
     },
     "thedotmack/claude-mem": {
-      "pushed_at": "2026-11-26T02:40:05Z",
+      "pushed_at": "2026-11-26T04:28:18Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -827,7 +827,7 @@
       ]
     },
     "browser-use/browser-harness": {
-      "pushed_at": "2026-11-26T02:01:21Z",
+      "pushed_at": "2026-11-26T03:56:15Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -920,7 +920,7 @@
       ]
     },
     "farion1231/cc-switch": {
-      "pushed_at": "2026-11-26T02:18:51Z",
+      "pushed_at": "2026-11-26T04:16:01Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -952,7 +952,7 @@
       ]
     },
     "shanraisshan/claude-code-best-practice": {
-      "pushed_at": "2026-11-25T06:34:07Z",
+      "pushed_at": "2026-11-26T04:21:54Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -1010,7 +1010,7 @@
       ]
     },
     "HKUDS/nanobot": {
-      "pushed_at": "2026-11-25T16:16:42Z",
+      "pushed_at": "2026-11-26T04:19:50Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -1043,7 +1043,7 @@
       ]
     },
     "ultraworkers/claw-code": {
-      "pushed_at": "2026-11-24T20:01:24Z",
+      "pushed_at": "2026-11-26T03:01:25Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -1055,7 +1055,7 @@
       "topics": []
     },
     "NousResearch/hermes-agent": {
-      "pushed_at": "2026-11-26T02:36:31Z",
+      "pushed_at": "2026-11-26T04:31:56Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -1154,7 +1154,7 @@
       ]
     },
     "different-ai/openwork": {
-      "pushed_at": "2026-11-26T02:11:30Z",
+      "pushed_at": "2026-11-26T03:29:12Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -1166,7 +1166,7 @@
       "topics": []
     },
     "anomalyco/opencode": {
-      "pushed_at": "2026-11-26T02:39:35Z",
+      "pushed_at": "2026-11-26T04:27:57Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -1281,7 +1281,7 @@
       ]
     },
     "code-yeongyu/oh-my-openagent": {
-      "pushed_at": "2026-11-26T02:40:05Z",
+      "pushed_at": "2026-11-26T04:30:25Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -1629,7 +1629,7 @@
       ]
     },
     "zhayujie/CowAgent": {
-      "pushed_at": "2026-11-26T02:18:46Z",
+      "pushed_at": "2026-11-26T04:21:26Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -1726,7 +1726,7 @@
       ]
     },
     "Imbad0202/academic-research-skills": {
-      "pushed_at": "2026-11-26T02:31:08Z",
+      "pushed_at": "2026-11-26T03:20:02Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -1773,7 +1773,7 @@
       ]
     },
     "can1357/oh-my-pi": {
-      "pushed_at": "2026-11-26T02:03:10Z",
+      "pushed_at": "2026-11-26T04:15:10Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -1867,7 +1867,7 @@
       ]
     },
     "multica-ai/multica": {
-      "pushed_at": "2026-11-26T01:09:03Z",
+      "pushed_at": "2026-11-26T04:29:31Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -2169,7 +2169,7 @@
       ]
     },
     "PDFMathTranslate/PDFMathTranslate": {
-      "pushed_at": "2026-11-26T00:02:12Z",
+      "pushed_at": "2026-11-26T04:27:51Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -2213,7 +2213,7 @@
       "topics": []
     },
     "Wei-Shaw/sub2api": {
-      "pushed_at": "2026-11-25T14:06:32Z",
+      "pushed_at": "2026-11-26T04:06:49Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -2235,7 +2235,7 @@
       ]
     },
     "Yeachan-Heo/oh-my-claudecode": {
-      "pushed_at": "2026-11-26T02:21:46Z",
+      "pushed_at": "2026-11-26T04:17:51Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -2940,7 +2940,7 @@
       "topics": []
     },
     "makecindy/cindy": {
-      "pushed_at": "2026-11-26T02:39:34Z",
+      "pushed_at": "2026-11-26T04:27:27Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -3131,7 +3131,7 @@
       ]
     },
     "MemTensor/memmy-agent": {
-      "pushed_at": "2026-11-25T18:38:30Z",
+      "pushed_at": "2026-11-26T04:05:01Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -3163,7 +3163,7 @@
       ]
     },
     "vshulcz/deja-vu": {
-      "pushed_at": "2026-11-25T23:19:40Z",
+      "pushed_at": "2026-11-26T04:18:01Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -3206,7 +3206,7 @@
       "topics": []
     },
     "n8n-io/n8n": {
-      "pushed_at": "2026-11-26T02:38:47Z",
+      "pushed_at": "2026-11-26T04:30:51Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -3267,7 +3267,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/17802178?v=4"
     },
     "Prism-Shadow/penguin-harness": {
-      "pushed_at": "2026-11-26T00:51:49Z",
+      "pushed_at": "2026-11-26T04:05:44Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -3291,7 +3291,7 @@
       ]
     },
     "omnigent-ai/omnigent": {
-      "pushed_at": "2026-11-26T02:31:11Z",
+      "pushed_at": "2026-11-26T04:31:30Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -3383,7 +3383,7 @@
       ]
     },
     "koala73/worldmonitor": {
-      "pushed_at": "2026-11-26T02:36:09Z",
+      "pushed_at": "2026-11-26T04:31:27Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -3562,7 +3562,7 @@
       ]
     },
     "ccch1mneyyy/dsh-TUI": {
-      "pushed_at": "2026-11-26T02:32:31Z",
+      "pushed_at": "2026-11-26T03:52:34Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -3899,7 +3899,7 @@
       "topics": []
     },
     "reyamira/models": {
-      "pushed_at": "2026-11-26T02:18:47Z",
+      "pushed_at": "2026-11-26T04:18:49Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -4057,7 +4057,7 @@
       ]
     },
     "bennyjo/phil": {
-      "pushed_at": "2026-11-26T02:20:27Z",
+      "pushed_at": "2026-11-26T04:20:58Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -4205,7 +4205,7 @@
       ]
     },
     "screenpipe/screenpipe": {
-      "pushed_at": "2026-11-26T02:36:24Z",
+      "pushed_at": "2026-11-26T02:41:14Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -4298,7 +4298,7 @@
       ]
     },
     "cipher982/longhouse": {
-      "pushed_at": "2026-11-26T02:40:46Z",
+      "pushed_at": "2026-11-26T04:21:14Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -4321,7 +4321,7 @@
       ]
     },
     "Kevin-Liu-01/Claude-of-Tanks": {
-      "pushed_at": "2026-11-26T02:27:23Z",
+      "pushed_at": "2026-11-26T03:26:59Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -6926,7 +6926,7 @@
       ]
     },
     "karanb192/itr-wala": {
-      "pushed_at": "2026-11-25T18:17:22Z",
+      "pushed_at": "2026-11-26T04:23:44Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -7109,7 +7109,7 @@
       ]
     },
     "HarnessRouter/harnessrouter": {
-      "pushed_at": "2026-11-25T20:04:10Z",
+      "pushed_at": "2026-11-26T02:46:11Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -8012,7 +8012,7 @@
       ]
     },
     "stablyai/orca": {
-      "pushed_at": "2026-11-26T02:40:37Z",
+      "pushed_at": "2026-11-26T04:29:01Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -8243,7 +8243,7 @@
       ]
     },
     "agentskillexchange/skills": {
-      "pushed_at": "2026-11-26T01:27:12Z",
+      "pushed_at": "2026-11-26T03:40:08Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -8496,7 +8496,7 @@
       ]
     },
     "schmonz/clode": {
-      "pushed_at": "2026-11-26T00:59:42Z",
+      "pushed_at": "2026-11-26T03:07:38Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -8597,7 +8597,7 @@
       "topics": []
     },
     "dreamide/dream": {
-      "pushed_at": "2026-11-24T02:51:45Z",
+      "pushed_at": "2026-11-26T03:24:21Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -8656,7 +8656,7 @@
       "topics": []
     },
     "ulises-jeremias/agent-toolkit": {
-      "pushed_at": "2026-11-26T02:16:48Z",
+      "pushed_at": "2026-11-26T03:25:03Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -8769,7 +8769,7 @@
       ]
     },
     "chengyu2/agentaus_connector_for_claude_code": {
-      "pushed_at": "2026-11-25T05:59:31Z",
+      "pushed_at": "2026-11-26T04:26:28Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -8797,7 +8797,7 @@
       ]
     },
     "KCNyu/clawock": {
-      "pushed_at": "2026-11-26T02:40:17Z",
+      "pushed_at": "2026-11-26T04:20:21Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -8838,7 +8838,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/66041952?v=4"
     },
     "chnlich/charlie-bot": {
-      "pushed_at": "2026-11-26T02:28:14Z",
+      "pushed_at": "2026-11-26T04:18:40Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -9465,7 +9465,7 @@
       ]
     },
     "manaflow-ai/cmux": {
-      "pushed_at": "2026-11-26T02:41:06Z",
+      "pushed_at": "2026-11-26T04:33:05Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -9495,7 +9495,7 @@
       ]
     },
     "rome-os/rome": {
-      "pushed_at": "2026-11-26T02:39:43Z",
+      "pushed_at": "2026-11-26T04:30:35Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -9520,7 +9520,7 @@
       ]
     },
     "24bsc244-svg/pdlc-forge": {
-      "pushed_at": "2026-11-25T21:09:06Z",
+      "pushed_at": "2026-11-26T03:52:26Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -9708,7 +9708,7 @@
       ]
     },
     "the911fund/skill-of-skills": {
-      "pushed_at": "2026-11-26T00:25:04Z",
+      "pushed_at": "2026-11-26T03:25:04Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -9862,7 +9862,7 @@
       ]
     },
     "777genius/agent-teams-ai": {
-      "pushed_at": "2026-11-26T02:36:43Z",
+      "pushed_at": "2026-11-26T04:04:24Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -9980,7 +9980,7 @@
       ]
     },
     "AgriciDaniel/claude-seo": {
-      "pushed_at": "2026-11-25T23:14:04Z",
+      "pushed_at": "2026-11-26T04:20:57Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -10110,7 +10110,7 @@
       "topics": []
     },
     "sleep2agi/agent-network": {
-      "pushed_at": "2026-11-25T23:04:31Z",
+      "pushed_at": "2026-11-26T03:59:38Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -11098,7 +11098,7 @@
       ]
     },
     "aiskillstore/marketplace": {
-      "pushed_at": "2026-11-25T18:24:12Z",
+      "pushed_at": "2026-11-26T02:52:42Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -11331,7 +11331,7 @@
       "aliases": [
         "santifer/career-ops"
       ],
-      "pushed_at": "2026-11-25T10:53:56Z",
+      "pushed_at": "2026-11-26T03:49:48Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -11652,7 +11652,7 @@
       "aliases": [
         "vm0-ai/okou"
       ],
-      "pushed_at": "2026-11-26T02:40:37Z",
+      "pushed_at": "2026-11-26T04:31:27Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -11681,7 +11681,7 @@
       "topics": []
     },
     "yetone/magpie": {
-      "pushed_at": "2026-11-26T02:32:21Z",
+      "pushed_at": "2026-11-26T04:31:05Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -12033,7 +12033,7 @@
       "aliases": [
         "7xuanlu/wenlan"
       ],
-      "pushed_at": "2026-11-26T02:32:45Z",
+      "pushed_at": "2026-11-26T04:11:52Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -12055,7 +12055,7 @@
       ]
     },
     "morluto/rea": {
-      "pushed_at": "2026-11-26T02:39:30Z",
+      "pushed_at": "2026-11-26T04:32:09Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -12235,7 +12235,7 @@
       "aliases": [
         "autonomous-ai/Physical-AI-Operating-System"
       ],
-      "pushed_at": "2026-11-26T02:30:22Z",
+      "pushed_at": "2026-11-26T04:23:17Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -12403,7 +12403,7 @@
       "aliases": [
         "Aquaticat/Monochromatic"
       ],
-      "pushed_at": "2026-11-26T02:40:45Z",
+      "pushed_at": "2026-11-26T04:33:12Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -12428,7 +12428,7 @@
       "aliases": [
         "diegosouzapw/OmniRoute"
       ],
-      "pushed_at": "2026-11-26T02:19:03Z",
+      "pushed_at": "2026-11-26T04:31:09Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -12463,7 +12463,7 @@
       "aliases": [
         "devswha/herdr-web-ui"
       ],
-      "pushed_at": "2026-11-26T02:37:46Z",
+      "pushed_at": "2026-11-26T04:32:29Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -12911,7 +12911,7 @@
       "aliases": [
         "gakonst/nanocode"
       ],
-      "pushed_at": "2026-11-26T02:21:32Z",
+      "pushed_at": "2026-11-26T03:35:39Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -13074,7 +13074,7 @@
       "aliases": [
         "fluttersdk/wind"
       ],
-      "pushed_at": "2026-11-26T02:38:06Z",
+      "pushed_at": "2026-11-26T03:43:51Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -13123,7 +13123,7 @@
       ]
     },
     "DIYgod/pinky": {
-      "pushed_at": "2026-11-26T02:39:30Z",
+      "pushed_at": "2026-11-26T04:33:11Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -13172,7 +13172,7 @@
       ]
     },
     "mdiri-ai/SoduWork": {
-      "pushed_at": "2026-11-26T02:30:19Z",
+      "pushed_at": "2026-11-26T04:04:15Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -13497,7 +13497,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/166897461?v=4"
     },
     "agentes-chat/agentes-chat": {
-      "pushed_at": "2026-11-26T02:37:11Z",
+      "pushed_at": "2026-11-26T04:30:11Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -13595,7 +13595,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/76195533?v=4"
     },
     "kubai087/kubai-icons": {
-      "pushed_at": "2026-11-26T02:34:13Z",
+      "pushed_at": "2026-11-26T04:29:12Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -13669,7 +13669,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/285448159?v=4"
     },
     "paperclipai/paperclip": {
-      "pushed_at": "2026-11-26T02:26:04Z",
+      "pushed_at": "2026-11-26T04:32:20Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
@@ -13943,7 +13943,7 @@
       "owner_avatar": "https://avatars.githubusercontent.com/u/284200730?v=4"
     },
     "qianyiai/kurocat": {
-      "pushed_at": "2026-11-26T02:42:52Z",
+      "pushed_at": "2026-11-26T03:44:44Z",
       "archived": false,
       "checked_at": "2026-11-26",
       "gone": false,
