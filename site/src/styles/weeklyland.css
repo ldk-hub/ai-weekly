@@ -1354,6 +1354,112 @@ body.wl-park-page #sanctuary-canvas {
   color: var(--wl-sem-ink-muted);
 }
 
+/* Unified Continent Realm Pill, Compass Map & Cinematic Entry Banner */
+.wl-zone-pill-btn {
+  border-color: color-mix(in srgb, var(--wl-zone-accent, #65d472) 55%, var(--wl-hud-border));
+}
+
+.wl-zone-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--wl-zone-accent, #65d472);
+  box-shadow: 0 0 8px var(--wl-zone-accent, #65d472);
+  flex-shrink: 0;
+}
+
+.wl-world-compass {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+  border-radius: var(--wl-radius-sm);
+  background: var(--wl-btn-bg);
+  border: 1px solid var(--wl-hud-border);
+}
+
+.wl-compass-mid-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  width: 100%;
+}
+
+.wl-compass-node {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 7px 10px;
+  border-radius: 999px;
+  border: 1.5px solid var(--wl-hud-border);
+  background: var(--wl-sem-surface-strong);
+  color: var(--wl-sem-ink);
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 140ms ease, transform 140ms ease, background 140ms ease;
+}
+
+.wl-compass-node:hover {
+  border-color: var(--wl-sem-accent);
+  transform: translateY(-1px);
+}
+
+.wl-compass-node.is-active {
+  border-color: var(--wl-zone-accent, var(--wl-sem-accent));
+  background: rgba(249, 115, 22, 0.16);
+  box-shadow: 0 0 0 1px var(--wl-zone-accent, var(--wl-sem-accent));
+}
+
+.wl-zone-banner {
+  position: absolute;
+  top: 74px;
+  left: 50%;
+  transform: translate(-50%, -12px);
+  z-index: 26;
+  pointer-events: none;
+  text-align: center;
+  padding: 12px 26px;
+  border-radius: 999px;
+  background: rgba(12, 16, 28, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1.5px solid color-mix(in srgb, var(--wl-zone-accent, #65d472) 70%, rgba(255, 255, 255, 0.25));
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.34);
+  opacity: 0;
+  transition: opacity 360ms ease, transform 360ms ease;
+}
+
+.wl-zone-banner.is-showing {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.wl-zone-banner-badge {
+  font-family: var(--wl-font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--wl-zone-accent, #65d472);
+  margin-bottom: 2px;
+}
+
+.wl-zone-banner-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: #f8fafc;
+  letter-spacing: -0.01em;
+}
+
+.wl-zone-banner-sub {
+  font-size: 11.5px;
+  color: rgba(226, 232, 240, 0.86);
+  margin-top: 2px;
+}
+
 .wl-guest-quote {
   margin: 0 0 12px;
   padding: 8px 10px;

@@ -1134,6 +1134,9 @@ export class FlatRideEngine {
 
     const builders = {
       grand_arch: () => this._buildGrandArch(root),
+      zone_gate_tropical: () => this._buildZonePortalArch(root, "tropical"),
+      zone_gate_spooky: () => this._buildZonePortalArch(root, "spooky"),
+      zone_gate_alpine: () => this._buildZonePortalArch(root, "alpine"),
       garland_arch: () => this._buildGarlandArch(root),
       fairy_castle: () => this._buildFairyCastle(root),
       fountain: () => this._buildFountain(root),
@@ -1535,6 +1538,83 @@ export class FlatRideEngine {
     root.add(faceBack);
   }
 
+  /**
+   * Builds a themed 3D Realm Gateway Portal Arch marking the border into Tropical, Spooky, or Alpine realms.
+   */
+  _buildZonePortalArch(root, theme) {
+    const specs = {
+      tropical: {
+        pillar: 0xfde68a,
+        arch: 0x06b6d4,
+        glow: 0x22d3ee,
+        bg: "#083344",
+        fg: "#ecfeff",
+        accent: "#22d3ee",
+        title: "TROPICAL LAGOON · 트로피컬 라군",
+        sub: "EAST REALM · EMERALD BEACH & COASTER",
+      },
+      spooky: {
+        pillar: 0x3b2f63,
+        arch: 0x7e22ce,
+        glow: 0xf97316,
+        bg: "#1e1033",
+        fg: "#f5f3ff",
+        accent: "#c084fc",
+        title: "SPOOKY MANOR · 스푸키 할로윈",
+        sub: "WEST REALM · TWILIGHT THRILL VALLEY",
+      },
+      alpine: {
+        pillar: 0xe0f2fe,
+        arch: 0x38bdf8,
+        glow: 0xbae6fd,
+        bg: "#0c2d48",
+        fg: "#f0f9ff",
+        accent: "#7dd3fc",
+        title: "ALPINE WINTER · 알파인 윈터",
+        sub: "NORTH REALM · SNOWY PEAKS & T-EXPRESS",
+      },
+    };
+    const s = specs[theme] || specs.tropical;
+    const pillarMat = createToonMaterial(s.pillar);
+    const archMat = createToonMaterial(s.arch);
+    const glowMat = new THREE.MeshStandardMaterial({
+      color: s.glow,
+      emissive: s.glow,
+      emissiveIntensity: 0.9,
+    });
+    this.nightLights.push(glowMat);
+
+    for (const sx of [-4.4, 4.4]) {
+      const col = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.72, 7.6, 12), pillarMat);
+      col.position.set(sx, 3.8, 0);
+      col.castShadow = true;
+      addToonOutline(col, 1.045);
+      root.add(col);
+
+      const cap = new THREE.Mesh(new THREE.OctahedronGeometry(0.75, 0), glowMat);
+      cap.position.set(sx, 8.2, 0);
+      root.add(cap);
+    }
+
+    const span = new THREE.Mesh(new THREE.TorusGeometry(4.4, 0.42, 10, 26, Math.PI), archMat);
+    span.position.set(0, 6.2, 0);
+    span.castShadow = true;
+    root.add(span);
+
+    const signTex = this._makeTextCanvas(s.title, s.sub, s.bg, s.fg, s.accent);
+    const signBox = new THREE.Mesh(new THREE.BoxGeometry(8.8, 1.65, 0.42), pillarMat);
+    signBox.position.set(0, 7.4, 0);
+    root.add(signBox);
+
+    const frontFace = new THREE.Mesh(new THREE.PlaneGeometry(8.4, 1.4), new THREE.MeshBasicMaterial({ map: signTex }));
+    frontFace.position.set(0, 7.4, 0.24);
+    root.add(frontFace);
+    const backFace = frontFace.clone();
+    backFace.rotation.y = Math.PI;
+    backFace.position.z = -0.24;
+    root.add(backFace);
+  }
+
   _buildFountain(root) {
     const stone = createToonMaterial(0xfff7eb);
     const water = new THREE.MeshStandardMaterial({ color: 0x67e8f9, roughness: 0.15, transparent: true, opacity: 0.88 });
@@ -1857,12 +1937,18 @@ export class FlatRideEngine {
     let rideIdx = 0;
     for (const r of this.rides.values()) {
       rideIdx++;
-      // Distance-based LOD animation throttling: rides >125m away update smoothly every 2nd frame
+      // Distance-based LOD animation throttling across 520m unified continent
       let stepDt = rawStep;
       if (cameraPos) {
         const dx = r.root.position.x - cameraPos.x;
         const dz = r.root.position.z - cameraPos.z;
-        if (dx * dx + dz * dz > 15625) {
+        const dSq = dx * dx + dz * dz;
+        if (dSq > 32400) {
+          // >180m away: update every 3rd frame
+          if ((this._frameTick + rideIdx) % 3 !== 0) continue;
+          stepDt = rawStep * 3;
+        } else if (dSq > 14400) {
+          // 120m~180m away: update every 2nd frame
           if (((this._frameTick + rideIdx) & 1) === 1) continue;
           stepDt = rawStep * 2;
         }

@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { createToonMaterial, getCartoonGrassTexture, safeDisposeObjectTree } from "./ToonMaterials.js";
-import { STAGE_PALETTES } from "./ParkThemeStages.js";
+import { STAGE_PALETTES, STAGE_IDS, getBiomeWeightsAt } from "./ParkThemeStages.js";
 
 const PATH_STYLES = {
   sandstone: { main: 0xffe8c2, curb: 0xd9a76a },
@@ -39,6 +39,9 @@ export class TerrainAndPathEngine {
     this.walkEdges = new Map();
     this._waterTime = 0;
     this.themePalette = STAGE_PALETTES["sunlit-meadow"];
+    this.unifiedBiomeMode = true;
+    this._waterTintDay = new THREE.Color(0xffffff);
+    this._waterTintNight = new THREE.Color(0x4b6285);
 
     this._initHeights(terrainConfig);
     this._buildTerrainMesh();
@@ -48,7 +51,9 @@ export class TerrainAndPathEngine {
 
   setThemePalette(stageId) {
     this.themePalette = STAGE_PALETTES[stageId] || STAGE_PALETTES["sunlit-meadow"];
-    this._syncGeometryFromHeights();
+    if (!this.unifiedBiomeMode) {
+      this._syncGeometryFromHeights();
+    }
   }
 
   _initHeights(cfg) {
@@ -96,9 +101,13 @@ export class TerrainAndPathEngine {
     this.colorAttr = new THREE.BufferAttribute(new Float32Array(count * 3), 3);
     this.terrainGeo.setAttribute("color", this.colorAttr);
 
+    const grassTex = getCartoonGrassTexture();
+    const rep = Math.max(18, Math.round(this.size / 16));
+    grassTex.repeat.set(rep, rep);
+
     this.terrainMat = createToonMaterial(0xffffff, {
       vertexColors: true,
-      map: getCartoonGrassTexture(),
+      map: grassTex,
     });
 
     this.terrainMesh = new THREE.Mesh(this.terrainGeo, this.terrainMat);
@@ -110,14 +119,42 @@ export class TerrainAndPathEngine {
   }
 
   _buildWaterMesh() {
-    const waterGeo = new THREE.PlaneGeometry(this.size * 0.98, this.size * 0.98, 16, 16);
+    const waterGeo = new THREE.PlaneGeometry(this.size * 0.98, this.size * 0.98, 36, 36);
     waterGeo.rotateX(-Math.PI / 2);
+    const wPos = waterGeo.attributes.position;
+    const wColors = new Float32Array(wPos.count * 3);
+    const tmpCol = new THREE.Color();
+    const palColors = {};
+    for (const id of STAGE_IDS) {
+      palColors[id] = new THREE.Color(STAGE_PALETTES[id].waterColorDay);
+    }
+
+    for (let i = 0; i < wPos.count; i++) {
+      const wx = wPos.getX(i);
+      const wz = wPos.getZ(i);
+      const { weights } = getBiomeWeightsAt(wx, wz);
+      let r = 0, g = 0, b = 0;
+      for (const id of STAGE_IDS) {
+        const w = weights[id];
+        if (w <= 0) continue;
+        r += palColors[id].r * w;
+        g += palColors[id].g * w;
+        b += palColors[id].b * w;
+      }
+      tmpCol.setRGB(r, g, b);
+      wColors[i * 3] = tmpCol.r;
+      wColors[i * 3 + 1] = tmpCol.g;
+      wColors[i * 3 + 2] = tmpCol.b;
+    }
+    waterGeo.setAttribute("color", new THREE.BufferAttribute(wColors, 3));
+
     this.waterMat = new THREE.MeshStandardMaterial({
-      color: 0x2a86a8,
+      color: 0xffffff,
+      vertexColors: true,
       roughness: 0.18,
       metalness: 0.25,
       transparent: true,
-      opacity: 0.82,
+      opacity: 0.84,
     });
     this.waterMesh = new THREE.Mesh(waterGeo, this.waterMat);
     this.waterMesh.position.y = this.waterLevel;
@@ -128,12 +165,11 @@ export class TerrainAndPathEngine {
   _syncGeometryFromHeights() {
     const pos = this.terrainGeo.attributes.position;
     const col = this.colorAttr;
-    const tc = this.themePalette?.terrainColors;
     const cSand = new THREE.Color(0xfff0cf);
-    const cGrass = tc ? new THREE.Color(tc.lowGrass[0], tc.lowGrass[1], tc.lowGrass[2]) : new THREE.Color(0x7ad67e);
-    const cLush = tc ? new THREE.Color(tc.midGrass[0], tc.midGrass[1], tc.midGrass[2]) : new THREE.Color(0x55be6e);
-    const cRock = tc ? new THREE.Color(tc.highPeak[0], tc.highPeak[1], tc.highPeak[2]) : new THREE.Color(0xb4a7c7);
-    const cPond = tc ? new THREE.Color(tc.waterBed[0], tc.waterBed[1], tc.waterBed[2]) : new THREE.Color(0x6ad4e6);
+    const cGrass = new THREE.Color();
+    const cLush = new THREE.Color();
+    const cRock = new THREE.Color();
+    const cPond = new THREE.Color();
     const tmp = new THREE.Color();
 
     for (let i = 0; i < pos.count; i++) {
@@ -143,16 +179,43 @@ export class TerrainAndPathEngine {
       const wz = pos.getZ(i);
       const distCenter = Math.hypot(wx, wz);
 
-      if (h < this.waterLevel + 0.12) {
+      if (this.unifiedBiomeMode) {
+        const { weights } = getBiomeWeightsAt(wx, wz);
+        let gr = 0, gg = 0, gb = 0;
+        let mr = 0, mg = 0, mb = 0;
+        let hr = 0, hg = 0, hb = 0;
+        let wr = 0, wg = 0, wb = 0;
+        for (const id of STAGE_IDS) {
+          const w = weights[id];
+          if (w <= 0) continue;
+          const tc = STAGE_PALETTES[id].terrainColors;
+          gr += tc.lowGrass[0] * w; gg += tc.lowGrass[1] * w; gb += tc.lowGrass[2] * w;
+          mr += tc.midGrass[0] * w; mg += tc.midGrass[1] * w; mb += tc.midGrass[2] * w;
+          hr += tc.highPeak[0] * w; hg += tc.highPeak[1] * w; hb += tc.highPeak[2] * w;
+          wr += tc.waterBed[0] * w; wg += tc.waterBed[1] * w; wb += tc.waterBed[2] * w;
+        }
+        cGrass.setRGB(gr, gg, gb);
+        cLush.setRGB(mr, mg, mb);
+        cRock.setRGB(hr, hg, hb);
+        cPond.setRGB(wr, wg, wb);
+      } else {
+        const tc = this.themePalette?.terrainColors;
+        cGrass.setRGB(tc ? tc.lowGrass[0] : 0.46, tc ? tc.lowGrass[1] : 0.84, tc ? tc.lowGrass[2] : 0.50);
+        cLush.setRGB(tc ? tc.midGrass[0] : 0.56, tc ? tc.midGrass[1] : 0.89, tc ? tc.midGrass[2] : 0.56);
+        cRock.setRGB(tc ? tc.highPeak[0] : 0.76, tc ? tc.highPeak[1] : 0.72, tc ? tc.highPeak[2] : 0.84);
+        cPond.setRGB(tc ? tc.waterBed[0] : 0.34, tc ? tc.waterBed[1] : 0.72, tc ? tc.waterBed[2] : 0.76);
+      }
+
+      if (h < this.waterLevel + 0.14) {
         tmp.copy(cPond);
-      } else if (h < 0.25 && distCenter < 26) {
+      } else if (h < 0.28 && distCenter < 26) {
         const plazaMix = THREE.MathUtils.clamp(1 - distCenter / 26, 0, 1);
         tmp.copy(cGrass).lerp(cSand, plazaMix * 0.55);
       } else if (h > 3.6) {
         const rockMix = THREE.MathUtils.clamp((h - 3.6) / 3.8, 0, 1);
         tmp.copy(cLush).lerp(cRock, rockMix);
       } else {
-        const lushMix = THREE.MathUtils.clamp(h / 3.6, 0, 1);
+        const lushMix = THREE.MathUtils.clamp(Math.max(0, h) / 3.6, 0, 1);
         tmp.copy(cGrass).lerp(cLush, lushMix);
       }
       col.setXYZ(i, tmp.r, tmp.g, tmp.b);
@@ -245,12 +308,23 @@ export class TerrainAndPathEngine {
     this.walkNodePathId = [];
     this.walkEdges.clear();
 
-    const plazaMat = createToonMaterial(PATH_STYLES.sandstone.main);
-    const plazaGeo = new THREE.CylinderGeometry(12.2, 12.6, 0.22, 36);
-    const plazaMesh = new THREE.Mesh(plazaGeo, plazaMat);
-    plazaMesh.position.set(0, Math.max(0.08, this.getHeightAt(0, 0) + 0.08), 0);
-    plazaMesh.receiveShadow = true;
-    this.pathGroup.add(plazaMesh);
+    // Central & Realm Hub Plazas
+    const hubPlazas = [
+      { x: 0, z: 0, r: 12.2, style: "sandstone" },
+      { x: 176, z: 12, r: 10.6, style: "wood" },
+      { x: -176, z: 12, r: 10.6, style: "brick" },
+      { x: 0, z: -176, r: 10.6, style: "pastel_pink" },
+    ];
+    for (const hub of hubPlazas) {
+      if (Math.abs(hub.x) > this.size * 0.45 || Math.abs(hub.z) > this.size * 0.45) continue;
+      const pStyle = PATH_STYLES[hub.style] || PATH_STYLES.sandstone;
+      const plazaMat = createToonMaterial(pStyle.main);
+      const plazaGeo = new THREE.CylinderGeometry(hub.r, hub.r + 0.4, 0.22, 32);
+      const plazaMesh = new THREE.Mesh(plazaGeo, plazaMat);
+      plazaMesh.position.set(hub.x, Math.max(0.08, this.getHeightAt(hub.x, hub.z) + 0.08), hub.z);
+      plazaMesh.receiveShadow = true;
+      this.pathGroup.add(plazaMesh);
+    }
 
     for (const pathDef of pathsConfig || []) {
       const pts = (pathDef.points || []).map(([x, z]) => new THREE.Vector3(x, this.getHeightAt(x, z) + 0.16, z));
@@ -487,9 +561,13 @@ export class TerrainAndPathEngine {
     this._waterTime += dt;
     if (this.waterMesh) {
       this.waterMesh.position.y = this.waterLevel + Math.sin(this._waterTime * 1.4) * 0.03;
-      const dayCol = this.themePalette?.waterColorDay ?? 0x2a86a8;
-      const nightCol = this.themePalette?.waterColorNight ?? 0x163e5c;
-      this.waterMat.color.setHex(isNight ? nightCol : dayCol);
+      if (this.unifiedBiomeMode) {
+        this.waterMat.color.lerp(isNight ? this._waterTintNight : this._waterTintDay, Math.min(1, dt * 3.0));
+      } else {
+        const dayCol = this.themePalette?.waterColorDay ?? 0x2a86a8;
+        const nightCol = this.themePalette?.waterColorNight ?? 0x163e5c;
+        this.waterMat.color.setHex(isNight ? nightCol : dayCol);
+      }
     }
   }
 

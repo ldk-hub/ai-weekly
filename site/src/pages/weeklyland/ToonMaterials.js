@@ -362,7 +362,7 @@ export class CartoonSkyDecor {
       depthWrite: false,
       fog: false,
     });
-    this.skyDome = new THREE.Mesh(new THREE.SphereGeometry(420, 32, 20), skyMat);
+    this.skyDome = new THREE.Mesh(new THREE.SphereGeometry(740, 32, 20), skyMat);
     this.skyDome.renderOrder = -10;
     this.skyDome.frustumCulled = false;
     this.group.add(this.skyDome);
@@ -400,12 +400,12 @@ export class CartoonSkyDecor {
     });
     const puffGeo = new THREE.SphereGeometry(1, 12, 10);
 
-    for (let i = 0; i < 24; i++) {
+    for (let i = 0; i < 30; i++) {
       const cGroup = new THREE.Group();
-      const angle = (i / 24) * Math.PI * 2 + (i % 2) * 0.12;
-      const radius = 64 + (i % 4) * 34;
-      const y = 38 + (i % 5) * 9;
-      const scaleMul = 1.0 + (i % 3) * 0.38;
+      const angle = (i / 30) * Math.PI * 2 + (i % 2) * 0.12;
+      const radius = 84 + (i % 5) * 46;
+      const y = 44 + (i % 5) * 10;
+      const scaleMul = 1.15 + (i % 3) * 0.42;
 
       const puffs = [
         [0, 0, 0, 5.2, 3.1, 3.8],
@@ -595,10 +595,13 @@ export class CartoonSkyDecor {
       c.group.visible = true;
     }
 
-    // Overcast dark storm cloud deck gathering when raining!
+    // Overcast dark storm cloud deck gathering overhead around camera when raining!
     if (this.stormGroup) {
       this.stormGroup.visible = this._rainBlend > 0.03;
       if (this.stormGroup.visible) {
+        if (cameraPos) {
+          this.stormGroup.position.set(cameraPos.x, 0, cameraPos.z);
+        }
         this.stormMat.opacity = Math.min(0.90, this._rainBlend * 0.90);
         this.stormMat.color.copy(this._cStormDark);
         this.stormMat.emissive.setHex(st.lightning > 0.15 ? 0x7c93b0 : 0x354459);

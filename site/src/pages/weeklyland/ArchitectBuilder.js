@@ -358,8 +358,9 @@ export class ArchitectBuilder {
       if (this.isDraggingNode && this.selectedCoasterId != null) {
         const hitPt = new THREE.Vector3();
         if (this.raycaster.ray.intersectPlane(this.dragPlane, hitPt)) {
-          const cx = THREE.MathUtils.clamp(Number(hitPt.x.toFixed(1)), -140, 140);
-          const cz = THREE.MathUtils.clamp(Number(hitPt.z.toFixed(1)), -140, 140);
+          const bound = Math.max(140, (this.terrain?.size || 520) * 0.5 - 12);
+          const cx = THREE.MathUtils.clamp(Number(hitPt.x.toFixed(1)), -bound, bound);
+          const cz = THREE.MathUtils.clamp(Number(hitPt.z.toFixed(1)), -bound, bound);
           this.worldState.mutate(
             "coasters",
             (d) => {
@@ -782,7 +783,7 @@ export class ArchitectBuilder {
       { id: "flatten", label: "평탄화" },
     ];
     body.innerHTML = `
-      <div class="wl-section-heading">300m 지형 스컬프팅 (좌클릭 드래그)</div>
+      <div class="wl-section-heading">520m 통합 대륙 지형 스컬프팅 (좌클릭 드래그)</div>
       <div class="wl-catalog-grid" style="margin-bottom:12px;">
         ${modes
           .map(

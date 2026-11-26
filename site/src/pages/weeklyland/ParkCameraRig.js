@@ -10,7 +10,8 @@ import * as THREE from "three";
 export class ParkCameraRig {
   constructor(domElement, aspect = 16 / 9) {
     this.domElement = domElement;
-    this.camera = new THREE.PerspectiveCamera(52, aspect, 0.15, 680);
+    this.camera = new THREE.PerspectiveCamera(52, aspect, 0.15, 980);
+    this.worldBound = 248;
 
     this.mode = "guest_third"; // guest_third | drone | architect | ride_pov | ride_chase
     this.azimuth = 0.0;
@@ -43,6 +44,10 @@ export class ParkCameraRig {
     if (!this._justDragged) return false;
     this._justDragged = false;
     return true;
+  }
+
+  setWorldSize(size) {
+    this.worldBound = Math.max(140, (size || 520) * 0.5 - 12);
   }
 
   setAspect(w, h) {
@@ -140,8 +145,8 @@ export class ParkCameraRig {
         const panSpeed = (panInput.sprint ? 72 : 38) * stepDt;
         this.targetFocus.addScaledVector(forward, moveZ * panSpeed);
         this.targetFocus.addScaledVector(right, moveX * panSpeed);
-        this.targetFocus.x = THREE.MathUtils.clamp(this.targetFocus.x, -142, 142);
-        this.targetFocus.z = THREE.MathUtils.clamp(this.targetFocus.z, -142, 142);
+        this.targetFocus.x = THREE.MathUtils.clamp(this.targetFocus.x, -this.worldBound, this.worldBound);
+        this.targetFocus.z = THREE.MathUtils.clamp(this.targetFocus.z, -this.worldBound, this.worldBound);
       }
     }
 
@@ -211,7 +216,7 @@ export class ParkCameraRig {
           if (this._pinchDist > 0) {
             const delta = this._pinchDist - nextDist;
             const minD = this.mode === "ride_chase" ? 3.8 : this.mode === "guest_third" ? 6 : 12;
-            const maxD = this.mode === "ride_chase" ? 12 : this.mode === "guest_third" ? 56 : 195;
+            const maxD = this.mode === "ride_chase" ? 12 : this.mode === "guest_third" ? 56 : 240;
             this.targetDistance = THREE.MathUtils.clamp(this.targetDistance + delta * 0.08, minD, maxD);
           }
           this._pinchDist = nextDist;
@@ -248,7 +253,7 @@ export class ParkCameraRig {
       if (this.mode === "ride_pov") return;
       ev.preventDefault();
       const minD = this.mode === "ride_chase" ? 3.8 : this.mode === "guest_third" ? 6 : 12;
-      const maxD = this.mode === "ride_chase" ? 12 : this.mode === "guest_third" ? 56 : 195;
+      const maxD = this.mode === "ride_chase" ? 12 : this.mode === "guest_third" ? 56 : 240;
       this.targetDistance = THREE.MathUtils.clamp(this.targetDistance + ev.deltaY * 0.03, minD, maxD);
     };
 

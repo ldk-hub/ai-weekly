@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { STAGE_PALETTES, STAGE_IDS } from "../weeklyland/ParkThemeStages.js";
 
 const SEASONS = ["spring", "rain", "summer", "autumn", "winter"];
 const SEASON_LABELS = {
@@ -122,14 +123,29 @@ export class SanctuaryAtmosphere {
     this.mats = envFx.atmosphereMats || {};
     this.onFestivalEvent = callbacks.onFestivalEvent || null;
 
-    this.timeMode = "auto";
-    this.timeOfDay = 0.42;
+    this.timeMode = "zone";
+    this.timeOfDay = 0.45;
     this.dayCycleDurationSec = 90;
 
-    this.seasonMode = "auto";
+    this.seasonMode = "zone";
     this.seasonIndex = 0;
     this.seasonTimer = 0;
     this.seasonDurationSec = 28;
+    this._zoneSeason = "spring";
+    this._activeZoneId = "sunlit-meadow";
+
+    // Pre-allocated biome grading scratch colors (zero GC in 60fps loop)
+    this._biomeZenith = new THREE.Color(0x0f5bd6);
+    this._biomeMid = new THREE.Color(0x45a8ff);
+    this._biomeHorizon = new THREE.Color(0xc9eeff);
+    this._biomeSun = new THREE.Color(0xfff5dc);
+    this._biomeAmb = new THREE.Color(0xeaf5ff);
+    this._biomeHemi = new THREE.Color(0x7cc8ff);
+    this._biomeScratch = new THREE.Color();
+    this._biomeFogDensity = 0.00145;
+    this._biomeNightBoost = 0;
+    this._biomeBloomBoost = 0;
+    this._biomeTintStrength = 0.12;
 
     this.fireworks = [];
     this._heroPos = new THREE.Vector3();
@@ -227,6 +243,7 @@ export class SanctuaryAtmosphere {
   }
 
   getCurrentSeason() {
+    if (this.seasonMode === "zone") return this._zoneSeason || "spring";
     if (this.seasonMode !== "auto") return this.seasonMode;
     return SEASONS[this.seasonIndex % SEASONS.length];
   }
@@ -258,16 +275,20 @@ export class SanctuaryAtmosphere {
   getStatusLabels() {
     const timeKey = this.getTimeKey();
     const seasonKey = this.getCurrentSeason();
+    const timeSuffix = this.timeMode === "zone" ? " · 영역" : this.timeMode === "auto" ? " · 순환" : " (고정)";
+    const seasonSuffix = this.seasonMode === "zone" ? " · 영역" : this.seasonMode === "auto" ? " · 순환" : " (고정)";
     return {
       timeKey,
-      timeLabel: `${this.getTimeLabel()}${this.timeMode === "auto" ? "" : " (고정)"}`,
+      timeMode: this.timeMode,
+      timeLabel: `${this.getTimeLabel()}${timeSuffix}`,
       seasonKey,
-      seasonLabel: `${SEASON_LABELS[seasonKey]}${this.seasonMode === "auto" ? "" : " (고정)"}`,
+      seasonMode: this.seasonMode,
+      seasonLabel: `${SEASON_LABELS[seasonKey]}${seasonSuffix}`,
     };
   }
 
   cycleTimeMode() {
-    const order = ["auto", "day", "sunset", "night", "dawn"];
+    const order = ["zone", "day", "sunset", "night", "dawn", "auto"];
     const next = order[(order.indexOf(this.timeMode) + 1) % order.length];
     this.setTimeMode(next);
     return this.getStatusLabels();
@@ -284,15 +305,15 @@ export class SanctuaryAtmosphere {
   }
 
   cycleSeasonMode() {
-    const order = ["auto", "spring", "rain", "summer", "autumn", "winter"];
+    const order = ["zone", "spring", "rain", "summer", "autumn", "winter", "auto"];
     const next = order[(order.indexOf(this.seasonMode) + 1) % order.length];
     this.setSeasonMode(next);
     return this.getStatusLabels();
   }
 
   setSeasonMode(mode) {
-    if (mode === "auto") {
-      this.seasonMode = "auto";
+    if (mode === "zone" || mode === "auto") {
+      this.seasonMode = mode;
     } else if (SEASONS.includes(mode)) {
       this.seasonMode = mode;
       this.seasonIndex = SEASONS.indexOf(mode);
@@ -668,12 +689,82 @@ export class SanctuaryAtmosphere {
     }
   }
 
-  update(dt, heroPos) {
+  update(dt, heroPos, biomeState = null) {
     if (heroPos) this._heroPos.copy(heroPos);
+
+    // 0. Smooth Spatial Biome Theme Morphing across the Unified Continent
+    let targetTimeOfDay = this.timeOfDay;
+    let targetFog = 0.00145;
+    let targetNightBoost = 0;
+    let targetBloomBoost = 0;
+    let targetTintStrength = 0.12;
+
+    if (biomeState?.weights) {
+      const weights = biomeState.weights;
+      let tSum = 0;
+      let fogSum = 0;
+      let nightSum = 0;
+      let bloomSum = 0;
+      let tintSum = 0;
+      let zr = 0, zg = 0, zb = 0;
+      let mr = 0, mg = 0, mb = 0;
+      let hr = 0, hg = 0, hb = 0;
+      let sr = 0, sg = 0, sb = 0;
+      let ar = 0, ag = 0, ab = 0;
+      let hmr = 0, hmg = 0, hmb = 0;
+
+      for (const id of STAGE_IDS) {
+        const w = weights[id] || 0;
+        if (w <= 0) continue;
+        const pal = STAGE_PALETTES[id];
+        const a = pal.atmosphere;
+        tSum += (pal.preferredTimeOfDay ?? 0.45) * w;
+        fogSum += (a.fogDensity ?? 0.0015) * w;
+        nightSum += (a.nightLightBoost ?? 0) * w;
+        bloomSum += (a.bloomBoost ?? 0) * w;
+        tintSum += (a.tintStrength ?? 0.2) * w;
+
+        this._biomeScratch.setHex(a.skyZenithTint); zr += this._biomeScratch.r * w; zg += this._biomeScratch.g * w; zb += this._biomeScratch.b * w;
+        this._biomeScratch.setHex(a.skyMidTint); mr += this._biomeScratch.r * w; mg += this._biomeScratch.g * w; mb += this._biomeScratch.b * w;
+        this._biomeScratch.setHex(a.skyHorizonTint); hr += this._biomeScratch.r * w; hg += this._biomeScratch.g * w; hb += this._biomeScratch.b * w;
+        this._biomeScratch.setHex(a.sunTint); sr += this._biomeScratch.r * w; sg += this._biomeScratch.g * w; sb += this._biomeScratch.b * w;
+        this._biomeScratch.setHex(a.ambientTint); ar += this._biomeScratch.r * w; ag += this._biomeScratch.g * w; ab += this._biomeScratch.b * w;
+        this._biomeScratch.setHex(a.hemiTint); hmr += this._biomeScratch.r * w; hmg += this._biomeScratch.g * w; hmb += this._biomeScratch.b * w;
+      }
+
+      const blendK = Math.min(1, dt * 2.4);
+      targetTimeOfDay = tSum;
+      this._biomeFogDensity += (fogSum - this._biomeFogDensity) * blendK;
+      this._biomeNightBoost += (nightSum - this._biomeNightBoost) * blendK;
+      this._biomeBloomBoost += (bloomSum - this._biomeBloomBoost) * blendK;
+      this._biomeTintStrength += (tintSum - this._biomeTintStrength) * blendK;
+
+      this._biomeScratch.setRGB(zr, zg, zb); this._biomeZenith.lerp(this._biomeScratch, blendK);
+      this._biomeScratch.setRGB(mr, mg, mb); this._biomeMid.lerp(this._biomeScratch, blendK);
+      this._biomeScratch.setRGB(hr, hg, hb); this._biomeHorizon.lerp(this._biomeScratch, blendK);
+      this._biomeScratch.setRGB(sr, sg, sb); this._biomeSun.lerp(this._biomeScratch, blendK);
+      this._biomeScratch.setRGB(ar, ag, ab); this._biomeAmb.lerp(this._biomeScratch, blendK);
+      this._biomeScratch.setRGB(hmr, hmg, hmb); this._biomeHemi.lerp(this._biomeScratch, blendK);
+
+      if (biomeState.zoneId) {
+        this._activeZoneId = biomeState.zoneId;
+        const domSeason = STAGE_PALETTES[biomeState.zoneId]?.defaultSeason || "spring";
+        if (this.seasonMode === "zone" && domSeason !== this._zoneSeason) {
+          this._zoneSeason = domSeason;
+          this._reseedWeatherColors(domSeason);
+        }
+      }
+      targetFog = this._biomeFogDensity;
+      targetNightBoost = this._biomeNightBoost;
+      targetBloomBoost = this._biomeBloomBoost;
+      targetTintStrength = this._biomeTintStrength;
+    }
 
     // 1. Advance Time of Day (Zero-allocation color interpolation!)
     if (this.timeMode === "auto") {
       this.timeOfDay = (this.timeOfDay + dt / this.dayCycleDurationSec) % 1;
+    } else if (this.timeMode === "zone") {
+      this.timeOfDay += (targetTimeOfDay - this.timeOfDay) * Math.min(1, dt * 1.8);
     }
 
     const t = this.timeOfDay;
@@ -700,15 +791,14 @@ export class SanctuaryAtmosphere {
     }
 
     // Real solar arc: rises in North-East (dawn), arcs high overhead (day), sets in North-West (sunset)
-    // Placed in the -Z northern vista hemisphere so guests looking into the park see sunrise & sunset directly!
-    const arcProgress = THREE.MathUtils.clamp((t - 0.20) / 0.56, 0, 1); // 0 = dawn, 0.5 = noon, 1 = sunset
-    const sunAz = THREE.MathUtils.lerp(0.62, -0.62, arcProgress); // East (+X) -> West (-X)
+    const arcProgress = THREE.MathUtils.clamp((t - 0.20) / 0.56, 0, 1);
+    const sunAz = THREE.MathUtils.lerp(0.62, -0.62, arcProgress);
     const sunAlt = Math.max(0.06, Math.sin(arcProgress * Math.PI) * 0.72 + 0.06);
     this._sunDir
       .set(Math.sin(sunAz) * Math.cos(sunAlt), Math.sin(sunAlt), -Math.cos(sunAz) * Math.cos(sunAlt))
       .normalize();
 
-    // Blend 3-stop Sky Dome Colors: Night -> Clear Azure Day -> Peach Sunrise -> Coral-Amber Sunset -> Storm Rain!
+    // Blend 3-stop Sky Dome Colors + Smooth Spatial Biome Tint
     this._tmpZenith
       .copy(this._palNight.zenith)
       .lerp(this._palDay.zenith, dayFactor)
@@ -725,6 +815,14 @@ export class SanctuaryAtmosphere {
       .lerp(this._palDawn.horizon, dawnFactor * 0.95)
       .lerp(this._palSunset.horizon, sunsetFactor * 0.98);
 
+    // Apply biome sky tinting (strongest during day/twilight, gentle at deep night)
+    const biomeSkyWeight = targetTintStrength * (1 - nightFactor * 0.65) * (isRain ? 0.35 : 1.0);
+    if (biomeSkyWeight > 0.01) {
+      this._tmpZenith.lerp(this._biomeZenith, biomeSkyWeight);
+      this._tmpMid.lerp(this._biomeMid, biomeSkyWeight);
+      this._tmpHorizon.lerp(this._biomeHorizon, biomeSkyWeight);
+    }
+
     if (isRain) {
       const rainMix = 0.78;
       this._tmpZenith.lerp(this._palRain.zenith, rainMix);
@@ -735,7 +833,7 @@ export class SanctuaryAtmosphere {
     if (this.scene.background?.isColor) this.scene.background.copy(this._tmpHorizon);
     if (this.scene.fog) {
       this.scene.fog.color.copy(this._tmpHorizon);
-      this.scene.fog.density = isRain ? 0.0028 : 0.0016;
+      this.scene.fog.density = isRain ? Math.max(0.0026, targetFog * 1.35) : targetFog;
     }
 
     this._tmpSun
@@ -743,10 +841,23 @@ export class SanctuaryAtmosphere {
       .lerp(this._cSunDay, dayFactor)
       .lerp(this._cSunDawn, dawnFactor * 0.92)
       .lerp(this._cSunSunset, sunsetFactor * 0.95);
+    if (biomeSkyWeight > 0.01) {
+      this._tmpSun.lerp(this._biomeSun, biomeSkyWeight * 0.75);
+    }
 
     if (this.lights.dirLight) {
       this.lights.dirLight.color.copy(this._tmpSun);
-      this.lights.dirLight.position.set(this._sunDir.x * 135, Math.max(32, this._sunDir.y * 145), this._sunDir.z * 135);
+      const anchorX = Math.round(this._heroPos.x / 4) * 4;
+      const anchorZ = Math.round(this._heroPos.z / 4) * 4;
+      this.lights.dirLight.position.set(
+        anchorX + this._sunDir.x * 135,
+        Math.max(36, this._sunDir.y * 145),
+        anchorZ + this._sunDir.z * 135
+      );
+      if (this.lights.dirLight.target) {
+        this.lights.dirLight.target.position.set(anchorX, 0, anchorZ);
+        this.lights.dirLight.target.updateMatrixWorld();
+      }
       const baseInt = (0.45 + dayFactor * 1.95 + twilight * 0.35) * (isRain ? 0.62 : 1.0);
       this.lights.dirLight.intensity = baseInt + this._lightning * 0.9;
     }
@@ -755,6 +866,7 @@ export class SanctuaryAtmosphere {
         .copy(this._cAmbNight)
         .lerp(this._cAmbDay, dayFactor)
         .lerp(this._cAmbSunset, twilight * 0.62);
+      if (biomeSkyWeight > 0.01) this._tmpAmb.lerp(this._biomeAmb, biomeSkyWeight * 0.7);
       if (isRain) this._tmpAmb.lerp(this._cAmbRain, 0.7);
       this.lights.ambientLight.color.copy(this._tmpAmb);
       this.lights.ambientLight.intensity = (0.34 + dayFactor * 0.44) * (isRain ? 0.85 : 1.0);
@@ -764,19 +876,22 @@ export class SanctuaryAtmosphere {
         .copy(this._cHemiSkyNight)
         .lerp(this._cHemiSkyDay, dayFactor)
         .lerp(this._cHemiSkySunset, twilight * 0.72);
+      if (biomeSkyWeight > 0.01) this._tmpHemi.lerp(this._biomeHemi, biomeSkyWeight * 0.7);
       if (isRain) this._tmpHemi.lerp(this._cHemiSkyRain, 0.78);
       this.lights.hemiLight.color.copy(this._tmpHemi);
       this.lights.hemiLight.intensity = (0.36 + dayFactor * 0.56) * (isRain ? 0.78 : 1.0);
     }
 
-    // Export unified sky state snapshot for CartoonSkyDecor shader & volumetric clouds
-    this._skyState.isNight = nightFactor > 0.6;
+    // Export unified sky state snapshot for CartoonSkyDecor shader, bloom & park lighting
+    this._skyState.isNight = nightFactor > 0.6 || targetNightBoost > 0.52;
     this._skyState.isRain = isRain;
     this._skyState.dawnFactor = dawnFactor;
     this._skyState.sunsetFactor = sunsetFactor;
     this._skyState.dayFactor = dayFactor;
     this._skyState.nightFactor = nightFactor;
-    this._skyState.sunIntensity = THREE.MathUtils.clamp((dayFactor + twilight * 0.85), 0, 1);
+    this._skyState.nightLightBoost = targetNightBoost;
+    this._skyState.bloomBoost = targetBloomBoost;
+    this._skyState.sunIntensity = THREE.MathUtils.clamp(dayFactor + twilight * 0.85, 0, 1);
     this._skyState.lightning = this._lightning;
     if (this.mats.lampGlowMat) {
       this.mats.lampGlowMat.emissiveIntensity = 0.5 + nightFactor * 2.8;

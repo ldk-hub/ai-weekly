@@ -1,22 +1,130 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "parkMeta": {
-    "name": "위클리랜드 · WeeklyLand",
-    "updatedAt": "2026-11-24T00:00:00Z",
+    "name": "위클리랜드 통합 대륙 · WeeklyLand Grand World",
+    "updatedAt": "2026-11-24T23:57:26.474Z",
     "author": "ldk-hub",
-    "themePreset": "sunlit-cartoon",
-    "entrance": { "x": 0, "z": 124 }
+    "themePreset": "unified-continent",
+    "unifiedWorld": true,
+    "stageName": "위클리랜드 4대 테마 통합 대륙",
+    "entrance": {
+      "x": 0,
+      "z": 124
+    }
   },
   "terrain": {
-    "size": 300,
-    "resolution": 72,
+    "size": 520,
+    "resolution": 112,
     "waterLevel": -0.6,
     "hills": [
-      { "x": -96, "z": -84, "radius": 38, "height": 9.5 },
-      { "x": 98, "z": -80, "radius": 42, "height": 11.0 },
-      { "x": -105, "z": 58, "radius": 32, "height": 7.2 },
-      { "x": 86, "z": 64, "radius": 30, "height": -2.8 },
-      { "x": -78, "z": 86, "radius": 24, "height": -2.4 }
+      {
+        "x": 84,
+        "z": 72,
+        "radius": 22,
+        "height": -2.4
+      },
+      {
+        "x": -84,
+        "z": 72,
+        "radius": 22,
+        "height": -2.4
+      },
+      {
+        "x": 176,
+        "z": 12,
+        "radius": 66,
+        "height": 1.15
+      },
+      {
+        "x": 132,
+        "z": 48,
+        "radius": 20,
+        "height": -2.5
+      },
+      {
+        "x": 222,
+        "z": 48,
+        "radius": 20,
+        "height": -2.5
+      },
+      {
+        "x": 242,
+        "z": -58,
+        "radius": 34,
+        "height": 12.5
+      },
+      {
+        "x": 242,
+        "z": 86,
+        "radius": 34,
+        "height": 11
+      },
+      {
+        "x": -242,
+        "z": -58,
+        "radius": 36,
+        "height": 13.5
+      },
+      {
+        "x": -242,
+        "z": 86,
+        "radius": 34,
+        "height": 11.5
+      },
+      {
+        "x": -176,
+        "z": -98,
+        "radius": 26,
+        "height": 7.5
+      },
+      {
+        "x": -132,
+        "z": 54,
+        "radius": 18,
+        "height": -2.2
+      },
+      {
+        "x": -90,
+        "z": -236,
+        "radius": 46,
+        "height": 17.5
+      },
+      {
+        "x": 90,
+        "z": -236,
+        "radius": 46,
+        "height": 17
+      },
+      {
+        "x": 0,
+        "z": -246,
+        "radius": 36,
+        "height": 13
+      },
+      {
+        "x": -56,
+        "z": -130,
+        "radius": 16,
+        "height": -2
+      },
+      {
+        "x": 56,
+        "z": -130,
+        "radius": 16,
+        "height": -2
+      },
+      {
+        "x": -158,
+        "z": 168,
+        "radius": 40,
+        "height": 10
+      },
+      {
+        "x": 158,
+        "z": 168,
+        "radius": 40,
+        "height": 10
+      }
     ]
   },
   "paths": [
@@ -25,15 +133,42 @@
       "width": 5.4,
       "style": "sandstone",
       "points": [
-        [0, 130],
-        [0, 110],
-        [0, 88],
-        [0, 66],
-        [0, 44],
-        [0, 22],
-        [0, 0],
-        [0, -28],
-        [0, -54]
+        [
+          0,
+          130
+        ],
+        [
+          0,
+          110
+        ],
+        [
+          0,
+          88
+        ],
+        [
+          0,
+          66
+        ],
+        [
+          0,
+          44
+        ],
+        [
+          0,
+          22
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          -28
+        ],
+        [
+          0,
+          -54
+        ]
       ]
     },
     {
@@ -42,25 +177,440 @@
       "style": "sandstone",
       "closed": true,
       "points": [
-        [0, 32],
-        [-28, 26],
-        [-36, 0],
-        [-28, -28],
-        [0, -34],
-        [28, -28],
-        [36, 0],
-        [28, 26]
+        [
+          0,
+          32
+        ],
+        [
+          -28,
+          26
+        ],
+        [
+          -36,
+          0
+        ],
+        [
+          -28,
+          -28
+        ],
+        [
+          0,
+          -34
+        ],
+        [
+          28,
+          -28
+        ],
+        [
+          36,
+          0
+        ],
+        [
+          28,
+          26
+        ]
       ]
     },
     {
-      "id": "path-east-west-avenue",
-      "width": 3.8,
+      "id": "path-continental-ew",
+      "width": 4.6,
       "style": "pastel_pink",
       "points": [
-        [-74, 0],
-        [-36, 0],
-        [36, 0],
-        [74, 0]
+        [
+          -138,
+          10
+        ],
+        [
+          -114,
+          2
+        ],
+        [
+          -88,
+          0
+        ],
+        [
+          -62,
+          0
+        ],
+        [
+          -36,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          36,
+          0
+        ],
+        [
+          62,
+          0
+        ],
+        [
+          88,
+          0
+        ],
+        [
+          114,
+          2
+        ],
+        [
+          138,
+          10
+        ]
+      ]
+    },
+    {
+      "id": "path-castle-west-link",
+      "width": 3.8,
+      "style": "sandstone",
+      "points": [
+        [
+          -28,
+          -28
+        ],
+        [
+          -28,
+          -56
+        ],
+        [
+          -22,
+          -84
+        ],
+        [
+          0,
+          -106
+        ]
+      ]
+    },
+    {
+      "id": "path-castle-east-link",
+      "width": 3.8,
+      "style": "sandstone",
+      "points": [
+        [
+          28,
+          -28
+        ],
+        [
+          28,
+          -56
+        ],
+        [
+          22,
+          -84
+        ],
+        [
+          0,
+          -106
+        ]
+      ]
+    },
+    {
+      "id": "path-trop-ring",
+      "width": 4.4,
+      "style": "wood",
+      "closed": true,
+      "points": [
+        [
+          176,
+          46
+        ],
+        [
+          144,
+          36
+        ],
+        [
+          138,
+          12
+        ],
+        [
+          146,
+          -16
+        ],
+        [
+          176,
+          -24
+        ],
+        [
+          206,
+          -16
+        ],
+        [
+          214,
+          12
+        ],
+        [
+          208,
+          36
+        ]
+      ]
+    },
+    {
+      "id": "path-trop-spine",
+      "width": 4.2,
+      "style": "sandstone",
+      "points": [
+        [
+          176,
+          72
+        ],
+        [
+          176,
+          46
+        ],
+        [
+          176,
+          12
+        ],
+        [
+          176,
+          -24
+        ],
+        [
+          176,
+          -58
+        ]
+      ]
+    },
+    {
+      "id": "path-spooky-ring",
+      "width": 4.4,
+      "style": "brick",
+      "closed": true,
+      "points": [
+        [
+          -176,
+          46
+        ],
+        [
+          -208,
+          36
+        ],
+        [
+          -214,
+          12
+        ],
+        [
+          -206,
+          -16
+        ],
+        [
+          -176,
+          -24
+        ],
+        [
+          -146,
+          -16
+        ],
+        [
+          -138,
+          12
+        ],
+        [
+          -144,
+          36
+        ]
+      ]
+    },
+    {
+      "id": "path-spooky-spine",
+      "width": 4.2,
+      "style": "brick",
+      "points": [
+        [
+          -176,
+          66
+        ],
+        [
+          -176,
+          46
+        ],
+        [
+          -176,
+          12
+        ],
+        [
+          -176,
+          -24
+        ],
+        [
+          -176,
+          -56
+        ]
+      ]
+    },
+    {
+      "id": "path-alpine-spine",
+      "width": 4.6,
+      "style": "sandstone",
+      "points": [
+        [
+          0,
+          -106
+        ],
+        [
+          0,
+          -138
+        ],
+        [
+          0,
+          -176
+        ],
+        [
+          0,
+          -214
+        ]
+      ]
+    },
+    {
+      "id": "path-alpine-ring",
+      "width": 4.4,
+      "style": "pastel_pink",
+      "closed": true,
+      "points": [
+        [
+          0,
+          -142
+        ],
+        [
+          -32,
+          -150
+        ],
+        [
+          -38,
+          -176
+        ],
+        [
+          -32,
+          -204
+        ],
+        [
+          0,
+          -212
+        ],
+        [
+          32,
+          -204
+        ],
+        [
+          38,
+          -176
+        ],
+        [
+          32,
+          -150
+        ]
+      ]
+    },
+    {
+      "id": "path-scenic-ne",
+      "width": 3.6,
+      "style": "wood",
+      "points": [
+        [
+          176,
+          -24
+        ],
+        [
+          142,
+          -62
+        ],
+        [
+          104,
+          -98
+        ],
+        [
+          66,
+          -134
+        ],
+        [
+          32,
+          -150
+        ]
+      ]
+    },
+    {
+      "id": "path-scenic-nw",
+      "width": 3.6,
+      "style": "brick",
+      "points": [
+        [
+          -176,
+          -24
+        ],
+        [
+          -142,
+          -62
+        ],
+        [
+          -104,
+          -98
+        ],
+        [
+          -66,
+          -134
+        ],
+        [
+          -32,
+          -150
+        ]
+      ]
+    },
+    {
+      "id": "path-scenic-se",
+      "width": 3.6,
+      "style": "sandstone",
+      "points": [
+        [
+          0,
+          96
+        ],
+        [
+          56,
+          98
+        ],
+        [
+          112,
+          86
+        ],
+        [
+          156,
+          56
+        ],
+        [
+          176,
+          46
+        ]
+      ]
+    },
+    {
+      "id": "path-scenic-sw",
+      "width": 3.6,
+      "style": "sandstone",
+      "points": [
+        [
+          0,
+          96
+        ],
+        [
+          -56,
+          98
+        ],
+        [
+          -112,
+          86
+        ],
+        [
+          -156,
+          56
+        ],
+        [
+          -176,
+          46
+        ]
       ]
     }
   ],
@@ -76,80 +626,1440 @@
       "carsPerTrain": 4,
       "closed": true,
       "nodes": [
-        { "x": -40, "y": 2.4, "z": 28, "bankDeg": 0, "segment": "station" },
-        { "x": -46, "y": 2.8, "z": 6, "bankDeg": 0, "segment": "lift" },
-        { "x": -44, "y": 31.0, "z": -34, "bankDeg": 0, "segment": "normal" },
-        { "x": -14, "y": 4.4, "z": -54, "bankDeg": 46, "segment": "boost" },
-        { "x": 24, "y": 24.0, "z": -46, "bankDeg": -38, "segment": "normal" },
-        { "x": 50, "y": 6.0, "z": -16, "bankDeg": 52, "segment": "normal" },
-        { "x": 40, "y": 17.5, "z": 22, "bankDeg": -32, "segment": "normal" },
-        { "x": 10, "y": 5.4, "z": 42, "bankDeg": 28, "segment": "brake" },
-        { "x": -20, "y": 3.4, "z": 42, "bankDeg": 12, "segment": "brake" }
+        {
+          "x": -40,
+          "y": 2.4,
+          "z": 28,
+          "bankDeg": 0,
+          "segment": "station"
+        },
+        {
+          "x": -46,
+          "y": 2.8,
+          "z": 6,
+          "bankDeg": 0,
+          "segment": "lift"
+        },
+        {
+          "x": -44,
+          "y": 31,
+          "z": -34,
+          "bankDeg": 0,
+          "segment": "normal"
+        },
+        {
+          "x": -14,
+          "y": 4.4,
+          "z": -54,
+          "bankDeg": 46,
+          "segment": "boost"
+        },
+        {
+          "x": 24,
+          "y": 24,
+          "z": -46,
+          "bankDeg": -38,
+          "segment": "normal"
+        },
+        {
+          "x": 50,
+          "y": 6,
+          "z": -16,
+          "bankDeg": 52,
+          "segment": "normal"
+        },
+        {
+          "x": 40,
+          "y": 17.5,
+          "z": 22,
+          "bankDeg": -32,
+          "segment": "normal"
+        },
+        {
+          "x": 10,
+          "y": 5.4,
+          "z": 42,
+          "bankDeg": 28,
+          "segment": "brake"
+        },
+        {
+          "x": -20,
+          "y": 3.4,
+          "z": 42,
+          "bankDeg": 12,
+          "segment": "brake"
+        }
+      ]
+    },
+    {
+      "id": "coaster-atlantis-lagoon",
+      "name": "아틀란티스 아쿠아 런치 코스터",
+      "realmId": "tropical-lagoon",
+      "trackColor": "#06b6d4",
+      "spineColor": "#fde047",
+      "supportColor": "#0f766e",
+      "trainCount": 2,
+      "carsPerTrain": 4,
+      "closed": true,
+      "nodes": [
+        {
+          "x": 142.6,
+          "y": 3.2,
+          "z": 33.1,
+          "bankDeg": 0,
+          "segment": "station"
+        },
+        {
+          "x": 139,
+          "y": 3.4,
+          "z": 13.8,
+          "bankDeg": 0,
+          "segment": "boost"
+        },
+        {
+          "x": 144.3,
+          "y": 26,
+          "z": -16.2,
+          "bankDeg": 30,
+          "segment": "normal"
+        },
+        {
+          "x": 170.7,
+          "y": 4.6,
+          "z": -32,
+          "bankDeg": -46,
+          "segment": "boost"
+        },
+        {
+          "x": 198.9,
+          "y": 22,
+          "z": -25,
+          "bankDeg": 40,
+          "segment": "normal"
+        },
+        {
+          "x": 218.2,
+          "y": 5.2,
+          "z": 3.2,
+          "bankDeg": -48,
+          "segment": "normal"
+        },
+        {
+          "x": 205.9,
+          "y": 15,
+          "z": 34.9,
+          "bankDeg": 32,
+          "segment": "normal"
+        },
+        {
+          "x": 169,
+          "y": 4.4,
+          "z": 45.4,
+          "bankDeg": 18,
+          "segment": "brake"
+        }
+      ]
+    },
+    {
+      "id": "coaster-draken-spooky",
+      "name": "드라켄 90° 미드나잇 다이브",
+      "realmId": "spooky-halloween",
+      "trackColor": "#dc2626",
+      "spineColor": "#fef3c7",
+      "supportColor": "#1e1b4b",
+      "trainCount": 2,
+      "carsPerTrain": 4,
+      "closed": true,
+      "nodes": [
+        {
+          "x": -209.4,
+          "y": 2.4,
+          "z": 33.1,
+          "bankDeg": 0,
+          "segment": "station"
+        },
+        {
+          "x": -213,
+          "y": 2.8,
+          "z": 15.5,
+          "bankDeg": 0,
+          "segment": "lift"
+        },
+        {
+          "x": -209.4,
+          "y": 34,
+          "z": -10.9,
+          "bankDeg": 0,
+          "segment": "brake"
+        },
+        {
+          "x": -193.6,
+          "y": 34,
+          "z": -23.2,
+          "bankDeg": 0,
+          "segment": "brake"
+        },
+        {
+          "x": -179.5,
+          "y": 4.2,
+          "z": -33.8,
+          "bankDeg": 46,
+          "segment": "boost"
+        },
+        {
+          "x": -151.4,
+          "y": 26,
+          "z": -23.2,
+          "bankDeg": -48,
+          "segment": "normal"
+        },
+        {
+          "x": -132,
+          "y": 5.5,
+          "z": 5,
+          "bankDeg": 54,
+          "segment": "normal"
+        },
+        {
+          "x": -153.1,
+          "y": 16,
+          "z": 36.6,
+          "bankDeg": -34,
+          "segment": "normal"
+        },
+        {
+          "x": -186.6,
+          "y": 3.6,
+          "z": 43.7,
+          "bankDeg": 14,
+          "segment": "brake"
+        }
+      ]
+    },
+    {
+      "id": "coaster-texpress-alpine",
+      "name": "알파인 T-Express 우든 코스터",
+      "realmId": "alpine-winter",
+      "trackColor": "#b45309",
+      "spineColor": "#fef3c7",
+      "supportColor": "#78350f",
+      "trainCount": 2,
+      "carsPerTrain": 4,
+      "closed": true,
+      "nodes": [
+        {
+          "x": -35.2,
+          "y": 2.4,
+          "z": -153.1,
+          "bankDeg": 0,
+          "segment": "station"
+        },
+        {
+          "x": -38.7,
+          "y": 2.8,
+          "z": -172.5,
+          "bankDeg": 0,
+          "segment": "lift"
+        },
+        {
+          "x": -37,
+          "y": 31,
+          "z": -202.4,
+          "bankDeg": 0,
+          "segment": "normal"
+        },
+        {
+          "x": -10.6,
+          "y": 4.2,
+          "z": -220,
+          "bankDeg": 46,
+          "segment": "boost"
+        },
+        {
+          "x": 19.4,
+          "y": 23,
+          "z": -214.7,
+          "bankDeg": -34,
+          "segment": "normal"
+        },
+        {
+          "x": 42.2,
+          "y": 5.2,
+          "z": -186.6,
+          "bankDeg": 50,
+          "segment": "normal"
+        },
+        {
+          "x": 31.7,
+          "y": 17,
+          "z": -154.9,
+          "bankDeg": -28,
+          "segment": "normal"
+        },
+        {
+          "x": 3.5,
+          "y": 5.4,
+          "z": -140.8,
+          "bankDeg": 24,
+          "segment": "brake"
+        },
+        {
+          "x": -19.4,
+          "y": 3.4,
+          "z": -142.6,
+          "bankDeg": 10,
+          "segment": "brake"
+        }
       ]
     }
   ],
   "rides": [
-    { "id": "ride-ferris", "type": "ferris_wheel", "name": "위클리 대관람차", "x": -54, "z": -12, "rotY": 0.45, "scale": 1.0 },
-    { "id": "ride-drop", "type": "drop_tower", "name": "프론티어 벤치마크 드롭", "x": 54, "z": -16, "rotY": -0.3, "scale": 1.0 },
-    { "id": "ride-carousel", "type": "carousel", "name": "클로드 그랜드 회전목마", "x": 0, "z": 0, "rotY": 0, "scale": 1.0 },
-    { "id": "ride-pirate", "type": "pirate_ship", "name": "바이킹 어드벤처", "x": -62, "z": 24, "rotY": 0.6, "scale": 1.0 },
-    { "id": "ride-teacups", "type": "teacups", "name": "파스텔 회전 티컵", "x": 56, "z": 22, "rotY": 0, "scale": 1.0 },
-    { "id": "ride-swing", "type": "swing_tower", "name": "하늘 회전 그네", "x": 0, "z": -66, "rotY": 0, "scale": 1.0 },
-    { "id": "ride-gyro", "type": "gyro_swing", "name": "자이로 스윙 360", "x": -78, "z": -52, "rotY": 0.4, "scale": 1.0 },
-    { "id": "ride-octopus", "type": "octopus_ride", "name": "카툰 문어 라이드", "x": -34, "z": -66, "rotY": 0, "scale": 1.0 },
-    { "id": "ride-bumper", "type": "bumper_cars", "name": "파스텔 범퍼카장", "x": 42, "z": 52, "rotY": -0.25, "scale": 1.0 },
-    { "id": "ride-rocket", "type": "rocket_spinner", "name": "우주 로켓 스피너", "x": 76, "z": -48, "rotY": 0, "scale": 1.0 },
-    { "id": "ride-enterprise", "type": "enterprise_wheel", "name": "엔터프라이즈 360", "x": -44, "z": 58, "rotY": 0.3, "scale": 1.0 },
-    { "id": "ride-skytower", "type": "sky_tower", "name": "하늘 전망대 타워", "x": 82, "z": 16, "rotY": 0, "scale": 1.0 },
-    { "id": "ride-topspin", "type": "top_spin", "name": "탑 스핀 360", "x": -78, "z": 46, "rotY": 0.35, "scale": 1.0 },
-    { "id": "ride-tagada", "type": "tagada_disco", "name": "디스코 팡팡 타가다", "x": 66, "z": 66, "rotY": -0.3, "scale": 1.0 },
-    { "id": "ride-logflume", "type": "log_flume_splash", "name": "후룸라이드 스플래시", "x": -74, "z": 86, "rotY": 0, "scale": 1.0 },
-    { "id": "ride-gokart", "type": "go_kart_track", "name": "고카트 레이싱 서킷", "x": 74, "z": 92, "rotY": -0.2, "scale": 1.0 }
+    {
+      "id": "ride-ferris",
+      "type": "ferris_wheel",
+      "name": "위클리 대관람차",
+      "x": -54,
+      "z": -12,
+      "rotY": 0.45,
+      "scale": 1
+    },
+    {
+      "id": "ride-drop",
+      "type": "drop_tower",
+      "name": "프론티어 벤치마크 드롭",
+      "x": 54,
+      "z": -16,
+      "rotY": -0.3,
+      "scale": 1
+    },
+    {
+      "id": "ride-carousel",
+      "type": "carousel",
+      "name": "클로드 그랜드 회전목마",
+      "x": 0,
+      "z": 0,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "ride-pirate",
+      "type": "pirate_ship",
+      "name": "바이킹 어드벤처",
+      "x": -62,
+      "z": 24,
+      "rotY": 0.6,
+      "scale": 1
+    },
+    {
+      "id": "ride-teacups",
+      "type": "teacups",
+      "name": "파스텔 회전 티컵",
+      "x": 56,
+      "z": 22,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "ride-swing",
+      "type": "swing_tower",
+      "name": "하늘 회전 그네",
+      "x": 0,
+      "z": -66,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "ride-gyro",
+      "type": "gyro_swing",
+      "name": "자이로 스윙 360",
+      "x": -72,
+      "z": -48,
+      "rotY": 0.4,
+      "scale": 1
+    },
+    {
+      "id": "ride-octopus",
+      "type": "octopus_ride",
+      "name": "카툰 문어 라이드",
+      "x": -34,
+      "z": -66,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "ride-bumper",
+      "type": "bumper_cars",
+      "name": "파스텔 범퍼카장",
+      "x": 42,
+      "z": 52,
+      "rotY": -0.25,
+      "scale": 1
+    },
+    {
+      "id": "ride-rocket",
+      "type": "rocket_spinner",
+      "name": "우주 로켓 스피너",
+      "x": 72,
+      "z": -46,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "ride-enterprise",
+      "type": "enterprise_wheel",
+      "name": "엔터프라이즈 360",
+      "x": -44,
+      "z": 58,
+      "rotY": 0.3,
+      "scale": 1
+    },
+    {
+      "id": "ride-skytower",
+      "type": "sky_tower",
+      "name": "하늘 전망대 타워",
+      "x": 74,
+      "z": 26,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "ride-topspin",
+      "type": "top_spin",
+      "name": "탑 스핀 360",
+      "x": -74,
+      "z": 48,
+      "rotY": 0.35,
+      "scale": 1
+    },
+    {
+      "id": "ride-tagada",
+      "type": "tagada_disco",
+      "name": "디스코 팡팡 타가다",
+      "x": 66,
+      "z": 66,
+      "rotY": -0.3,
+      "scale": 1
+    },
+    {
+      "id": "ride-logflume",
+      "type": "log_flume_splash",
+      "name": "후룸라이드 스플래시",
+      "x": -66,
+      "z": 82,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "ride-gokart",
+      "type": "go_kart_track",
+      "name": "고카트 레이싱 서킷",
+      "x": 60,
+      "z": 90,
+      "rotY": -0.2,
+      "scale": 1
+    },
+    {
+      "id": "ride-trop-octopus",
+      "type": "octopus_ride",
+      "name": "트로피컬 문어 라이드",
+      "x": 176,
+      "z": 12,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "ride-trop-logflume",
+      "type": "log_flume_splash",
+      "name": "라군 후룸라이드",
+      "x": 134,
+      "z": 42,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "ride-trop-swans",
+      "type": "swan_boats_pond",
+      "name": "에메랄드 백조 보트",
+      "x": 218,
+      "z": 42,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "ride-trop-pirate",
+      "type": "pirate_ship",
+      "name": "카리브 바이킹",
+      "x": 130,
+      "z": -14,
+      "rotY": 0.5,
+      "scale": 1
+    },
+    {
+      "id": "ride-trop-ferris",
+      "type": "ferris_wheel",
+      "name": "선셋 비치 대관람차",
+      "x": 224,
+      "z": -12,
+      "rotY": -0.4,
+      "scale": 1
+    },
+    {
+      "id": "ride-trop-enterprise",
+      "type": "enterprise_wheel",
+      "name": "오션 엔터프라이즈 360",
+      "x": 148,
+      "z": -54,
+      "rotY": 0.2,
+      "scale": 1
+    },
+    {
+      "id": "ride-trop-condor",
+      "type": "condor_tower",
+      "name": "아일랜드 콘도르 타워",
+      "x": 206,
+      "z": -54,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "ride-trop-tagada",
+      "type": "tagada_disco",
+      "name": "비치 디스코 타가다",
+      "x": 212,
+      "z": 74,
+      "rotY": -0.3,
+      "scale": 1
+    },
+    {
+      "id": "ride-trop-bungee",
+      "type": "bungee_trampoline",
+      "name": "라군 슬링샷 번지",
+      "x": 142,
+      "z": 74,
+      "rotY": 0.3,
+      "scale": 1
+    },
+    {
+      "id": "ride-spooky-haunted",
+      "type": "haunted_house",
+      "name": "유령의 집 스푸키 매너",
+      "x": -176,
+      "z": -64,
+      "rotY": 0,
+      "scale": 1.15
+    },
+    {
+      "id": "ride-spooky-gravitron",
+      "type": "gravitron_ufo",
+      "name": "팬텀 그래비톤 UFO",
+      "x": -176,
+      "z": 12,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "ride-spooky-frisbee",
+      "type": "frisbee_pendulum",
+      "name": "미드나잇 자이언트 프리즈비",
+      "x": -224,
+      "z": -6,
+      "rotY": 0.4,
+      "scale": 1
+    },
+    {
+      "id": "ride-spooky-topspin",
+      "type": "top_spin",
+      "name": "고딕 탑 스핀 360",
+      "x": -128,
+      "z": -14,
+      "rotY": -0.4,
+      "scale": 1
+    },
+    {
+      "id": "ride-spooky-powersurge",
+      "type": "power_surge",
+      "name": "다크 파워 서지",
+      "x": -222,
+      "z": 38,
+      "rotY": 0.3,
+      "scale": 1
+    },
+    {
+      "id": "ride-spooky-magiccarpet",
+      "type": "magic_carpet",
+      "name": "마녀의 매직카펫",
+      "x": -130,
+      "z": 38,
+      "rotY": -0.3,
+      "scale": 1
+    },
+    {
+      "id": "ride-spooky-drop",
+      "type": "drop_tower",
+      "name": "공포의 드롭타워",
+      "x": -212,
+      "z": -52,
+      "rotY": 0.3,
+      "scale": 1
+    },
+    {
+      "id": "ride-spooky-bungee",
+      "type": "bungee_trampoline",
+      "name": "문라이트 번지 슬링샷",
+      "x": -140,
+      "z": -52,
+      "rotY": -0.3,
+      "scale": 1
+    },
+    {
+      "id": "ride-spooky-scrambler",
+      "type": "scrambler_twist",
+      "name": "스파이더 스크램블러",
+      "x": -176,
+      "z": 68,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "ride-alpine-carousel",
+      "type": "carousel",
+      "name": "눈꽃 그랜드 회전목마",
+      "x": 0,
+      "z": -176,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "ride-alpine-train",
+      "type": "mini_train_station",
+      "name": "북극 익스프레스 미니열차",
+      "x": -54,
+      "z": -156,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "ride-alpine-gokart",
+      "type": "go_kart_track",
+      "name": "아이스 고카트 서킷",
+      "x": 54,
+      "z": -156,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "ride-alpine-ferris",
+      "type": "ferris_wheel",
+      "name": "설원 대관람차",
+      "x": -58,
+      "z": -192,
+      "rotY": 0.4,
+      "scale": 1
+    },
+    {
+      "id": "ride-alpine-skytower",
+      "type": "sky_tower",
+      "name": "알파인 전망대 타워",
+      "x": 58,
+      "z": -192,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "ride-alpine-teacups",
+      "type": "teacups",
+      "name": "코코아 회전 티컵",
+      "x": -34,
+      "z": -226,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "ride-alpine-bumper",
+      "type": "bumper_cars",
+      "name": "스노우 범퍼카장",
+      "x": 34,
+      "z": -226,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "ride-alpine-swing",
+      "type": "swing_tower",
+      "name": "스노우플라이어 그네",
+      "x": 0,
+      "z": -226,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "ride-alpine-rocket",
+      "type": "rocket_spinner",
+      "name": "오로라 로켓 스피너",
+      "x": 60,
+      "z": -124,
+      "rotY": 0,
+      "scale": 1
+    }
   ],
   "pavilions": [
-    { "id": "pav-plugins", "archiveKey": "plugins", "title": "인기 플러그인 공방", "accent": "#ff7657", "x": -24, "z": 26, "rotY": 0.42 },
-    { "id": "pav-news", "archiveKey": "news", "title": "AI 뉴스 아이맥스 극장", "accent": "#38bdf8", "x": 24, "z": 26, "rotY": -0.42 },
-    { "id": "pav-social", "archiveKey": "social", "title": "소셜 피드 가든 라운지", "accent": "#f472b6", "x": -28, "z": -26, "rotY": 2.4 },
-    { "id": "pav-benchmarks", "archiveKey": "benchmarks", "title": "벤치마크 천문 관측소", "accent": "#34d399", "x": 28, "z": -26, "rotY": -2.4 }
+    {
+      "id": "pav-plugins",
+      "archiveKey": "plugins",
+      "title": "인기 플러그인 공방",
+      "accent": "#ff7657",
+      "x": -24,
+      "z": 26,
+      "rotY": 0.42
+    },
+    {
+      "id": "pav-news",
+      "archiveKey": "news",
+      "title": "AI 뉴스 아이맥스 극장",
+      "accent": "#38bdf8",
+      "x": 24,
+      "z": 26,
+      "rotY": -0.42
+    },
+    {
+      "id": "pav-social",
+      "archiveKey": "social",
+      "title": "소셜 피드 가든 라운지",
+      "accent": "#f472b6",
+      "x": -28,
+      "z": -26,
+      "rotY": 2.4
+    },
+    {
+      "id": "pav-benchmarks",
+      "archiveKey": "benchmarks",
+      "title": "벤치마크 천문 관측소",
+      "accent": "#34d399",
+      "x": 28,
+      "z": -26,
+      "rotY": -2.4
+    }
   ],
   "scenery": [
-    { "id": "scn-gate", "type": "grand_arch", "x": 0, "z": 110, "rotY": 0, "scale": 1.28 },
-    { "id": "scn-garland-1", "type": "garland_arch", "x": 0, "z": 84, "rotY": 0, "scale": 1.05 },
-    { "id": "scn-garland-2", "type": "garland_arch", "x": 0, "z": 58, "rotY": 0, "scale": 1.0 },
-    { "id": "scn-castle", "type": "fairy_castle", "x": 0, "z": -92, "rotY": 0, "scale": 1.15 },
-    { "id": "scn-fountain-1", "type": "fountain", "x": 0, "z": 24, "rotY": 0, "scale": 1.0 },
-    { "id": "scn-billboard", "type": "ai_billboard", "x": 0, "z": -38, "rotY": 0, "scale": 1.0 },
-    { "id": "scn-cafe-1", "type": "cafe_icecream", "x": -12, "z": 36, "rotY": 0.4, "scale": 1.0 },
-    { "id": "scn-popcorn-1", "type": "popcorn_cart", "x": 11, "z": 36, "rotY": -0.4, "scale": 1.0 },
-    { "id": "scn-burger-1", "type": "burger_shop", "x": -22, "z": 74, "rotY": 0.5, "scale": 1.0 },
-    { "id": "scn-clock-1", "type": "clock_tower", "x": 22, "z": 74, "rotY": -0.5, "scale": 1.0 },
-    { "id": "scn-balloon-1", "type": "balloon_stall", "x": -14, "z": 16, "rotY": 0.6, "scale": 1.0 },
-    { "id": "scn-fw-1", "type": "firework_launcher", "x": 14, "z": 16, "rotY": 0, "scale": 1.0 },
-    { "id": "scn-photo-1", "type": "heart_photozone", "x": 14, "z": 92, "rotY": -0.35, "scale": 1.0 },
-    { "id": "scn-statue-1", "type": "mascot_statue", "x": -14, "z": 92, "rotY": 0.35, "scale": 1.0 },
-    { "id": "scn-flower-1", "type": "flower_bed", "x": -9, "z": 24, "rotY": 0, "scale": 1.0 },
-    { "id": "scn-flower-2", "type": "flower_bed", "x": 9, "z": 24, "rotY": 0, "scale": 1.0 },
-    { "id": "scn-flower-3", "type": "flower_bed", "x": -11, "z": 118, "rotY": 0, "scale": 1.1 },
-    { "id": "scn-flower-4", "type": "flower_bed", "x": 11, "z": 118, "rotY": 0, "scale": 1.1 },
-    { "id": "scn-bench-1", "type": "bench", "x": -6, "z": 18, "rotY": 0.7, "scale": 1.0 },
-    { "id": "scn-bench-2", "type": "bench", "x": 6, "z": 18, "rotY": -0.7, "scale": 1.0 },
-    { "id": "scn-bench-3", "type": "bench", "x": -7, "z": 74, "rotY": 1.57, "scale": 1.0 },
-    { "id": "scn-bench-4", "type": "bench", "x": 7, "z": 74, "rotY": -1.57, "scale": 1.0 },
-    { "id": "scn-tree-1", "type": "tree_sakura", "x": -16, "z": 102, "rotY": 0.4, "scale": 1.25 },
-    { "id": "scn-tree-2", "type": "tree_sakura", "x": 16, "z": 102, "rotY": 1.8, "scale": 1.2 },
-    { "id": "scn-tree-3", "type": "tree_sakura", "x": -16, "z": 10, "rotY": 0.9, "scale": 1.1 },
-    { "id": "scn-tree-4", "type": "tree_sakura", "x": 16, "z": 10, "rotY": 2.2, "scale": 1.1 },
-    { "id": "scn-tree-5", "type": "tree_pine", "x": -68, "z": -38, "rotY": 0.3, "scale": 1.4 },
-    { "id": "scn-tree-6", "type": "tree_pine", "x": 68, "z": -38, "rotY": 1.1, "scale": 1.4 },
-    { "id": "scn-tree-7", "type": "tree_oak", "x": -44, "z": 46, "rotY": 0.5, "scale": 1.25 },
-    { "id": "scn-tree-8", "type": "tree_palm", "x": 68, "z": 48, "rotY": 1.2, "scale": 1.2 },
-    { "id": "scn-tree-9", "type": "tree_sakura", "x": -18, "z": 120, "rotY": 1.1, "scale": 1.2 },
-    { "id": "scn-tree-10", "type": "tree_sakura", "x": 18, "z": 120, "rotY": 2.6, "scale": 1.2 },
-    { "id": "scn-lamp-1", "type": "lamp_post", "x": -5.5, "z": 98, "rotY": 0, "scale": 1.0 },
-    { "id": "scn-lamp-2", "type": "lamp_post", "x": 5.5, "z": 98, "rotY": 0, "scale": 1.0 },
-    { "id": "scn-lamp-3", "type": "lamp_post", "x": -5.5, "z": 70, "rotY": 0, "scale": 1.0 },
-    { "id": "scn-lamp-4", "type": "lamp_post", "x": 5.5, "z": 70, "rotY": 0, "scale": 1.0 },
-    { "id": "scn-lamp-5", "type": "lamp_post", "x": -18, "z": 0, "rotY": 0, "scale": 1.0 },
-    { "id": "scn-lamp-6", "type": "lamp_post", "x": 18, "z": 0, "rotY": 0, "scale": 1.0 }
+    {
+      "id": "scn-gate",
+      "type": "grand_arch",
+      "x": 0,
+      "z": 110,
+      "rotY": 0,
+      "scale": 1.28
+    },
+    {
+      "id": "scn-garland-1",
+      "type": "garland_arch",
+      "x": 0,
+      "z": 84,
+      "rotY": 0,
+      "scale": 1.05
+    },
+    {
+      "id": "scn-garland-2",
+      "type": "garland_arch",
+      "x": 0,
+      "z": 58,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "scn-castle",
+      "type": "fairy_castle",
+      "x": 0,
+      "z": -84,
+      "rotY": 0,
+      "scale": 1.15
+    },
+    {
+      "id": "scn-fountain-1",
+      "type": "fountain",
+      "x": 0,
+      "z": 24,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "scn-billboard",
+      "type": "ai_billboard",
+      "x": 0,
+      "z": -38,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "scn-cafe-1",
+      "type": "cafe_icecream",
+      "x": -12,
+      "z": 36,
+      "rotY": 0.4,
+      "scale": 1
+    },
+    {
+      "id": "scn-popcorn-1",
+      "type": "popcorn_cart",
+      "x": 11,
+      "z": 36,
+      "rotY": -0.4,
+      "scale": 1
+    },
+    {
+      "id": "scn-burger-1",
+      "type": "burger_shop",
+      "x": -22,
+      "z": 74,
+      "rotY": 0.5,
+      "scale": 1
+    },
+    {
+      "id": "scn-clock-1",
+      "type": "clock_tower",
+      "x": 22,
+      "z": 74,
+      "rotY": -0.5,
+      "scale": 1
+    },
+    {
+      "id": "scn-balloon-1",
+      "type": "balloon_stall",
+      "x": -14,
+      "z": 16,
+      "rotY": 0.6,
+      "scale": 1
+    },
+    {
+      "id": "scn-fw-1",
+      "type": "firework_launcher",
+      "x": 14,
+      "z": 16,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "scn-photo-1",
+      "type": "heart_photozone",
+      "x": 14,
+      "z": 92,
+      "rotY": -0.35,
+      "scale": 1
+    },
+    {
+      "id": "scn-statue-1",
+      "type": "mascot_statue",
+      "x": -14,
+      "z": 92,
+      "rotY": 0.35,
+      "scale": 1
+    },
+    {
+      "id": "scn-flower-1",
+      "type": "flower_bed",
+      "x": -9,
+      "z": 24,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "scn-flower-2",
+      "type": "flower_bed",
+      "x": 9,
+      "z": 24,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "scn-flower-3",
+      "type": "flower_bed",
+      "x": -11,
+      "z": 118,
+      "rotY": 0,
+      "scale": 1.1
+    },
+    {
+      "id": "scn-flower-4",
+      "type": "flower_bed",
+      "x": 11,
+      "z": 118,
+      "rotY": 0,
+      "scale": 1.1
+    },
+    {
+      "id": "scn-bench-1",
+      "type": "bench",
+      "x": -6,
+      "z": 18,
+      "rotY": 0.7,
+      "scale": 1
+    },
+    {
+      "id": "scn-bench-2",
+      "type": "bench",
+      "x": 6,
+      "z": 18,
+      "rotY": -0.7,
+      "scale": 1
+    },
+    {
+      "id": "scn-bench-3",
+      "type": "bench",
+      "x": -7,
+      "z": 74,
+      "rotY": 1.57,
+      "scale": 1
+    },
+    {
+      "id": "scn-bench-4",
+      "type": "bench",
+      "x": 7,
+      "z": 74,
+      "rotY": -1.57,
+      "scale": 1
+    },
+    {
+      "id": "scn-tree-1",
+      "type": "tree_sakura",
+      "x": -16,
+      "z": 102,
+      "rotY": 0.4,
+      "scale": 1.25
+    },
+    {
+      "id": "scn-tree-2",
+      "type": "tree_sakura",
+      "x": 16,
+      "z": 102,
+      "rotY": 1.8,
+      "scale": 1.2
+    },
+    {
+      "id": "scn-tree-3",
+      "type": "tree_sakura",
+      "x": -16,
+      "z": 10,
+      "rotY": 0.9,
+      "scale": 1.1
+    },
+    {
+      "id": "scn-tree-4",
+      "type": "tree_sakura",
+      "x": 16,
+      "z": 10,
+      "rotY": 2.2,
+      "scale": 1.1
+    },
+    {
+      "id": "scn-tree-5",
+      "type": "tree_pine",
+      "x": -68,
+      "z": -38,
+      "rotY": 0.3,
+      "scale": 1.4
+    },
+    {
+      "id": "scn-tree-6",
+      "type": "tree_pine",
+      "x": 68,
+      "z": -38,
+      "rotY": 1.1,
+      "scale": 1.4
+    },
+    {
+      "id": "scn-tree-7",
+      "type": "tree_oak",
+      "x": -44,
+      "z": 46,
+      "rotY": 0.5,
+      "scale": 1.25
+    },
+    {
+      "id": "scn-tree-8",
+      "type": "tree_palm",
+      "x": 68,
+      "z": 48,
+      "rotY": 1.2,
+      "scale": 1.2
+    },
+    {
+      "id": "scn-tree-9",
+      "type": "tree_sakura",
+      "x": -18,
+      "z": 120,
+      "rotY": 1.1,
+      "scale": 1.2
+    },
+    {
+      "id": "scn-tree-10",
+      "type": "tree_sakura",
+      "x": 18,
+      "z": 120,
+      "rotY": 2.6,
+      "scale": 1.2
+    },
+    {
+      "id": "scn-lamp-1",
+      "type": "lamp_post",
+      "x": -5.5,
+      "z": 98,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "scn-lamp-2",
+      "type": "lamp_post",
+      "x": 5.5,
+      "z": 98,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "scn-lamp-3",
+      "type": "lamp_post",
+      "x": -5.5,
+      "z": 70,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "scn-lamp-4",
+      "type": "lamp_post",
+      "x": 5.5,
+      "z": 70,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "scn-lamp-5",
+      "type": "lamp_post",
+      "x": -18,
+      "z": 0,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "scn-lamp-6",
+      "type": "lamp_post",
+      "x": 18,
+      "z": 0,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "scn-gate-tropical",
+      "type": "zone_gate_tropical",
+      "x": 102,
+      "z": 0,
+      "rotY": 1.5707963267948966,
+      "scale": 1.15
+    },
+    {
+      "id": "scn-trop-neon",
+      "type": "neon_arch",
+      "x": 132,
+      "z": 8,
+      "rotY": 1.319468914507713,
+      "scale": 1
+    },
+    {
+      "id": "scn-trop-fountain",
+      "type": "fountain",
+      "x": 176,
+      "z": 36,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "scn-trop-hotair",
+      "type": "hot_air_pad",
+      "x": 176,
+      "z": -68,
+      "rotY": 0,
+      "scale": 1.12
+    },
+    {
+      "id": "scn-trop-cafe",
+      "type": "cafe_icecream",
+      "x": 162,
+      "z": 54,
+      "rotY": 0.4,
+      "scale": 1
+    },
+    {
+      "id": "scn-trop-burger",
+      "type": "burger_shop",
+      "x": 190,
+      "z": 54,
+      "rotY": -0.4,
+      "scale": 1
+    },
+    {
+      "id": "scn-trop-souvenir",
+      "type": "souvenir_shop",
+      "x": 120,
+      "z": 16,
+      "rotY": 0.3,
+      "scale": 1
+    },
+    {
+      "id": "scn-trop-photo",
+      "type": "heart_photozone",
+      "x": 176,
+      "z": 76,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "scn-trop-palm-1",
+      "type": "tree_palm",
+      "x": 112,
+      "z": -12,
+      "rotY": 0.2,
+      "scale": 1.35
+    },
+    {
+      "id": "scn-trop-palm-2",
+      "type": "tree_palm",
+      "x": 112,
+      "z": 14,
+      "rotY": 2.1,
+      "scale": 1.35
+    },
+    {
+      "id": "scn-trop-palm-3",
+      "type": "tree_palm",
+      "x": 152,
+      "z": 24,
+      "rotY": 0.8,
+      "scale": 1.3
+    },
+    {
+      "id": "scn-trop-palm-4",
+      "type": "tree_palm",
+      "x": 200,
+      "z": 24,
+      "rotY": 1.9,
+      "scale": 1.3
+    },
+    {
+      "id": "scn-trop-palm-5",
+      "type": "tree_palm",
+      "x": 234,
+      "z": 18,
+      "rotY": 0.5,
+      "scale": 1.4
+    },
+    {
+      "id": "scn-trop-palm-6",
+      "type": "tree_palm",
+      "x": 156,
+      "z": -26,
+      "rotY": 2.5,
+      "scale": 1.35
+    },
+    {
+      "id": "scn-trop-palm-7",
+      "type": "tree_palm",
+      "x": 198,
+      "z": -26,
+      "rotY": 1.1,
+      "scale": 1.35
+    },
+    {
+      "id": "scn-trop-palm-8",
+      "type": "tree_palm",
+      "x": 234,
+      "z": 62,
+      "rotY": 2.8,
+      "scale": 1.45
+    },
+    {
+      "id": "scn-trop-lamp-1",
+      "type": "lamp_post",
+      "x": 118,
+      "z": -6,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "scn-trop-lamp-2",
+      "type": "lamp_post",
+      "x": 118,
+      "z": 8,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "scn-gate-spooky",
+      "type": "zone_gate_spooky",
+      "x": -102,
+      "z": 0,
+      "rotY": 1.5707963267948966,
+      "scale": 1.15
+    },
+    {
+      "id": "scn-spooky-neon",
+      "type": "neon_arch",
+      "x": -132,
+      "z": 8,
+      "rotY": -1.319468914507713,
+      "scale": 1.05
+    },
+    {
+      "id": "scn-spooky-clock",
+      "type": "clock_tower",
+      "x": -194,
+      "z": 54,
+      "rotY": 0.4,
+      "scale": 1.15
+    },
+    {
+      "id": "scn-spooky-maze",
+      "type": "hedge_maze",
+      "x": -156,
+      "z": 54,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "scn-spooky-fw",
+      "type": "firework_launcher",
+      "x": -176,
+      "z": 36,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "scn-spooky-popcorn",
+      "type": "popcorn_cart",
+      "x": -162,
+      "z": 34,
+      "rotY": 0.4,
+      "scale": 1
+    },
+    {
+      "id": "scn-spooky-cotton",
+      "type": "cotton_candy_stall",
+      "x": -190,
+      "z": 34,
+      "rotY": -0.4,
+      "scale": 1
+    },
+    {
+      "id": "scn-spooky-pine-1",
+      "type": "tree_pine",
+      "x": -112,
+      "z": -12,
+      "rotY": 0.2,
+      "scale": 1.4
+    },
+    {
+      "id": "scn-spooky-pine-2",
+      "type": "tree_pine",
+      "x": -112,
+      "z": 14,
+      "rotY": 1.2,
+      "scale": 1.4
+    },
+    {
+      "id": "scn-spooky-pine-3",
+      "type": "tree_pine",
+      "x": -234,
+      "z": 18,
+      "rotY": 0.8,
+      "scale": 1.45
+    },
+    {
+      "id": "scn-spooky-pine-4",
+      "type": "tree_pine",
+      "x": -234,
+      "z": 62,
+      "rotY": 2.1,
+      "scale": 1.5
+    },
+    {
+      "id": "scn-spooky-pine-5",
+      "type": "tree_pine",
+      "x": -154,
+      "z": -28,
+      "rotY": 0.5,
+      "scale": 1.35
+    },
+    {
+      "id": "scn-spooky-pine-6",
+      "type": "tree_pine",
+      "x": -198,
+      "z": -28,
+      "rotY": 1.7,
+      "scale": 1.35
+    },
+    {
+      "id": "scn-spooky-lamp-1",
+      "type": "lamp_post",
+      "x": -118,
+      "z": -6,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "scn-spooky-lamp-2",
+      "type": "lamp_post",
+      "x": -118,
+      "z": 8,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "scn-spooky-lamp-3",
+      "type": "lamp_post",
+      "x": -170,
+      "z": -38,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "scn-spooky-lamp-4",
+      "type": "lamp_post",
+      "x": -182,
+      "z": -38,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "scn-gate-alpine",
+      "type": "zone_gate_alpine",
+      "x": 0,
+      "z": -106,
+      "rotY": 0,
+      "scale": 1.15
+    },
+    {
+      "id": "scn-alpine-garland",
+      "type": "garland_arch",
+      "x": 0,
+      "z": -126,
+      "rotY": 0,
+      "scale": 1.05
+    },
+    {
+      "id": "scn-alpine-fountain",
+      "type": "fountain",
+      "x": 0,
+      "z": -148,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "scn-alpine-clock",
+      "type": "clock_tower",
+      "x": -18,
+      "z": -130,
+      "rotY": 0.4,
+      "scale": 1.1
+    },
+    {
+      "id": "scn-alpine-souvenir",
+      "type": "souvenir_shop",
+      "x": 18,
+      "z": -130,
+      "rotY": -0.4,
+      "scale": 1
+    },
+    {
+      "id": "scn-alpine-cotton",
+      "type": "cotton_candy_stall",
+      "x": -14,
+      "z": -154,
+      "rotY": 0.4,
+      "scale": 1
+    },
+    {
+      "id": "scn-alpine-restroom",
+      "type": "restroom_plaza",
+      "x": 14,
+      "z": -154,
+      "rotY": -0.4,
+      "scale": 1
+    },
+    {
+      "id": "scn-alpine-pine-1",
+      "type": "tree_pine",
+      "x": -14,
+      "z": -112,
+      "rotY": 0.2,
+      "scale": 1.45
+    },
+    {
+      "id": "scn-alpine-pine-2",
+      "type": "tree_pine",
+      "x": 14,
+      "z": -112,
+      "rotY": 1.2,
+      "scale": 1.45
+    },
+    {
+      "id": "scn-alpine-pine-3",
+      "type": "tree_pine",
+      "x": -24,
+      "z": -142,
+      "rotY": 0.6,
+      "scale": 1.35
+    },
+    {
+      "id": "scn-alpine-pine-4",
+      "type": "tree_pine",
+      "x": 24,
+      "z": -142,
+      "rotY": 2,
+      "scale": 1.35
+    },
+    {
+      "id": "scn-alpine-pine-5",
+      "type": "tree_pine",
+      "x": -78,
+      "z": -178,
+      "rotY": 0.4,
+      "scale": 1.65
+    },
+    {
+      "id": "scn-alpine-pine-6",
+      "type": "tree_pine",
+      "x": 78,
+      "z": -178,
+      "rotY": 1.5,
+      "scale": 1.65
+    },
+    {
+      "id": "scn-alpine-pine-7",
+      "type": "tree_pine",
+      "x": -74,
+      "z": -212,
+      "rotY": 0.9,
+      "scale": 1.75
+    },
+    {
+      "id": "scn-alpine-pine-8",
+      "type": "tree_pine",
+      "x": 74,
+      "z": -212,
+      "rotY": 2.3,
+      "scale": 1.75
+    },
+    {
+      "id": "scn-alpine-lamp-1",
+      "type": "lamp_post",
+      "x": -6,
+      "z": -118,
+      "rotY": 0,
+      "scale": 1
+    },
+    {
+      "id": "scn-alpine-lamp-2",
+      "type": "lamp_post",
+      "x": 6,
+      "z": -118,
+      "rotY": 0,
+      "scale": 1
+    }
   ]
 }

@@ -254,10 +254,39 @@ export class ParkAudioEngine {
     }
   }
 
+  /** Soft musical 3-note chime tailored to each themed realm on border crossing */
+  playZoneTransitionChime(zoneId) {
+    if (!this.enabled) return;
+    const ctx = this._ensureContext();
+    if (!ctx) return;
+    const chords = {
+      "sunlit-meadow": { notes: [523.25, 659.25, 783.99], type: "triangle", vol: 0.036 },
+      "tropical-lagoon": { notes: [587.33, 739.99, 880.0, 1174.66], type: "sine", vol: 0.034 },
+      "spooky-halloween": { notes: [329.63, 392.0, 466.16], type: "sine", vol: 0.038 },
+      "alpine-winter": { notes: [880.0, 1046.5, 1318.5], type: "sine", vol: 0.030 },
+    };
+    const cfg = chords[zoneId] || chords["sunlit-meadow"];
+    const now = ctx.currentTime;
+    cfg.notes.forEach((hz, idx) => {
+      const osc = ctx.createOscillator();
+      const g = ctx.createGain();
+      osc.type = cfg.type;
+      const t0 = now + idx * 0.085;
+      osc.frequency.setValueAtTime(hz, t0);
+      g.gain.setValueAtTime(0.0005, t0);
+      g.gain.linearRampToValueAtTime(cfg.vol, t0 + 0.025);
+      g.gain.exponentialRampToValueAtTime(0.0004, t0 + 0.42);
+      osc.connect(g);
+      g.connect(ctx.destination);
+      osc.start(t0);
+      osc.stop(t0 + 0.45);
+    });
+  }
+
   /**
    * Updates both active 1st-person ride audio AND 3D spatial proximity ride soundscape.
    */
-  updateRideSound(dt, rideSeat, { listenerPos = null, flatRideEngine = null, isRaining = false } = {}) {
+  updateRideSound(dt, rideSeat, { listenerPos = null, flatRideEngine = null, isRaining = false, zoneId = "sunlit-meadow" } = {}) {
     const stepDt = Math.min(dt, 0.05);
     this._cheerCooldown = Math.max(0, this._cheerCooldown - stepDt);
     this._coinCooldown = Math.max(0, this._coinCooldown - stepDt);
@@ -337,7 +366,16 @@ export class ParkAudioEngine {
         }
       }
     } else {
-      this.windGain.gain.setTargetAtTime(0.0001, now, 0.14);
+      // Gentle biome-specific ambient wind color when strolling freely
+      const ambientProfiles = {
+        "sunlit-meadow": { gain: 0.0001, freq: 320 },
+        "tropical-lagoon": { gain: 0.009, freq: 440 },
+        "spooky-halloween": { gain: 0.011, freq: 210 },
+        "alpine-winter": { gain: 0.008, freq: 680 },
+      };
+      const amb = ambientProfiles[zoneId] || ambientProfiles["sunlit-meadow"];
+      this.windGain.gain.setTargetAtTime(amb.gain, now, 0.25);
+      this.windFilter.frequency.setTargetAtTime(amb.freq, now, 0.25);
     }
   }
 
