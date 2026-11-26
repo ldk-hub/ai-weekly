@@ -278,7 +278,7 @@ function openStarboardModal(id) {
     ${topics ? `<div class="m-tags">${topics}</div>` : ""}
     <div class="m-cta-row">
       <a class="m-cta" href="https://github.com/${escapeHTML(item.id)}" target="_blank" rel="noopener">
-        GitHub 저장소 열기 →
+        GitHub 저장소 열기 ↗
       </a>
     </div>
   `;
@@ -409,9 +409,9 @@ function starboardCardHTML(item, idx, legendText) {
       ${descHtml}
       
       <div class="sb-foot-row" style="display:flex; justify-content:space-between; align-items:center; margin-top:auto; padding-top:6px;">
-        <span style="font-size:12px; color:var(--muted);">클릭하여 관측 추이 상세 보기</span>
+        <span style="font-size:12px; color:var(--muted);">최근 14일 추이</span>
         <a class="repo-link" href="https://github.com/${safeId}" target="_blank" rel="noopener" style="margin:0; font-size:13px; font-weight:600;">
-          GITHUB <span class="arrow">→</span>
+          GitHub <span class="arrow">↗</span>
         </a>
       </div>
       

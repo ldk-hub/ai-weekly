@@ -433,7 +433,7 @@ function openBenchmarkModelModal(modelName) {
       <a class="m-cta-ghost" href="https://lmarena.ai/leaderboard" target="_blank" rel="noopener">LMArena ↗</a>
       <a class="m-cta-ghost" href="https://artificialanalysis.ai/leaderboards/models" target="_blank" rel="noopener">Artificial Analysis ↗</a>
       <a class="m-cta" href="${orUrl}" target="_blank" rel="noopener">
-        OpenRouter에서 모델 보기 →
+        OpenRouter에서 모델 보기 ↗
       </a>
     </div>
   `;
@@ -689,8 +689,7 @@ function renderBenchmarks() {
       ${visible.map(m => th(m.id, m.label, m.sub)).join("")}
       ${th("price", "가격", "OpenRouter · $/1M 입력·출력")}
       <th class="num">컨텍스트</th>
-    </tr>
-    <tr><th class="bm-hint-row" colspan="${4 + visible.length}">열 제목을 누르면 정렬 · 모델 행을 클릭하면 3대 리더보드 8개 세부 지표 모달이 열립니다</th></tr>`;
+    </tr>`;
 
   const body = sortedMs.map((m, i) => {
     const cells = visible.map(x => {

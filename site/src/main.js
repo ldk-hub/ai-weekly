@@ -580,7 +580,7 @@ function cardHTML(item, idx) {
           ${tagChips ? `<span class="card-tags-inline">${tagChips}</span>` : ""}
         </span>
         <a class="repo-link" href="${escapeHTML(item.official_url || "#")}" target="_blank" rel="noopener">
-          GITHUB <span class="arrow">→</span>
+          GitHub <span class="arrow">↗</span>
         </a>
       </div>
     </article>
@@ -646,7 +646,7 @@ function modalHTML(item, tab, rank) {
     ? `<div class="m-section"><div class="m-label">설치 명령어</div>
          <div class="m-install" style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
            <code>${escapeHTML(rawHint)}</code>
-           <button type="button" class="cli-copy-chip" data-copy-cli="${escapeHTML(rawHint)}" data-cmd="${escapeHTML(rawHint)}" title="명령어 복사">📋 복사</button>
+           <button type="button" class="cli-copy-chip" data-copy-cli="${escapeHTML(rawHint)}" data-cmd="${escapeHTML(rawHint)}" title="명령어 복사">복사</button>
          </div>
        </div>`
     : "";
@@ -681,7 +681,7 @@ function modalHTML(item, tab, rank) {
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="vertical-align:-1px;margin-right:4px;"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>정보 복사
       </button>
       <a class="m-cta" href="${escapeHTML(item.official_url || "#")}" target="_blank" rel="noopener">
-        GitHub에서 열기 →
+        GitHub에서 열기 ↗
       </a>
     </div>
   `;
@@ -1576,7 +1576,7 @@ function getCriteriaHTML() {
   <p class="cr-foot">카테고리별 정원 내 점수순 선별 (Rising: skill 8·mcp 6·agent 4·harness 2 / Classic: skill 6·mcp 4·agent 4·harness 2) · 동점은 최근 업데이트순 · 정원 미달은 억지로 채우지 않음 · 채점 미달은 다음 주 재검토</p>
 
   <a class="m-cta" href="https://github.com/ldk-hub/ai-weekly" target="_blank" rel="noopener">
-    소스 코드 보기 →
+    소스 코드 보기 ↗
   </a>
 `;
 }
@@ -1624,7 +1624,7 @@ function renderThemeToggle() {
   updateThemeColorMeta(eff);
   const btn = document.getElementById("theme-toggle");
   if (!btn) return;
-  btn.textContent = eff === 'dark' ? '☀️ 라이트' : '🌙 다크';
+  btn.textContent = eff === 'dark' ? '라이트' : '다크';
   btn.title = eff === 'dark' ? '에디토리얼 위클리(라이트)로 전환' : '시그널 터미널(다크)로 전환';
 }
 document.getElementById("theme-toggle")?.addEventListener("click", () => {

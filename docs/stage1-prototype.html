@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI위클리 1단계 점검·구축 통합 프로토타입</title>
+<style>
+:root {
+  color-scheme: light;
+  --bg: #fbfaf6;
+  --surface: #ffffff;
+  --surface-2: #f3f0e7;
+  --border: #e5e0d2;
+  --border-strong: #cfc8b5;
+  --ink: #12110e;
+  --ink-2: #3b3830;
+  --muted: #696459;
+  --accent: #c45d3b;
+  --accent-bg: rgba(196, 93, 59, 0.10);
+  --ok: #18794e;
+  --ok-bg: rgba(24, 121, 78, 0.11);
+  --warn: #a16207;
+  --warn-bg: rgba(161, 98, 7, 0.11);
+  --fail: #b91c1c;
+  --fail-bg: rgba(185, 28, 28, 0.10);
+  --font-sans: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+  --radius: 10px;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #15130f;
+  --surface: #1e1b16;
+  --surface-2: #28241e;
+  --border: #332e26;
+  --border-strong: #4a4337;
+  --ink: #f2efe8;
+  --ink-2: #cfc8ba;
+  --muted: #9e9688;
+  --accent: #e08963;
+  --accent-bg: rgba(224, 137, 99, 0.14);
+  --ok: #4ade80;
+  --ok-bg: rgba(74, 222, 128, 0.12);
+  --warn: #facc15;
+  --warn-bg: rgba(250, 204, 21, 0.12);
+  --fail: #f87171;
+  --fail-bg: rgba(248, 113, 113, 0.14);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { overflow-x: clip; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap { max-width: 1180px; margin: 0 auto; padding: 28px 24px 64px; }
+
+/* Header */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.brand { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.brand h1 { font-size: clamp(20px, 2.8vw, 26px); font-weight: 700; letter-spacing: -0.02em; }
+.brand-date { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+.top-actions { display: flex; gap: 8px; align-items: center; }
+
+button, .btn-link {
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 7px 13px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: border-color .15s, background .15s;
+}
+button:hover, .btn-link:hover { border-color: var(--accent); }
+button:focus-visible, .btn-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Asymmetric Overview Strip (avoids U23 equal loud cards) */
+.summary-band {
+  display: grid;
+  grid-template-columns: 1.45fr 1fr;
+  gap: 20px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+}
+.summary-lead { font-size: 15px; color: var(--ink-2); }
+.summary-lead strong { color: var(--ink); font-weight: 700; }
+.summary-metrics {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+}
+.summary-metrics strong { color: var(--ink); font-size: 14px; margin-right: 4px; }
+
+/* Primary Tabs */
+.tabs {
+  display: flex;
+  gap: 6px;
+  margin: 22px 0 24px;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+.tab-btn {
+  border-radius: 8px;
+  padding: 9px 15px;
+  font-size: 14px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.tab-btn:hover { color: var(--ink); background: var(--surface-2); border-color: transparent; }
+.tab-btn[aria-selected="true"] {
+  background: var(--surface);
+  color: var(--ink);
+  border-color: var(--border-strong);
+}
+.panel { display: none; }
+.panel.is-active { display: block; }
+
+/* Shared Section Layout */
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.section-head h2 { font-size: 18px; font-weight: 700; letter-spacing: -0.015em; }
+.seg {
+  display: inline-flex;
+  background: var(--surface-2);
+  padding: 3px;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  gap: 2px;
+}
+.seg button {
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  padding: 6px 12px;
+  font-size: 12.5px;
+  border-radius: 6px;
+}
+.seg button.active {
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+}
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.stack { display: flex; flex-direction: column; gap: 16px; }
+
+/* Status pills (real audit data bound) */
+.state-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  display: inline-block;
+}
+.state-ok { color: var(--ok); background: var(--ok-bg); }
+.state-warn { color: var(--warn); background: var(--warn-bg); }
+.state-fail { color: var(--fail); background: var(--fail-bg); }
+
+/* Tab 1: Unslop Live Preview */
+.preview-shell {
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--bg);
+  overflow: hidden;
+}
+.preview-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.preview-brand { font-weight: 700; font-size: 15px; }
+.preview-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.preview-pill {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--ink-2);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.fake-dot {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--ok);
+  display: inline-block;
+}
+.preview-body { padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+.preview-status {
+  font-size: 12.5px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.preview-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.mock-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.mock-card h3 { font-size: 15px; font-weight: 700; }
+.mock-meta { font-family: var(--font-mono); font-size: 12px; color: var(--muted); display: flex; justify-content: space-between; }
+.mock-usecase {
+  font-size: 12.5px;
+  color: var(--ink-2);
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: var(--surface-2);
+}
+.mock-usecase.slop-stripe { border-left: 3px solid var(--accent); border-radius: 0 6px 6px 0; }
+.mock-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--muted);
+  padding-top: 6px;
+  border-top: 1px solid var(--border);
+}
+.mock-link { color: var(--accent); font-weight: 600; text-decoration: none; font-family: var(--font-mono); }
+
+.slop-mark {
+  outline: 2px dashed var(--fail);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.clean-mark {
+  outline: 2px solid var(--ok);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.rule-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+.rule-chip {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 7px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--ink-2);
+}
+.rule-chip.active { border-color: var(--accent); background: var(--accent-bg); color: var(--ink); }
+
+/* Tables */
+.table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+th { font-size: 12px; color: var(--muted); font-weight: 600; background: var(--surface-2); white-space: nowrap; }
+tr:last-child td { border-bottom: none; }
+code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  background: var(--surface-2);
+  padding: 1px 5px;
+  border-radius: 4px;
+  color: var(--ink);
+}
+
+/* Tab 2: Diagram Frame */
+.iframe-wrap {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--surface);
+}
+.iframe-wrap iframe {
+  width: 100%;
+  height: 760px;
+  border: 0;
+  display: block;
+}
+
+/* Tab 3: SEO */
+.lane-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 18px; }
+.lane-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.lane-head { display: flex; justify-content: space-between; align-items: center; }
+.lane-head strong { font-size: 14px; }
+.lane-card p { font-size: 13px; color: var(--ink-2); }
+
+/* Tab 4: Obsidian Bases Preview */
+.bases-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; }
+.base-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.base-card-top { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+.base-card h4 { font-size: 14px; font-weight: 700; }
+.base-card p { font-size: 12.5px; color: var(--ink-2); }
+
+details {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 12px 14px;
+}
+summary { cursor: pointer; font-weight: 600; font-size: 13.5px; color: var(--ink); }
+pre {
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 8px;
+  background: var(--surface-2);
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.foot {
+  margin-top: 36px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+@media (max-width: 860px) {
+  .summary-band, .grid-2, .preview-cards, .lane-grid { grid-template-columns: 1fr; }
+  .summary-metrics { justify-content: flex-start; }
+  .iframe-wrap iframe { height: 560px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="topbar">
+    <div class="brand">
+      <h1>AI위클리 1단계 점검·구축 프로토타입</h1>
+      <span class="brand-date">2026-11-26 실측 기준</span>
+    </div>
+    <div class="top-actions">
+      <a class="btn-link" href="./ai-weekly-architecture.html" target="_blank" rel="noopener">아키텍처도 새 창 ↗</a>
+      <button type="button" id="theme-btn">라이트 모드</button>
+    </div>
+  </header>
+
+  <section class="summary-band" aria-label="핵심 요약">
+    <p class="summary-lead">
+      <strong>신규 4개 플러그인 실전 검증 결과:</strong>
+      UI 정제 6개 규칙 14건 특정, 공식 로고 아키텍처 HTML 빌드(겹침 0건), 라이브 13개 URL SEO·GEO·NEO 실측, 옵시디언 작업일지 47건 동기화 및 Bases 뷰 구축을 완료했습니다.
+    </p>
+    <div class="summary-metrics">
+      <span><strong>14</strong>UI 정리 대상</span>
+      <span><strong>15/15</strong>공식 로고</span>
+      <span><strong>13</strong>SEO 실측 URL</span>
+      <span><strong>47</strong>동기화 작업일지</span>
+    </div>
+  </section>
+
+  <nav class="tabs" role="tablist" aria-label="1단계 작업 영역">
+    <button type="button" class="tab-btn" role="tab" aria-selected="true" data-tab="ui">UI 정제 (unslop-ui)</button>
+    <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab="arch">아키텍처도 (stack-diagram)</button>
+    <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab="seo">SEO·GEO·NEO 진단</button>
+    <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab="vault">옵시디언 볼트 (Bases)</button>
+  </nav>
+
+  <main>
+    <!-- TAB 1: UNSLOP-UI -->
+    <section class="panel is-active" id="panel-ui" role="tabpanel">
+      <div class="section-head">
+        <h2>메인·스타보드 UI Before / After 비교</h2>
+        <div class="seg" role="group" aria-label="비교 상태 전환">
+          <button type="button" class="active" data-ui-mode="before">현재 (Before)</button>
+          <button type="button" data-ui-mode="after">정제 후 (After)</button>
+        </div>
+      </div>
+
+      <div class="rule-chips" id="rule-chips" aria-label="규칙 하이라이트">
+        <button type="button" class="rule-chip active" data-rule="all">전체 (14건)</button>
+        <button type="button" class="rule-chip" data-rule="U4">U4 봇 설명</button>
+        <button type="button" class="rule-chip" data-rule="U6">U6 연쇄 상태</button>
+        <button type="button" class="rule-chip" data-rule="U10">U10 장식 점</button>
+        <button type="button" class="rule-chip" data-rule="U11">U11 장식 이모지</button>
+        <button type="button" class="rule-chip" data-rule="U21">U21 링크 화살표</button>
+        <button type="button" class="rule-chip" data-rule="U24">U24 엣지 스트라이프</button>
+      </div>
+
+      <div class="stack">
+        <div class="preview-shell" id="ui-preview"></div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>규칙</th>
+                <th>건수</th>
+                <th>파일 및 라인</th>
+                <th>변경 요약</th>
+              </tr>
+            </thead>
+            <tbody id="ui-rule-table"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: STACK-DIAGRAM -->
+    <section class="panel" id="panel-arch" role="tabpanel">
+      <div class="section-head">
+        <h2>AI위클리 파이프라인 공식 로고 아키텍처</h2>
+        <a class="btn-link" href="./ai-weekly-architecture.html" target="_blank" rel="noopener">단독 HTML 열기 ↗</a>
+      </div>
+      <div class="stack">
+        <div class="iframe-wrap">
+          <iframe id="arch-iframe" src="./ai-weekly-architecture.html" title="AI Weekly 공식 로고 아키텍처 다이어그램"></iframe>
+        </div>
+        <details>
+          <summary>검증 내역 및 아이콘 출처 (15/15 인라인 완료)</summary>
+          <pre>출력 파일: docs/ai-weekly-architecture.html (157 KB, 미해결 토큰 0건)
+아이콘 출처: svgl (GitHub, Node.js, Python, Gemini, Vite, Three.js, Playwright, Obsidian)
+           devicon (GitHub Actions, Tailwind CSS)
+           Lucide (RSS, Radar, Globe, Users)
+시각 검수: Playwright 2x 라이트·다크 렌더 확인 -> 그룹 라벨 관통 0건, 다크 모드 RSS plate 적용 완료</pre>
+        </details>
+      </div>
+    </section>
+
+    <!-- TAB 3: SEO / GEO / NEO -->
+    <section class="panel" id="panel-seo" role="tabpanel">
+      <div class="section-head">
+        <h2>5대 검색·AI 인용 레인 실측 진단</h2>
+        <div class="seg" role="group" aria-label="레인 필터">
+          <button type="button" class="active" data-seo-filter="all">전체 6레인</button>
+          <button type="button" data-seo-filter="fail">미흡 (❌)</button>
+          <button type="button" data-seo-filter="warn">보완 필요 (⚠️)</button>
+        </div>
+      </div>
+
+      <div class="lane-grid" id="seo-lanes"></div>
+
+      <div class="stack">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>경로</th>
+                <th>HTTP</th>
+                <th>HTML 크기</th>
+                <th>H1</th>
+                <th>JSON-LD</th>
+                <th>CSR 스켈레톤</th>
+                <th>주요 발견</th>
+              </tr>
+            </thead>
+            <tbody id="seo-crawl-table"></tbody>
+          </table>
+        </div>
+
+        <details>
+          <summary>P0 즉시 개선 패치 범위 및 14일 측정 계획 (2026-12-10 재측정)</summary>
+          <pre>1. 빌드 타임 정적 요약 프리렌더: vite build 후 latest.json·news_latest.json·benchmarks_latest.json 상위 항목을 HTML 본문에 정적 삽입
+2. 메타 및 헤딩 정정:
+   - /benchmarks description: "SWE-bench Verified" -> "LiveBench · Artificial Analysis · LMArena"
+   - /sanctuary: 중복 H1(2개) -> 단일 H1 통일
+   - /starboard title: "AI위클리 — 📈 스타보드" -> "AI위클리 — 오픈소스 스타보드"
+3. 구조화 데이터 보강: WebSite 외 ItemList · Dataset · FAQPage JSON-LD 추가
+4. 소유권 인증: 네이버 서치어드바이저(naver-site-verification) + GSC 등록 후 sitemap/RSS 제출
+5. 측정 루프: 배포 당일 색인·AI 인용 기준선 기록 -> 2026-12-10 동일 쿼리 재측정</pre>
+        </details>
+      </div>
+    </section>
+
+    <!-- TAB 4: OBSIDIAN BASES -->
+    <section class="panel" id="panel-vault" role="tabpanel">
+      <div class="section-head">
+        <h2>옵시디언 작업일지 Bases 뷰 미리보기 (47건 동기화)</h2>
+        <div class="seg" role="group" aria-label="Bases 뷰 선택">
+          <button type="button" class="active" data-base-view="all">전체 최신순</button>
+          <button type="button" data-base-view="weekly">주간 cc-weekly</button>
+          <button type="button" data-base-view="daily">평일 cc-daily</button>
+          <button type="button" data-base-view="cards">최근 카드 뷰</button>
+        </div>
+      </div>
+
+      <div class="stack">
+        <div id="bases-output"></div>
+
+        <details>
+          <summary>생성된 공식 .base YAML 스키마 확인 (작업 일지 인덱스.base)</summary>
+          <pre>filters:
+  and:
+    - file.inFolder("ai-weekly/02. 작업 일지 (Work Logs)")
+    - 'file.ext == "md"'
+formulas:
+  pipeline_type: 'if(file.hasTag("cc-weekly"), "주간 cc-weekly", if(file.hasTag("cc-daily"), "평일 cc-daily", "인프라·기능"))'
+  days_ago: 'if(date, (today() - date(date)).days.round(0), "")'
+  size_kb: '(file.size / 1024).round(1).toString() + " KB"'
+views: [전체 작업일지 (최신순), 주간 파이프라인 (cc-weekly), 평일 파이프라인 (cc-daily), 최근 14건 카드 뷰]</pre>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span>ai-weekly · Stage 1 Prototype (unslop-ui · stack-diagram · fire-your-seo-agency · obsidian-skills)</span>
+    <span>실측 기준: 2026-11-26</span>
+  </footer>
+</div>
+
+<script>
+// Theme sync (also syncs embedded stack-diagram iframe when same-origin)
+const root = document.documentElement;
+const themeBtn = document.getElementById('theme-btn');
+function syncThemeLabel() {
+  const isDark = root.dataset.theme === 'dark';
+  themeBtn.textContent = isDark ? '라이트 모드' : '다크 모드';
+  try {
+    const iframeDoc = document.getElementById('arch-iframe')?.contentDocument;
+    if (iframeDoc) iframeDoc.documentElement.dataset.theme = isDark ? 'dark' : '';
+  } catch (_) {}
+}
+themeBtn.addEventListener('click', () => {
+  root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  syncThemeLabel();
+});
+document.getElementById('arch-iframe').addEventListener('load', syncThemeLabel);
+syncThemeLabel();
+
+// Primary tab switching
+const tabBtns = document.querySelectorAll('.tab-btn');
+const panels = document.querySelectorAll('.panel');
+tabBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = btn.dataset.tab;
+    tabBtns.forEach(b => b.setAttribute('aria-selected', String(b === btn)));
+    panels.forEach(p => p.classList.toggle('is-active', p.id === 'panel-' + target));
+  });
+});
+
+// TAB 1: Unslop-UI Data & Interactive Preview
+const UI_RULES = [
+  { id: 'U4', name: 'U4 botsplaining', count: 2, loc: 'starboard.js:412, benchmarks.js:693', fix: '"클릭하여 관측 추이 상세 보기" 및 테이블 정렬 안내 문구 삭제' },
+  { id: 'U6', name: 'U6 status strings', count: 1, loc: 'index.html:153-162', fix: '4중 연쇄 상태바 -> 최종 갱신일·수집 건수 2개 핵심 정보로 축약' },
+  { id: 'U10', name: 'U10 status dots', count: 2, loc: 'index.html:138, 154 · styles.css:558', fix: '실시간 소켓 미연동 장식 점 및 pulseDot 무한 펄스 제거' },
+  { id: 'U11', name: 'U11 decorative emoji', count: 3, loc: 'index.html:141, main.js:649, starboard title', fix: '"🌙 다크" -> "다크", "📋 복사" -> "복사", "📈 스타보드" -> "스타보드"' },
+  { id: 'U21', name: 'U21 arrow on links', count: 3, loc: 'main.js:583, starboard.js:414, benchmarks.js:436', fix: '"GITHUB →" -> 외부 이동 의미의 "GitHub ↗" 또는 화살표 제거' },
+  { id: 'U24', name: 'U24 edge accent stripe', count: 3, loc: 'styles.css:2383-2395, 3364', fix: '.card-usecase-box 좌측 3px 컬러 바 제거 -> 1px 전체 보더 통일' }
+];
+
+let uiMode = 'before';
+let activeRule = 'all';
+
+function hl(rule) {
+  if (activeRule !== 'all' && activeRule !== rule) return '';
+  return uiMode === 'before' ? 'slop-mark' : 'clean-mark';
+}
+
+function renderUiTab() {
+  const isBefore = uiMode === 'before';
+  const shell = document.getElementById('ui-preview');
+  shell.innerHTML = `
+    <div class="preview-bar">
+      <span class="preview-brand">AI위클리</span>
+      <div class="preview-actions">
+        <span class="preview-pill ${hl('U10')}">
+          ${isBefore ? '<span class="fake-dot"></span>' : ''}위클리월드
+        </span>
+        <span class="preview-pill ${hl('U11')}">${isBefore ? '🌙 다크' : '다크'}</span>
+        <span class="preview-pill">GitHub</span>
+      </div>
+    </div>
+    <div class="preview-body">
+      <div class="preview-status ${hl('U6')} ${hl('U10')}">
+        ${isBefore
+          ? '<span class="fake-dot"></span><span><strong>2026-11-26</strong> 갱신 · 다음 2026-11-30 · v2026.11.26 · 이번 주 36개 수집</span>'
+          : '<span><strong>2026-11-26</strong> 갱신 · 36개 수집</span>'}
+      </div>
+      <div class="preview-cards">
+        <article class="mock-card">
+          <div class="mock-meta"><span>skill · ★ 121.6k</span><span>+3,085/w</span></div>
+          <h3>taste-skill — 프론트엔드 미적 품질 기준</h3>
+          <div class="mock-usecase ${isBefore ? 'slop-stripe' : ''} ${hl('U24')}">
+            <strong>적합 상황:</strong> AI 기본 UI의 정형화된 레이아웃을 프로덕션 수준으로 개선할 때
+          </div>
+          <div class="mock-foot">
+            <span class="${hl('U11')}">${isBefore ? '📋 복사' : '설치 명령 복사'}</span>
+            <a href="#panel-ui" class="mock-link ${hl('U21')}">${isBefore ? 'GITHUB →' : 'GitHub ↗'}</a>
+          </div>
+        </article>
+        <article class="mock-card">
+          <div class="mock-meta"><span>starboard · ★ 87.9k</span><span>+741/wk</span></div>
+          <h3>rtk-ai / rtk</h3>
+          <p style="font-size:12.5px; color:var(--ink-2);">CLI 출력 토큰을 60~90% 압축하는 Rust 단일 바이너리 프록시</p>
+          <div class="mock-foot">
+            <span class="${hl('U4')}">${isBefore ? '클릭하여 관측 추이 상세 보기' : '최근 14일 추이'}</span>
+            <a href="#panel-ui" class="mock-link ${hl('U21')}">${isBefore ? 'GITHUB →' : 'GitHub ↗'}</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  `;
+
+  const rows = UI_RULES.filter(r => activeRule === 'all' || r.id === activeRule);
+  document.getElementById('ui-rule-table').innerHTML = rows.map(r => `
+    <tr>
+      <td><code>${r.name}</code></td>
+      <td>${r.count}</td>
+      <td><code>${r.loc}</code></td>
+      <td>${r.fix}</td>
+    </tr>
+  `).join('');
+}
+
+document.querySelectorAll('[data-ui-mode]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    uiMode = btn.dataset.uiMode;
+    document.querySelectorAll('[data-ui-mode]').forEach(b => b.classList.toggle('active', b === btn));
+    renderUiTab();
+  });
+});
+document.querySelectorAll('.rule-chip').forEach(btn => {
+  btn.addEventListener('click', () => {
+    activeRule = btn.dataset.rule;
+    document.querySelectorAll('.rule-chip').forEach(b => b.classList.toggle('active', b === btn));
+    renderUiTab();
+  });
+});
+renderUiTab();
+
+// TAB 3: SEO / GEO / NEO Data
+const SEO_LANES = [
+  { lane: 'SEO (검색엔진)', state: 'warn', badge: '주의 ⚠️', note: 'noindex 0건·sitemap/canonical/404 정상. 단 전 페이지 본문 CSR(스켈레톤 3개), /sanctuary H1 중복, /benchmarks 메타에 구버전 SWE-bench 잔존.' },
+  { lane: 'AEO (답변엔진)', state: 'fail', badge: '미흡 ❌', note: 'JSON-LD가 기본 WebSite 1종뿐. FAQPage·ItemList·Dataset 구조화 데이터 및 40자 직답 문단 부재.' },
+  { lane: 'GEO (생성 AI 검색)', state: 'warn', badge: '보완 ⚠️', note: 'robots.txt 허용·llms.txt(1,545B)·JSON 피드 완비. 다만 모달 기반 CSR 구조로 개별 도구/뉴스 딥링크 인용 불가.' },
+  { lane: 'LLMO (LLM 인용)', state: 'warn', badge: '보완 ⚠️', note: '650+ 스타 원장·3출처 점유율 1차 데이터를 보유했으나 정적 HTML 요약 표 부재로 JS 미실행 크롤러가 수치 추출 불가.' },
+  { lane: 'NEO (네이버)', state: 'fail', badge: '미흡 ❌', note: 'naver-site-verification 0건. Yeti 크롤러의 CSR 색인 한계 + /starboard title 이모지·짧은 설명(58자).' },
+  { lane: '콘텐츠 운영', state: 'warn', badge: '보완 ⚠️', note: 'feed.xml(12건)·news-feed.xml(18건) 당일 발행 활성. 질문 매핑형 서브 블로그(/blog 404) 부재.' }
+];
+
+const CRAWL_ROWS = [
+  { path: '/', http: '200', len: '15,551 B', h1: '1', ld: 'WebSite', skel: '3 (CSR)', note: '카드 0건 정적 노출 -> SSR 요약 삽입 필요' },
+  { path: '/news', http: '200', len: '14,642 B', h1: '1', ld: 'WebSite', skel: 'CSR', note: 'NewsArticle / ItemList 구조화 데이터 추가 권장' },
+  { path: '/social', http: '200', len: '12,360 B', h1: '1', ld: 'WebSite', skel: 'CSR', note: '메타 105자 적정, 본문 정적 요약 부재' },
+  { path: '/starboard', http: '200', len: '16,925 B', h1: '1', ld: 'WebSite', skel: 'CSR', note: 'title 이모지(📈) 제거 및 description(58자) 보강' },
+  { path: '/benchmarks', http: '200', len: '12,363 B', h1: '1', ld: 'WebSite', skel: 'CSR', note: 'description 내 퇴역 "SWE-bench Verified" 수정 필수' },
+  { path: '/sanctuary', http: '200', len: '32,826 B', h1: '2 (중복)', ld: 'WebSite', skel: '3D WebGL', note: '중복 H1 1개로 단일화 필요' },
+  { path: '/llms.txt', http: '200', len: '1,545 B', h1: '-', ld: '-', skel: '-', note: 'GEO 핵심 명세 정상 서빙' },
+  { path: '/sitemap.xml', http: '200', len: '1,118 B', h1: '-', ld: '-', skel: '-', note: '6개 URL · lastmod 2026-11-26 최신' },
+  { path: '/feed.xml · /news-feed.xml', http: '200', len: '32.9 / 26.2 KB', h1: '-', ld: '-', skel: '-', note: '12건 / 18건 당일 발행 정상' },
+  { path: '/blog · /404-check', http: '404', len: '-', h1: '-', ld: '-', skel: '-', note: '404 응답 정상 · 서브 블로그 미구축' }
+];
+
+function renderSeoTab(filter = 'all') {
+  const list = SEO_LANES.filter(x => filter === 'all' || x.state === filter);
+  document.getElementById('seo-lanes').innerHTML = list.map(x => `
+    <article class="lane-card">
+      <div class="lane-head">
+        <strong>${x.lane}</strong>
+        <span class="state-tag state-${x.state}">${x.badge}</span>
+      </div>
+      <p>${x.note}</p>
+    </article>
+  `).join('');
+
+  document.getElementById('seo-crawl-table').innerHTML = CRAWL_ROWS.map(r => `
+    <tr>
+      <td><code>${r.path}</code></td>
+      <td><span class="state-tag ${r.http === '200' ? 'state-ok' : 'state-warn'}">${r.http}</span></td>
+      <td>${r.len}</td>
+      <td>${r.h1}</td>
+      <td>${r.ld}</td>
+      <td>${r.skel}</td>
+      <td>${r.note}</td>
+    </tr>
+  `).join('');
+}
+document.querySelectorAll('[data-seo-filter]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('[data-seo-filter]').forEach(b => b.classList.toggle('active', b === btn));
+    renderSeoTab(btn.dataset.seoFilter);
+  });
+});
+renderSeoTab('all');
+
+// TAB 4: Obsidian Bases Real Worklog Preview
+const WORKLOGS = [
+  { date: '2026-11-26', file: '2026-11-26 작업일지', type: 'daily', label: '평일 cc-daily', bm: '-', social: 'O', kb: '3.1 KB', summary: '스타보드 650개 100% 갱신, 뉴스 18건·소셜 20건 배포, Vite 빌드 493ms' },
+  { date: '2026-11-23', file: '2026-11-23 작업일지', type: 'weekly', label: '주간 cc-weekly', bm: 'O', social: 'O', kb: '7.9 KB', summary: 'Scrapling 우선 수집 전환, 스캐너 오탐 정밀화, rank_delta 주입, Vite 청크 최적화' },
+  { date: '2026-11-19', file: '2026-11-19 작업일지', type: 'daily', label: '평일 cc-daily', bm: '-', social: 'O', kb: '3.0 KB', summary: '스타보드 626개 100% 갱신, 데일리 뉴스 18건·소셜 피드 20건 검증 통과' },
+  { date: '2026-11-18', file: '2026-11-18 작업일지', type: 'daily', label: '평일 cc-daily', bm: '-', social: 'O', kb: '2.9 KB', summary: '스타보드 626개 갱신, 뉴스 18건·소셜 20건·RSS/OG/라운지 동기화' },
+  { date: '2026-11-17', file: '2026-11-17 작업일지', type: 'weekly', label: '주간 cc-weekly', bm: 'O', social: 'O', kb: '6.6 KB', summary: '파이프라인 6대 취약점 패치, 트렌드 33건·신규 13종 확충, 단위 테스트 10/10 통과' },
+  { date: '2026-11-16', file: '2026-11-16 작업일지', type: 'weekly', label: '주간 cc-weekly', bm: 'O', social: '-', kb: '2.9 KB', summary: '스타보드 622개 추적, 트렌드 33건, 벤치마크 검증, 뉴스 18건 배포' },
+  { date: '2026-11-13', file: '2026-11-13 작업일지', type: 'daily', label: '평일 cc-daily', bm: '-', social: 'O', kb: '2.0 KB', summary: '스타보드 618개 갱신, 뉴스 18건·소셜 6건 큐레이션 및 검증' },
+  { date: '2026-11-05', file: '2026-11-05 작업일지', type: 'weekly', label: '주간 cc-weekly', bm: 'O', social: '-', kb: '5.6 KB', summary: '스타보드 610개 최신화, 트렌드 33건 보안 스캔, 벤치마크 게이트 검증' },
+  { date: '2026-10-22', file: '2026-10-22 작업일지', type: 'infra', label: '인프라·기능', bm: 'O', social: '-', kb: '1.1 KB', summary: '점유율·성능(benchmarks) 탭 전면 구현 및 3출처 정합성 검증' }
+];
+
+function renderBases(view = 'all') {
+  const out = document.getElementById('bases-output');
+  let list = WORKLOGS;
+  if (view === 'weekly') list = WORKLOGS.filter(w => w.type === 'weekly');
+  if (view === 'daily') list = WORKLOGS.filter(w => w.type === 'daily');
+
+  if (view === 'cards') {
+    out.innerHTML = `<div class="bases-cards">${list.map(w => `
+      <article class="base-card">
+        <div class="base-card-top"><span>${w.date}</span><span>${w.kb}</span></div>
+        <h4>${w.file}</h4>
+        <div><span class="state-tag ${w.type === 'weekly' ? 'state-ok' : 'state-warn'}">${w.label}</span></div>
+        <p>${w.summary}</p>
+      </article>
+    `).join('')}</div>`;
+    return;
+  }
+
+  out.innerHTML = `
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>일자</th>
+            <th>노트 파일</th>
+            <th>파이프라인</th>
+            <th>벤치마크</th>
+            <th>소셜</th>
+            <th>분량</th>
+            <th>핵심 요약</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${list.map(w => `
+            <tr>
+              <td><code>${w.date}</code></td>
+              <td><strong>${w.file}</strong></td>
+              <td><span class="state-tag ${w.type === 'weekly' ? 'state-ok' : 'state-warn'}">${w.label}</span></td>
+              <td>${w.bm}</td>
+              <td>${w.social}</td>
+              <td><code>${w.kb}</code></td>
+              <td>${w.summary}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+document.querySelectorAll('[data-base-view]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('[data-base-view]').forEach(b => b.classList.toggle('active', b === btn));
+    renderBases(btn.dataset.baseView);
+  });
+});
+renderBases('all');
+</script>
+</body>
+</html>

@@ -550,7 +550,7 @@ function initTheme() {
   const btn = document.getElementById("theme-toggle");
   const paint = () => {
     if (!btn) return;
-    btn.textContent = document.documentElement.dataset.theme === "dark" ? "☀️ 라이트" : "🌙 다크";
+    btn.textContent = document.documentElement.dataset.theme === "dark" ? "라이트" : "다크";
   };
   btn?.addEventListener("click", () => {
     const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
