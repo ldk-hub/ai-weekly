@@ -11,9 +11,11 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet"></noscript>
 
 <link rel="canonical" href="https://ldk-hub.github.io/ai-weekly/social" />
+<link rel="ard" href="./.well-known/ard.json" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="AI위클리 — 소셜 피드" />
 <meta property="og:description" content="X · Threads · Reddit · Instagram의 AI 활용 팁과 프롬프트를 매일 골라 한국어 요약과 원문 링크로 정리합니다." />
@@ -44,6 +46,16 @@
 </script>
 
 <!-- Counter.dev (private dashboard) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "AI위클리 — 소셜 피드",
+  "url": "https://ldk-hub.github.io/ai-weekly/social",
+  "inLanguage": "ko-KR",
+  "description": "X·Threads·Reddit·Instagram AI 인플루언서·커뮤니티 활용 팁 한국어 요약 피드."
+}
+</script>
 </head>
 
 <body>
@@ -127,7 +139,7 @@
           <span class="sc-entry-dot" aria-hidden="true"></span>
           <span>위클리월드</span>
         </a>
-        <button class="theme-toggle" id="theme-toggle" aria-label="테마 전환" type="button">🌙 다크</button>
+        <button class="theme-toggle" id="theme-toggle" title="테마 전환" type="button">🌙 다크</button>
         <a class="gh-btn" href="https://github.com/ldk-hub/ai-weekly" target="_blank" rel="noopener">GitHub</a>
       </div>
     </div>

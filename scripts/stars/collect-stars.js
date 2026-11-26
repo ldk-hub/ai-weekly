@@ -332,12 +332,36 @@ async function main() {
   if (fs.existsSync(PUBLIC_DATA_DIR)) {
     fs.copyFileSync(META_PATH, path.join(PUBLIC_DATA_DIR, 'stars_meta.json'));
     fs.copyFileSync(LEDGER_PATH, path.join(PUBLIC_DATA_DIR, 'stars_ledger.json'));
+    writeStarsSummary(meta, ledger, path.join(PUBLIC_DATA_DIR, 'stars_summary.json'));
   }
   
   console.log("Data saved successfully.");
 }
 
-main().catch(e => {
-  console.error(e);
-  process.exit(1);
-});
+function writeStarsSummary(meta, ledger, outPath, maxPoints = 14) {
+  const recentLedger = {};
+  for (const [id, hist] of Object.entries(ledger || {})) {
+    if (Array.isArray(hist) && hist.length) {
+      recentLedger[id] = hist.slice(-maxPoints);
+    }
+  }
+  const summary = {
+    generated_at: meta?.generated_at || new Date().toISOString(),
+    updated_date: meta?.updated_date || null,
+    version: meta?.version || null,
+    meta,
+    ledger: recentLedger,
+  };
+  const tmpSummary = `${outPath}.tmp`;
+  fs.writeFileSync(tmpSummary, JSON.stringify(summary));
+  fs.renameSync(tmpSummary, outPath);
+}
+
+if (require.main === module) {
+  main().catch(e => {
+    console.error(e);
+    process.exit(1);
+  });
+}
+
+module.exports = { writeStarsSummary };

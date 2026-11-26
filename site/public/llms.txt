@@ -1,0 +1,22 @@
+# AI위클리 (AI Weekly)
+
+> Claude Code 에이전트·스킬·하네스·MCP 주간 트렌드 인덱스, 일일 AI 기술 뉴스 3줄 요약, 오픈소스 스타 성장 순위표(Starboard), 프론티어 LLM 점유율·성능 벤치마크를 제공하는 정적 웹 서비스입니다.
+
+## Core Pages
+
+- [인기 플러그인 (홈)](https://ldk-hub.github.io/ai-weekly/): 매주 엄선하는 Claude Code 스킬·MCP·에이전트·하네스 Rising/Classic 인덱스
+- [AI 뉴스](https://ldk-hub.github.io/ai-weekly/news): 10개 기술·소셜 매체에서 수집한 최근 24시간 AI 기술 신호 한국어 3줄 요약
+- [소셜 피드](https://ldk-hub.github.io/ai-weekly/social): X·Threads·Reddit·Instagram AI 실무 팁과 프롬프트 데일리 큐레이션
+- [스타보드 (Starboard)](https://ldk-hub.github.io/ai-weekly/starboard): 600+ AI 오픈소스 리포지토리의 체급별 주간 스타 증감 및 활동성 순위표
+- [점유율·성능 (Benchmarks)](https://ldk-hub.github.io/ai-weekly/benchmarks): Similarweb·Trakkr·OpenRouter 3출처 평균 AI 점유율 및 프론티어 LLM 리더보드
+- [위클리랜드 3D](https://ldk-hub.github.io/ai-weekly/sanctuary): AI위클리 실시간 데이터를 3D 파빌리온·전광판으로 탐색하는 인터랙티브 테마파크
+
+## Feeds & Machine-Readable Data
+
+- [주간 플러그인 RSS](https://ldk-hub.github.io/ai-weekly/feed.xml): 매주 갱신되는 도구 인덱스 Atom/RSS 피드
+- [일일 AI 뉴스 RSS](https://ldk-hub.github.io/ai-weekly/news-feed.xml): 매일 갱신되는 AI 기술 신호 RSS 피드
+- [최신 플러그인 JSON](https://ldk-hub.github.io/ai-weekly/data/latest.json): 이번 주 Rising & Classic 구조화 데이터
+- [최신 AI 뉴스 JSON](https://ldk-hub.github.io/ai-weekly/data/news_latest.json): 일일 AI 기술 신호 구조화 데이터
+- [스타보드 요약 JSON](https://ldk-hub.github.io/ai-weekly/data/stars_summary.json): 오픈소스 메타데이터 및 최근 14일 스타 추이
+- [벤치마크 JSON](https://ldk-hub.github.io/ai-weekly/data/benchmarks_latest.json): AI 서비스 점유율 및 프론티어 LLM 성능 지표
+- [Sitemap](https://ldk-hub.github.io/ai-weekly/sitemap.xml): 사이트 전체 URL 및 최신 갱신일 목록

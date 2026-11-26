@@ -23,7 +23,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '22'
 
       - name: Collect Stars
         run: node scripts/stars/collect-stars.js
@@ -38,7 +38,7 @@ jobs:
           if git diff --stat data/ site/public/data/ | grep -q "changed"; then
             git add data/ site/public/data/
             git commit -m "chore(stars): daily collect $(date +'%Y-%m-%d')"
-            git pull --rebase origin main || true
+            git pull --rebase --autostash origin main
             git push origin main
             echo "pushed=true" >> "$GITHUB_OUTPUT"
           else

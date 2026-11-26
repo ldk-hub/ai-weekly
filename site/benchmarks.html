@@ -11,9 +11,11 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet"></noscript>
 
 <link rel="canonical" href="https://ldk-hub.github.io/ai-weekly/benchmarks" />
+<link rel="ard" href="./.well-known/ard.json" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="AI위클리 — AI 점유율 및 모델별 성능 지표" />
 <meta property="og:description" content="글로벌 AI 서비스 점유율과 LMSYS Arena, SWE-bench 최신 벤치마크 지표 리더보드." />
@@ -35,6 +37,16 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-YLKMDP5YKQ');
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "AI위클리 — AI 점유율 및 프론티어 LLM 성능 지표",
+  "url": "https://ldk-hub.github.io/ai-weekly/benchmarks",
+  "inLanguage": "ko-KR",
+  "description": "Similarweb·Trakkr·OpenRouter 3출처 평균 AI 점유율 및 프론티어 LLM 코딩·선호도·가성비 벤치마크 리더보드."
+}
 </script>
 </head>
 
@@ -120,7 +132,7 @@
           <span class="sc-entry-dot" aria-hidden="true"></span>
           <span>위클리월드</span>
         </a>
-        <button class="theme-toggle" id="theme-toggle" aria-label="테마 전환" type="button">🌙 다크</button>
+        <button class="theme-toggle" id="theme-toggle" title="테마 전환" type="button">🌙 다크</button>
         <a class="gh-btn" href="https://github.com/ldk-hub/ai-weekly" target="_blank" rel="noopener">GitHub</a>
       </div>
     </div>
@@ -153,7 +165,7 @@
             <form class="subscribe-form" id="subscribe-form" style="display:none" action="https://rlaalstn.substack.com/api/v1/free?nojs=true" method="post" target="_blank">
               <input type="hidden" name="first_url" value="https://ldk-hub.github.io/ai-weekly/benchmarks" />
               <input type="hidden" name="source" value="subscribe_widget" />
-              <input type="email" name="email" required placeholder="이메일 주소" aria-label="이메일 구독" />
+              <input type="email" name="email" autocomplete="email" required placeholder="이메일 주소" aria-label="이메일 구독" />
               <button type="submit" class="subscribe-submit">구독하기</button>
               <button type="button" class="subscribe-close" id="subscribe-close">×</button>
             </form>

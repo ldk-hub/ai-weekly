@@ -11,9 +11,11 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet"></noscript>
 
 <link rel="canonical" href="https://ldk-hub.github.io/ai-weekly/" />
+<link rel="ard" href="./.well-known/ard.json" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="AI위클리 — Claude Code 도구 주간 인덱스" />
 <meta property="og:description" content="에이전트, 스킬, 하네스, MCP를 매주 모아 정리하는 Claude Code 도구 인덱스." />
@@ -43,6 +45,16 @@
 </script>
 
 <!-- Counter.dev (private dashboard) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "AI위클리 (AI Weekly)",
+  "url": "https://ldk-hub.github.io/ai-weekly/",
+  "inLanguage": "ko-KR",
+  "description": "Claude Code 에이전트·스킬·하네스·MCP 주간 도구 인덱스, 일일 AI 뉴스, 오픈소스 스타보드 및 프론티어 LLM 벤치마크"
+}
+</script>
 </head>
 
 <body>
@@ -126,7 +138,7 @@
           <span class="sc-entry-dot" aria-hidden="true"></span>
           <span>위클리월드</span>
         </a>
-        <button class="theme-toggle" id="theme-toggle" aria-label="테마 전환" type="button">🌙 다크</button>
+        <button class="theme-toggle" id="theme-toggle" title="테마 전환" type="button">🌙 다크</button>
         <a class="gh-btn" href="https://github.com/ldk-hub/ai-weekly" target="_blank" rel="noopener">GitHub</a>
       </div>
     </div>
@@ -168,7 +180,7 @@
             <form class="subscribe-form" id="subscribe-form" style="display:none" action="https://rlaalstn.substack.com/api/v1/free?nojs=true" method="post" target="_blank">
               <input type="hidden" name="first_url" value="https://ldk-hub.github.io/ai-weekly/" />
               <input type="hidden" name="source" value="subscribe_widget" />
-              <input type="email" name="email" required placeholder="이메일 주소" aria-label="이메일 구독" />
+              <input type="email" name="email" autocomplete="email" required placeholder="이메일 주소" aria-label="이메일 구독" />
               <button type="submit" class="subscribe-submit">구독하기</button>
               <button type="button" class="subscribe-close" id="subscribe-close">×</button>
             </form>
@@ -221,7 +233,11 @@
     </div>
 
     <h2 class="sr-only">도구 목록</h2>
-    <div class="grid" id="grid"></div>
+    <div class="grid" id="grid">
+      <div class="skeleton-card" aria-hidden="true"></div>
+      <div class="skeleton-card" aria-hidden="true"></div>
+      <div class="skeleton-card" aria-hidden="true"></div>
+    </div>
   </main>
 
   <footer class="site-footer">

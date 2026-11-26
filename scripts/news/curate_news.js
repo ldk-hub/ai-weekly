@@ -108,21 +108,14 @@ ${SIGNAL_IDS.map((k) => `  - ${k}: ${SIGNALS[k]}`).join("\n")}
 {"items":[{"id":"후보의 id 그대로","drop":false,"drop_reason":"","signal_id":"model","importance":72,"title_ko":"...","summary_ko":"• ...\\n• ...\\n• ...","body_ko":"...","tags":["..."]}]}
 id 는 반드시 후보 목록에 있는 값만 사용한다. 후보 전부에 대해 항목을 하나씩 반환하라(버릴 것은 drop=true 로).`;
 
+const { callGeminiJson } = require("../core/gemini-client");
+
 async function callGemini(payload) {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
-  const res = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "x-goog-api-key": API_KEY },
-    body: JSON.stringify({
-      contents: [{ role: "user", parts: [{ text: `${PROMPT_RULES}\n\n후보 목록:\n${JSON.stringify(payload)}` }] }],
-      generationConfig: { responseMimeType: "application/json" },
-    }),
+  return callGeminiJson({
+    apiKey: API_KEY,
+    model: MODEL,
+    prompt: `${PROMPT_RULES}\n\n후보 목록:\n${JSON.stringify(payload)}`,
   });
-  if (!res.ok) throw new Error(`Gemini API error: HTTP ${res.status}`); // 본문에 키가 섞이지 않도록 상태코드만
-  const data = await res.json();
-  const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-  if (!text) throw new Error("Gemini returned empty response");
-  return JSON.parse(text);
 }
 
 function toBatches(candidates) {

@@ -11,6 +11,7 @@ data/social_candidates.json
 data/chrome_profile/
 
 dist/
+graphify-out/
 .tmp/
 site/test_*.png
 CAREER_META*

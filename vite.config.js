@@ -58,7 +58,7 @@ export default defineConfig({
   plugins: [tailwindcss(), weeklylandDevSavePlugin()],
   build: {
     outDir: '../dist',
-    emptyOutDir: process.env.CI === 'true',
+    emptyOutDir: true,
     chunkSizeWarningLimit: 650,
     rollupOptions: {
       input: {

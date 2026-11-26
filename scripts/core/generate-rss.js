@@ -182,7 +182,7 @@ const pages = [
   { loc: `${SITE_URL}social`, lastmod: dataDate("site/public/data/social_latest.json", today), extra: "    <changefreq>daily</changefreq>\n    <priority>0.8</priority>" },
   { loc: `${SITE_URL}starboard`, lastmod: dataDate("site/public/data/stars_meta.json", today), extra: "    <changefreq>daily</changefreq>\n    <priority>0.8</priority>" },
   { loc: `${SITE_URL}benchmarks`, lastmod: dataDate("site/public/data/benchmarks_latest.json", today), extra: "    <changefreq>weekly</changefreq>\n    <priority>0.7</priority>" },
-  { loc: `${SITE_URL}lounge`, lastmod: dataDate("site/public/data/lounge_latest.json", today), extra: "    <changefreq>daily</changefreq>\n    <priority>0.3</priority>" },
+  { loc: `${SITE_URL}sanctuary`, lastmod: dataDate("site/public/data/park_world.json", today), extra: "    <changefreq>weekly</changefreq>\n    <priority>0.6</priority>" },
 ];
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
@@ -193,3 +193,83 @@ ${pages.map((p) => `  <url>\n    <loc>${p.loc}</loc>\n    <lastmod>${p.lastmod}<
 const sitemapPath = path.join(ROOT, "site", "public", "sitemap.xml");
 fs.writeFileSync(sitemapPath, sitemap);
 console.log(`✓ sitemap written: ${sitemapPath}`);
+
+const llmsTxt = `# AI위클리 (AI Weekly)
+
+> Claude Code 에이전트·스킬·하네스·MCP 주간 트렌드 인덱스, 일일 AI 기술 뉴스 3줄 요약, 오픈소스 스타 성장 순위표(Starboard), 프론티어 LLM 점유율·성능 벤치마크를 제공하는 정적 웹 서비스입니다.
+
+## Core Pages
+
+- [인기 플러그인 (홈)](${SITE_URL}): 매주 엄선하는 Claude Code 스킬·MCP·에이전트·하네스 Rising/Classic 인덱스
+- [AI 뉴스](${SITE_URL}news): 10개 기술·소셜 매체에서 수집한 최근 24시간 AI 기술 신호 한국어 3줄 요약
+- [소셜 피드](${SITE_URL}social): X·Threads·Reddit·Instagram AI 실무 팁과 프롬프트 데일리 큐레이션
+- [스타보드 (Starboard)](${SITE_URL}starboard): 600+ AI 오픈소스 리포지토리의 체급별 주간 스타 증감 및 활동성 순위표
+- [점유율·성능 (Benchmarks)](${SITE_URL}benchmarks): Similarweb·Trakkr·OpenRouter 3출처 평균 AI 점유율 및 프론티어 LLM 리더보드
+- [위클리랜드 3D](${SITE_URL}sanctuary): AI위클리 실시간 데이터를 3D 파빌리온·전광판으로 탐색하는 인터랙티브 테마파크
+
+## Feeds & Machine-Readable Data
+
+- [주간 플러그인 RSS](${SITE_URL}feed.xml): 매주 갱신되는 도구 인덱스 Atom/RSS 피드
+- [일일 AI 뉴스 RSS](${SITE_URL}news-feed.xml): 매일 갱신되는 AI 기술 신호 RSS 피드
+- [최신 플러그인 JSON](${SITE_URL}data/latest.json): 이번 주 Rising & Classic 구조화 데이터
+- [최신 AI 뉴스 JSON](${SITE_URL}data/news_latest.json): 일일 AI 기술 신호 구조화 데이터
+- [스타보드 요약 JSON](${SITE_URL}data/stars_summary.json): 오픈소스 메타데이터 및 최근 14일 스타 추이
+- [벤치마크 JSON](${SITE_URL}data/benchmarks_latest.json): AI 서비스 점유율 및 프론티어 LLM 성능 지표
+- [Sitemap](${SITE_URL}sitemap.xml): 사이트 전체 URL 및 최신 갱신일 목록
+`;
+const llmsPath = path.join(ROOT, "site", "public", "llms.txt");
+fs.writeFileSync(llmsPath, llmsTxt);
+console.log(`✓ llms.txt written: ${llmsPath}`);
+
+const ardManifest = {
+  entries: [
+    {
+      identifier: "urn:air:ldk-hub.github.io:feed:ai-weekly-plugins",
+      displayName: "AI Weekly — Claude Code Tools Index",
+      type: "application/json",
+      url: `${SITE_URL}data/latest.json`,
+      representativeQueries: [
+        "이번 주 뜨는 Claude Code 플러그인과 스킬 목록",
+        "최신 MCP 서버 및 에이전트 하네스 추천",
+        "Trending Claude Code skills and MCP tools this week",
+      ],
+    },
+    {
+      identifier: "urn:air:ldk-hub.github.io:feed:ai-weekly-news",
+      displayName: "AI Weekly — Daily AI Technical News",
+      type: "application/json",
+      url: `${SITE_URL}data/news_latest.json`,
+      representativeQueries: [
+        "오늘의 최신 AI 모델 출시 및 개발자 도구 뉴스 요약",
+        "최근 24시간 AI 기술 신호 한국어 요약",
+        "Daily AI engineering news summary in Korean",
+      ],
+    },
+    {
+      identifier: "urn:air:ldk-hub.github.io:dataset:ai-weekly-benchmarks",
+      displayName: "AI Weekly — AI Market Share & Frontier LLM Benchmarks",
+      type: "application/json",
+      url: `${SITE_URL}data/benchmarks_latest.json`,
+      representativeQueries: [
+        "최신 AI 챗봇 서비스 점유율 및 OpenRouter API 사용량",
+        "프론티어 LLM 코딩 성능과 가격 대비 가성비 비교",
+        "Latest LLM coding benchmark scores and pricing comparison",
+      ],
+    },
+    {
+      identifier: "urn:air:ldk-hub.github.io:dataset:ai-weekly-starboard",
+      displayName: "AI Weekly — AI Open-Source Starboard Velocity",
+      type: "application/json",
+      url: `${SITE_URL}data/stars_summary.json`,
+      representativeQueries: [
+        "최근 7일간 GitHub 스타가 가장 빠르게 성장한 AI 오픈소스",
+        "AI 에이전트 오픈소스 리포지토리 주간 성장률 순위",
+      ],
+    },
+  ],
+};
+const wellKnownDir = path.join(ROOT, "site", "public", ".well-known");
+fs.mkdirSync(wellKnownDir, { recursive: true });
+const ardPath = path.join(wellKnownDir, "ard.json");
+fs.writeFileSync(ardPath, JSON.stringify(ardManifest, null, 2) + "\n");
+console.log(`✓ ARD manifest written: ${ardPath}`);

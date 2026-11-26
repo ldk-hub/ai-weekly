@@ -29,6 +29,8 @@ jobs:
           node-version: 22
       - name: Install dependencies
         run: npm install
+      - name: Run unit tests
+        run: node --test scripts/news/collect_news.test.js scripts/plugins/curate.test.js scripts/plugins/publish-floor.test.js scripts/plugins/scan-install-entry.test.js scripts/social/*.test.js scripts/stars/build-stars-ledger.test.js
       - name: Build site
         run: npm run build
       - uses: actions/configure-pages@v5

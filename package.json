@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "test:rct": "node --test scripts/test_rct_engine.mjs",
+    "test:unit": "node --test scripts/news/collect_news.test.js scripts/plugins/curate.test.js scripts/plugins/publish-floor.test.js scripts/plugins/scan-install-entry.test.js scripts/social/*.test.js scripts/stars/build-stars-ledger.test.js",
     "test:weeklyland": "node scripts/sanctuary/test_coaster_physics.mjs",
     "data:coasters": "python3 scripts/sanctuary/collect_coaster_presets.py",
     "preview": "vite preview",

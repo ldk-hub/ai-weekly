@@ -864,31 +864,16 @@ function extractSmartFeatures(c, cat) {
   return [f1, f2, f3];
 }
 
+const { callGeminiJson } = require("../core/gemini-client");
+
 async function callGemini(candidates) {
   if (API_KEY) {
     try {
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
-      const body = {
-        contents: [
-          {
-            role: "user",
-            parts: [{ text: `${PROMPT_RULES}\n\n후보 목록:\n${JSON.stringify(candidates)}` }],
-          },
-        ],
-        generationConfig: { responseMimeType: "application/json" },
-      };
-      const res = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "x-goog-api-key": API_KEY },
-        body: JSON.stringify(body),
+      return await callGeminiJson({
+        apiKey: API_KEY,
+        model: MODEL,
+        prompt: `${PROMPT_RULES}\n\n후보 목록:\n${JSON.stringify(candidates)}`,
       });
-      if (res.ok) {
-        const data = await res.json();
-        const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (text) return JSON.parse(text);
-      } else {
-        console.warn(`Gemini API responded with HTTP ${res.status}, falling back to curated knowledge`);
-      }
     } catch (e) {
       console.warn(`Gemini API request failed (${e.message}), falling back to curated knowledge`);
     }

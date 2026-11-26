@@ -233,7 +233,10 @@ const { chromium } = require('playwright');
       const themeBtn = page.locator('#theme-toggle');
       if (await themeBtn.count() > 0) {
         await themeBtn.click();
-        await page.waitForTimeout(350);
+        await page.waitForFunction(
+          () => getComputedStyle(document.body).backgroundColor === 'rgb(252, 250, 246)',
+          { timeout: 1500 }
+        ).catch(() => {});
         const lightStyles = await page.evaluate(() => {
           const docEl = document.documentElement;
           const body = document.body;
@@ -368,26 +371,26 @@ const { chromium } = require('playwright');
       throw new Error(`Console/page errors on sanctuary.html: ${sancErrors.join('; ')}`);
     }
 
-    // Verify P0 initial toolbar state & z-index
+    // Verify WeeklyLand 3D canvas, app boot, and live Starboard pavilion data
     const initCheck = await sancPage.evaluate(() => {
-      const buildBtn = document.querySelector('#rct-top-toolbar [data-win="build"]');
-      const indEl = document.getElementById('rct-tool-indicator');
-      const zIdx = indEl ? parseInt(getComputedStyle(indEl).zIndex || '0', 10) : 0;
-      const toolText = document.getElementById('rct-tool-text')?.textContent?.trim() || '';
+      const canvas = document.getElementById('sanctuary-canvas');
+      const sb = window.__weeklyland?.pavilion?.archiveData?.starboard;
       return {
-        buildDirty: Boolean(buildBtn?.classList.contains('is-highlight') || buildBtn?.classList.contains('is-active')),
-        zIdx,
-        toolText,
+        hasCanvas: Boolean(canvas && canvas.clientWidth > 0 && canvas.clientHeight > 0),
+        hasApp: Boolean(window.__weeklyland),
+        starboardCount: sb?.items?.length || 0,
+        topStars: sb?.items?.[0]?.stars || 0,
       };
     });
-    if (initCheck.buildDirty) {
-      throw new Error('sanctuary.html P0-5 violation: build button active on initial load');
+    if (!initCheck.hasCanvas || !initCheck.hasApp) {
+      throw new Error(`sanctuary.html WeeklyLand 3D failed to initialize: ${JSON.stringify(initCheck)}`);
     }
-    if (initCheck.zIdx < 90) {
-      throw new Error(`sanctuary.html P0-4 violation: tool indicator z-index ${initCheck.zIdx} < 90`);
+    if (initCheck.starboardCount === 0 || initCheck.topStars === 0) {
+      throw new Error(`sanctuary.html Starboard pavilion data missing/zero: ${JSON.stringify(initCheck)}`);
     }
+    console.log(`  - sanctuary.html 3D init & Starboard pavilion OK (items=${initCheck.starboardCount}, topStars=${initCheck.topStars})`);
 
-    // Check 360px, 768px, 1440px viewports + ride-detail overflow + POV badge title
+    // Check 1440px, 768px, 360px viewports for zero horizontal overflow
     for (const w of [1440, 768, 360]) {
       await sancPage.setViewportSize({ width: w, height: 844 });
       await sancPage.waitForTimeout(200);
@@ -400,38 +403,6 @@ const { chromium } = require('playwright');
       }
       console.log(`  - sanctuary.html @ ${w}px: OK (scrollW=${ov.scrollW} <= ${ov.innerW})`);
     }
-
-    // Open ride-detail on 360px mobile & 1440px desktop and check zero clipping
-    await sancPage.click('#rct-top-toolbar [data-win="rides-list"]');
-    await sancPage.waitForTimeout(180);
-    await sancPage.click('[data-win-key="rides-list"] [data-open-ride]');
-    await sancPage.waitForTimeout(250);
-    for (const w of [360, 1440]) {
-      await sancPage.setViewportSize({ width: w, height: 844 });
-      await sancPage.waitForTimeout(150);
-      const rideCheck = await sancPage.evaluate(() => {
-        const win = document.querySelector('[data-win-key="ride-detail"]');
-        const body = win?.querySelector('.rct-win-body');
-        return {
-          winOverflow: win ? win.scrollWidth > win.clientWidth : true,
-          bodyOverflow: body ? body.scrollWidth > body.clientWidth : true,
-          docOverflow: document.documentElement.scrollWidth > window.innerWidth,
-        };
-      });
-      if (rideCheck.winOverflow || rideCheck.bodyOverflow || rideCheck.docOverflow) {
-        throw new Error(`ride-detail overflow on sanctuary.html at ${w}px: ${JSON.stringify(rideCheck)}`);
-      }
-    }
-    console.log('  - ride-detail 360px & 1440px overflow check: OK');
-
-    // Verify POV badge starts with 🕹️ 손님체험 ·
-    await sancPage.click('#rct-btn-guest-pov');
-    await sancPage.waitForTimeout(200);
-    const povBadge = await sancPage.locator('#rct-pov-badge').innerText();
-    if (!povBadge.includes('손님체험 ·') || povBadge.includes('📻 무전기')) {
-      throw new Error(`Invalid #rct-pov-badge title: "${povBadge}"`);
-    }
-    console.log(`  - #rct-pov-badge title verified: "${povBadge}"`);
 
     await sancPage.close();
   } finally {

@@ -2,11 +2,11 @@ import * as THREE from "three";
 import { createToonMaterial, addToonOutline, getCarnivalStripeTexture, safeDisposeObjectTree } from "./ToonMaterials.js";
 
 const MEGA_BILLBOARD_SPECS = [
-  { key: "plugins", title: "인기 플러그인", kicker: "PLUGINS TAB", accent: "#ff7657", x: -84, z: -124, rotY: 0.36 },
-  { key: "news", title: "AI 뉴스", kicker: "AI NEWS TAB", accent: "#38bdf8", x: -30, z: -132, rotY: 0.12 },
-  { key: "social", title: "소셜 피드", kicker: "SOCIAL TAB", accent: "#f472b6", x: 30, z: -132, rotY: -0.12 },
-  { key: "starboard", title: "스타보드", kicker: "STARBOARD TAB", accent: "#fbbf24", x: 84, z: -124, rotY: -0.36 },
-  { key: "benchmarks", title: "점유율 · 성능", kicker: "BENCHMARKS TAB", accent: "#34d399", x: 122, z: -64, rotY: -0.82 },
+  { key: "plugins", title: "인기 플러그인", kicker: "PLUGINS TAB", accent: "#ff7657", x: -108, z: -108, rotY: 0.78 },
+  { key: "news", title: "AI 뉴스", kicker: "AI NEWS TAB", accent: "#38bdf8", x: 108, z: -108, rotY: -0.78 },
+  { key: "social", title: "소셜 피드", kicker: "SOCIAL TAB", accent: "#f472b6", x: -108, z: 118, rotY: 2.35 },
+  { key: "starboard", title: "스타보드", kicker: "STARBOARD TAB", accent: "#fbbf24", x: 108, z: 118, rotY: -2.35 },
+  { key: "benchmarks", title: "점유율 · 성능", kicker: "BENCHMARKS TAB", accent: "#34d399", x: 0, z: -246, rotY: 0 },
 ];
 
 /**
@@ -47,14 +47,21 @@ export class AIPavilionEngine {
       }
     };
 
-    const [pluginsJson, newsJson, socialJson, bmJson, starsMetaJson, starsLedgerJson] = await Promise.all([
+    const [pluginsJson, newsJson, socialJson, bmJson, starsSummaryJson] = await Promise.all([
       fetchJson("data/latest.json"),
       fetchJson("data/news_latest.json"),
       fetchJson("data/social_latest.json"),
       fetchJson("data/benchmarks_latest.json"),
-      fetchJson("data/stars_meta.json"),
-      fetchJson("data/stars_ledger.json"),
+      fetchJson("data/stars_summary.json"),
     ]);
+    let starsMetaJson = starsSummaryJson?.meta || null;
+    let starsLedgerJson = starsSummaryJson?.ledger || null;
+    if (!starsMetaJson || !starsLedgerJson) {
+      [starsMetaJson, starsLedgerJson] = await Promise.all([
+        fetchJson("data/stars_meta.json"),
+        fetchJson("data/stars_ledger.json"),
+      ]);
+    }
 
     if (pluginsJson) {
       const rising = (pluginsJson.rising || pluginsJson.items || []).map((p) => ({ ...p, _tier: "rising" }));
@@ -92,7 +99,9 @@ export class AIPavilionEngine {
       const metaEntries = Array.isArray(starsMetaJson)
         ? starsMetaJson
         : Object.entries(starsMetaJson.repos || starsMetaJson).map(([repo, v]) => ({ repo, ...v }));
-      const ledgerRepos = starsLedgerJson?.repos || {};
+      const ledgerRepos = (starsLedgerJson && typeof starsLedgerJson.repos === "object")
+        ? starsLedgerJson.repos
+        : (starsLedgerJson || {});
       const items = metaEntries
         .filter((e) => e && (e.repo || e.name))
         .map((e) => {
@@ -100,7 +109,15 @@ export class AIPavilionEngine {
           const hist = ledgerRepos[key];
           let stars = Number(e.stars || e.stargazers_count || 0);
           let delta = Number(e.delta_7d || e.velocity_7d || 0);
-          if (hist && typeof hist === "object") {
+          if (Array.isArray(hist) && hist.length) {
+            const last = hist[hist.length - 1];
+            stars = Number(last?.stars ?? stars);
+            const prevIdx = Math.max(0, hist.length - 8);
+            const prev = hist[prevIdx];
+            if (prev && Number.isFinite(Number(prev.stars))) {
+              delta = Math.max(0, stars - Number(prev.stars));
+            }
+          } else if (hist && typeof hist === "object") {
             const dates = Object.keys(hist).sort();
             if (dates.length) {
               stars = Number(hist[dates[dates.length - 1]] || stars);
@@ -111,8 +128,8 @@ export class AIPavilionEngine {
           return {
             repo: key,
             name: e.name || key.split("/").pop() || key,
-            description: e.description_ko || e.description || "",
-            category: e.category || "AI OSS",
+            description: e.desc_ko || e.description_ko || e.description || "",
+            category: e.category || e.language || "AI OSS",
             stars,
             delta,
             url: e.url || `https://github.com/${key}`,
@@ -122,7 +139,7 @@ export class AIPavilionEngine {
         .slice(0, 40);
 
       this.archiveData.starboard = {
-        updated: starsLedgerJson?.updated_at || new Date().toISOString().slice(0, 10),
+        updated: starsMetaJson?.updated_date || starsMetaJson?.generated_at?.slice(0, 10) || new Date().toISOString().slice(0, 10),
         items,
       };
     }

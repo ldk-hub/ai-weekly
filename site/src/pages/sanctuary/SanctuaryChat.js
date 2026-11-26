@@ -850,6 +850,8 @@ export class SanctuaryChat {
     const makeTab = (id, label, isDm = false) => {
       const btn = document.createElement("button");
       btn.type = "button";
+      btn.setAttribute("role", "tab");
+      btn.setAttribute("aria-selected", String(this.activeThread === id));
       btn.className = `sc-chat-tab ${this.activeThread === id ? "is-active" : ""} ${isDm ? "is-dm" : ""}`;
       btn.dataset.threadId = id;
 

@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 import * as SkeletonUtils from "three/examples/jsm/utils/SkeletonUtils.js";
 import { createToonMaterial, addToonOutline, getCarnivalStripeTexture } from "./ToonMaterials.js";
 
@@ -632,6 +633,10 @@ export class CrowdAndAvatarEngine {
     this.terrain = terrainEngine;
     this.overlayLayer = overlayLayerEl;
     this.loader = new GLTFLoader();
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath("assets/draco/");
+    dracoLoader.setDecoderConfig({ type: "wasm" });
+    this.loader.setDRACOLoader(dracoLoader);
     this.modelCache = new Map();
 
     this.group = new THREE.Group();
@@ -719,10 +724,10 @@ export class CrowdAndAvatarEngine {
     this._spawnAIGuests(24);
   }
 
-  setSpawnPosition(x, z) {
+  setSpawnPosition(x, z, facing = Math.PI) {
     const gy = this.terrain ? Math.max(this.terrain.waterLevel + 0.15, this.terrain.getHeightAt(x, z)) : 0;
     this.player.position.set(x, gy, z);
-    this.player.facing = Math.PI; // Facing North (-Z) through Grand Arch into the park!
+    this.player.facing = facing;
     this.player.root.position.copy(this.player.position);
     this.player.root.rotation.y = this.player.facing;
   }
@@ -826,18 +831,21 @@ export class CrowdAndAvatarEngine {
   }
 
   async preloadCharacterModels() {
-    const entries = Object.entries(CHARACTER_MODELS);
-    await Promise.all(
-      entries.map(async ([key, url]) => {
-        try {
-          const gltf = await this.loader.loadAsync(url);
-          this.modelCache.set(key, gltf);
-        } catch (err) {
-          console.warn(`[CrowdAndAvatarEngine] GLB fallback for ${key}:`, err?.message || err);
-        }
-      })
-    );
-    this.setPlayerClass(this.player.classKey);
+    const loadOne = async (key, url) => {
+      try {
+        const gltf = await this.loader.loadAsync(url);
+        this.modelCache.set(key, gltf);
+      } catch (err) {
+        console.warn(`[CrowdAndAvatarEngine] GLB fallback for ${key}:`, err?.message || err);
+      }
+    };
+    const playerKey = this.player.classKey;
+    if (CHARACTER_MODELS[playerKey]) {
+      await loadOne(playerKey, CHARACTER_MODELS[playerKey]);
+      this.setPlayerClass(playerKey);
+    }
+    const remaining = Object.entries(CHARACTER_MODELS).filter(([key]) => key !== playerKey);
+    await Promise.all(remaining.map(([key, url]) => loadOne(key, url)));
     this._upgradeAllAIGuestsToBlenderModels();
     this._upgradeAllRemotePeersToBlenderModels();
   }
@@ -1249,12 +1257,19 @@ export class CrowdAndAvatarEngine {
    */
   seedInitialParkActivity() {
     const ridePois = this.poiList.filter((p) => (p.category === "coaster" || p.category === "ride") && p.id);
-    if (!ridePois.length || this.aiGuests.length < 14) return;
+    if (!ridePois.length || this.aiGuests.length < 16) return;
 
-    // 1. Place 4 guests right at ride entrances in QUEUING_RIDE (pay & board within 0.8~2.2s)
+    const coasters = ridePois.filter((p) => p.category === "coaster");
+    const flatRides = ridePois.filter((p) => p.category === "ride");
+    const featured = [
+      ...coasters,
+      ...flatRides.filter((_, idx) => idx % Math.max(1, Math.floor(flatRides.length / 8)) === 0),
+    ];
+
+    // 1. Place 4 guests right at entrances across realms in QUEUING_RIDE
     for (let k = 0; k < 4; k++) {
       const g = this.aiGuests[5 + k];
-      const poi = ridePois[k % ridePois.length];
+      const poi = featured[k % featured.length];
       const wp = this.terrain.findNearestWaypointIndex(poi.x, poi.z);
       g.currentWpIdx = wp.index;
       g.routeQueue = [];
@@ -1268,10 +1283,10 @@ export class CrowdAndAvatarEngine {
       g.quote = `${poi.name} 탑승 대기 중!`;
     }
 
-    // 2. Place 5 guests ALREADY seated & riding on the coaster and top flat rides!
-    for (let k = 0; k < 5; k++) {
+    // 2. Place 8 guests ALREADY seated & riding across all 4 coasters & realms!
+    for (let k = 0; k < 8 && 9 + k < this.aiGuests.length; k++) {
       const g = this.aiGuests[9 + k];
-      const poi = ridePois[k % ridePois.length];
+      const poi = featured[k % featured.length];
       const wp = this.terrain.findNearestWaypointIndex(poi.x, poi.z);
       g.currentWpIdx = wp.index;
       g.routeQueue = [];
@@ -1706,8 +1721,9 @@ export class CrowdAndAvatarEngine {
       if (this.moveMarker) this.moveMarker.visible = false;
       return;
     }
-    const tx = THREE.MathUtils.clamp(worldPos.x, -142, 142);
-    const tz = THREE.MathUtils.clamp(worldPos.z, -142, 142);
+    const bound = Math.max(142, (this.terrain?.size || 520) * 0.5 - 10);
+    const tx = THREE.MathUtils.clamp(worldPos.x, -bound, bound);
+    const tz = THREE.MathUtils.clamp(worldPos.z, -bound, bound);
     const ty = this.terrain ? Math.max(this.terrain.waterLevel + 0.15, this.terrain.getHeightAt(tx, tz)) : 0;
     this.player.moveTarget = new THREE.Vector3(tx, ty, tz);
     if (this.moveMarker) {
@@ -1853,8 +1869,9 @@ export class CrowdAndAvatarEngine {
           .addScaledVector(cameraBasis.forward, moveZ)
           .addScaledVector(cameraBasis.right, moveX)
           .normalize();
-        this.player.position.x = THREE.MathUtils.clamp(this.player.position.x + dir.x * speed * stepDt, -142, 142);
-        this.player.position.z = THREE.MathUtils.clamp(this.player.position.z + dir.z * speed * stepDt, -142, 142);
+        const bound = Math.max(142, (this.terrain?.size || 520) * 0.5 - 10);
+        this.player.position.x = THREE.MathUtils.clamp(this.player.position.x + dir.x * speed * stepDt, -bound, bound);
+        this.player.position.z = THREE.MathUtils.clamp(this.player.position.z + dir.z * speed * stepDt, -bound, bound);
         this.player.facing = Math.atan2(dir.x, dir.z);
         this._playPlayerAnim(input.sprint ? "run" : "walk");
       } else if (this.player.moveTarget) {
@@ -1865,10 +1882,11 @@ export class CrowdAndAvatarEngine {
           this.clearPlayerMoveTarget();
           this._playPlayerAnim("idle");
         } else {
+          const bound = Math.max(142, (this.terrain?.size || 520) * 0.5 - 10);
           const speed = dist > 14 ? 9.2 : 6.6;
           const step = Math.min(dist, speed * stepDt);
-          this.player.position.x = THREE.MathUtils.clamp(this.player.position.x + (dx / dist) * step, -142, 142);
-          this.player.position.z = THREE.MathUtils.clamp(this.player.position.z + (dz / dist) * step, -142, 142);
+          this.player.position.x = THREE.MathUtils.clamp(this.player.position.x + (dx / dist) * step, -bound, bound);
+          this.player.position.z = THREE.MathUtils.clamp(this.player.position.z + (dz / dist) * step, -bound, bound);
           this.player.facing = this._lerpAngle(this.player.facing, Math.atan2(dx, dz), Math.min(1, stepDt * 10));
           this._playPlayerAnim(dist > 14 ? "run" : "walk");
           if (this.moveMarker && this.moveMarker.visible) {

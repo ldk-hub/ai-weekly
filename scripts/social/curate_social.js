@@ -95,22 +95,16 @@ function qualityIssues(item, fact) {
   return issues;
 }
 
+const { callGeminiJson } = require("../core/gemini-client");
+
 async function callGemini(posts) {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
   const payload = posts.map((p) => ({ id: p.id, author: p.author, text: p.text.slice(0, 1500) }));
-  const res = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "x-goog-api-key": API_KEY },
-    body: JSON.stringify({
-      contents: [{ role: "user", parts: [{ text: `${PROMPT}\n\n게시물:\n${JSON.stringify(payload)}` }] }],
-      generationConfig: { responseMimeType: "application/json" },
-    }),
+  const parsed = await callGeminiJson({
+    apiKey: API_KEY,
+    model: MODEL,
+    prompt: `${PROMPT}\n\n게시물:\n${JSON.stringify(payload)}`,
   });
-  if (!res.ok) throw new Error(`Gemini API error: HTTP ${res.status}`); // 본문에 키가 섞이지 않도록 상태코드만
-  const data = await res.json();
-  const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-  if (!text) throw new Error("Gemini returned empty response");
-  return JSON.parse(text).items || [];
+  return parsed.items || [];
 }
 
 function validate(file = LATEST, opts = {}) {

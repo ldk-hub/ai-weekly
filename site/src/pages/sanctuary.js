@@ -19,7 +19,7 @@ import { ArchitectBuilder } from "./weeklyland/ArchitectBuilder.js";
 import { GuestHudController } from "./weeklyland/GuestHudController.js";
 import { PavilionDashboard } from "./weeklyland/PavilionDashboard.js";
 import { CartoonSkyDecor, getPoolStats } from "./weeklyland/ToonMaterials.js";
-import { STAGE_LIST, STAGE_PALETTES, buildThemeStageWorld } from "./weeklyland/ParkThemeStages.js";
+import { STAGE_LIST, STAGE_PALETTES, buildUnifiedParkWorld, getDominantZoneAt } from "./weeklyland/ParkThemeStages.js";
 
 const THEME_KEY = "aiw-theme";
 
@@ -74,6 +74,7 @@ class WeeklyLandApp {
     this.activeStageId = "sunlit-meadow";
     this.baseMeadowWorld = null;
     this._financeUiAccum = 0;
+    this._zoneBannerTimer = null;
 
     // Real-time Performance Optimizer State
     this.perf = {
@@ -123,36 +124,38 @@ class WeeklyLandApp {
     dirLight.castShadow = true;
     dirLight.shadow.mapSize.set(2048, 2048);
     dirLight.shadow.camera.near = 10;
-    dirLight.shadow.camera.far = 360;
-    const d = 148;
+    dirLight.shadow.camera.far = 420;
+    const d = 138;
     dirLight.shadow.camera.left = -d;
     dirLight.shadow.camera.right = d;
     dirLight.shadow.camera.top = d;
     dirLight.shadow.camera.bottom = -d;
     dirLight.shadow.bias = -0.0004;
 
-    this.scene.add(ambientLight, hemiLight, dirLight);
+    this.scene.add(ambientLight, hemiLight, dirLight, dirLight.target);
     return { ambientLight, hemiLight, dirLight };
   }
 
   async boot() {
     const worldRes = await fetch("data/park_world.json", { cache: "no-cache" });
-    const baseWorld = await worldRes.json();
-    this.baseMeadowWorld = baseWorld;
-    this.activeStageId = baseWorld?.parkMeta?.themePreset || "sunlit-meadow";
+    const rawWorld = await worldRes.json();
+    const unifiedWorld = buildUnifiedParkWorld(rawWorld);
+    this.baseMeadowWorld = unifiedWorld;
+    this.activeStageId = "sunlit-meadow";
 
-    this.worldState = new ParkWorldState(baseWorld);
+    this.worldState = new ParkWorldState(unifiedWorld);
     this.publisher = new ParkPublisher(this.worldState);
 
     if (this.publisher.isLocalDev()) {
       const draft = await this.worldState.loadDraft().catch(() => null);
-      if (draft) {
+      if (draft && draft.parkMeta?.unifiedWorld === true && (draft.terrain?.size || 0) >= 480) {
         this.worldState.data = draft;
         this.worldState.dirty = true;
       }
     }
 
     const snap = this.worldState.getSnapshot();
+    this.cameraRig.setWorldSize(snap.terrain?.size || 520);
     this.terrain = new TerrainAndPathEngine(this.scene, snap.terrain, snap.paths);
     this.coaster = new CoasterEngine(this.scene, this.terrain);
     this.flatRide = new FlatRideEngine(this.scene, this.terrain);
@@ -165,7 +168,7 @@ class WeeklyLandApp {
     this.pavilion.syncAll(snap.pavilions);
 
     const entrance = snap.parkMeta?.entrance || { x: 0, z: 124 };
-    this.crowd.setSpawnPosition(entrance.x, entrance.z);
+    this.crowd.setSpawnPosition(entrance.x, entrance.z, Math.PI);
     this.crowd.setParkWorldContext(snap);
     this.crowd.seedInitialParkActivity();
     this.crowd.onPayment = () => {
@@ -182,7 +185,8 @@ class WeeklyLandApp {
     this.atmosphere = new SanctuaryAtmosphere(this.scene, this.lights, {}, {
       onFestivalEvent: (ev) => this._handleFestivalEvent(ev),
     });
-    this.atmosphere.setTimeMode("day");
+    this.atmosphere.setTimeMode("zone");
+    this.atmosphere.setSeasonMode("zone");
 
     this.hud = new GuestHudController({
       onBoardRide: (kind, id) => this.boardAttraction(kind, id),
@@ -273,6 +277,7 @@ class WeeklyLandApp {
   _bindStageSelector() {
     this._renderStageCards("wl-welcome-stage-grid", false);
     this._renderStageCards("wl-stage-modal-grid", true);
+    this._syncRealmUi(this.activeStageId);
 
     const modal = document.getElementById("wl-stage-modal");
     document.getElementById("btn-wl-stage")?.addEventListener("click", () => {
@@ -286,26 +291,29 @@ class WeeklyLandApp {
     modal?.addEventListener("click", (ev) => {
       if (ev.target === modal) modal.hidden = true;
     });
+
+    // Interactive cardinal compass pins inside World Map modal
+    document.querySelectorAll("[data-compass-zone]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const zid = btn.dataset.compassZone;
+        this.travelToRealm(zid);
+        if (modal) modal.hidden = true;
+      });
+    });
   }
 
   _renderStageCards(containerId, closeOnSelect) {
     const grid = document.getElementById(containerId);
     if (!grid) return;
-    const swatchColors = {
-      "sunlit-meadow": "#65d472",
-      "tropical-lagoon": "#06b6d4",
-      "spooky-halloween": "#9333ea",
-      "alpine-winter": "#bae6fd",
-    };
     grid.innerHTML = STAGE_LIST.map(
       (st) => `
       <button type="button" class="wl-stage-card ${st.id === this.activeStageId ? "is-active" : ""}" data-stage-id="${st.id}">
         <div class="wl-stage-card-head">
           <span class="wl-stage-card-title">
-            <span class="wl-stage-swatch" style="background:${swatchColors[st.id] || "#fb923c"}"></span>
+            <span class="wl-stage-swatch" style="background:${st.accentHex || "#fb923c"}"></span>
             <span>${st.name}</span>
           </span>
-          <span class="wl-stage-badge">${st.badge}</span>
+          <span class="wl-stage-badge">${st.direction || st.badge}</span>
         </div>
         <span class="wl-stage-desc">${st.subtitle}</span>
       </button>`
@@ -314,7 +322,7 @@ class WeeklyLandApp {
     grid.querySelectorAll("[data-stage-id]").forEach((btn) => {
       btn.addEventListener("click", () => {
         const sid = btn.dataset.stageId;
-        this.switchThemeStage(sid);
+        this.travelToRealm(sid, { silent: !this.hasEntered });
         if (closeOnSelect) {
           const modal = document.getElementById("wl-stage-modal");
           if (modal) modal.hidden = true;
@@ -323,39 +331,100 @@ class WeeklyLandApp {
     });
   }
 
-  switchThemeStage(stageId) {
-    const pal = STAGE_PALETTES[stageId];
-    if (!pal || !this.baseMeadowWorld) return;
+  /**
+   * Seamless Fast-Travel across the ONE Unified 520m Continent (no map reload or reset!).
+   * Players can also walk/fly naturally across bridges between all 4 themed realms.
+   */
+  travelToRealm(zoneId, { silent = false } = {}) {
+    const pal = STAGE_PALETTES[zoneId];
+    if (!pal) return;
     if (this.crowd.player.riding) this.leaveAttraction();
     if (this.activeGuestId) this._closeGuestCard();
 
-    this.activeStageId = stageId;
-    const nextWorld = buildThemeStageWorld(stageId, this.baseMeadowWorld);
-    this.terrain.setThemePalette(stageId);
-    this.worldState.applyRemotePatch(nextWorld);
+    const sp = pal.spawn || pal.center || { x: 0, z: 118, facing: Math.PI };
+    this.crowd.clearPlayerMoveTarget();
+    this.crowd.setSpawnPosition(sp.x, sp.z, sp.facing ?? Math.PI);
 
-    this.atmosphere.setTimeMode(pal.defaultTime || "day");
-    this.atmosphere.setSeasonMode(pal.defaultSeason || "spring");
-    this._syncAtmoLabels();
+    const gy = this.terrain ? Math.max(this.terrain.waterLevel + 0.2, this.terrain.getHeightAt(sp.x, sp.z)) : 0;
+    const lookX = pal.center?.x ?? sp.x;
+    const lookZ = pal.center?.z ?? (sp.z - 10);
+    const camAz = Math.atan2(sp.x - lookX, sp.z - lookZ);
 
-    const entrance = nextWorld.parkMeta?.entrance || { x: 0, z: 124 };
-    this.crowd.setSpawnPosition(entrance.x, entrance.z);
-    this.crowd.setParkWorldContext(nextWorld);
-    this.crowd.resetGuestsToCurrentPaths();
-
-    if (this.cameraRig.mode === "guest_third") {
-      this.cameraRig.focus.set(entrance.x, 3.0, entrance.z - 6);
-      this.cameraRig.targetFocus.set(entrance.x, 3.0, entrance.z - 6);
+    if (this.cameraRig.mode === "drone" || this.cameraRig.mode === "architect") {
+      this.cameraRig.focusOn(new THREE.Vector3(lookX, gy + 6, lookZ), 82);
+    } else {
+      this.cameraRig.focus.set(sp.x, gy + 2.2, sp.z);
+      this.cameraRig.targetFocus.set(sp.x, gy + 2.2, sp.z);
+      this.cameraRig.azimuth = camAz;
+      this.cameraRig.targetAzimuth = camAz;
     }
 
+    this._onEnterRealm(zoneId, { fromFastTravel: true, silent });
+  }
+
+  /**
+   * Triggered automatically when walking, riding, or flying across a biome border (or via fast travel).
+   */
+  _onEnterRealm(zoneId, { fromFastTravel = false, silent = false } = {}) {
+    const pal = STAGE_PALETTES[zoneId];
+    if (!pal) return;
+    const changed = this.activeStageId !== zoneId;
+    this.activeStageId = zoneId;
+    this._syncRealmUi(zoneId);
+    this._syncAtmoLabels();
+
+    if (silent) return;
+    if (changed || fromFastTravel) {
+      this.audio.playZoneTransitionChime(zoneId);
+      this._showZoneBanner(pal);
+      if (fromFastTravel) {
+        this.hud.showToast(`'${pal.name}' 영역으로 빠른 이동했습니다! 걸어서 다른 영역으로 자유롭게 넘나들 수 있어요.`, 3400);
+      }
+    }
+  }
+
+  _syncRealmUi(zoneId) {
+    const pal = STAGE_PALETTES[zoneId] || STAGE_PALETTES["sunlit-meadow"];
+    const shell = document.querySelector(".wl-stage-shell");
+    if (shell) shell.style.setProperty("--wl-zone-accent", pal.accentHex || "#ff7657");
+
+    const btnLabel = document.getElementById("wl-stage-btn-label");
+    if (btnLabel) btnLabel.textContent = pal.shortName || pal.name;
+    const btnDot = document.getElementById("wl-stage-btn-dot");
+    if (btnDot) btnDot.style.background = pal.accentHex || "#ff7657";
+
     document.querySelectorAll("[data-stage-id]").forEach((el) => {
-      el.classList.toggle("is-active", el.dataset.stageId === stageId);
+      el.classList.toggle("is-active", el.dataset.stageId === zoneId);
+    });
+    document.querySelectorAll("[data-compass-zone]").forEach((el) => {
+      el.classList.toggle("is-active", el.dataset.compassZone === zoneId);
     });
     const finStage = document.getElementById("wl-fin-stage-name");
-    if (finStage) finStage.textContent = pal.name;
-    this.chat?.updateZoneLabel(`${pal.name} 정문 광장`);
-    this.audio.playClick(760);
-    this.hud.showToast(`'${pal.name}' 테마 스테이지로 전환했습니다!`, 3800);
+    if (finStage) finStage.textContent = `통합 대륙 · 현재: ${pal.name}`;
+    this.chat?.updateZoneLabel(pal.name);
+  }
+
+  _showZoneBanner(pal) {
+    const banner = document.getElementById("wl-zone-banner");
+    const badge = document.getElementById("wl-zone-banner-badge");
+    const title = document.getElementById("wl-zone-banner-title");
+    const sub = document.getElementById("wl-zone-banner-sub");
+    if (!banner || !title) return;
+    if (badge) badge.textContent = `${pal.badge} · ${pal.direction}`;
+    title.textContent = pal.name;
+    if (sub) sub.textContent = pal.subtitle;
+    banner.style.setProperty("--wl-zone-accent", pal.accentHex || "#ff7657");
+    banner.hidden = false;
+    banner.classList.remove("is-showing");
+    void banner.offsetWidth;
+    banner.classList.add("is-showing");
+    clearTimeout(this._zoneBannerTimer);
+    this._zoneBannerTimer = setTimeout(() => {
+      banner.classList.remove("is-showing");
+      setTimeout(() => {
+        if (!banner.classList.contains("is-showing")) banner.hidden = true;
+      }, 380);
+    }, 3200);
   }
 
   _bindFinancePanel() {
@@ -393,7 +462,7 @@ class WeeklyLandApp {
     if (!pop || pop.hidden) return;
 
     const setT = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
-    setT("wl-fin-stage-name", STAGE_PALETTES[this.activeStageId]?.name || "위클리 썬릿 초원");
+    setT("wl-fin-stage-name", `통합 대륙 · 현재: ${STAGE_PALETTES[this.activeStageId]?.name || "위클리 썬릿 초원"}`);
     setT("wl-fin-balance", `₩${eco.balance.toLocaleString()}`);
     setT("wl-fin-revenue", `₩${eco.totalRevenue.toLocaleString()}`);
     setT("wl-fin-sales", `${eco.ticketsSold}매 · ${eco.snacksSold}건`);
@@ -429,19 +498,23 @@ class WeeklyLandApp {
     if (modal) modal.hidden = true;
     this.audio.playClick(720);
 
+    const pal = STAGE_PALETTES[this.activeStageId] || STAGE_PALETTES["sunlit-meadow"];
+    const center = pal.center || { x: 0, z: 12 };
+
     if (mode === "drone") {
       this.cameraRig.setMode("drone");
-      this.cameraRig.focusOn(new THREE.Vector3(0, 6, 12), 96);
+      this.cameraRig.focusOn(new THREE.Vector3(center.x, 6, center.z), 108);
       this.hud.syncMode(this.worldState.mode, this.cameraRig.mode);
-      this.hud.showToast("드론 시점으로 위클리랜드에 입장했습니다! WASD로 자유롭게 비행하세요.", 4000);
+      this.hud.showToast("드론 시점으로 통합 대륙에 입장했습니다! WASD로 4개 테마 영역을 자유롭게 비행하세요.", 4200);
     } else {
       this.cameraRig.setMode("guest_third");
       this.cameraRig.targetDistance = 14.5;
       this.cameraRig.targetPitch = 0.34;
       this.hud.syncMode(this.worldState.mode, this.cameraRig.mode);
-      this.hud.showToast("위클리랜드 정문에 입장했습니다! 앞쪽 아치를 지나 놀이기구·AI 손님과 상호작용해 보세요.", 4200);
+      this.hud.showToast(`'${pal.name}'에 입장했습니다! 동·서·북 포털 아치를 지나면 각 영역의 테마로 실시간 전환됩니다.`, 4400);
     }
-    this.chat?.updateZoneLabel("위클리랜드 정문 광장");
+    this._showZoneBanner(pal);
+    this.chat?.updateZoneLabel(pal.name);
     const mobPad = document.getElementById("wl-mobile-pad");
     if (mobPad && mode === "guest") mobPad.hidden = false;
     this.canvas.focus?.();
@@ -871,7 +944,17 @@ class WeeklyLandApp {
 
   boardAttraction(kind, id) {
     if (this.worldState.mode === "architect") this.toggleArchitectMode(false);
-    const targetId = kind === "coaster" ? (this.coaster.instances.has(id) ? id : this.coaster.getPrimaryCoasterId()) : id;
+    let targetId = id;
+    if (kind === "coaster") {
+      const realmCoaster = STAGE_PALETTES[this.activeStageId]?.primaryCoasterId;
+      if (!id || id === "auto") {
+        targetId = (realmCoaster && this.coaster.instances.has(realmCoaster))
+          ? realmCoaster
+          : this.coaster.getPrimaryCoasterId();
+      } else {
+        targetId = this.coaster.instances.has(id) ? id : this.coaster.getPrimaryCoasterId();
+      }
+    }
     if (!targetId) return;
     this.crowd.boardRide(kind, targetId, 0);
     // Start in 3/4 Chase Action Cam so player immediately sees their seated posture, facial expressions & ride reactions!
@@ -938,7 +1021,7 @@ class WeeklyLandApp {
     this.hud.syncMode(this.worldState.mode, this.cameraRig.mode);
     this.hud.showToast(
       next
-        ? "관리자(Architect) 모드 — 코스터·27종 건물/기구·보행로·300m 지형·철거 도구를 자유롭게 사용하세요."
+        ? "관리자(Architect) 모드 — 520m 통합 대륙에서 코스터·27종 건물/기구·보행로·지형·철거 도구를 자유롭게 사용하세요."
         : "방문객(Guest) 모드로 전환되었습니다."
     );
   }
@@ -1100,23 +1183,32 @@ class WeeklyLandApp {
   }
 
   _loop() {
+    if (document.hidden) {
+      this._rafId = null;
+      return;
+    }
     this._rafId = requestAnimationFrame(() => this._loop());
     const rawDt = this.clock.getDelta();
     const dt = Math.min(rawDt, 0.05);
     this._updateFpsAndAutoGuard(rawDt);
 
-    // Track weather & fireworks around active focus (works smoothly in Guest, Drone & Architect!)
+    // Track continuous spatial biome blending & auto-morph theme on realm entry!
     const atmoCenter = this.cameraRig.mode === "guest_third" ? this.crowd.player.position : this.cameraRig.focus;
-    this.atmosphere.update(dt, atmoCenter);
+    const biomeState = getDominantZoneAt(atmoCenter.x, atmoCenter.z, this.activeStageId);
+    if (this.hasEntered && biomeState.zoneId !== this.activeStageId) {
+      this._onEnterRealm(biomeState.zoneId);
+    }
+    this.atmosphere.update(dt, atmoCenter, biomeState);
 
-    const isNight = this.atmosphere.getTimeKey() === "night";
+    const skyState = this.atmosphere.getSkyState();
+    const isNight = Boolean(skyState.isNight);
     if (this.bloomPass) {
-      const targetStrength = isNight ? 0.56 : 0.12;
+      const targetStrength = (this.atmosphere.getTimeKey() === "night" ? 0.56 : 0.12) + (skyState.bloomBoost || 0);
       this.bloomPass.strength += (targetStrength - this.bloomPass.strength) * Math.min(1, dt * 4);
     }
 
     this.terrain.update(dt, isNight);
-    this.skyDecor.update(dt, this.atmosphere.getSkyState(), this.cameraRig.camera.position);
+    this.skyDecor.update(dt, skyState, this.cameraRig.camera.position);
     this.coaster.update(dt, isNight);
     this.flatRide.update(dt, isNight, this.cameraRig.camera.position);
     this.pavilion.update(isNight);
@@ -1160,6 +1252,7 @@ class WeeklyLandApp {
       listenerPos: this.cameraRig.camera.position,
       flatRideEngine: this.flatRide,
       isRaining: this.atmosphere.isRaining(),
+      zoneId: this.activeStageId,
     });
     this._updateProximityPrompt();
 
@@ -1190,7 +1283,7 @@ class WeeklyLandApp {
               Boolean(p.moveTarget)
             ? "Walk"
             : "Idle",
-        zone: p.riding ? "어트랙션 탑승" : "위클리랜드 광장",
+        zone: p.riding ? "어트랙션 탑승" : (STAGE_PALETTES[this.activeStageId]?.name || "위클리랜드 통합 대륙"),
         riding: p.riding,
       });
     }
@@ -1205,4 +1298,11 @@ class WeeklyLandApp {
 }
 
 initThemeToggle();
-window.__weeklyland = new WeeklyLandApp();
+const weeklyLandApp = new WeeklyLandApp();
+window.__weeklyland = weeklyLandApp;
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden && !weeklyLandApp._rafId) {
+    weeklyLandApp.clock.getDelta();
+    weeklyLandApp._loop();
+  }
+});

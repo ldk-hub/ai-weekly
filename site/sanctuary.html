@@ -11,9 +11,11 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet"></noscript>
 
 <link rel="canonical" href="https://ldk-hub.github.io/ai-weekly/sanctuary" />
+<link rel="ard" href="./.well-known/ard.json" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="AI위클리: 위클리랜드 3D 테마파크" />
 <meta property="og:description" content="풀 3D 스플라인 롤러코스터 빌더와 1인칭 POV 탑승, 실시간 멀티유저 동승 및 AI위클리 파빌리온을 결합한 3D 테마파크" />
@@ -31,6 +33,17 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-YLKMDP5YKQ');
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "AI위클리: 위클리랜드 3D 테마파크",
+  "url": "https://ldk-hub.github.io/ai-weekly/sanctuary",
+  "applicationCategory": "EntertainmentApplication",
+  "inLanguage": "ko-KR",
+  "description": "3D 스플라인 롤러코스터 빌더, 1인칭 POV 탑승 및 AI위클리 실시간 파빌리온을 결합한 인터랙티브 3D 테마파크."
+}
 </script>
 </head>
 
@@ -98,7 +111,7 @@
           <span class="sc-entry-dot" aria-hidden="true"></span>
           <span>위클리랜드 3D</span>
         </a>
-        <button class="theme-toggle" id="theme-toggle" aria-label="테마 전환" type="button">라이트</button>
+        <button class="theme-toggle" id="theme-toggle" title="테마 전환" type="button">라이트</button>
         <a class="gh-btn" href="https://github.com/ldk-hub/ai-weekly" target="_blank" rel="noopener">GitHub</a>
       </div>
     </div>
@@ -121,7 +134,7 @@
         <nav class="wl-hud-panel wl-topbar-group" aria-label="핵심 탑승 액션">
           <a href="./" class="wl-hud-btn wl-mobile-only" aria-label="AI위클리 홈으로 이동">← 홈</a>
           <h1 class="wl-park-title">위클리랜드</h1>
-          <button type="button" class="wl-hud-btn is-active" data-wl-kind="coaster" data-wl-ride="coaster-starboard-hyper">
+          <button type="button" class="wl-hud-btn is-active" data-wl-kind="coaster" data-wl-ride="auto" title="현재 영역의 시그니처 롤러코스터 즉시 탑승">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18c4-12 8-12 12 0s6 0 6-6"/><path d="M3 20h18"/></svg>
             <span>코스터 타보기</span>
           </button>
@@ -132,9 +145,9 @@
           <button type="button" class="wl-hud-btn wl-finance-btn" id="btn-wl-finance" title="공원 수익·요금·탑승 현황 보기">
             <span id="wl-finance-balance">₩250,000</span>
           </button>
-          <button type="button" class="wl-hud-btn" id="btn-wl-stage" title="테마별 스테이지 맵 선택 (4종)">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
-            <span id="wl-stage-btn-label">맵 선택</span>
+          <button type="button" class="wl-hud-btn wl-zone-pill-btn" id="btn-wl-stage" title="위클리랜드 통합 대륙 지도 · 영역 빠른 이동">
+            <span class="wl-zone-dot" id="wl-stage-btn-dot" aria-hidden="true"></span>
+            <span id="wl-stage-btn-label">썬릿 초원</span>
           </button>
           <button type="button" class="wl-hud-btn" id="btn-wl-drone" title="드론 조망 카메라 전환">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -199,21 +212,48 @@
         </div>
       </aside>
 
-      <!-- Theme Park Stage Selector Modal (Planet Coaster / RCT Style) -->
-      <div class="wl-modal-backdrop" id="wl-stage-modal" role="dialog" aria-modal="true" aria-label="테마별 스테이지 맵 선택" hidden>
+      <!-- Unified World Map & Realm Fast-Travel Modal -->
+      <div class="wl-modal-backdrop" id="wl-stage-modal" role="dialog" aria-modal="true" aria-label="위클리랜드 통합 대륙 지도" hidden>
         <div class="wl-hud-panel wl-stage-modal-card">
-          <div class="wl-fin-head" style="margin-bottom:12px;">
+          <div class="wl-fin-head" style="margin-bottom:10px;">
             <div>
-              <div class="wl-welcome-eyebrow" style="margin-bottom:4px;">THEME PARK STAGES</div>
-              <h2 class="wl-section-heading" style="margin:0;font-size:18px;">테마별 스테이지 맵 선택</h2>
+              <div class="wl-welcome-eyebrow" style="margin-bottom:4px;">UNIFIED GRAND WORLD · 520M CONTINENT</div>
+              <h2 class="wl-section-heading" style="margin:0;font-size:18px;">위클리랜드 통합 대륙 · 영역 지도</h2>
             </div>
             <button type="button" class="wl-hud-btn" id="btn-stage-close">닫기</button>
           </div>
-          <p class="wl-welcome-lead" style="margin-bottom:14px;font-size:12.5px;">
-            롤러코스터 타이쿤·플래닛 코스터처럼 서로 다른 지형, 날씨 분위기, 시그니처 코스터와 어트랙션으로 구성된 4개 테마 월드를 즉시 전환할 수 있습니다.
+          <p class="wl-welcome-lead" style="margin-bottom:12px;font-size:12.5px;">
+            4개의 테마 세계가 하나의 520m 대륙으로 완벽히 통합되었습니다. 연결 도로와 포털 아치를 통해 직접 걸어가거나, 원하는 영역을 눌러 즉시 이동하면 하늘·날씨·조명·사운드가 해당 테마로 실시간 전환됩니다.
           </p>
+          <div class="wl-world-compass" aria-label="통합 대륙 4대 권역 배치도">
+            <button type="button" class="wl-compass-node is-north" data-compass-zone="alpine-winter">
+              <span class="wl-stage-swatch" style="background:#7dd3fc"></span>
+              <span>북쪽 · 알파인 윈터</span>
+            </button>
+            <div class="wl-compass-mid-row">
+              <button type="button" class="wl-compass-node is-west" data-compass-zone="spooky-halloween">
+                <span class="wl-stage-swatch" style="background:#a855f7"></span>
+                <span>서쪽 · 스푸키 매너</span>
+              </button>
+              <button type="button" class="wl-compass-node is-center is-active" data-compass-zone="sunlit-meadow">
+                <span class="wl-stage-swatch" style="background:#65d472"></span>
+                <span>중앙 · 썬릿 초원</span>
+              </button>
+              <button type="button" class="wl-compass-node is-east" data-compass-zone="tropical-lagoon">
+                <span class="wl-stage-swatch" style="background:#06b6d4"></span>
+                <span>동쪽 · 트로피컬 라군</span>
+              </button>
+            </div>
+          </div>
           <div class="wl-stage-grid" id="wl-stage-modal-grid"></div>
         </div>
+      </div>
+
+      <!-- Cinematic Seamless Realm Entry Banner -->
+      <div class="wl-zone-banner" id="wl-zone-banner" role="status" aria-live="polite" hidden>
+        <div class="wl-zone-banner-badge" id="wl-zone-banner-badge">CENTRAL HUB</div>
+        <div class="wl-zone-banner-title" id="wl-zone-banner-title">위클리 썬릿 초원</div>
+        <div class="wl-zone-banner-sub" id="wl-zone-banner-sub">화창한 파스텔 초원 · 스타보드 하이퍼 코스터</div>
       </div>
 
       <!-- Ride POV Telemetry Bar -->
@@ -266,15 +306,15 @@
       <!-- Park Entrance Welcome & Onboarding Guide Modal (Shown Before Entering) -->
       <div class="wl-welcome-backdrop" id="wl-welcome-modal" role="dialog" aria-modal="true" aria-labelledby="wl-welcome-title">
         <div class="wl-hud-panel wl-welcome-card">
-          <div class="wl-welcome-eyebrow">AI WEEKLY · 3D CARTOON THEME PARK</div>
-          <h2 class="wl-welcome-title" id="wl-welcome-title">위클리랜드 정문에 오신 것을 환영합니다</h2>
+          <div class="wl-welcome-eyebrow">AI WEEKLY · UNIFIED 520M 3D THEME PARK WORLD</div>
+          <h2 class="wl-welcome-title" id="wl-welcome-title">위클리랜드 통합 대륙에 오신 것을 환영합니다</h2>
           <p class="wl-welcome-lead">
-            실시간 AI위클리 데이터, 돈 기반 공원 경제·AI 손님 실탑승, 4종 테마 스테이지가 어우러진 300m 3D 테마파크입니다.
-            원하는 테마 맵을 고른 뒤 정문 매표소를 지나 입장해 보세요.
+            썬릿 초원·트로피컬 라군·스푸키 할로윈·알파인 윈터 4개 테마 세계가 하나로 연결된 520m 오픈월드 테마파크입니다.
+            각 영역 포털을 지나 진입하면 지형·하늘·날씨·조명·사운드가 실시간으로 해당 테마로 변합니다.
           </p>
 
           <div class="wl-welcome-stage-wrap">
-            <div class="wl-welcome-stage-label">테마 스테이지 선택</div>
+            <div class="wl-welcome-stage-label">시작 영역 선택 (입장 후 자유롭게 걸어서 모든 영역 이동 가능)</div>
             <div class="wl-stage-grid" id="wl-welcome-stage-grid"></div>
           </div>
 

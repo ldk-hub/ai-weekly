@@ -11,9 +11,11 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet"></noscript>
 
 <link rel="canonical" href="https://ldk-hub.github.io/ai-weekly/starboard" />
+<link rel="ard" href="./.well-known/ard.json" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="AI위클리 — 📈 스타보드" />
 <meta property="og:description" content="추적 리포의 주간 스타 증감을 리그별 순위표로. 활동성 배지와 순위 변동을 함께 봅니다." />
@@ -43,6 +45,16 @@
 </script>
 
 <!-- Counter.dev (private dashboard) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "AI위클리 — 오픈소스 스타보드 (Starboard)",
+  "url": "https://ldk-hub.github.io/ai-weekly/starboard",
+  "inLanguage": "ko-KR",
+  "description": "600+ AI 오픈소스 리포지토리의 체급별 주간 GitHub 스타 증감 및 활동성 시계열 순위표."
+}
+</script>
 </head>
 
 <body>
@@ -127,7 +139,7 @@
           <span class="sc-entry-dot" aria-hidden="true"></span>
           <span>위클리월드</span>
         </a>
-        <button class="theme-toggle" id="theme-toggle" aria-label="테마 전환" type="button">🌙 다크</button>
+        <button class="theme-toggle" id="theme-toggle" title="테마 전환" type="button">🌙 다크</button>
         <a class="gh-btn" href="https://github.com/ldk-hub/ai-weekly" target="_blank" rel="noopener">GitHub</a>
       </div>
     </div>
@@ -167,9 +179,9 @@
               <span>구독</span>
             </button>
             <form class="subscribe-form" id="subscribe-form" style="display:none" action="https://rlaalstn.substack.com/api/v1/free?nojs=true" method="post" target="_blank">
-              <input type="hidden" name="first_url" value="https://ldk-hub.github.io/ai-weekly/" />
+              <input type="hidden" name="first_url" value="https://ldk-hub.github.io/ai-weekly/starboard" />
               <input type="hidden" name="source" value="subscribe_widget" />
-              <input type="email" name="email" required placeholder="이메일 주소" aria-label="이메일 구독" />
+              <input type="email" name="email" autocomplete="email" required placeholder="이메일 주소" aria-label="이메일 구독" />
               <button type="submit" class="subscribe-submit">구독하기</button>
               <button type="button" class="subscribe-close" id="subscribe-close">×</button>
             </form>

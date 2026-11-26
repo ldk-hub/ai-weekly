@@ -11,9 +11,11 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet"></noscript>
 
 <link rel="canonical" href="https://ldk-hub.github.io/ai-weekly/news" />
+<link rel="ard" href="./.well-known/ard.json" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="AI위클리 — AI 뉴스" />
 <meta property="og:description" content="쏟아지는 AI 소식을 3줄 요약으로. 모델 릴리스 · 개발자 도구 · 오픈소스 · 연구를 한국어 요약과 원문 링크로 정리합니다." />
@@ -44,6 +46,16 @@
 </script>
 
 <!-- Counter.dev (private dashboard) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "AI위클리 — AI 뉴스",
+  "url": "https://ldk-hub.github.io/ai-weekly/news",
+  "inLanguage": "ko-KR",
+  "description": "모델 릴리스 · 개발자 도구 · 오픈소스 · 연구 소식을 모아 3줄 한국어 요약과 원문 링크로 정리하는 AI 뉴스 피드."
+}
+</script>
 </head>
 
 <body>
@@ -127,7 +139,7 @@
           <span class="sc-entry-dot" aria-hidden="true"></span>
           <span>위클리월드</span>
         </a>
-        <button class="theme-toggle" id="theme-toggle" aria-label="테마 전환" type="button">🌙 다크</button>
+        <button class="theme-toggle" id="theme-toggle" title="테마 전환" type="button">🌙 다크</button>
         <a class="gh-btn" href="https://github.com/ldk-hub/ai-weekly" target="_blank" rel="noopener">GitHub</a>
       </div>
     </div>
@@ -167,9 +179,9 @@
               <span>구독</span>
             </button>
             <form class="subscribe-form" id="subscribe-form" style="display:none" action="https://rlaalstn.substack.com/api/v1/free?nojs=true" method="post" target="_blank">
-              <input type="hidden" name="first_url" value="https://ldk-hub.github.io/ai-weekly/" />
+              <input type="hidden" name="first_url" value="https://ldk-hub.github.io/ai-weekly/news" />
               <input type="hidden" name="source" value="subscribe_widget" />
-              <input type="email" name="email" required placeholder="이메일 주소" aria-label="이메일 구독" />
+              <input type="email" name="email" autocomplete="email" required placeholder="이메일 주소" aria-label="이메일 구독" />
               <button type="submit" class="subscribe-submit">구독하기</button>
               <button type="button" class="subscribe-close" id="subscribe-close">×</button>
             </form>
@@ -183,7 +195,7 @@
   <main id="main">
     <div class="unified-nav-box">
       <div class="unb-bottom">
-        <nav class="cat-filter" id="cat-filter" role="tablist" aria-label="Category filter"></nav>
+        <nav class="cat-filter" id="cat-filter" aria-label="매체 필터"></nav>
         <div class="filter-right">
           <div class="unb-search-wrap">
             <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="#A7A199" stroke-width="1.7"><circle cx="7" cy="7" r="4.5"></circle><path d="m10.5 10.5 3 3"></path></svg>
@@ -198,7 +210,7 @@
       </div>
       <div class="chips-scroll-container">
         <div class="chips-fade-left" id="news-fade-left"></div>
-        <nav class="signal-chip-bar chips-bar" id="signal-chip-bar" role="tablist" aria-label="Signal filter"></nav>
+        <nav class="signal-chip-bar chips-bar" id="signal-chip-bar" aria-label="신호 필터"></nav>
         <div class="chips-fade-right" id="news-fade-right"></div>
       </div>
     </div>
