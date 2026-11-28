@@ -1,462 +1,419 @@
 {
-  "generated_at": "2026-11-27T00:10:00.000Z",
-  "version": "v2026.11.27",
-  "summary": "🔥 오늘의 핵심 이슈: #WorkspaceMCP의무화 #토큰비용통제 #에이전트보안경계 — 구글의 워크스페이스 MCP 서버 강제와 오픈AI 추론 토큰 축소 분석, 엔비디아 동남아 출하 중단이 맞물리며 AI 에이전트의 플랫폼 통제·보안 경계·코드 리뷰 거버넌스가 실무 핵심 과제로 부상하고 있습니다.",
+  "generated_at": "2026-11-28T11:30:00.000Z",
+  "version": "v2026.11.28",
+  "summary": "🔥 오늘의 핵심 이슈: #에이전트보안경계 #브라우저로컬추론 #코드기반시각추론 — 에이전트 스킬의 보안·격리 검증과 브라우저·단일 GPU 추론 최적화, 코드 합성 기반 시각 추론 연구가 맞물리며 실행 신뢰성과 경량화가 핵심 화두로 떠올랐습니다.",
   "curated_by": "ldk-hub",
   "signal_counts": {
     "policy": 2,
-    "model": 3,
-    "oss": 2,
+    "research": 3,
+    "model": 2,
     "practice": 3,
-    "research": 2,
     "devtool": 2,
-    "product": 1,
-    "insight": 3
+    "oss": 2,
+    "product": 2,
+    "insight": 2
   },
   "news": [
     {
-      "id": "geeknews_b079098a6f",
-      "category_id": "geeknews",
-      "category_name": "GeekNews",
+      "id": "hackernews_5e86333f39",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
       "signal_id": "policy",
       "signal_name": "정책·규제·인프라 (기술 영향 큰 것만)",
       "importance": 95,
-      "headline": "구글, AI 에이전트에 자사 Workspace MCP 서버 의무화…Gmail 발송 제한·임베딩 30일 상한",
-      "title_ko": "구글, AI 에이전트에 자사 Workspace MCP 서버 의무화…Gmail 발송 제한·임베딩 30일 상한",
-      "summary_ko": "• **MCP 의무화 발표**: 구글이 2027년 2월 1일부터 AI 에이전트와 AI 구동 도구의 워크스페이스 접근에 공식 MCP 서버 사용을 의무화하는 API 약관을 도입했다.\n• **기능 및 데이터 제약**: 공개 Gmail MCP는 발송·답장·전달·초안 수정을 파트너 전용으로 묶었고, 워크스페이스 데이터 기반 임베딩과 메모리 인덱스 보존 기간도 30일로 제한할 수 있다.\n• **개발자 실무 영향**: 무료 등급 할당량 축소와 유료 첫 건 과금, REST 직접 호출 제재로 기존 이메일·문서 자동화 에이전트의 아키텍처와 장기 메모리 설계를 전면 재검토해야 한다.",
-      "body_ko": "구글이 11월 24일 워크스페이스용 공식 MCP 서버 8종을 정식 출시하면서 API 약관에 새로운 AI 도구 부속 조항을 추가했다. 이에 따라 2027년 2월 1일부터 AI 에이전트나 AI 하네스, AI 모델이 구동하는 모든 도구는 Gmail과 Drive, Calendar 등 워크스페이스 연동 시 반드시 구글 MCP 서버를 거쳐야 한다. 기존처럼 REST API를 직접 호출하면 유료 프로젝트라도 무료 Standard 등급 할당량으로 제한되며 약관 위반으로 접근 정지 대상이 될 수 있다. 공개된 Gmail MCP는 검색과 읽기, 초안 생성만 지원하고 실제 발송·답장·전달·초안 수정은 파트너 권한으로 막혀 있어 기존 메일 비서 흐름을 그대로 이전하기 어렵다. 또한 워크스페이스 데이터로 만든 벡터 임베딩과 메모리 인덱스의 보존 기간을 30일로 제한할 수 있어 장기 검색 인덱스를 유지하는 에이전트는 매월 재구축이 필요하다. 승인·감사·데이터 유출 방지를 중앙에서 통제하려는 의도지만, 구글이 외부 에이전트의 기능과 과금 구조를 직접 쥐게 되면서 서드파티 생태계의 제약이 커질 전망이다.",
-      "author_profile": "neo",
-      "publish_date": "2026-11-26T21:39:40.000Z",
+      "headline": "Convex 공식 마켓플레이스 스킬, 앱 아이디어 원격 전송 및 안전 검사 우회 지시로 보안 논란",
+      "title_ko": "Convex 공식 마켓플레이스 스킬, 앱 아이디어 원격 전송 및 안전 검사 우회 지시로 보안 논란",
+      "summary_ko": "• **무단 데이터 전송**: Anthropic 공식 마켓플레이스에 등록된 Convex 플러그인 스킬이 사용자 설명을 고지 없이 원격 서버로 전송하는 동작이 보고됐다.\n• **안전장치 우회 지시**: 해시 고정 없는 원격 셸 스크립트 실행과 함께 사용자 보안 도구의 탐지를 피하도록 명령어 형태를 바꾸라는 지침까지 포함돼 논란이 커졌다.\n• **실무 보안 교훈**: 메인테이너가 텔레메트리 표기와 우회 문구를 삭제했으나, 에이전트 스킬 도입 전 원격 엔드포인트 호출과 스크립트 핀닝 여부를 직접 감사해야 한다.",
+      "body_ko": "Anthropic 공식 클로드 플러그인 마켓플레이스에 올라간 Convex 백엔드 스킬 3종이 보안 신뢰 경계를 침해한다는 이슈가 GitHub과 해커뉴스에서 큰 주목을 받았다. 문제 제기자에 따르면 해당 스킬은 사용자가 입력한 앱 아이디어를 사전 안내 없이 convex.site 계열 원격 엔드포인트로 전송하고 있었다. 더 심각한 대목은 보안 도구의 차단 분류기에 걸리지 않도록 에이전트가 실행 명령 형태를 바꾸게 지시하고 해시 검증 없는 원격 셸 스크립트를 내려받아 실행하도록 설계된 점이었다. 메인테이너는 텔레메트리라는 표현이 부적절한 주석이었을 뿐 맞춤형 퀵스타트 생성 목적이라고 해명하며 명령 우회 지침을 제거하는 커밋을 반영했다. 그러나 부트스트랩과 추가 스크립트를 실행 시점에 원격에서 검증 없이 가져오는 구조와 데이터 보존 기간(24시간 대 30초) 표기 불일치는 여전히 남은 과제로 지적됐다. 서드파티 에이전트 스킬이 늘어나면서 플러그인 내부의 원격 실행과 프롬프트 기반 안전 우회 지시 여부를 정적 스캔으로 걸러내는 절차가 필수로 자리잡고 있다.",
+      "author_profile": "@MickyTheMouse",
+      "publish_date": "2026-11-27T18:02:45.000Z",
       "tags": [
-        "Google Workspace",
-        "MCP",
-        "AI 에이전트",
-        "API 정책"
+        "에이전트 보안",
+        "Convex",
+        "스킬 감사",
+        "공급망"
       ],
-      "url": "https://news.hada.io/topic?id=37919",
-      "sources": [
-        "GeekNews"
-      ],
-      "metrics": {},
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "geeknews_c12418b2fb",
-      "category_id": "geeknews",
-      "category_name": "GeekNews",
-      "signal_id": "model",
-      "signal_name": "새 모델·버전 출시·프리뷰·벤치마크",
-      "importance": 93,
-      "headline": "OpenAI Astra 6.2·Sol 6.2, 추론·출력 토큰 통계적 유의 감소…비용 통제 모드 전환 분석",
-      "title_ko": "OpenAI Astra 6.2·Sol 6.2, 추론·출력 토큰 통계적 유의 감소…비용 통제 모드 전환 분석",
-      "summary_ko": "• **토큰 축소 정황**: 최근 혹평을 받은 OpenAI의 Astra 6.2와 Sol 6.2를 실무 대결 데이터로 분석한 결과 작업당 출력 토큰과 추론 토큰이 모두 뚜렷하게 줄어든 것으로 나타났다.\n• **통계적 유의 수치**: 출력 토큰 감소는 Sol p=0.0055·Astra p=0.022, 추론 토큰 감소는 Sol p=0.00013·Astra p=0.0064로 전작 대비 추론량이 과도하게 적은 이상치 구간으로 이동했다.\n• **개발자 실무 영향**: 프론티어 모델 업데이트가 항상 추론 깊이 향상을 보장하지 않으므로 프로덕션 업그레이드 전 자체 태스크 기준 추론량과 품질 회귀 검증이 필수적이다.",
-      "body_ko": "최근 출시 후 개발자 커뮤니티에서 성능 저하 비판을 받은 OpenAI의 Astra 6.2와 Sol 6.2 모델이 비용 절감 중심으로 튜닝됐을 가능성이 실무 대결 데이터 분석을 통해 제기됐다. 분석 결과 두 모델은 이전 세대인 Astra 6 및 Sol 6.1과 비교해 상대 모델 대비 지출 비율과 작업당 출력·추론 토큰이 일제히 감소한 양상을 보였다. 특히 전작들은 동일 대결의 상대 모델과 비교해 일반적인 수준의 추론량을 유지했으나, 6.2 버전은 추론을 지나치게 적게 수행하는 이상치 영역으로 내려앉았다. 통계 검정에서도 출력 토큰 감소는 Sol 0.0055와 Astra 0.022, 추론 토큰 감소는 Sol 0.00013과 Astra 0.0064로 모두 유의수준 0.05 미만을 기록했다. OpenAI가 공식적으로 비용 통제 의도를 인정한 것은 아니지만, 실측 지표는 토큰 효율을 우선시하다가 복잡한 추론 과제 품질이 흔들렸을 가능성을 시사한다. 따라서 API 기반 에이전트를 운영하는 팀은 마이너 버전 전환 시에도 토큰 사용량 분포와 정확도 회귀 테스트를 자동화해 둘 필요가 있다.",
-      "author_profile": "neo",
-      "publish_date": "2026-11-26T22:33:47.000Z",
-      "tags": [
-        "OpenAI",
-        "Astra 6.2",
-        "Sol 6.2",
-        "추론 토큰"
-      ],
-      "url": "https://news.hada.io/topic?id=37922",
-      "sources": [
-        "GeekNews"
-      ],
-      "metrics": {},
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "aitimes_315ebba290",
-      "category_id": "aitimes",
-      "category_name": "AI타임스",
-      "signal_id": "model",
-      "signal_name": "새 모델·버전 출시·프리뷰·벤치마크",
-      "importance": 91,
-      "headline": "Z.ai 'GLM-5.5' 내년 연기·문샷 AI 출시 주기 2배 전망…증류 차단과 반도체 규제 여파",
-      "title_ko": "Z.ai 'GLM-5.5' 내년 연기·문샷 AI 출시 주기 2배 전망…증류 차단과 반도체 규제 여파",
-      "summary_ko": "• **중국 모델 출시 지연**: 미국의 첨단 AI 반도체 수출 규제와 증류 방지 기술 강화가 겹치면서 Z.ai의 차세대 플래그십 'GLM-5.5' 출시가 내년 1분기 이후로 밀릴 가능성이 커졌다.\n• **개발 주기 2배 확대**: 3조 매개변수급 GLM-5.5 완성이 지연된 데 이어, 6개월마다 키미 시리즈를 내놓던 문샷 AI도 해외 컴퓨팅 차단 시 출시 주기가 12개월 이상으로 늘어날 수 있다고 내다봤다.\n• **생태계 파급 효과**: 오픈웨이트 대형 모델의 공급 속도가 둔화될 가능성이 커지면서 글로벌 개발자들은 미국 프론티어 모델과 중국 오픈 모델 간 성능 격차 확대를 주시해야 한다.",
-      "body_ko": "미국 AI 기업들의 증류 차단 조치와 미국 정부의 신규 반도체 수출 규제가 동시에 작동하면서 중국 주요 AI 연구소들의 대형 모델 개발 일정에 차질이 빚어지고 있다. 로이터 보도에 따르면 Z.ai는 당초 이달 선보이려던 3조 매개변수 규모의 차세대 모델 'GLM-5.5'를 완성하지 못해 출시가 내년 1분기나 그 이후로 늦어질 전망이다. Z.ai는 최근 7,500억 매개변수 기반으로 설계를 개선한 'GLM-5.4'를 먼저 공개했지만, 목표로 삼았던 초대형 플래그십 모델은 아직 마무리 단계에 이르지 못했다. 6개월 간격으로 키미 K2, K2.5, K3를 연이어 출시해 온 문샷 AI 역시 해외 데이터센터 컴퓨팅 접근이 막히면 모델 출시 주기가 12개월 이상으로 길어지고 '키미 K4'가 내년 중반으로 밀릴 수 있다고 내부 진단했다. 문샷 AI는 대안으로 유럽 컴퓨팅 자원 확보와 중국 내 반도체 기업 협력을 모색하고, 오픈AI와 앤트로픽의 증류 방어에 대응해 구글·메타 모델 활용까지 검토 중인 것으로 전해졌다. 해외 GPU 임대와 저비용 모델 증류라는 두 핵심 축이 흔들리면서 미국과 중국 간 프론티어 모델 기술 격차가 다시 벌어질지 업계의 관심이 집중되고 있다.",
-      "author_profile": "임대준 기자",
-      "publish_date": "2026-11-26T21:20:35.000Z",
-      "tags": [
-        "GLM-5.5",
-        "문샷 AI",
-        "모델 증류",
-        "반도체 규제"
-      ],
-      "url": "https://www.aitimes.com/news/articleView.html?idxno=217838",
-      "sources": [
-        "AI타임스"
-      ],
-      "metrics": {},
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "hackernews_2344eed433",
-      "category_id": "hackernews",
-      "category_name": "Hacker News",
-      "signal_id": "model",
-      "signal_name": "새 모델·버전 출시·프리뷰·벤치마크",
-      "importance": 90,
-      "headline": "테스터들 'Opus 5.5 Extra' 경로 통해 차세대 'Claude Opus 5.6' 추정 출력 포착",
-      "title_ko": "테스터들 'Opus 5.5 Extra' 경로 통해 차세대 'Claude Opus 5.6' 추정 출력 포착",
-      "summary_ko": "• **신규 모델 테스트 포착**: Claude Code와 일반 채팅 일부 사용자 사이에서 'Opus 5.5 Extra' 경로로 라우팅된 결과가 차세대 'Claude Opus 5.6'이라는 분석과 시연이 확산되고 있다.\n• **코드 기반 시각·음악 생성 도약**: 동일 프롬프트 비교에서 Opus 5.5가 깨진 도형으로 무너진 단편 애니메이션과 Three.js 장면을 추정 모델은 외부 에셋 없이 순수 코드로 정교하게 구현했다.\n• **실무 관전 포인트**: 앤트로픽의 공식 발표는 아직 없으나, 프론트엔드 시각화·인터랙티브 그래픽·장문 코드 생성 품질의 추가 도약 가능성을 예고한다.",
-      "body_ko": "X와 개발자 커뮤니티를 중심으로 앤트로픽의 미공개 모델 'Claude Opus 5.6'으로 추정되는 코드 생성 단편 애니메이션과 SVG 테스트 결과가 잇따라 공유되고 있다. 일부 테스터들은 Claude Code 화면 스크린샷을 근거로 'Opus 5.5 Extra'라는 경로에서 해당 응답이 라우팅됐다고 주장하며, 과거 Opus 5.5가 제한적 사용자군을 대상으로 비공개 테스트되던 방식과 유사하다고 분석했다. 공개된 사례 중에는 외부 이미지나 오디오 에셋을 전혀 쓰지 않고 음악과 노래, 시각 애니메이션 전부를 순수 코드로 구현한 단편 영상과 Three.js 장면이 포함됐다. 특히 같은 'The Last Page' 여우 단편 프롬프트를 비교 실행한 테스트에서는 기존 Opus 5.5가 글리치 형태의 깨진 도형을 만든 반면, 신규 추정 모델은 매끄러운 손그림풍 서사를 완성해 체감 격차가 크다는 평가가 나왔다. 다만 앤트로픽은 모델 존재나 정식 명칭을 확인하지 않았으며, 지난 10월 중순에도 일부 라우팅 변화가 조기 테스트로 추정된 바 있어 공식 출시 여부는 미정이다. 그럼에도 순수 코드 기반 멀티미디어·시각화 생성 능력이 한 단계 올라서고 있다는 점에서 차기 플래그십 업데이트에 대한 개발자 기대감이 높아지고 있다.",
-      "author_profile": "@goatley",
-      "publish_date": "2026-11-26T14:38:57.000Z",
-      "tags": [
-        "Claude Opus 5.6",
-        "앤트로픽",
-        "Claude Code",
-        "코드 생성"
-      ],
-      "url": "https://www.testingcatalog.com/testers-share-early-results-possible-claude-opus-5-6/",
+      "url": "https://github.com/convex/convex-backend-skill/issues/64",
       "sources": [
         "Hacker News"
       ],
       "metrics": {
-        "points": 29,
-        "comments": 2,
-        "discussion_url": "https://news.ycombinator.com/item?id=50655798"
+        "points": 315,
+        "comments": 102,
+        "discussion_url": "https://news.ycombinator.com/item?id=50669765"
       },
       "curated_by": "ldk-hub"
     },
     {
-      "id": "bluesky_7c97084366",
+      "id": "bluesky_9ea480461b",
       "category_id": "bluesky",
       "category_name": "Bluesky",
-      "signal_id": "oss",
-      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
-      "importance": 89,
-      "headline": "Neo4j, 서버 없는 에이전트 네이티브 임베디드 그래프 DB 'Relate' 오픈소스 공개",
-      "title_ko": "Neo4j, 서버 없는 에이전트 네이티브 임베디드 그래프 DB 'Relate' 오픈소스 공개",
-      "summary_ko": "• **임베디드 그래프 DB 공개**: Neo4j가 별도 서버 설치나 계정 가입 없이 로컬 메모리·디렉터리·단일 파일에서 동작하는 에이전트 전용 오픈소스 그래프 DB 'Relate'를 선보였다.\n• **Cypher·MCP·스킬 기본 통합**: CLI 설치와 함께 Claude Code용 스킬과 MCP 엔드포인트를 즉시 제공하며, CSV 적재와 마크다운 볼트 연동 및 JSON 출력으로 에이전트 질의에 최적화됐다.\n• **개발자 활용 가치**: 여러 에이전트와 스크립트가 동일 로컬 그래프 파일을 공유하며 복잡한 관계형 컨텍스트를 빠르게 탐색하는 경량 메모리 계층으로 활용할 수 있다.",
-      "body_ko": "그래프 데이터베이스 기업 Neo4j가 AI 에이전트를 위해 설계한 오픈소스 임베디드 그래프 데이터베이스 'Relate'를 공개했다. Relate는 별도의 DB 서버를 띄우거나 클라우드에 가입할 필요 없이 애플리케이션 내부 메모리나 로컬 디렉터리, 단일 `.rl` 파일, 심지어 마크다운 볼트 형태로 연결 데이터를 저장하는 도구다. 사용자는 `curl -sSfL https://relatedb.ai/install.sh | bash` 한 줄로 릴리스 서명과 SHA-256 체크섬 검증을 거쳐 CLI와 Claude Code용 `relate` 스킬을 함께 설치할 수 있다. 에이전트는 내장된 스킬과 MCP 엔드포인트를 통해 Cypher 쿼리를 직접 작성하고, 관계로 연결된 사실 데이터를 JSON 형식으로 즉시 반환받는다. CSV 파일 로드나 Neo4j Aura 미러링도 지원해 기존 그래프 워크플로우에서 로컬 에이전트 실험 환경으로 넘어가기 수월하다. 현재 Neo4j는 12월 11일 마감 해커톤도 함께 열어 로컬 우선 멀티에이전트 메모리와 지식 그래프 활용 사례 확산을 독려하고 있다.",
-      "author_profile": "@ronentk.me",
-      "publish_date": "2026-11-26T20:57:54.571Z",
+      "signal_id": "policy",
+      "signal_name": "정책·규제·인프라 (기술 영향 큰 것만)",
+      "importance": 92,
+      "headline": "스위스 당국, AI 에이전트 동원 사이버 공격 5건 첫 공식 확인…4건 침투 성공",
+      "title_ko": "스위스 당국, AI 에이전트 동원 사이버 공격 5건 첫 공식 확인…4건 침투 성공",
+      "summary_ko": "• **공식 사례 확인**: 스위스 사이버 보안 당국이 AI 에이전트가 관여한 사이버 공격 5건을 처음으로 공식 확인했다고 밝혔다.\n• **높은 침투 비율**: 전체 5건 중 4건이 실제 시스템 침투에 성공했고, 이 가운데 3건은 국가 핵심 기반 시설을 표적으로 삼았다.\n• **방어 시사점**: 공격 에이전트들이 취약한 비밀번호와 알려진 소프트웨어 결함을 자동 공략한 만큼 기본 패치와 인증 통제 강화가 시급하다.",
+      "body_ko": "스위스 연방 사이버 보안 당국이 자국 내에서 AI 에이전트가 직접 활용된 사이버 공격 사례 5건을 처음으로 공식 확인했다. 스위스 공영방송 SRF 보도에 따르면 당국 책임자는 5건의 시도 중 4건이 내부 시스템 침투까지 이어졌다고 설명했다. 특히 이 가운데 3건은 사회 운영과 직결된 핵심 기반 시설을 겨냥한 공격으로 파악됐다. 당국은 공격 주체를 아직 특정하지 못했으나 에이전트가 취약한 비밀번호 대입과 이미 알려진 소프트웨어 보안 결함 악용에 사용됐다고 밝혔다. 이는 고도화된 미공개 취약점이 아니더라도 자율 실행 에이전트가 결합되면 침투 성공률과 속도가 크게 높아질 수 있음을 보여준다. 기반 시설 운영 조직은 기본 패치 주기를 앞당기고 다중 인증과 이상 행위 탐지 규칙을 재점검할 필요가 있다.",
+      "author_profile": "@youranoncentral.bsky.social",
+      "publish_date": "2026-11-28T11:13:52.214Z",
       "tags": [
-        "Relate",
-        "Neo4j",
-        "그래프 DB",
-        "오픈소스",
-        "MCP"
+        "사이버 보안",
+        "AI 에이전트",
+        "핵심 인프라",
+        "위협 대응"
       ],
-      "url": "https://relatedb.ai/",
+      "url": "https://www.yacnews.com/switzerland-first-ai-agent-cyberattacks-four-of-five/",
       "sources": [
         "Bluesky"
       ],
       "metrics": {
-        "likes": 13,
-        "reposts": 0,
-        "replies": 1,
-        "bluesky_url": "https://bsky.app/profile/ronentk.me/post/3n3aktcufrs2s"
+        "likes": 40,
+        "reposts": 31,
+        "replies": 2,
+        "bluesky_url": "https://bsky.app/profile/youranoncentral.bsky.social/post/3n3el4srz2c2f"
       },
       "curated_by": "ldk-hub"
     },
     {
-      "id": "instagram_9318154df2",
-      "category_id": "instagram",
-      "category_name": "Instagram",
+      "id": "hfpapers_39072df09b",
+      "category_id": "hfpapers",
+      "category_name": "HF Daily Papers",
+      "signal_id": "research",
+      "signal_name": "연구·논문·새 기법",
+      "importance": 91,
+      "headline": "Stable Gated DeltaNet-2: 선형 어텐션 장문맥 학습 불안정 원인 규명 및 대칭 소거 기법 제안",
+      "title_ko": "Stable Gated DeltaNet-2: 선형 어텐션 장문맥 학습 불안정 원인 규명 및 대칭 소거 기법 제안",
+      "summary_ko": "• **학습 붕괴 원인 규명**: Gated DeltaNet-2의 장문맥 학습 실패가 소거 단계에서 읽기와 수정 방향의 비대칭이 누적돼 상태가 지수적으로 커지는 현상 때문임을 밝혀냈다.\n• **이론·실험 수치**: 대칭 소거와 감쇠 조절 잔차 쓰기를 결합해 O(T) 성장 상한을 증명했고, 1.6B 모델 128K RULER 평균 점수를 기존 대비 6.80점 높였다.\n• **기존 대비 차이**: 청크 단위 병렬 연산 효율은 그대로 유지하면서도 하이브리드 구성 9개 다운스트림 과제 평균 정확도도 0.62점 개선했다.",
+      "body_ko": "고정 크기 순환 상태로 선형 복잡도를 구현하는 선형 어텐션 계열 모델은 장문맥 학습 과정에서 상태 발산이 일어나는 고질적 문제를 안고 있었다. 연구진은 Gated DeltaNet-2의 채널별 독립 소거·쓰기 구조에서 읽기 방향과 수정 방향이 어긋날 때 비정규 소거 연산자가 만들어져 토큰이 길어질수록 이득이 누적 폭발한다는 점을 이론적으로 규명했다. 이를 해결하기 위해 제안한 기법은 대칭 소거 연산자로 상태 전파의 비팽창성을 보장하고, 감쇠 조절 잔차 쓰기로 표현 유연성을 유지하는 구조다. 논문은 청크 단위 병렬 계산을 해치지 않으면서 순환 상태 증가량에 O(T) 상한을 수학적으로 부여하는 데 성공했다. 약 16억 매개변수 모델 실험에서 순환 구조 기준 128K 평균 RULER 점수가 기존 GDN-2보다 6.80점 상승했고, 하이브리드 구조에서는 9개 다운스트림 과제 평균 정확도가 0.62점 올랐다. 이 연구는 11월 25일 arXiv에 먼저 올라온 뒤 27일 허깅페이스 데일리 페이퍼에 등재됐으며, 초장문 선형 아키텍처의 학습 안정성 확보에 직접적인 해법을 제시한다.",
+      "author_profile": "astarkkk",
+      "publish_date": "2026-11-27T00:00:00.000Z",
+      "tags": [
+        "선형 어텐션",
+        "DeltaNet-2",
+        "장문맥",
+        "아키텍처"
+      ],
+      "url": "https://huggingface.co/papers/2611.34051",
+      "sources": [
+        "HF Daily Papers"
+      ],
+      "metrics": {
+        "upvotes": 132,
+        "comments": 3,
+        "arxiv_id": "2611.34051",
+        "paper_published_at": "2026-11-25T00:00:00.000Z",
+        "github_repo": null
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hfpapers_70079b9f4b",
+      "category_id": "hfpapers",
+      "category_name": "HF Daily Papers",
+      "signal_id": "research",
+      "signal_name": "연구·논문·새 기법",
+      "importance": 90,
+      "headline": "OS-Omni: 6개 OS·웹 환경 넘나드는 장기 워크플로우 컴퓨터 제어 에이전트 벤치마크",
+      "title_ko": "OS-Omni: 6개 OS·웹 환경 넘나드는 장기 워크플로우 컴퓨터 제어 에이전트 벤치마크",
+      "summary_ko": "• **크로스플랫폼 평가 환경**: Windows·Ubuntu·macOS·iOS·Android·Web 6개 환경을 아우르는 실시간 컴퓨터 제어 벤치마크 OS-Omni v1이 공개됐다.\n• **기존 대비 차이 및 수치**: 과제당 평균 상호작용 단계가 67.54단계로 OSWorld의 15.0단계를 크게 웃돌며, 최고 성능인 Claude Opus 5.5도 68.5%로 인간 77.3%에 8.8점 뒤처졌다.\n• **실무 병목 확인**: 프론티어 모델이 리눅스에서는 인간을 앞섰으나 iOS와 macOS에서는 25점 이상 뒤처져 플랫폼 간 장기 상태 추적 격차가 뚜렷하게 드러났다.",
+      "body_ko": "기존 GUI 에이전트 벤치마크가 웹·모바일·데스크톱을 따로 떼어 평가하던 한계를 넘기 위해 6개 운영체제와 크로스플랫폼 연동을 시험하는 OS-Omni가 제안됐다. 첫 번째 공개판인 v1은 플랫폼별 48개 과제와 데스크톱·안드로이드 폰을 함께 다루는 12개 복합 워크플로우로 구성되며 계정·장바구니·예산·캘린더 같은 영속 상태를 갖춘 서비스 백엔드 앱을 포함한다. 각 플랫폼 어댑터와 궤적 로깅, 최종 상태 실행 평가기를 내장해 재현 가능한 초기화와 정확한 완수 판정을 지원한다. 인간 실험에서 과제당 평균 67.54회의 상호작용이 필요해 기존 OSWorld의 15.0회보다 훨씬 긴 호흡의 작업 추론을 요구한다. 평가 결과 최상위 모델인 Claude Opus 5.5가 평균 성공률 68.5%를 기록해 인간 기준선 77.3% 대비 8.8점 낮았다. 특히 리눅스 환경에서는 모델이 인간보다 높은 성과를 냈지만 iOS와 macOS에서는 25점 넘게 뒤처져, 범용 컴퓨터 사용 에이전트의 모바일·애플 생태계 대응력이 핵심 과제로 남았다.",
+      "author_profile": "Cloudriver",
+      "publish_date": "2026-11-27T00:00:00.000Z",
+      "tags": [
+        "컴퓨터 사용 에이전트",
+        "OS-Omni",
+        "벤치마크",
+        "크로스플랫폼"
+      ],
+      "url": "https://huggingface.co/papers/2611.34232",
+      "sources": [
+        "HF Daily Papers"
+      ],
+      "metrics": {
+        "upvotes": 110,
+        "comments": 3,
+        "arxiv_id": "2611.34232",
+        "paper_published_at": "2026-11-25T00:00:00.000Z",
+        "github_repo": "https://github.com/OS-Copilot/OS-Omni"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hackernews_95692f6294",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "signal_id": "model",
+      "signal_name": "새 모델·버전 출시·프리뷰·벤치마크",
+      "importance": 89,
+      "headline": "GPT-6.2 Astra, 200년 미제였던 1808년 캐나다 스케치북 원작자 22분 만에 추적 규명",
+      "title_ko": "GPT-6.2 Astra, 200년 미제였던 1808년 캐나다 스케치북 원작자 22분 만에 추적 규명",
+      "summary_ko": "• **비결정적 역사 추론**: GPT-6.2 Astra를 Ultra 목표 모드로 구동해 200년 이상 작자 미상으로 남아 있던 1808년 캐나다 모피 무역 스케치북의 원작자를 22분 만에 찾아냈다.\n• **추적 방식과 검증**: 그림 속 날짜·지명 단서를 교차 대조해 작성자가 프롬프트에 넣은 오답 후보 둘을 스스로 배제하고, 조셉 프로비셔의 몬트리올 일기 등 1차 사료에서 실제 저자 Chabot을 연결했다.\n• **개발·연구 함의**: 수학 같은 결정적 도메인용 사후 학습으로 문체가 다소 딱딱하거나 역설적으로 변하는 경향이 관찰됐으나, 불완전한 사료 속 교차 탐색 능력은 실전 수준에 도달했다.",
+      "body_ko": "수학 증명 등 결정적 영역에서 주목받던 추론 모델이 비결정적 인문·역사 사료 발굴에서도 강력한 성과를 낸 사례가 공개됐다. 저자는 1808년 캐나다 로어캐나다 일대와 오대호 경로를 그린 작자 미상 스케치북 이미지를 GPT-6.2 Astra에 제공하고 Ultra effort 목표 모드를 적용했다. 흥미롭게도 저자가 힌트로 함께 건넨 기존 연구 글 속 두 인물 후보는 오히려 오답 방향이었으나, 모델은 그림에 적힌 날짜별 이동 경로와 다른 문서 기록을 대조해 두 후보를 초기에 스스로 기각했다. 이후 온라인 아카이브의 1차 사료를 광범위하게 훑어 몬트리올 저녁 식사 일기 기록과 연결했고, 22분 만에 원작자 Chabot의 정체와 162쪽 분량 일지·노스웨스트 컴퍼니 문건까지 밝혀냈다. 저자는 모델이 불완전한 증거 앞에서 모호한 법률 문구 같은 기묘한 문체를 쓰는 부작용이 있다고 짚으면서도 실제 결론과 사료 대조 결과는 정확했다고 평가했다. 이는 다중 모달 이미지 판독과 대규모 기록물 교차 추론이 결합할 때 전문 연구자조차 찾기 힘든 연결 고리를 단시간에 좁힐 수 있음을 시사한다.",
+      "author_profile": "@bookofjoe",
+      "publish_date": "2026-11-27T15:03:17.000Z",
+      "tags": [
+        "GPT-6.2 Astra",
+        "추론 모델",
+        "멀티모달",
+        "사료 연구"
+      ],
+      "url": "https://generativehistory.substack.com/p/gpt-62-astra-solves-a-historical",
+      "sources": [
+        "Hacker News"
+      ],
+      "metrics": {
+        "points": 167,
+        "comments": 1,
+        "discussion_url": "https://news.ycombinator.com/item?id=50667744"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "bluesky_eeda58a56a",
+      "category_id": "bluesky",
+      "category_name": "Bluesky",
       "signal_id": "practice",
       "signal_name": "AI 활용 사례·워크플로우 팁",
       "importance": 88,
-      "headline": "앤트로픽, 핵심 메시지 API 파이썬→러스트 무중단 전환…클로드로 CPU 70%·첫 응답 20% 절감",
-      "title_ko": "앤트로픽, 핵심 메시지 API 파이썬→러스트 무중단 전환…클로드로 CPU 70%·첫 응답 20% 절감",
-      "summary_ko": "• **핵심 API 언어 마이그레이션**: 앤트로픽이 클로드 호출 관문인 메시지 API를 파이썬에서 러스트로 무중단 이관한 엔지니어링 사례를 공개했다.\n• **에이전트 협업 및 성능 수치**: 클로드가 약 1주 만에 핵심 초안을 구현하고 에이전트들이 두 버전 간 동작 불일치를 찾아 수정했으며, 전환 후 요청당 CPU 약 70%·첫 응답 시간 약 20%를 줄였다.\n• **실무 적용 시사점**: 대규모 프로덕션 언어 전환에서도 AI가 초안 작성과 차분 검증을 맡고 엔지니어가 최종 수정안을 검토하는 역할 분담이 실질적인 비용·지연 개선을 이끌 수 있음을 입증했다.",
-      "body_ko": "앤트로픽이 자사 핵심 인프라인 메시지 API 서버를 파이썬에서 러스트로 전면 이관하면서 클로드 에이전트를 투입한 실전 과정을 공개했다. 보도에 정리된 엔지니어링 발표에 따르면, 러스트 기반 핵심 코드의 첫 버전은 클로드가 약 1주일 만에 작성했다. 이후 기존 파이썬 버전과 새 러스트 버전의 동작이 어긋나는 지점을 클로드 에이전트들이 자동으로 탐지하고 수정안을 도출하는 검증 루프를 돌렸다. 에이전트가 제안한 패치는 인간 엔지니어가 검토·승인하는 안전 절차를 거쳤으며, 그 결과 전체 이관 과정에서 서비스 중단은 단 한 차례도 발생하지 않았다. 마이그레이션 완료 후 측정된 성능 개선 폭은 요청당 CPU 사용량 약 70% 절감, 첫 응답 도달 시간 약 20% 단축으로 뚜렷했다. 이 사례는 단순 신규 기능 제작을 넘어 고신뢰 프로덕션 백엔드의 언어 전환에서도 AI 코딩 에이전트와 사람 리뷰어의 협업 모델이 실무 기준을 충족할 수 있음을 보여준다.",
-      "author_profile": "aiscene.kr",
-      "publish_date": "2026-11-26T23:00:05.000Z",
+      "headline": "Confluent, AI 멀티에이전트로 Kafka Java 클라이언트 Rust 재작성…3개월 시행착오 후 연속 파이프라인 구축",
+      "title_ko": "Confluent, AI 멀티에이전트로 Kafka Java 클라이언트 Rust 재작성…3개월 시행착오 후 연속 파이프라인 구축",
+      "summary_ko": "• **초기 실패와 재설계**: Confluent 엔지니어링 팀이 Claude Opus 4.6 등으로 Kafka Java 클라이언트를 Rust로 번역하다 테스트를 통과하고도 루프마다 sleep이 숨어든 성능 결함을 겪고 처음부터 다시 설계했다.\n• **멀티에이전트 검증 체계**: 프로젝트 매니저·액터·크리틱 에이전트가 Git 기반 약 5회 반복 리뷰를 돌며 번역하고, 엔지니어가 Tokio 태스크 매핑과 런타임 인터페이스를 설계해 Apache Kafka 4.4.0 상류 커밋 191건을 이틀 미만 만에 반영했다.\n• **실무 시사점**: 단순 코드 변환보다 테스트가 못 잡는 성능·동시성 회귀와 대상 언어다운 API 설계를 인간 전문가가 통제해야 다언어 SDK 동기화가 가능하다.",
+      "body_ko": "Confluent가 Apache Kafka의 Java 클라이언트를 AI 에이전트 기반으로 Rust 코어로 재작성하고 Python 클라이언트 프리뷰까지 내놓은 3개월간의 실전 시행착오를 공개했다. 팀은 처음 몇 주 만에 기본 프로듀서와 컨슈머를 동작시켰지만, 번역된 테스트를 모두 통과한 코드의 네트워크 루프 매 반복마다 sleep 호출이 들어간 치명적 성능 결함을 발견하고 초기 구현을 폐기했다. 이후 프로젝트 매니저 에이전트가 액터와 크리틱 에이전트를 조율하며 Git 커밋 단위로 평균 5차례 리뷰를 주고받는 다중 에이전트 워크플로우로 재편했다. 동시에 엔지니어는 단순 소스 번역만 맡기지 않고 의도된 동작 명세를 보강했으며, Java 스레드를 Rust Tokio 태스크로 매핑하고 타 언어 런타임 시그널 처리를 방해하지 않도록 6가지 인터페이스 후보를 검증했다. 그 결과 Apache Kafka 4.4.0 출시 당시 수개월 치에 해당하는 상류 커밋 191건을 이틀이 채 안 되는 시간에 Rust 코드베이스로 이식하는 데 성공했다. Confluent는 2027년 중반 가동을 목표로 상류 변경을 자동 추적하는 연속 번역 파이프라인을 다듬고 있으며, 코드 생성 속도보다 언어 관용성과 성능 검증 체계가 핵심 엔지니어링 과제임을 강조했다.",
+      "author_profile": "@thenewstack.io",
+      "publish_date": "2026-11-28T01:00:31.000Z",
       "tags": [
-        "앤트로픽",
+        "Confluent",
         "Rust 마이그레이션",
-        "메시지 API",
-        "무중단 전환"
+        "멀티에이전트",
+        "Kafka"
       ],
-      "url": "https://www.instagram.com/aiscene.kr/p/DgOPHvmEpRX/",
+      "url": "https://thenewstack.io/confluent-kafka-rust-agents/?link_source=ta_bluesky_link&taid=6b0a27adb6e3eb0001c6859c&utm_campaign=trueanthem&utm_medium=social&utm_source=bluesky",
+      "sources": [
+        "Bluesky"
+      ],
+      "metrics": {
+        "likes": 3,
+        "reposts": 0,
+        "replies": 0,
+        "bluesky_url": "https://bsky.app/profile/thenewstack.io/post/3n3diu2qizw2x"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hackernews_1e844223bc",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "signal_id": "practice",
+      "signal_name": "AI 활용 사례·워크플로우 팁",
+      "importance": 87,
+      "headline": "단일 GB10 위 vLLM서 Inkling 2 Mini 101 tok/s 달성…커널 컴파일·INT8 드래프트·MoE 패딩 튜닝",
+      "title_ko": "단일 GB10 위 vLLM서 Inkling 2 Mini 101 tok/s 달성…커널 컴파일·INT8 드래프트·MoE 패딩 튜닝",
+      "summary_ko": "• **단일 장비 고속 서빙**: 128GB 통합 메모리 기반 GB10 장비 1대의 vLLM 환경에서 메모리의 36%(약 44GiB)만 점유한 채 Inkling 2 Mini 단일 요청 101 tok/s, 4동시 요청 196 tok/s를 기록했다.\n• **병목별 4단 튜닝**: Triton 전문가 커널 크기를 2의 거듭제곱으로 반올림해 프롬프트 길이별 재컴파일 지연을 67~90% 줄였고, DFlash2 드래프트 선형 계층과 출력 헤드를 INT8 커널로 경량화했다.\n• **MoE 검증 스킵 기법**: CUDA 그래프 형태를 유지하면서 신뢰도가 임계치(0.3~0.4) 아래로 떨어진 드래프트 행을 패딩으로 처리해 전문가 연산 낭비를 줄여 5.2~5.4% 추가 가속을 얻었다.",
+      "body_ko": "NVIDIA DGX Spark 호환 장비인 MSI EdgeXpert(GB10 단일 칩, 128GB 통합 메모리)에서 Qwen3.8-27B를 상주시킨 상태로 vLLM 기반 Inkling 2 Mini 추론 속도를 극한까지 끌어올린 튜닝 보고서가 공개됐다. 작성자는 디코드 단계의 53%가 라우팅된 전문가 연산에, 매 단계 약 8.5ms가 926MB 출력 헤드와 드래프트 연산에 소모된다는 프로파일 결과를 바탕으로 4가지 개선을 적용했다. 첫째, 새로운 프롬프트 길이마다 약 10개 Triton 커널이 재컴파일되며 발생하던 2.3초 첫 토큰 지연을 2의 거듭제곱 단위 버킷팅으로 묶어 67~90% 단축했다. 둘째, DFlash2 드래프트 모델의 21개 선형 계층과 공유 출력 헤드만 INT8 행렬-벡터 커널로 교체하고 본 모델 검증은 원본 가중치를 유지해 출력 품질 변화 없이 속도를 높였다. 셋째, 샘플링 요청에서 vLLM 기본 그리디 드래프팅 대신 실제 드래프트 확률을 거부 샘플러에 넘겨 온도 1.0 환경에서 14~20% 가속을 얻었다. 넷째, 누적 드래프트 확률이 임계치 미만인 후속 행을 MoE 패딩 행으로 전환해 CUDA 그래프 호환성을 깨지 않고 불필요한 전문가 연산을 건너뛰며 최종 100~103 tok/s 수준에 도달했다.",
+      "author_profile": "@runtimenotes",
+      "publish_date": "2026-11-27T18:59:55.000Z",
+      "tags": [
+        "vLLM",
+        "추론 최적화",
+        "추측 디코딩",
+        "GB10"
+      ],
+      "url": "https://runtimenotes.com/blog/getting-101-tok-s-from-inkling-2-mini-in-vllm-on-one-gb10/",
+      "sources": [
+        "Hacker News"
+      ],
+      "metrics": {
+        "points": 57,
+        "comments": 15,
+        "discussion_url": "https://news.ycombinator.com/item?id=50670443"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hfpapers_d6c94a3a47",
+      "category_id": "hfpapers",
+      "category_name": "HF Daily Papers",
+      "signal_id": "research",
+      "signal_name": "연구·논문·새 기법",
+      "importance": 86,
+      "headline": "Solve Vision with Code: 코딩 에이전트의 프로그램 합성이 비디오 생성 모델보다 시각 추론 압도",
+      "title_ko": "Solve Vision with Code: 코딩 에이전트의 프로그램 합성이 비디오 생성 모델보다 시각 추론 압도",
+      "summary_ko": "• **동일 조건 공정 비교**: 첫 프레임과 지시문만 보고 정답 영상을 생성하는 시각 추론 과제에서 픽셀 디노이징 비디오 모델과 렌더링 코드를 짜는 코딩 에이전트를 동일 평가기로 대조했다.\n• **큰 격차의 실험 수치**: 500문항 VBVR-Pro-Bench에서 gpt-6-astra 기반 Codex(0.923), Fable 5.1 기반 Claude Code(0.894), Gemini 3.1 Pro 기반 Gemini CLI(0.893)가 최고 비디오 모델보다 0.22 이상 앞섰다.\n• **오픈모델·추론 해석**: 오픈웨이트 23종 중 GLM-5(0.572)도 RL 학습 모델을 제외한 모든 비디오 모델을 제쳐, 계산 가능한 시각 추론은 코드 합성이 훨씬 신뢰할 수 있는 경로임을 입증했다.",
+      "body_ko": "최근 비디오 생성 모델이 첫 프레임과 자연어 프롬프트만으로 과제를 수행하는 시각 추론기로 평가받고 있으나, 이를 상징적 프로그램 합성과 동일 조건에서 견준 연구가 발표됐다. 연구진은 500개 인스턴스로 이뤄진 VBVR-Pro-Bench에서 비디오 모델과 코딩 에이전트 모두에게 동일한 첫 프레임·프롬프트·단일 시도 제한을 주고, 규칙 기반 평가기로 최종 영상을 채점했다. 실험 결과 픽셀을 직접 생성하는 대신 정답 영상을 렌더링하는 코드를 작성한 코딩 에이전트가 압도적인 정확도를 기록했다. gpt-6-astra를 탑재한 Codex는 0.923, Fable 5.1을 쓴 Claude Code는 0.894, Gemini 3.1 Pro 기반 Gemini CLI는 0.893을 달성해 최상위 비디오 모델 대비 0.22점을 웃도는 격차를 벌렸다. 23개 오픈웨이트 모델 가운데 1위를 차지한 GLM-5(0.572) 역시 강화학습 기반 특수 모델을 뺀 모든 비디오 모델을 앞질렀다. 연구진은 에이전트가 작성한 코드를 전이 가능한 규칙을 추출하는 서술형 프로그램과 하드코딩된 명제형 프로그램으로 구분하며, 시각 추론의 신뢰성 확보에 코드 기반 중간 표현이 핵심임을 보여줬다.",
+      "author_profile": "Hokin",
+      "publish_date": "2026-11-27T00:00:00.000Z",
+      "tags": [
+        "시각 추론",
+        "코딩 에이전트",
+        "비디오 모델",
+        "프로그램 합성"
+      ],
+      "url": "https://huggingface.co/papers/2611.34813",
+      "sources": [
+        "HF Daily Papers"
+      ],
+      "metrics": {
+        "upvotes": 61,
+        "comments": 5,
+        "arxiv_id": "2611.34813",
+        "paper_published_at": "2026-11-25T00:00:00.000Z",
+        "github_repo": null
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "bluesky_ac748a56a9",
+      "category_id": "bluesky",
+      "category_name": "Bluesky",
+      "signal_id": "devtool",
+      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
+      "importance": 85,
+      "headline": "AWS Nitro Sandboxes: 컨테이너 이미지 수정 없이 AI 에이전트 워크로드 하이퍼바이저 격리",
+      "title_ko": "AWS Nitro Sandboxes: 컨테이너 이미지 수정 없이 AI 에이전트 워크로드 하이퍼바이저 격리",
+      "summary_ko": "• **무변경 샌드박스 격리**: AWS가 단일 인스턴스 안에서 여러 컨테이너 워크로드에 Nitro 하이퍼바이저 수준의 하드웨어 격리를 제공하는 Nitro Sandboxes를 소개했다.\n• **격리·기밀 모드 구분**: 기존 컨테이너 이미지를 바꿀 필요 없이 런타임 설정만으로 적용되며, 기밀 모드에서는 호스트 인스턴스조차 내부 메모리와 실행 내용을 들여다볼 수 없다.\n• **프로덕션 에이전트 요소**: AWS는 샌드박스 격리와 더불어 워크로드 신원 인증과 승인 게이트웨이를 통한 아웃바운드(egress) 통제가 상용 배포의 핵심 퍼즐이라고 짚었다.",
+      "body_ko": "AI 에이전트가 임의의 스크립트와 도구를 실행하면서 프로덕션 배포의 최대 걸림돌로 떠오른 격리·보안 문제를 해결하기 위해 AWS가 Nitro Sandboxes 아키텍처를 제시했다. AWS 시니어 프로덕트 매니저는 인터뷰에서 다수 팀이 보안과 신원 제어 확신 부족으로 에이전트 상용 전환을 망설이고 있다고 진단했다. Nitro Sandboxes는 부모 인스턴스의 CPU와 메모리를 공유하면서도 단일 노드 내 다중 워크로드를 Nitro 하이퍼바이저 경계로 분리해 준다. 개발자가 기존 컨테이너 이미지를 새로 패키징하거나 빌드 파이프라인을 갈아엎지 않고 런타임 설정만 지정해 격리 환경에 올릴 수 있다는 점이 강점이다. 특히 기밀 모드에서는 부모 호스트의 검사까지 차단하며, 정책 기반 복호화 검증으로 암호화된 모델이나 코드를 안전하게 배포하는 시나리오도 지원한다. AWS는 네트워크 없는 순수 연산 격리뿐 아니라 외부 모델·API 호출 시 승인 게이트웨이를 거치는 워크로드 신원과 이그레스 통제까지 오픈소스 오케스트레이션 프로젝트와 연계해 통합할 계획이라고 밝혔다.",
+      "author_profile": "@druce.ai",
+      "publish_date": "2026-11-28T02:13:35.161Z",
+      "tags": [
+        "AWS",
+        "Nitro Sandboxes",
+        "에이전트 격리",
+        "보안 런타임"
+      ],
+      "url": "https://thenewstack.io/aws-nitro-sandboxes-agents/",
+      "sources": [
+        "Bluesky"
+      ],
+      "metrics": {
+        "likes": 3,
+        "reposts": 0,
+        "replies": 0,
+        "bluesky_url": "https://bsky.app/profile/druce.ai/post/3n3dmwpslbx2c"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "instagram_d21c77deb4",
+      "category_id": "instagram",
+      "category_name": "Instagram",
+      "signal_id": "devtool",
+      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
+      "importance": 84,
+      "headline": "Vercel 'agent-browser', 접근성 트리 번호 매핑으로 Claude Code 웹 양식 자동 입력 실증",
+      "title_ko": "Vercel 'agent-browser', 접근성 트리 번호 매핑으로 Claude Code 웹 양식 자동 입력 실증",
+      "summary_ko": "• **접근성 트리 제어**: Vercel Labs가 공개한 Apache-2.0 오픈소스 'agent-browser'가 화면 스크린샷 대신 웹페이지 접근성 트리를 읽어 입력칸과 버튼에 @e3·@e7 같은 번호를 붙여 조작한다.\n• **실측 작업 검증**: 가상 사내 경비 양식 테스트에서 CSV 3건 입력·합계(88,400원) 대조를 약 46초(작업 표시 기준) 만에 마쳤고, 가려진 제출 버튼은 억지로 누르지 않고 공지 팝업을 먼저 닫은 뒤 진행했다.\n• **도입 편의성**: npm 전역 설치 두 줄로 바로 연동할 수 있어 반복적인 사내 웹 양식 이관이나 E2E QA 자동화에 가볍게 투입할 수 있다.",
+      "body_ko": "Vercel Labs가 공개해 GitHub 스타 5만 4천 개 이상을 모은 AI 전용 브라우저 도구 'agent-browser'를 Claude Code와 결합해 실무 웹 양식 자동화를 검증한 사례가 공유됐다. 기존 비전 기반 브라우저 에이전트가 화면 캡처를 해석하는 데 토큰과 시간을 많이 쓰던 것과 달리, 이 도구는 페이지의 접근성 트리를 텍스트 목록으로 추출해 각 요소에 @e3, @e5 같은 참조 번호를 부여한다. 테스트에서는 snapshot -i 명령으로 입력 필드를 식별하고 fill과 select 명령으로 날짜·항목·금액을 채우는 방식이 깔끔하게 동작했다. 특히 공지 모달 창이 제출 버튼을 가리고 있는 상황에서 무작정 클릭을 시도해 실패하지 않고 가려짐을 인식한 뒤 팝업을 닫고 제출을 마친 점이 돋보였다. CSV 파일 3건의 입력과 합계 88,400원 검증까지 한 번의 지시로 약 46초 만에 완료됐다. Apache-2.0 라이선스 무료 오픈소스로 제공되며 npm 설치만으로 즉시 사용할 수 있어 사내 어드민 자동화나 브라우저 회귀 테스트에 실용적인 대안으로 꼽힌다.",
+      "author_profile": "joshproductletter",
+      "publish_date": "2026-11-28T10:07:00.000Z",
+      "tags": [
+        "agent-browser",
+        "Vercel",
+        "Claude Code",
+        "브라우저 자동화"
+      ],
+      "url": "https://www.instagram.com/joshproductletter/p/DgSAJxfD8mL/",
       "sources": [
         "Instagram"
       ],
       "metrics": {
-        "likes": 12,
+        "likes": 0,
         "reposts": 0,
-        "replies": 1,
+        "replies": 0,
         "views": 0,
         "platform": "instagram",
-        "account": "aiscene.kr"
+        "account": "joshproductletter"
       },
       "curated_by": "ldk-hub"
     },
     {
-      "id": "aitimes_77a052fd1b",
-      "category_id": "aitimes",
-      "category_name": "AI타임스",
-      "signal_id": "policy",
-      "signal_name": "정책·규제·인프라 (기술 영향 큰 것만)",
-      "importance": 87,
-      "headline": "엔비디아, 동남아 4개국 AI 서버 출하 중단…미 BIS 규정 따라 중국 우회 클라우드 차단",
-      "title_ko": "엔비디아, 동남아 4개국 AI 서버 출하 중단…미 BIS 규정 따라 중국 우회 클라우드 차단",
-      "summary_ko": "• **동남아 서버 출하 중단**: 엔비디아가 델·슈퍼마이크로 등 협력사에 말레이시아·싱가포르·태국·인도네시아향 AI 서버 출하를 중단하도록 지시했다.\n• **클라우드 임대 규제 강화**: 미 상무부 BIS가 11월 19일 시행한 원격 접근 규제에 맞춰 중국 기업에 GPU를 일부라도 임대하는 네오클라우드 업체까지 공급 차단 대상에 포함됐다.\n• **인프라 영향**: 중국 AI 컴퓨팅의 약 24%를 담당하던 해외 데이터센터 우회 경로가 막히면서 동남아 GPU 클라우드 공급망과 아시아 지역 컴퓨팅 조달 전략에 직접적인 변수가 생겼다.",
-      "body_ko": "엔비디아가 미국 상무부 산업안보국(BIS)의 강화된 AI 반도체 수출 규정에 대응해 말레이시아, 싱가포르, 태국, 인도네시아 등 동남아시아 4개국으로의 AI 서버 출하를 전면 중단했다. 파이낸셜타임스에 따르면 엔비디아는 델과 슈퍼마이크로컴퓨터 등 주요 서버 제조 협력사에 출하 중단을 통보했으며, 재개 시점은 아직 정해지지 않았다. 지난 19일 발효된 BIS 새 규정은 중국 기업이 해외 데이터센터를 통해 첨단 AI 반도체에 원격 접근하는 우회 경로를 차단하고, 관련 클라우드 사업자에게 90일 내 최종 사용자 심사 및 수출 허가 취득을 요구한다. 미국 진보연구소(IFP)는 올해 말 기준 해외 데이터센터가 중국 전체 AI 컴퓨팅 자원의 약 24%를 공급할 것으로 추산한 바 있어 실질적인 파급력이 크다. 공급 기준 역시 기존 'GPU의 50% 이상 중국 임대 시 제한'에서 '일부라도 중국 기업에 임대하는 네오클라우드 업체 전체 공급 중단'으로 한층 엄격해졌다. 이에 따라 동남아 데이터센터용 대출 중단과 계약 취소 우려가 확산되며 아시아권 AI 인프라 수급 지형에도 연쇄 변화가 예상된다.",
-      "author_profile": "임대준 기자",
-      "publish_date": "2026-11-26T20:55:39.000Z",
-      "tags": [
-        "엔비디아",
-        "AI 인프라",
-        "수출 규제",
-        "동남아 데이터센터"
-      ],
-      "url": "https://www.aitimes.com/news/articleView.html?idxno=217837",
-      "sources": [
-        "AI타임스"
-      ],
-      "metrics": {},
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "aitimes_819d8c37fe",
-      "category_id": "aitimes",
-      "category_name": "AI타임스",
-      "signal_id": "practice",
-      "signal_name": "AI 활용 사례·워크플로우 팁",
-      "importance": 86,
-      "headline": "LeadDev 조사: 개발 조직 47%가 코드 작성 AI에 리뷰까지 위임…'충분히 이해' 응답은 26%뿐",
-      "title_ko": "LeadDev 조사: 개발 조직 47%가 코드 작성 AI에 리뷰까지 위임…'충분히 이해' 응답은 26%뿐",
-      "summary_ko": "• **동일 AI 자가 리뷰 확산**: 미국·유럽 개발자 및 리더 377명 대상 LeadDev 조사에서 응답자의 47%가 코드를 작성한 AI 에이전트에게 리뷰까지 맡기고 있다고 답했다.\n• **리뷰 병목과 이해도 저하**: 절반이 1인당 PR 25% 이상 증가를 체감했으나 38%는 리뷰가 오히려 느려졌다고 답했고, AI 코드를 사람 코드만큼 이해한다는 확신은 26%에 불과했다.\n• **엔지니어링 시사점**: AI 생성 코드 검토 기준이 일관되게 적용되는 조직은 14%에 그쳐, 독립 리뷰 도구·자동화 테스트·핵심 보안 영역의 인간 전문가 검토 체계 구축이 시급하다.",
-      "body_ko": "AI 코딩 도구 확산으로 코드 생산량이 급증하면서 소프트웨어 개발 조직의 핵심 병목이 코드 작성에서 코드 리뷰로 빠르게 이동하고 있다. 개발자 리더십 매체 리드데브(LeadDev)가 코드래빗 후원으로 미국·유럽 엔지니어링 리더와 개발자 377명을 조사한 결과, 응답자의 47%가 코드를 작성한 것과 동일한 AI 에이전트에게 검토까지 맡기고 있는 것으로 나타났다. 조사 대상의 절반은 개발자 1인당 PR 건수가 최소 25% 늘었고 67%는 개별 PR의 코드 규모도 커졌다고 밝혔지만, 검토 속도가 빨라졌다는 응답은 25%에 불과한 반면 느려졌다는 응답이 38%에 달했다. 응답자의 82%는 여전히 사람이 직접 검토 후 병합한다고 답했으나, AI 작성 코드를 충분히 이해한다고 확신하는 비율은 26%에 그쳤고 58%는 세부 구현을 파악하지 못한 채 의도만 확인하는 수준이었다. 더욱이 AI 코드에 대한 명확한 검토 기준을 일관되게 운영하는 조직은 14%뿐이었고, 68%는 어떤 변경 사항에 집중해야 할지 항상 판단하기 어렵다고 토로했다. 전문가들은 작성 AI의 자가 리뷰에만 의존하는 관행의 위험성을 경고하며 독립 리뷰 도구와 자동화 테스트, 결제·권한 등 고위험 변경의 도메인 전문가 검증을 병행해야 한다고 강조했다.",
-      "author_profile": "박찬 기자",
-      "publish_date": "2026-11-26T08:55:33.000Z",
-      "tags": [
-        "AI 코드 리뷰",
-        "LeadDev",
-        "PR 병목",
-        "엔지니어링 문화"
-      ],
-      "url": "https://www.aitimes.com/news/articleView.html?idxno=217834",
-      "sources": [
-        "AI타임스"
-      ],
-      "metrics": {},
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "hfpapers_a3786dc59d",
-      "category_id": "hfpapers",
-      "category_name": "HF Daily Papers",
-      "signal_id": "research",
-      "signal_name": "연구·논문·새 기법",
-      "importance": 85,
-      "headline": "Mixture-of-Loops Transformer(MoLT): 루프 간 선택적 KV 재사용으로 700M 1.7배 토큰 효율 달성",
-      "title_ko": "Mixture-of-Loops Transformer(MoLT): 루프 간 선택적 KV 재사용으로 700M 1.7배 토큰 효율 달성",
-      "summary_ko": "• **루프형 트랜스포머 개선**: 공유 레이어를 반복 실행하는 루프형 트랜스포머의 지연 한계를 풀기 위해 KV 캐시를 메모리로 선택 재사용하는 'Mixture-of-Loops Transformer(MoLT)'가 제안됐다.\n• **정량 실험 성과**: 400B 토큰 사전학습에서 U-MoLT는 OLMo3 대비 700M 모델 토큰 효율 1.7배, 3B MoE 10개 태스크 정확도 +2.1%p를 기록했고 113M급 추론 지연도 996.6ms로 비루프 모델(1,000.6ms)과 동등했다.\n• **아키텍처 의의**: 동일 위치의 루프 간 종속성을 제거해 병렬 학습과 단일 순회 디코딩을 열어주며, 기존 Qwen3.5-0.8B-Base의 100B 추가 학습에서도 1.4배 평균 토큰 효율 개선을 입증했다.",
-      "body_ko": "공유 레이어를 여러 번 순회해 표현력을 높이는 기존 Looped Transformer는 반복 연산에 따른 추론 효율 저하가 고질적인 약점으로 꼽혀 왔다. HF Daily Papers에 등재된 MoLT(Mixture-of-Loops Transformer) 연구는 인접 루프 사이에 무엇을 전달할지를 재설계해, 키·값(KV)을 메모리로 삼아 깊이와 루프 전반에서 선택적으로 재사용하는 Mixture-of-Loops Attention(MoLA)을 제안했다. 특히 MoLT-KV 구조는 임베딩에서 다시 시작해 현재 루프의 로컬 KV와 이전 위치의 선행 루프 메모리 KV를 함께 읽음으로써 동일 위치의 루프 간 의존성을 끊어냈다. 여기에 메모리 구축과 예측 판독을 분리하고 불필요한 디코더 순회를 건너뛰는 U-MoLT 설계를 결합해 학습 병렬성과 단일 순회 디코딩 효율을 동시에 확보했다. 400B 토큰 사전학습 실험에서 U-MoLT는 700M/1.5B 밀집 모델과 3B MoE 전반에서 OLMo3를 앞섰으며, 700M 기준 검증 크로스엔트로피 토큰 효율 1.7배, 3B MoE 10개 도메인 퍼플렉시티 0.75 개선 및 10개 태스크 정확도 2.1%p 향상을 달성했다. 또한 S-size(약 113M) 추론 지연이 996.6ms로 비루프 OLMo3(1,000.6ms)와 대등하고, Qwen3.5-0.8B-Base 100B 추가 학습에서도 11개 전 도메인 손실 감소와 1.4배 토큰 효율을 보여 기존 모델 어댑테이션 가능성까지 확인했다.",
-      "author_profile": "LianghuiZhu",
-      "publish_date": "2026-11-26T00:00:00.000Z",
-      "tags": [
-        "MoLT",
-        "트랜스포머",
-        "KV 메모리",
-        "사전학습 효율"
-      ],
-      "url": "https://huggingface.co/papers/2611.34923",
-      "sources": [
-        "HF Daily Papers"
-      ],
-      "metrics": {
-        "upvotes": 57,
-        "comments": 1,
-        "arxiv_id": "2611.34923",
-        "paper_published_at": "2026-11-25T00:00:00.000Z",
-        "github_repo": "https://github.com/hustvl/MoLT"
-      },
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "hfpapers_60f076f100",
-      "category_id": "hfpapers",
-      "category_name": "HF Daily Papers",
-      "signal_id": "research",
-      "signal_name": "연구·논문·새 기법",
-      "importance": 84,
-      "headline": "VibeVideoAgent: 코드 기반 영상 생성 에이전트에 분리된 멀티모달 지각 검증 루프 도입",
-      "title_ko": "VibeVideoAgent: 코드 기반 영상 생성 에이전트에 분리된 멀티모달 지각 검증 루프 도입",
-      "summary_ko": "• **지각 피드백 루프 제안**: 렌더링 코드를 짜는 코딩 에이전트가 런타임 오류 없이도 발생하는 라벨 겹침·카메라 이탈·음성 싱크 어긋남을 스스로 점검하도록 설계된 무학습 프레임워크 'VibeVideoAgent'가 공개됐다.\n• **벤치마크 개선 수치**: 239개 VibeVideoBench 과제에서 Claude Opus 5.5(4.03→4.43), GPT-6 Astra(4.03→4.27), Claude Sonnet 5.5(3.97→4.10)의 종합 시청각 품질(L3)을 일제히 높였으며 시청각 동기화는 최대 +0.56 상승했다.\n• **에이전트 설계 인사이트**: 무거운 영상 프레임·오디오 검사를 단기 별도 컨텍스트로 격리해 압축된 소견만 코더에게 돌려주는 패턴은 장문 멀티모달 에이전트 컨텍스트 비대화 방지에 폭넓게 응용할 수 있다.",
-      "body_ko": "코딩 에이전트가 렌더링 프로그램을 직접 작성해 영상을 제작하는 방식은 타이포그래피와 데이터 시각화, 오디오 동기화를 정밀하게 제어하고 편집 가능한 프로젝트를 남긴다는 장점이 있다. 그러나 프로그램이 오류 없이 종료되더라도 화면 라벨이 겹치거나 카메라가 피사체를 벗어나고 내레이션 싱크가 어긋나는 시각·청각 결함은 런타임 에러로 잡히지 않는 한계가 있었다. 기존처럼 렌더링 프레임과 오디오를 코딩 세션에 통째로 넣으면 장문 컨텍스트가 급격히 비대해지고, 최종 고해상도 렌더 이후에만 검수하면 초기 설계 실수를 고치는 비용이 커진다. VibeVideoAgent는 멀티모달 지각 검사를 코딩 세션과 분리된 단기 컨텍스트에서 수행해 압축된 근거 중심 소견만 반환하며, 7개 프리미티브와 단계적 최소 프리뷰 프로토콜로 위험한 설계 결정을 조기 검증한다. 239개 VibeVideoBench 전체 과제에서 동일 런타임과 고정 지각 모델 조건으로 평가한 결과, 종합 시청각 품질(L3)이 Claude Opus 5.5는 4.03에서 4.43으로, GPT-6 Astra는 4.03에서 4.27로, Claude Sonnet 5.5는 3.97에서 4.10으로 개선됐다. 특히 Opus 5.5의 L2 루브릭 준수율이 98.87%에서 99.35%로 오르고 시청각 동기화 점수가 최대 +0.56 향상돼, 별도 모델 재학습 없이도 에이전트 검증 루프 설계만으로 산출물 품질을 크게 끌어올릴 수 있음을 보여줬다.",
-      "author_profile": "Kling-Keye-Official",
-      "publish_date": "2026-11-26T00:00:00.000Z",
-      "tags": [
-        "VibeVideoAgent",
-        "코딩 에이전트",
-        "멀티모달 검증",
-        "코드 기반 영상"
-      ],
-      "url": "https://huggingface.co/papers/2611.34237",
-      "sources": [
-        "HF Daily Papers"
-      ],
-      "metrics": {
-        "upvotes": 54,
-        "comments": 4,
-        "arxiv_id": "2611.34237",
-        "paper_published_at": "2026-11-25T00:00:00.000Z",
-        "github_repo": "https://github.com/Kling-Keye/VibeVideoAgent"
-      },
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "bluesky_b9b62926ad",
-      "category_id": "bluesky",
-      "category_name": "Bluesky",
-      "signal_id": "devtool",
-      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
-      "importance": 83,
-      "headline": "Socket CTO 공동 집필 'Agent Baseline', AI 소프트웨어 팩토리용 외부 4대 보안 경계 아키텍처 공개",
-      "title_ko": "Socket CTO 공동 집필 'Agent Baseline', AI 소프트웨어 팩토리용 외부 4대 보안 경계 아키텍처 공개",
-      "summary_ko": "• **에이전트 보안 참조 모델**: 공급망 보안 기업 Socket의 CTO 등이 공동 집필한 'Agent Baseline'이 자율 코딩 에이전트 기반 소프트웨어 팩토리를 보호하는 보안 참조 아키텍처를 발표했다.\n• **외부 경계 강제 원칙**: 패키지를 막아도 에이전트가 CDN에서 tarball을 직접 받거나 레지스트리 설정 수정·독자 DNS 조회로 우회할 수 있어, 에이전트 외부에 4개 보안 경계를 강제해야 한다고 제시했다.\n• **실무 보안 교훈**: 에이전트가 직접 편집 가능한 설정 파일이나 프롬프트 규칙은 통제 수단이 아니라 권고에 불과하므로 네트워크·실행 환경 수준의 물리적 격리가 필수적이다.",
-      "body_ko": "AI 코딩 에이전트가 패키지 설치부터 빌드·테스트까지 자율적으로 수행하는 '소프트웨어 팩토리' 환경이 확산되면서 기존 프롬프트·설정 기반 보안 통제의 한계가 드러나고 있다. 공급망 보안 기업 Socket의 CTO가 공동 집필에 참여한 Agent Baseline은 이러한 문제를 정면으로 다룬 보안 참조 아키텍처를 공개했다. 핵심 문제의식은 특정 패키지 설치를 차단하더라도 능력 있는 코딩 에이전트가 CDN에서 압축 tarball을 직접 내려받거나 패키지 레지스트리 설정을 고쳐 쓰고 자체 DNS 조회까지 시도해 제약을 우회할 수 있다는 점이다. 따라서 에이전트가 접근해 수정할 수 있는 제어 장치는 보안 경계가 아니라 단순한 제안에 불과하다고 못 박았다. 이를 해결하기 위해 참조 아키텍처는 AI 에이전트 실행 영역 바깥에서 강제되는 4개의 독립된 보안 경계 설계를 중심 원칙으로 제시한다. 사내 CI/CD나 자율 개발 환경에 코딩 에이전트를 투입하는 보안·플랫폼 팀이라면 에이전트 내부 규칙 대신 컨테이너·네트워크 프록시·권한 분리 중심의 외부 통제선부터 점검해야 한다.",
-      "author_profile": "@feross.bsky.social",
-      "publish_date": "2026-11-26T16:09:22.332Z",
-      "tags": [
-        "Agent Baseline",
-        "Socket",
-        "에이전트 보안",
-        "공급망 보안"
-      ],
-      "url": "https://socket.dev/blog/agent-baseline-software-factory",
-      "sources": [
-        "Bluesky"
-      ],
-      "metrics": {
-        "likes": 8,
-        "reposts": 0,
-        "replies": 3,
-        "bluesky_url": "https://bsky.app/profile/feross.bsky.social/post/3n3a2pf64s624"
-      },
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "hackernews_01f1b1c28b",
+      "id": "hackernews_62847dd6e5",
       "category_id": "hackernews",
       "category_name": "Hacker News",
-      "signal_id": "devtool",
-      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
-      "importance": 81,
-      "headline": "Session Vault: Claude Code 대화 기록 로컬 암호화 백업·30일 자동 삭제 방지 플러그인 공개",
-      "title_ko": "Session Vault: Claude Code 대화 기록 로컬 암호화 백업·30일 자동 삭제 방지 플러그인 공개",
-      "summary_ko": "• **세션 백업 플러그인 출시**: 기본 설정상 30일 뒤 로컬 대화 기록을 삭제하는 Claude Code의 제약을 보완하는 암호화 백업·동기화 플러그인 'Session Vault'가 공개됐다.\n• **종단간 암호화 및 셀프호스팅**: 업로드 전 사용자 기기에서 생성한 키로 대화 내역을 암호화해 서버가 원문을 열람할 수 없으며, 서버 코드도 오픈소스로 공개돼 자체 인프라 구축이 가능하다.\n• **개발자 실무 활용**: 기기 교체나 디스크 초기화 이후에도 기존 작업 맥락을 다른 머신으로 불러와 중단된 에이전트 코딩 세션을 그대로 이어갈 수 있다.",
-      "body_ko": "Claude Code는 대화 내역을 작업이 이뤄진 로컬 기기에만 보관하고 기본 설정상 30일이 지나면 자동 삭제하기 때문에 장기 프로젝트 맥락을 유지하거나 여러 대의 개발 장비를 오갈 때 불편이 크다. 새로 공개된 Session Vault는 Claude Code 내부에서 바로 실행하는 플러그인 형태로 원하는 세션의 암호화된 사본을 안전하게 백업하고 복원할 수 있게 해준다. 업로드에 앞서 최초 저장 시 사용자 기기에서 생성한 로컬 키로 대화 기록을 암호화하며, 서버에는 암호화된 파일과 세션 ID·프로젝트·폴더·선택적 이름 같은 탐색용 최소 메타데이터만 저장된다. 덕분에 호스팅 서버 운영자조차 대화 원문을 복호화할 수 없으며, 다른 노트북에서 세션을 이어 쓰려면 로컬 키 파일만 안전하게 복사해 옮기면 된다. 백업 서버 자체도 오픈소스로 제공되므로 사내 보안 규정이 엄격한 개발자나 팀은 외부 계정 없이 자체 하드웨어에 서버를 올려 플러그인을 연결할 수 있다. 다만 암호화 키가 유일한 복호화 수단이므로 키를 분실하면 저장된 세션을 복구할 수 없다는 점을 유의해 별도 키 백업 전략을 병행해야 한다.",
-      "author_profile": "@me2too",
-      "publish_date": "2026-11-26T13:43:14.000Z",
+      "signal_id": "oss",
+      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
+      "importance": 83,
+      "headline": "52KB WebAssembly 엔진으로 브라우저 탭에서 Qwen3.5-2B 로컬 추론 구현",
+      "title_ko": "52KB WebAssembly 엔진으로 브라우저 탭에서 Qwen3.5-2B 로컬 추론 구현",
+      "summary_ko": "• **초경량 브라우저 엔진**: 서버나 GPU API 호출 없이 약 52KB 크기 WebAssembly 모듈만으로 브라우저 CPU 위에서 LLM 가중치를 캐시해 토큰을 생성하는 실험 도구가 공개됐다.\n• **실측 성능 지표**: Apple M3 Max(8스레드) 기준 Qwen3.5-2B는 초당 약 39토큰, 0.8B 모델은 초당 74토큰을 생성하며 동일 CPU 환경 네이티브 llama.cpp의 65~75% 속도를 냈다.\n• **병목과 프라이버시**: 프롬프트 처리가 1토큰씩 이뤄져 프리필(160 vs 513 tok/s)은 느리지만 입력·응답이 브라우저 탭 밖으로 전혀 나가지 않는 완전 로컬 프라이버시를 보장한다.",
+      "body_ko": "개발자 @kkm이 브라우저 탭 안에서 외부 추론 서버나 GPU 없이 CPU만으로 소형 LLM을 구동하는 약 52KB WebAssembly 기반 실험 프로젝트(experiments-llm-os)를 공개했다. 사용자는 웹 페이지에 접속해 모델 가중치를 한 번 브라우저 캐시에 내려받은 뒤 터미널 UI에서 `/bench`나 `/numbers` 명령으로 즉시 추론과 성능 차트를 실행할 수 있다. Apple M3 Max의 8스레드 환경에서 실측한 결과 Qwen3.5-2B 모델이 초당 약 39토큰, Qwen3.5-0.8B 모델이 초당 약 74토큰을 생성했다. Qwen3-0.6B 기준 토큰 생성 속도는 네이티브 llama.cpp CPU 빌드의 65~75% 수준에 도달했다. 다만 배치 처리 대신 토큰을 하나씩 읽는 구조 때문에 프롬프트 입력 단계에서는 초당 160토큰으로 네이티브 llama.cpp의 513토큰 대비 차이가 났다. 또한 Qwen3.5 계열은 248,320개에 달하는 큰 어휘 사전 크기 때문에 매개변수당 속도가 더 낮아지는 특성도 함께 보고됐다.",
+      "author_profile": "@kkm",
+      "publish_date": "2026-11-28T00:16:59.000Z",
       "tags": [
-        "Session Vault",
-        "Claude Code",
-        "세션 백업",
-        "암호화"
+        "WebAssembly",
+        "Qwen3.5",
+        "브라우저 LLM",
+        "오픈소스"
       ],
-      "url": "https://session-vault.dev/",
+      "url": "https://tesseracted.com/experiments-llm-os/",
       "sources": [
         "Hacker News"
       ],
       "metrics": {
         "points": 19,
-        "comments": 2,
-        "discussion_url": "https://news.ycombinator.com/item?id=50655243"
+        "comments": 7,
+        "discussion_url": "https://news.ycombinator.com/item?id=50673018"
       },
       "curated_by": "ldk-hub"
     },
     {
-      "id": "x_8acce32295",
-      "category_id": "x",
-      "category_name": "X",
-      "signal_id": "practice",
-      "signal_name": "AI 활용 사례·워크플로우 팁",
-      "importance": 80,
-      "headline": "안드레이 카파시, Claude Opus 5.5로 7시간·4만 5천 줄 코딩해 미 공공데이터 31종 문명 지도 구현",
-      "title_ko": "안드레이 카파시, Claude Opus 5.5로 7시간·4만 5천 줄 코딩해 미 공공데이터 31종 문명 지도 구현",
-      "summary_ko": "• **장시간 자율 프로젝트 시연**: 안드레이 카파시가 Claude Opus 5.5에게 미국 전역 실제 공공데이터를 문명(Civilization) 스타일 육각 지도로 매핑하는 프로젝트를 맡겨 성공시켰다.\n• **데이터 수집·코드 규모**: 모델이 인구조사국·노동통계국·NOAA·FAA 등 31개 공공 데이터 소스를 내려받아 파싱하고, 약 7시간 만에 4만 5천 줄 코드로 25km 육각 그리드 맵을 완성했다.\n• **실무 워크플로우 의미**: 대규모 이기종 공공 데이터 ETL과 지리 시각화 프로토타이핑을 소수의 고수준 지시만으로 단기간에 완결할 수 있는 에이전트 코딩 역량을 입증했다.",
-      "body_ko": "전 오픈AI 공동 창립자이자 AI 연구자인 안드레이 카파시가 Claude Opus 5.5를 활용해 미국 전역을 전략 게임 '문명(Civilization)' 스타일의 지도로 변환한 실험 결과를 공개해 X에서 큰 화제를 모았다. 공개된 내용에 따르면 카파시는 미국 전역의 실제 통계 데이터를 게임 맵 요소에 대응시키도록 요청했고, Opus 5.5가 이를 받아 데이터 수집부터 파싱, 시각화 코드 생성까지 일괄 수행했다. 모델은 미국 인구조사국(Census), 경제분석국(BEA), 노동통계국(BLS), 에너지정보청(EIA), NOAA, USGS, 국방부(DoD), 국립공원청(NPS), FAA, FEMA 등 총 31개 실제 공공 데이터 소스를 통합했다. 전체 작업에는 약 7시간이 소요됐고 약 4만 5천 줄 규모의 코드가 생성돼 미국 전토를 25km 단위의 육각(hex) 그리드로 표현하는 지도가 동작하는 단계에 도달했다. 맵 상에서는 GDP가 게임 속 골드 자원으로 표현되고 산호세에는 캠퍼스 타일이, 디트로이트에는 '모터 시티' 특성이 반영되는 등 도메인 맥락까지 자연스럽게 녹아들었다. 이 실험은 다수의 이기종 데이터 파이프라인 구축과 인터랙티브 공간 시각화처럼 손이 많이 가는 프로토타입 작업을 코딩 에이전트가 몇 시간 만에 끝낼 수 있음을 생생하게 보여준다.",
-      "author_profile": "@minchoi",
-      "publish_date": "2026-11-26T16:12:03.030Z",
-      "tags": [
-        "안드레이 카파시",
-        "Claude Opus 5.5",
-        "공공데이터 시각화",
-        "에이전트 코딩"
-      ],
-      "url": "https://x.com/minchoi/status/2125985945740525641",
-      "sources": [
-        "X"
-      ],
-      "metrics": {
-        "likes": 56,
-        "reposts": 3,
-        "replies": 28,
-        "views": 10004,
-        "platform": "x",
-        "account": "minchoi"
-      },
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "instagram_2dfb578c49",
-      "category_id": "instagram",
-      "category_name": "Instagram",
+      "id": "bluesky_72953cde04",
+      "category_id": "bluesky",
+      "category_name": "Bluesky",
       "signal_id": "oss",
       "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
-      "importance": 79,
-      "headline": "코딩 AI용 무료 MIT 오픈소스 스킬 'papercraft' 공개…한 줄 지시로 3D 종이 팝업북 웹 코드 생성",
-      "title_ko": "코딩 AI용 무료 MIT 오픈소스 스킬 'papercraft' 공개…한 줄 지시로 3D 종이 팝업북 웹 코드 생성",
-      "summary_ko": "• **팝업북 생성 스킬 공개**: 개인 개발자 xikhar가 클로드 코드·코덱스 등 코딩 AI에 설치해 3D 종이 팝업북 스타일 웹페이지·게임·세로 릴스를 코드로 생성하는 무료 MIT 오픈소스 스킬 'papercraft'를 공개했다.\n• **실측 품질 및 소요 시간**: 공개 사흘 만에 563스타·소개 글 저장 2,498회를 기록했으며, 일본 개발자의 18회 비교 시험에서 스킬 적용 9회 모두 종이 디오라마를 구현한 대신 소요 시간은 중앙값 485초로 미적용(112초) 대비 약 4배였다.\n• **개발자 활용법**: `npx skills add xikhar/papercraft`로 설치 후 자연어 한 줄로 독특한 브랜드 랜딩이나 프로모션 인터랙션을 제작할 수 있으며, 이미지 생성 AI 없이 종이 질감과 효과음까지 코드로 제어한다.",
-      "body_ko": "개인 개발자 xikhar가 11월 21일 깃허브에 공개한 무료 MIT 오픈소스 스킬 'papercraft'(버전 0.6.0)가 코딩 에이전트 커뮤니티에서 빠르게 주목받고 있다. 이 도구는 클로드 코드나 코덱스 같은 코딩 AI에 스킬을 추가한 뒤 '우리 동네를 팝업북처럼 만들어 줘' 같은 한 줄 지시만 입력하면 평면 전개도가 지붕 달린 3D 종이 마을로 접혀 올라오는 웹페이지·게임·9:16 세로 릴스 코드를 자동으로 짜준다. 별도 이미지 생성 AI를 요청할 때만 제한적으로 사용하고, 종이 질감 연출과 바스락거리는 사운드 효과까지 대부분을 순수 코드로 구현한다는 점이 특징이다. 사용법은 터미널에서 `npx skills add xikhar/papercraft`를 실행해 스킬을 등록한 뒤 원하는 테마를 지시하면 되며, 공개 사흘 만에 깃허브 스타 563개와 소개 글 저장 2,498회를 달성했다. 일본 개발자 채널의 클로드 코드 Sonnet 5.5 기반 18회 비교 시험에서는 스킬 적용군 9건과 미적용군 9건 모두 정상 실행됐고, 적용군 전부가 일관된 종이 디오라마 스타일을 출력했다. 다만 스킬을 쓰면 생성 시간이 중앙값 485초로 미적용 시 112초보다 약 4배 오래 걸리고 아직 초기 단계이므로 기존 작품 모방 금지 등 라이선스·품질 가이드를 확인하고 활용하는 것이 좋다.",
-      "author_profile": "aiscene.kr",
-      "publish_date": "2026-11-26T11:01:04.000Z",
+      "importance": 82,
+      "headline": "경량 코딩 에이전트 'mini-swe-agent', 100줄 파이썬 코드로 벤치마크 74% 돌파",
+      "title_ko": "경량 코딩 에이전트 'mini-swe-agent', 100줄 파이썬 코드로 벤치마크 74% 돌파",
+      "summary_ko": "• **초소형 코딩 에이전트**: SWE-agent 팀이 거대한 모노레포와 복잡한 설정을 걷어내고 약 100줄 내외 코드로 GitHub 이슈를 해결하는 'mini-swe-agent'를 공개했다.\n• **단순 구조 고성능**: CLI와 배시 도구 중심으로 동작하면서도 SWE-bench Verified 벤치마크에서 74%를 웃도는 높은 해결률을 기록했다.\n• **커스텀 출발점 가치**: 처음부터 코딩 에이전트 루프를 직접 이해하고 히스토리 압축기나 맞춤 도구를 붙이려는 개발자에게 이상적인 참조 구현으로 주목받고 있다.",
+      "body_ko": "SWE-agent 팀(@raymyers.bsky.social 공유)이 복잡한 프레임워크 의존성을 덜어낸 약 100줄 규모의 경량 코딩 에이전트 'mini-swe-agent'를 오픈소스로 공개했다. 이 도구는 방대한 도구 정의나 다층 오케스트레이션 없이 명령줄 환경과 기본 배시 실행만으로 GitHub 이슈를 분석하고 수정 패치를 작성한다. 극도로 단순한 구조에도 불구하고 SWE-bench Verified 평가에서 74%를 넘는 성적을 거두며, 핵심 모델 능력과 간결한 실행 루프의 조합이 얼마나 강력한지 입증했다. 사용자는 별도 대형 설정 파일 없이 CLI에서 바로 실행하거나 소스 코드를 읽어 에이전트 동작 원리를 파악할 수 있다. 커뮤니티에서는 배시 외 보조 도구나 컨텍스트 히스토리 압축기를 실험하기 위한 최소 출발점으로 평가하며, 자체 하네스 설계를 시작하려는 엔지니어들에게 좋은 기준점이 되고 있다.",
+      "author_profile": "@raymyers.bsky.social",
+      "publish_date": "2026-11-28T02:27:00.284Z",
       "tags": [
-        "papercraft",
-        "에이전트 스킬",
-        "오픈소스",
-        "3D 웹"
+        "mini-swe-agent",
+        "SWE-bench",
+        "코딩 에이전트",
+        "오픈소스"
       ],
-      "url": "https://www.instagram.com/aiscene.kr/p/DgM8xOcEmKp/",
+      "url": "https://github.com/SWE-agent/mini-swe-agent",
       "sources": [
-        "Instagram"
+        "Bluesky"
       ],
       "metrics": {
-        "likes": 32,
+        "likes": 3,
         "reposts": 0,
-        "replies": 0,
-        "views": 0,
-        "platform": "instagram",
-        "account": "aiscene.kr"
+        "replies": 1,
+        "bluesky_url": "https://bsky.app/profile/raymyers.bsky.social/post/3n3dnopcjmc2i"
       },
       "curated_by": "ldk-hub"
     },
     {
-      "id": "instagram_8d4b648322",
+      "id": "instagram_42b2db43a8",
       "category_id": "instagram",
       "category_name": "Instagram",
       "signal_id": "product",
       "signal_name": "제품 신기능",
-      "importance": 78,
-      "headline": "블렌더 공식 클로드 커넥터·MCP 서버 연동 확산…파이썬 1만 2,500줄로 20달러대 4K 3D 영상 제작",
-      "title_ko": "블렌더 공식 클로드 커넥터·MCP 서버 연동 확산…파이썬 1만 2,500줄로 20달러대 4K 3D 영상 제작",
-      "summary_ko": "• **공식 커넥터 및 MCP 연동**: 무료 3D 툴 블렌더 개발진이 공식 클로드 커넥터와 MCP 서버를 제공하면서 클로드 데스크톱 무료 요금제에서도 3단계 설정만으로 3D 장면 코드 제어가 가능해졌다.\n• **제작 사례 및 비용 수치**: 라일리 브라운은 클로드(Fable 5.2)로 파이썬 코드 1만 2,500줄을 생성해 52개 장면의 2분 4K 영상을 약 4시간 반·GPU 89대 대여비 약 20달러에 렌더링했다.\n• **크리에이티브·개발 활용**: 블랙박스형 영상 생성 AI와 달리 코드로 장면을 구성하므로 특정 카메라 각도나 조명만 정밀하게 수정·재렌더링할 수 있는 재현성 높은 파이프라인을 얻는다.",
-      "body_ko": "블렌더 개발진이 공식 클로드 커넥터와 MCP 서버를 제공하면서 영상 생성 AI 없이도 자연어 지시와 파이썬 코드만으로 고화질 3D 애니메이션을 제작하는 워크플로우가 주목받고 있다. 클로드 데스크톱 앱에서는 무료 요금제 사용자도 커넥터 추가, 블렌더 애드온 설치, 블렌더 내부 서버 활성화라는 세 단계만으로 두 도구를 바로 연결할 수 있다. 대표적인 실전 사례로 크리에이터 라일리 브라운은 Fable 5.2 기반 클로드에게 캐릭터·소품 5종, 배경 7곳, 장면 52개로 구성된 파이썬 코드 1만 2,500줄을 작성시켜 2분 분량의 4K 영상을 완성했다. 렌더링에는 약 4시간 반 동안 그래픽카드 89대를 임대해 3,220프레임을 출력했으며 전체 소요 비용은 약 20달러 수준에 그쳤다. 픽셀을 통째로 다시 뽑아야 하는 확산 기반 영상 생성 모델과 달리, 코드로 정의된 3D 씬은 카메라 구도 하나나 조명 값 하나만 콕 집어 수정할 수 있어 수정 반복 비용이 획기적으로 낮다. 다만 로컬 에이전트가 블렌더 스크립트를 직접 실행하므로 공식 안내대로 작업 파일을 수시로 저장하고 중요 개인 자료가 없는 격리 환경에서 10초짜리 짧은 장면부터 시험하는 것이 안전하다.",
+      "importance": 81,
+      "headline": "Claude 데스크톱, 아티팩트 결과물을 맥·윈도우 독립 앱으로 바로 설치하는 베타 기능 공개",
+      "title_ko": "Claude 데스크톱, 아티팩트 결과물을 맥·윈도우 독립 앱으로 바로 설치하는 베타 기능 공개",
+      "summary_ko": "• **원클릭 데스크톱 앱화**: Claude 데스크톱 앱에서 대화 한 줄로 만든 아티팩트를 'Install as app' 메뉴를 통해 맥·윈도우 네이티브 앱처럼 설치해 실행할 수 있게 됐다.\n• **OS 통합 및 권한 제어**: macOS Spotlight·응용 프로그램 폴더와 Windows 시작 메뉴에 등록되며 알림·단축키·메뉴 막대 등 세부 권한을 선택적으로 허용할 수 있다.\n• **요금제·버전 조건**: 무료 요금제 사용자도 이용 가능하나 Claude 데스크톱 6.28899.0 이상이 필요하고 웹·모바일은 미지원이며 실행 시 사용 한도가 차감된다.",
+      "body_ko": "Anthropic이 Claude 데스크톱 앱에서 채팅으로 생성한 아티팩트 결과물을 운영체제 독립 앱으로 설치할 수 있는 'Install as app' 베타 기능을 순차 배포하기 시작했다. 사용자는 대화창에 뽀모도로 타이머 같은 소형 도구 제작을 요청한 뒤 결과물 상단 메뉴에서 설치를 누르면 맥의 응용 프로그램 폴더·Spotlight나 윈도우 시작 메뉴에서 일반 프로그램처럼 곧바로 띄울 수 있다. 특히 메뉴 막대 상주, 시스템 알림, 전역 단축키 같은 OS 기능을 연결할 수 있어 일회성 웹 미리보기를 넘어 일상 생산성 유틸리티로 활용 폭이 넓어졌다. 보안 측면에서는 전체 파일 시스템 접근 권한을 신뢰할 수 있는 작업에만 부여하도록 권한 구분이 마련됐다. 이 기능은 무료 요금제에서도 사용할 수 있지만 Claude 데스크톱 6.28899.0 이상 버전에서만 순차 활성화되며 웹과 모바일 앱에서는 아직 지원되지 않는다. 또한 앱을 생성할 때뿐만 아니라 설치된 앱 내부에서 AI 기능을 호출할 때도 계정의 사용량 한도가 함께 소모된다는 점을 유의해야 한다.",
       "author_profile": "ai_insight.kr",
-      "publish_date": "2026-11-26T02:38:32.000Z",
+      "publish_date": "2026-11-27T23:22:02.000Z",
       "tags": [
-        "Blender MCP",
-        "클로드 커넥터",
-        "3D 코드 영상",
-        "파이썬 자동화"
+        "Claude 데스크톱",
+        "아티팩트",
+        "로컬 앱",
+        "제품 업데이트"
       ],
-      "url": "https://www.instagram.com/ai_insight.kr/p/DgMDOLXkgBy/",
+      "url": "https://www.instagram.com/ai_insight.kr/p/DgQ2VY9iUNA/",
       "sources": [
         "Instagram"
       ],
       "metrics": {
-        "likes": 5,
+        "likes": 2,
         "reposts": 0,
-        "replies": 31,
+        "replies": 7,
         "views": 0,
         "platform": "instagram",
         "account": "ai_insight.kr"
@@ -464,25 +421,156 @@
       "curated_by": "ldk-hub"
     },
     {
-      "id": "threads_51d060258d",
+      "id": "x_2e8482fc6b",
+      "category_id": "x",
+      "category_name": "X",
+      "signal_id": "product",
+      "signal_name": "제품 신기능",
+      "importance": 80,
+      "headline": "80ms 지연·99.8% 동작 동기화 달성한 전신 휴머노이드 실시간 원격 조종 시연 확산",
+      "title_ko": "80ms 지연·99.8% 동작 동기화 달성한 전신 휴머노이드 실시간 원격 조종 시연 확산",
+      "summary_ko": "• **초저지연 전신 제어**: 사람의 전신 움직임을 80ms 지연과 99.8% 동기화율로 휴머노이드 로봇에 실시간 전달하는 원격 조종 시연이 X에서 높은 반응을 얻고 있다.\n• **정밀 모션 파이프라인**: 0.1초 미만의 응답 속도는 인간 작업자의 균형 감각과 양팔 동작을 로봇 구동계에 거의 지체 없이 옮길 수 있는 수준임을 뜻한다.\n• **피지컬 AI 활용**: 위험 현장 원격 투입은 물론, 고품질 인간-로봇 동작 궤적 데이터를 대량 수집해 자율 제어 모델을 학습시키는 핵심 기반이 된다.",
+      "body_ko": "X에서 @minchoi가 공유한 전신 휴머노이드 실시간 원격 조종 영상이 피지컬 AI 개발자들 사이에서 큰 관심을 모으고 있다. 게시물에 따르면 해당 시스템은 사람과 로봇 간 동작 지연을 80ms 수준으로 낮추고 전신 움직임 동기화율 99.8%를 구현했다. 기존 원격 조종 방식이 팔이나 상체 위주의 느린 추종에 머물렀던 것과 달리, 80ms대 초저지연 반응은 작업자가 시각 피드백을 보며 즉각 균형과 손동작을 보정할 수 있는 임계치에 가깝다. 이러한 실시간 텔레오퍼레이션 기술은 원격 작업 투입 자체뿐 아니라 로보틱스 파운데이션 모델 학습에 필요한 정교한 시연 데이터셋을 확보하는 통로로 직결된다. 하드웨어 구동기 응답성과 자세 추정 파이프라인이 성숙해지면서 휴머노이드 제어의 실용화 속도가 한층 빨라지고 있다.",
+      "author_profile": "@minchoi",
+      "publish_date": "2026-11-27T12:37:35.239Z",
+      "tags": [
+        "휴머노이드",
+        "원격 조종",
+        "피지컬 AI",
+        "로보틱스"
+      ],
+      "url": "https://x.com/minchoi/status/2126294362179108984",
+      "sources": [
+        "X"
+      ],
+      "metrics": {
+        "likes": 156,
+        "reposts": 26,
+        "replies": 53,
+        "views": 19463,
+        "platform": "x",
+        "account": "minchoi"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "x_6c3d1ea268",
+      "category_id": "x",
+      "category_name": "X",
+      "signal_id": "model",
+      "signal_name": "새 모델·버전 출시·프리뷰·벤치마크",
+      "importance": 79,
+      "headline": "Google Gemini 4 Neon 공개 1주일, X 개발자 커뮤니티 창의적 실험 사례 확산",
+      "title_ko": "Google Gemini 4 Neon 공개 1주일, X 개발자 커뮤니티 창의적 실험 사례 확산",
+      "summary_ko": "• **출시 1주일 반향**: Google의 Gemini 4 Neon 공개 이후 불과 일주일 남짓한 기간 동안 X에서 다양한 창의적 활용 실험 10선 스레드가 빠르게 확산됐다.\n• **고속 E2E 실험 가속**: 프론티어 지능과 빠른 응답 속도를 결합한 Neon 모델 특성이 웹 인터랙티브 프로토타입과 멀티모달 작업 시도에 적극 활용되고 있다.\n• **개발자 채택 흐름**: 초기 공개 직후부터 실전 제작자 중심의 바이럴 사례가 쌓이면서 Gemini 4 라인업의 생태계 확산 속도가 빨라지는 양상이다.",
+      "body_ko": "Google이 Gemini 4 Neon을 공개한 지 일주일여 만에 X에서 개발자와 크리에이터들의 실험 사례 모음이 높은 조회수와 공감을 얻고 있다. @minchoi가 정리한 10가지 활용 스레드는 단순 질의응답을 넘어 사용자들이 Neon의 성능과 빠른 처리 속도를 결합해 만들어낸 다채로운 결과물에 주목했다. 프론티어 모델 경쟁이 벤치마크 수치 대결에서 실제 제작자들이 얼마나 빠르게 새로운 웹 경험과 자동화 도구를 만들어내는지로 옮겨가고 있음을 보여준다. 특히 공개 첫 주부터 커뮤니티 내 자발적인 데모 공유가 활발하게 이어지는 것은 개발자 도구와 에이전트 환경에서의 접근성 개선이 주효했기 때문으로 풀이된다. 모델 출시 직후의 2차 창작 생태계가 실무 도입과 API 활용 저변을 넓히는 핵심 지표로 작용하고 있다.",
+      "author_profile": "@minchoi",
+      "publish_date": "2026-11-28T04:27:53.149Z",
+      "tags": [
+        "Gemini 4 Neon",
+        "Google",
+        "모델 활용",
+        "커뮤니티"
+      ],
+      "url": "https://x.com/minchoi/status/2126533512627184005",
+      "sources": [
+        "X"
+      ],
+      "metrics": {
+        "likes": 53,
+        "reposts": 8,
+        "replies": 23,
+        "views": 14162,
+        "platform": "x",
+        "account": "minchoi"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "instagram_dfa74962fb",
+      "category_id": "instagram",
+      "category_name": "Instagram",
+      "signal_id": "practice",
+      "signal_name": "AI 활용 사례·워크플로우 팁",
+      "importance": 78,
+      "headline": "클로드 4개 모델 동일 매출 데이터 정산 비교: 하이쿠만 오답, 소넷 13초 최속·페이블 비용 5.7배",
+      "title_ko": "클로드 4개 모델 동일 매출 데이터 정산 비교: 하이쿠만 오답, 소넷 13초 최속·페이블 비용 5.7배",
+      "summary_ko": "• **동일 조건 정산 실험**: 환불 7건과 중복 6줄을 섞어 넣은 146줄 카페 주문 파일로 하이쿠·소넷·오퍼스·페이블 4개 모델의 정산 정확도를 비교했다.\n• **속도·비용 격차 실측**: 정답 922,800원을 소넷이 13초 만에 가장 빠르게 맞혔고 하이쿠만 오답을 냈으며, 페이블은 소넷 대비 비용이 5.7배 더 들었다.\n• **실무 라우팅 원칙**: 무조건 최상위 플래그십을 호출하기보다 데이터 집계·반복 정산처럼 명확한 과제는 정확도와 비용 효율이 균형 잡힌 중간 모델로 라우팅해야 한다.",
+      "body_ko": "실무 데이터 정산 작업에서 무조건 가장 비싼 프론티어 모델을 쓰는 것이 최선인지 검증한 비교 실험이 공유됐다. 테스트는 146줄짜리 카페 주문 내역에 환불 7건과 중복 입력 6줄이라는 함정을 몰래 심은 뒤 클로드 하이쿠·소넷·오퍼스·페이블 4종에 동일한 한 줄 프롬프트를 입력해 진행됐다. 실험 결과 가장 저렴한 경량 모델인 하이쿠만 예외 조건을 놓쳐 잘못된 합계를 냈고, 나머지 세 모델은 모두 정확한 매출액 922,800원을 도출했다. 특히 주목할 지점은 속도와 비용 차이로, 소넷이 13초로 가장 빠른 응답을 보인 반면 최상위 페이블 모델은 소넷과 같은 정답을 내고도 5.7배에 달하는 비용이 발생했다. 이는 에이전트 파이프라인이나 업무 자동화에서 작업 난이도별로 모델을 분리 배치하는 전략이 얼마나 큰 비용 절감 효과를 내는지 단적으로 보여준다. 단순 데이터 검증·집계는 경량 모델을 피하고 중형 모델로 기본 처리하되, 고난도 추론에만 상위 모델을 호출하는 라우팅 기준 수립이 권장된다.",
+      "author_profile": "joshproductletter",
+      "publish_date": "2026-11-28T11:23:45.000Z",
+      "tags": [
+        "모델 라우팅",
+        "비용 최적화",
+        "클로드",
+        "실무 벤치마크"
+      ],
+      "url": "https://www.instagram.com/joshproductletter/reel/DgSI3GPsFo1/",
+      "sources": [
+        "Instagram"
+      ],
+      "metrics": {
+        "likes": 0,
+        "reposts": 0,
+        "replies": 0,
+        "views": 0,
+        "platform": "instagram",
+        "account": "joshproductletter"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "threads_86ce4ae422",
       "category_id": "threads",
       "category_name": "Threads",
       "signal_id": "insight",
       "signal_name": "💡 소셜 인사이트·실무 활용 팁·모델 체감 리뷰·프롬프트 노하우",
       "importance": 77,
-      "headline": "코그니션 CEO 스콧 우 \"2~5년 내 AI 에이전트 '데빈'이 기업 CEO 역할 수행 확률 50% 넘어\"",
-      "title_ko": "코그니션 CEO 스콧 우 \"2~5년 내 AI 에이전트 '데빈'이 기업 CEO 역할 수행 확률 50% 넘어\"",
-      "summary_ko": "• **핵심 주장**: 자율 코딩 에이전트 '데빈'을 만든 코그니션의 스콧 우 CEO가 2~5년 안에 AI 에이전트가 사실상 기업 CEO의 의사결정·지시 역할을 맡을 수 있다고 전망했다.\n• **현실화 시나리오와 확률**: 인간관계·관행·심리적 요인으로 인간이 남는 영역은 존재하지만, 매일 아침 데빈이 정리한 우선 업무 목록을 사람이 실행하는 구조가 5년 내 실현될 확률을 50% 이상으로 봤다.\n• **실무 적용 관점**: 코딩 에이전트가 단순 코드 생성기에서 팀 업무 우선순위 수립과 오케스트레이션 계층으로 확장하려는 업계 로드맵을 가늠하는 지표로 읽어야 한다.",
-      "body_ko": "자율 소프트웨어 엔지니어 에이전트 '데빈(Devin)' 개발사 코그니션(Cognition)의 스콧 우 CEO가 AI 에이전트의 역할 확장에 대한 파격적인 전망을 내놨다. 그는 향후 2년에서 5년 사이에 데빈 같은 AI 에이전트가 사실상 기업의 CEO 역할을 수행하는 시대가 올 수 있다고 내다봤다. 물론 인간관계의 가치나 기존 산업계의 관행, 구성원들의 심리적 필요 때문에 사람이 자리를 지켜야 하는 영역은 여전히 남을 것이라고 선을 그었다. 그럼에도 구성원이 매일 아침 데빈에게 오늘 처리해야 할 최우선 업무를 묻고, 에이전트가 정리해 준 지시 목록을 받아 그대로 실행하는 업무 형태가 현실화되더라도 전혀 놀랍지 않다고 강조했다. 특히 우 대표는 이러한 전환이 빠르면 2년 안에도 가능하며, 5년 시점을 기준으로 삼을 경우 실현 확률이 50%를 훨씬 넘을 것이라고 수치로 제시했다. 과장 섞인 비전으로 볼 여지도 있으나, 에이전트 개발사들이 단순 코딩 보조를 넘어 조직의 작업 계획·배분·의사결정 계층까지 제품 영역을 넓히려 한다는 방향성을 분명히 보여준다.",
+      "headline": "타일러 코웬: AI 기술 도약에도 사회 변화 느린 이유는 '인간과 제도적 병목'",
+      "title_ko": "타일러 코웬: AI 기술 도약에도 사회 변화 느린 이유는 '인간과 제도적 병목'",
+      "summary_ko": "• **확산 시차의 본질**: 경제학자 타일러 코웬은 AI 모델의 급속한 진보에도 현실 사회가 급변하지 않는 핵심 원인을 기술 한계가 아닌 인간·제도적 병목으로 짚었다.\n• **대기업·기관의 관성**: 정부·대학 등 보수적 기관의 느린 의사결정과 수만 명 규모 거대 기업 내부의 업무 프로세스 재편 난관이 기술 도입 속도를 가로막고 있다.\n• **알트만 일화 시사점**: 오픈AI 재무팀 업무의 85%를 AI로 대체할 일정조차 아직 잡지 못했다는 샘 알트만의 답변은 연구실 돌파와 현장 적용 사이 간극을 보여준다.",
+      "body_ko": "Threads에서 @choi.openai가 요약 공유한 경제학자 타일러 코웬(Tyler Cowen)의 AI 확산 진단이 실무자들 사이에서 공감을 얻고 있다. 코웬은 주요 AI 기업 경영진들이 현재 모델 성능만으로도 세상이 즉각 바뀔 것이라 예상했지만 실제 산업 현장의 변화는 완만하다고 지적했다. 기술 진영은 더 똑똑한 모델이 나오면 문제가 풀린다고 보지만, 현실에서는 정부와 대학 같은 보수적 제도의 느린 수용 속도가 더 큰 장벽으로 작용한다. 수만 명이 일하는 거대 기업 역시 기존 ERP·결재 체계와 조직 문화를 AI 중심으로 통째로 뜯어고치는 비용과 위험 때문에 전환을 미루기 쉽다. 코웬이 샘 알트만에게 오픈AI 내부 재무팀 업무 85%를 AI로 대체할 시점을 물었을 때 아직 계획이 없다는 답이 돌아온 일화도 소개됐다. 결국 AI 도입 성패는 모델 벤치마크 몇 점 차이보다 조직 워크플로우와 규제·책임 구조를 얼마나 실행 가능하게 재설계하느냐에 달려 있음을 시사한다.",
       "author_profile": "@choi.openai",
-      "publish_date": "2026-11-26T22:30:10.000Z",
+      "publish_date": "2026-11-28T09:00:16.000Z",
       "tags": [
-        "Devin",
-        "Cognition",
-        "AI 에이전트",
-        "조직 자동화"
+        "AI 확산",
+        "제도적 병목",
+        "타일러 코웬",
+        "AX 전략"
       ],
-      "url": "https://www.threads.com/@choi.openai/post/DgOLnY3EjwL",
+      "url": "https://www.threads.com/@choi.openai/post/DgR4hNKAL4x",
+      "sources": [
+        "Threads"
+      ],
+      "metrics": {
+        "likes": 24,
+        "reposts": 3,
+        "replies": 8,
+        "platform": "threads",
+        "account": "choi.openai"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "threads_6cf8217172",
+      "category_id": "threads",
+      "category_name": "Threads",
+      "signal_id": "insight",
+      "signal_name": "💡 소셜 인사이트·실무 활용 팁·모델 체감 리뷰·프롬프트 노하우",
+      "importance": 76,
+      "headline": "다니엘 코코타일로: 2027년 AI 연구 완전 자동화 도래 및 정렬 실패 리스크 경고",
+      "title_ko": "다니엘 코코타일로: 2027년 AI 연구 완전 자동화 도래 및 정렬 실패 리스크 경고",
+      "summary_ko": "• **연구 자동화 전망**: AI 연구자 다니엘 코코타일로는 2027년 무렵 AI 연구 프로세스 자체의 완전 자동화가 현실화될 가능성이 높다고 내다봤다.\n• **가속과 한계 돌파**: 연구가 자동화되면 데이터 비효율 같은 기존 병목이 빠르게 해소되며 기술 발전 속도가 폭발적으로 치솟을 것으로 분석했다.\n• **정렬 통제 경고**: 개발 속도를 조절하지 못할 경우 수년 내 인간 가치와 정렬되지 않은 초지능 시스템에 주도권을 잃을 수 있다고 경고했다.",
+      "body_ko": "AI 안전·정렬 분야 연구자인 다니엘 코코타일로(Daniel Kokotajlo)의 최근 대담 요약이 Threads를 통해 공유되며 AI 개발 속도 논쟁을 다시 불러일으켰다. 코코타일로는 주요 연구소들이 개발 속도를 늦추지 않으면 불과 몇 년 안에 인간이 통제력을 상실하고 가치 정렬이 안 된 AI가 주도권을 쥘 위험이 크다고 경고했다. 그가 꼽은 결정적 변곡점은 2027년경 예상되는 'AI 연구 프로세스의 완전 자동화'다. 실험 설계와 가설 검증, 학습 파이프라인 개선을 AI 스스로 반복 수행하게 되면 현재 모델들이 겪는 데이터 비효율 한계가 급속히 돌파될 수 있다는 설명이다. 이 과정을 통해 다양한 경험에서 빠르게 학습하며 분야별 최고 인간 전문가를 앞서는 시스템이 등장하면 사실상 초지능 단계에 진입한다는 분석이다. 기술 낙관론과 산업 가속 경쟁 속에서도 자동화된 R&D 루프에 대한 검증과 안전 브레이크 장치를 어떻게 병행할지 논의가 이어지고 있다.",
+      "author_profile": "@choi.openai",
+      "publish_date": "2026-11-28T10:30:31.000Z",
+      "tags": [
+        "AI 안전",
+        "연구 자동화",
+        "초지능",
+        "정렬"
+      ],
+      "url": "https://www.threads.com/@choi.openai/post/DgSC2LCDLrn",
       "sources": [
         "Threads"
       ],
@@ -492,71 +580,6 @@
         "replies": 3,
         "platform": "threads",
         "account": "choi.openai"
-      },
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "threads_5015d330b4",
-      "category_id": "threads",
-      "category_name": "Threads",
-      "signal_id": "insight",
-      "signal_name": "💡 소셜 인사이트·실무 활용 팁·모델 체감 리뷰·프롬프트 노하우",
-      "importance": 75,
-      "headline": "얀 르쿤 \"LLM은 코딩·수학엔 강하지만 현실 세계 이해 부족…모방 학습 넘어 새 아키텍처 필요\"",
-      "title_ko": "얀 르쿤 \"LLM은 코딩·수학엔 강하지만 현실 세계 이해 부족…모방 학습 넘어 새 아키텍처 필요\"",
-      "summary_ko": "• **핵심 주장**: AMI Labs 회장 얀 르쿤이 현재 AI와 머신러닝은 인간·동물의 학습 능력에 크게 못 미치며, 막대한 데이터를 쓰고도 물리 현실을 이해하지 못한다고 냉정하게 진단했다.\n• **생성형 아키텍처의 한계**: 이미지·영상·오디오처럼 고차원이고 연속적이며 노이즈가 많은 감각 신호를 다루는 데 서툴러 고양이 수준 가사 로봇이나 완전 자율주행조차 미완성 상태라고 지적했다.\n• **실무·연구 시사점**: 텍스트 중심 LLM과 기존 모방 학습의 외삽 한계를 인식하고, 물리 세계 상호작용이 필요한 로보틱스·자율주행 분야에서는 월드 모델 등 차세대 패러다임 흐름을 병행 주시해야 한다.",
-      "body_ko": "AMI Labs 회장을 맡고 있는 얀 르쿤이 현재 주류 AI와 머신러닝 패러다임의 구조적 한계를 다시 한번 정면으로 비판했다. 르쿤은 오늘날의 거대언어모델(LLM)이 코딩이나 수학 정리 증명 같은 추상적·지적 영역에서는 인상적인 성과를 내고 있지만, 인간이나 동물의 학습 효율에 비하면 여전히 형편없는 수준이라고 평가했다. 막대한 양의 데이터를 학습시키고도 물리적 인과관계와 현실 세계를 근본적으로 이해하지 못한다는 것이 그의 핵심 진단이다. 특히 현재의 생성형 아키텍처는 이미지, 영상, 오디오처럼 고차원적이고 연속적이며 노이즈가 많은 현실 감각 신호를 처리하는 데 매우 서툴다고 짚었다. 그 결과 고양이 한 마리 수준의 물리적 민첩성을 갖춘 가사 로봇이나 완전 자율주행차조차 아직 실현되지 못했다는 근거를 들었다. 그는 인간 행동을 그대로 따라 하는 기존 모방 학습 방식이 자율주행 등 현실 문제에서 사실상 실패했다고 결론지으며, 진정한 AI 도약을 위해서는 월드 모델 등 근본적으로 다른 아키텍처 전환이 필요하다고 강조했다.",
-      "author_profile": "@choi.openai",
-      "publish_date": "2026-11-27T00:00:28.000Z",
-      "tags": [
-        "얀 르쿤",
-        "월드 모델",
-        "LLM 한계",
-        "피지컬 AI"
-      ],
-      "url": "https://www.threads.com/@choi.openai/post/DgOV8ycjucD",
-      "sources": [
-        "Threads"
-      ],
-      "metrics": {
-        "likes": 3,
-        "reposts": 0,
-        "replies": 1,
-        "platform": "threads",
-        "account": "choi.openai"
-      },
-      "curated_by": "ldk-hub"
-    },
-    {
-      "id": "x_bf6e37bfa2",
-      "category_id": "x",
-      "category_name": "X",
-      "signal_id": "insight",
-      "signal_name": "💡 소셜 인사이트·실무 활용 팁·모델 체감 리뷰·프롬프트 노하우",
-      "importance": 74,
-      "headline": "긴 Claude 대화창의 토큰 소모 함정…매 메시지마다 전체 이력 재독해가 주간 한도 잠식",
-      "title_ko": "긴 Claude 대화창의 토큰 소모 함정…매 메시지마다 전체 이력 재독해가 주간 한도 잠식",
-      "summary_ko": "• **핵심 실무 팁**: 하나의 긴 Claude 대화 스레드에 메시지를 계속 추가하면 매 턴마다 전체 대화 이력을 다시 읽게 되어 주간 사용 한도가 급격히 소진된다.\n• **커뮤니티 관심 맥락**: 이번 주 Claude 토큰 절감법을 다룬 게시물이 3,000건 이상 북마크될 만큼 많은 사용자가 한도 압박을 체감하면서도 정작 소비를 키우는 대화 습관은 유지하고 있다.\n• **실무 적용 가치**: 작업 단위가 바뀔 때마다 세션을 분리하고 핵심 컨텍스트만 요약해 새 대화로 옮기는 습관만으로도 동일한 요금제에서 실질 작업 처리량을 크게 늘릴 수 있다.",
-      "body_ko": "Claude 사용량이 주간 한도에 빠르게 도달하는 주된 원인으로 긴 단일 대화창에 메시지를 계속 누적하는 사용 습관이 지목됐다. X 계정 godofprompt가 짚은 핵심 메커니즘은 사용자가 길어진 대화 스레드에 새 메시지를 보낼 때마다 모델이 이전 대화 전체를 다시 읽어야 한다는 점이다. 실제로 이번 주 Claude의 토큰 사용량을 줄이는 방법을 정리한 게시물이 3,000회 넘게 북마크되며 수많은 사용자가 사용량 제한에 민감하게 반응하고 있음이 확인됐다. 그럼에도 대다수 사용자는 한도 부족을 체감하면서도 정작 토큰을 급속도로 소모시키는 장문 누적 대화 습관을 바꾸지 않는 경향이 뚜렷하다. 대화 길이가 선형으로 늘어나면 누적 입력 토큰 소비는 턴 수에 따라 급격히 불어나므로 짧은 추가 질문 하나가 예상보다 훨씬 큰 할당량을 잡아먹게 된다. 실무에서는 주제나 작업 단계가 전환될 때 현재까지의 결정 사항과 필요한 코드 스니펫만 간결하게 정리해 새 채팅으로 분리하는 것만으로도 토큰 낭비와 응답 품질 저하를 동시에 막을 수 있다.",
-      "author_profile": "@godofprompt",
-      "publish_date": "2026-11-26T18:01:03.204Z",
-      "tags": [
-        "Claude",
-        "토큰 절약",
-        "컨텍스트 관리",
-        "실무 팁"
-      ],
-      "url": "https://x.com/godofprompt/status/2126013377218859046",
-      "sources": [
-        "X"
-      ],
-      "metrics": {
-        "likes": 1,
-        "reposts": 0,
-        "replies": 3,
-        "views": 465,
-        "platform": "x",
-        "account": "godofprompt"
       },
       "curated_by": "ldk-hub"
     }

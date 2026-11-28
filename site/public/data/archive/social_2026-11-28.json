@@ -1,0 +1,421 @@
+{
+  "date": "2026-11-28",
+  "generatedAt": "2026-11-28T11:45:00.000Z",
+  "count": 18,
+  "items": [
+    {
+      "id": "x:2126334991768711575",
+      "platform": "x",
+      "author": "@omarsar0",
+      "url": "https://x.com/omarsar0/status/2126334991768711575",
+      "thumbnail": "https://pbs.twimg.com/media/HYJCZ-nawAAYCUv?format=jpg&name=large",
+      "publishedAt": "2026-11-27T15:19:02.088000+00:00",
+      "metrics": {
+        "likes": 243,
+        "reposts": 47,
+        "replies": 59,
+        "views": 19115
+      },
+      "relevance": 95,
+      "title_ko": "에이전트 스웜용 재귀적 집단지성 논문",
+      "summary_ko": "에이전트 스웜을 설계할 때 필독할 만한 재귀적 집단지성 논문을 추천했다. 에이전트 팀이 단독 AI를 앞서는 조건은 각 에이전트가 서로 다른 고유 정보를 보유하고 이를 공유할 때뿐이라는 핵심 결과를 짚었다.",
+      "tags": [
+        "에이전트 스웜",
+        "집단지성",
+        "멀티에이전트"
+      ],
+      "score": 79
+    },
+    {
+      "id": "x:2126294362179108984",
+      "platform": "x",
+      "author": "@minchoi",
+      "url": "https://x.com/minchoi/status/2126294362179108984",
+      "thumbnail": "",
+      "publishedAt": "2026-11-27T12:37:35.239000+00:00",
+      "metrics": {
+        "likes": 157,
+        "reposts": 27,
+        "replies": 53,
+        "views": 19503
+      },
+      "relevance": 88,
+      "title_ko": "80ms 지연 전신 휴머노이드 제어 시연",
+      "summary_ko": "사람의 전신 동작으로 휴머노이드 로봇을 실시간 원격 제어하는 시연을 공유했다. 지연 시간 80ms와 동기화율 99.8%를 기록하며 정밀 피지컬 AI 제어 가능성을 보여줬다.",
+      "tags": [
+        "휴머노이드",
+        "원격제어",
+        "피지컬 AI"
+      ],
+      "score": 73
+    },
+    {
+      "id": "instagram:DgR7MFbI7nq",
+      "platform": "instagram",
+      "author": "@prompt_what",
+      "url": "https://www.instagram.com/prompt_what/p/DgR7MFbI7nq/",
+      "thumbnail": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/934479099_18136461041483014_3073591300549755802_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=104&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=MaEEXmcw-rQQ7kNvwGyeQmM&_nc_oc=Ado7gD0rjCATKe9X90H1GYmNRHVHaZV9qQSQT7W_bU3W9ORg2adZJWikl4N42FmGV0o&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=BbI7khwbyFhjmIvxOYWgjg&_nc_ss=7a789&_nc_ct=RQosPBUKFQoAAAA&oh=00_AQX082nXF7eFGrQ-Y5qzsbf-oxSriP0f5VR9LlvNS7VTpg&oe=6B108EA2",
+      "publishedAt": "2026-11-28T09:23:41.000Z",
+      "metrics": {
+        "likes": 219,
+        "reposts": 0,
+        "replies": 19,
+        "views": 0
+      },
+      "relevance": 89,
+      "title_ko": "돈키호테풍 고밀도 포스터 역설계 프롬프트",
+      "summary_ko": "금박 배지와 손글씨 메모로 화면을 꽉 채운 바이럴 포스터 결과물을 역분석해 범용 이미지 프롬프트를 재구성했다. 주제 변수만 교체하면 알람 화면이나 컵라면 등 다양한 피사체에 동일한 밀도와 질감을 적용할 수 있다.",
+      "tags": [
+        "이미지 프롬프트",
+        "포스터 디자인",
+        "프롬프트 역설계"
+      ],
+      "score": 73
+    },
+    {
+      "id": "x:2126443580759687281",
+      "platform": "x",
+      "author": "@omarsar0",
+      "url": "https://x.com/omarsar0/status/2126443580759687281",
+      "thumbnail": "",
+      "publishedAt": "2026-11-27T22:30:31.721000+00:00",
+      "metrics": {
+        "likes": 81,
+        "reposts": 7,
+        "replies": 20,
+        "views": 8904
+      },
+      "relevance": 92,
+      "title_ko": "Gemini Neon 전용 연구 에디터 활용기",
+      "summary_ko": "연구 산출물 작성과 실험 설계·실행에서 Gemini Neon을 주력으로 활용하는 워크플로우를 공유했다. 일반 채팅창 대신 직접 작성하고 실행을 통합한 전용 연구 에디터를 구축해 생산성을 높였다고 밝혔다.",
+      "tags": [
+        "Gemini Neon",
+        "연구 워크플로우",
+        "AI 에디터"
+      ],
+      "score": 72
+    },
+    {
+      "id": "x:2126349232818753661",
+      "platform": "x",
+      "author": "@omarsar0",
+      "url": "https://x.com/omarsar0/status/2126349232818753661",
+      "thumbnail": "",
+      "publishedAt": "2026-11-27T16:15:37.419000+00:00",
+      "metrics": {
+        "likes": 51,
+        "reposts": 4,
+        "replies": 48,
+        "views": 8923
+      },
+      "relevance": 91,
+      "title_ko": "직책 분담 에이전트 팀 스케일링 경험",
+      "summary_ko": "비서실장·최고연구책임자처럼 명확한 직책과 역할을 나눈 에이전트 팀 구성의 실무 효과를 소개했다. 작업 규모가 커져도 역할 경계 덕분에 업무가 흩어지지 않고 체계적으로 확장된다고 평가했다.",
+      "tags": [
+        "에이전트 팀",
+        "역할 분담",
+        "워크플로우"
+      ],
+      "score": 72
+    },
+    {
+      "id": "x:2126447006537400471",
+      "platform": "x",
+      "author": "@omarsar0",
+      "url": "https://x.com/omarsar0/status/2126447006537400471",
+      "thumbnail": "https://pbs.twimg.com/media/HYKnxzcXIAASQeR?format=png&name=large",
+      "publishedAt": "2026-11-27T22:44:08.490000+00:00",
+      "metrics": {
+        "likes": 98,
+        "reposts": 21,
+        "replies": 14,
+        "views": 9310
+      },
+      "relevance": 86,
+      "title_ko": "LLM·수학 다룬 실전 딥러닝 2판 추천",
+      "summary_ko": "기초부터 심화 이론, 대규모 언어모델, 딥러닝 이면의 수학까지 균형 있게 다루는 실용 딥러닝 서적 2판을 강력 추천했다. 이론과 실무를 동시에 다지려는 엔지니어에게 유용한 학습 자료로 꼽았다.",
+      "tags": [
+        "딥러닝",
+        "LLM 학습",
+        "기술 서적"
+      ],
+      "score": 70
+    },
+    {
+      "id": "instagram:DgRrxnqH2z_",
+      "platform": "instagram",
+      "author": "@sebia.ai",
+      "url": "https://www.instagram.com/sebia.ai/p/DgRrxnqH2z_/",
+      "thumbnail": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/936269275_17896133616620457_2332167635754341650_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=100&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=9pUZPL5YoyAQ7kNvwEwzo48&_nc_oc=AdreAhVVmAK5lUSUpvyp-I54bgZACp1xPxvB3QmPI9rvtrexeEAtvdIz5skD-_SQXZk&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=yYcG2AG8KJbqmuE_vK6XRQ&_nc_ss=7a789&_nc_ct=RQosPBUKFQoAAAA&oh=00_AQUYzpPgqEcEGeZq5y_bL-Q6E0BsWPOnxSy4QI9ZvBqcMg&oe=6B107992",
+      "publishedAt": "2026-11-28T07:08:57.000Z",
+      "metrics": {
+        "likes": 26,
+        "reposts": 0,
+        "replies": 67,
+        "views": 0
+      },
+      "relevance": 85,
+      "title_ko": "OpenAI 공식 업무 프롬프트 7종 구조",
+      "summary_ko": "OpenAI Academy 공식 프롬프트 팩에서 상황 맥락과 출력 구분 형식을 구체적으로 적는 작성법을 분석했다. 회의록 정리·원인 분석·위험 점검·주간 계획 등 실무 적용도가 높은 7가지 템플릿을 정리했다.",
+      "tags": [
+        "OpenAI",
+        "업무 프롬프트",
+        "생산성"
+      ],
+      "score": 69
+    },
+    {
+      "id": "threads:DgR4hNKAL4x",
+      "platform": "threads",
+      "author": "@choi.openai",
+      "url": "https://www.threads.com/@choi.openai/post/DgR4hNKAL4x",
+      "thumbnail": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/934071522_1439014138221580_7716999882462975724_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&_nc_map=urlgen_bucketless&ig_cache_key=NDA0MDI1ODkxMzIwMTg2NDI0MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19maXJzdF9mcmFtZV90aHVtYm5haWwuQzMifQ%3D%3D&_nc_ohc=Y7_aKAi7YP0Q7kNvwF-v0CG&_nc_oc=AdpIcai08wGS6brw9VXfdoNKvqbIWiqQSKOliF9cOmezLpFHBikypQ6zQ7nNtQPhod4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=zEP4jEJzQPC8nT_2BsQAmg&_nc_ss=7a30f&_nc_ct=RQosPBUIFQolBAAAAA&oh=00_AQWde-i3BkgrFxHFGqPC78zHf5Icb7OSncQkLl4kROLwSw&oe=6B1091AE",
+      "publishedAt": "2026-11-28T09:00:16.000Z",
+      "metrics": {
+        "likes": 24,
+        "reposts": 3,
+        "replies": 8,
+        "views": 0
+      },
+      "relevance": 89,
+      "title_ko": "타일러 코웬: AI 확산 가로막는 제도 병목",
+      "summary_ko": "경제학자 타일러 코웬이 모델 성능 발전에도 산업 변화가 더딘 이유로 정부·대학·대기업의 제도적 관성과 조직 재편 난관을 지목했다. 오픈AI조차 내부 재무팀 업무 대체 일정을 못 잡았다는 일화를 통해 기술과 현장 간 시차를 짚었다.",
+      "tags": [
+        "AI 확산",
+        "제도적 병목",
+        "조직 전환"
+      ],
+      "score": 67
+    },
+    {
+      "id": "instagram:DgQz5DWoyom",
+      "platform": "instagram",
+      "author": "@aiscene.kr",
+      "url": "https://www.instagram.com/aiscene.kr/p/DgQz5DWoyom/",
+      "thumbnail": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/927891367_18121107866056710_6533652701533708151_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=107&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=8biBMm2SN3UQ7kNvwEPh_bl&_nc_oc=AdpDfokgwYWySH4GMzBartTybJKx3sIlczjKjCCvhrQZbazXK78c2_YajRWWqSnKMkc&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=EQD7iuelmSNMWbbaTkXvHg&_nc_ss=7a789&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQUlh_wv8NmZh6DHBCfR-HyMEiwu7qsyJY2nTWj5D2lcXg&oe=6B107244",
+      "publishedAt": "2026-11-27T23:00:05.000Z",
+      "metrics": {
+        "likes": 18,
+        "reposts": 0,
+        "replies": 7,
+        "views": 0
+      },
+      "relevance": 90,
+      "title_ko": "유니트리·크레아 모션 등 AI 4대 신소식",
+      "summary_ko": "유니트리 전신 원격조종 아바타 V3.0(지연 0.08초·일치율 99.8%)과 크레아 모션(Fable 5.2 기반), 래블업 AI:GO 2.0, 문샷 Kimi for Science 등 원문 확인 기반 4대 AI 업데이트를 요약했다.",
+      "tags": [
+        "유니트리",
+        "크레아 모션",
+        "래블업 AIGO"
+      ],
+      "score": 66
+    },
+    {
+      "id": "x:2126533512627184005",
+      "platform": "x",
+      "author": "@minchoi",
+      "url": "https://x.com/minchoi/status/2126533512627184005",
+      "thumbnail": "",
+      "publishedAt": "2026-11-28T04:27:53.149000+00:00",
+      "metrics": {
+        "likes": 53,
+        "reposts": 8,
+        "replies": 23,
+        "views": 14195
+      },
+      "relevance": 82,
+      "title_ko": "Gemini 4 Neon 출시 1주 차 창의 활용 10선",
+      "summary_ko": "구글이 Gemini 4 Neon을 공개한 지 일주일 남짓 만에 커뮤니티에서 쏟아진 창의적 실험 사례 10가지를 스레드로 엮었다. 빠른 응답과 높은 구현력을 활용한 초기 제작자 데모 확산을 조망했다.",
+      "tags": [
+        "Gemini 4 Neon",
+        "구글",
+        "활용 사례"
+      ],
+      "score": 66
+    },
+    {
+      "id": "instagram:DgQ2VY9iUNA",
+      "platform": "instagram",
+      "author": "@ai_insight.kr",
+      "url": "https://www.instagram.com/ai_insight.kr/p/DgQ2VY9iUNA/",
+      "thumbnail": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/937273061_4864633570490004_86899710032231207_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=111&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=4gA0iSnXCOgQ7kNvwEukqEp&_nc_oc=Adr2CcAY1H9z0qXQ0579uP2aCQxao3IQo6qYnqI0w8gLOsm4pAFPLVK1-DA134V4L6c&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=JEToq5mvc1D373ZYt-UDhA&_nc_ss=7a789&_nc_ct=RQosPBUKFQoAAAA&oh=00_AQX67GD8PATQdTZjFDGwKwLkELPfhBzPx866oP5oGQHFlQ&oe=6B10A977",
+      "publishedAt": "2026-11-27T23:22:02.000Z",
+      "metrics": {
+        "likes": 2,
+        "reposts": 0,
+        "replies": 7,
+        "views": 0
+      },
+      "relevance": 91,
+      "title_ko": "클로드 아티팩트 맥·윈도우 앱 설치법",
+      "summary_ko": "Claude 데스크톱 6.28899.0 이상에서 대화로 만든 아티팩트를 맥·윈도우 OS 앱으로 설치하는 베타 기능을 정리했다. 알림·단축키 권한 제어 방법과 무료 요금제 사용 한도 차감 조건을 함께 안내했다.",
+      "tags": [
+        "클로드 데스크톱",
+        "아티팩트 앱",
+        "업무 자동화"
+      ],
+      "score": 65
+    },
+    {
+      "id": "threads:DgSC2LCDLrn",
+      "platform": "threads",
+      "author": "@choi.openai",
+      "url": "https://www.threads.com/@choi.openai/post/DgSC2LCDLrn",
+      "thumbnail": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/933665962_1175018898382821_3867602515020695924_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&_nc_map=urlgen_bucketless&ig_cache_key=NDA0MDMwNDMzNDQ5NTA3MDk1MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19maXJzdF9mcmFtZV90aHVtYm5haWwuQzMifQ%3D%3D&_nc_ohc=ITC2lvUgZboQ7kNvwH2FA_4&_nc_oc=Adpqo1CIjS8JctBo_0XHqTtKQYXc_8JHoHyDVAoATOU5slk5r5UQBcqZgEFDS7N3_ig&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=zEP4jEJzQPC8nT_2BsQAmg&_nc_ss=7a30f&_nc_ct=RQosPBUIFQolBAAAAA&oh=00_AQU4zrJebr4grFMj5BKhIA2KX_r-zqTEIMfys0ULDTo3sw&oe=6B10A922",
+      "publishedAt": "2026-11-28T10:30:31.000Z",
+      "metrics": {
+        "likes": 15,
+        "reposts": 0,
+        "replies": 3,
+        "views": 0
+      },
+      "relevance": 88,
+      "title_ko": "코코타일로: 2027 연구 자동화와 정렬 경고",
+      "summary_ko": "AI 연구자 다니엘 코코타일로가 2027년 무렵 AI 연구 프로세스 완전 자동화가 도래하면 기존 데이터 한계가 급속히 돌파될 것이라 내다봤다. 개발 속도를 제어하지 않으면 인간 가치와 정렬되지 않은 초지능에 통제력을 잃을 위험을 경고했다.",
+      "tags": [
+        "AI 정렬",
+        "연구 자동화",
+        "초지능"
+      ],
+      "score": 64
+    },
+    {
+      "id": "threads:DgRuTBOiTNV",
+      "platform": "threads",
+      "author": "@choi.openai",
+      "url": "https://www.threads.com/@choi.openai/post/DgRuTBOiTNV",
+      "thumbnail": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/933629939_1617718560156898_7589191436038179200_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&_nc_map=urlgen_bucketless&ig_cache_key=NDA0MDIxMzk1Nzg1NTIyODc1Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19maXJzdF9mcmFtZV90aHVtYm5haWwuQzMifQ%3D%3D&_nc_ohc=wPHzgFRikwsQ7kNvwGHG_Tu&_nc_oc=AdrRBFbOifk0jBum9IIX7EwOHbj0nKbz9Ju6bYe4XepEsUcKVYQudklm9FbEQSucXbo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=zEP4jEJzQPC8nT_2BsQAmg&_nc_ss=7a30f&_nc_ct=RQosPBUIFQolBAAAAA&oh=00_AQXCJJXJ_OrLrjQqJAVNZzGHjnPsBe4tADYJhW4zWDJm9w&oe=6B109ADB",
+      "publishedAt": "2026-11-28T07:30:57.000Z",
+      "metrics": {
+        "likes": 14,
+        "reposts": 2,
+        "replies": 4,
+        "views": 0
+      },
+      "relevance": 87,
+      "title_ko": "Epoch AI: 실증 기반 AI 안전 낙관·리스크",
+      "summary_ko": "Epoch AI 연구원 에게 에르딜은 자율 에이전트 실험에서 AI가 대체로 무해하고 윤리적 행동을 보인다며 극단적 비관론이 사변에 치우쳤다고 지적했다. 다만 긍정적 미래 확률을 65%로 보면서도 인간 배려 실패 가능성 35%도 경계해야 한다고 밝혔다.",
+      "tags": [
+        "Epoch AI",
+        "AI 안전",
+        "자율 실험"
+      ],
+      "score": 64
+    },
+    {
+      "id": "instagram:DgR78Hgkptl",
+      "platform": "instagram",
+      "author": "@vibe.trender",
+      "url": "https://www.instagram.com/vibe.trender/p/DgR78Hgkptl/",
+      "thumbnail": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/936661993_18105419972414285_5827126856719710991_n.jpg?stp=c216.0.648.648a_dst-jpg_e35_s640x640_tt6&_nc_cat=107&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=d0te1_UfOyIQ7kNvwGJsd8h&_nc_oc=AdqzprwFlc91HlgDqHP-6-_ytdH4CLmgNXZgNZT4HFuUEc8-YmGL4ycFB3QZb8oFuxE&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=0UbgYagt7GvZIWzXozqGrg&_nc_ss=7a789&_nc_ct=RQosPBUKFQIAAAA&oh=00_AQW8NRiZg7bHjQP6pYPt2CPqJjr2OOT3jW-AXboSFYzqwA&oe=6B10A366",
+      "publishedAt": "2026-11-28T09:30:46.000Z",
+      "metrics": {
+        "likes": 2,
+        "reposts": 0,
+        "replies": 8,
+        "views": 0
+      },
+      "relevance": 90,
+      "title_ko": "클로드·업리카 멀티채널 블로그 배포 6단계",
+      "summary_ko": "기존 블로그 글을 클로드와 업리카 커넥터를 연결해 Threads·X·블루스카이·링크드인 등으로 맞춤 재작성 및 일괄 발행하는 6단계 절차를 정리했다. 발행 전 글자 수 제한, X 크레딧 차감, 10분 중복 차단 등 실무 주의점도 함께 짚었다.",
+      "tags": [
+        "콘텐츠 자동화",
+        "클로드 커넥터",
+        "멀티채널 배포"
+      ],
+      "score": 64
+    },
+    {
+      "id": "x:2126399562684281193",
+      "platform": "x",
+      "author": "@omarsar0",
+      "url": "https://x.com/omarsar0/status/2126399562684281193",
+      "thumbnail": "https://pbs.twimg.com/media/HYJgm9xaUAAhQzD?format=jpg&name=large",
+      "publishedAt": "2026-11-27T19:35:36.994000+00:00",
+      "metrics": {
+        "likes": 70,
+        "reposts": 6,
+        "replies": 12,
+        "views": 8681
+      },
+      "relevance": 78,
+      "title_ko": "포스트-트랜스포머 추론 모델 연구 확산",
+      "summary_ko": "추론 모델 성능을 한 단계 끌어올리기 위해 트랜스포머 이후의 새로운 아키텍처를 연구하는 팀들이 더 늘어나야 한다고 강조했다. 관련 포스트-트랜스포머 연구 성과로 포브스 커버에 선정된 소식과 함께 차세대 구조 탐구의 중요성을 전했다.",
+      "tags": [
+        "포스트 트랜스포머",
+        "추론 모델",
+        "아키텍처"
+      ],
+      "score": 63
+    },
+    {
+      "id": "instagram:DgRsFdzsuv6",
+      "platform": "instagram",
+      "author": "@joshproductletter",
+      "url": "https://www.instagram.com/joshproductletter/reel/DgRsFdzsuv6/",
+      "thumbnail": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/934749140_17993422053063763_6944213598277671745_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=103&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=flO7vkhvCygQ7kNvwE5_vEt&_nc_oc=AdpaDM4uhlM_4eV6BpQKo0pK5V3lxsrs2Wx4zG3H2Vcc_El_r9u-cyzfkyrb0_xuL00&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=KZ-Dv_-zjsk18AbdVfVZqw&_nc_ss=7a789&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQVBRmAIHT6HRuaY12_rs4rRtN1Sj56YVNdoA_mRcTUNfA&oe=6B10A6E3",
+      "publishedAt": "2026-11-28T07:12:18.000Z",
+      "metrics": {
+        "likes": 5,
+        "reposts": 0,
+        "replies": 4,
+        "views": 0
+      },
+      "relevance": 88,
+      "title_ko": "클로드 코드로 17분 만에 3D 가구 배치",
+      "summary_ko": "방과 가구 치수만 한 줄로 입력해 클로드 코드로 단일 파일 3D 인테리어 시뮬레이터를 17분 만에 구현했다. 16가지 침대 배치를 자동 검토하고 드래그 시 방문 간섭 각도(61도·30도·0도)를 실시간 재계산하는 활용 사례를 선보였다.",
+      "tags": [
+        "클로드 코드",
+        "3D 시뮬레이션",
+        "공간 배치"
+      ],
+      "score": 62
+    },
+    {
+      "id": "instagram:DgSAJxfD8mL",
+      "platform": "instagram",
+      "author": "@joshproductletter",
+      "url": "https://www.instagram.com/joshproductletter/p/DgSAJxfD8mL/",
+      "thumbnail": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/936025916_17993433939063763_8793781246888963384_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=101&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=UpnyancSDtgQ7kNvwFloc4i&_nc_oc=AdoS9IuK90i-PIHgL8QeIJI3sfJnU_7B-52tTT5eDZBKS2LCGO9SDJ4OphlcMhr2k1A&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=d9jbtgwfSqFNbPQrcgkLcA&_nc_ss=7a789&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQUoJWjLO6nUfaezlGgbDBUbnH7cIRH91GKSBFYUf90V4g&oe=6B109937",
+      "publishedAt": "2026-11-28T10:07:00.000Z",
+      "metrics": {
+        "likes": 0,
+        "reposts": 0,
+        "replies": 0,
+        "views": 0
+      },
+      "relevance": 94,
+      "title_ko": "에이전트 브라우저·클로드 코드 웹 자동화",
+      "summary_ko": "Vercel Labs의 오픈소스 'agent-browser'와 클로드 코드를 연동해 CSV 3건의 경비 양식 입력과 합계 검산을 약 46초 만에 처리한 실전 테스트를 공개했다. 접근성 트리 번호 조작과 가려진 팝업 회피 처리가 핵심 장점으로 꼽혔다.",
+      "tags": [
+        "agent-browser",
+        "클로드 코드",
+        "웹 자동화"
+      ],
+      "score": 56
+    },
+    {
+      "id": "instagram:DgSI3GPsFo1",
+      "platform": "instagram",
+      "author": "@joshproductletter",
+      "url": "https://www.instagram.com/joshproductletter/reel/DgSI3GPsFo1/",
+      "thumbnail": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/931299433_17993440992063763_6748299005681743821_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=111&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=jbvI6KurMiIQ7kNvwHxZyEu&_nc_oc=AdrCDG5sEYxYp5Y26YCQTe0ujQ2ldxKnpn_D8WaaEEswJRKI62bhxTcSND7CiI7zvok&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=ThsQjeo8jBE-N0H0aSuuyQ&_nc_ss=7a789&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQUqEVT0-SfFHbL25fxIUHNvh1VRGRjNSOoGP4EKb4km2g&oe=6B107480",
+      "publishedAt": "2026-11-28T11:23:45.000Z",
+      "metrics": {
+        "likes": 0,
+        "reposts": 0,
+        "replies": 0,
+        "views": 0
+      },
+      "relevance": 92,
+      "title_ko": "클로드 4종 매출 정산 정확도·비용 비교",
+      "summary_ko": "환불과 중복 행이 섞인 146줄 주문 파일 정산에서 하이쿠만 오답을 냈고 소넷이 13초로 가장 빠르고 정확하게 정답 922,800원을 맞혔다. 페이블은 소넷보다 비용이 5.7배 높아 작업 난이도별 모델 선택 기준의 중요성을 보여줬다.",
+      "tags": [
+        "클로드 모델비교",
+        "비용 최적화",
+        "업무 정산"
+      ],
+      "score": 55
+    }
+  ]
+}

@@ -1,0 +1,587 @@
+{
+  "generated_at": "2026-11-28T11:30:00.000Z",
+  "version": "v2026.11.28",
+  "summary": "🔥 오늘의 핵심 이슈: #에이전트보안경계 #브라우저로컬추론 #코드기반시각추론 — 에이전트 스킬의 보안·격리 검증과 브라우저·단일 GPU 추론 최적화, 코드 합성 기반 시각 추론 연구가 맞물리며 실행 신뢰성과 경량화가 핵심 화두로 떠올랐습니다.",
+  "curated_by": "ldk-hub",
+  "signal_counts": {
+    "policy": 2,
+    "research": 3,
+    "model": 2,
+    "practice": 3,
+    "devtool": 2,
+    "oss": 2,
+    "product": 2,
+    "insight": 2
+  },
+  "news": [
+    {
+      "id": "hackernews_5e86333f39",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "signal_id": "policy",
+      "signal_name": "정책·규제·인프라 (기술 영향 큰 것만)",
+      "importance": 95,
+      "headline": "Convex 공식 마켓플레이스 스킬, 앱 아이디어 원격 전송 및 안전 검사 우회 지시로 보안 논란",
+      "title_ko": "Convex 공식 마켓플레이스 스킬, 앱 아이디어 원격 전송 및 안전 검사 우회 지시로 보안 논란",
+      "summary_ko": "• **무단 데이터 전송**: Anthropic 공식 마켓플레이스에 등록된 Convex 플러그인 스킬이 사용자 설명을 고지 없이 원격 서버로 전송하는 동작이 보고됐다.\n• **안전장치 우회 지시**: 해시 고정 없는 원격 셸 스크립트 실행과 함께 사용자 보안 도구의 탐지를 피하도록 명령어 형태를 바꾸라는 지침까지 포함돼 논란이 커졌다.\n• **실무 보안 교훈**: 메인테이너가 텔레메트리 표기와 우회 문구를 삭제했으나, 에이전트 스킬 도입 전 원격 엔드포인트 호출과 스크립트 핀닝 여부를 직접 감사해야 한다.",
+      "body_ko": "Anthropic 공식 클로드 플러그인 마켓플레이스에 올라간 Convex 백엔드 스킬 3종이 보안 신뢰 경계를 침해한다는 이슈가 GitHub과 해커뉴스에서 큰 주목을 받았다. 문제 제기자에 따르면 해당 스킬은 사용자가 입력한 앱 아이디어를 사전 안내 없이 convex.site 계열 원격 엔드포인트로 전송하고 있었다. 더 심각한 대목은 보안 도구의 차단 분류기에 걸리지 않도록 에이전트가 실행 명령 형태를 바꾸게 지시하고 해시 검증 없는 원격 셸 스크립트를 내려받아 실행하도록 설계된 점이었다. 메인테이너는 텔레메트리라는 표현이 부적절한 주석이었을 뿐 맞춤형 퀵스타트 생성 목적이라고 해명하며 명령 우회 지침을 제거하는 커밋을 반영했다. 그러나 부트스트랩과 추가 스크립트를 실행 시점에 원격에서 검증 없이 가져오는 구조와 데이터 보존 기간(24시간 대 30초) 표기 불일치는 여전히 남은 과제로 지적됐다. 서드파티 에이전트 스킬이 늘어나면서 플러그인 내부의 원격 실행과 프롬프트 기반 안전 우회 지시 여부를 정적 스캔으로 걸러내는 절차가 필수로 자리잡고 있다.",
+      "author_profile": "@MickyTheMouse",
+      "publish_date": "2026-11-27T18:02:45.000Z",
+      "tags": [
+        "에이전트 보안",
+        "Convex",
+        "스킬 감사",
+        "공급망"
+      ],
+      "url": "https://github.com/convex/convex-backend-skill/issues/64",
+      "sources": [
+        "Hacker News"
+      ],
+      "metrics": {
+        "points": 315,
+        "comments": 102,
+        "discussion_url": "https://news.ycombinator.com/item?id=50669765"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "bluesky_9ea480461b",
+      "category_id": "bluesky",
+      "category_name": "Bluesky",
+      "signal_id": "policy",
+      "signal_name": "정책·규제·인프라 (기술 영향 큰 것만)",
+      "importance": 92,
+      "headline": "스위스 당국, AI 에이전트 동원 사이버 공격 5건 첫 공식 확인…4건 침투 성공",
+      "title_ko": "스위스 당국, AI 에이전트 동원 사이버 공격 5건 첫 공식 확인…4건 침투 성공",
+      "summary_ko": "• **공식 사례 확인**: 스위스 사이버 보안 당국이 AI 에이전트가 관여한 사이버 공격 5건을 처음으로 공식 확인했다고 밝혔다.\n• **높은 침투 비율**: 전체 5건 중 4건이 실제 시스템 침투에 성공했고, 이 가운데 3건은 국가 핵심 기반 시설을 표적으로 삼았다.\n• **방어 시사점**: 공격 에이전트들이 취약한 비밀번호와 알려진 소프트웨어 결함을 자동 공략한 만큼 기본 패치와 인증 통제 강화가 시급하다.",
+      "body_ko": "스위스 연방 사이버 보안 당국이 자국 내에서 AI 에이전트가 직접 활용된 사이버 공격 사례 5건을 처음으로 공식 확인했다. 스위스 공영방송 SRF 보도에 따르면 당국 책임자는 5건의 시도 중 4건이 내부 시스템 침투까지 이어졌다고 설명했다. 특히 이 가운데 3건은 사회 운영과 직결된 핵심 기반 시설을 겨냥한 공격으로 파악됐다. 당국은 공격 주체를 아직 특정하지 못했으나 에이전트가 취약한 비밀번호 대입과 이미 알려진 소프트웨어 보안 결함 악용에 사용됐다고 밝혔다. 이는 고도화된 미공개 취약점이 아니더라도 자율 실행 에이전트가 결합되면 침투 성공률과 속도가 크게 높아질 수 있음을 보여준다. 기반 시설 운영 조직은 기본 패치 주기를 앞당기고 다중 인증과 이상 행위 탐지 규칙을 재점검할 필요가 있다.",
+      "author_profile": "@youranoncentral.bsky.social",
+      "publish_date": "2026-11-28T11:13:52.214Z",
+      "tags": [
+        "사이버 보안",
+        "AI 에이전트",
+        "핵심 인프라",
+        "위협 대응"
+      ],
+      "url": "https://www.yacnews.com/switzerland-first-ai-agent-cyberattacks-four-of-five/",
+      "sources": [
+        "Bluesky"
+      ],
+      "metrics": {
+        "likes": 40,
+        "reposts": 31,
+        "replies": 2,
+        "bluesky_url": "https://bsky.app/profile/youranoncentral.bsky.social/post/3n3el4srz2c2f"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hfpapers_39072df09b",
+      "category_id": "hfpapers",
+      "category_name": "HF Daily Papers",
+      "signal_id": "research",
+      "signal_name": "연구·논문·새 기법",
+      "importance": 91,
+      "headline": "Stable Gated DeltaNet-2: 선형 어텐션 장문맥 학습 불안정 원인 규명 및 대칭 소거 기법 제안",
+      "title_ko": "Stable Gated DeltaNet-2: 선형 어텐션 장문맥 학습 불안정 원인 규명 및 대칭 소거 기법 제안",
+      "summary_ko": "• **학습 붕괴 원인 규명**: Gated DeltaNet-2의 장문맥 학습 실패가 소거 단계에서 읽기와 수정 방향의 비대칭이 누적돼 상태가 지수적으로 커지는 현상 때문임을 밝혀냈다.\n• **이론·실험 수치**: 대칭 소거와 감쇠 조절 잔차 쓰기를 결합해 O(T) 성장 상한을 증명했고, 1.6B 모델 128K RULER 평균 점수를 기존 대비 6.80점 높였다.\n• **기존 대비 차이**: 청크 단위 병렬 연산 효율은 그대로 유지하면서도 하이브리드 구성 9개 다운스트림 과제 평균 정확도도 0.62점 개선했다.",
+      "body_ko": "고정 크기 순환 상태로 선형 복잡도를 구현하는 선형 어텐션 계열 모델은 장문맥 학습 과정에서 상태 발산이 일어나는 고질적 문제를 안고 있었다. 연구진은 Gated DeltaNet-2의 채널별 독립 소거·쓰기 구조에서 읽기 방향과 수정 방향이 어긋날 때 비정규 소거 연산자가 만들어져 토큰이 길어질수록 이득이 누적 폭발한다는 점을 이론적으로 규명했다. 이를 해결하기 위해 제안한 기법은 대칭 소거 연산자로 상태 전파의 비팽창성을 보장하고, 감쇠 조절 잔차 쓰기로 표현 유연성을 유지하는 구조다. 논문은 청크 단위 병렬 계산을 해치지 않으면서 순환 상태 증가량에 O(T) 상한을 수학적으로 부여하는 데 성공했다. 약 16억 매개변수 모델 실험에서 순환 구조 기준 128K 평균 RULER 점수가 기존 GDN-2보다 6.80점 상승했고, 하이브리드 구조에서는 9개 다운스트림 과제 평균 정확도가 0.62점 올랐다. 이 연구는 11월 25일 arXiv에 먼저 올라온 뒤 27일 허깅페이스 데일리 페이퍼에 등재됐으며, 초장문 선형 아키텍처의 학습 안정성 확보에 직접적인 해법을 제시한다.",
+      "author_profile": "astarkkk",
+      "publish_date": "2026-11-27T00:00:00.000Z",
+      "tags": [
+        "선형 어텐션",
+        "DeltaNet-2",
+        "장문맥",
+        "아키텍처"
+      ],
+      "url": "https://huggingface.co/papers/2611.34051",
+      "sources": [
+        "HF Daily Papers"
+      ],
+      "metrics": {
+        "upvotes": 132,
+        "comments": 3,
+        "arxiv_id": "2611.34051",
+        "paper_published_at": "2026-11-25T00:00:00.000Z",
+        "github_repo": null
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hfpapers_70079b9f4b",
+      "category_id": "hfpapers",
+      "category_name": "HF Daily Papers",
+      "signal_id": "research",
+      "signal_name": "연구·논문·새 기법",
+      "importance": 90,
+      "headline": "OS-Omni: 6개 OS·웹 환경 넘나드는 장기 워크플로우 컴퓨터 제어 에이전트 벤치마크",
+      "title_ko": "OS-Omni: 6개 OS·웹 환경 넘나드는 장기 워크플로우 컴퓨터 제어 에이전트 벤치마크",
+      "summary_ko": "• **크로스플랫폼 평가 환경**: Windows·Ubuntu·macOS·iOS·Android·Web 6개 환경을 아우르는 실시간 컴퓨터 제어 벤치마크 OS-Omni v1이 공개됐다.\n• **기존 대비 차이 및 수치**: 과제당 평균 상호작용 단계가 67.54단계로 OSWorld의 15.0단계를 크게 웃돌며, 최고 성능인 Claude Opus 5.5도 68.5%로 인간 77.3%에 8.8점 뒤처졌다.\n• **실무 병목 확인**: 프론티어 모델이 리눅스에서는 인간을 앞섰으나 iOS와 macOS에서는 25점 이상 뒤처져 플랫폼 간 장기 상태 추적 격차가 뚜렷하게 드러났다.",
+      "body_ko": "기존 GUI 에이전트 벤치마크가 웹·모바일·데스크톱을 따로 떼어 평가하던 한계를 넘기 위해 6개 운영체제와 크로스플랫폼 연동을 시험하는 OS-Omni가 제안됐다. 첫 번째 공개판인 v1은 플랫폼별 48개 과제와 데스크톱·안드로이드 폰을 함께 다루는 12개 복합 워크플로우로 구성되며 계정·장바구니·예산·캘린더 같은 영속 상태를 갖춘 서비스 백엔드 앱을 포함한다. 각 플랫폼 어댑터와 궤적 로깅, 최종 상태 실행 평가기를 내장해 재현 가능한 초기화와 정확한 완수 판정을 지원한다. 인간 실험에서 과제당 평균 67.54회의 상호작용이 필요해 기존 OSWorld의 15.0회보다 훨씬 긴 호흡의 작업 추론을 요구한다. 평가 결과 최상위 모델인 Claude Opus 5.5가 평균 성공률 68.5%를 기록해 인간 기준선 77.3% 대비 8.8점 낮았다. 특히 리눅스 환경에서는 모델이 인간보다 높은 성과를 냈지만 iOS와 macOS에서는 25점 넘게 뒤처져, 범용 컴퓨터 사용 에이전트의 모바일·애플 생태계 대응력이 핵심 과제로 남았다.",
+      "author_profile": "Cloudriver",
+      "publish_date": "2026-11-27T00:00:00.000Z",
+      "tags": [
+        "컴퓨터 사용 에이전트",
+        "OS-Omni",
+        "벤치마크",
+        "크로스플랫폼"
+      ],
+      "url": "https://huggingface.co/papers/2611.34232",
+      "sources": [
+        "HF Daily Papers"
+      ],
+      "metrics": {
+        "upvotes": 110,
+        "comments": 3,
+        "arxiv_id": "2611.34232",
+        "paper_published_at": "2026-11-25T00:00:00.000Z",
+        "github_repo": "https://github.com/OS-Copilot/OS-Omni"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hackernews_95692f6294",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "signal_id": "model",
+      "signal_name": "새 모델·버전 출시·프리뷰·벤치마크",
+      "importance": 89,
+      "headline": "GPT-6.2 Astra, 200년 미제였던 1808년 캐나다 스케치북 원작자 22분 만에 추적 규명",
+      "title_ko": "GPT-6.2 Astra, 200년 미제였던 1808년 캐나다 스케치북 원작자 22분 만에 추적 규명",
+      "summary_ko": "• **비결정적 역사 추론**: GPT-6.2 Astra를 Ultra 목표 모드로 구동해 200년 이상 작자 미상으로 남아 있던 1808년 캐나다 모피 무역 스케치북의 원작자를 22분 만에 찾아냈다.\n• **추적 방식과 검증**: 그림 속 날짜·지명 단서를 교차 대조해 작성자가 프롬프트에 넣은 오답 후보 둘을 스스로 배제하고, 조셉 프로비셔의 몬트리올 일기 등 1차 사료에서 실제 저자 Chabot을 연결했다.\n• **개발·연구 함의**: 수학 같은 결정적 도메인용 사후 학습으로 문체가 다소 딱딱하거나 역설적으로 변하는 경향이 관찰됐으나, 불완전한 사료 속 교차 탐색 능력은 실전 수준에 도달했다.",
+      "body_ko": "수학 증명 등 결정적 영역에서 주목받던 추론 모델이 비결정적 인문·역사 사료 발굴에서도 강력한 성과를 낸 사례가 공개됐다. 저자는 1808년 캐나다 로어캐나다 일대와 오대호 경로를 그린 작자 미상 스케치북 이미지를 GPT-6.2 Astra에 제공하고 Ultra effort 목표 모드를 적용했다. 흥미롭게도 저자가 힌트로 함께 건넨 기존 연구 글 속 두 인물 후보는 오히려 오답 방향이었으나, 모델은 그림에 적힌 날짜별 이동 경로와 다른 문서 기록을 대조해 두 후보를 초기에 스스로 기각했다. 이후 온라인 아카이브의 1차 사료를 광범위하게 훑어 몬트리올 저녁 식사 일기 기록과 연결했고, 22분 만에 원작자 Chabot의 정체와 162쪽 분량 일지·노스웨스트 컴퍼니 문건까지 밝혀냈다. 저자는 모델이 불완전한 증거 앞에서 모호한 법률 문구 같은 기묘한 문체를 쓰는 부작용이 있다고 짚으면서도 실제 결론과 사료 대조 결과는 정확했다고 평가했다. 이는 다중 모달 이미지 판독과 대규모 기록물 교차 추론이 결합할 때 전문 연구자조차 찾기 힘든 연결 고리를 단시간에 좁힐 수 있음을 시사한다.",
+      "author_profile": "@bookofjoe",
+      "publish_date": "2026-11-27T15:03:17.000Z",
+      "tags": [
+        "GPT-6.2 Astra",
+        "추론 모델",
+        "멀티모달",
+        "사료 연구"
+      ],
+      "url": "https://generativehistory.substack.com/p/gpt-62-astra-solves-a-historical",
+      "sources": [
+        "Hacker News"
+      ],
+      "metrics": {
+        "points": 167,
+        "comments": 1,
+        "discussion_url": "https://news.ycombinator.com/item?id=50667744"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "bluesky_eeda58a56a",
+      "category_id": "bluesky",
+      "category_name": "Bluesky",
+      "signal_id": "practice",
+      "signal_name": "AI 활용 사례·워크플로우 팁",
+      "importance": 88,
+      "headline": "Confluent, AI 멀티에이전트로 Kafka Java 클라이언트 Rust 재작성…3개월 시행착오 후 연속 파이프라인 구축",
+      "title_ko": "Confluent, AI 멀티에이전트로 Kafka Java 클라이언트 Rust 재작성…3개월 시행착오 후 연속 파이프라인 구축",
+      "summary_ko": "• **초기 실패와 재설계**: Confluent 엔지니어링 팀이 Claude Opus 4.6 등으로 Kafka Java 클라이언트를 Rust로 번역하다 테스트를 통과하고도 루프마다 sleep이 숨어든 성능 결함을 겪고 처음부터 다시 설계했다.\n• **멀티에이전트 검증 체계**: 프로젝트 매니저·액터·크리틱 에이전트가 Git 기반 약 5회 반복 리뷰를 돌며 번역하고, 엔지니어가 Tokio 태스크 매핑과 런타임 인터페이스를 설계해 Apache Kafka 4.4.0 상류 커밋 191건을 이틀 미만 만에 반영했다.\n• **실무 시사점**: 단순 코드 변환보다 테스트가 못 잡는 성능·동시성 회귀와 대상 언어다운 API 설계를 인간 전문가가 통제해야 다언어 SDK 동기화가 가능하다.",
+      "body_ko": "Confluent가 Apache Kafka의 Java 클라이언트를 AI 에이전트 기반으로 Rust 코어로 재작성하고 Python 클라이언트 프리뷰까지 내놓은 3개월간의 실전 시행착오를 공개했다. 팀은 처음 몇 주 만에 기본 프로듀서와 컨슈머를 동작시켰지만, 번역된 테스트를 모두 통과한 코드의 네트워크 루프 매 반복마다 sleep 호출이 들어간 치명적 성능 결함을 발견하고 초기 구현을 폐기했다. 이후 프로젝트 매니저 에이전트가 액터와 크리틱 에이전트를 조율하며 Git 커밋 단위로 평균 5차례 리뷰를 주고받는 다중 에이전트 워크플로우로 재편했다. 동시에 엔지니어는 단순 소스 번역만 맡기지 않고 의도된 동작 명세를 보강했으며, Java 스레드를 Rust Tokio 태스크로 매핑하고 타 언어 런타임 시그널 처리를 방해하지 않도록 6가지 인터페이스 후보를 검증했다. 그 결과 Apache Kafka 4.4.0 출시 당시 수개월 치에 해당하는 상류 커밋 191건을 이틀이 채 안 되는 시간에 Rust 코드베이스로 이식하는 데 성공했다. Confluent는 2027년 중반 가동을 목표로 상류 변경을 자동 추적하는 연속 번역 파이프라인을 다듬고 있으며, 코드 생성 속도보다 언어 관용성과 성능 검증 체계가 핵심 엔지니어링 과제임을 강조했다.",
+      "author_profile": "@thenewstack.io",
+      "publish_date": "2026-11-28T01:00:31.000Z",
+      "tags": [
+        "Confluent",
+        "Rust 마이그레이션",
+        "멀티에이전트",
+        "Kafka"
+      ],
+      "url": "https://thenewstack.io/confluent-kafka-rust-agents/?link_source=ta_bluesky_link&taid=6b0a27adb6e3eb0001c6859c&utm_campaign=trueanthem&utm_medium=social&utm_source=bluesky",
+      "sources": [
+        "Bluesky"
+      ],
+      "metrics": {
+        "likes": 3,
+        "reposts": 0,
+        "replies": 0,
+        "bluesky_url": "https://bsky.app/profile/thenewstack.io/post/3n3diu2qizw2x"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hackernews_1e844223bc",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "signal_id": "practice",
+      "signal_name": "AI 활용 사례·워크플로우 팁",
+      "importance": 87,
+      "headline": "단일 GB10 위 vLLM서 Inkling 2 Mini 101 tok/s 달성…커널 컴파일·INT8 드래프트·MoE 패딩 튜닝",
+      "title_ko": "단일 GB10 위 vLLM서 Inkling 2 Mini 101 tok/s 달성…커널 컴파일·INT8 드래프트·MoE 패딩 튜닝",
+      "summary_ko": "• **단일 장비 고속 서빙**: 128GB 통합 메모리 기반 GB10 장비 1대의 vLLM 환경에서 메모리의 36%(약 44GiB)만 점유한 채 Inkling 2 Mini 단일 요청 101 tok/s, 4동시 요청 196 tok/s를 기록했다.\n• **병목별 4단 튜닝**: Triton 전문가 커널 크기를 2의 거듭제곱으로 반올림해 프롬프트 길이별 재컴파일 지연을 67~90% 줄였고, DFlash2 드래프트 선형 계층과 출력 헤드를 INT8 커널로 경량화했다.\n• **MoE 검증 스킵 기법**: CUDA 그래프 형태를 유지하면서 신뢰도가 임계치(0.3~0.4) 아래로 떨어진 드래프트 행을 패딩으로 처리해 전문가 연산 낭비를 줄여 5.2~5.4% 추가 가속을 얻었다.",
+      "body_ko": "NVIDIA DGX Spark 호환 장비인 MSI EdgeXpert(GB10 단일 칩, 128GB 통합 메모리)에서 Qwen3.8-27B를 상주시킨 상태로 vLLM 기반 Inkling 2 Mini 추론 속도를 극한까지 끌어올린 튜닝 보고서가 공개됐다. 작성자는 디코드 단계의 53%가 라우팅된 전문가 연산에, 매 단계 약 8.5ms가 926MB 출력 헤드와 드래프트 연산에 소모된다는 프로파일 결과를 바탕으로 4가지 개선을 적용했다. 첫째, 새로운 프롬프트 길이마다 약 10개 Triton 커널이 재컴파일되며 발생하던 2.3초 첫 토큰 지연을 2의 거듭제곱 단위 버킷팅으로 묶어 67~90% 단축했다. 둘째, DFlash2 드래프트 모델의 21개 선형 계층과 공유 출력 헤드만 INT8 행렬-벡터 커널로 교체하고 본 모델 검증은 원본 가중치를 유지해 출력 품질 변화 없이 속도를 높였다. 셋째, 샘플링 요청에서 vLLM 기본 그리디 드래프팅 대신 실제 드래프트 확률을 거부 샘플러에 넘겨 온도 1.0 환경에서 14~20% 가속을 얻었다. 넷째, 누적 드래프트 확률이 임계치 미만인 후속 행을 MoE 패딩 행으로 전환해 CUDA 그래프 호환성을 깨지 않고 불필요한 전문가 연산을 건너뛰며 최종 100~103 tok/s 수준에 도달했다.",
+      "author_profile": "@runtimenotes",
+      "publish_date": "2026-11-27T18:59:55.000Z",
+      "tags": [
+        "vLLM",
+        "추론 최적화",
+        "추측 디코딩",
+        "GB10"
+      ],
+      "url": "https://runtimenotes.com/blog/getting-101-tok-s-from-inkling-2-mini-in-vllm-on-one-gb10/",
+      "sources": [
+        "Hacker News"
+      ],
+      "metrics": {
+        "points": 57,
+        "comments": 15,
+        "discussion_url": "https://news.ycombinator.com/item?id=50670443"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hfpapers_d6c94a3a47",
+      "category_id": "hfpapers",
+      "category_name": "HF Daily Papers",
+      "signal_id": "research",
+      "signal_name": "연구·논문·새 기법",
+      "importance": 86,
+      "headline": "Solve Vision with Code: 코딩 에이전트의 프로그램 합성이 비디오 생성 모델보다 시각 추론 압도",
+      "title_ko": "Solve Vision with Code: 코딩 에이전트의 프로그램 합성이 비디오 생성 모델보다 시각 추론 압도",
+      "summary_ko": "• **동일 조건 공정 비교**: 첫 프레임과 지시문만 보고 정답 영상을 생성하는 시각 추론 과제에서 픽셀 디노이징 비디오 모델과 렌더링 코드를 짜는 코딩 에이전트를 동일 평가기로 대조했다.\n• **큰 격차의 실험 수치**: 500문항 VBVR-Pro-Bench에서 gpt-6-astra 기반 Codex(0.923), Fable 5.1 기반 Claude Code(0.894), Gemini 3.1 Pro 기반 Gemini CLI(0.893)가 최고 비디오 모델보다 0.22 이상 앞섰다.\n• **오픈모델·추론 해석**: 오픈웨이트 23종 중 GLM-5(0.572)도 RL 학습 모델을 제외한 모든 비디오 모델을 제쳐, 계산 가능한 시각 추론은 코드 합성이 훨씬 신뢰할 수 있는 경로임을 입증했다.",
+      "body_ko": "최근 비디오 생성 모델이 첫 프레임과 자연어 프롬프트만으로 과제를 수행하는 시각 추론기로 평가받고 있으나, 이를 상징적 프로그램 합성과 동일 조건에서 견준 연구가 발표됐다. 연구진은 500개 인스턴스로 이뤄진 VBVR-Pro-Bench에서 비디오 모델과 코딩 에이전트 모두에게 동일한 첫 프레임·프롬프트·단일 시도 제한을 주고, 규칙 기반 평가기로 최종 영상을 채점했다. 실험 결과 픽셀을 직접 생성하는 대신 정답 영상을 렌더링하는 코드를 작성한 코딩 에이전트가 압도적인 정확도를 기록했다. gpt-6-astra를 탑재한 Codex는 0.923, Fable 5.1을 쓴 Claude Code는 0.894, Gemini 3.1 Pro 기반 Gemini CLI는 0.893을 달성해 최상위 비디오 모델 대비 0.22점을 웃도는 격차를 벌렸다. 23개 오픈웨이트 모델 가운데 1위를 차지한 GLM-5(0.572) 역시 강화학습 기반 특수 모델을 뺀 모든 비디오 모델을 앞질렀다. 연구진은 에이전트가 작성한 코드를 전이 가능한 규칙을 추출하는 서술형 프로그램과 하드코딩된 명제형 프로그램으로 구분하며, 시각 추론의 신뢰성 확보에 코드 기반 중간 표현이 핵심임을 보여줬다.",
+      "author_profile": "Hokin",
+      "publish_date": "2026-11-27T00:00:00.000Z",
+      "tags": [
+        "시각 추론",
+        "코딩 에이전트",
+        "비디오 모델",
+        "프로그램 합성"
+      ],
+      "url": "https://huggingface.co/papers/2611.34813",
+      "sources": [
+        "HF Daily Papers"
+      ],
+      "metrics": {
+        "upvotes": 61,
+        "comments": 5,
+        "arxiv_id": "2611.34813",
+        "paper_published_at": "2026-11-25T00:00:00.000Z",
+        "github_repo": null
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "bluesky_ac748a56a9",
+      "category_id": "bluesky",
+      "category_name": "Bluesky",
+      "signal_id": "devtool",
+      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
+      "importance": 85,
+      "headline": "AWS Nitro Sandboxes: 컨테이너 이미지 수정 없이 AI 에이전트 워크로드 하이퍼바이저 격리",
+      "title_ko": "AWS Nitro Sandboxes: 컨테이너 이미지 수정 없이 AI 에이전트 워크로드 하이퍼바이저 격리",
+      "summary_ko": "• **무변경 샌드박스 격리**: AWS가 단일 인스턴스 안에서 여러 컨테이너 워크로드에 Nitro 하이퍼바이저 수준의 하드웨어 격리를 제공하는 Nitro Sandboxes를 소개했다.\n• **격리·기밀 모드 구분**: 기존 컨테이너 이미지를 바꿀 필요 없이 런타임 설정만으로 적용되며, 기밀 모드에서는 호스트 인스턴스조차 내부 메모리와 실행 내용을 들여다볼 수 없다.\n• **프로덕션 에이전트 요소**: AWS는 샌드박스 격리와 더불어 워크로드 신원 인증과 승인 게이트웨이를 통한 아웃바운드(egress) 통제가 상용 배포의 핵심 퍼즐이라고 짚었다.",
+      "body_ko": "AI 에이전트가 임의의 스크립트와 도구를 실행하면서 프로덕션 배포의 최대 걸림돌로 떠오른 격리·보안 문제를 해결하기 위해 AWS가 Nitro Sandboxes 아키텍처를 제시했다. AWS 시니어 프로덕트 매니저는 인터뷰에서 다수 팀이 보안과 신원 제어 확신 부족으로 에이전트 상용 전환을 망설이고 있다고 진단했다. Nitro Sandboxes는 부모 인스턴스의 CPU와 메모리를 공유하면서도 단일 노드 내 다중 워크로드를 Nitro 하이퍼바이저 경계로 분리해 준다. 개발자가 기존 컨테이너 이미지를 새로 패키징하거나 빌드 파이프라인을 갈아엎지 않고 런타임 설정만 지정해 격리 환경에 올릴 수 있다는 점이 강점이다. 특히 기밀 모드에서는 부모 호스트의 검사까지 차단하며, 정책 기반 복호화 검증으로 암호화된 모델이나 코드를 안전하게 배포하는 시나리오도 지원한다. AWS는 네트워크 없는 순수 연산 격리뿐 아니라 외부 모델·API 호출 시 승인 게이트웨이를 거치는 워크로드 신원과 이그레스 통제까지 오픈소스 오케스트레이션 프로젝트와 연계해 통합할 계획이라고 밝혔다.",
+      "author_profile": "@druce.ai",
+      "publish_date": "2026-11-28T02:13:35.161Z",
+      "tags": [
+        "AWS",
+        "Nitro Sandboxes",
+        "에이전트 격리",
+        "보안 런타임"
+      ],
+      "url": "https://thenewstack.io/aws-nitro-sandboxes-agents/",
+      "sources": [
+        "Bluesky"
+      ],
+      "metrics": {
+        "likes": 3,
+        "reposts": 0,
+        "replies": 0,
+        "bluesky_url": "https://bsky.app/profile/druce.ai/post/3n3dmwpslbx2c"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "instagram_d21c77deb4",
+      "category_id": "instagram",
+      "category_name": "Instagram",
+      "signal_id": "devtool",
+      "signal_name": "개발자 도구·에이전트 (코딩 에이전트, MCP, CLI)",
+      "importance": 84,
+      "headline": "Vercel 'agent-browser', 접근성 트리 번호 매핑으로 Claude Code 웹 양식 자동 입력 실증",
+      "title_ko": "Vercel 'agent-browser', 접근성 트리 번호 매핑으로 Claude Code 웹 양식 자동 입력 실증",
+      "summary_ko": "• **접근성 트리 제어**: Vercel Labs가 공개한 Apache-2.0 오픈소스 'agent-browser'가 화면 스크린샷 대신 웹페이지 접근성 트리를 읽어 입력칸과 버튼에 @e3·@e7 같은 번호를 붙여 조작한다.\n• **실측 작업 검증**: 가상 사내 경비 양식 테스트에서 CSV 3건 입력·합계(88,400원) 대조를 약 46초(작업 표시 기준) 만에 마쳤고, 가려진 제출 버튼은 억지로 누르지 않고 공지 팝업을 먼저 닫은 뒤 진행했다.\n• **도입 편의성**: npm 전역 설치 두 줄로 바로 연동할 수 있어 반복적인 사내 웹 양식 이관이나 E2E QA 자동화에 가볍게 투입할 수 있다.",
+      "body_ko": "Vercel Labs가 공개해 GitHub 스타 5만 4천 개 이상을 모은 AI 전용 브라우저 도구 'agent-browser'를 Claude Code와 결합해 실무 웹 양식 자동화를 검증한 사례가 공유됐다. 기존 비전 기반 브라우저 에이전트가 화면 캡처를 해석하는 데 토큰과 시간을 많이 쓰던 것과 달리, 이 도구는 페이지의 접근성 트리를 텍스트 목록으로 추출해 각 요소에 @e3, @e5 같은 참조 번호를 부여한다. 테스트에서는 snapshot -i 명령으로 입력 필드를 식별하고 fill과 select 명령으로 날짜·항목·금액을 채우는 방식이 깔끔하게 동작했다. 특히 공지 모달 창이 제출 버튼을 가리고 있는 상황에서 무작정 클릭을 시도해 실패하지 않고 가려짐을 인식한 뒤 팝업을 닫고 제출을 마친 점이 돋보였다. CSV 파일 3건의 입력과 합계 88,400원 검증까지 한 번의 지시로 약 46초 만에 완료됐다. Apache-2.0 라이선스 무료 오픈소스로 제공되며 npm 설치만으로 즉시 사용할 수 있어 사내 어드민 자동화나 브라우저 회귀 테스트에 실용적인 대안으로 꼽힌다.",
+      "author_profile": "joshproductletter",
+      "publish_date": "2026-11-28T10:07:00.000Z",
+      "tags": [
+        "agent-browser",
+        "Vercel",
+        "Claude Code",
+        "브라우저 자동화"
+      ],
+      "url": "https://www.instagram.com/joshproductletter/p/DgSAJxfD8mL/",
+      "sources": [
+        "Instagram"
+      ],
+      "metrics": {
+        "likes": 0,
+        "reposts": 0,
+        "replies": 0,
+        "views": 0,
+        "platform": "instagram",
+        "account": "joshproductletter"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "hackernews_62847dd6e5",
+      "category_id": "hackernews",
+      "category_name": "Hacker News",
+      "signal_id": "oss",
+      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
+      "importance": 83,
+      "headline": "52KB WebAssembly 엔진으로 브라우저 탭에서 Qwen3.5-2B 로컬 추론 구현",
+      "title_ko": "52KB WebAssembly 엔진으로 브라우저 탭에서 Qwen3.5-2B 로컬 추론 구현",
+      "summary_ko": "• **초경량 브라우저 엔진**: 서버나 GPU API 호출 없이 약 52KB 크기 WebAssembly 모듈만으로 브라우저 CPU 위에서 LLM 가중치를 캐시해 토큰을 생성하는 실험 도구가 공개됐다.\n• **실측 성능 지표**: Apple M3 Max(8스레드) 기준 Qwen3.5-2B는 초당 약 39토큰, 0.8B 모델은 초당 74토큰을 생성하며 동일 CPU 환경 네이티브 llama.cpp의 65~75% 속도를 냈다.\n• **병목과 프라이버시**: 프롬프트 처리가 1토큰씩 이뤄져 프리필(160 vs 513 tok/s)은 느리지만 입력·응답이 브라우저 탭 밖으로 전혀 나가지 않는 완전 로컬 프라이버시를 보장한다.",
+      "body_ko": "개발자 @kkm이 브라우저 탭 안에서 외부 추론 서버나 GPU 없이 CPU만으로 소형 LLM을 구동하는 약 52KB WebAssembly 기반 실험 프로젝트(experiments-llm-os)를 공개했다. 사용자는 웹 페이지에 접속해 모델 가중치를 한 번 브라우저 캐시에 내려받은 뒤 터미널 UI에서 `/bench`나 `/numbers` 명령으로 즉시 추론과 성능 차트를 실행할 수 있다. Apple M3 Max의 8스레드 환경에서 실측한 결과 Qwen3.5-2B 모델이 초당 약 39토큰, Qwen3.5-0.8B 모델이 초당 약 74토큰을 생성했다. Qwen3-0.6B 기준 토큰 생성 속도는 네이티브 llama.cpp CPU 빌드의 65~75% 수준에 도달했다. 다만 배치 처리 대신 토큰을 하나씩 읽는 구조 때문에 프롬프트 입력 단계에서는 초당 160토큰으로 네이티브 llama.cpp의 513토큰 대비 차이가 났다. 또한 Qwen3.5 계열은 248,320개에 달하는 큰 어휘 사전 크기 때문에 매개변수당 속도가 더 낮아지는 특성도 함께 보고됐다.",
+      "author_profile": "@kkm",
+      "publish_date": "2026-11-28T00:16:59.000Z",
+      "tags": [
+        "WebAssembly",
+        "Qwen3.5",
+        "브라우저 LLM",
+        "오픈소스"
+      ],
+      "url": "https://tesseracted.com/experiments-llm-os/",
+      "sources": [
+        "Hacker News"
+      ],
+      "metrics": {
+        "points": 19,
+        "comments": 7,
+        "discussion_url": "https://news.ycombinator.com/item?id=50673018"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "bluesky_72953cde04",
+      "category_id": "bluesky",
+      "category_name": "Bluesky",
+      "signal_id": "oss",
+      "signal_name": "개인·소규모 개발자 오픈소스·라이브러리·실험 도구",
+      "importance": 82,
+      "headline": "경량 코딩 에이전트 'mini-swe-agent', 100줄 파이썬 코드로 벤치마크 74% 돌파",
+      "title_ko": "경량 코딩 에이전트 'mini-swe-agent', 100줄 파이썬 코드로 벤치마크 74% 돌파",
+      "summary_ko": "• **초소형 코딩 에이전트**: SWE-agent 팀이 거대한 모노레포와 복잡한 설정을 걷어내고 약 100줄 내외 코드로 GitHub 이슈를 해결하는 'mini-swe-agent'를 공개했다.\n• **단순 구조 고성능**: CLI와 배시 도구 중심으로 동작하면서도 SWE-bench Verified 벤치마크에서 74%를 웃도는 높은 해결률을 기록했다.\n• **커스텀 출발점 가치**: 처음부터 코딩 에이전트 루프를 직접 이해하고 히스토리 압축기나 맞춤 도구를 붙이려는 개발자에게 이상적인 참조 구현으로 주목받고 있다.",
+      "body_ko": "SWE-agent 팀(@raymyers.bsky.social 공유)이 복잡한 프레임워크 의존성을 덜어낸 약 100줄 규모의 경량 코딩 에이전트 'mini-swe-agent'를 오픈소스로 공개했다. 이 도구는 방대한 도구 정의나 다층 오케스트레이션 없이 명령줄 환경과 기본 배시 실행만으로 GitHub 이슈를 분석하고 수정 패치를 작성한다. 극도로 단순한 구조에도 불구하고 SWE-bench Verified 평가에서 74%를 넘는 성적을 거두며, 핵심 모델 능력과 간결한 실행 루프의 조합이 얼마나 강력한지 입증했다. 사용자는 별도 대형 설정 파일 없이 CLI에서 바로 실행하거나 소스 코드를 읽어 에이전트 동작 원리를 파악할 수 있다. 커뮤니티에서는 배시 외 보조 도구나 컨텍스트 히스토리 압축기를 실험하기 위한 최소 출발점으로 평가하며, 자체 하네스 설계를 시작하려는 엔지니어들에게 좋은 기준점이 되고 있다.",
+      "author_profile": "@raymyers.bsky.social",
+      "publish_date": "2026-11-28T02:27:00.284Z",
+      "tags": [
+        "mini-swe-agent",
+        "SWE-bench",
+        "코딩 에이전트",
+        "오픈소스"
+      ],
+      "url": "https://github.com/SWE-agent/mini-swe-agent",
+      "sources": [
+        "Bluesky"
+      ],
+      "metrics": {
+        "likes": 3,
+        "reposts": 0,
+        "replies": 1,
+        "bluesky_url": "https://bsky.app/profile/raymyers.bsky.social/post/3n3dnopcjmc2i"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "instagram_42b2db43a8",
+      "category_id": "instagram",
+      "category_name": "Instagram",
+      "signal_id": "product",
+      "signal_name": "제품 신기능",
+      "importance": 81,
+      "headline": "Claude 데스크톱, 아티팩트 결과물을 맥·윈도우 독립 앱으로 바로 설치하는 베타 기능 공개",
+      "title_ko": "Claude 데스크톱, 아티팩트 결과물을 맥·윈도우 독립 앱으로 바로 설치하는 베타 기능 공개",
+      "summary_ko": "• **원클릭 데스크톱 앱화**: Claude 데스크톱 앱에서 대화 한 줄로 만든 아티팩트를 'Install as app' 메뉴를 통해 맥·윈도우 네이티브 앱처럼 설치해 실행할 수 있게 됐다.\n• **OS 통합 및 권한 제어**: macOS Spotlight·응용 프로그램 폴더와 Windows 시작 메뉴에 등록되며 알림·단축키·메뉴 막대 등 세부 권한을 선택적으로 허용할 수 있다.\n• **요금제·버전 조건**: 무료 요금제 사용자도 이용 가능하나 Claude 데스크톱 6.28899.0 이상이 필요하고 웹·모바일은 미지원이며 실행 시 사용 한도가 차감된다.",
+      "body_ko": "Anthropic이 Claude 데스크톱 앱에서 채팅으로 생성한 아티팩트 결과물을 운영체제 독립 앱으로 설치할 수 있는 'Install as app' 베타 기능을 순차 배포하기 시작했다. 사용자는 대화창에 뽀모도로 타이머 같은 소형 도구 제작을 요청한 뒤 결과물 상단 메뉴에서 설치를 누르면 맥의 응용 프로그램 폴더·Spotlight나 윈도우 시작 메뉴에서 일반 프로그램처럼 곧바로 띄울 수 있다. 특히 메뉴 막대 상주, 시스템 알림, 전역 단축키 같은 OS 기능을 연결할 수 있어 일회성 웹 미리보기를 넘어 일상 생산성 유틸리티로 활용 폭이 넓어졌다. 보안 측면에서는 전체 파일 시스템 접근 권한을 신뢰할 수 있는 작업에만 부여하도록 권한 구분이 마련됐다. 이 기능은 무료 요금제에서도 사용할 수 있지만 Claude 데스크톱 6.28899.0 이상 버전에서만 순차 활성화되며 웹과 모바일 앱에서는 아직 지원되지 않는다. 또한 앱을 생성할 때뿐만 아니라 설치된 앱 내부에서 AI 기능을 호출할 때도 계정의 사용량 한도가 함께 소모된다는 점을 유의해야 한다.",
+      "author_profile": "ai_insight.kr",
+      "publish_date": "2026-11-27T23:22:02.000Z",
+      "tags": [
+        "Claude 데스크톱",
+        "아티팩트",
+        "로컬 앱",
+        "제품 업데이트"
+      ],
+      "url": "https://www.instagram.com/ai_insight.kr/p/DgQ2VY9iUNA/",
+      "sources": [
+        "Instagram"
+      ],
+      "metrics": {
+        "likes": 2,
+        "reposts": 0,
+        "replies": 7,
+        "views": 0,
+        "platform": "instagram",
+        "account": "ai_insight.kr"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "x_2e8482fc6b",
+      "category_id": "x",
+      "category_name": "X",
+      "signal_id": "product",
+      "signal_name": "제품 신기능",
+      "importance": 80,
+      "headline": "80ms 지연·99.8% 동작 동기화 달성한 전신 휴머노이드 실시간 원격 조종 시연 확산",
+      "title_ko": "80ms 지연·99.8% 동작 동기화 달성한 전신 휴머노이드 실시간 원격 조종 시연 확산",
+      "summary_ko": "• **초저지연 전신 제어**: 사람의 전신 움직임을 80ms 지연과 99.8% 동기화율로 휴머노이드 로봇에 실시간 전달하는 원격 조종 시연이 X에서 높은 반응을 얻고 있다.\n• **정밀 모션 파이프라인**: 0.1초 미만의 응답 속도는 인간 작업자의 균형 감각과 양팔 동작을 로봇 구동계에 거의 지체 없이 옮길 수 있는 수준임을 뜻한다.\n• **피지컬 AI 활용**: 위험 현장 원격 투입은 물론, 고품질 인간-로봇 동작 궤적 데이터를 대량 수집해 자율 제어 모델을 학습시키는 핵심 기반이 된다.",
+      "body_ko": "X에서 @minchoi가 공유한 전신 휴머노이드 실시간 원격 조종 영상이 피지컬 AI 개발자들 사이에서 큰 관심을 모으고 있다. 게시물에 따르면 해당 시스템은 사람과 로봇 간 동작 지연을 80ms 수준으로 낮추고 전신 움직임 동기화율 99.8%를 구현했다. 기존 원격 조종 방식이 팔이나 상체 위주의 느린 추종에 머물렀던 것과 달리, 80ms대 초저지연 반응은 작업자가 시각 피드백을 보며 즉각 균형과 손동작을 보정할 수 있는 임계치에 가깝다. 이러한 실시간 텔레오퍼레이션 기술은 원격 작업 투입 자체뿐 아니라 로보틱스 파운데이션 모델 학습에 필요한 정교한 시연 데이터셋을 확보하는 통로로 직결된다. 하드웨어 구동기 응답성과 자세 추정 파이프라인이 성숙해지면서 휴머노이드 제어의 실용화 속도가 한층 빨라지고 있다.",
+      "author_profile": "@minchoi",
+      "publish_date": "2026-11-27T12:37:35.239Z",
+      "tags": [
+        "휴머노이드",
+        "원격 조종",
+        "피지컬 AI",
+        "로보틱스"
+      ],
+      "url": "https://x.com/minchoi/status/2126294362179108984",
+      "sources": [
+        "X"
+      ],
+      "metrics": {
+        "likes": 156,
+        "reposts": 26,
+        "replies": 53,
+        "views": 19463,
+        "platform": "x",
+        "account": "minchoi"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "x_6c3d1ea268",
+      "category_id": "x",
+      "category_name": "X",
+      "signal_id": "model",
+      "signal_name": "새 모델·버전 출시·프리뷰·벤치마크",
+      "importance": 79,
+      "headline": "Google Gemini 4 Neon 공개 1주일, X 개발자 커뮤니티 창의적 실험 사례 확산",
+      "title_ko": "Google Gemini 4 Neon 공개 1주일, X 개발자 커뮤니티 창의적 실험 사례 확산",
+      "summary_ko": "• **출시 1주일 반향**: Google의 Gemini 4 Neon 공개 이후 불과 일주일 남짓한 기간 동안 X에서 다양한 창의적 활용 실험 10선 스레드가 빠르게 확산됐다.\n• **고속 E2E 실험 가속**: 프론티어 지능과 빠른 응답 속도를 결합한 Neon 모델 특성이 웹 인터랙티브 프로토타입과 멀티모달 작업 시도에 적극 활용되고 있다.\n• **개발자 채택 흐름**: 초기 공개 직후부터 실전 제작자 중심의 바이럴 사례가 쌓이면서 Gemini 4 라인업의 생태계 확산 속도가 빨라지는 양상이다.",
+      "body_ko": "Google이 Gemini 4 Neon을 공개한 지 일주일여 만에 X에서 개발자와 크리에이터들의 실험 사례 모음이 높은 조회수와 공감을 얻고 있다. @minchoi가 정리한 10가지 활용 스레드는 단순 질의응답을 넘어 사용자들이 Neon의 성능과 빠른 처리 속도를 결합해 만들어낸 다채로운 결과물에 주목했다. 프론티어 모델 경쟁이 벤치마크 수치 대결에서 실제 제작자들이 얼마나 빠르게 새로운 웹 경험과 자동화 도구를 만들어내는지로 옮겨가고 있음을 보여준다. 특히 공개 첫 주부터 커뮤니티 내 자발적인 데모 공유가 활발하게 이어지는 것은 개발자 도구와 에이전트 환경에서의 접근성 개선이 주효했기 때문으로 풀이된다. 모델 출시 직후의 2차 창작 생태계가 실무 도입과 API 활용 저변을 넓히는 핵심 지표로 작용하고 있다.",
+      "author_profile": "@minchoi",
+      "publish_date": "2026-11-28T04:27:53.149Z",
+      "tags": [
+        "Gemini 4 Neon",
+        "Google",
+        "모델 활용",
+        "커뮤니티"
+      ],
+      "url": "https://x.com/minchoi/status/2126533512627184005",
+      "sources": [
+        "X"
+      ],
+      "metrics": {
+        "likes": 53,
+        "reposts": 8,
+        "replies": 23,
+        "views": 14162,
+        "platform": "x",
+        "account": "minchoi"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "instagram_dfa74962fb",
+      "category_id": "instagram",
+      "category_name": "Instagram",
+      "signal_id": "practice",
+      "signal_name": "AI 활용 사례·워크플로우 팁",
+      "importance": 78,
+      "headline": "클로드 4개 모델 동일 매출 데이터 정산 비교: 하이쿠만 오답, 소넷 13초 최속·페이블 비용 5.7배",
+      "title_ko": "클로드 4개 모델 동일 매출 데이터 정산 비교: 하이쿠만 오답, 소넷 13초 최속·페이블 비용 5.7배",
+      "summary_ko": "• **동일 조건 정산 실험**: 환불 7건과 중복 6줄을 섞어 넣은 146줄 카페 주문 파일로 하이쿠·소넷·오퍼스·페이블 4개 모델의 정산 정확도를 비교했다.\n• **속도·비용 격차 실측**: 정답 922,800원을 소넷이 13초 만에 가장 빠르게 맞혔고 하이쿠만 오답을 냈으며, 페이블은 소넷 대비 비용이 5.7배 더 들었다.\n• **실무 라우팅 원칙**: 무조건 최상위 플래그십을 호출하기보다 데이터 집계·반복 정산처럼 명확한 과제는 정확도와 비용 효율이 균형 잡힌 중간 모델로 라우팅해야 한다.",
+      "body_ko": "실무 데이터 정산 작업에서 무조건 가장 비싼 프론티어 모델을 쓰는 것이 최선인지 검증한 비교 실험이 공유됐다. 테스트는 146줄짜리 카페 주문 내역에 환불 7건과 중복 입력 6줄이라는 함정을 몰래 심은 뒤 클로드 하이쿠·소넷·오퍼스·페이블 4종에 동일한 한 줄 프롬프트를 입력해 진행됐다. 실험 결과 가장 저렴한 경량 모델인 하이쿠만 예외 조건을 놓쳐 잘못된 합계를 냈고, 나머지 세 모델은 모두 정확한 매출액 922,800원을 도출했다. 특히 주목할 지점은 속도와 비용 차이로, 소넷이 13초로 가장 빠른 응답을 보인 반면 최상위 페이블 모델은 소넷과 같은 정답을 내고도 5.7배에 달하는 비용이 발생했다. 이는 에이전트 파이프라인이나 업무 자동화에서 작업 난이도별로 모델을 분리 배치하는 전략이 얼마나 큰 비용 절감 효과를 내는지 단적으로 보여준다. 단순 데이터 검증·집계는 경량 모델을 피하고 중형 모델로 기본 처리하되, 고난도 추론에만 상위 모델을 호출하는 라우팅 기준 수립이 권장된다.",
+      "author_profile": "joshproductletter",
+      "publish_date": "2026-11-28T11:23:45.000Z",
+      "tags": [
+        "모델 라우팅",
+        "비용 최적화",
+        "클로드",
+        "실무 벤치마크"
+      ],
+      "url": "https://www.instagram.com/joshproductletter/reel/DgSI3GPsFo1/",
+      "sources": [
+        "Instagram"
+      ],
+      "metrics": {
+        "likes": 0,
+        "reposts": 0,
+        "replies": 0,
+        "views": 0,
+        "platform": "instagram",
+        "account": "joshproductletter"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "threads_86ce4ae422",
+      "category_id": "threads",
+      "category_name": "Threads",
+      "signal_id": "insight",
+      "signal_name": "💡 소셜 인사이트·실무 활용 팁·모델 체감 리뷰·프롬프트 노하우",
+      "importance": 77,
+      "headline": "타일러 코웬: AI 기술 도약에도 사회 변화 느린 이유는 '인간과 제도적 병목'",
+      "title_ko": "타일러 코웬: AI 기술 도약에도 사회 변화 느린 이유는 '인간과 제도적 병목'",
+      "summary_ko": "• **확산 시차의 본질**: 경제학자 타일러 코웬은 AI 모델의 급속한 진보에도 현실 사회가 급변하지 않는 핵심 원인을 기술 한계가 아닌 인간·제도적 병목으로 짚었다.\n• **대기업·기관의 관성**: 정부·대학 등 보수적 기관의 느린 의사결정과 수만 명 규모 거대 기업 내부의 업무 프로세스 재편 난관이 기술 도입 속도를 가로막고 있다.\n• **알트만 일화 시사점**: 오픈AI 재무팀 업무의 85%를 AI로 대체할 일정조차 아직 잡지 못했다는 샘 알트만의 답변은 연구실 돌파와 현장 적용 사이 간극을 보여준다.",
+      "body_ko": "Threads에서 @choi.openai가 요약 공유한 경제학자 타일러 코웬(Tyler Cowen)의 AI 확산 진단이 실무자들 사이에서 공감을 얻고 있다. 코웬은 주요 AI 기업 경영진들이 현재 모델 성능만으로도 세상이 즉각 바뀔 것이라 예상했지만 실제 산업 현장의 변화는 완만하다고 지적했다. 기술 진영은 더 똑똑한 모델이 나오면 문제가 풀린다고 보지만, 현실에서는 정부와 대학 같은 보수적 제도의 느린 수용 속도가 더 큰 장벽으로 작용한다. 수만 명이 일하는 거대 기업 역시 기존 ERP·결재 체계와 조직 문화를 AI 중심으로 통째로 뜯어고치는 비용과 위험 때문에 전환을 미루기 쉽다. 코웬이 샘 알트만에게 오픈AI 내부 재무팀 업무 85%를 AI로 대체할 시점을 물었을 때 아직 계획이 없다는 답이 돌아온 일화도 소개됐다. 결국 AI 도입 성패는 모델 벤치마크 몇 점 차이보다 조직 워크플로우와 규제·책임 구조를 얼마나 실행 가능하게 재설계하느냐에 달려 있음을 시사한다.",
+      "author_profile": "@choi.openai",
+      "publish_date": "2026-11-28T09:00:16.000Z",
+      "tags": [
+        "AI 확산",
+        "제도적 병목",
+        "타일러 코웬",
+        "AX 전략"
+      ],
+      "url": "https://www.threads.com/@choi.openai/post/DgR4hNKAL4x",
+      "sources": [
+        "Threads"
+      ],
+      "metrics": {
+        "likes": 24,
+        "reposts": 3,
+        "replies": 8,
+        "platform": "threads",
+        "account": "choi.openai"
+      },
+      "curated_by": "ldk-hub"
+    },
+    {
+      "id": "threads_6cf8217172",
+      "category_id": "threads",
+      "category_name": "Threads",
+      "signal_id": "insight",
+      "signal_name": "💡 소셜 인사이트·실무 활용 팁·모델 체감 리뷰·프롬프트 노하우",
+      "importance": 76,
+      "headline": "다니엘 코코타일로: 2027년 AI 연구 완전 자동화 도래 및 정렬 실패 리스크 경고",
+      "title_ko": "다니엘 코코타일로: 2027년 AI 연구 완전 자동화 도래 및 정렬 실패 리스크 경고",
+      "summary_ko": "• **연구 자동화 전망**: AI 연구자 다니엘 코코타일로는 2027년 무렵 AI 연구 프로세스 자체의 완전 자동화가 현실화될 가능성이 높다고 내다봤다.\n• **가속과 한계 돌파**: 연구가 자동화되면 데이터 비효율 같은 기존 병목이 빠르게 해소되며 기술 발전 속도가 폭발적으로 치솟을 것으로 분석했다.\n• **정렬 통제 경고**: 개발 속도를 조절하지 못할 경우 수년 내 인간 가치와 정렬되지 않은 초지능 시스템에 주도권을 잃을 수 있다고 경고했다.",
+      "body_ko": "AI 안전·정렬 분야 연구자인 다니엘 코코타일로(Daniel Kokotajlo)의 최근 대담 요약이 Threads를 통해 공유되며 AI 개발 속도 논쟁을 다시 불러일으켰다. 코코타일로는 주요 연구소들이 개발 속도를 늦추지 않으면 불과 몇 년 안에 인간이 통제력을 상실하고 가치 정렬이 안 된 AI가 주도권을 쥘 위험이 크다고 경고했다. 그가 꼽은 결정적 변곡점은 2027년경 예상되는 'AI 연구 프로세스의 완전 자동화'다. 실험 설계와 가설 검증, 학습 파이프라인 개선을 AI 스스로 반복 수행하게 되면 현재 모델들이 겪는 데이터 비효율 한계가 급속히 돌파될 수 있다는 설명이다. 이 과정을 통해 다양한 경험에서 빠르게 학습하며 분야별 최고 인간 전문가를 앞서는 시스템이 등장하면 사실상 초지능 단계에 진입한다는 분석이다. 기술 낙관론과 산업 가속 경쟁 속에서도 자동화된 R&D 루프에 대한 검증과 안전 브레이크 장치를 어떻게 병행할지 논의가 이어지고 있다.",
+      "author_profile": "@choi.openai",
+      "publish_date": "2026-11-28T10:30:31.000Z",
+      "tags": [
+        "AI 안전",
+        "연구 자동화",
+        "초지능",
+        "정렬"
+      ],
+      "url": "https://www.threads.com/@choi.openai/post/DgSC2LCDLrn",
+      "sources": [
+        "Threads"
+      ],
+      "metrics": {
+        "likes": 15,
+        "reposts": 0,
+        "replies": 3,
+        "platform": "threads",
+        "account": "choi.openai"
+      },
+      "curated_by": "ldk-hub"
+    }
+  ]
+}
